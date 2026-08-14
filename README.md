@@ -34,6 +34,7 @@ What that leaves is the part that is actually the work:
 | `unity/Assets/Scripts/AgentRuntime/` | the 11-component runtime executor — composer, IK, gates, pose synthesis, locomotion |
 | `unity/Assets/Editor/AgentRuntime/` | scene wiring and the in-editor terminal |
 | `unity/Assets/Scenes/` | the scenes themselves, minus what they reference |
+| `unity/Assets/Animations/` | the TEXT half only: the Animator controllers, the avatar masks and the clips. The FBX, meshes and textures they were built from are not here. Note that the agent path does not use the controllers at all — it drives a PlayableGraph directly, and these are the older demo's state machine, kept because `SCENARIO.md` describes it |
 | `unity/Packages/com.unity.animation.rigging/` | kept, because it is embedded rather than resolved from the registry — the IK constraints are built on it |
 | `unity/agent/kb/` | the MotionKB: 8 accepted actions, the schema, the frozen per-frame pose dumps, the derived seam and segment tables, and the render frames |
 | `unity/docs/adr/` | the architecture decision records, including where each was amended |
