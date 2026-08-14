@@ -1,0 +1,297 @@
+{
+  "schema_version": "motionkb/v2",
+  "action_id": "typing",
+  "display_name": "Typing",
+  "status": "accepted",
+  "source_clip": {
+    "fbx_or_anim": "X Bot@Typing.fbx",
+    "guid": "5e6e65f406a6f4f43a6152ec70c028a7",
+    "file_id": -203655887218126122,
+    "clip_name": "Typing"
+  },
+  "controller_state": "Typing",
+  "controller_layer": "Base Layer",
+  "trigger_param": "typing",
+  "duration": 16.467,
+  "frame_rate": 30,
+  "loop": false,
+  "overall_intent": "The nurse sits and types with both hands on an implied keyboard while maintaining a stable seated posture.",
+  "tags": [
+    "typing",
+    "keyboard",
+    "seated",
+    "desk_work",
+    "hands",
+    "documentation",
+    "computer",
+    "nurse",
+    "bilateral_hand_motion"
+  ],
+  "mask_coverage": {
+    "upper_body": true,
+    "hands": true,
+    "lower_body": true
+  },
+  "channels": {
+    "torso": {
+      "role": "stabilizer",
+      "motion_type": "balance",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The torso makes small stabilizing adjustments while seated.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.1229,
+      "raw_measurement": {
+        "signal": "max_torso_lean_deg",
+        "raw_value": 6.63402,
+        "divisor": 54.0
+      }
+    },
+    "head": {
+      "role": "stabilizer",
+      "motion_type": "gaze",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The head stays oriented downward toward the typing area.",
+      "kind": "fk_part",
+      "state_label": "static",
+      "motion_magnitude": 0.1774,
+      "raw_measurement": {
+        "signal": "head_vs_spine_range_deg",
+        "raw_value": 2.73264,
+        "divisor": 15.4
+      }
+    },
+    "left_arm": {
+      "role": "primary",
+      "motion_type": "reach",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The left arm holds a forward typing position with small movements.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.1576,
+      "raw_measurement": {
+        "signal": "mean_bone_hips_rel_pos_stddev_m",
+        "raw_value": 0.02159,
+        "divisor": 0.137
+      }
+    },
+    "right_arm": {
+      "role": "primary",
+      "motion_type": "reach",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The right arm moves more actively in a forward typing position.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.4273,
+      "raw_measurement": {
+        "signal": "mean_bone_hips_rel_pos_stddev_m",
+        "raw_value": 0.05854,
+        "divisor": 0.137
+      }
+    },
+    "left_leg": {
+      "role": "support",
+      "motion_type": "hold-static",
+      "contact": "ground",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The left leg remains planted to support the seated posture.",
+      "kind": "fk_part",
+      "state_label": "static",
+      "motion_magnitude": 0.0237,
+      "raw_measurement": {
+        "signal": "mean_bone_world_pos_stddev_m",
+        "raw_value": 0.00586,
+        "divisor": 0.247
+      }
+    },
+    "right_leg": {
+      "role": "support",
+      "motion_type": "hold-static",
+      "contact": "ground",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The right leg remains planted to support the seated posture.",
+      "kind": "fk_part",
+      "state_label": "static",
+      "motion_magnitude": 0.0224,
+      "raw_measurement": {
+        "signal": "mean_bone_world_pos_stddev_m",
+        "raw_value": 0.00552,
+        "divisor": 0.247
+      }
+    },
+    "left_hand": {
+      "role": "primary",
+      "motion_type": "manipulate",
+      "contact": "object:keyboard",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The left hand performs small key-pressing motions over the keyboard area.",
+      "kind": "hand",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.2499,
+      "raw_measurement": {
+        "signal": "mean_finger_curl_range_deg",
+        "raw_value": 32.2327,
+        "divisor": 129.0
+      }
+    },
+    "right_hand": {
+      "role": "primary",
+      "motion_type": "manipulate",
+      "contact": "object:keyboard",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The right hand performs active key-pressing motions over the keyboard area.",
+      "kind": "hand",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.5468,
+      "raw_measurement": {
+        "signal": "mean_finger_curl_range_deg",
+        "raw_value": 70.54116,
+        "divisor": 129.0
+      }
+    },
+    "root": {
+      "kind": "root",
+      "state_label": "static",
+      "motion_magnitude": 0.0611,
+      "raw_measurement": {
+        "signal": "max(gait/0.317, trans/0.30, heading/60)",
+        "gait_foot_yrange_m": 0.01936,
+        "trans_horiz_stddev_m": 0.0,
+        "heading_signed_stddev_deg": 0.0
+      }
+    }
+  },
+  "ik_goals": [
+    {
+      "effector": "left_hand",
+      "target": null,
+      "constraint": "TwoBoneIKConstraint",
+      "contact_object": "keyboard",
+      "world_space": true
+    },
+    {
+      "effector": "right_hand",
+      "target": null,
+      "constraint": "TwoBoneIKConstraint",
+      "contact_object": "keyboard",
+      "world_space": true
+    }
+  ],
+  "composability": {
+    "locks": [
+      "torso",
+      "head",
+      "left_arm",
+      "right_arm",
+      "left_leg",
+      "right_leg",
+      "left_hand",
+      "right_hand"
+    ],
+    "free": [],
+    "can_overlay_on": [],
+    "base_or_overlay": "base",
+    "posture": "seated",
+    "seam_owner": {
+      "torso": "base",
+      "root": "base"
+    }
+  },
+  "extraction": {
+    "method": "in_engine_sample_root_local",
+    "sampled_frames": 494,
+    "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, root-local",
+    "motion_metric": "torso: max_lean_deg/54; head: head_vs_spine_range_deg/15.4; arms: mean_bone_hips_rel_pos_stddev_m/0.137; legs: mean_bone_world_pos_stddev_m/0.247; hands: mean_finger_curl_range_deg/129; root: max(gait/0.317, trans/0.30, heading/60)",
+    "bone_map_version": "v2.0.0",
+    "metric_formula_version": "v2.0.0",
+    "extractor_version": "2.0.0",
+    "extractor_lang": "python",
+    "avatar": "nurse_avatar.fbx",
+    "extracted_at": "2026-07-01T20:17:47Z",
+    "field_origin": {
+      "measured": [
+        "duration",
+        "frame_rate",
+        "channels.*.state_label",
+        "channels.*.motion_magnitude",
+        "channels.*.raw_measurement"
+      ],
+      "resolved": [
+        "controller_state",
+        "controller_layer",
+        "trigger_param"
+      ],
+      "semantic": [
+        "display_name",
+        "overall_intent",
+        "tags",
+        "mask_coverage",
+        "channels.*.motion_description",
+        "ik_goals"
+      ],
+      "semantic_pending": [],
+      "vlm_proposed": [
+        "action_id",
+        "display_name",
+        "overall_intent",
+        "tags",
+        "mask_coverage",
+        "channels.*.role",
+        "channels.*.motion_type",
+        "channels.*.contact",
+        "channels.*.constraint",
+        "channels.*.motion_description",
+        "composability.base_or_overlay",
+        "composability.posture",
+        "composability.can_overlay_on"
+      ],
+      "derived": [
+        "composability.locks",
+        "composability.free",
+        "composability.seam_owner",
+        "ik_goals"
+      ]
+    },
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "gpt-5.5-2026-04-23",
+      "proposed_at": "2026-07-01T20:41:44Z",
+      "frames": 6,
+      "render_views": [
+        "front",
+        "front_left_3q"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_id",
+        "display_name",
+        "overall_intent",
+        "tags",
+        "mask_coverage",
+        "channels.*.role",
+        "channels.*.motion_type",
+        "channels.*.contact",
+        "channels.*.constraint",
+        "channels.*.motion_description",
+        "composability.base_or_overlay",
+        "composability.posture",
+        "composability.can_overlay_on"
+      ],
+      "status": "vlm_accepted"
+    },
+    "verified_by": "auto-accepted: gpt-5.5 proposed + consistency-gated, no human review (ADR 0008)",
+    "verified_at": "2026-07-01T21:42:45Z"
+  }
+}

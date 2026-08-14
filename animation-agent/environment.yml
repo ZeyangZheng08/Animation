@@ -1,0 +1,31 @@
+# conda env create -f environment.yml
+#
+# CONVENTION: conda supplies the interpreter and its native stack, pip supplies everything else.
+# This is the mainstream ML setup — PyTorch retired its conda channel, and the HuggingFace stack is
+# PyPI-only — and it keeps one installer per layer, which is what avoids trouble. Add new packages
+# under `pip:` below, including torch and numpy when they arrive.
+#
+# Two rules that follow from it:
+#   - conda first, pip last. conda's solver cannot see pip installs and will reinstall over them.
+#   - never mix installers within one layer (e.g. numpy from pip and scipy from conda) — two copies
+#     of OpenBLAS in one process collide.
+#
+# conda-forge only: the `defaults` channel now requires accepting Anaconda's Terms of Service, and
+# mixing channels is the usual cause of a broken env. `channel_priority strict` is set locally.
+name: animation-agent
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      # The offline MotionKB pipeline needs NONE of these — it is stdlib-only and runs on a bare
+      # python3. They are for the runtime agent service being built on top of it.
+      - openai          # the agent loop's LLM (Realtime API) and the propose step's VLM
+      - httpx           # persistent connections to the engine-side executor
+      - websockets      # BOTH the runtime channel (we are the server, the engine connects in)
+                        # and the OpenAI Realtime session (we are the client)
+      - jsonschema      # replaces the hand-rolled schema walker in validate_motionkb.py
+      - rank-bm25       # keyword retrieval over the KB (no embeddings, by design)
+      - pytest          # for collecting the gate scripts into a real test suite
+      - pytest-asyncio  # the agent loop and the engine channel are both asyncio

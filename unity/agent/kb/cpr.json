@@ -1,0 +1,298 @@
+{
+  "schema_version": "motionkb/v2",
+  "action_id": "cpr",
+  "display_name": "CPR Chest Compressions",
+  "status": "accepted",
+  "source_clip": {
+    "fbx_or_anim": "nurse_cpr_long.fbx",
+    "guid": "586b2e222cc31d0459643d55ec00d5a4",
+    "file_id": 1827226128182048838,
+    "clip_name": "nurse_cpr_30"
+  },
+  "controller_state": "CPR",
+  "controller_layer": "Base Layer",
+  "trigger_param": "CPR",
+  "duration": 18,
+  "frame_rate": 30,
+  "loop": false,
+  "overall_intent": "The nurse leans over a patient area and performs repeated chest-compression motions with stacked hands.",
+  "tags": [
+    "cpr",
+    "chest_compressions",
+    "resuscitation",
+    "emergency_care",
+    "nurse",
+    "hands_stacked",
+    "forward_lean",
+    "life_support"
+  ],
+  "mask_coverage": {
+    "upper_body": true,
+    "hands": true,
+    "lower_body": true
+  },
+  "channels": {
+    "torso": {
+      "role": "primary",
+      "motion_type": "balance",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The torso rocks forward and downward to drive the compression rhythm.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.712,
+      "raw_measurement": {
+        "signal": "max_torso_lean_deg",
+        "raw_value": 38.45055,
+        "divisor": 54.0
+      }
+    },
+    "head": {
+      "role": "stabilizer",
+      "motion_type": "gaze",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The head stays angled downward as if watching the compression site.",
+      "kind": "fk_part",
+      "state_label": "static",
+      "motion_magnitude": 0.0856,
+      "raw_measurement": {
+        "signal": "head_vs_spine_range_deg",
+        "raw_value": 1.3188,
+        "divisor": 15.4
+      }
+    },
+    "left_arm": {
+      "role": "support",
+      "motion_type": "hold-static",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The left arm stays extended and aligned over the hands.",
+      "kind": "fk_part",
+      "state_label": "static",
+      "motion_magnitude": 0.0832,
+      "raw_measurement": {
+        "signal": "mean_bone_hips_rel_pos_stddev_m",
+        "raw_value": 0.0114,
+        "divisor": 0.137
+      }
+    },
+    "right_arm": {
+      "role": "support",
+      "motion_type": "hold-static",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The right arm stays extended and aligned over the hands.",
+      "kind": "fk_part",
+      "state_label": "static",
+      "motion_magnitude": 0.0764,
+      "raw_measurement": {
+        "signal": "mean_bone_hips_rel_pos_stddev_m",
+        "raw_value": 0.01047,
+        "divisor": 0.137
+      }
+    },
+    "left_leg": {
+      "role": "support",
+      "motion_type": "balance",
+      "contact": "ground",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The left leg holds a planted stance to support the forward lean.",
+      "kind": "fk_part",
+      "state_label": "static",
+      "motion_magnitude": 0.0204,
+      "raw_measurement": {
+        "signal": "mean_bone_world_pos_stddev_m",
+        "raw_value": 0.00505,
+        "divisor": 0.247
+      }
+    },
+    "right_leg": {
+      "role": "support",
+      "motion_type": "balance",
+      "contact": "ground",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The right leg holds a planted stance to support the forward lean.",
+      "kind": "fk_part",
+      "state_label": "static",
+      "motion_magnitude": 0.019,
+      "raw_measurement": {
+        "signal": "mean_bone_world_pos_stddev_m",
+        "raw_value": 0.0047,
+        "divisor": 0.247
+      }
+    },
+    "left_hand": {
+      "role": "primary",
+      "motion_type": "hold-static",
+      "contact": "object:patient_chest",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The left hand remains stacked at the compression point on the chest.",
+      "kind": "hand",
+      "state_label": "static",
+      "motion_magnitude": 0.0017,
+      "raw_measurement": {
+        "signal": "mean_finger_curl_range_deg",
+        "raw_value": 0.21373,
+        "divisor": 129.0
+      }
+    },
+    "right_hand": {
+      "role": "primary",
+      "motion_type": "hold-static",
+      "contact": "object:patient_chest",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The right hand remains stacked with the other hand at the compression point.",
+      "kind": "hand",
+      "state_label": "static",
+      "motion_magnitude": 0.0,
+      "raw_measurement": {
+        "signal": "mean_finger_curl_range_deg",
+        "raw_value": 0.00044,
+        "divisor": 129.0
+      }
+    },
+    "root": {
+      "kind": "root",
+      "state_label": "static",
+      "motion_magnitude": 0.0397,
+      "raw_measurement": {
+        "signal": "max(gait/0.317, trans/0.30, heading/60)",
+        "gait_foot_yrange_m": 0.0126,
+        "trans_horiz_stddev_m": 0.00567,
+        "heading_signed_stddev_deg": 0.385
+      }
+    }
+  },
+  "ik_goals": [
+    {
+      "effector": "left_hand",
+      "target": null,
+      "constraint": "TwoBoneIKConstraint",
+      "contact_object": "patient_chest",
+      "world_space": true
+    },
+    {
+      "effector": "right_hand",
+      "target": null,
+      "constraint": "TwoBoneIKConstraint",
+      "contact_object": "patient_chest",
+      "world_space": true
+    }
+  ],
+  "composability": {
+    "locks": [
+      "torso",
+      "head",
+      "left_arm",
+      "right_arm",
+      "left_leg",
+      "right_leg",
+      "left_hand",
+      "right_hand"
+    ],
+    "free": [],
+    "can_overlay_on": [
+      "idle"
+    ],
+    "base_or_overlay": "overlay",
+    "posture": "standing",
+    "seam_owner": {
+      "torso": "base",
+      "root": "base"
+    }
+  },
+  "extraction": {
+    "method": "in_engine_sample_root_local",
+    "sampled_frames": 540,
+    "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, root-local",
+    "motion_metric": "torso: max_lean_deg/54; head: head_vs_spine_range_deg/15.4; arms: mean_bone_hips_rel_pos_stddev_m/0.137; legs: mean_bone_world_pos_stddev_m/0.247; hands: mean_finger_curl_range_deg/129; root: max(gait/0.317, trans/0.30, heading/60)",
+    "bone_map_version": "v2.0.0",
+    "metric_formula_version": "v2.0.0",
+    "extractor_version": "2.0.0",
+    "extractor_lang": "python",
+    "avatar": "nurse_avatar.fbx",
+    "extracted_at": "2026-07-01T20:17:47Z",
+    "field_origin": {
+      "measured": [
+        "duration",
+        "frame_rate",
+        "channels.*.state_label",
+        "channels.*.motion_magnitude",
+        "channels.*.raw_measurement"
+      ],
+      "resolved": [
+        "controller_state",
+        "controller_layer",
+        "trigger_param"
+      ],
+      "semantic": [
+        "display_name",
+        "overall_intent",
+        "tags",
+        "mask_coverage",
+        "channels.*.motion_description",
+        "ik_goals"
+      ],
+      "semantic_pending": [],
+      "vlm_proposed": [
+        "action_id",
+        "display_name",
+        "overall_intent",
+        "tags",
+        "mask_coverage",
+        "channels.*.role",
+        "channels.*.motion_type",
+        "channels.*.contact",
+        "channels.*.constraint",
+        "channels.*.motion_description",
+        "composability.base_or_overlay",
+        "composability.posture",
+        "composability.can_overlay_on"
+      ],
+      "derived": [
+        "composability.locks",
+        "composability.free",
+        "composability.seam_owner",
+        "ik_goals"
+      ]
+    },
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "gpt-5.5-2026-04-23",
+      "proposed_at": "2026-07-01T20:43:57Z",
+      "frames": 6,
+      "render_views": [
+        "front",
+        "front_left_3q"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_id",
+        "display_name",
+        "overall_intent",
+        "tags",
+        "mask_coverage",
+        "channels.*.role",
+        "channels.*.motion_type",
+        "channels.*.contact",
+        "channels.*.constraint",
+        "channels.*.motion_description",
+        "composability.base_or_overlay",
+        "composability.posture",
+        "composability.can_overlay_on"
+      ],
+      "status": "vlm_accepted"
+    },
+    "verified_by": "auto-accepted: gpt-5.5 proposed + consistency-gated, no human review (ADR 0008)",
+    "verified_at": "2026-07-01T21:42:45Z"
+  }
+}

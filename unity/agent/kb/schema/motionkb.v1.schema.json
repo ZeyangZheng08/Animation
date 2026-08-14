@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "motionkb/v1",
+  "title": "MotionKB body-part action fact (motionkb/v1)",
+  "description": "Canonical contract for one agent/kb/<action_id>.json. Consumed by both the Unity extractor/validator (Phase 1) and the Python RAG (Phase 2). Pins the stable shape of all current action files. NOTE: cross-field invariants that JSON Schema cannot express (is_static<->state_label mirror, locks/free partition, overlay lock-disjointness, guid-resolves) are enforced by the companion validator (agent/motionkb/validate_motionkb.py, plus the Unity MotionKBValidator for guid resolution).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "action_id",
+    "display_name",
+    "source_clip",
+    "controller_state",
+    "controller_layer",
+    "trigger_param",
+    "duration",
+    "frame_rate",
+    "loop",
+    "has_root_motion",
+    "root_displacement_m",
+    "overall_intent",
+    "tags",
+    "mask_coverage",
+    "body_parts",
+    "composability",
+    "extraction"
+  ],
+  "properties": {
+    "schema_version": { "const": "motionkb/v1" },
+    "action_id": { "type": "string", "minLength": 1 },
+    "display_name": { "type": "string", "minLength": 1 },
+    "status": {
+      "description": "Optional KB-versioning channel (module C). Absent = treated as accepted. Pre-wired so candidate writes validate.",
+      "enum": ["candidate", "accepted", "deprecated"]
+    },
+    "source_clip": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fbx_or_anim", "guid", "file_id", "clip_name"],
+      "properties": {
+        "fbx_or_anim": { "type": "string", "minLength": 1 },
+        "guid": { "type": "string", "minLength": 1 },
+        "file_id": { "type": "integer", "description": "Unity local file id; may be negative. Importer/rig-specific, NOT a universal constant." },
+        "clip_name": { "type": "string", "minLength": 1 }
+      }
+    },
+    "controller_state": { "type": "string", "minLength": 1 },
+    "controller_layer": { "type": "string", "minLength": 1 },
+    "trigger_param": { "type": ["string", "null"] },
+    "duration": { "type": "number", "minimum": 0 },
+    "frame_rate": { "type": "number", "minimum": 0 },
+    "loop": { "type": "boolean" },
+    "has_root_motion": { "type": "boolean" },
+    "root_displacement_m": { "type": "number", "minimum": 0 },
+    "overall_intent": { "type": "string", "minLength": 1 },
+    "tags": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+    "mask_coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["upper_body", "hands", "lower_body"],
+      "properties": {
+        "upper_body": { "type": "boolean" },
+        "hands": { "type": "boolean" },
+        "lower_body": { "type": "boolean" }
+      }
+    },
+    "body_parts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["head", "chest", "left_arm", "right_arm", "legs", "feet"],
+      "properties": {
+        "head": { "$ref": "#/$defs/bodyPartFact" },
+        "chest": { "$ref": "#/$defs/bodyPartFact" },
+        "left_arm": { "$ref": "#/$defs/bodyPartFact" },
+        "right_arm": { "$ref": "#/$defs/bodyPartFact" },
+        "legs": { "$ref": "#/$defs/bodyPartFact" },
+        "feet": { "$ref": "#/$defs/bodyPartFact" }
+      }
+    },
+    "composability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["locks", "free", "can_overlay_on", "base_or_overlay"],
+      "properties": {
+        "locks": { "type": "array", "items": { "$ref": "#/$defs/bodyPartName" } },
+        "free": { "type": "array", "items": { "$ref": "#/$defs/bodyPartName" } },
+        "can_overlay_on": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "base_or_overlay": { "enum": ["base", "overlay"] },
+        "posture": { "enum": ["standing", "seated"], "description": "Optional; absent defaults to standing. Only seated actions (e.g. typing) set it." }
+      }
+    },
+    "extraction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "sampled_frames", "motion_metric", "extracted_at", "verified_against_screenshots"],
+      "properties": {
+        "method": { "type": "string", "minLength": 1 },
+        "sampled_frames": { "type": "integer", "minimum": 0 },
+        "motion_metric": { "type": "string", "minLength": 1 },
+        "extracted_at": { "type": "string", "minLength": 1 },
+        "verified_against_screenshots": { "type": "boolean" },
+        "extractor_version": { "type": "string", "description": "Optional (module D). Semver of MotionKBExtractor." },
+        "extractor_git_sha": { "type": "string", "description": "Optional (module D)." },
+        "metric_formula_version": { "type": "string", "description": "Optional (module D)." },
+        "raw_measurements": { "type": "object", "description": "Optional (module D): per-part pre-normalization raw values + divisors." },
+        "unity_version": { "type": "string", "description": "Optional (module D)." },
+        "bone_map_version": { "type": "string", "description": "Optional (module D)." },
+        "metric": { "type": "object", "description": "Optional (module D): per-part {signal, divisor} structured form of motion_metric." },
+        "field_origin": { "type": "object", "description": "Optional (module D): per-field measured|authored map." },
+        "verified_by": { "type": "string", "description": "Optional (module D)." },
+        "verified_at": { "type": "string", "description": "Optional (module D)." }
+      }
+    }
+  },
+  "$defs": {
+    "bodyPartName": { "enum": ["head", "chest", "left_arm", "right_arm", "legs", "feet"] },
+    "bodyPartFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state_label", "motion_magnitude", "motion_description", "is_static", "faces_target", "target", "interaction_object", "ik_goal"],
+      "properties": {
+        "state_label": { "enum": ["static", "dynamic"] },
+        "motion_magnitude": { "type": "number", "minimum": 0, "maximum": 1 },
+        "motion_description": { "type": "string", "minLength": 1 },
+        "is_static": { "type": "boolean" },
+        "faces_target": { "type": "boolean" },
+        "target": { "type": ["string", "null"] },
+        "interaction_object": { "type": ["string", "null"] },
+        "ik_goal": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "required": ["effector", "target", "constraint"],
+          "properties": {
+            "effector": { "enum": ["left_hand", "right_hand"] },
+            "target": { "type": "string", "minLength": 1 },
+            "constraint": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    }
+  }
+}

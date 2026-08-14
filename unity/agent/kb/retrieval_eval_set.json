@@ -1,0 +1,54 @@
+{
+  "_meta": {
+    "purpose": "Seed eval set for the Phase-2 retrieval/decomposition agent (HANDOFF.md section 8, module E-seed). DATA ONLY - there is no run_eval.py yet (that is Phase-2 build, gated on the retriever existing). Each case pins a natural-language intent to the expected MotionKB retrieval result, so the retriever can be scored against it once built.",
+    "corpus": "agent/kb - the 8 accepted v2 actions (see kb_manifest.json)",
+    "schema_version": "retrieval_eval/v0-seed",
+    "channels": "the v2 9-channel vocabulary (engine_mask_map.json): root, torso, head, left_arm, right_arm, left_leg, right_leg, left_hand, right_hand",
+    "expected_type": {
+      "full_match": "one whole clip satisfies the intent -> action_id",
+      "decompose": "no single clip matches; the intent is composed per-channel from >1 action (parts[]) over a base, leaving free_channels",
+      "no_match": "the intent is outside the corpus (a SCENARIO section 6 coverage gap); nearest names the closest action"
+    }
+  },
+  "cases": [
+    { "id": "fm-idle", "query": "the nurse stands idle and at ease beside the bed", "modality": "text", "difficulty": "easy",
+      "expected": { "type": "full_match", "action_id": "idle" } },
+    { "id": "fm-walking", "query": "the nurse walks across the room toward the patient", "modality": "text", "difficulty": "easy",
+      "expected": { "type": "full_match", "action_id": "walking" } },
+    { "id": "fm-typing", "query": "the nurse sits at the computer and types up her charting notes", "modality": "text", "difficulty": "easy",
+      "expected": { "type": "full_match", "action_id": "typing" } },
+    { "id": "fm-giving-pills", "query": "the nurse hands the patient the oral medication to take", "modality": "text", "difficulty": "easy",
+      "expected": { "type": "full_match", "action_id": "giving_pills" } },
+    { "id": "fm-cpr", "query": "the nurse performs chest compressions on the patient", "modality": "text", "difficulty": "easy",
+      "expected": { "type": "full_match", "action_id": "cpr" } },
+    { "id": "fm-grab-bottle", "query": "the nurse reaches out and grabs the aspirin bottle, then lifts it", "modality": "text", "difficulty": "medium",
+      "expected": { "type": "full_match", "action_id": "grab_bottle" } },
+    { "id": "fm-check-pulse", "query": "the nurse leans in and feels the patient's wrist for a pulse", "modality": "text", "difficulty": "medium",
+      "expected": { "type": "full_match", "action_id": "check_pulse" } },
+    { "id": "fm-bvm", "query": "the nurse seals the mask on the patient's face and squeezes the bag to ventilate", "modality": "text", "difficulty": "medium",
+      "expected": { "type": "full_match", "action_id": "bvm" } },
+
+    { "id": "dc-walk-carry", "query": "the nurse walks to the bedside while carrying the medicine bottle in her right hand", "modality": "text", "difficulty": "hard",
+      "expected": { "type": "decompose",
+        "parts": [
+          { "action_id": "walking", "channels": ["left_leg", "right_leg", "root"], "role": "base / locomotion" },
+          { "action_id": "grab_bottle", "channels": ["right_arm", "right_hand"], "role": "overlay / carry",
+            "note": "the carry corresponds to the source's 'Hold Pills' upper-body overlay (right arm + fingers); approximated from grab_bottle's grasp pose. A dedicated 'carry' clip is a known KB gap." }
+        ],
+        "free_channels": ["torso", "head", "left_arm", "left_hand"] } },
+    { "id": "dc-givepills-gaze", "query": "the nurse gives the patient the pills while turning her head to glance at the monitor", "modality": "text", "difficulty": "hard",
+      "expected": { "type": "decompose",
+        "parts": [
+          { "action_id": "giving_pills", "channels": ["torso", "left_arm", "right_arm", "left_hand", "right_hand", "left_leg", "right_leg"], "role": "base / manipulation" }
+        ],
+        "free_channels": ["head"],
+        "note": "head is retargeted to a gaze-at-monitor look (aim-IK to a scene target); no head-only clip exists, so the head channel is solved by IK, not retrieval - exercises the FK-retrieval vs IK-goal split." } },
+
+    { "id": "nm-button", "query": "the nurse presses a button on the cardiac monitor", "modality": "text", "difficulty": "easy",
+      "expected": { "type": "no_match", "nearest": "grab_bottle",
+        "note": "button-push (Button Pushing.anim) is a SCENARIO section 6 coverage gap, not in the 8-action KB." } },
+    { "id": "nm-call", "query": "the nurse picks up the phone and calls the cath lab", "modality": "text", "difficulty": "easy",
+      "expected": { "type": "no_match", "nearest": null,
+        "note": "call (Call.anim) is a SCENARIO section 6 coverage gap, not in the 8-action KB." } }
+  ]
+}

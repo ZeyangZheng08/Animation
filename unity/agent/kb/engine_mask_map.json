@@ -1,0 +1,76 @@
+{
+  "schema_version": "motionkb-engine-map/v1",
+  "description": "Shared, single-source-of-truth mapping from the v2 canonical channels to each target engine's masking primitive. NOT duplicated per action; the validator asserts every per-file channel name is a key here. Corrected per the 2026-06-18 engine-neutrality review: the clavicle (shoulder) AND the wrist belong to the ARM channel in ALL engines; the HAND channel is fingers-only (rooted at the wrist's children, excluding the wrist). 'toes' is an OPTIONAL leaf of the leg channel present in Unity/UE5/Blender but ABSENT in the SMPL-X body topology (the leg ends at the ankle/foot). The IK/contact layer (ik_goals) is ORTHOGONAL to this FK mask and is inert in SMPL-X (a pose representation with no IK).",
+  "seam_bones": {
+    "clavicle": "arm channel in all engines (Unity requires per-transform masking, since AvatarMaskBodyPart.LeftArm excludes the clavicle)",
+    "wrist": "arm channel in all engines (hand channel is fingers only)"
+  },
+  "feather_note": "A graded torso/root seam feather is a UE5 (layered blend-per-bone depth) and SMPL-X (per-joint theta interpolation) capability, but a Unity AvatarMask / Blender bone-collection LIMITATION (both are binary per transform; ramp via Animation Rigging weight / constraint influence). Composed clips in Unity have a harder torso boundary.",
+  "channels": {
+    "root": {
+      "kind": "root",
+      "unity_avatar_mask_body_part": "Root (root-motion delta only; the Hips bone itself masks with Body)",
+      "ue5_branch_root": "root / pelvis",
+      "blender_bone_collection": ["root", "pelvis"],
+      "smplx_joints": "pelvis(0) (carries global orient + translation together; no root-motion separation)"
+    },
+    "torso": {
+      "kind": "fk_part",
+      "unity_avatar_mask_body_part": "Body",
+      "ue5_branch_root": "spine_01",
+      "blender_bone_collection": ["spine chain"],
+      "smplx_joints": "spine1/2/3 (3,6,9)"
+    },
+    "head": {
+      "kind": "fk_part",
+      "unity_avatar_mask_body_part": "Head",
+      "ue5_branch_root": "neck_01",
+      "blender_bone_collection": ["neck", "head"],
+      "smplx_joints": "neck(12), head(15)"
+    },
+    "left_arm": {
+      "kind": "fk_part",
+      "unity_avatar_mask_body_part": "LeftArm (+ clavicle via per-transform mask)",
+      "ue5_branch_root": "clavicle_l",
+      "blender_bone_collection": ["shoulder.L", "upper_arm.L", "forearm.L", "hand.L"],
+      "smplx_joints": "collar(13), shoulder(16), elbow(18), wrist(20)"
+    },
+    "right_arm": {
+      "kind": "fk_part",
+      "unity_avatar_mask_body_part": "RightArm (+ clavicle via per-transform mask)",
+      "ue5_branch_root": "clavicle_r",
+      "blender_bone_collection": ["shoulder.R", "upper_arm.R", "forearm.R", "hand.R"],
+      "smplx_joints": "collar(14), shoulder(17), elbow(19), wrist(21)"
+    },
+    "left_leg": {
+      "kind": "fk_part",
+      "unity_avatar_mask_body_part": "LeftLeg",
+      "ue5_branch_root": "thigh_l",
+      "blender_bone_collection": ["thigh.L", "shin.L", "foot.L", "toe.L"],
+      "smplx_joints": "hip(1), knee(4), ankle(7), foot(10)",
+      "optional_leaves": ["toes (absent in SMPL-X body topology)"]
+    },
+    "right_leg": {
+      "kind": "fk_part",
+      "unity_avatar_mask_body_part": "RightLeg",
+      "ue5_branch_root": "thigh_r",
+      "blender_bone_collection": ["thigh.R", "shin.R", "foot.R", "toe.R"],
+      "smplx_joints": "hip(2), knee(5), ankle(8), foot(11)",
+      "optional_leaves": ["toes (absent in SMPL-X body topology)"]
+    },
+    "left_hand": {
+      "kind": "hand",
+      "unity_avatar_mask_body_part": "LeftFingers",
+      "ue5_branch_root": "hand_l CHILDREN (fingers only, excluding hand_l)",
+      "blender_bone_collection": ["finger bones .L (excluding hand.L)"],
+      "smplx_joints": "left-hand 15 MANO joints (numeric index block; excludes wrist=20)"
+    },
+    "right_hand": {
+      "kind": "hand",
+      "unity_avatar_mask_body_part": "RightFingers",
+      "ue5_branch_root": "hand_r CHILDREN (fingers only, excluding hand_r)",
+      "blender_bone_collection": ["finger bones .R (excluding hand.R)"],
+      "smplx_joints": "right-hand 15 MANO joints (numeric index block; excludes wrist=21)"
+    }
+  }
+}

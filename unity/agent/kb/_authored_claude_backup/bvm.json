@@ -1,0 +1,280 @@
+{
+  "schema_version": "motionkb/v2",
+  "action_id": "bvm",
+  "display_name": "BVM (Bag-Valve-Mask Ventilation)",
+  "status": "accepted",
+  "source_clip": {
+    "fbx_or_anim": "nurse_bvm_long.fbx",
+    "guid": "60951abc95f08324fbfe18c463b3fadf",
+    "file_id": 1827226128182048838,
+    "clip_name": "nurse_bvm_2"
+  },
+  "controller_state": "BVM",
+  "controller_layer": "Base Layer",
+  "trigger_param": "BVM",
+  "duration": 6.0,
+  "frame_rate": 30,
+  "loop": false,
+  "overall_intent": "Nurse leans deeply over the patient and holds both hands forward to operate a bag-valve-mask on the patient's face; a sustained hold (the bag squeeze is animated separately as a prop blendshape).",
+  "tags": [
+    "bvm",
+    "bag-valve-mask",
+    "ventilation",
+    "airway",
+    "resuscitation",
+    "bedside",
+    "patient-interaction",
+    "upper-body",
+    "sustained-hold",
+    "two-handed"
+  ],
+  "mask_coverage": {
+    "upper_body": true,
+    "hands": true,
+    "lower_body": false
+  },
+  "channels": {
+    "torso": {
+      "role": "stabilizer",
+      "motion_type": "balance",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "Leans deeply forward (~51 deg) over the patient and holds the lean.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.5879,
+      "raw_measurement": {
+        "signal": "max_torso_lean_deg",
+        "raw_value": 31.7475,
+        "divisor": 54.0
+      }
+    },
+    "head": {
+      "role": "support",
+      "motion_type": "gaze",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "Held down toward the patient's face / airway.",
+      "kind": "fk_part",
+      "state_label": "static",
+      "motion_magnitude": 0.0761,
+      "raw_measurement": {
+        "signal": "head_vs_spine_range_deg",
+        "raw_value": 1.1721,
+        "divisor": 15.4
+      }
+    },
+    "left_arm": {
+      "role": "support",
+      "motion_type": "hold-static",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "Holds the mask sealed on the patient's face; occupied but with minimal motion.",
+      "kind": "fk_part",
+      "state_label": "static",
+      "motion_magnitude": 0.0165,
+      "raw_measurement": {
+        "signal": "mean_bone_hips_rel_pos_stddev_m",
+        "raw_value": 0.00226,
+        "divisor": 0.137
+      }
+    },
+    "right_arm": {
+      "role": "support",
+      "motion_type": "hold-static",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "Holds / squeezes the bag; occupied but with minimal limb motion.",
+      "kind": "fk_part",
+      "state_label": "static",
+      "motion_magnitude": 0.0153,
+      "raw_measurement": {
+        "signal": "mean_bone_hips_rel_pos_stddev_m",
+        "raw_value": 0.0021,
+        "divisor": 0.137
+      }
+    },
+    "left_leg": {
+      "role": "free",
+      "motion_type": "balance",
+      "contact": "ground",
+      "constraint": "unconstrained",
+      "target": null,
+      "motion_description": "Planted in a stable bedside stance. Stationary on the floor.",
+      "kind": "fk_part",
+      "state_label": "static",
+      "motion_magnitude": 0.0038,
+      "raw_measurement": {
+        "signal": "mean_bone_world_pos_stddev_m",
+        "raw_value": 0.00093,
+        "divisor": 0.247
+      }
+    },
+    "right_leg": {
+      "role": "free",
+      "motion_type": "balance",
+      "contact": "ground",
+      "constraint": "unconstrained",
+      "target": null,
+      "motion_description": "Planted in a stable bedside stance. Stationary on the floor.",
+      "kind": "fk_part",
+      "state_label": "static",
+      "motion_magnitude": 0.0041,
+      "raw_measurement": {
+        "signal": "mean_bone_world_pos_stddev_m",
+        "raw_value": 0.00101,
+        "divisor": 0.247
+      }
+    },
+    "left_hand": {
+      "role": "primary",
+      "motion_type": "hold-static",
+      "contact": "object:bvm_mask",
+      "constraint": "must-reach",
+      "target": null,
+      "motion_description": "Holds the mask sealed against the patient's face.",
+      "kind": "hand",
+      "state_label": "static",
+      "motion_magnitude": 0.0,
+      "raw_measurement": {
+        "signal": "mean_finger_curl_range_deg",
+        "raw_value": 0.00059,
+        "divisor": 129.0
+      }
+    },
+    "right_hand": {
+      "role": "primary",
+      "motion_type": "manipulate",
+      "contact": "object:bvm_bag",
+      "constraint": "must-reach",
+      "target": null,
+      "motion_description": "Squeezes and releases the bag to ventilate.",
+      "kind": "hand",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.1537,
+      "raw_measurement": {
+        "signal": "mean_finger_curl_range_deg",
+        "raw_value": 19.82224,
+        "divisor": 129.0
+      }
+    },
+    "root": {
+      "kind": "root",
+      "state_label": "static",
+      "motion_magnitude": 0.0062,
+      "raw_measurement": {
+        "signal": "max(gait/0.317, trans/0.30, heading/60)",
+        "gait_foot_yrange_m": 0.00197,
+        "trans_horiz_stddev_m": 0.00064,
+        "heading_signed_stddev_deg": 0.054
+      }
+    }
+  },
+  "ik_goals": [
+    {
+      "effector": "left_hand",
+      "target": "bvm",
+      "constraint": "TwoBoneIKConstraint",
+      "contact_object": "bvm_mask",
+      "world_space": true
+    },
+    {
+      "effector": "right_hand",
+      "target": "bvm",
+      "constraint": "TwoBoneIKConstraint",
+      "contact_object": "bvm_bag",
+      "world_space": true
+    }
+  ],
+  "composability": {
+    "locks": [
+      "torso",
+      "head",
+      "left_arm",
+      "right_arm",
+      "left_hand",
+      "right_hand"
+    ],
+    "free": [
+      "left_leg",
+      "right_leg"
+    ],
+    "can_overlay_on": [
+      "idle"
+    ],
+    "base_or_overlay": "overlay",
+    "posture": "standing",
+    "seam_owner": {
+      "torso": "base",
+      "root": "base"
+    }
+  },
+  "extraction": {
+    "method": "in_engine_sample_root_local",
+    "sampled_frames": 180,
+    "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, root-local",
+    "motion_metric": "torso: max_lean_deg/54; head: head_vs_spine_range_deg/15.4; arms: mean_bone_hips_rel_pos_stddev_m/0.137; legs: mean_bone_world_pos_stddev_m/0.247; hands: mean_finger_curl_range_deg/129; root: max(gait/0.317, trans/0.30, heading/60)",
+    "bone_map_version": "v2.0.0",
+    "metric_formula_version": "v2.0.0",
+    "extractor_version": "2.0.0",
+    "extractor_lang": "python",
+    "avatar": "nurse_avatar.fbx",
+    "extracted_at": "2026-06-18T21:42:15Z",
+    "field_origin": {
+      "measured": [
+        "duration",
+        "frame_rate",
+        "channels.*.state_label",
+        "channels.*.motion_magnitude",
+        "channels.*.raw_measurement"
+      ],
+      "authored": [
+        "display_name",
+        "overall_intent",
+        "tags",
+        "mask_coverage",
+        "controller_state",
+        "controller_layer",
+        "trigger_param",
+        "channels.*.motion_description",
+        "ik_goals",
+        "composability",
+        "channels.*.role",
+        "channels.*.motion_type",
+        "channels.*.contact",
+        "channels.*.constraint",
+        "channels.left_hand.motion_description",
+        "channels.right_hand.motion_description"
+      ],
+      "authored_pending": [
+        "channels.*.target"
+      ]
+    },
+    "verified_against_screenshots": true,
+    "vlm_authoring": {
+      "model": "claude-opus-4-8",
+      "proposed_at": "2026-06-24T18:45:24Z",
+      "frames": 2,
+      "render_views": [
+        "front_left_3q",
+        "side_full"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "role",
+        "motion_type",
+        "contact",
+        "constraint",
+        "left_hand.motion_description",
+        "right_hand.motion_description"
+      ],
+      "status": "human_accepted"
+    },
+    "verified_by": "user (jiayou22343244@gmail.com) via VLM-proposed accept pass (ADR 0008)",
+    "verified_at": "2026-06-24T18:48:41Z"
+  }
+}

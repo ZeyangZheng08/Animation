@@ -1,0 +1,282 @@
+{
+  "schema_version": "motionkb/v2",
+  "action_id": "giving_pills",
+  "display_name": "Giving Pills",
+  "status": "accepted",
+  "source_clip": {
+    "fbx_or_anim": "nurse_give_meds.fbx",
+    "guid": "6301e229f38fceb46a5a24ae267a980b",
+    "file_id": 1827226128182048838,
+    "clip_name": "nurse_give_meds"
+  },
+  "controller_state": "Give Aspirin",
+  "controller_layer": "Base Layer",
+  "trigger_param": "giveAspirin",
+  "duration": 2.133,
+  "frame_rate": 30,
+  "loop": false,
+  "overall_intent": "Nurse stands in place, leans toward the patient, looks down at her hands, and extends both arms forward to hand over oral medication.",
+  "tags": [
+    "medication",
+    "oral",
+    "pills",
+    "aspirin",
+    "hand-off",
+    "patient-interaction",
+    "upper-body",
+    "in-place",
+    "two-handed"
+  ],
+  "mask_coverage": {
+    "upper_body": true,
+    "hands": true,
+    "lower_body": false
+  },
+  "channels": {
+    "torso": {
+      "role": "stabilizer",
+      "motion_type": "balance",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "Leans forward up to ~51 deg toward the patient during the hand-off.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.5684,
+      "raw_measurement": {
+        "signal": "max_torso_lean_deg",
+        "raw_value": 30.69545,
+        "divisor": 54.0
+      }
+    },
+    "head": {
+      "role": "support",
+      "motion_type": "gaze",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "Tilts down ~48 deg to look at the hands / the patient receiving the pills.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.8491,
+      "raw_measurement": {
+        "signal": "head_vs_spine_range_deg",
+        "raw_value": 13.07585,
+        "divisor": 15.4
+      }
+    },
+    "left_arm": {
+      "role": "primary",
+      "motion_type": "reach",
+      "contact": "none",
+      "constraint": "must-reach",
+      "target": null,
+      "motion_description": "Extends forward, presenting / supporting the medication.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.7303,
+      "raw_measurement": {
+        "signal": "mean_bone_hips_rel_pos_stddev_m",
+        "raw_value": 0.10005,
+        "divisor": 0.137
+      }
+    },
+    "right_arm": {
+      "role": "primary",
+      "motion_type": "reach",
+      "contact": "none",
+      "constraint": "must-reach",
+      "target": null,
+      "motion_description": "Extends forward to offer / place the pills into the patient's hand.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.6342,
+      "raw_measurement": {
+        "signal": "mean_bone_hips_rel_pos_stddev_m",
+        "raw_value": 0.08689,
+        "divisor": 0.137
+      }
+    },
+    "left_leg": {
+      "role": "free",
+      "motion_type": "balance",
+      "contact": "ground",
+      "constraint": "unconstrained",
+      "target": null,
+      "motion_description": "Weight shifts with a small adjusting step as she leans toward the patient. Takes a small adjusting step during the hand-off: one foot lifts (~0.17 m) and travels up to ~0.21 m before settling.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.3036,
+      "raw_measurement": {
+        "signal": "mean_bone_world_pos_stddev_m",
+        "raw_value": 0.07498,
+        "divisor": 0.247
+      }
+    },
+    "right_leg": {
+      "role": "free",
+      "motion_type": "balance",
+      "contact": "ground",
+      "constraint": "unconstrained",
+      "target": null,
+      "motion_description": "Weight shifts with a small adjusting step as she leans toward the patient. Takes a small adjusting step during the hand-off: one foot lifts (~0.17 m) and travels up to ~0.21 m before settling.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.2658,
+      "raw_measurement": {
+        "signal": "mean_bone_world_pos_stddev_m",
+        "raw_value": 0.06565,
+        "divisor": 0.247
+      }
+    },
+    "left_hand": {
+      "role": "primary",
+      "motion_type": "manipulate",
+      "contact": "object:pill",
+      "constraint": "must-reach",
+      "target": null,
+      "motion_description": "Fingers curl to pinch and hold the pill, presenting it to the patient.",
+      "kind": "hand",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.853,
+      "raw_measurement": {
+        "signal": "mean_finger_curl_range_deg",
+        "raw_value": 110.03768,
+        "divisor": 129.0
+      }
+    },
+    "right_hand": {
+      "role": "primary",
+      "motion_type": "manipulate",
+      "contact": "object:pill",
+      "constraint": "must-reach",
+      "target": null,
+      "motion_description": "Hand steadies beneath and helps offer the pill into the patient's hand.",
+      "kind": "hand",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.2028,
+      "raw_measurement": {
+        "signal": "mean_finger_curl_range_deg",
+        "raw_value": 26.15981,
+        "divisor": 129.0
+      }
+    },
+    "root": {
+      "kind": "root",
+      "state_label": "static",
+      "motion_magnitude": 0.1995,
+      "raw_measurement": {
+        "signal": "max(gait/0.317, trans/0.30, heading/60)",
+        "gait_foot_yrange_m": 0.06325,
+        "trans_horiz_stddev_m": 0.0,
+        "heading_signed_stddev_deg": 0.0
+      }
+    }
+  },
+  "ik_goals": [
+    {
+      "effector": "left_hand",
+      "target": "aspirinLeft",
+      "constraint": "TwoBoneIKConstraint",
+      "contact_object": "pill",
+      "world_space": true
+    },
+    {
+      "effector": "right_hand",
+      "target": "aspirinRight",
+      "constraint": "TwoBoneIKConstraint",
+      "contact_object": "pill",
+      "world_space": true
+    }
+  ],
+  "composability": {
+    "locks": [
+      "torso",
+      "head",
+      "left_arm",
+      "right_arm",
+      "left_hand",
+      "right_hand"
+    ],
+    "free": [
+      "left_leg",
+      "right_leg"
+    ],
+    "can_overlay_on": [
+      "idle"
+    ],
+    "base_or_overlay": "overlay",
+    "posture": "standing",
+    "seam_owner": {
+      "torso": "base",
+      "root": "base"
+    }
+  },
+  "extraction": {
+    "method": "in_engine_sample_root_local",
+    "sampled_frames": 64,
+    "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, root-local",
+    "motion_metric": "torso: max_lean_deg/54; head: head_vs_spine_range_deg/15.4; arms: mean_bone_hips_rel_pos_stddev_m/0.137; legs: mean_bone_world_pos_stddev_m/0.247; hands: mean_finger_curl_range_deg/129; root: max(gait/0.317, trans/0.30, heading/60)",
+    "bone_map_version": "v2.0.0",
+    "metric_formula_version": "v2.0.0",
+    "extractor_version": "2.0.0",
+    "extractor_lang": "python",
+    "avatar": "nurse_avatar.fbx",
+    "extracted_at": "2026-06-18T21:42:15Z",
+    "field_origin": {
+      "measured": [
+        "duration",
+        "frame_rate",
+        "channels.*.state_label",
+        "channels.*.motion_magnitude",
+        "channels.*.raw_measurement"
+      ],
+      "authored": [
+        "display_name",
+        "overall_intent",
+        "tags",
+        "mask_coverage",
+        "controller_state",
+        "controller_layer",
+        "trigger_param",
+        "channels.*.motion_description",
+        "ik_goals",
+        "composability",
+        "channels.*.role",
+        "channels.*.motion_type",
+        "channels.*.contact",
+        "channels.*.constraint",
+        "channels.left_hand.motion_description",
+        "channels.right_hand.motion_description"
+      ],
+      "authored_pending": [
+        "channels.*.target"
+      ]
+    },
+    "verified_against_screenshots": true,
+    "vlm_authoring": {
+      "model": "claude-opus-4-8",
+      "proposed_at": "2026-06-24T18:33:21Z",
+      "frames": 5,
+      "render_views": [
+        "front",
+        "front_left_3q",
+        "right_profile",
+        "start",
+        "end"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "role",
+        "motion_type",
+        "contact",
+        "constraint",
+        "left_hand.motion_description",
+        "right_hand.motion_description"
+      ],
+      "status": "human_accepted"
+    },
+    "verified_by": "user (jiayou22343244@gmail.com) via VLM-proposed accept pass",
+    "verified_at": "2026-06-24T18:38:45Z"
+  }
+}

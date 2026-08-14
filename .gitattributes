@@ -1,0 +1,21 @@
+# LF everywhere, on every platform. This branch is read and diffed far more than it is edited, and the
+# knowledge base under unity/agent/kb is written by the agent's Python as UTF-8 without BOM and LF and
+# read back byte-for-byte — a CRLF checkout would leave every file permanently modified in the eyes of
+# `git status`, which is the drift detector the whole pipeline leans on.
+* text=auto eol=lf
+
+# NO GIT LFS ON THIS BRANCH. Deliberately.
+#
+# The working repositories track 3.2 GB of textures, meshes, audio and FBX through LFS. None of that
+# is here (see README.md), so none of the LFS filters are either — a pattern kept without the objects
+# behind it hands a fresh clone a file full of pointer text where it expected a PNG.
+#
+# One consequence worth knowing: adding a binary asset to this branch stores it as an ordinary blob.
+# That is fine at this size and stops being fine quickly. Assets belong on the working repositories.
+
+*.png  binary
+*.jpg  binary
+*.exr  binary
+
+*.cs   text diff=csharp
+*.py   text diff=python

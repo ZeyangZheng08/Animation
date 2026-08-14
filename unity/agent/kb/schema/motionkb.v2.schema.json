@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "motionkb/v2",
+  "title": "MotionKB body-part action fact (motionkb/v2)",
+  "description": "Canonical contract for one agent/kb/<action_id>.json (v2). 9 channels = 8 anatomical (PARTITION set, partitioned by composability.locks/free) + 1 root (locomotion-owned, measured-only, NOT partitioned). MEASURED fields are program-generated (agent/motionkb); the SEMANTIC 5-tuple (role/motion_type/contact/constraint/target) + composability stay human-owned (ADR 0002). Cross-field invariants JSON Schema cannot express (locks/free partition the 8, overlay lock-disjointness, ik effector->channel resolution, root measured-only, posture compatibility) are enforced by agent/motionkb/validate_motionkb.py.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "action_id", "display_name", "source_clip",
+    "controller_state", "controller_layer", "trigger_param",
+    "duration", "frame_rate", "loop",
+    "overall_intent", "tags", "mask_coverage",
+    "channels", "ik_goals", "composability", "extraction"
+  ],
+  "properties": {
+    "schema_version": { "const": "motionkb/v2" },
+    "action_id": { "type": "string", "minLength": 1 },
+    "display_name": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["candidate", "accepted", "deprecated"] },
+    "source_clip": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fbx_or_anim", "guid", "file_id", "clip_name"],
+      "properties": {
+        "fbx_or_anim": { "type": "string", "minLength": 1 },
+        "guid": { "type": "string", "minLength": 1 },
+        "file_id": { "type": "integer" },
+        "clip_name": { "type": "string", "minLength": 1 }
+      }
+    },
+    "controller_state": { "type": ["string", "null"], "minLength": 1 },
+    "controller_layer": { "type": ["string", "null"], "minLength": 1 },
+    "trigger_param": { "type": ["string", "null"] },
+    "duration": { "type": "number", "minimum": 0 },
+    "frame_rate": { "type": "number", "minimum": 0 },
+    "loop": { "type": "boolean" },
+    "overall_intent": { "type": "string", "minLength": 1 },
+    "tags": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+    "mask_coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["upper_body", "hands", "lower_body"],
+      "properties": {
+        "upper_body": { "type": "boolean" },
+        "hands": { "type": "boolean" },
+        "lower_body": { "type": "boolean" }
+      }
+    },
+    "channels": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root", "torso", "head", "left_arm", "right_arm", "left_leg", "right_leg", "left_hand", "right_hand"],
+      "properties": {
+        "root": { "$ref": "#/$defs/rootChannel" },
+        "torso": { "$ref": "#/$defs/anatomicalChannel" },
+        "head": { "$ref": "#/$defs/anatomicalChannel" },
+        "left_arm": { "$ref": "#/$defs/anatomicalChannel" },
+        "right_arm": { "$ref": "#/$defs/anatomicalChannel" },
+        "left_leg": { "$ref": "#/$defs/anatomicalChannel" },
+        "right_leg": { "$ref": "#/$defs/anatomicalChannel" },
+        "left_hand": { "$ref": "#/$defs/anatomicalChannel" },
+        "right_hand": { "$ref": "#/$defs/anatomicalChannel" }
+      }
+    },
+    "ik_goals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["effector", "target", "constraint", "contact_object", "world_space"],
+        "properties": {
+          "effector": { "enum": ["left_hand", "right_hand", "left_foot", "right_foot"] },
+          "target": { "type": ["string", "null"] },
+          "constraint": { "type": "string", "minLength": 1 },
+          "contact_object": { "type": ["string", "null"] },
+          "world_space": { "type": "boolean" }
+        }
+      }
+    },
+    "composability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["locks", "free", "can_overlay_on", "base_or_overlay", "seam_owner"],
+      "properties": {
+        "locks": { "type": "array", "items": { "$ref": "#/$defs/partitionChannelName" } },
+        "free": { "type": "array", "items": { "$ref": "#/$defs/partitionChannelName" } },
+        "can_overlay_on": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "base_or_overlay": { "enum": ["base", "overlay"] },
+        "posture": { "enum": ["standing", "seated"] },
+        "seam_owner": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["torso", "root"],
+          "properties": {
+            "torso": { "enum": ["base", "overlay"] },
+            "root": { "enum": ["base", "overlay"] }
+          }
+        }
+      }
+    },
+    "extraction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "sampled_frames", "sampling_rule", "motion_metric", "bone_map_version", "metric_formula_version", "extractor_version", "avatar", "extracted_at", "field_origin", "verified_against_screenshots"],
+      "properties": {
+        "method": { "type": "string", "minLength": 1 },
+        "sampled_frames": { "type": "integer", "minimum": 0 },
+        "sampling_rule": { "type": "string", "minLength": 1 },
+        "motion_metric": { "type": "string", "minLength": 1 },
+        "bone_map_version": { "type": "string", "minLength": 1 },
+        "metric_formula_version": { "type": "string", "minLength": 1 },
+        "extractor_version": { "type": "string", "minLength": 1 },
+        "extractor_lang": { "type": "string" },
+        "unity_version": { "type": "string" },
+        "avatar": { "type": "string", "minLength": 1 },
+        "extracted_at": { "type": "string", "minLength": 1 },
+        "field_origin": { "type": "object" },
+        "vlm_proposal": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "model": { "type": "string" },
+            "proposed_at": { "type": "string" },
+            "frames": { "type": "integer", "minimum": 0 },
+            "render_views": { "type": "array", "items": { "type": "string" } },
+            "consistency_validated": { "type": "boolean" },
+            "scope": { "type": "array", "items": { "type": "string" } },
+            "status": { "enum": ["awaiting_human_accept", "vlm_accepted", "human_accepted", "rejected"] }
+          }
+        },
+        "verified_by": { "type": "string" },
+        "verified_at": { "type": "string" },
+        "verified_against_screenshots": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "partitionChannelName": { "enum": ["torso", "head", "left_arm", "right_arm", "left_leg", "right_leg", "left_hand", "right_hand"] },
+    "rawMeasurement": {
+      "type": "object",
+      "required": ["signal"],
+      "properties": {
+        "signal": { "type": "string", "minLength": 1 },
+        "raw_value": { "type": "number" },
+        "divisor": { "type": "number" },
+        "gait_foot_yrange_m": { "type": "number" },
+        "trans_horiz_stddev_m": { "type": "number" },
+        "heading_signed_stddev_deg": { "type": "number" }
+      }
+    },
+    "anatomicalChannel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "state_label", "motion_magnitude", "raw_measurement", "role", "motion_type", "contact", "constraint", "target", "motion_description"],
+      "properties": {
+        "kind": { "enum": ["fk_part", "hand"] },
+        "state_label": { "enum": ["static", "dynamic"] },
+        "motion_magnitude": { "type": "number", "minimum": 0, "maximum": 1 },
+        "raw_measurement": { "$ref": "#/$defs/rawMeasurement" },
+        "role": { "enum": ["primary", "stabilizer", "support", "free", null] },
+        "motion_type": { "enum": ["cyclic-locomotion", "reach", "hold-static", "balance", "gaze", "manipulate", null] },
+        "contact": { "type": ["string", "null"] },
+        "constraint": { "enum": ["must-maintain", "must-reach", "unconstrained", null] },
+        "target": { "type": ["string", "null"] },
+        "motion_description": { "type": ["string", "null"] }
+      }
+    },
+    "rootChannel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "state_label", "motion_magnitude", "raw_measurement"],
+      "properties": {
+        "kind": { "const": "root" },
+        "state_label": { "enum": ["static", "dynamic"] },
+        "motion_magnitude": { "type": "number", "minimum": 0, "maximum": 1 },
+        "raw_measurement": { "$ref": "#/$defs/rawMeasurement" }
+      }
+    }
+  }
+}
