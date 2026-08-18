@@ -1,0 +1,23 @@
+# Upstream files this branch deliberately does not carry. sync.sh reports anything new that is NOT
+# matched here, so keeping this list current is what keeps that report worth reading.
+#
+# Shell globs, matched against the published path (unity/... or animation-agent/...).
+
+# The 3D assets themselves are absent, so their sidecar .meta files are too.
+unity/Assets/**/*.fbx.meta
+unity/Assets/**/*.mesh.meta
+unity/Assets/**/*.mat
+unity/Assets/**/*.mat.meta
+
+# Baked lighting and package art. The KB render frames under unity/agent/kb/_frames ARE published;
+# these are the ones that are megabytes of scene bake, not evidence.
+unity/Assets/Scenes/**/*.png
+unity/Assets/Scenes/**/*.exr
+unity/Packages/**/*.png
+
+# The Unity repository's own .gitattributes is where the LFS filters are declared. Publishing it
+# would hand a fresh clone LFS patterns with no objects behind them.
+unity/.gitattributes
+
+# A superseded scene kept upstream as a backup.
+unity/EmergencyRoom.P3backup.unity

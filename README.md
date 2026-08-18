@@ -59,11 +59,25 @@ python build_segments.py --report-only
 
 Anything with `--engine` in its help needs Unity in play mode, which needs the assets.
 
-## Why this is a snapshot
+## Why this is a mirror, not a fork
 
-One commit, no history. The working repositories' history is full of LFS pointers, so pushing any of
-it would pull 3.2 GB of objects onto a service this branch is specifically avoiding using that way.
-The full history stays on the two working repositories, which are the source of truth:
+This branch keeps its own short history, unrelated to the working repositories'. Theirs is full of LFS
+pointers, so pushing any of it would pull 3.2 GB of objects onto a service this branch is specifically
+avoiding using that way. The two working repositories stay the source of truth:
 
 - the Unity project, whose git is the Windows one, because the KB is a derivative of its animation assets
 - `animation-agent`, on WSL's ext4 with Linux git — engine-independent, and versioned on its own
+
+Nothing here is edited in place. `sync.sh` rewrites every published file from whichever repository
+owns it, reports anything that disappeared upstream, and lists upstream files that are new and not
+covered by `.pubignore` -- so carrying a new file on this branch stays a decision rather than a
+default. Run it, read what it says, then commit:
+
+```sh
+./sync.sh
+git add -A && git commit && git push
+```
+
+It reads the Unity side through `git.exe`, never through this WSL git, and takes content from the
+object store rather than the Windows working tree. Both reasons are written out at the top of the
+script; they are the difference between a clean run and several hundred files that only look changed.
