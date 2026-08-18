@@ -59,6 +59,12 @@ This repository is the **Unity half**: the executor, the scene, and the MotionKB
 offline pipeline and the runtime service — lives in a separate repository, `animation-agent`, on WSL
 (Ubuntu 24.04, ext4); it moved out on 2026-08-05.
 
+Both halves are readable online at
+[`ZeyangZheng08/Animation`, branch `code`](https://github.com/ZeyangZheng08/Animation/tree/code) — source
+only, published from a third repository that mirrors these two. It carries no 3D assets and uses no LFS,
+so it can be read and diffed anywhere but will not open as a running Unity project. Neither working
+repository is pushed anywhere.
+
 ```
 agent/                        # ★ the MotionKB, all that remains of the agent side here
 ├── kb/                       # ★ body-part-level motion KB: root *.json = v2 ACCEPTED (8, 9-channel, status:accepted);

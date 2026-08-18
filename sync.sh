@@ -22,30 +22,55 @@
 #      pattern matched -- and it is a race, so only some published files get called new.
 set -euo pipefail
 
-UNITY_WIN="F:/Research/AI_agent/Animation/Animation_agent/Project/Animation"
-AGENT="$HOME/Research/animation-agent"
-cd "$(dirname "$0")"
-
 nl="
 "   # a literal newline; the membership tests fence candidates with it
 
+UNITY_WIN="F:/Research/AI_agent/Animation/Animation_agent/Project/Animation"
+UNITY_POSIX="/mnt/f/Research/AI_agent/Animation/Animation_agent/Project/Animation"
+AGENT="$HOME/Research/animation-agent"
+cd "$(dirname "$0")"
+
+# The Unity repository tracks its binaries through LFS, and `git show HEAD:path` on an LFS file returns
+# the POINTER TEXT, not the file. Publishing that would put "version https://git-lfs.github.com/spec/v1"
+# where a PNG belongs -- on a branch whose whole point is carrying no LFS. So the LFS paths are listed
+# once here and read from the Windows working tree instead, where they are already smudged to content.
+# `lfs ls-files -n` is the only safe listing: the default output truncates paths at spaces.
+lfs_paths=$(git.exe -C "$UNITY_WIN" lfs ls-files -n 2>/dev/null | tr -d "")
+lfs_paths="$nl$lfs_paths$nl"
+
 blob() {  # published path -> its current committed content on stdout; non-zero if it is gone
+  # `</dev/null` is load-bearing, not tidiness: this runs inside a `while read` loop, and git.exe
+  # drains the loop's stdin. Without it the loop stops at the first unity/ path -- silently, with a
+  # success exit and a plausible-looking "refreshed N" line. See the count guard after the loop.
   case "$1" in
-    unity/*)           git.exe -C "$UNITY_WIN" show "HEAD:${1#unity/}" 2>/dev/null ;;
-    animation-agent/*) git -C "$AGENT" show "HEAD:${1#animation-agent/}" 2>/dev/null ;;
+    unity/*)
+      rel="${1#unity/}"
+      case "$lfs_paths" in
+        *"$nl$rel$nl"*) cat "$UNITY_POSIX/$rel" 2>/dev/null ;;
+        *)              git.exe -C "$UNITY_WIN" show "HEAD:$rel" 2>/dev/null </dev/null ;;
+      esac ;;
+    animation-agent/*) git -C "$AGENT" show "HEAD:${1#animation-agent/}" 2>/dev/null </dev/null ;;
     *) return 1 ;;    # sync.sh, README.md, .gitattributes are authored here, not mirrored
   esac
 }
 
 tmp=$(mktemp); trap 'rm -f "$tmp"' EXIT
-refreshed=0; missing=()
+expected=$(git ls-files | wc -l)
+seen=0; refreshed=0; missing=()
 while IFS= read -r -d '' f; do
+  seen=$((seen+1))
   case "$f" in unity/*|animation-agent/*) ;; *) continue ;; esac
   if ! blob "$f" > "$tmp"; then missing+=("$f"); continue; fi
   cmp -s "$tmp" "$f" || { cp "$tmp" "$f"; refreshed=$((refreshed+1)); echo "  updated $f"; }
 done < <(git ls-files -z)
 
-echo "refreshed $refreshed file(s)"
+if [ "$seen" -ne "$expected" ]; then
+  echo "ABORT: examined $seen of $expected tracked files -- something consumed the loop's stdin." >&2
+  echo "Whatever this run reported is incomplete. Do not commit it." >&2
+  exit 1
+fi
+
+echo "refreshed $refreshed of $seen file(s)"
 if [ ${#missing[@]} -gt 0 ]; then
   echo
   echo "=== gone upstream, or not committed there (delete by hand if that is intended) ==="

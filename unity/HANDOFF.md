@@ -156,7 +156,8 @@
 > `obj:AspirinBottle` and `Rank()` prefers the one in `CPRNurse`'s hand, so asking Kate to grab the
 > bottle binds her hand to Jill's. Per-character props are a registry change nobody has scoped.
 >
-> **✓ AGENT SIDE SPLIT OUT TO WSL — TWO REPOSITORIES NOW (2026-08-05):** the agent half moved to
+> **✓ AGENT SIDE SPLIT OUT TO WSL — TWO WORKING REPOSITORIES (2026-08-05; a third, the publish mirror,
+> arrived 2026-08-18 — see §1.1 for all three and the rules for working across them):** the agent half moved to
 > **`~/Research/animation-agent`** on WSL (Ubuntu 24.04, `E:\WSL\Ubuntu`, ext4 — not `/mnt`, whose DrvFs is an
 > order of magnitude slower for the stat-heavy work Python imports and `git status` do). **This repo keeps
 > the Unity project *and* the MotionKB**; the split line is "derivative of Unity's animation assets" vs
@@ -433,6 +434,56 @@
   - `Object` is ambiguous → use `UnityEngine.Object.DestroyImmediate(...)`.
   - No top-level statements / class definitions; write a method body directly; you may `return` a string as the result.
   - After editing scripts, use `read_console` to confirm compilation before using new types.
+
+### 1.1 Windows / WSL — where to run what
+
+Three repositories live on two filesystems, and every real bug of 2026-08-18 came from work crossing
+between them rather than from either side on its own. The split is deliberate: what the engine owns is
+on Windows because Unity is a Windows application here, and everything engine-independent is on Linux.
+
+| what | where | whose git |
+|---|---|---|
+| the Unity project, including `agent/kb/` | `F:\...\Project\Animation` | **Windows git** |
+| `animation-agent` — pipeline, agent, runtime service | `~/Research/animation-agent` on WSL ext4 | Linux git |
+| `pub-code` — the publish mirror, branch `code` of `github.com/ZeyangZheng08/Animation` | `~/Research/pub-code` on WSL ext4 | Linux git, and the only one with a remote |
+
+**Default to WSL bash.** Not because the commands are better but because there is one quoting model
+instead of three (PowerShell 5.1 has no `&&`, `Set-Content` defaults to ANSI, Git Bash is POSIX but its
+git is the Windows one). Use the Windows side only for what is bound to the engine: the Unity editor
+over MCP, and Windows git on the Unity worktree.
+
+**Five boundary rules. Each was learned by breaking it.**
+
+1. **Never run WSL git inside `/mnt/f`.** Measured: it calls 812 files dirty at the same moment Windows
+   git reports 0, because autocrlf and the file mode bits differ across DrvFs. From WSL, drive the Unity
+   repo through `git.exe -C "F:/..."` — a Windows path, not `/mnt/f`, which that binary cannot resolve.
+2. **Read Unity-side file content from the object store, not the working tree.** `git show HEAD:path`
+   returns the blob, already normalised to LF and binary-safe. The Windows worktree is checked out CRLF,
+   so a byte comparison against an LF consumer calls every text file different, copies it needlessly and
+   puts CRLF back — the same phantom-`M` that once made `git status` stop working as the drift detector.
+3. **Never copy a worktree across `/mnt/c` or `/mnt/f`.** DrvFs reports every file as mode 755, so the
+   copy arrives with a mode change on every file. Clone instead.
+4. **Select files by extension whitelist, never by subtracting `git lfs ls-files`.** One FBX under
+   `Assets/Animations` has a Unicode apostrophe in its name; `git ls-files` quotes that path and
+   `git lfs ls-files` does not, so the difference of the two lists smuggles it through as a text file.
+   `git lfs ls-files -n` is the only safe listing — the default output also truncates paths at spaces.
+5. **Test list membership with `case`, not `grep -q` down a pipe.** Under `pipefail` the early exit of
+   `grep -q` hands the writing end a SIGPIPE, so the pipeline reports failure even though the pattern
+   matched. It is a race, so it misfires on only some entries and looks like a real finding.
+
+**The measured cost of the one crossing that remains.** The agent reads the KB over 9p via
+`MOTIONKB_DIR=/mnt/f/.../agent/kb`. Same suite, same KB, only the filesystem differs:
+
+| | KB on `/mnt/f` | KB copied to ext4 |
+|---|---|---|
+| suite excluding `tests/test_tools_files.py` | 19.5 s | 10.6 s |
+| `tests/test_tools_files.py` alone | 13.1 s | (skips — it walks the Unity tree by design) |
+
+The 9 s is not really the filesystem: `KBIndex.load()` re-reads the whole KB directory on every call
+with no cache, and 9p multiplies that waste by about 125×. ext4 hides the same defect. **The live path
+is unaffected** — every `KBIndex.load()` call site is a process entry point, so the console loads once
+at startup and never per request. Do not "fix" this by moving the KB: it is a derivative of the Unity
+animation assets and ships in the same commit as the FBX it was measured from.
 
 ---
 

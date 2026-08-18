@@ -48,7 +48,7 @@ animation-agent/
 └── runtime/                  an echo server and a latency probe — how the channel is measured
 ```
 
-## The two repositories
+## The repositories
 
 | this repo (WSL, ext4) | the Unity repo (Windows, `F:\...\Animation`) |
 |---|---|
@@ -59,6 +59,13 @@ The KB is not here on purpose. It cannot be regenerated without Unity — `_raw/
 imported into that project. It is a derivative of those animation assets, so it is versioned with them:
 adding an action is then one atomic commit containing both the FBX and its KB entry, and a guid can never
 drift out of sync with the store that records it.
+
+A third repository, `~/Research/pub-code`, mirrors both of these to
+[`ZeyangZheng08/Animation`, branch `code`](https://github.com/ZeyangZheng08/Animation/tree/code): source
+only, no 3D assets, no LFS. Neither working repository is pushed anywhere and neither can be — their
+history is full of LFS pointers. The mirror is one-way and downstream: its `sync.sh` copies committed
+content out of these two, so anything edited there is overwritten on the next run. Publishing a change
+means committing it here first.
 
 Reach it through `MOTIONKB_DIR` (see `paths.py` for the default):
 
