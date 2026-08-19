@@ -56,6 +56,30 @@ class TurnDone:
         return "TurnDone(%d tool call(s), status=%s)" % (len(self.tool_calls), self.status)
 
 
+# HOW LONG THE MODEL MAY TAKE, per stretch of not answering.
+#
+# NOT A TURN BUDGET. The clock runs only while something is waiting on the model — a response in
+# flight, a message going out. Every delta, tool call and completed response resets it, and the
+# seconds a tool spends walking the character across the room are not on it at all.
+#
+# TWENTY, BECAUSE THIS IS AN INTERACTION LOOP. The first version of this was 180 s, chosen to be safe
+# against one measured turn that spent over 100 s inside a single response and then completed
+# correctly. That reasoning was wrong for this product: a response that takes a hundred seconds has
+# already failed the interaction, whatever it eventually returns. The user says so plainly — the
+# system is supposed to answer in seconds — and a bound that only fires after three minutes is a
+# bound nobody is protected by.
+#
+# The healthy numbers say twenty is not tight. Measured across turns on this setup: 2.4 s, 4.1 s,
+# 5.7 s, 6.8 s and 9.3 s of deciding, spread over four to seven iterations each — so a single response
+# lands between one and three seconds. Twenty is roughly eight times the worst healthy one and a fifth
+# of the pathological one, which is as clean a gap as this corpus offers.
+#
+# What it converts is a hang into a sentence. The turn that prompted it emitted nothing at all, wrote
+# no trace line, could not be reached by /stop, and had to be killed along with the service — while
+# the socket to the model sat ESTABLISHED and idle, answering pings, simply never replying.
+DEFAULT_SILENCE_S = 20.0
+
+
 class LlmError(RuntimeError):
     """The backend failed. Fatal to the turn; the session may or may not survive."""
 

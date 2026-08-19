@@ -2,7 +2,7 @@
 digest.py — one tool call, as the line a person reads.
 
 A turn used to show as a column of bare tool names. That says the agent is alive and nothing else:
-`scene_find` four times in a row looks identical whether it is narrowing on a chair or asking the same
+`scene_search` four times over looks identical whether it is narrowing on a chair or asking the same
 question with a different typo, and the run that spent an iteration re-searching a list it already had
 looked exactly like the run that did not. What a person watching needs is which call, against what, and
 what came back.
@@ -52,12 +52,10 @@ def describe(name, arguments):
     if name == "kb_transition":
         return _clip("%s → %s" % (arguments.get("from_action"), arguments.get("to_action")))
 
-    if name == "scene_find":
-        wanted = [v for k, v in sorted(arguments.items())
-                  if k != "limit" and isinstance(v, str) and v.strip()]
-        return _clip(_names(wanted) or "the whole room")
-    if name in ("scene_describe", "scene_position"):
-        return _clip(_names(arguments.get("object_ids") or [arguments.get("object_id")]))
+    if name == "scene_search":
+        return _clip((arguments.get("query") or "").strip() or "the whole room")
+    if name == "scene_query":
+        return _clip(_names(arguments.get("object_ids") or []))
     if name == "move_to":
         out = str(arguments.get("destination") or "")
         if arguments.get("face"):
@@ -107,15 +105,15 @@ def summarise(name, result):
         return _clip("%s%s" % (result.get("class") or "",
                                "" if joinable is not False else ", must be generated"))
 
-    if name in ("scene_find", "scene_position"):
-        count = result.get("count")
-        if count is None:
-            count = len(result.get("objects") or [])
-        return "%d object%s" % (count, "" if count == 1 else "s")
-    if name == "scene_describe":
-        return _clip(result.get("label") or result.get("object_id") or "")
-    if name == "scene_anchors":
-        return "%d anchors" % len(result.get("anchors") or [])
+    if name == "scene_search":
+        found = result.get("results") or []
+        return _names([r.get("label") or r.get("id") for r in found]) or "nothing matched"
+    if name == "scene_query":
+        objects = result.get("objects") or []
+        here = [o for o in objects if o.get("exists") and not o.get("needs_walking")]
+        if not objects:
+            return ""
+        return _clip("%d of %d within reach" % (len(here), len(objects)))
     if name == "move_to":
         if not result.get("arrived"):
             return _clip(result.get("note") or "not there yet")

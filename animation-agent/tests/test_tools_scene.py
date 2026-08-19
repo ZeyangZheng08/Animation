@@ -1,9 +1,10 @@
 """Scene and plan tools against the fake engine.
 
-The load-bearing assertion is that the plan tool has nowhere for a number to ENTER. Coordinates now
-come back out of scene_position, deliberately, because deciding whether to walk before sitting needs
-them — but the direction that matters for the architecture is the other one: the model reads measured
-numbers and never writes motion ones.
+The load-bearing assertion is that the plan tool has nowhere for a number to ENTER, and that the scene
+tools have nowhere for one to LEAVE. `scene_search` answers which thing; `scene_query` answers what it
+is to her right now. Neither emits a coordinate, a distance or a surface height — those still exist and
+are still measured, they simply stop passing through the model on their way to the solver that uses
+them.
 """
 import pytest
 
@@ -25,6 +26,10 @@ OBJECTS = {
                           "category": "device", "aliases": [], "held_by": None, "reachable": True},
     # The other end of half this library. `cpr`, `check_pulse` and `bvm` all reach for a person, and
     # until a plan could ask to hold two things at once nothing needed to resolve which person.
+    # The nurse the tools drive. She is not in the object registry -- the executor answers for her out
+    # of its own list -- but she comes back from a search, which is how her id becomes findable at all.
+    "chr:CPRNurse": {"id": "chr:CPRNurse", "name": "CPRNurse", "category": "character",
+                     "aliases": [], "held_by": None, "reachable": True, "drivable": True},
     "obj:Patient": {"id": "obj:Patient", "name": "Patient", "category": "character",
                     "aliases": ["patient_chest", "patient_wrist", "patient"], "held_by": None,
                     "reachable": True, "carriable": False},
@@ -40,12 +45,66 @@ OBJECTS = {
 }
 
 
+# GameObjects nobody annotated. The real registry is about 30 hand-reviewed entries out of 600, so a
+# name outside it has to come back as "there, but nothing is known about it" rather than as absence.
+RAW_SCENE = ["Curtain Rail", "IV Stand"]
+
 # What the engine says she is doing when asked. Mutated by the tests that care; the default is the
 # state every other test was written against, where nothing is playing.
 STANDING = {"playing": None, "going": False}
 
+# Whether the destination is somewhere she has to walk to. Flipped by the tests about what a plan
+# opens on: a walk of zero length plays nothing, so the plan after it departs from whatever she is
+# already doing rather than from a walk cycle she never performed.
+ROUTE = {"already_there": False}
 
-def handlers(record, moves=None):
+
+def committed(submitted):
+    """The plans that actually played. Since v4 every commit is preceded by the same plan sent as
+    `validate` — that pair IS the fence — so a test about what played filters to this side of it."""
+    return [s for s in submitted if isinstance(s, dict) and s.get("mode") == "commit"]
+
+
+def checked(submitted):
+    """And the other side: the plans that ran on the hidden copy before anything moved."""
+    return [s for s in submitted if isinstance(s, dict) and s.get("mode") == "validate"]
+
+
+def same_plan(a, b):
+    """Whether two requests carry the same compiled plan. `mode` is the one word that differs by
+    design, and `at` is where the hidden copy was stood — the projected arrival of a walk that has
+    not happened yet, which by definition has no counterpart on the commit."""
+    keys = ("mode", "at")
+    return ({k: v for k, v in a.items() if k not in keys}
+            == {k: v for k, v in b.items() if k not in keys})
+
+
+def fenced(submitted):
+    """Each committed plan paired with the check that preceded it, as (probe, played). Raises if any
+    commit has no matching check before it — which is the whole invariant."""
+    pairs = []
+    for index, entry in enumerate(submitted):
+        if not isinstance(entry, dict) or entry.get("mode") != "commit":
+            continue
+        probe = next((p for p in reversed(submitted[:index])
+                      if isinstance(p, dict) and p.get("mode") == "validate"
+                      and same_plan(p, entry)), None)
+        assert probe is not None, "a plan played without being checked first: %r" % (entry,)
+        pairs.append((probe, entry))
+    return pairs
+
+
+# What the executor answers a `validate` with when the plan is sound: the same metric shapes the
+# runtime gate reports, measured on a hidden duplicate before anything visible has moved. A stand-in
+# that simply passed everything would hide the fence rather than model it, so the tests that are about
+# a refusal install `refusing_handlers` below instead.
+def passing_verdict(params):
+    return {"status": "pass",
+            "checked": ["ground_penetration", "foot_skate", "contact_reached:right_hand"],
+            "samples": 61, "seconds_simulated": 2.0, "failures": [], "metrics": []}
+
+
+def handlers(record, moves=None, verdict=passing_verdict):
     def find(params):
         alias = params.get("alias")
         name = (params.get("name_contains") or "").lower()
@@ -54,6 +113,12 @@ def handlers(record, moves=None):
                if (not alias or alias in o["aliases"])
                and (not name or name in o["name"].lower())
                and (not category or category == o["category"])]
+        # The engine's own last resort: a bare name that the annotated registry does not know is
+        # looked up against raw GameObject names. Modelled here because the note the agent attaches to
+        # those hits — nothing is known beyond that it exists — is the thing under test.
+        if not out and name and not alias and not category:
+            out = [{"id": "scene:" + raw.replace(" ", ""), "name": raw, "source": "scene"}
+                   for raw in RAW_SCENE if name in raw.lower()]
         return {"objects": out}
 
     def describe(params):
@@ -64,6 +129,11 @@ def handlers(record, moves=None):
 
     def assemble(params):
         record.append(params)
+        # v4: the same compiled plan arrives twice, once to be checked out of sight and once to play.
+        # Both are recorded, because "was it checked before it played" is a fact about the order of
+        # these calls and the tests assert on it.
+        if params.get("mode") == "validate":
+            return verdict(params)
         return {"plan_id": "pl_1", "accepted": True, "start_play_latency_ms": 31}
 
     def position(params):
@@ -90,6 +160,20 @@ def handlers(record, moves=None):
     def locomote(params):
         if moves is not None:
             moves.append(params)
+        if params.get("preview"):
+            # Where the walk WOULD put her. Answers and moves nothing, which is the whole reason the
+            # message exists: the motion that follows the walk is judged at this point before she
+            # takes a step towards it.
+            if params.get("to") not in OBJECTS:
+                return {"preview": True, "reachable": False,
+                        "why": "nothing called %s" % params.get("to")}
+            if ROUTE["already_there"]:
+                return {"preview": True, "reachable": True, "arrived": True,
+                        "path_length_m": 0.0, "eta_s": 0.0,
+                        "arrival": [0.0, 0.0, 0.0], "facing_deg": 42.0}
+            return {"preview": True, "reachable": True, "arrived": False,
+                    "path_length_m": 1.08, "eta_s": 0.72,
+                    "arrival": [0.9, 0.0, -1.7], "facing_deg": 42.0}
         if params.get("face_only"):
             return dict({"arrived": True, "turning": False, "remaining_m": 0.0}, **STANDING)
         if params.get("query"):
@@ -99,6 +183,9 @@ def handlers(record, moves=None):
             return dict({"arrived": True, "turning": False, "remaining_m": 0.0}, **STANDING)
         if params.get("to") not in OBJECTS:
             raise FakeEngineError(P.E.NOT_FOUND, "nothing called %s" % params.get("to"))
+        if ROUTE["already_there"]:
+            return {"going": False, "arrived": True, "path_length_m": 0.0, "eta_s": 0.0,
+                    "remaining_m": 0.0}
         return {"going": True, "arrived": False, "path_length_m": 1.08, "eta_s": 0.72,
                 "remaining_m": 1.08}
 
@@ -120,33 +207,141 @@ async def wired(unused_tcp_port, kb):
     async with EngineLink("127.0.0.1", unused_tcp_port, request_timeout=2.0) as link:
         # The hello names its characters, as the real executor's does. Tools default to the only one.
         async with FakeEngine("ws://127.0.0.1:%d" % unused_tcp_port, handlers(submitted),
-                              hello={"scene": "TestScene", "characters": ["chr:CPRNurse"]}):
+                              hello={"scene": "TestScene", "characters": ["chr:CPRNurse"],
+                                     "character_names": {"chr:CPRNurse": "Jill"}}):
             await link.wait_ready(timeout=2)
             registry = kb_tools.register(ToolRegistry(), kb)
             scene_tools.register(registry, link, kb)
             yield registry, submitted
 
 
+async def test_a_character_is_found_by_the_name_a_person_says(wired):
+    """The regression this exists for, measured on a live turn: asked to drive Jill, the model
+    searched the scene, got back CPRNurse / EKGNurse / AirwayNurse, and replied that there was no
+    character called Jill -- about a scene she was standing in. `_who` had always accepted the name;
+    the search result was where there was nowhere to learn it.
+
+    The spoken name lives in the executor's handshake, not in the object registry, so it is merged in
+    here. All three spellings resolve, which is what `_who` already did with whatever it was given.
+    """
+    registry, _ = wired
+    out = await registry.dispatch("scene_search", {"query": "nurse"})
+    hit = [r for r in out["results"] if r["id"] == "chr:CPRNurse"]
+    assert hit, "the character has to come back from a search at all"
+    assert hit[0]["label"] == "Jill", "the label is the name a person says"
+    assert "CPRNurse" in hit[0]["aliases"], "and the scene's own spelling stays reachable"
+
+    listed = await registry.dispatch("scene_search", {})
+    assert "Jill" in repr(listed), "a bare listing has to name her too"
+
+
 async def test_alias_bridges_the_motion_library_to_the_scene(wired):
     """The KB says a motion touches `aspirin_bottle`; the scene has an object called `Aspirin Bottle`.
     The alias is what joins them, and it is why a motion can be grounded at all."""
     registry, _ = wired
-    out = await registry.dispatch("scene_find", {"alias": "aspirin_bottle"})
-    assert out["objects"][0]["id"] == "obj:AspirinBottle"
+    out = await registry.dispatch("scene_search", {"query": "aspirin_bottle"})
+    assert out["results"][0]["id"] == "obj:AspirinBottle"
+    assert "aspirin_bottle" in out["results"][0]["aliases"]
 
 
-async def test_scene_replies_carry_no_coordinates(wired):
+async def test_a_word_for_the_thing_finds_it_by_name(wired):
     registry, _ = wired
-    out = await registry.dispatch("scene_describe", {"object_id": "obj:AspirinBottle"})
-    for banned in ("position", "rotation", "scale", "bounds", "distance", "meters"):
-        assert banned not in repr(out).lower()
+    out = await registry.dispatch("scene_search", {"query": "chair"})
+    assert [r["id"] for r in out["results"]] == ["obj:Chair"]
 
 
-async def test_unknown_object_is_recoverable(wired):
+async def test_a_word_for_the_thing_finds_it_by_alias(wired):
+    """"Stool" is not this object's name; it is one of the names it answers to. The search that only
+    matched labels sent an agent looking for furniture five times and it concluded there was no seat."""
     registry, _ = wired
-    out = await registry.dispatch("scene_describe", {"object_id": "obj:Nope"})
-    assert out["success"] is False
-    assert "scene_find" in out["hint"]
+    out = await registry.dispatch("scene_search", {"query": "stool"})
+    assert [r["id"] for r in out["results"]] == ["obj:Chair"]
+
+
+async def test_a_place_is_searched_for_like_a_thing(wired):
+    """An anchor IS an entity here, so it comes back from the same call. It used to need a tool of its
+    own, which made "walk to the bedside" a two-call question whose first call had no prompt."""
+    registry, _ = wired
+    out = await registry.dispatch("scene_search", {"query": "bedside"})
+    assert [r["id"] for r in out["results"]] == ["anchor:Bedside"]
+
+
+async def test_a_bare_search_lists_the_whole_room(wired):
+    """The cheapest correct answer to "is there a chair". Absence is read off this list rather than
+    inferred from repeated misses."""
+    registry, _ = wired
+    out = await registry.dispatch("scene_search", {})
+    ids = {r["id"] for r in out["results"]}
+    assert {"obj:Chair", "obj:Laptop", "obj:Patient"} <= ids
+    assert {"anchor:Bedside", "anchor:MonitorStation"} <= ids
+    assert out["count"] == len(ids)
+    assert "annotated" in out["note"]
+
+
+async def test_search_returns_identity_and_nothing_else(wired):
+    """The whole point of the collapse. Category, carriability, per-hand anchors, surface heights and
+    metres are facts the deterministic backend consumes; handing them to the model only invited it to
+    plan around capabilities the executor validates anyway."""
+    registry, _ = wired
+    out = await registry.dispatch("scene_search", {})
+    for hit in out["results"]:
+        assert set(hit) == {"id", "label", "aliases"}
+    text = repr(out).lower()
+    for banned in ("category", "carriable", "two_handed", "surface", "position", "distance",
+                   "bounds", "reachable"):
+        assert banned not in text
+
+
+async def test_an_unannotated_object_comes_back_without_invented_aliases(wired):
+    """It is there and nothing else is known about it. Saying so is what stops a plan being built on
+    an affordance nobody authored."""
+    registry, _ = wired
+    out = await registry.dispatch("scene_search", {"query": "curtain"})
+    assert out["results"][0]["id"] == "scene:CurtainRail"
+    assert out["results"][0]["aliases"] == []
+    assert "raw name" in out["note"]
+
+
+async def test_nothing_by_that_name_is_said_plainly(wired):
+    registry, _ = wired
+    out = await registry.dispatch("scene_search", {"query": "defibrillator"})
+    assert out["success"] and out["results"] == [] and out["count"] == 0
+    assert "no query" in out["note"]
+
+
+async def test_query_answers_the_relation_not_the_geometry(wired):
+    registry, _ = wired
+    out = await registry.dispatch("scene_query", {"object_ids": ["obj:Chair"],
+                                                  "relative_to": "chr:CPRNurse"})
+    assert out["success"]
+    item = out["objects"][0]
+    assert item == {"id": "obj:Chair", "exists": True, "within_arms_reach": False,
+                    "needs_walking": True, "held_by": None}
+    assert out["relative_to"] == "chr:CPRNurse"
+
+
+async def test_query_defaults_to_the_only_character(wired):
+    """Same reason every other tool resolves a character rather than demanding one: there is no
+    ambiguity to protect where there is one person."""
+    registry, _ = wired
+    out = await registry.dispatch("scene_query", {"object_ids": ["obj:Chair"]})
+    assert out["objects"][0]["needs_walking"] is True
+
+
+async def test_query_carries_no_numbers(wired):
+    registry, _ = wired
+    out = await registry.dispatch("scene_query", {"object_ids": ["obj:Chair", "obj:Laptop"]})
+    text = repr(out).lower()
+    for banned in ("position", "distance", "surface", "bearing", "height", "metre", "meter"):
+        assert banned not in text
+
+
+async def test_query_says_which_ids_do_not_exist(wired):
+    registry, _ = wired
+    out = await registry.dispatch("scene_query", {"object_ids": ["obj:Nope"]})
+    assert out["success"]
+    assert out["objects"][0] == {"id": "obj:Nope", "exists": False}
+    assert "scene_search" in out["note"]
 
 
 async def test_plan_derives_the_partition_and_sends_it_to_the_engine(wired):
@@ -193,31 +388,25 @@ async def test_the_plan_tool_has_nowhere_for_a_number_to_enter(wired):
     assert types <= {"string", "boolean"}, types
 
 
-async def test_scene_position_returns_measurements_the_model_can_reason_about(wired):
-    """The reversal, stated as a test: coordinates DO come back now. What matters is the direction —
-    the model reads them, and the test above proves it still cannot write any."""
-    registry, _ = wired
-    out = await registry.dispatch("scene_position", {"object_ids": ["obj:AspirinBottle"],
-                                                     "relative_to": "chr:CPRNurse"})
+async def test_a_seat_still_lands_on_a_measured_surface(wired):
+    """The height did not stop existing when it stopped being shown. The deterministic side still
+    reads it — this is the number the generated descent aims the pelvis at — and the model never sees
+    it. That split IS the architecture, and it is what makes removing the numbers from the tool
+    surface a simplification rather than a loss."""
+    registry, submitted = wired
+    out = await registry.dispatch("plan_motion", {
+        "base": "walking", "then": [{"base": "typing"}], "sit_on": "obj:Chair"})
     assert out["success"]
-    item = out["objects"][0]
-    assert item["found"] is True and len(item["position"]) == 3
-    assert item["from_character"]["needs_walking"] is True
+    generated = [s for s in submitted[-1]["steps"] if s.get("generated")]
+    assert generated[0]["generated"]["support_surface_m"] == pytest.approx(0.4054)
 
-
-async def test_scene_position_names_the_ids_it_could_not_find(wired):
-    registry, _ = wired
-    out = await registry.dispatch("scene_position", {"object_ids": ["obj:Nope"]})
-    assert out["success"]
-    assert out["objects"][0]["found"] is False
-    assert "scene_find" in out["note"]
-
-
-async def test_a_seat_reports_the_height_of_its_surface(wired):
-    """A generated sit lands on a measured surface, not an assumed one."""
-    registry, _ = wired
-    out = await registry.dispatch("scene_position", {"object_ids": ["obj:Chair"]})
-    assert out["objects"][0]["surface_height_m"] == pytest.approx(0.4054)
+    # And it is no longer something the model can ASK for. `plan_motion` still echoes the descent it
+    # generated, numbers and all — a separate surface, and out of this change's scope. What is closed
+    # here is the route by which a height was fetched and then reasoned with.
+    asked = await registry.dispatch("scene_query", {"object_ids": ["obj:Chair"]})
+    assert "0.4054" not in repr(asked)
+    searched = await registry.dispatch("scene_search", {"query": "chair"})
+    assert "0.4054" not in repr(searched)
 
 
 async def test_move_to_waits_until_she_has_arrived(wired):
@@ -245,7 +434,7 @@ async def test_a_seated_action_with_nothing_to_sit_on_is_refused(wired):
     out = await registry.dispatch("plan_motion", {"character": "chr:CPRNurse", "base": "typing"})
     assert out["success"] is False
     assert "nothing was named to sit on" in out["error"]
-    assert "scene_find" in out["hint"]
+    assert "scene_search" in out["hint"]
     assert len(submitted) == before, "it should be refused before the engine is asked to play anything"
 
 
@@ -361,9 +550,11 @@ async def test_walking_to_somewhere_plays_the_walk(wired):
     registry, submitted = wired
     out = await registry.dispatch("move_to", {"character": "chr:CPRNurse", "destination": "obj:Chair"})
     assert out["success"] and out["arrived"] is True
-    played = [s["steps"][0]["action_id"] for s in submitted]
+    played = [s["steps"][0]["action_id"] for s in committed(submitted)]
     assert played == ["walking", "idle"], "walk while going, stop walking once there"
-    assert all(s["mode"] == "commit" for s in submitted)
+    # And each of them was run on the hidden copy first: two plays, two checks, in that order.
+    assert [s["steps"][0]["action_id"] for s in checked(submitted)] == ["walking", "idle"]
+    assert [s["mode"] for s in submitted] == ["validate", "commit", "validate", "commit"]
 
 
 async def test_every_step_tells_the_engine_what_posture_it_is_in(wired):
@@ -392,7 +583,7 @@ async def test_a_committed_generated_plan_schedules_its_own_verification(wired):
     assert verify["tool"] == "check_motion"
     assert verify["arguments"] == {"character": "chr:CPRNurse"}
     assert "obj:Chair" in verify["confirms"]
-    assert "do not say she is seated" in verify["note"]
+    assert "Say she is sitting down" in verify["note"]
 
 
 async def test_a_dry_run_schedules_nothing(wired):
@@ -490,40 +681,34 @@ async def test_scene_tools_degrade_when_the_engine_is_absent(kb, unused_tcp_port
     """The demo must still answer from the motion library when Unity is not running."""
     async with EngineLink("127.0.0.1", unused_tcp_port, request_timeout=0.5) as link:
         registry = scene_tools.register(kb_tools.register(ToolRegistry(), kb), link, kb)
-        out = await registry.dispatch("scene_find", {"category": "device"})
+        out = await registry.dispatch("scene_search", {"query": "monitor"})
         assert out["success"] is False
         assert "not connected" in out["error"]
         assert "motion library" in out["hint"]
 
 
-# ---- blank clauses are not constraints ---------------------------------------------------------
+# ---- there is no longer a clause to fill in wrongly ---------------------------------------------
 
-async def test_blank_clauses_are_dropped_before_they_reach_the_engine():
-    """The defect that hid a chair in plain sight.
+async def test_there_is_nothing_left_to_guess_at(wired):
+    """The defect that hid a chair in plain sight, closed structurally rather than defended against.
 
-    A model fills in every field a schema offers, so `reachable_by: {"character": ""}` arrives on a
-    search that never meant to constrain anything. Engine-side, a blank character id resolved to the
-    driven character — which is the right default for a tool that needs an actor, and catastrophic for
-    a filter: it turned an unconstrained search into "within arm's reach right now", and the chair was
-    across the room. Ten scene_find calls in one turn, every one empty, and the agent concluded the
-    room had no chair.
+    A model fills in every field a schema offers, so `reachable_by: {"character": ""}` used to arrive
+    on a search that never meant to constrain anything. Engine-side a blank character resolved to the
+    driven character — right for a tool that needs an actor, catastrophic as a filter: it turned an
+    unconstrained search into "within arm's reach right now", and the chair was across the room. Ten
+    calls in one turn, every one empty, and the agent concluded the room had no chair. The fix was a
+    guard; this is the same defect with the field removed instead.
     """
-    from agent.tools.scene import _asked_for
+    from agent.tools.scene import SEARCH_PARAMS
 
-    assert _asked_for("category", "seating") is True
-    assert _asked_for("category", "") is False
-    assert _asked_for("category", "   ") is False
-    assert _asked_for("name_contains", None) is False
+    assert set(SEARCH_PARAMS["properties"]) == {"query", "limit"}
+    assert SEARCH_PARAMS["additionalProperties"] is False
 
-    # The two clauses that carry a subject: a radius with nothing to be near, and an effector with
-    # nobody to reach, are defaults rather than requests.
-    assert _asked_for("near", {"object_id": "", "radius": "same_room"}) is False
-    assert _asked_for("near", {"object_id": "obj:Chair", "radius": "same_room"}) is True
-    assert _asked_for("reachable_by", {"character": "", "effector": "either"}) is False
-    assert _asked_for("reachable_by", {"character": "chr:CPRNurse", "effector": "either"}) is True
-
-    assert _asked_for("carry", []) is False
-    assert _asked_for("limit", 10) is True
+    registry, _ = wired
+    # A word that means nothing here is a miss, not a filter that silently empties the room.
+    out = await registry.dispatch("scene_search", {"query": "seating"})
+    assert out["success"] and out["count"] == 0
+    assert "no query" in out["note"]
 
 
 async def test_a_surface_she_would_end_up_under_is_refused_as_a_seat(wired):
@@ -537,7 +722,7 @@ async def test_a_surface_she_would_end_up_under_is_refused_as_a_seat(wired):
 
     assert out["success"] is False
     assert "underneath it" in out["error"]
-    assert "seating" in out["hint"]
+    assert "scene_search" in out["hint"]
 
 
 async def test_a_real_seat_is_still_a_seat(wired):
@@ -583,11 +768,17 @@ async def test_a_walk_that_only_opens_a_sit_becomes_what_she_is_already_doing(wi
     FROM; `idle` serves as well and is what she is actually doing."""
     registry, submitted = wired
     STANDING["playing"] = "idle"
+    # SHE IS ALREADY THERE, which is the situation the docstring describes and which the stand-in used
+    # to model by accident. `sit_on` names somewhere to walk, so the plan previews a route; a route of
+    # zero length plays no walk, and the opener therefore has to come from what she is doing rather
+    # than from the walk that is not going to happen.
+    ROUTE["already_there"] = True
     try:
         out = await registry.dispatch("plan_motion", {
             "base": "walking", "then": [{"base": "typing"}], "sit_on": "obj:Chair"})
     finally:
         STANDING["playing"] = None
+        ROUTE["already_there"] = False
 
     assert out["success"] is True
     assert out["opened_on"] == {"asked_for": "walking", "played": "idle",
@@ -711,7 +902,7 @@ async def test_walking_to_the_seat_leaves_no_standstill_in_between(walked):
         "sit_on": "obj:Chair"})
 
     assert out["success"] is True
-    played = [s["steps"][0]["action_id"] for s in submitted]
+    played = [s["steps"][0]["action_id"] for s in committed(submitted)]
     assert "idle" not in played, "she must not be parked in idle between arriving and sitting"
     assert played == ["walking", "walking"], "the travel clip, then the plan that opens on it"
     assert [s["action_id"] for s in submitted[-1]["steps"]] == ["walking", "typing"]
@@ -805,8 +996,11 @@ async def test_naming_a_seat_is_naming_somewhere_to_walk(walked):
 
     assert out["success"] is True
     assert out["walked"]["destination"] == "obj:Chair", "no walk_to was passed; the seat is the place"
-    assert [s["steps"][0]["action_id"] for s in submitted] == ["walking", "walking"]
-    assert [m["stop_within_m"] for m in moves if "stop_within_m" in m] == [0.08], "right at the seat"
+    assert [s["steps"][0]["action_id"] for s in committed(submitted)] == ["walking", "walking"]
+    # Twice, and they have to agree: the route is previewed at the stopping distance the walk will
+    # then use, or the hidden copy is checked somewhere the real one never stands.
+    assert [m["stop_within_m"] for m in moves if "stop_within_m" in m] == [0.08, 0.08], \
+        "right at the seat, previewed and then walked"
 
 
 async def test_an_action_cannot_fight_itself(wired):
@@ -1118,3 +1312,143 @@ async def test_one_character_still_answers_to_anything(wired):
     registry, submitted = wired
     await registry.dispatch("plan_motion", {"base": "cpr", "character": "nurse", "mode": "commit"})
     assert submitted[-1]["character"] == "chr:CPRNurse"
+
+
+# ---- nothing visible happens until the plan has been checked -------------------------------------
+
+def refusing_handlers(record, moves=None, reason="pelvis_outside_support", metric="seated_on_support"):
+    """An engine whose pre-execution check says no. The failure is structured — which metric, on what,
+    and why — because "it failed" leaves the model rewriting arguments at random."""
+    def verdict(params):
+        return {"status": "fail", "checked": [metric], "samples": 61, "seconds_simulated": 2.0,
+                "failures": [{"metric": metric, "object_id": "obj:Chair", "reason": reason}],
+                "metrics": []}
+    return handlers(record, moves, verdict=verdict)
+
+
+@pytest.fixture
+async def refusing(unused_tcp_port, kb):
+    submitted, moves = [], []
+    async with EngineLink("127.0.0.1", unused_tcp_port, request_timeout=2.0) as link:
+        async with FakeEngine("ws://127.0.0.1:%d" % unused_tcp_port,
+                              refusing_handlers(submitted, moves),
+                              hello={"scene": "TestScene", "characters": ["chr:CPRNurse"]}):
+            await link.wait_ready(timeout=2)
+            registry = kb_tools.register(ToolRegistry(), kb)
+            scene_tools.register(registry, link, kb)
+            yield registry, submitted, moves
+
+
+async def test_a_plan_that_fails_the_check_never_plays(refusing):
+    """The rule this whole path exists for. A candidate that does not work must not reach the visible
+    character at all — not as a pose, and not as a walk across the room to find out."""
+    registry, submitted, moves = refusing
+    out = await registry.dispatch("plan_motion", {
+        "base": "walking", "then": [{"base": "typing"}], "sit_on": "obj:Chair"})
+
+    assert out["success"] is False
+    assert committed(submitted) == [], "nothing may play once the check has failed"
+    assert checked(submitted), "and the check has to have actually run"
+    assert not [m for m in moves if not m.get("preview") and not m.get("query")], \
+        "she must not have been walked anywhere either"
+
+
+async def test_a_refusal_names_what_to_change(refusing):
+    """Not "it failed". Which check, on what, and which of the four things to change — the motion, the
+    target, the composition, the route. A failure that does not point at one of those sends the model
+    rewriting arguments that were already right."""
+    registry, _, _ = refusing
+    out = await registry.dispatch("plan_motion", {
+        "base": "walking", "then": [{"base": "typing"}], "sit_on": "obj:Chair"})
+
+    assert "seated_on_support" in out["error"] and "obj:Chair" in out["error"]
+    assert "nothing was played and nothing moved" in out["hint"]
+    assert "sit does not land on the seat" in out["hint"]
+
+
+async def test_the_plan_that_was_checked_is_the_plan_that_plays(wired):
+    """One compile, two sends, the same bytes. Deriving the plan again between the check and the play
+    would reintroduce exactly the gap this closes: the verdict would be about a plan that no longer
+    describes what is about to happen."""
+    registry, submitted = wired
+    out = await registry.dispatch("plan_motion", {
+        "base": "walking", "then": [{"base": "typing"}], "sit_on": "obj:Chair"})
+
+    assert out["success"]
+    pairs = fenced(submitted)
+    assert len(pairs) == len(committed(submitted)) == 2, "the walk and the plan, each checked"
+    assert out["validated"]["status"] == "pass"
+
+
+async def test_the_check_runs_where_the_walk_will_leave_her(walked):
+    """A motion checked where she stands is a motion checked in the wrong place: a sit judged from
+    across the room lands nowhere, correctly, about a plan that would have worked. So the route is
+    projected first and the hidden copy is stood at the arrival."""
+    registry, submitted, moves = walked
+    out = await registry.dispatch("plan_motion", {
+        "base": "walking", "walk_to": "obj:Chair", "then": [{"base": "typing"}],
+        "sit_on": "obj:Chair"})
+
+    assert out["success"]
+    assert [m for m in moves if m.get("preview")], "the route has to be previewed, not walked"
+    probe = fenced(submitted)[-1][0]
+    assert probe["at"] == {"position": [0.9, 0.0, -1.7], "facing_deg": 42.0}
+
+
+async def test_the_route_is_previewed_before_she_takes_a_step(walked):
+    """The preview comes first and the walk comes after the verdict. Reading the order off the
+    engine's own record, because "before" is the entire claim."""
+    registry, submitted, moves = walked
+    await registry.dispatch("plan_motion", {
+        "base": "walking", "walk_to": "obj:Chair", "then": [{"base": "typing"}],
+        "sit_on": "obj:Chair"})
+
+    kinds = [("preview" if m.get("preview") else "walk") for m in moves
+             if m.get("to") is not None]
+    assert kinds and kinds[0] == "preview"
+    assert "walk" in kinds
+
+
+async def test_somewhere_she_cannot_get_to_is_refused_before_she_moves(walked):
+    """This used to be found by walking at it until a timeout, which is a failed plan the viewer
+    watches. The route is computed first now, so an unreachable destination costs nothing visible."""
+    registry, submitted, moves = walked
+    out = await registry.dispatch("plan_motion", {
+        "base": "walking", "walk_to": "obj:Nope", "then": [{"base": "typing"}],
+        "sit_on": "obj:Chair"})
+
+    assert out["success"] is False
+    assert "cannot get to" in out["error"] and "nothing has moved" in out["hint"]
+    assert committed(submitted) == []
+    assert not [m for m in moves if not m.get("preview") and not m.get("query")]
+
+
+async def test_the_walk_itself_is_checked_before_it_starts(walked):
+    """"Walk over holding the bottle out" is a composed motion that plays DURING the crossing, so it
+    is a plan in its own right and it is checked in its own right — before the first step, not after
+    the last."""
+    registry, submitted, moves = walked
+    out = await registry.dispatch("plan_motion", {
+        "base": "walking", "overlays": ["grab_bottle"], "walk_to": "obj:Chair"})
+
+    assert out["success"]
+    probes = checked(submitted)
+    assert probes, "the walk-with-overlay plan has to be checked"
+    assert probes[0]["steps"][0]["action_id"] == "walking"
+    assert {layer["action_id"] for layer in probes[0]["steps"][0]["layers"]} == {"walking",
+                                                                                "grab_bottle"}
+    # And it was checked before she set off, not re-checked from inside the walk.
+    assert [s["steps"][0]["action_id"] for s in committed(submitted)].count("walking") == 1
+
+
+async def test_getting_up_goes_through_the_same_fence(seated):
+    """The rise is the one plan this file decides on by itself — the model asked for what came after —
+    so a rise that lands badly is a failure nobody would have predicted from the request."""
+    registry, timeline = seated
+    out = await registry.dispatch("plan_motion", {"base": "idle"})
+
+    assert out["success"]
+    plans = [e for e in timeline if isinstance(e, dict) and e.get("steps")]
+    rise = [e for e in plans if [s["action_id"] for s in e["steps"]] == ["typing", "idle"]]
+    assert [e["mode"] for e in rise] == ["validate", "commit"], \
+        "the rise nobody asked for is checked like everything else"

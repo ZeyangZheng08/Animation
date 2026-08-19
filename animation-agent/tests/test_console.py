@@ -298,3 +298,60 @@ async def test_the_console_speaks_english():
         assert not cjk, "%s carries %r" % (module.__name__, sorted(cjk))
 
     assert "in English" in prompt_module.INSTRUCTIONS
+
+
+# ---- a console that cannot be heard has to find out ----------------------------------------------
+
+async def test_a_console_on_the_wrong_protocol_is_told(unused_tcp_port):
+    """THE FAILURE THIS IS FOR, and it was neither intermittent nor a hang. `terminal.py` still said
+    `"v": 3` after the contract went to 4, so every instruction typed into the Play-mode window was
+    dropped here as malformed. The warning went into a log nobody was reading, the terminal drew a
+    fresh prompt, and three sessions were spent looking for a stall in the model.
+
+    The line is still refused — a version mismatch is fatal by design, and half-speaking an old
+    contract is exactly what that rule exists to prevent. What changed is that the refusal goes back
+    down the socket it came up.
+    """
+    session, server = await served(unused_tcp_port, [says("never reached")])
+    try:
+        async with Terminal(unused_tcp_port) as t:
+            assert await settled(lambda: t.of_type(P.T.CONSOLE_HELLO))
+            stale = {"v": P.PROTOCOL_VERSION - 1, "type": P.T.AGENT_INSTRUCT,
+                     "data": {"text": "walk to the bedside"}}
+            await t.send_raw((json.dumps(stale) + "\n").encode("utf-8"))
+
+            assert await settled(lambda: t.of_type(P.T.AGENT_REPLY)), \
+                "a console that is not understood has to be told so"
+            error = t.of_type(P.T.AGENT_REPLY)[0]["data"]["error"]
+            assert "could not read" in error and "nothing was submitted" in error
+            assert session.backend.user_messages == [], "and it still must not become a turn"
+    finally:
+        await server.stop()
+        await session.close()
+
+
+async def test_a_console_may_not_send_whatever_it_likes(unused_tcp_port):
+    """The other refusal, which was silent for the same reason: an event that is not a console's to
+    send was logged and dropped."""
+    session, server = await served(unused_tcp_port, [says("never reached")])
+    try:
+        async with Terminal(unused_tcp_port) as t:
+            assert await settled(lambda: t.of_type(P.T.CONSOLE_HELLO))
+            await t.send_raw((json.dumps(P.event(P.T.AGENT_STATUS, {"state": "thinking"}))
+                              + "\n").encode("utf-8"))
+
+            assert await settled(lambda: t.of_type(P.T.AGENT_REPLY))
+            assert "may not send" in t.of_type(P.T.AGENT_REPLY)[0]["data"]["error"]
+            assert session.backend.user_messages == []
+    finally:
+        await server.stop()
+        await session.close()
+
+
+async def test_the_terminal_speaks_the_contract_not_a_remembered_number():
+    """The other half of the same fix. Either one alone would have been enough; both are here because
+    getting it wrong cost three sessions of looking in the wrong place."""
+    import terminal
+
+    assert terminal.PROTOCOL_VERSION == P.PROTOCOL_VERSION
+    assert terminal.protocol_version() == P.PROTOCOL_VERSION

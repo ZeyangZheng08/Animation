@@ -21,17 +21,20 @@ the function calls, or the model loses the thread it was holding between calls.
 import asyncio
 import json
 
-from .base import LlmBackend, LlmError, TextDelta, ToolCall, TurnDone
+from .base import DEFAULT_SILENCE_S, LlmBackend, LlmError, TextDelta, ToolCall, TurnDone
 
 DEFAULT_MODEL = "gpt-5.6-luna"
 
 
 class ResponsesBackend(LlmBackend):
-    def __init__(self, api_key, model=DEFAULT_MODEL, max_output_tokens=8192, reasoning_effort=None):
+    def __init__(self, api_key, model=DEFAULT_MODEL, max_output_tokens=8192, reasoning_effort=None,
+                 silence_timeout=DEFAULT_SILENCE_S):
         self.api_key = api_key
         self.model = model
         self.max_output_tokens = max_output_tokens
         self.reasoning_effort = reasoning_effort
+        # See the chat arm: the same bound, spent per request instead of per silent stretch.
+        self.silence_timeout = silence_timeout
         self.instructions = ""
         self.input = []
         self._events = asyncio.Queue()

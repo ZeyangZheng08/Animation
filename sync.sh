@@ -118,8 +118,31 @@ dirs="$nl$dirs$nl"
 done | sort > /tmp/pubcode-new.txt || true
 if [ -s /tmp/pubcode-new.txt ]; then
   echo
-  echo "=== new upstream, in directories already published (review, then git add) ==="
-  cat /tmp/pubcode-new.txt
+  if [ "${1:-}" = "--adopt" ]; then
+    # TAKEN THROUGH `blob`, NEVER COPIED FROM THE WINDOWS WORKING TREE. Hand-copying is how trap 4
+    # gets paid for a second time: that tree is checked out CRLF while this branch is pinned LF, so a
+    # file carried across by hand arrives with the wrong endings and every later run calls it changed.
+    # Reusing the same function also means an LFS-tracked addition would come from the right place.
+    #
+    # Still not the default. Which new files belong on a published branch is a judgement, and the
+    # report above is what it is made from; this only removes the copying from the human part of it.
+    echo "=== adopting new upstream files ==="
+    while IFS= read -r f; do
+      f="${f#"${f%%[![:space:]]*}"}"      # the report indents; the path does not
+      [ -n "$f" ] || continue
+      mkdir -p "$(dirname "$f")"
+      if blob "$f" > "$tmp"; then
+        cp "$tmp" "$f"
+        git add -- "$f"
+        echo "  added $f"
+      else
+        echo "  SKIPPED (no committed content upstream) $f" >&2
+      fi
+    done < /tmp/pubcode-new.txt
+  else
+    echo "=== new upstream, in directories already published (review, then re-run with --adopt) ==="
+    cat /tmp/pubcode-new.txt
+  fi
 fi
 
 echo

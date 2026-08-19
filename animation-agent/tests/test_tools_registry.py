@@ -90,12 +90,12 @@ async def test_a_handler_that_takes_anything_keeps_everything():
 @pytest.mark.asyncio
 async def test_a_tool_that_could_not_do_the_thing_is_still_a_result():
     def go(where):
-        raise ToolFailure("no such place", hint="call scene_find first")
+        raise ToolFailure("no such place", hint="call scene_search first")
 
     out = await registry_with(go).dispatch("go", {"where": "moon"})
     assert out["success"] is False
     assert out["error"] == "no such place"
-    assert out["hint"] == "call scene_find first"
+    assert out["hint"] == "call scene_search first"
 
 
 @pytest.mark.asyncio

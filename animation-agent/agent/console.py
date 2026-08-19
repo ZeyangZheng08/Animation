@@ -147,7 +147,7 @@ class ConsoleServer:
                 line = await reader.readline()
                 if not line:
                     break
-                await self._handle(line)
+                await self._handle(line, writer)
         except (ConnectionError, OSError):
             pass
         finally:
@@ -158,19 +158,43 @@ class ConsoleServer:
                 pass
             log.info("console from %s detached (%d left)", peer, len(self._clients))
 
-    async def _handle(self, line):
+    async def _handle(self, line, writer=None):
         try:
             msg = json.loads(line.decode("utf-8"))
             P.validate(msg)
         except (ValueError, P.ProtocolError) as e:
-            # A malformed line from a console is that console's problem, never the session's. Logged
-            # and dropped: there is no turn to fail and nobody else to tell.
+            # A MALFORMED LINE IS THE SENDER'S PROBLEM, AND THE SENDER HAS TO BE TOLD.
+            #
+            # This used to log and drop. That is the right instinct about the SESSION -- there is no
+            # turn to fail -- and precisely the wrong one about the person who typed the line.
+            # Measured, at a cost of three investigations: `terminal.py` still said `"v": 3` after the
+            # contract went to 4, so every instruction typed into the Play-mode window was dropped
+            # here. The warning went into a log file nobody was reading, the terminal drew a fresh
+            # prompt, and the result looked exactly like an intermittent hang somewhere in the model
+            # -- which is what got investigated, three times, while the actual fault was deterministic
+            # and one line long.
+            #
+            # The refusal goes back down the same socket the line came up, so the window that cannot
+            # be heard is the window that finds out.
             log.warning("dropped a malformed console message: %s", e)
+            await self._refuse(writer, "this console said something the service could not read, so "
+                                       "nothing was submitted: %s" % e)
             return
         if msg.get("type") not in P.FROM_CONSOLE_EVENTS:
             log.warning("a console sent %r, which is not its to send", msg.get("type"))
+            await self._refuse(writer, "a console may not send %r, so nothing was submitted"
+                                       % msg.get("type"))
             return
         await route(self.session, (msg.get("data") or {}).get("text"))
+
+    async def _refuse(self, writer, message):
+        """Tell one console why its line went nowhere. Best effort, like every other write here: a
+        display that cannot be reached must not be able to take down the work it describes."""
+        if writer is None:
+            return
+        # The shape a console already understands. A new one would render as nothing on any client
+        # that has not been taught it, which is the failure this is here to stop.
+        await self._write(writer, P.T.AGENT_REPLY, {"text": "", "error": message})
 
     # ---- session -> every terminal ----------------------------------------------------------
 

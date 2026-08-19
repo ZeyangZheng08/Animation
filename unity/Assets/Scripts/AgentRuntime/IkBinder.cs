@@ -92,14 +92,27 @@ namespace AgentRuntime
 
         private void Update()
         {
-            Track(leftHand, _leftTarget, _leftHint, _leftWant, _leftAt);
-            Track(rightHand, _rightTarget, _rightHint, _rightWant, _rightAt);
+            Step(Time.deltaTime);
+        }
+
+        /// <summary>One step of the ramps, by `dt` seconds.
+        ///
+        /// SPLIT OUT OF Update FOR THE SAME REASON PoseSynth's Step WAS. The pre-execution validator
+        /// replays a whole plan on a hidden duplicate inside a single frame, so a weight that only
+        /// moved on rendered frames would still be at zero when the run finished -- and the check would
+        /// then be measuring a pose with no IK in it at all, which is not the pose that is going to
+        /// play. A ramp is part of what a reach looks like, so it has to be part of what is judged.
+        /// </summary>
+        public void Step(float dt)
+        {
+            Track(leftHand, _leftTarget, _leftHint, _leftWant, _leftAt, dt);
+            Track(rightHand, _rightTarget, _rightHint, _rightWant, _rightAt, dt);
 
             if (headAim != null)
             {
                 if (_gazeTarget != null) SetAimSource(headAim, _gazeTarget);
                 headAim.weight = Mathf.MoveTowards(headAim.weight, Due(_gazeWant, _gazeAt),
-                    weightChangeSpeed * Time.deltaTime);
+                    weightChangeSpeed * dt);
             }
         }
 
@@ -113,7 +126,7 @@ namespace AgentRuntime
         }
 
         private void Track(TwoBoneIKConstraint constraint, Transform target, Transform hint,
-                           float want, double atSeconds)
+                           float want, double atSeconds, float dt)
         {
             if (constraint == null) return;
             if (target != null && constraint.data.target != null)
@@ -129,7 +142,7 @@ namespace AgentRuntime
                 constraint.data.hint.position = hint.position;
             }
             constraint.weight = Mathf.MoveTowards(constraint.weight, Due(want, atSeconds),
-                weightChangeSpeed * Time.deltaTime);
+                weightChangeSpeed * dt);
         }
 
         /// <summary>Aim an effector at a target from `atSeconds` into the motion. Zero means the first

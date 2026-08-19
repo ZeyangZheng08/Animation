@@ -24,6 +24,8 @@ and it belongs in the write-up rather than being hidden by defaulting away from 
 """
 from .base import LlmBackend, LlmError, ToolCall, TurnDone, TextDelta
 
+from .base import DEFAULT_SILENCE_S            # noqa: F401 - re-exported for cli.py
+
 DEFAULT_MODEL = "gpt-realtime-2.1-mini"
 
 # The careful arm. Slower per round trip and better at multi-step retrieval; kept as the comparison and

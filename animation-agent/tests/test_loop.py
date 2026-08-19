@@ -330,7 +330,7 @@ async def test_a_dry_run_is_not_a_moment_anything_moved(kb):
 
 
 async def test_a_tool_event_carries_enough_to_read_the_turn(kb):
-    """A column of bare tool names says the agent is alive and nothing else. Four `scene_find` calls in
+    """A column of bare tool names says the agent is alive and nothing else. Four `scene_search` calls in
     a row look identical whether they are narrowing on a chair or re-asking a question already
     answered. Composed in the loop rather than in a renderer, so the stdin session and an attached
     terminal cannot describe the same turn differently."""

@@ -175,7 +175,7 @@ class Farewell(Exception):
     """The agent said the run is over. Unwinds the reader thread; the main loop then exits."""
 
 
-NAME_COL = 14       # `scene_describe` and `kb_get_action` are the longest; longer ones just push right
+NAME_COL = 14       # `kb_get_action` and `plan_motion` are the longest; longer ones just push right
 CALL_COL = 42       # digest.WIDTH, so a clipped argument phrase lands inside its column
 ROW_WIDTH = 76      # how much of a line the collapsed names may fill before wrapping
 
@@ -308,8 +308,47 @@ def reader(sock, screen, stop):
         stop.set()
 
 
+def protocol_version():
+    """The version this console speaks, taken from the contract instead of repeated here.
+
+    THE BUG THIS CLOSES, AND IT COST THREE SESSIONS. This file said `{"v": 3}` and the contract went
+    to 4. Every line typed here was then dropped by the console channel as malformed -- logged on the
+    service side into a file nobody was reading, invisible in this window -- so the prompt came back
+    and nothing ever happened. It looked exactly like an intermittent hang in the model, which is what
+    was investigated. The service now answers a mismatch instead of dropping it, and this reads the
+    number rather than remembering it; either one alone would have been enough, which is why both are
+    here.
+
+    `agent/protocol.py` is pure standard library and sits beside this file, so importing it costs this
+    console nothing it did not already have -- see the module note on why that matters. Reading the
+    constant out of the source is the fallback for a copy of this file living somewhere else, and it
+    drifts no more than the import does. If neither works the version goes out as None, which the
+    service refuses out loud: a guess that is wrong again is worse than a refusal that says so.
+    """
+    here = os.path.dirname(os.path.abspath(__file__))
+    try:
+        if here not in sys.path:
+            sys.path.insert(0, here)
+        from agent.protocol import PROTOCOL_VERSION
+        return PROTOCOL_VERSION
+    except Exception:                                # noqa: BLE001 - a console must still start
+        pass
+    try:
+        import re
+        with open(os.path.join(here, "agent", "protocol.py"), encoding="utf-8") as fh:
+            found = re.search(r"^PROTOCOL_VERSION\s*=\s*(\d+)", fh.read(), re.M)
+        if found:
+            return int(found.group(1))
+    except (OSError, ValueError):
+        pass
+    return None
+
+
+PROTOCOL_VERSION = protocol_version()
+
+
 def send(sock, text):
-    msg = {"v": 3, "type": "agent.instruct", "data": {"text": text}}
+    msg = {"v": PROTOCOL_VERSION, "type": "agent.instruct", "data": {"text": text}}
     sock.sendall((json.dumps(msg, ensure_ascii=False) + "\n").encode("utf-8"))
 
 

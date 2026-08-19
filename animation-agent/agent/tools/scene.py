@@ -6,13 +6,40 @@ them matter to any given motion. Pushing a snapshot would be both useless and un
 a 32k window. So the engine enumerates deterministically over an annotated registry and answers typed
 predicates, and the model narrows to a handful of candidates over a few calls.
 
-WHAT COMES BACK IS SYMBOLIC. Identity, category, coarse relations, reachability as a yes/no. No
-transforms, no distances, no extents. Exact pose stays engine-side where the IK solver and the geometric
-gates consume it directly. That is the architecture's claim that the model never handles motion numerics,
-and it is enforced here by the shape of the reply rather than by asking the model nicely.
+TWO QUESTIONS, TWO TOOLS. `scene_search` answers "which thing is that?" and returns identity alone:
+an id, a label, the contact names the motion library spells it by. `scene_query` answers "where does that
+leave her?" and returns the relation: does it exist, is it within reach, does she have to walk, is somebody
+holding it. Nothing else crosses. The four tools this replaced also handed out categories, surface heights,
+carriability, per-hand anchor flags and metres, and every one of those was a fact about the deterministic
+backend rather than about what the model has to decide. Measured on real turns, they were mostly used to
+guess wrong: an invented `category` filtered a room down to nothing, and `carriable` invited the model to
+plan around a capability the executor validates anyway.
 
-`near.radius` is an enum, not a number, for the same reason: "within arm's reach" is a decision the model
-can sensibly make, "within 0.75 m" is not.
+WHAT COMES BACK IS SYMBOLIC. Identity and coarse relations. No transforms, no distances, no extents, no
+angles. Exact pose stays engine-side where the IK solver, the geometric gates and the sit/carry logic
+consume it directly -- see `_verify_seat`, which still reads a surface height, because a deterministic
+check may hold numbers the model may not. That split is the architecture's claim that the language model
+never handles motion numerics, and it is enforced by the shape of the reply rather than by asking nicely.
+
+THE UNDERLYING PROTOCOL IS UNCHANGED. `scene.find`, `scene.describe`, `scene.anchors` and `scene.position`
+are still what the engine speaks; they are engine-internal API now, reached through this file and never
+declared to the model. Collapsing the tool surface and rewriting the wire in one change would have put
+`plan_motion`, sitting, navigation and IK all in the blast radius of the same edit.
+
+NOTHING VISIBLE MOVES UNTIL THE PLAN HAS BEEN CHECKED. `plan_motion` compiles the whole thing once --
+steps, layers, channel windows, generated posture change, IK bindings, contacts, carry -- and then sends
+that same compiled plan twice: once as `mode: "validate"`, which the executor runs on a hidden duplicate
+of the character at fixed timestep, and only on a pass as `mode: "commit"`. The walk is inside that
+fence too: where a walk would put her is PREVIEWED rather than performed, and the motion that follows is
+judged at the projected arrival, so a plan that cannot work does not get as far as walking her across
+the room to find out. The model still sees two modes, `dry_run` and `commit`; `validate` is between this
+file and the engine and costs no model round trip.
+
+WHY NOT JUST READ THE GATE AFTERWARDS. That is what `check_motion` does, and it can only ever say what
+already happened -- measured on real turns, a sit that landed nowhere was reported seconds after a
+viewer had watched it. The runtime gate is kept (see §2.11 of the design, and `check_motion` below) but
+its job changed: it is now watching for the scene moving out from under a plan that was already checked,
+not deciding whether the plan was any good.
 
 THE PLAN TOOL HAS NO NUMERIC PARAMETERS AT ALL. Look at `PLAN_PARAMS`: every field is an identifier or an
 enum. There is nowhere for a joint angle, a weight, a duration or a frame index to enter, so the
@@ -30,51 +57,42 @@ from ..engine import EngineError, EngineTimeout, EngineUnavailable
 from ..kbindex import ANATOMICAL
 from .registry import ToolFailure
 
-FIND_PARAMS = {
+SEARCH_PARAMS = {
     "type": "object",
     "additionalProperties": False,
     "properties": {
-        "category": {
+        "query": {
             "type": "string",
-            "enum": ["consumable", "device", "furniture", "station", "anchor", "character"],
-        },
-        "name_contains": {"type": "string", "description": "Substring of the object's display name."},
-        "alias": {
-            "type": "string",
-            "description": "A contact name as the motion library spells it, e.g. pills, "
-                           "aspirin_bottle, patient_chest, patient_wrist, bvm_mask, keyboard.",
-        },
-        "near": {
-            "type": "object", "additionalProperties": False,
-            "properties": {
-                "object_id": {"type": "string"},
-                "radius": {"type": "string", "enum": ["arms_reach", "same_station", "same_room"]},
-            },
-            "required": ["object_id", "radius"],
-        },
-        "held_by": {"type": "string", "description": "Character id; find what it is currently holding."},
-        "reachable_by": {
-            "type": "object", "additionalProperties": False,
-            "properties": {
-                "character": {"type": "string"},
-                "effector": {"type": "string", "enum": ["left_hand", "right_hand", "either"]},
-            },
-            "required": ["character"],
+            "description": "A word for the thing: what it is called, or the contact name the motion "
+                           "library spells it by -- pills, aspirin_bottle, patient_chest, "
+                           "patient_wrist, bvm_mask, keyboard. Places count as things: 'bedside' "
+                           "finds the bedside anchor. Leave it out entirely to list everything this "
+                           "scene has been annotated with, which is the cheapest correct answer to "
+                           "'is there a chair?'.",
         },
         "limit": {"type": "integer", "minimum": 1, "maximum": 20, "default": 10},
     },
 }
 
-DESCRIBE_PARAMS = {
+QUERY_PARAMS = {
     "type": "object",
     "additionalProperties": False,
-    "properties": {"object_id": {"type": "string"}},
-    "required": ["object_id"],
+    "properties": {
+        "object_ids": {
+            "type": "array", "minItems": 1, "maxItems": 8,
+            "items": {"type": "string", "description": "id from scene_search."},
+        },
+        "relative_to": {
+            "type": "string",
+            "description": "Whose point of view. A character name or id; with one character in the "
+                           "scene it is hers and can be left out.",
+        },
+    },
+    "required": ["object_ids"],
 }
 
-ANCHORS_PARAMS = {"type": "object", "additionalProperties": False, "properties": {}}
-
-# The model picks a word; the metres stay here. Same reasoning as the scene_find radius vocabulary.
+# The model picks a word; the metres stay here. Same reasoning as everywhere else on this surface:
+# "beside it" is a decision a model can make and "0.35 m" is one it cannot.
 _STOP_WITHIN = {"beside_it": 0.35, "right_at_it": 0.08, "arms_reach": 0.6}
 
 # The one action in this corpus that means travelling. `move_to` plays it under the navigation agent,
@@ -89,8 +107,8 @@ MOVE_PARAMS = {
         "character": {"type": "string"},
         "destination": {
             "type": "string",
-            "description": "Where to walk. An object_id from scene_find, an anchor from scene_anchors, "
-                           "'near:<object_id>' for beside a thing rather than at it, or "
+            "description": "Where to walk. Any id scene_search returned -- an object or a named "
+                           "place -- or 'near:<object_id>' for beside a thing rather than at it, or "
                            "'view:left' / 'view:right' / 'view:ahead' / 'view:behind' for somewhere "
                            "relative to whoever is watching.",
         },
@@ -112,23 +130,6 @@ MOVE_PARAMS = {
         },
     },
     "required": ["destination"],
-}
-
-POSITION_PARAMS = {
-    "type": "object",
-    "additionalProperties": False,
-    "properties": {
-        "object_ids": {
-            "type": "array", "minItems": 1, "maxItems": 8,
-            "items": {"type": "string", "description": "id from scene_find."},
-        },
-        "relative_to": {
-            "type": "string",
-            "description": "Character id. Adds distance, bearing and whether the thing is within "
-                           "reach or needs walking to.",
-        },
-    },
-    "required": ["object_ids"],
 }
 
 PLAN_PARAMS = {
@@ -171,12 +172,13 @@ PLAN_PARAMS = {
                 "required": ["object_id", "hand"],
             },
             "description": "Objects PICKED UP and taken along, attached to a hand for the duration. "
-                           "Only for objects scene_find reports as `carriable` — a pill bottle, a bag "
-                           "valve mask. Everything else is used where it stands, however small it "
-                           "looks: a laptop is typed on at the desk it is on, and carrying it takes it "
-                           "with her. To touch one of those, bind a hand to it with ik_bindings "
-                           "instead. Needed for anything carried, since prop visibility is not implied "
-                           "by the motion.",
+                           "For something small enough to pick up — a pill bottle, a bag valve mask. "
+                           "Everything else is used where it stands, however small it looks: a laptop "
+                           "is typed on at the desk it is on, and carrying it takes it with her. To "
+                           "touch one of those, bind a hand to it with ik_bindings instead. Ask for "
+                           "the carry you mean; whether that object can be picked up is checked "
+                           "engine-side and refused by name if it cannot. Needed for anything "
+                           "carried, since prop visibility is not implied by the motion.",
         },
         "then": {
             "type": "array", "maxItems": 3,
@@ -233,37 +235,21 @@ PLAN_PARAMS = {
         # The tool's job is to play the motion, so playing it is what it does unless asked not to.
         "mode": {
             "type": "string", "enum": ["dry_run", "commit"], "default": "commit",
-            "description": "Leave this out to play the motion. dry_run derives the plan and runs the "
-                           "cheap checks without moving anything, for when you want to see what a "
-                           "plan resolves to first.",
+            "description": "Leave this out to play the motion — it is checked against the scene "
+                           "out of sight first, so a plan that does not work is refused rather than "
+                           "played. dry_run derives the plan and runs only the cheap structural "
+                           "checks, for when you want to see what a plan resolves to first.",
         },
     },
     "required": ["base"],
 }
 
 
-# A clause constrains only if the thing it points AT is named. `radius: "same_room"` with no object and
-# `effector: "either"` with no character are defaults the model filled in because the schema offered
-# them — not requests. Keyed by the field that carries the subject.
-_CLAUSE_SUBJECT = {"near": "object_id", "reachable_by": "character"}
-
-
-def _asked_for(key, value):
-    """Whether a filter was really specified. Blank values are a model filling in a schema, and
-    forwarding them as constraints is how `reachable_by: {"character": ""}` became "within arm's reach
-    right now" and hid a chair that was across the room."""
-    if value is None:
-        return False
-    if isinstance(value, str):
-        return bool(value.strip())
-    if isinstance(value, dict):
-        subject = _CLAUSE_SUBJECT.get(key)
-        if subject is not None:
-            return bool((value.get(subject) or "").strip())
-        return any(_asked_for(k, v) for k, v in value.items())
-    if isinstance(value, (list, tuple)):
-        return bool(value)
-    return True
+# THE BLANK-CLAUSE DEFENCE IS GONE BECAUSE THE CLAUSES ARE. `near`, `reachable_by` and `category` were
+# the fields a model filled in because the schema offered them, and a blank one forwarded as a real
+# constraint is what hid a chair that was across the room. `scene_search` takes one word and a limit, so
+# there is nothing left to fill in wrongly. The engine keeps its own version of the same guard, because
+# `scene.find` is still reachable from inside this file.
 
 
 def _step_starts(steps):
@@ -330,6 +316,68 @@ def _metres(value):
     return None if number != number or number in (float("inf"), float("-inf")) else number
 
 
+# WHAT TO CHANGE, PER REASON. The engine names the metric, the effector or object it is about, and a
+# reason slug; this turns the slug into the one sentence a model can act on. Kept as a table rather than
+# built into the message because the four things a plan can be wrong about -- the motion, the target,
+# the composition, the route -- are the four different repairs, and a failure that does not point at one
+# of them sends the model rewriting arguments that were already right.
+_REPAIR = {
+    "pelvis_outside_support":
+        "the sit does not land on the seat. Name a real seat as `sit_on` and let it walk her there "
+        "rather than placing her yourself.",
+    "pelvis_below_support":
+        "she would end up underneath that, not on it. It is something to work AT: pass a chair or a "
+        "stool as `sit_on` and reach the other thing from there.",
+    "hip_did_not_reach_target":
+        "the generated posture change does not arrive at the pose the seated action opens on. Name a "
+        "seat as `sit_on`, and name the standing action and the seated one in one call so the frames "
+        "between them are made.",
+    "hand_left_its_object":
+        "a bound hand cannot stay on its object through this motion. Bind one hand rather than two, "
+        "or leave the binding out and let the clip animate the hand itself.",
+    "hand_never_reached_object":
+        "she is not where this action expects its object to be. Pass `walk_to` so the motion happens "
+        "at the thing, and `sit_on` as well if the action is seated.",
+    "foot_through_floor":
+        "the parts of this do not fit together on the legs. Try a different overlay, or play the two "
+        "actions one after the other with `then`.",
+    "correction_discarded":
+        "the generated frames did not reach the character. This is a defect on the engine side, not "
+        "something to fix by rewording the plan.",
+    "descent_saturated":
+        "the posture change asks for more travel than the body has. Check the seat is the height a "
+        "seat should be, or play the seated action without generating a change into it.",
+}
+
+_REPAIR_DEFAULT = ("change the motion, the thing it is aimed at, or the arrangement, and send it "
+                   "again.")
+
+
+def _validation_failure(verdict):
+    """The refusal a model can act on, out of a verdict the engine measured.
+
+    NAMES THE PART, NOT THE NUMBER. A metre is not something the model can reason with and it is not
+    something it may write, so what crosses is which check failed, on what, and what to change. The
+    numbers stay in the verdict on the wire for the trace and for a person reading it.
+    """
+    failures = verdict.get("failures") or []
+    if not failures:
+        return ToolFailure(
+            "this plan did not pass the check that runs before anything is played",
+            hint="nothing moved. " + _REPAIR_DEFAULT)
+    named, repairs = [], []
+    for failure in failures:
+        subject = failure.get("effector") or failure.get("object_id")
+        named.append("%s%s" % (failure.get("metric") or failure.get("reason") or "check",
+                               " on %s" % subject if subject else ""))
+        repairs.append(_REPAIR.get(failure.get("reason"), _REPAIR_DEFAULT))
+    return ToolFailure(
+        "this plan was played on a hidden copy of her first and it does not work: %s"
+        % ", ".join(named),
+        # dict.fromkeys rather than set: two failures with the same repair say it once, in order.
+        hint="nothing was played and nothing moved. " + " ".join(dict.fromkeys(repairs)))
+
+
 def _engine_failure(e):
     if isinstance(e, EngineUnavailable):
         return ToolFailure("the 3D scene is not connected", hint="the engine is not running; "
@@ -373,6 +421,102 @@ def register(registry, engine, kb=None):
             return await engine.call(msg_type, params)
         except (EngineUnavailable, EngineTimeout, EngineError) as e:
             raise _engine_failure(e)
+
+    async def _validate(payload, at=None):
+        """Run this exact plan on the hidden copy and raise if it does not work. Returns what the
+        check covered, for the record.
+
+        THE ONE THING THIS MUST NOT DO IS DERIVE ANYTHING. It takes the compiled plan and changes one
+        word in it. A validator that rebuilt the plan would be checking a different plan.
+        """
+        probe = dict(payload, mode="validate")
+        if at:
+            probe["at"] = at
+        verdict = await _call(P.T.MOTION_ASSEMBLE, probe)
+        if verdict.get("status") == "fail":
+            raise _validation_failure(verdict)
+        return {key: verdict[key] for key in
+                ("status", "checked", "samples", "seconds_simulated", "unmeasured")
+                if key in verdict}
+
+    async def _assemble(payload, at=None, checked=False):
+        """Send one compiled plan. A commit is checked out of sight first, and only then played.
+
+        ONE COMPILE, TWO SENDS, THE SAME BYTES. The plan is built once and this dictionary is what
+        goes over the wire both times, so what was validated and what plays cannot differ. Deriving
+        the plan again between the two would reintroduce exactly the gap this exists to close: the
+        check would be about a plan that no longer describes what is about to happen.
+
+        `at` is where to stand the hidden copy: the projected arrival of a walk that has not happened
+        yet. Absent, she is checked where she is.
+
+        `checked` says a caller has already validated these same layers -- the walk cycle that
+        `_walk_there` starts, which `plan_motion` validated before it began walking. Without it the
+        walk would be re-checked from inside the walk, which is a second round trip about a plan whose
+        verdict is already in hand.
+
+        THIS IS AN ENGINE ROUND TRIP, NOT A MODEL ONE. It costs about a millisecond on the wire plus
+        whatever the fixed-step evaluation takes, and no iteration of the model's own loop -- which is
+        the whole reason `validate` is not a mode the model can see. A tool that asked the model to
+        plan, check, then commit would spend two thirds of a turn deciding to do what it had already
+        decided.
+        """
+        if payload.get("mode") != "commit" or checked:
+            return await _call(P.T.MOTION_ASSEMBLE, payload)
+        verdict = await _validate(payload, at)
+        played = await _call(P.T.MOTION_ASSEMBLE, payload)
+        # Said back so the trace records that the check ran, and what it covered. A plan reported as
+        # committed with no verdict beside it is indistinguishable from one that skipped the check.
+        played["validated"] = verdict
+        return played
+
+    async def _preview_walk(character, destination, stop_within=None, face=None):
+        """Where a walk would put her, without taking a step.
+
+        THE WALK USED TO BE THE FIRST THING THAT HAPPENED, and that is the one mutation a plan could
+        not take back: she crossed the room, and only then did the motion she crossed it for turn out
+        to be impossible. Measured against the design's own rule -- a failed plan must not be visible
+        -- a character standing at a chair she cannot sit on is exactly as visible as a bad sit.
+
+        So the route is computed and the arrival projected first, and the motion is validated AT that
+        arrival. The engine answers with a point and a heading; neither reaches the model.
+        """
+        destination = await _resolve_id(destination)
+        face = await _resolve_id(face)
+        params = {"character": character, "preview": True, "to": destination}
+        if stop_within is not None:
+            params["stop_within_m"] = _STOP_WITHIN.get(stop_within, 0.35)
+        if face:
+            params["face"] = face
+        data = await _call(P.T.MOTION_LOCOMOTE, params)
+        if not data.get("reachable"):
+            raise ToolFailure(
+                "she cannot get to %s: %s" % (destination, data.get("why") or "no complete route"),
+                hint="nothing has moved. Pick somewhere she can walk to -- scene_search lists the "
+                     "room -- or name the thing rather than a place beside it.")
+        preview = {"destination": destination,
+                   # WHETHER THERE IS A WALK AT ALL. A destination she is already standing at is a
+                   # walk of zero length: nothing plays, and the plan that follows departs from
+                   # whatever she is doing now rather than from a walk cycle. Getting this wrong is
+                   # how she came to march on the spot in front of the desk before sitting down, so
+                   # the engine is asked rather than assumed at.
+                   "will_walk": not bool(data.get("arrived"))}
+        for key in ("path_length_m", "eta_s", "arrival", "facing_deg"):
+            if data.get(key) is not None:
+                preview[key] = data[key]
+        if face:
+            preview["facing"] = face
+        return preview
+
+    def _standing_at(preview):
+        """The `at` clause for a validation run: where the walk will have left her. None when there is
+        no walk, which stands the hidden copy where the real one is."""
+        if not preview or preview.get("arrival") is None:
+            return None
+        at = {"position": preview["arrival"]}
+        if preview.get("facing_deg") is not None:
+            at["facing_deg"] = preview["facing_deg"]
+        return at
 
     def _who(character):
         """Resolve which character to drive, from whatever the instruction called her.
@@ -435,73 +579,174 @@ def register(registry, engine, kb=None):
             "there is nobody here called %r" % asked,
             hint="the characters in this scene are: %s" % ", ".join(label(c) for c in known))
 
-    async def scene_find(**params):
-        """Find objects. Every filter is optional, INCLUDING all of them at once.
+    async def _anchor_entities():
+        """The named places, as search hits.
 
-        This used to refuse a call with no filters, and to replace whatever the engine said about an
-        empty result with "nothing in the scene matches those filters". Both were wrong, and together
-        they cost a task. The room holds about a dozen annotated objects, so listing them is the
-        cheapest correct answer to "is there a chair?" — and the engine already reports which
-        categories exist and what the registry holds, which this then threw away. Measured: ten
-        `scene_find` calls in one turn, not one of them unfiltered, ending in "the scene contains no
-        identifiable chair" about a room with a chair in it.
+        Merged into every listing rather than kept behind a tool of its own. An anchor IS an entity
+        here — `anchor:Bedside` is as valid a destination as `obj:Chair` — and giving it a separate
+        tool made "walk to the bedside" a two-call question whose first call the model had no reason
+        to make. `scene.find` already returns anchors on a name search, so this is belt and braces
+        for the bare listing, where the engine's limit could otherwise truncate them away.
         """
-        limit = params.pop("limit", 10)
-        # Blank means "I did not ask for this". Models fill in every field a schema offers, and a blank
-        # clause forwarded as a real one is what made the chair invisible — see the matching note in
-        # SceneQueryService.Find, and `_blank` in tools/kb.py, where this bug first appeared.
-        params = {k: v for k, v in params.items() if _asked_for(k, v)}
-        data = await _call(P.T.SCENE_FIND, dict(params, limit=limit))
+        out = []
+        for entry in (await _call(P.T.SCENE_ANCHORS, {})).get("anchors") or []:
+            if isinstance(entry, str):
+                out.append({"id": "anchor:" + entry.replace(" ", ""), "label": entry, "aliases": []})
+            elif entry.get("id"):
+                out.append({"id": entry["id"], "label": entry.get("name") or entry["id"],
+                            "aliases": []})
+        return out
 
-        objects = data.get("objects", [])
-        result = {"objects": objects, "count": len(objects)}
-        for key in ("note", "inventory"):
-            if data.get(key):
-                result[key] = data[key]
-        if not objects and not result.get("note"):
-            result["note"] = "nothing matched those filters; call scene_find with no filters to see " \
-                             "the whole room"
+    async def scene_search(query=None, limit=10):
+        """Which thing is that. Identity, and deliberately nothing else.
+
+        WHAT THIS DOES NOT RETURN, AND WHY THAT IS THE POINT. No category, no surface height, no
+        transform, no distance, no grab anchor, no `carriable`. Every one of those is a fact the
+        deterministic backend consumes and the model can only guess with. Measured on real turns, the
+        guessing is what cost tasks: an invented `category` filtered a room with a chair in it down to
+        nothing, ten times in one turn, and the agent concluded there was no chair. The registry is a
+        couple of dozen entries, so the honest answer to any question about it is a list.
+
+        A bare call lists everything. That used to be refused, which is how absence came to be inferred
+        from repeated misses instead of read off a list.
+        """
+        query = (query or "").strip()
+        results, seen = [], set()
+
+        # A CHARACTER'S NAME IS THE ONE A PERSON SAYS, AND THE REGISTRY DOES NOT HOLD IT.
+        #
+        # The scene calls her `CPRNurse` and the protocol calls her `chr:CPRNurse`; a person calls her
+        # Jill, and that spelling lives only in the executor's handshake. This projection returns
+        # identity and nothing else, so dropping it left the model reading a list of three nurses with
+        # no Jill among them -- measured on a live turn, it stopped and asked which character Jill was
+        # supposed to be, about a scene she is standing in. `_who` had always accepted the name; there
+        # was simply nowhere to learn it.
+        #
+        # So the spoken name becomes the label and the other two spellings become aliases. All three
+        # resolve, which is what `_who` already did with whatever it was handed.
+        names = dict((engine.hello or {}).get("character_names") or {})
+
+        def take(items):
+            for item in items:
+                object_id = item.get("id")
+                if not object_id or object_id in seen:
+                    continue
+                seen.add(object_id)
+                label = item.get("name") or item.get("label") or object_id
+                aliases = list(item.get("aliases") or [])
+                spoken = names.get(object_id)
+                if spoken and spoken != label:
+                    aliases = [a for a in [label] + aliases if a != spoken]
+                    label = spoken
+                results.append({"id": object_id, "label": label, "aliases": aliases})
+
+        if not query:
+            # A generous limit and no truncation: completeness is the whole reason to call this with
+            # nothing. `inventory` is what the engine hands back when a search fails, and it is the
+            # same list from the other side, so it is folded in rather than ignored.
+            data = await _call(P.T.SCENE_FIND, {"limit": 100})
+            take(data.get("objects") or [])
+            take(data.get("inventory") or [])
+            take(await _anchor_entities())
+            return {"results": results, "count": len(results),
+                    "note": "everything this scene has been annotated with. What is not here is not "
+                            "annotated; searching again with different words will not add to it."}
+
+        # Name first, then contact alias. Both are matched by the engine against the label, the scene
+        # object's own name and the alias list, so this is two passes and not seven filters.
+        raw_only = False
+        for key in ("name_contains", "alias"):
+            data = await _call(P.T.SCENE_FIND, {key: query, "limit": limit})
+            hits = data.get("objects") or []
+            raw_only = raw_only or any(hit.get("source") == "scene" for hit in hits)
+            take(hits)
+            if len(results) >= limit:
+                break
+
+        if not results:
+            folded = query.lower()
+            take([a for a in await _anchor_entities()
+                  if folded in a["id"].lower() or folded in a["label"].lower()])
+
+        result = {"results": results[:limit], "count": min(len(results), limit)}
+        if not results:
+            result["note"] = ("nothing here is called %r. Call scene_search with no query to see "
+                              "everything there is; the list is short and it is complete." % query)
+        elif raw_only:
+            # NOTHING IS INVENTED FOR THESE. They came out of a raw scene-name search rather than the
+            # annotated registry, so they have no contact aliases and nothing is known about them
+            # beyond existing. Saying so is what stops the model planning against an affordance that
+            # was never authored.
+            result["note"] = ("some of these were found by raw name in the scene rather than in the "
+                              "annotated registry: nothing is known about them beyond that they are "
+                              "there.")
         return result
 
-    async def scene_describe(object_id):
+    async def _held_by(object_id):
+        """Who is holding this, or None. One extra round trip at 0.3 ms, and it is the one relation
+        `scene.position` cannot answer because holding is a parenting fact, not a distance."""
         try:
-            return await _call(P.T.SCENE_DESCRIBE, {"object_id": object_id})
-        except ToolFailure as e:
-            if "not_found" in str(e):
-                raise ToolFailure("no object with id %r" % object_id,
-                                  hint="use scene_find first and pass an id it returned")
-            raise
+            return (await _call(P.T.SCENE_DESCRIBE, {"object_id": object_id})).get("held_by")
+        except ToolFailure:
+            return None
 
-    async def scene_anchors():
-        data = await _call(P.T.SCENE_ANCHORS, {})
-        return {"anchors": data.get("anchors", [])}
+    async def scene_query(object_ids, relative_to=None):
+        """What these things are to her right now: does it exist, can she reach it, must she walk,
+        is somebody already holding it.
 
-    async def scene_position(object_ids, relative_to=None):
-        """Where things are. The only query that returns coordinates, and it has to be asked for.
-
-        This reverses an earlier decision that the scene tools should never emit numbers. That was too
-        strict: an agent deciding whether to walk before it sits needs to know the chair is across the
-        room, and inferring that from a coarse "near" label is guesswork dressed as architecture.
-
-        The line that did not move: the model READS these numbers, it never WRITES motion numerics.
-        plan_motion's leaves are still strings and booleans, IK targets are still symbolic bindings the
-        engine resolves, and the schedule is still computed from measured data on this side.
+        THE RELATION IS THE ANSWER, NOT THE GEOMETRY BEHIND IT. This used to return position, distance
+        in metres, bearing and surface height, and the reversal is deliberate: the decisions those
+        numbers were read for are "walk first or not" and "is it in reach", and both come back here as
+        booleans the engine derived from the same measurement. The numbers have not gone anywhere —
+        `_verify_seat` still reads a surface height, the descent still gets a hip target, the gate
+        still judges in metres — they simply stop passing through the model.
         """
         if not object_ids:
-            raise ToolFailure("name at least one object", hint="use scene_find to get ids first")
-        # Through _who, like every other tool that names a character. The engine knows ids and an
+            raise ToolFailure("name at least one object", hint="use scene_search to get ids first")
+
+        # Through _who, like every other tool that names a character: the engine knows ids and an
         # instruction says a name, and a `relative_to` that skipped the resolution silently measured
-        # from nobody -- the engine treats an unknown character here as "no reference point" rather
-        # than as an error, so distances simply came back absent.
+        # from nobody — the engine treats an unknown character here as "no reference point" rather than
+        # as an error, so the relation simply came back absent. Unnamed resolves to the only character
+        # there is; with several and none named the relation is omitted and said to be omitted, rather
+        # than measured from whoever happened to be first.
+        who, ask = None, None
+        if relative_to:
+            who = _who(relative_to)
+        else:
+            try:
+                who = _who(None)
+            except ToolFailure as e:
+                ask = e.message
+
         data = await _call(P.T.SCENE_POSITION,
-                           {"object_ids": object_ids,
-                            "relative_to": _who(relative_to) if relative_to else None})
-        objects = data.get("objects", [])
-        missing = [o["object_id"] for o in objects if not o.get("found")]
+                           {"object_ids": list(object_ids), "relative_to": who})
+        answered = {o.get("object_id"): o for o in data.get("objects") or []}
+
+        objects, missing = [], []
+        for object_id in object_ids:
+            raw = answered.get(object_id) or {}
+            item = {"id": object_id, "exists": bool(raw.get("found"))}
+            if not item["exists"]:
+                missing.append(object_id)
+                objects.append(item)
+                continue
+            relation = raw.get("from_character") or {}
+            if who and relation:
+                item["within_arms_reach"] = bool(relation.get("within_arms_reach"))
+                item["needs_walking"] = bool(relation.get("needs_walking"))
+            item["held_by"] = await _held_by(object_id)
+            objects.append(item)
+
         result = {"objects": objects}
+        if who:
+            result["relative_to"] = who
         if missing:
-            result["note"] = ("no object with id %s; ids come from scene_find"
+            result["note"] = ("no object with id %s; ids come from scene_search"
                               % ", ".join(repr(m) for m in missing))
+        elif ask:
+            result["note"] = ("%s — so whether these are in reach is not answered here. Ask again "
+                              "with relative_to." % ask)
         return result
 
     def _one_step(base, overlays, hold_final_pose, ik_bindings, named_objects=None):
@@ -754,8 +999,10 @@ def register(registry, engine, kb=None):
         except (ValueError, KeyError, IOError, OSError):
             return 0
 
-    async def _play_in_place(character, action_id, from_action=None, overlays=None, carry=None):
-        """Play one action under a displacement -- see move_to -- with whatever is grafted onto it.
+    def _in_place_payload(character, action_id, from_action=None, overlays=None, carry=None):
+        """The plan for one action played under a displacement -- see move_to -- with whatever is
+        grafted onto it. BUILT, not sent, so the same dictionary can be checked before she moves and
+        then committed byte for byte.
 
         OVERLAYS TRAVEL WITH THE WALK, and that is the point of the parameter. Every clip here is
         in-place: the navigation agent moves the transform and this plays the animation, and the two
@@ -764,7 +1011,7 @@ def register(registry, engine, kb=None):
         express is "X while walking", and it played after the walking had finished.
         """
         assembly, layers, _ = _one_step(action_id, list(overlays or []), None, None)
-        await _call(P.T.MOTION_ASSEMBLE, {
+        return {
             "character": character,
             "steps": [{"action_id": action_id, "layers": layers, "start_at_s": 0.0,
                        "blend_in_s": 0.0,
@@ -776,10 +1023,19 @@ def register(registry, engine, kb=None):
             "free_channels": assembly.free_channels,
             # Props travel too: a bottle carried across the room has to be in her hand for the walk,
             # not conjured on arrival.
-            "ik": [], "gaze_at": None, "stand_at": None, "carry": list(carry or []), "mode": "commit"})
+            "ik": [], "gaze_at": None, "stand_at": None, "carry": list(carry or []), "mode": "commit"}
+
+    async def _play_in_place(character, action_id, from_action=None, overlays=None, carry=None,
+                             payload=None, checked=False):
+        """Send one of those. `payload` is a plan a caller already built AND already checked -- the
+        walk `plan_motion` validated before it started walking -- and passing it here is what stops
+        the same plan being validated twice."""
+        await _assemble(payload or _in_place_payload(character, action_id, from_action, overlays,
+                                                     carry),
+                        checked=checked)
 
     async def _walk_there(character, destination, face=None, stop_within=None, then_wait=True,
-                          settle=True, under=None, carry=None):
+                          settle=True, under=None, carry=None, under_payload=None):
         """Walk somewhere and play the walk while doing it. The body of move_to, factored out so a
         plan that begins with a walk can reuse it.
 
@@ -810,9 +1066,14 @@ def register(registry, engine, kb=None):
         if data.get("going") and LOCOMOTION_ACTION in kb.actions:
             # Entered on the frame closest to what she is already doing, not on frame 0 -- see
             # _entry_frame. Asking the engine what is playing costs 0.3 ms and no model iteration.
+            #
+            # `under_payload` is that same plan, built and checked by the caller before she set off.
+            # Sent verbatim: what was validated and what plays have to be the same thing, and
+            # rebuilding it here would make them two plans that merely look alike.
             was = await _call(P.T.MOTION_LOCOMOTE, {"character": character, "query": True})
             await _play_in_place(character, LOCOMOTION_ACTION, from_action=was.get("playing"),
-                                 overlays=under, carry=carry)
+                                 overlays=under, carry=carry,
+                                 payload=under_payload, checked=under_payload is not None)
             result["playing"] = LOCOMOTION_ACTION
             if under:
                 result["while_walking"] = list(under)
@@ -1003,8 +1264,9 @@ def register(registry, engine, kb=None):
         raise ToolFailure(
             "sitting on %s would leave her underneath it: %s ends with her hips lower than that "
             "object's surface" % (object_id, action_id),
-            hint="that is something to work AT, not to sit on. Pass a seat as sit_on -- scene_find "
-                 "with category 'seating' lists them -- and let her reach the other thing from there")
+            hint="that is something to work AT, not to sit on. Pass a seat as sit_on -- "
+                 "scene_search('chair') finds one, and a bare scene_search lists the room -- and let "
+                 "her reach the other thing from there")
 
     async def _verify_seat(object_id):
         """Confirm the named object exists and has a surface to sit on, and return its height.
@@ -1017,11 +1279,12 @@ def register(registry, engine, kb=None):
         found = (data.get("objects") or [{}])[0]
         if not found.get("found"):
             raise ToolFailure("no object %r to sit on" % object_id,
-                              hint="scene_find(category='seating') lists what there is")
+                              hint="scene_search('chair') finds a seat, and a bare scene_search "
+                                   "lists everything there is")
         if found.get("surface_height_m") is None:
             raise ToolFailure("%r has no measurable surface to sit on" % object_id,
-                              hint="pick something with a usable surface; scene_find reports "
-                                   "has_usable_surface")
+                              hint="that is not something with a seat. Pass a chair or a stool; "
+                                   "scene_search('chair') finds one")
         return found
 
     async def _ground_declared_hands(gates, ik_bindings):
@@ -1083,10 +1346,18 @@ def register(registry, engine, kb=None):
                             "due_at_s": starts.get(want["from_action"], 0.0)})
         return out
 
-    async def _opening_step(character, base, overlays, then):
+    async def _opening_step(character, base, overlays, then, projected=None):
         """What a plan should open on, and whether that opener is only there to be departed from.
 
         Returns (action_id, at_rest).
+
+        `projected` IS THE STATE THIS PLAN IS ABOUT TO CREATE, not the one the engine is in. The
+        decision below depends on what she is doing when the plan commits, and since the check that
+        gates the commit now runs BEFORE the walk, the engine's answer at that moment is about the
+        wrong moment -- she is still standing where she was. A plan that is about to walk her
+        somewhere and play out of the walk passes what the walk will leave behind, which is the same
+        answer the engine used to give a beat later. Nothing is guessed: `_walk_there` plays the walk
+        cycle and does not settle it, so `playing` is `walking` and `going` is false by construction.
 
         A STANDING-TO-SEATED CHANGE NEEDS A STANDING STEP TO DEPART FROM, and the model reaches for
         `walking` because that is the standing action it just used to get there. But `move_to` has
@@ -1106,10 +1377,13 @@ def register(registry, engine, kb=None):
         """
         if base != LOCOMOTION_ACTION and not then:
             return base, False          # nothing below can apply
-        try:
-            state = await _call(P.T.MOTION_LOCOMOTE, {"character": character, "query": True})
-        except ToolFailure:
-            return base, False          # no engine to ask: leave the plan exactly as written
+        if projected is not None:
+            state = projected
+        else:
+            try:
+                state = await _call(P.T.MOTION_LOCOMOTE, {"character": character, "query": True})
+            except ToolFailure:
+                return base, False      # no engine to ask: leave the plan exactly as written
         if state.get("going"):
             return base, False          # she really is walking; the rest of this is about standing still
 
@@ -1175,7 +1449,10 @@ def register(registry, engine, kb=None):
                 generated.append(timed["generated"])
             steps.append(timed)
 
-        await _call(P.T.MOTION_ASSEMBLE, {
+        # Through the same fence as everything else. Getting up is a generated posture change like any
+        # other, and it is the one this file decides on by itself -- the model never asked for it, so a
+        # rise that lands badly is a failure nobody would have predicted from the request.
+        await _assemble({
             "character": character, "steps": steps, "free_channels": [],
             "ik": [], "gaze_at": None, "stand_at": None, "carry": [], "mode": "commit"})
         return {"order": order, "generated": generated}
@@ -1304,44 +1581,41 @@ def register(registry, engine, kb=None):
         # refused outright; the frames for getting up are generated now, and the only thing that stays
         # true is the order — she cannot travel while the navigation agent is still off. Returns None
         # and costs one query when she is already standing, which is every plan that came before this.
+        #
+        # This is the one mutation that still happens ahead of the main check, and it is checked in its
+        # own right -- `_commit_sequence` goes through the same fence. It has to come first because
+        # everything after it is about a character who is standing up: the route preview would measure
+        # from a chair, and the hidden copy would be checked in a posture she is about to leave.
         stood_up = await _get_up_first(character, base) if mode == "commit" else None
         if stood_up and not stood_up.get("landed"):
             raise ToolFailure(stood_up.get("note") or "she did not finish standing up",
                               hint="nothing else was played. Read check_motion for how far the rise "
                                    "got before asking for it again.")
 
-        walked = None
+        # WHERE THE WALK WOULD PUT HER, WITHOUT WALKING HER THERE.
+        #
+        # This used to be the walk itself, and it was the one part of a plan that could not be taken
+        # back: she crossed the room, and only then did the motion she crossed it for get built and
+        # judged. Measured against the rule this whole path exists for -- a plan that fails must not be
+        # visible -- a character standing at a chair she cannot sit on is exactly as visible as a bad
+        # sit. So the route is computed, the arrival projected, and the motion below is checked AT that
+        # arrival. She takes her first step after the verdict, further down.
+        #
+        # ONE CALL STILL, SO THERE IS NO MODEL TURN IN THE MIDDLE OF THE MOTION. Walking and then
+        # sitting used to be move_to followed by plan_motion, and between them sat a model round trip
+        # -- measured at 0.85 s on a real turn -- during which she stood at the chair doing nothing.
+        # The check that has been inserted is an ENGINE round trip; the model still makes one call.
+        preview, aim, aimed_for = None, None, None
         if walk_to and mode == "commit":
-            # ONE CALL, SO THERE IS NO MODEL TURN IN THE MIDDLE OF THE MOTION. Walking and then sitting
-            # used to be move_to followed by plan_motion, and between them sat a model round trip --
-            # measured at 0.85 s on a real turn -- during which she stood at the chair doing nothing.
-            # Worse, move_to had parked her in idle to end the walk, so the plan that followed departed
-            # from a standstill: walk, stop, stand, sit. Here the walk is left playing and the descent
-            # commits the moment she arrives, one WebSocket round trip later (p50 0.32 ms).
-            #
-            # It stays a walk in the plan too. _opening_step asks the engine what is playing rather
-            # than guessing, sees `walking`, and keeps it as the opener with at_rest -- so the step
-            # supplies the pose the descent departs from and hands over at once, instead of striding a
-            # full cycle on the spot after she has already crossed the room.
             if stop_within is None:
                 stop_within = "right_at_it" if sit_on else "beside_it"
-            walked = await _walk_there(character, walk_to, stop_within=stop_within,
-                                       then_wait=True, settle=False,
-                                       under=while_walking, carry=carry if while_walking else None)
-            if not walked.get("arrived"):
-                raise ToolFailure(
-                    "she did not get to %s: %s" % (walk_to, walked.get("note") or "still walking"),
-                    hint="nothing was played. Check the destination is reachable, or walk there with "
-                         "move_to and see how far she gets.")
-            # Which way to face is decided by the action and what it touches, not by the seat and not
-            # by the route -- see _face_for. Done before the plan commits, because the descent has to
-            # start from the finished orientation.
+            # Which way she ends up facing is decided by the action and what it touches, not by the
+            # seat and not by the route -- see _face_for. Resolved before the preview so the projected
+            # arrival carries the heading she will actually be at when the motion starts; a hidden copy
+            # checked facing the way she walked is checked in the wrong direction, which for a sit at a
+            # desk is backwards.
             aim, aimed_for = await _face_for(intended)
-            if aim:
-                if not await _turn_to_face(character, aim):
-                    walked["note"] = "still turning to face %s when the plan committed" % aim
-                walked["facing"] = aim
-                walked["facing_from"] = "%s touches it, so that is what she faces" % aimed_for
+            preview = await _preview_walk(character, walk_to, stop_within=stop_within, face=aim)
 
         asked_base = base
         # THE WALK IS OVER, THE OVERLAY IS NOT. She has arrived, so keeping `walking` as the base of
@@ -1352,7 +1626,13 @@ def register(registry, engine, kb=None):
         arrived_composing = bool(while_walking) and not then and "idle" in kb.actions
         if arrived_composing:
             base = "idle"
-        base, at_rest = await _opening_step(character, base, overlays, then)
+        # After a walk the engine's own answer is about the wrong moment -- she has not set off yet --
+        # so the opener is decided against what the walk will leave behind. `_walk_there` plays the
+        # walk cycle and is told not to settle it, so this is construction rather than a guess.
+        base, at_rest = await _opening_step(
+            character, base, overlays, then,
+            projected={"going": False, "playing": LOCOMOTION_ACTION}
+            if preview and preview.get("will_walk") else None)
         assembly, layers, gates = _one_step(base, overlays, hold_final_pose, ik_bindings, asked_objects)
         if arrived_composing:
             # A DIFFERENT SUBSTITUTION AND A DIFFERENT REASON, so it does not borrow the sentence
@@ -1392,9 +1672,9 @@ def register(registry, engine, kb=None):
         if seated and not sit_on:
             raise ToolFailure(
                 "%s is a seated action and nothing was named to sit on" % seated[0],
-                hint="find a seat with scene_find(category='seating'), move_to it stopping right at "
-                     "it, and pass its id as the top-level `sit_on` of this same call. Playing a "
-                     "seated clip on open floor puts her in mid-air.")
+                hint="find a seat with scene_search('chair'), and pass its id as the top-level "
+                     "`sit_on` of this same call — that also walks her there. Playing a seated clip "
+                     "on open floor puts her in mid-air.")
 
         derived = [assembly.as_dict()]
         assemblies = [assembly]         # the objects behind `derived`, for the retrieval verdict
@@ -1443,7 +1723,7 @@ def register(registry, engine, kb=None):
             except ValueError as e:
                 raise ToolFailure(str(e),
                                   hint="the library has no clip for standing up or sitting down. Find "
-                                       "something to sit on with scene_find(category='seating') and "
+                                       "something to sit on with scene_search('chair') and "
                                        "pass it as sit_on; the frames will then be generated against "
                                        "it rather than blended.")
             except (IOError, OSError) as e:
@@ -1475,6 +1755,15 @@ def register(registry, engine, kb=None):
 
         grounded = await _ground_declared_hands(gates, ik_bindings or [])
         starts = _step_starts(steps)
+        walk_payload = None
+        if while_walking and mode == "commit":
+            # The walk-with-overlays plan, built here so it can be checked before she sets off and
+            # then sent verbatim by `_walk_there`. Entered on the frame closest to what she is
+            # currently doing, which is a read-only question and stable: nothing has moved.
+            was = await _call(P.T.MOTION_LOCOMOTE, {"character": character, "query": True})
+            walk_payload = _in_place_payload(character, LOCOMOTION_ACTION,
+                                             from_action=was.get("playing"),
+                                             overlays=while_walking, carry=carry)
         payload = {
             "character": character,
             "steps": steps,
@@ -1493,7 +1782,42 @@ def register(registry, engine, kb=None):
             "carry": carry or [],
             "mode": mode,
         }
-        data = await _call(P.T.MOTION_ASSEMBLE, payload)
+        # ---- everything above this line is derivation; nothing has moved ------------------------
+        #
+        # THE FENCE. Both plans are run on a hidden duplicate of her before the visible one does
+        # anything: the walk-with-overlays where she stands now, and the motion itself at the arrival
+        # the route preview projected. A failure here raises, and she is exactly where she was.
+        validated = None
+        if mode == "commit":
+            if walk_payload is not None:
+                await _validate(walk_payload)
+            validated = await _validate(payload, at=_standing_at(preview))
+
+        # ---- and only now does anything visible happen -------------------------------------------
+        walked = None
+        if preview is not None:
+            walked = await _walk_there(character, walk_to, stop_within=stop_within,
+                                       then_wait=True, settle=False,
+                                       under=while_walking, under_payload=walk_payload,
+                                       carry=carry if while_walking else None)
+            if not walked.get("arrived"):
+                raise ToolFailure(
+                    "she did not get to %s: %s" % (walk_to, walked.get("note") or "still walking"),
+                    hint="the motion was not played. The route was clear when it was checked, so "
+                         "something is in the way now -- try again, or walk there with move_to and "
+                         "see how far she gets.")
+            if aim:
+                # The turn has to finish before the plan commits: a descent that starts mid-turn puts
+                # her down facing part of the way round.
+                if not await _turn_to_face(character, aim):
+                    walked["note"] = "still turning to face %s when the plan committed" % aim
+                walked["facing"] = aim
+                walked["facing_from"] = "%s touches it, so that is what she faces" % aimed_for
+            for key in ("path_length_m", "eta_s"):
+                if walked.get(key) is None and preview.get(key) is not None:
+                    walked[key] = preview[key]
+
+        data = await _assemble(payload, checked=True)
 
         generated = [s["generated"] for s in steps if s.get("generated")]
         # Said back, because `mode` defaults and a caller that omitted it has no other way to know
@@ -1508,6 +1832,11 @@ def register(registry, engine, kb=None):
         result = {"mode": mode, "derived": derived if len(derived) > 1 else derived[0],
                   "retrieval": verdicts if len(verdicts) > 1 else verdicts[0],
                   "gates": gates, "engine": data}
+        if validated:
+            # THAT THE CHECK RAN IS PART OF WHAT HAPPENED. A committed plan with no verdict beside it
+            # reads the same as one that skipped the check, and the difference is the whole point of
+            # this path.
+            result["validated"] = validated
         # WHICH PART OF EACH CLIP WAS USED, when it was not all of it. Assembly's unit used to be a
         # whole clip on a channel; an overlay now contributes the frames it is actually doing
         # something in, and one repetition where it repeats. Said back because "she did one chest
@@ -1556,20 +1885,23 @@ def register(registry, engine, kb=None):
             result["note"] = ("part of this motion does not exist in the library and was generated: "
                               "say so rather than presenting it as a retrieved clip.")
             if mode == "commit":
-                # THE LANDING CANNOT BE MEASURED YET, AND WAITING FOR IT WOULD PUT THE LENGTH OF THE
-                # ANIMATION INSIDE THE ANSWER. The descent does not start until the outgoing step
-                # reaches its handover and then takes about a second more, which is longer than the
-                # whole turn should be. So the check is scheduled rather than called: the loop runs it
-                # once it is answerable and reports separately. Saying so here also removes the
-                # check_motion round trip from the model's path -- it does not have to ask.
+                # WHAT THIS WATCHES FOR CHANGED WHEN THE PLAN STARTED BEING CHECKED FIRST. It used to
+                # be the only verdict there was, arriving seconds after a viewer had already watched
+                # the sit land badly. The plan has now been run on a hidden copy and passed before
+                # anything moved, so what is left to find out is whether the real scene did something
+                # the copy could not know about -- the seat moved, somebody else picked the thing up,
+                # the route changed under her. That is worth measuring and it is not worth waiting for,
+                # so it is scheduled: the loop runs it once it is answerable and reports separately.
                 result["verify"] = {
                     "status": "scheduled",
                     "tool": "check_motion",
                     "arguments": {"character": character},
-                    "confirms": "the pelvis landed on %s" % sit_on,
-                    "on_failure": "the sit you just committed did not land:",
-                    "note": "the landing is being measured and the result is reported separately. It "
-                            "is not known yet, so do not say she is seated -- say she is sitting down.",
+                    "confirms": "the pelvis landed on %s, in the real scene rather than the copy"
+                                % sit_on,
+                    "on_failure": "the sit was checked and passed, but in the scene it did not land:",
+                    "note": "this plan already passed a geometric check before it played, so it is "
+                            "sound. This watches the real scene for something the check could not "
+                            "see. Say she is sitting down; the landing is still being measured.",
                 }
         return result
 
@@ -1617,22 +1949,17 @@ def register(registry, engine, kb=None):
                   "properties": {"character": {"type": "string"}}},
                  check_motion)
 
-    registry.add("scene_find",
-                 "Find objects in the 3D scene by category, name, or the contact name a motion uses. "
-                 "Returns identities and coarse relations; ask scene_position for where they are.",
-                 FIND_PARAMS, scene_find)
-    registry.add("scene_describe",
-                 "Details for one scene object: what it is, what holds it, whether the character can "
-                 "reach it.",
-                 DESCRIBE_PARAMS, scene_describe)
-    registry.add("scene_anchors",
-                 "Named places a character can stand and face, e.g. the bedside or the monitor station.",
-                 ANCHORS_PARAMS, scene_anchors)
-    registry.add("scene_position",
-                 "Where objects actually are, in metres, and how far they are from a character. Use it "
-                 "to decide whether something is within reach or needs walking to, and to find the "
-                 "height of a surface such as a seat.",
-                 POSITION_PARAMS, scene_position)
+    registry.add("scene_search",
+                 "Which thing is that. Search the scene by name or by the contact name a motion uses, "
+                 "and get back the id to plan with, what it is called, and the other names it answers "
+                 "to. Named places are things too, so this is also how you find somewhere to walk. "
+                 "Call it with no query to list everything there is — the list is short and complete.",
+                 SEARCH_PARAMS, scene_search)
+    registry.add("scene_query",
+                 "What those things are to the character right now: does it exist, is it within arm's "
+                 "reach, does she have to walk to it, is somebody holding it. Use it to decide "
+                 "whether a motion needs a walk first.",
+                 QUERY_PARAMS, scene_query)
     registry.add("move_to",
                  "Walk the character somewhere and wait until she gets there. The motion clips are all "
                  "in-place, so playing a walk does not move her — this does. Somewhere can be an "

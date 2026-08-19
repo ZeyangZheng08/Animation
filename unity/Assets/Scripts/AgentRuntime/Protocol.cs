@@ -30,7 +30,19 @@ namespace AgentRuntime
         // v3 puts the text input in the running scene. agent.instruct goes out from here; agent.status
         // and agent.reply come back, and they are the first messages this side receives that are not
         // requests. Dispatch classifies on the presence of `id`, the same rule the agent already uses.
-        public const int Version = 3;
+        //
+        // v4 puts a check in front of execution. motion.assemble takes a third mode, `validate`, which
+        // plays the whole plan on a hidden duplicate of the character at fixed timestep and answers
+        // with the same geometric metrics the runtime gate reports -- before anything a viewer can see
+        // has changed. motion.locomote takes `preview`, which answers where a walk WOULD end without
+        // taking a step, so the motion that follows a walk is judged at the place it will happen.
+        //
+        // THE BUMP IS NOT OPTIONAL AND THAT IS THE POINT. An executor from before this does not know
+        // the word `validate`; Apply treated anything that was not "commit" as a dry run, so it would
+        // answer "resolved, touched nothing" -- which reads exactly like a pass. A plan would then be
+        // committed on the strength of a check that never ran. A fatal version mismatch turns that into
+        // an error on the first message instead.
+        public const int Version = 4;
 
         // engine -> agent, unsolicited
         public const string EngineHello = "engine.hello";

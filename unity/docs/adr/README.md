@@ -14,6 +14,7 @@ See `../../HANDOFF.md` §8 for the engineering design principles and staged road
 | [0006](0006-peak-resilience-by-design.md) | "Peak resilience" = graceful degradation by design; QPS / online-ops out of scope | Accepted |
 | [0007](0007-v2-body-part-split.md) | v2 body-part split (9 channels) + Python-side reproducible extractor; supersedes 0003 | Accepted |
 | [0008](0008-vlm-proposed-authored-fields.md) | A VLM proposes the SEMANTIC 5-tuple; consistency-check-gated, human review optional (since 2026-06-25); numerics stay MEASURED | Accepted |
+| [0009](0009-check-before-you-play.md) | A plan is played on a hidden duplicate and judged before the visible character moves; protocol v4 | Accepted |
 
 New ADRs: copy the format, take the next number, set Status, never edit an Accepted record's
 decision in place — supersede it with a new ADR that references the old one.

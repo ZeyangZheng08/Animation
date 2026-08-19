@@ -152,9 +152,68 @@ async def read_stdin(session, engine):
         await route(session, text, source="stdin")
 
 
+SERVICE_LOG = os.path.join("_traces", "service.log")
+
+
+def open_service_log():
+    """Where a detached service says things, and where it can be asked where it is stuck.
+
+    THE REASON THIS EXISTS IS THREE FAILED INVESTIGATIONS. Started from Unity the process runs with
+    its output on a hidden Windows console: a turn went silent, and the log, the traceback and every
+    progress line went somewhere nobody could read. Each time the only way forward was to kill the
+    service and try to reproduce it by hand, which is not a diagnosis — it is a coin toss with extra
+    steps.
+
+    Two signals come with it, because the two ways a service goes quiet need different tools:
+
+        kill -USR1 <pid>    every THREAD's stack, written by faulthandler from inside the signal
+                            handler. This is the one that still works when the process is blocked in
+                            a write or any other syscall, which is exactly when nothing else does.
+        kill -USR2 <pid>    every asyncio TASK and what it is awaiting. Needs the loop to be running,
+                            and says far more when it is: a turn stuck on a response and a turn that
+                            was never created look identical from outside and nothing alike here.
+    """
+    try:
+        os.makedirs(os.path.dirname(SERVICE_LOG) or ".", exist_ok=True)
+        handle = open(SERVICE_LOG, "a", encoding="utf-8", buffering=1)
+    except OSError:
+        return None
+
+    import signal
+    try:
+        import faulthandler
+        faulthandler.register(signal.SIGUSR1, file=handle, all_threads=True)
+    except (AttributeError, ValueError, RuntimeError):
+        pass
+
+    def dump_tasks(_signum, _frame):
+        import traceback
+        try:
+            handle.write("\n==== tasks at %s ====\n" % time.strftime("%H:%M:%S"))
+            for task in asyncio.all_tasks():
+                handle.write("\n-- %r\n" % (task,))
+                for frame in task.get_stack():
+                    handle.write("".join(traceback.format_stack(frame, limit=1)))
+            handle.flush()
+        except Exception:                            # noqa: BLE001 - a diagnostic must not add a fault
+            pass
+
+    try:
+        signal.signal(signal.SIGUSR2, dump_tasks)
+    except (AttributeError, ValueError):
+        pass
+    return handle
+
+
 async def main(args):
-    if args.verbose:
-        logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)-16s %(message)s")
+    # A DETACHED SERVICE MUST NOT LOG TO A CONSOLE NOBODY DRAINS. See open_service_log: that is where
+    # three investigations went to die. Attached, stderr is right there and is what a person expects.
+    service_log = open_service_log() if args.headless else None
+    if args.verbose or service_log is not None:
+        logging.basicConfig(
+            level=logging.INFO if args.verbose else logging.WARNING,
+            format="%(asctime)s %(name)-16s %(message)s",
+            **({"stream": service_log} if service_log is not None else {}))
     over = asyncio.Event()          # the run is finished; whatever is driving this should return
     kb = KBIndex.load()
     registry = kb_tools.register(ToolRegistry(), kb, measuring=not args.narrow_tools)
@@ -167,9 +226,17 @@ async def main(args):
         from agent.tools import scene as scene_tools
         scene_tools.register(registry, engine, kb)
 
-    backend = llm.backend_for(args.model, keys.load_openai_key())
+    backend = llm.backend_for(args.model, keys.load_openai_key(),
+                              silence_timeout=args.model_silence_s)
     session = Session(backend, registry, prompt.with_corpus(kb))
-    session.on_event(render)
+    # NOTHING READS STDOUT WHEN THE SERVICE IS DETACHED, and rendering to it anyway is not merely
+    # useless. `render` is blocking `print` called from inside the event loop, and the launcher starts
+    # this with its output on a hidden Windows console; a write that stalls there stops the loop
+    # itself -- no events out, no sockets serviced, no trace line, zero CPU, which is precisely what a
+    # wedged service looked like three times in a row. A headless service has consoles attached over
+    # the console channel, which is async and drops a slow client rather than waiting for it.
+    if not args.headless:
+        session.on_event(render)
     if args.trace:
         session.on_event(turn_recorder(args.trace))
 
@@ -253,12 +320,18 @@ if __name__ == "__main__":
                     help="stay up after Unity leaves play mode, so the next play-mode entry reattaches "
                          "to the same service. The default is to shut down with it: a service that "
                          "outlives its scene is one somebody has to go and find afterwards.")
+    ap.add_argument("--model-silence-s", type=float, default=llm.DEFAULT_SILENCE_S,
+                    help="how long the model may say nothing while the loop is waiting for it "
+                         "before the turn is given up on. Not a turn budget -- progress resets it. "
+                         "0 waits for ever, which is what this used to do.")
     ap.add_argument("--verbose", action="store_true",
                     help="log the runtime channel and the instruction bridge")
     ap.add_argument("--headless", action="store_true",
                     help="do not read stdin; every instruction comes from the console in the scene. "
                          "Use this when the service runs detached, where stdin is at EOF and the "
-                         "terminal reader would shut the session down immediately.")
+                         "terminal reader would shut the session down immediately. Also stops "
+                         "rendering turns to a stdout nobody reads, and puts the log in "
+                         "_traces/service.log — where `kill -USR1` and `kill -USR2` write too.")
     try:
         sys.exit(asyncio.run(main(ap.parse_args())))
     except KeyboardInterrupt:

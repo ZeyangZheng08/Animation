@@ -74,9 +74,15 @@ covered by `.pubignore` -- so carrying a new file on this branch stays a decisio
 default. Run it, read what it says, then commit:
 
 ```sh
-./sync.sh
+./sync.sh                 # refresh what is published; report what is new upstream
+./sync.sh --adopt         # and take the new files it just listed
 git add -A && git commit && git push
 ```
+
+`--adopt` exists so nobody hand-copies. A new file carried across from the Windows working tree
+arrives CRLF onto a branch pinned to LF, and every later run then calls it changed; `--adopt` reads
+it the same way everything else here is read. Which files belong on a published branch is still a
+judgement — that is what the report above is for — and this only removes the copying from it.
 
 It reads the Unity side through `git.exe`, never through this WSL git, and takes content from the
 object store rather than the Windows working tree. Both reasons are written out at the top of the

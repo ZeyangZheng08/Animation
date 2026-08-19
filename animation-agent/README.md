@@ -9,12 +9,12 @@ animation-agent/
 │
 │   the runtime service — reads the KB, decides, and drives the scene
 ├── agent/
-│   ├── protocol.py           the typed message contract with the executor (v3) — the authority
+│   ├── protocol.py           the typed message contract with the executor (v4) — the authority
 │   ├── engine.py             the runtime channel; this service is the SERVER, the engine connects in
 │   ├── console.py            the input sources that are not stdin, and the one way a turn is displayed
 │   ├── loop.py               the ReAct loop, shaped after Codex's submission/event queues
 │   ├── llm/                  one backend per endpoint (Realtime / Responses / Chat), one interface
-│   ├── tools/                the 14 declared tools — kb, files, scene
+│   ├── tools/                the 12 declared tools — kb, files, scene
 │   ├── kbindex.py            the KB in memory, and the only place that decides what a model sees
 │   ├── assemble.py           which action drives which body channel, and in what share. No model involved
 │   ├── segments.py           which frames of a clip one channel is actually moving in; one repetition
@@ -28,6 +28,9 @@ animation-agent/
 │      probe_mix.py           one channel, two clips: is the derived share the one the graph holds
 │      probe_pairs.py         all 56 ordered action pairs, one AFTER the other; --engine commits each
 │      probe_compose.py       the same 56 played AT THE SAME TIME: what composes, and what only looks like it
+├── smoke_*.py                against a REAL Unity in play mode, no model
+│      smoke_validate.py      the fence: preview, check on the duplicate, then walk and commit
+│      smoke_engine.py        the executor alone — full match, layered composition, scene grounding
 ├── tests/                    the agent side, without an editor or an API key
 │
 │   the offline pipeline — builds the KB (stdlib only)
@@ -148,11 +151,94 @@ with backoff is the engine, and a client does that naturally.
 
 The contract is `agent/protocol.py`, and it is the authority: three shapes (request, response, event), a
 version check that is fatal on decode rather than best-effort, and a mirror in
-`Assets/Scripts/AgentRuntime/Protocol.cs` that is changed second. Requests run agent -> engine only, so
+`Assets/Scripts/AgentRuntime/Protocol.cs` that is changed second.
+
+**v4 puts a check in front of execution, and the fatal version check is why it can.** `motion.assemble`
+takes a third mode, `validate`, and `motion.locomote` takes `preview`. An older executor does not know
+the word `validate` and its `Apply` treated anything that was not `commit` as a dry run — so it would
+answer "resolved, touched nothing", which reads exactly like a pass, and a plan would commit on the
+strength of a check that never ran. Refusing to speak at all is the only safe way to be out of step.
+
+**THE CONTRACT HAS THREE SPEAKERS, AND THE THIRD DOES NOT IMPORT THE FIRST.** `Protocol.cs` is the
+mirror everyone remembers. `terminal.py` is the one nobody did: it is standard-library-only by design,
+so it cannot import the package, and it had the version written in as a literal. The v3 → v4 bump
+updated two of the three and every line typed into the Play-mode console was refused at the door for
+days. It reads the number out of this file now, and falls back to reading the constant out of the
+source rather than to a number of its own. **When bumping `PROTOCOL_VERSION`, grep for the constant,
+not for the import** — and note that neither `smoke_validate.py` nor `drive.py` can catch this, because
+both import the contract and are therefore always right. Requests run agent -> engine only, so
 the executor stays a pure reactor with no pending-request table to reconcile after a domain reload;
 events run both ways, because the text box lives in the running scene and a turn's progress has to reach
 it. `runtime/` keeps only what it was ever for — the echo server and latency probe the measurements
 below were taken with.
+
+## Nothing visible moves until the plan has been checked
+
+`plan_motion` compiles the whole plan once — steps, layers, channel windows, the generated posture
+change, IK bindings, declared contacts, carry — and then sends **that same dictionary** twice:
+
+```
+plan compiled once
+    │
+    ├─ motion.locomote preview   where the walk WOULD end. The NavMeshAgent is not enabled,
+    │                            not moved, not given a destination.
+    ├─ motion.assemble validate  the whole plan on a hidden duplicate of the character,
+    │                            standing at that projected arrival, every renderer off
+    │        fail → ToolFailure naming the metric, the object, and which of four things
+    │                to change: the motion, the target, the composition, the route
+    └─ motion.assemble commit    the same bytes, now visibly
+```
+
+The model still sees two modes, `dry_run` and `commit`. `validate` is between this service and the
+executor: it costs an engine round trip (40–160 ms measured, including the fixed-step evaluation) and
+**no iteration of the model's own loop** — a tool that asked the model to plan, then check, then commit
+would spend two thirds of a turn deciding to do what it had already decided.
+
+Why it exists: every geometric check used to be an autopsy. The worst shape was the walk —
+`plan_motion(walk_to=…)` walked her across the room first and derived the motion she had crossed it for
+afterwards, so a plan that could not work was already on screen. Measured live on `EmergencyRoom`:
+`typing` with the patient as `sit_on` now comes back `sat_through_support on obj:Patient` and she does
+not move; `walk over and sit down to type` validates thirteen metrics over 12.0 s of animation in 721
+samples, then walks, then commits. `smoke_validate.py` is that run.
+
+What the check does **not** cover, because saying so is the point: a `carry` comes back under
+`unmeasured` — attaching the real prop to the duplicate is exactly the visible mutation this avoids —
+and there is still no body-versus-scene collision metric anywhere in the system. The runtime `GateProbe`
+is kept and its job changed: it watches for the real scene doing something the duplicate could not know
+about.
+
+## When a turn goes quiet
+
+A detached service — the one Unity's Play launcher starts — used to run with its output on a hidden
+Windows console. When a turn went silent there was nothing to read: no log, no traceback, no progress
+line. That cost three investigations, so the service no longer renders turns to a stdout nobody
+drains, and says what it has to say in `_traces/service.log` instead.
+
+```
+python drive.py --listen          watch what a running turn emits, without sending anything
+tail -f _traces/service.log       the service's own log
+kill -USR1 <pid>                  every THREAD's stack — works even when blocked in a syscall
+kill -USR2 <pid>                  every asyncio TASK and what it is awaiting
+```
+
+The first thing that dump ever found: no `run_turn` task at all, and one line in the log saying a
+console message had been dropped for being protocol v3 at a v4 service. `terminal.py` had a version
+number written into it and the contract had moved; every instruction typed into the Play-mode window
+was refused at the door, silently, for days. It reads the number out of `agent/protocol.py` now, and
+the console answers a message it cannot read instead of dropping it — either would have been enough,
+which is why there are both.
+
+The two signals answer different questions and the difference is the diagnosis. A `run_turn` task
+awaiting `_queue.get()` means the model has not replied. No `run_turn` task at all means the turn was
+never created. A thread stack sitting in a write means the loop itself is blocked, and nothing
+asyncio-level would ever have shown it.
+
+The model leg is bounded: `--model-silence-s`, twenty seconds by default, applies to each stretch of
+the model not answering — a response in flight, or a frame going out. Tool time is not on that clock,
+and every delta, tool call and completed response resets it. Measured healthy responses on this setup
+land between one and three seconds, so twenty is roughly eight times the worst of them; the turn that
+prompted the bound sat silent indefinitely with the socket established and answering pings. `0` waits
+for ever, which is what this used to do.
 
 ## Networking
 

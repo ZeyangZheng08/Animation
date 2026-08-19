@@ -301,7 +301,7 @@ def register(registry, kb, measuring=True):
             out["note"] = ("A seated action starts already seated; the library has no sit-down clip. "
                            "Those frames are GENERATED — one plan_motion call naming the standing "
                            "action as `base`, the seated one in `then`, and something real to sit on "
-                           "as `sit_on` (scene_find category 'seating'). Two separate calls cut "
+                           "as `sit_on` (scene_search('chair') finds one). Two separate calls cut "
                            "straight from standing to seated instead.")
         return out
 
@@ -379,7 +379,7 @@ def register(registry, kb, measuring=True):
             # and the sentence has to carry that rather than leave it to be inferred.
             entry["can_be_generated"] = True
             entry["how"] = ("a crossfade cannot serve here, so the frames are GENERATED for you. Find "
-                            "something to sit on with scene_find(category='seating'), move_to it, then "
+                            "something to sit on with scene_search('chair'), pass it as sit_on, then "
                             "make ONE plan_motion call with base=%s, then=[{base: %s}] and sit_on set "
                             "to that object. Do not report this as impossible."
                             % (from_action, to_action))

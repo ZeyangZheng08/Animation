@@ -111,7 +111,7 @@ async def main(host, port, wait):
         print("   " + ", ".join(a["name"] for a in anchors["anchors"][:8]))
 
         bottle = await link.call(P.T.SCENE_FIND, {"alias": "aspirin_bottle"})
-        print("\n== scene_find(alias='aspirin_bottle')")
+        print("\n== scene.find(alias='aspirin_bottle')   [the wire, not the tool]")
         for o in bottle["objects"]:
             print("   %s  %s  near=%s" % (o["id"], o["name"], o["near"]))
         bottle_id = bottle["objects"][0]["id"] if bottle["objects"] else None
@@ -119,7 +119,7 @@ async def main(host, port, wait):
         # Seating, and where it is. A generated sit has to land on something real, so the chair being
         # findable AND measurable is a precondition for the whole posture-change path.
         chairs = await link.call(P.T.SCENE_FIND, {"category": "seating"})
-        print("\n== scene_find(category='seating')")
+        print("\n== scene.find(category='seating')        [the wire, not the tool]")
         for o in chairs["objects"]:
             print("   %s  %s  surface=%s" % (o["id"], o["name"], o.get("has_usable_surface")))
         if chairs["objects"]:
@@ -134,7 +134,7 @@ async def main(host, port, wait):
 
         # The scene-wide fallback: something real but never annotated.
         raw = await link.call(P.T.SCENE_FIND, {"name_contains": "Defibrilator"})
-        print("\n== scene_find fallback for an unannotated object")
+        print("\n== scene.find fallback for an unannotated object")
         print("   %d hit(s); first: %s" % (len(raw["objects"]),
                                            raw["objects"][0] if raw["objects"] else "none"))
 

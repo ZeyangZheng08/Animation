@@ -61,6 +61,11 @@ namespace AgentRuntime
         private string _posture = "standing";
         private string _supportObjectId;
 
+        // The hidden duplicate every commit is checked on. Built on first use rather than at Awake:
+        // a character nobody drives should not cost a second skeleton, and until a plan arrives there
+        // is nothing to check.
+        private ValidationCharacter _validation;
+
         public string Id { get { return id; } }
 
         /// <summary>Her name, falling back to the object's. Never empty: a character with no name is
@@ -115,7 +120,52 @@ namespace AgentRuntime
             return _bones.TryGetValue(bone, out t) ? t : null;
         }
 
+        /// <summary>Turn a request into a motion. Three modes, one derivation.
+        ///
+        /// THE PLAN IS COMPILED ONCE AND THEN USED, NEVER RE-DERIVED. `validate` and `commit` arrive as
+        /// two requests carrying the same bytes, and each is parsed by the same <see cref="Compile"/>
+        /// from that same input — so what was checked and what plays cannot be two different plans.
+        /// Deriving anything between the check and the play would put the gap back exactly where this
+        /// was built to close it.
+        ///
+        ///     dry_run   resolve everything, touch nothing, report what it would become
+        ///     validate  play it through on a hidden duplicate and report the geometry (v4)
+        ///     commit    do it, visibly
+        ///
+        /// The model sees only the first and the last. `validate` is between the agent service and this
+        /// executor: the service sends it, reads the verdict, and commits only on a pass, which costs
+        /// an engine round trip and no iteration of the model's own loop.
+        /// </summary>
         public object Apply(Request request, SceneQueryService scene, AgentLink link)
+        {
+            CompiledPlan plan = Compile(request);
+
+            // Both of these are about the PLAN rather than about what to do with it, so they answer
+            // the same way in every mode. In particular a plan that would snap between postures is
+            // refused during `validate`, which is before anything has moved -- it used to be refused at
+            // commit, by which time a walk had already happened.
+            object already = AlreadyThere(plan);
+            if (already != null) return already;
+            RefuseCut(plan);
+
+            string mode = request.Str("mode", "dry_run");
+            if (mode == "validate") return Validate(plan, scene);
+            if (mode == "commit") return Commit(plan, scene, link);
+
+            // A dry run resolves everything and touches nothing, so the agent can see what a plan
+            // would become without the character twitching through half-formed states.
+            return new Dictionary<string, object>
+            {
+                { "mode", "dry_run" }, { "steps", plan.Steps.Count }, { "resolved", plan.Resolved },
+                { "posture", _posture }, { "ends_posture", plan.LastPosture ?? _posture },
+                { "bindings", DescribeBindings(request, scene, null, false) }
+            };
+        }
+
+        /// <summary>Everything a plan is, derived from the request and nothing else. No component is
+        /// touched and no state is written, so this is safe to run for a check as well as for a play.
+        /// </summary>
+        public CompiledPlan Compile(Request request)
         {
             // v2 sends `steps`; a request with only `layers` is one step starting at zero, which is
             // exactly what v1 meant. Normalising here rather than branching later keeps a sequence and
@@ -132,9 +182,6 @@ namespace AgentRuntime
                 wrapper["layers"] = flat;
                 stepSpecs = new JArray { wrapper };
             }
-
-            bool commit = request.Str("mode", "dry_run") == "commit";
-            float t0 = Time.realtimeSinceStartup;
 
             Descent pendingDescent = null;
             string pendingSupport = null;
@@ -287,27 +334,48 @@ namespace AgentRuntime
                 }
             }
 
-            // ALREADY THERE IS NOT A REFUSAL. A plan that ends where she already is asks for nothing,
-            // and answering it with the stand-up refusal below describes the wrong problem: measured on
-            // a real turn, the model committed a walk-and-sit, it played, it committed the same plan
-            // again a second later, and was told the library has no clip for standing up. It concluded
-            // the request could not be done and said so to the user, while she was sitting in the chair
-            // typing. The refusal was true about the first step and false about the request.
-            if (_posture == "seated" && firstPosture == "standing"
-                && (lastPosture ?? "standing") == "seated" && pendingDescent != null
-                && pendingDescent.SupportObjectId == _supportObjectId)
+            return new CompiledPlan
             {
-                return new Dictionary<string, object>
-                {
-                    { "already", true },
-                    { "posture", _posture },
-                    { "sitting_on", _supportObjectId },
-                    { "note", id + " is already seated on " + _supportObjectId + ", which is where "
-                              + "this plan ends. Nothing was replayed; the motion you committed is the "
-                              + "one running." }
-                };
-            }
+                Request = request,
+                Steps = steps,
+                Resolved = resolved,
+                FirstPosture = firstPosture,
+                LastPosture = lastPosture,
+                Pending = pendingDescent,
+                PendingSupport = pendingSupport
+            };
+        }
 
+        /// <summary>The "nothing to do" answer, or null.
+        ///
+        /// ALREADY THERE IS NOT A REFUSAL. A plan that ends where she already is asks for nothing, and
+        /// answering it with the stand-up refusal below describes the wrong problem: measured on a real
+        /// turn, the model committed a walk-and-sit, it played, it committed the same plan again a
+        /// second later, and was told the library has no clip for standing up. It concluded the request
+        /// could not be done and said so to the user, while she was sitting in the chair typing. The
+        /// refusal was true about the first step and false about the request.
+        /// </summary>
+        private object AlreadyThere(CompiledPlan plan)
+        {
+            if (_posture != "seated" || plan.FirstPosture != "standing"
+                || (plan.LastPosture ?? "standing") != "seated" || plan.Pending == null
+                || plan.Pending.SupportObjectId != _supportObjectId)
+            {
+                return null;
+            }
+            return new Dictionary<string, object>
+            {
+                { "already", true },
+                { "posture", _posture },
+                { "sitting_on", _supportObjectId },
+                { "note", id + " is already seated on " + _supportObjectId + ", which is where "
+                          + "this plan ends. Nothing was replayed; the motion you committed is the "
+                          + "one running." }
+            };
+        }
+
+        private void RefuseCut(CompiledPlan plan)
+        {
             // A PLAN MUST NOT CUT BETWEEN POSTURES, IN EITHER DIRECTION. Opening in a posture she is
             // not in means arriving at it in one frame: the pose it lands in is correct, so every
             // geometric check passes, and nothing measures that she teleported into it.
@@ -320,27 +388,60 @@ namespace AgentRuntime
             // an absolute value, and PoseSynth's clamp runs both ways). What was asymmetric was this
             // refusal. So the rule is now the one rule it always was: a posture change needs generated
             // frames, and a plan that declares them may play.
-            if (firstPosture != null && firstPosture != _posture && pendingDescent == null)
+            if (plan.FirstPosture != null && plan.FirstPosture != _posture && plan.Pending == null)
             {
                 throw new AgentRequestException(Protocol.Err.ExecFailed,
-                    "this plan starts " + firstPosture + " while " + id + " is " + _posture
+                    "this plan starts " + plan.FirstPosture + " while " + id + " is " + _posture
                     + ", so she would snap between the two with nothing in between. Name an action in "
                     + "her current posture as `base` and the other one in `then`, in one call — that "
                     + "is what makes the frames between them"
-                    + (firstPosture == "seated" ? ", and `sit_on` says what to sit on." : "."));
+                    + (plan.FirstPosture == "seated" ? ", and `sit_on` says what to sit on." : "."));
+            }
+        }
+
+        /// <summary>Play the plan through on a hidden duplicate and report what the gate made of it.
+        ///
+        /// `at` says where to stand the duplicate: the arrival a route preview projected for a walk
+        /// that has not happened yet. Absent, it is checked where she is. Checking a sit from across
+        /// the room would fail a plan that works, and checking a walk-and-sit at the seat would pass
+        /// one whose walk cannot happen — which is why the preview and this take the same route.
+        /// </summary>
+        private object Validate(CompiledPlan plan, SceneQueryService scene)
+        {
+            Vector3 at = transform.position;
+            Quaternion facing = transform.rotation;
+            JObject where = plan.Request.Obj("at");
+            if (where != null)
+            {
+                JArray point = where["position"] as JArray;
+                if (point != null && point.Count >= 3)
+                {
+                    at = new Vector3(point[0].ToObject<float>(), point[1].ToObject<float>(),
+                                     point[2].ToObject<float>());
+                }
+                float? yaw = where.Value<float?>("facing_deg");
+                if (yaw.HasValue) facing = Quaternion.Euler(0f, yaw.Value, 0f);
             }
 
-            if (!commit)
-            {
-                // A dry run resolves everything and touches nothing, so the agent can see what a plan
-                // would become without the character twitching through half-formed states.
-                return new Dictionary<string, object>
-                {
-                    { "mode", "dry_run" }, { "steps", steps.Count }, { "resolved", resolved },
-                    { "posture", _posture }, { "ends_posture", lastPosture ?? _posture },
-                    { "bindings", DescribeBindings(request, scene, false) }
-                };
-            }
+            if (_validation == null) _validation = new ValidationCharacter(this);
+            // What she is carrying in her body right now. A generated sit lives in the composer's
+            // correction rather than in any clip, so a plan committed while she is seated has to be
+            // checked from seated -- starting the duplicate from a stance she is not in would judge a
+            // motion nobody is about to perform.
+            MotionComposer.Correction inherited = composer == null
+                ? new MotionComposer.Correction() : composer.GetCorrection();
+            return _validation.Run(plan, scene, at, facing, inherited, at.y);
+        }
+
+        private object Commit(CompiledPlan plan, SceneQueryService scene, AgentLink link)
+        {
+            Request request = plan.Request;
+            List<MotionComposer.StepSpec> steps = plan.Steps;
+            List<object> resolved = plan.Resolved;
+            string lastPosture = plan.LastPosture;
+            Descent pendingDescent = plan.Pending;
+            string pendingSupport = plan.PendingSupport;
+            float t0 = Time.realtimeSinceStartup;
 
             TakeOverFromLegacy();
             // EVERY COMMIT STARTS FROM UNBOUND HANDS. ReleaseAll used to be reachable only through
@@ -358,7 +459,7 @@ namespace AgentRuntime
             {
                 composer.SetCorrection(new MotionComposer.Correction());
             }
-            List<object> bindings = DescribeBindings(request, scene, true);
+            List<object> bindings = DescribeBindings(request, scene, ik, true);
             composer.Play();
             StartGates(request, scene, bindings);
             string endsPosture = lastPosture ?? _posture;
@@ -403,7 +504,18 @@ namespace AgentRuntime
             };
         }
 
-        private List<object> DescribeBindings(Request request, SceneQueryService scene, bool apply)
+        /// <summary>What this plan's bindings resolve to, and — when `binder` is given — applying
+        /// them to it.
+        ///
+        /// TWO CHARACTERS RUN THIS, WHICH IS WHY THE BINDER IS A PARAMETER. The visible one binds its
+        /// own IkBinder and attaches carried props; the hidden duplicate binds ITS binder against the
+        /// same real scene anchors and attaches nothing, because reparenting the real bottle is exactly
+        /// the visible mutation a pre-execution check exists to avoid. Both go through this one method
+        /// so the refusals cannot differ — including the one below about aiming two hands at an object
+        /// that says where only one goes, which changes the pose that gets judged.
+        /// </summary>
+        internal List<object> DescribeBindings(Request request, SceneQueryService scene,
+                                               IkBinder binder, bool attachCarried)
         {
             List<object> out_ = new List<object>();
             if (scene == null || scene.Registry == null) return out_;
@@ -450,8 +562,8 @@ namespace AgentRuntime
                             + "or bind one hand only."));
                         continue;
                     }
-                    if (ok && apply) ok = ik != null && ik.Bind(effector, anchor,
-                                                                entry.HintAnchor(effector), at);
+                    if (ok && binder != null) ok = binder.Bind(effector, anchor,
+                                                               entry.HintAnchor(effector), at);
                     Dictionary<string, object> binding = (Dictionary<string, object>)
                         Binding("ik", effector, objectId, ok, entry);
                     binding["engages_at_s"] = at;
@@ -465,7 +577,7 @@ namespace AgentRuntime
                 SceneRegistry.Entry entry = scene.Registry.ById(gaze);
                 bool ok = entry != null && entry.target != null;
                 double at = request.Float("gaze_at_s", 0f);
-                if (ok && apply) ok = ik != null && ik.BindGaze(entry.target, at);
+                if (ok && binder != null) ok = binder.BindGaze(entry.target, at);
                 Dictionary<string, object> binding = (Dictionary<string, object>)
                     Binding("gaze", "head", gaze, ok, entry);
                 binding["engages_at_s"] = at;
@@ -475,7 +587,7 @@ namespace AgentRuntime
             JArray carry = request.Arr("carry");
             if (carry != null)
             {
-                if (apply) ReleaseCarried();
+                if (attachCarried) ReleaseCarried();
                 for (int i = 0; i < carry.Count; i++)
                 {
                     JObject c = (JObject)carry[i];
@@ -502,7 +614,7 @@ namespace AgentRuntime
                             + "picked up and taken along, like the pill bottle or the bag valve mask."));
                         continue;
                     }
-                    if (ok && apply) ok = Attach(entry.target, hand);
+                    if (ok && attachCarried) ok = Attach(entry.target, hand);
                     out_.Add(Binding("carry", hand, objectId, ok, entry));
                 }
             }
@@ -560,26 +672,6 @@ namespace AgentRuntime
         {
             if (gates == null || scene == null || scene.Registry == null) return;
 
-            // ONLY WHAT WAS ACTUALLY BOUND. This used to re-read the request, so a binding the executor
-            // had refused was still measured -- the gate would report a hand failing to stay on an
-            // object it had never been attached to.
-            List<KeyValuePair<string, Transform>> bound = new List<KeyValuePair<string, Transform>>();
-            for (int i = 0; i < (applied == null ? 0 : applied.Count); i++)
-            {
-                Dictionary<string, object> b = applied[i] as Dictionary<string, object>;
-                if (b == null || (string)b["kind"] != "ik" || !(bool)b["ok"]) continue;
-                SceneRegistry.Entry e = scene.Registry.ById((string)b["object_id"]);
-                if (e != null && e.target != null)
-                {
-                    string effector = (string)b["effector"];
-                    bound.Add(new KeyValuePair<string, Transform>(effector, e.HandAnchor(effector)));
-                }
-            }
-
-            Animator animator = composer.Animator;
-            Transform leftFoot = animator == null ? null : animator.GetBoneTransform(HumanBodyBones.LeftFoot);
-            Transform rightFoot = animator == null ? null : animator.GetBoneTransform(HumanBodyBones.RightFoot);
-
             Dictionary<HumanBodyBones, Transform> _ = _bones;   // ensure the cache is warm
             Dictionary<string, Transform> effectorBones = new Dictionary<string, Transform>
             {
@@ -587,50 +679,14 @@ namespace AgentRuntime
                 { "right_hand", Bone(HumanBodyBones.RightHand) }
             };
 
-            // WHEN EACH CONTACT FALLS DUE, from the step that declares it. A binding and the contact it
-            // grounds belong to the same step, so they share the timing: judging either from frame zero
-            // fails on the walk that gets her there.
-            JArray declared = request.Arr("expect_contact");
-            Dictionary<string, float> dueByEffector = new Dictionary<string, float>();
-            for (int i = 0; declared != null && i < declared.Count; i++)
-            {
-                JObject d = (JObject)declared[i];
-                dueByEffector[d.Value<string>("effector")] = d.Value<float?>("due_at_s") ?? 0f;
-            }
-
-            // A BINDING THAT IS STILL ARRIVING IS NOT HOLDING ANYTHING. The constraint weight ramps in
-            // rather than snapping, so for a fraction of a second after a binding comes due the hand is
-            // in transit between the clip's own pose and the anchor. Judged from the instant it was
-            // asked for, contact_hold reports that whole journey as a failure to hold: measured 0.261 m
-            // against a 0.020 m tolerance, on a plan whose hands then settled to within two micrometres
-            // of the anchor. Same rule as the generated descent -- a thing that takes time is not due
-            // until it has finished -- and the length is read off the binder rather than restated here.
-            for (int i = 0; ik != null && i < bound.Count; i++)
-            {
-                string effector = bound[i].Key;
-                float due;
-                dueByEffector.TryGetValue(effector, out due);
-                dueByEffector[effector] = Mathf.Max(due, (float)ik.DueAt(effector)) + ik.RampSeconds;
-            }
-
             // The character's own feet define the floor here. A NavMesh sample would be better once
             // locomotion exists; standing height is honest for an in-place corpus.
-            float groundY = transform.position.y;
-            gates.Begin(bound, effectorBones, leftFoot, rightFoot, groundY, dueByEffector);
-
-            // Contacts the CLIPS make by themselves. Measured even where the hands are bound, because
-            // reaching an anchor is not the same as the motion reading right.
-            for (int i = 0; declared != null && i < declared.Count; i++)
-            {
-                JObject d = (JObject)declared[i];
-                SceneRegistry.Entry e = scene.Registry.ById(d.Value<string>("object_id"));
-                Transform bone;
-                if (e == null || e.target == null ||
-                    !effectorBones.TryGetValue(d.Value<string>("effector"), out bone)) continue;
-                gates.ExpectContact(d.Value<string>("effector"), bone, e.target,
-                                    d.Value<string>("object_id"),
-                                    d.Value<float?>("due_at_s") ?? 0f);
-            }
+            //
+            // What to watch is decided by GateArming, which the pre-execution validator also uses --
+            // so the check that runs before a plan plays and the one that runs while it plays are
+            // watching the same contacts, due at the same moments, by construction.
+            gates.Arm(request, scene, applied, composer.Animator, ik, effectorBones,
+                      transform.position.y);
         }
 
         /// <summary>The geometric verdict for the plan currently playing.</summary>
@@ -704,6 +760,42 @@ namespace AgentRuntime
                 here["playing"] = composer == null ? null : composer.PlayingActionId;
                 return here;
             }
+            // WHERE A WALK WOULD END, WITHOUT WALKING IT.
+            //
+            // Above the seated refusal below on purpose: this moves nothing, enables nothing and
+            // returns no state, so there is nothing for that refusal to protect against. It exists
+            // because the walk used to be the first irreversible thing a plan did -- she crossed the
+            // room, and only then did the motion she crossed it for get judged. Now the route is
+            // computed, the arrival projected, and the motion checked at that arrival; she sets off
+            // afterwards, if at all.
+            if (request.Bool("preview", false))
+            {
+                string cannotReach;
+                Vector3? look = ResolveDestination(request.Str("to"), scene, out cannotReach);
+                if (look == null)
+                {
+                    return new Dictionary<string, object>
+                    {
+                        { "preview", true }, { "reachable", false },
+                        { "to", request.Str("to") },
+                        { "why", "nothing called " + request.Str("to") + ": " + cannotReach }
+                    };
+                }
+                // Through the SAME resolution the turn itself uses, so the heading this projects is
+                // the heading Face() will produce rather than a second opinion about it.
+                Vector3? faceAt = null;
+                string faceId = request.Str("face");
+                if (!string.IsNullOrEmpty(faceId))
+                {
+                    string cannotFace;
+                    faceAt = ResolveDestination(faceId, scene, out cannotFace);
+                }
+                Dictionary<string, object> preview = locomotion.Preview(
+                    look.Value, request.Float("stop_within_m", 0.35f), faceAt);
+                preview["to"] = request.Str("to");
+                return preview;
+            }
+
             // WALKING WHILE SEATED IS NOT A SMALL ERROR. Go() re-enables the NavMeshAgent, and enabling
             // one warps its transform to the nearest point on the mesh -- which does not extend under a
             // chair. The character would jump off the seat, still in a seated pose, and the gate would
@@ -805,8 +897,32 @@ namespace AgentRuntime
             return scene.ResolvePoint(targetId, transform, out why);
         }
 
+        /// <summary>Everything a request compiles down to. Built once and used by whichever mode
+        /// asked for it, so a checked plan and a played plan are the same object graph derived from the
+        /// same bytes rather than two derivations that happen to agree.</summary>
+        public sealed class CompiledPlan
+        {
+            public Request Request;
+            public List<MotionComposer.StepSpec> Steps;
+            public List<object> Resolved;
+
+            /// <summary>The posture each end of the plan is in, derived agent-side from the knowledge
+            /// base and carried on the wire. The first decides whether this plan can start from where
+            /// she is; the last is what she will be in when it ends.</summary>
+            public string FirstPosture;
+            public string LastPosture;
+
+            /// <summary>The generated posture change, if this plan declares one.</summary>
+            public Descent Pending;
+
+            /// <summary>A seated step played without generating a change into it, which still has to
+            /// be judged against something. Without this a character seated in mid-air passes every
+            /// check, which is what happened.</summary>
+            public string PendingSupport;
+        }
+
         /// <summary>A transition that has to be generated, and when to start generating it.</summary>
-        private sealed class Descent
+        public sealed class Descent
         {
             public double AtSeconds;
             public float StartHipY;
@@ -952,6 +1068,14 @@ namespace AgentRuntime
             if (ik != null) ik.ReleaseAll();
             ReleaseCarried();
             if (legacyIkHelper != null) legacyIkHelper.enabled = true;
+            if (_validation != null) { _validation.Dispose(); _validation = null; }
+        }
+
+        private void OnDestroy()
+        {
+            // Otherwise a scene change or a domain reload leaves an invisible nurse standing in the
+            // room, which is the kind of thing nobody finds until it is animating.
+            if (_validation != null) { _validation.Dispose(); _validation = null; }
         }
 
         /// <summary>Can this effector reach a world point? Arm length is MEASURED off the skeleton

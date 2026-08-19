@@ -19,15 +19,20 @@ def test_a_call_says_what_it_is_asking_for():
 
 
 def test_an_unfiltered_room_search_says_so():
-    """`scene_find` with nothing set is the cheapest correct answer to "is there a chair", and it is
+    """`scene_search` with no query is the cheapest correct answer to "is there a chair", and it is
     the call that used to be indistinguishable from a narrowed one in the display."""
-    assert digest.describe("scene_find", {"limit": 10}) == "the whole room"
-    assert digest.describe("scene_find", {"category": "seating"}) == "seating"
+    assert digest.describe("scene_search", {"limit": 10}) == "the whole room"
+    assert digest.describe("scene_search", {"query": "chair"}) == "chair"
+    assert digest.describe("scene_query", {"object_ids": ["obj:Chair", "obj:Laptop"]}) \
+        == "obj:Chair, obj:Laptop"
 
 
 def test_a_result_says_what_came_back():
-    assert digest.summarise("scene_find", {"objects": [1, 2, 3], "count": 3}) == "3 objects"
-    assert digest.summarise("scene_find", {"objects": [], "count": 0}) == "0 objects"
+    assert digest.summarise("scene_search", {"results": [{"label": "Chair"}, {"id": "anchor:Bedside"}],
+                                             "count": 2}) == "Chair, anchor:Bedside"
+    assert digest.summarise("scene_search", {"results": [], "count": 0}) == "nothing matched"
+    assert digest.summarise("scene_query", {"objects": [{"exists": True, "needs_walking": True},
+                                                        {"exists": True}]}) == "1 of 2 within reach"
     assert digest.summarise("kb_search", {"results": [{"action_id": "typing"},
                                                       {"action_id": "idle"}]}) == "typing, idle"
     assert digest.summarise("move_to", {"arrived": True, "path_length_m": 2.44}) \
@@ -60,7 +65,8 @@ def test_a_tool_nobody_taught_it_about_still_gets_a_line():
 
 
 def test_nothing_is_invented_from_an_empty_result():
-    for name in ("scene_find", "kb_search", "move_to", "plan_motion", "check_motion"):
+    for name in ("scene_search", "scene_query", "kb_search", "move_to", "plan_motion",
+                 "check_motion"):
         out = digest.summarise(name, {})
         assert isinstance(out, str)
     assert digest.summarise("move_to", {}) == "not there yet"

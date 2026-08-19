@@ -18,16 +18,21 @@ a wire detail into the tool definitions.
 import asyncio
 import json
 
-from .base import LlmBackend, LlmError, TextDelta, ToolCall, TurnDone
+from .base import (DEFAULT_SILENCE_S, LlmBackend, LlmError, TextDelta, ToolCall, TurnDone)
 
 DEFAULT_MODEL = "gpt-5.5-2026-04-23"
 
 
 class ChatBackend(LlmBackend):
-    def __init__(self, api_key, model=DEFAULT_MODEL, max_output_tokens=4096):
+    def __init__(self, api_key, model=DEFAULT_MODEL, max_output_tokens=4096,
+                 silence_timeout=DEFAULT_SILENCE_S):
         self.api_key = api_key
         self.model = model
         self.max_output_tokens = max_output_tokens
+        # The same bound as the realtime arm, spent the way this transport spends time: one request
+        # rather than a stream of events. The SDK's own default is ten minutes with retries on top,
+        # which is long enough to read as a hang.
+        self.silence_timeout = silence_timeout
         self.messages = []
         self._events = asyncio.Queue()
         self._tools = []
@@ -38,7 +43,7 @@ class ChatBackend(LlmBackend):
             from openai import AsyncOpenAI
         except ImportError:
             raise LlmError("the chat arm needs the `openai` package")
-        self._client = AsyncOpenAI(api_key=self.api_key)
+        self._client = AsyncOpenAI(api_key=self.api_key, timeout=self.silence_timeout)
         self.messages = [{"role": "system", "content": instructions}]
         self._tools = [{"type": "function",
                         "function": {"name": t["name"], "description": t["description"],

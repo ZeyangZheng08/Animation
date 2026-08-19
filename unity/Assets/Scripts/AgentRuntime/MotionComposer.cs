@@ -156,6 +156,23 @@ namespace AgentRuntime
         private readonly List<StepRuntime> _steps = new List<StepRuntime>();
         private readonly Dictionary<string, AvatarMask> _maskCache = new Dictionary<string, AvatarMask>();
         private bool _built;
+        private bool _manual;
+
+        /// <summary>Something to splice between the correction and the output when the graph is next
+        /// built. Returns the new root.
+        ///
+        /// THIS EXISTS FOR ONE CALLER AND ONE REASON. Animation Rigging normally runs as a SECOND
+        /// PlayableGraph writing to the same Animator, and Unity composes the two by output sorting
+        /// order every frame. That works at runtime and does not work under manual evaluation:
+        /// measured on the validation duplicate, evaluating the rig's graph after this one replaced
+        /// the composed pose wholesale -- every sample came back byte-identical and a metre below the
+        /// floor, which read as "this motion puts a foot through the ground" about a plain idle. So
+        /// the duplicate takes the rig OUT of its own graph and splices it in here instead: one graph,
+        /// one evaluation, constraints on top of the pose they are meant to correct.
+        ///
+        /// Null on the visible character, where the two graphs are composed the normal way.
+        /// </summary>
+        public System.Func<PlayableGraph, Playable, Playable> ExtendGraph;
         private double _elapsed;
         private int _maxConcurrent;
         private float _peakOverlap;
@@ -210,6 +227,11 @@ namespace AgentRuntime
 
         public Animator Animator { get { return animator != null ? animator : GetComponent<Animator>(); } }
         public bool Playing { get { return _built && _graph.IsValid() && _graph.IsPlaying(); } }
+
+        /// <summary>The graph itself, for the one caller that has to synchronise something into it
+        /// before each manual evaluation. Not for general use: everything else about this graph is
+        /// reachable through the methods above.</summary>
+        public PlayableGraph Graph { get { return _graph; } }
         public int StepCount { get { return _steps.Count; } }
         public double Elapsed { get { return _elapsed; } }
 
@@ -292,7 +314,7 @@ namespace AgentRuntime
             }
 
             _graph = PlayableGraph.Create("AgentComposer:" + name);
-            _graph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
+            _graph.SetTimeUpdateMode(_manual ? DirectorUpdateMode.Manual : DirectorUpdateMode.GameTime);
             _sequence = AnimationLayerMixerPlayable.Create(_graph, inputs);
             int input = 0;
 
@@ -378,9 +400,12 @@ namespace AgentRuntime
             _graph.Connect(_sequence, 0, _correction, 0);
             _correction.SetInputWeight(0, 1f);
 
+            Playable root = _correction;
+            if (ExtendGraph != null) root = ExtendGraph(_graph, root);
+
             AnimationPlayableOutput output =
                 AnimationPlayableOutput.Create(_graph, "AgentComposer-Out", Animator);
-            output.SetSourcePlayable(_correction);
+            output.SetSourcePlayable(root);
             output.SetSortingOrder(500);
             output.SetAnimationStreamSource(AnimationStreamSource.DefaultValues);
             _built = true;
@@ -427,10 +452,50 @@ namespace AgentRuntime
             return true;
         }
 
-        private void Update()
+        /// <summary>Hand the clock over, or take it back.
+        ///
+        /// A graph in manual mode does not advance with the game; it advances exactly as far as
+        /// <see cref="Evaluate"/> is told to advance it. That is what lets the pre-execution validator
+        /// play a four-second plan on a hidden duplicate in a handful of milliseconds instead of four
+        /// seconds -- and four seconds is longer than the whole turn should be, so without this the
+        /// check could not exist. The visible character never sets this; the duplicate always does.
+        /// </summary>
+        public void SetManualTime(bool manual)
+        {
+            _manual = manual;
+            if (_graph.IsValid())
+            {
+                _graph.SetTimeUpdateMode(manual ? DirectorUpdateMode.Manual
+                                                : DirectorUpdateMode.GameTime);
+            }
+        }
+
+        /// <summary>Advance by `dt` and write the pose, for a graph whose clock this owns. The weights
+        /// and the window logic are the same <see cref="Tick"/> the frame loop runs, so a validated
+        /// plan and a played one go through one implementation and not two.</summary>
+        public void Evaluate(float dt)
         {
             if (!_built || !_graph.IsValid()) return;
-            _elapsed += Time.deltaTime;
+            Tick(dt);
+            _graph.Evaluate(dt);
+        }
+
+        private void Update()
+        {
+            // In manual mode somebody else is stepping this, and doing it here as well would advance
+            // the same plan twice per frame.
+            if (_manual) return;
+            Tick(Time.deltaTime);
+        }
+
+        /// <summary>One step of the schedule: seam weights, then the per-layer window ends. Split out
+        /// of Update so the pre-execution validator can run it at fixed timestep -- see
+        /// <see cref="SetManualTime"/>. Nothing in it reads a clock; `dt` is the only time it sees.
+        /// </summary>
+        public void Tick(double dt)
+        {
+            if (!_built || !_graph.IsValid()) return;
+            _elapsed += dt;
 
             // Each seam group rises on its own schedule. Step 0 is the base layer and stays at 1 — it is
             // not faded out, it is covered over, channel by channel as each group arrives.

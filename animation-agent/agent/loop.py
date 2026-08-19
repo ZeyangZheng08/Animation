@@ -231,7 +231,7 @@ class Session:
             arguments = call.arguments
 
         # WHAT IT IS ASKING FOR, NOT JUST WHICH TOOL. A column of bare tool names says the agent is
-        # alive and nothing else; four `scene_find` calls in a row look identical whether they are
+        # alive and nothing else; four `scene_search` calls in a row look identical whether they are
         # narrowing on a chair or re-asking a question already answered. Composed here rather than in
         # a renderer so the stdin session and an attached terminal cannot describe a turn differently.
         called = digest.describe(call.name, arguments)

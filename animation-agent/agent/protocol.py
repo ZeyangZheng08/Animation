@@ -46,7 +46,19 @@ later as a wrong pose, not as an error.
 # v3 moves the text input into the running scene. `agent.instruct` is the first message that flows
 # engine -> agent as anything other than an answer, and `agent.status` / `agent.reply` are the first
 # events that flow the other way. Nothing about the request/response half changes.
-PROTOCOL_VERSION = 3
+#
+# v4 puts a check in front of execution. `motion.assemble` gains a third mode, `validate`, which runs
+# the whole plan on a hidden duplicate of the character at fixed timestep and answers with the same
+# geometric metrics the runtime gate reports -- before anything the viewer can see has changed. And
+# `motion.locomote` gains `preview`, which answers where a walk WOULD put her without taking a step,
+# so the motion that follows the walk can be judged at the place it will actually happen.
+#
+# THE BUMP IS NOT OPTIONAL AND THAT IS THE POINT. An older executor receiving `mode: "validate"`
+# does not know the word; `Apply` treats anything that is not "commit" as a dry run, so it would
+# answer "resolved, touched nothing" -- which reads exactly like a pass. A plan would then commit on
+# the strength of a check that never ran. A fatal version mismatch turns that into an error on the
+# first message instead.
+PROTOCOL_VERSION = 4
 
 
 class T:
@@ -81,7 +93,7 @@ class T:
     SCENE_DESCRIBE = "scene.describe"   # one object: state, holder, reachability
     SCENE_ANCHORS  = "scene.anchors"    # named standing/facing anchors in the scene
     SCENE_POSITION = "scene.position"   # where things are, in metres — the one query that returns numbers
-    MOTION_ASSEMBLE = "motion.assemble"  # per-channel layers + symbolic bindings
+    MOTION_ASSEMBLE = "motion.assemble"  # per-channel layers + symbolic bindings; dry_run/validate/commit
     MOTION_LOCOMOTE = "motion.locomote"  # walk somewhere; separate because every clip is in-place
     GATE_RUN        = "gate.run"        # geometric verdict for the motion currently playing
 

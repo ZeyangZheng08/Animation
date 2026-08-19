@@ -97,6 +97,120 @@ namespace AgentRuntime
             return length;
         }
 
+        /// <summary>Where a walk to `destination` would leave her, computed and not performed.
+        ///
+        /// THE WALK USED TO BE THE FIRST IRREVERSIBLE THING A PLAN DID. She crossed the room, and only
+        /// then did the motion she crossed it for get judged -- so a plan that could not work was
+        /// already visible by the time anybody knew. A character standing at a chair she cannot sit on
+        /// is exactly as much of a failed plan on screen as a bad sit is.
+        ///
+        /// So this answers the two questions the pre-execution check needs -- can she get there, and
+        /// where would she be standing and which way would she be facing when she arrived -- using
+        /// nothing but the static navigation queries. The agent is neither enabled nor moved nor given
+        /// a destination.
+        ///
+        /// THE ARRIVAL IS NOT THE DESTINATION. A NavMeshAgent stops when its remaining path is inside
+        /// `stoppingDistance`, so the place she ends up is the route walked back by that much -- which
+        /// for a seat is the 0.15 m the mesh does not extend under. Projecting to the raw destination
+        /// instead would stand the hidden copy inside the chair and fail a sit that works.
+        /// </summary>
+        public System.Collections.Generic.Dictionary<string, object> Preview(
+            Vector3 destination, float stopWithin, Vector3? faceAt)
+        {
+            System.Collections.Generic.Dictionary<string, object> reply =
+                new System.Collections.Generic.Dictionary<string, object> { { "preview", true } };
+            NavMeshAgent a = Agent;
+            if (a == null)
+            {
+                reply["reachable"] = false;
+                reply["why"] = "this character has no NavMeshAgent";
+                return reply;
+            }
+
+            Vector3 here = transform.position;
+            NavMeshHit start;
+            if (!NavMesh.SamplePosition(here, out start, 2f, a.areaMask))
+            {
+                reply["reachable"] = false;
+                reply["why"] = "the character is not standing on the navigation mesh";
+                return reply;
+            }
+            NavMeshHit target;
+            if (!NavMesh.SamplePosition(destination, out target, 2f, a.areaMask))
+            {
+                reply["reachable"] = false;
+                reply["why"] = "there is no walkable ground near that destination";
+                return reply;
+            }
+
+            NavMeshPath path = new NavMeshPath();
+            if (!NavMesh.CalculatePath(start.position, target.position, a.areaMask, path)
+                || path.status != NavMeshPathStatus.PathComplete || path.corners.Length == 0)
+            {
+                reply["reachable"] = false;
+                reply["why"] = "no complete route to that destination";
+                return reply;
+            }
+
+            float length = 0f;
+            for (int i = 1; i < path.corners.Length; i++)
+            {
+                length += Vector3.Distance(path.corners[i - 1], path.corners[i]);
+            }
+
+            float stop = Mathf.Max(0.01f, stopWithin);
+            Vector3 approach = path.corners.Length > 1
+                ? (path.corners[path.corners.Length - 1]
+                   - path.corners[path.corners.Length - 2]).normalized
+                : transform.forward;
+            Vector3 arrival = WalkBack(path.corners, stop);
+            bool alreadyThere = length <= stop;
+            if (alreadyThere)
+            {
+                arrival = here;
+                approach = transform.forward;
+            }
+
+            // Which way she ends up looking. Arriving leaves her facing the way she walked, which for a
+            // seat is backwards -- so a plan that names something to face turns afterwards, and the
+            // heading the hidden copy is checked at is that one rather than the route's.
+            Vector3 heading = approach;
+            if (faceAt.HasValue)
+            {
+                Vector3 flat = faceAt.Value - arrival;
+                flat.y = 0f;
+                if (flat.sqrMagnitude > 1e-6f) heading = flat.normalized;
+            }
+            heading.y = 0f;
+            if (heading.sqrMagnitude < 1e-6f) heading = transform.forward;
+
+            reply["reachable"] = true;
+            reply["arrived"] = alreadyThere;
+            reply["path_length_m"] = length;
+            reply["eta_s"] = a.speed > 0f ? length / a.speed : -1f;
+            reply["arrival"] = new float[] { arrival.x, arrival.y, arrival.z };
+            reply["facing_deg"] = Quaternion.LookRotation(heading.normalized, Vector3.up).eulerAngles.y;
+            return reply;
+        }
+
+        /// <summary>The point `back` metres from the end of a corner list, measured along it.</summary>
+        private static Vector3 WalkBack(Vector3[] corners, float back)
+        {
+            Vector3 end = corners[corners.Length - 1];
+            float left = back;
+            for (int i = corners.Length - 1; i > 0; i--)
+            {
+                float span = Vector3.Distance(corners[i - 1], corners[i]);
+                if (span >= left)
+                {
+                    return Vector3.Lerp(corners[i], corners[i - 1], span <= 0f ? 0f : left / span);
+                }
+                left -= span;
+                end = corners[i - 1];
+            }
+            return end;
+        }
+
         /// <summary>Start walking. Returns null on success, or why it cannot.</summary>
         public string Go(Vector3 destination, float stopWithin)
         {

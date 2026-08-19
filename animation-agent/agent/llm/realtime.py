@@ -27,7 +27,7 @@ import logging
 
 import websockets
 
-from .base import LlmBackend, LlmError, TextDelta, ToolCall, TurnDone
+from .base import DEFAULT_SILENCE_S, LlmBackend, LlmError, TextDelta, ToolCall, TurnDone
 
 log = logging.getLogger("agent.llm.realtime")
 
@@ -36,11 +36,13 @@ DEFAULT_MODEL = "gpt-realtime-2.1-mini"
 
 
 class RealtimeBackend(LlmBackend):
-    def __init__(self, api_key, model=DEFAULT_MODEL, endpoint=ENDPOINT, temperature=None):
+    def __init__(self, api_key, model=DEFAULT_MODEL, endpoint=ENDPOINT, temperature=None,
+                 silence_timeout=DEFAULT_SILENCE_S):
         self.api_key = api_key
         self.model = model
         self.endpoint = endpoint
         self.temperature = temperature
+        self.silence_timeout = silence_timeout or None
 
         self._conn = None
         self._events = asyncio.Queue()
@@ -49,6 +51,7 @@ class RealtimeBackend(LlmBackend):
         self._tool_calls = []
         self._unknown = {}          # event type -> count, for the smoke test to report
         self._configured = asyncio.Event()
+        self._closing = False       # set by close(), so a deliberate shutdown is not reported as a fault
         self.session = None
 
     # ---- lifecycle -------------------------------------------------------------------------
@@ -92,6 +95,7 @@ class RealtimeBackend(LlmBackend):
         return [t.get("name") for t in (self.session or {}).get("tools", []) if isinstance(t, dict)]
 
     async def close(self):
+        self._closing = True
         if self._reader is not None:
             self._reader.cancel()
             self._reader = None
@@ -108,9 +112,22 @@ class RealtimeBackend(LlmBackend):
     # ---- sending ---------------------------------------------------------------------------
 
     async def _send(self, message):
+        """One outbound frame, bounded by the same number that bounds waiting for a reply.
+
+        THE DEADLINE HAS TO COVER THIS HALF AS WELL. It was first put only on the event stream, which
+        is where a turn spends nearly all of its waiting -- and that leaves `send` unbounded, so a
+        socket that accepts no more bytes hangs the turn somewhere the deadline cannot see. These
+        frames are a few hundred bytes onto an established connection; if one of them cannot go out in
+        twenty seconds the session is not working, whatever the socket says about itself.
+        """
         if self._conn is None:
             raise LlmError("Realtime session is not open")
-        await self._conn.send(json.dumps(message))
+        try:
+            await asyncio.wait_for(self._conn.send(json.dumps(message)), self.silence_timeout)
+        except asyncio.TimeoutError:
+            raise LlmError(
+                "the Realtime session to %s would not accept a %s frame within %ds"
+                % (self.model, message.get("type", "?"), round(self.silence_timeout or 0)))
 
     async def send_user_text(self, text):
         await self._send({"type": "conversation.item.create", "item": {
@@ -145,19 +162,62 @@ class RealtimeBackend(LlmBackend):
     # ---- receiving -------------------------------------------------------------------------
 
     def events(self):
-        return _EventStream(self._events)
+        return _EventStream(self._events, self.silence_timeout, self)
+
+    async def abandon(self):
+        """Give up on the response in flight, best effort.
+
+        Asked for when the model has gone quiet past the deadline. It may well not arrive — the
+        session is by then not obviously working — so it must not be able to replace the timeout with
+        an exception of its own. The point is to leave the session reusable if it can be, and to fail
+        the turn either way.
+        """
+        try:
+            await self.cancel()
+        except Exception:                            # noqa: BLE001 - see above
+            pass
 
     async def _read_loop(self):
+        """Feed the event queue until the session ends. WHATEVER ENDS IT HAS TO REACH THE QUEUE.
+
+        THE HANG THIS EXISTS TO PREVENT. This used to `pass` on ConnectionClosed, which reads as
+        tidy and is the one branch that must not be silent: the reader is the queue's ONLY producer,
+        so a reader that returns quietly leaves whoever is awaiting the next event awaiting it for
+        ever. Observed on a live turn -- the service sat at zero CPU with the socket still shown as
+        established, no event, no trace line, and `/stop` could not reach it either; from the terminal
+        it was indistinguishable from a model that was merely slow, and the same instruction had
+        answered in five seconds an hour earlier.
+
+        `websockets` pings every 20 s and gives up after 20 more, so a half-open connection surfaces
+        here as ConnectionClosed about forty seconds in. That is the fault detection working; all that
+        was missing was somebody being told.
+
+        A cancellation is different and stays silent: `close()` sets `_closing` first, so the only
+        thing that reaches the queue is a session that ended when it was not supposed to.
+        """
         try:
             async for raw in self._conn:
                 try:
                     self._handle(json.loads(raw))
                 except Exception as e:               # noqa: BLE001 - never kill the reader
                     log.exception("realtime event handling failed: %s", e)
-        except (websockets.ConnectionClosed, asyncio.CancelledError):
-            pass
+        except asyncio.CancelledError:
+            raise
+        except websockets.ConnectionClosed as e:
+            await self._fail("the Realtime session to %s closed mid-turn (%s)" % (self.model, e))
+            return
         except Exception as e:                       # noqa: BLE001
             await self._events.put(LlmError("realtime read loop died: %s" % e))
+            return
+        # Falling out of the loop is the same event without an exception: the peer closed cleanly.
+        await self._fail("the Realtime session to %s ended without answering" % self.model)
+
+    async def _fail(self, message):
+        """Put a reason on the queue unless we are the ones shutting down."""
+        if self._closing:
+            return
+        log.warning("%s", message)
+        await self._events.put(LlmError(message))
 
     def _handle(self, ev):
         kind = ev.get("type", "")
@@ -230,14 +290,33 @@ class RealtimeBackend(LlmBackend):
 
 
 class _EventStream:
-    def __init__(self, queue):
+    """The events of one response, with a bound on how long the model may say nothing.
+
+    The deadline lives here rather than around the whole turn because this is the only place that is
+    actually WAITING on the model. While a tool runs, nobody is awaiting the queue and no clock should
+    be running; the moment the loop asks for the next event, one should. See DEFAULT_SILENCE_S for the
+    measurement behind the number.
+    """
+
+    def __init__(self, queue, timeout=None, backend=None):
         self._queue = queue
+        self._timeout = timeout
+        self._backend = backend
 
     def __aiter__(self):
         return self
 
     async def __anext__(self):
-        item = await self._queue.get()
+        try:
+            item = await asyncio.wait_for(self._queue.get(), self._timeout)
+        except asyncio.TimeoutError:
+            if self._backend is not None:
+                await self._backend.abandon()
+            raise LlmError(
+                "the model said nothing for %ds, so this turn was given up on. The session was still "
+                "open and answering pings; it simply never replied. Try again — and if it repeats, "
+                "the model endpoint is the thing to look at, not the plan."
+                % round(self._timeout or 0))
         if isinstance(item, LlmError):
             raise item
         return item

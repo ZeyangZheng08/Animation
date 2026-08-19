@@ -8,6 +8,108 @@
 
 ## 0. TL;DR — current state
 
+> **✓ THE PROTOCOL BUMP HAD A THIRD SPEAKER, AND IT COST THREE SESSIONS (2026-08-19, later).**
+> `agent/protocol.py` is the authority, `Protocol.cs` mirrors it, and **`terminal.py` had the version
+> written into it as a literal** — it is standard-library-only and does not import the package. The v3
+> → v4 bump updated two of the three, so **every instruction typed into the Play-mode window was
+> refused at the door**: `ConsoleServer` logged the malformed line into a file nobody was reading and
+> dropped it, the terminal drew a fresh prompt, and nothing happened. It presented as an intermittent
+> hang in the model — zero CPU, the socket to the model established and idle, no trace line, `/stop`
+> unable to reach it — and it was none of those. See the amendment on ADR
+> [0009](docs/adr/0009-check-before-you-play.md).
+>
+> - **The rule: bumping `PROTOCOL_VERSION` means changing THREE files, and the third does not import
+>   the first.** Grep for the constant, never for the import. `terminal.py` now reads it out of
+>   `agent/protocol.py` and falls back to reading the source, so there is nothing left to forget.
+> - **A refusal nobody can see is indistinguishable from being ignored.** The engine channel's
+>   mismatch is fatal on decode and loud; the console channel's was logged and dropped. It now answers
+>   down the socket the message came up on. Either fix alone would have sufficed; both are there
+>   because the cost of neither was three days.
+> - **It never reproduced under investigation**, because the harness used to reproduce it
+>   (`drive.py`) imports the contract and was therefore always correct. Guessing found nothing three
+>   times; the task dump found it on first use.
+> - **What made it findable in the end.** A detached service used to run with its output on a hidden
+>   Windows console: no log, no traceback, no progress line. Now `_traces/service.log` holds the log,
+>   `kill -USR1 <pid>` writes every thread's stack (which still works when the process is blocked in a
+>   syscall) and `kill -USR2 <pid>` writes every asyncio task and what it is awaiting. **No `run_turn`
+>   task at all** is what said the turn had never been created, which is a different fault entirely
+>   from a turn stuck on a response — and the two are identical from outside.
+> - **The model leg is bounded now**: `--model-silence-s`, **20 s** by default, per stretch of the
+>   model not answering (a response in flight, or a frame going out). Tool time is not on that clock
+>   and progress resets it. Measured healthy responses land at 1–3 s; the first version of this bound
+>   was 180 s and that was wrong for an interaction loop — a response that takes a hundred seconds has
+>   already failed, whatever it eventually returns.
+> - Also fixed on the way: `scene_search` had dropped the name a person says. Asked to drive **Jill**
+>   the model got back `CPRNurse` / `EKGNurse` / `AirwayNurse` and answered that there was no
+>   character called Jill, about a scene she is standing in. The spoken name lives in the executor's
+>   handshake; the projection now merges it in.
+>
+> **✓ NOTHING VISIBLE MOVES UNTIL THE PLAN HAS BEEN CHECKED (2026-08-19). Protocol v3 → v4; both
+> halves must be rebuilt together.** Every geometric check used to be an autopsy: the plan committed,
+> the composer played it, `GateProbe` measured the pose a viewer was already looking at. Worse for a
+> plan with a walk in it — `plan_motion(walk_to=…)` walked her across the room FIRST and derived the
+> motion she had crossed it for afterwards. A commit is now played through on a hidden duplicate of the
+> character and only a pass reaches the visible one. See ADR
+> [0009](docs/adr/0009-check-before-you-play.md).
+>
+> - **The order.** `plan compiled once` → `motion.locomote preview` (route + projected arrival +
+>   heading, agent neither enabled nor moved) → `motion.assemble mode=validate` (the whole plan on the
+>   duplicate, standing at that arrival) → on a pass, `motion.assemble mode=commit` with **the same
+>   bytes**. The model still sees `dry_run` and `commit`; `validate` is between the service and the
+>   executor and costs no model iteration.
+> - **One judgement, two clocks.** `GateEvaluator` (new) holds every threshold, accumulation and metric
+>   shape and knows nothing about frames; `GateProbe` is now a thin MonoBehaviour that feeds it real
+>   elapsed seconds and `ValidationCharacter` (new) feeds it simulated ones. `GateArming` (new) decides
+>   what to watch, for both. **No threshold was added, changed or invented** — the numbers are the ones
+>   that were already there, moved once.
+> - **Fast, not real-time.** The duplicate's composer graph runs in `DirectorUpdateMode.Manual` and is
+>   stepped by hand. `PoseSynth.Step(dt)`, `IkBinder.Step(dt)` and `MotionComposer.Tick(dt)` were split
+>   out of the frame loop for that, and `PostureTransitionEvaluator` (new) holds the descent curve both
+>   paths share. Measured on `EmergencyRoom`: walk-and-sit = 12.0 s of animation in 721 samples, whole
+>   `validate` round trip 40–160 ms.
+> - **Verified live, not by inspection.** `smoke_validate.py` (new, agent repo) drives the real tools
+>   against play mode. `walk over and sit down to type` validates 13 metrics — both hands' contact hold
+>   and reach, `seated_on_support`, `hip_reached_target`, `descent_saturated` — then walks, then
+>   commits. `typing` with the patient as `sit_on` comes back `sat_through_support on obj:Patient` and
+>   **she does not move**.
+> - **The trap that cost the most, written down because it was not obvious.** Animation Rigging runs as
+>   a SECOND `PlayableGraph` on the same Animator; at runtime Unity composes the two by output sorting
+>   order. Under manual evaluation that does not happen — each `Evaluate` is a full animation update for
+>   one graph alone, so the rig's pass **replaced** the composed pose. Every sample came back
+>   byte-identical and a metre low: `ground_penetration` 0.659 m on a plain `idle`. Fix is
+>   `RigBuilder.BuildPreviewGraph`, splicing the constraints into the composer's graph
+>   (`MotionComposer.ExtendGraph`). Afterwards: feet 0.0798 m, hips 0.9011 m, and a `walking` probe
+>   shows 0.062 m of hip travel — the number that tells "the graph advanced" from "the clip held still".
+> - **What is NOT covered, stated rather than implied.** A `carry` is reported under `unmeasured`:
+>   attaching the real prop to the duplicate is exactly the visible mutation this avoids. There is still
+>   **no body-versus-scene collision metric** — there was not one before either, and this did not
+>   acquire one: the only geometry any gate touches is a foot against a single scalar floor height, a
+>   pelvis against one seat's surface height and axis-aligned bounds, and a named hand against a named
+>   object. Nothing tests a forearm through a bed rail, and `AgentRuntime` makes no `Physics` call at
+>   all.
+> - **`foot_skate` reads differently on the two clocks, and that is why it still has no threshold.**
+>   Measured the same day: 2.1449 m/s on the duplicate against 1.5341 m/s through the runtime probe on
+>   a real walk. The duplicate has no NavMeshAgent, so a locomotion clip strides on the spot and the
+>   whole stride counts as slide; at runtime the agent cancels part of it. A cutoff under ~1.5 would
+>   fail every walk that plays, under ~2.15 every walk at the check, and above that it catches nothing.
+>
+> **✓ THE SCENE SURFACE IS TWO TOOLS (2026-08-19).** `scene_find` / `scene_describe` / `scene_anchors` /
+> `scene_position` → **`scene_search`** ("which thing is that?" — id, label, aliases, nothing else) and
+> **`scene_query`** ("what is it to her right now?" — `exists`, `within_arms_reach`, `needs_walking`,
+> `held_by`). Category, surface height, transforms, distances, `carriable` and per-hand-anchor flags are
+> gone from the model's view; they still exist and are still consumed by `_verify_seat`, the descent and
+> the gate. The wire is **unchanged** — `scene.find`/`describe`/`anchors`/`position` are engine-internal
+> API now, reached only from `agent/tools/scene.py`. Anchors are entities, so `scene_search('bedside')`
+> finds `anchor:Bedside` and there is no separate anchors call.
+>
+> - The defect this closes structurally: a model fills in every field a schema offers, and a blank
+>   `reachable_by` turned an unconstrained search into "within arm's reach right now" — measured, ten
+>   empty `scene_find` calls in one turn and an agent concluding a room with a chair in it had no chair.
+>   The old fix was a guard (`_asked_for`); this is the same defect with the fields removed.
+> - Residual, out of this change's scope and worth knowing: `plan_motion` still echoes
+>   `generated_transitions` with hip heights and surface heights in metres. The model cannot ASK for a
+>   number any more; it is still handed some in the report of a plan it committed.
+>
 > **✓ A CLIP CAN BE TAKEN APART (2026-08-13).** Assembly's smallest unit used to be a whole clip hung on
 > a channel, and a grip used to veto the whole plan. Both are gone, and the composition count went from
 > **10 real two-source pairs to 24** out of 56. `probe_compose.py` is the figure; run it before quoting
@@ -195,7 +297,7 @@
 >   the runtime channel is a WebSocket where **the agent is the server and the engine connects in** (the
 >   editor drops managed state on every recompile and play-mode toggle, so the reconnecting party must be
 >   the engine). It carries typed messages, never code. `runtime/echo_server.py` + `runtime/ws_probe.py`
->   are the skeleton that proved the channel. **The contract has since landed:** `agent/protocol.py` (v3)
+>   are the skeleton that proved the channel. **The contract has since landed:** `agent/protocol.py` (v4)
 >   is the authority, mirrored by `Assets/Scripts/AgentRuntime/Protocol.cs`, and the executor is the
 >   eleven components under that same folder.
 > - **Networking:** `networkingMode=mirrored` in `C:\Users\<you>\.wslconfig` (+ `wsl --shutdown`). It is
@@ -418,7 +520,7 @@
 - **The scene is scenario-aligned with the source project (2026-06-09, see `SCENARIO.md`)**: all source-active nurses are active again. The acting/IK nurses are `CPRNurse` (Jill), `AirwayNurse` (Kate), `EKGNurse` (Dana) — **`Nurse1` is only a background figure with no IK/action rig; animation work targets Jill/Kate/Dana**. `NurseAnimatorEvents.cs` was ported (prop events now have a receiver), and the missing NavMesh agent type "Nurse" (`-1372625422`) was restored in `ProjectSettings/NavMeshAreas.asset` (verified binding to the baked surface).
 - **MotionKB was source-aligned (2026-06-09)**: feet/legs magnitudes re-measured in world space (the old hips-relative metric inflated planted feet under pelvis leans), `check_pulse` feet corrected to static, `giving_pills` feet corrected to dynamic (real adjusting step), `giving_pills.can_overlay_on` narrowed to `["idle"]` (lock-disjointness rule; see §8.3 step 5).
 - The console has one **benign** NRE only (the Animator editor window's `UnityEditor.Graphs.Edge.WakeUp`), unrelated to the scene/logic.
-- **The next phase hasn't started**: the single-agent Python service, the deterministic assembly/bake path, the engine-executor protocol, and the geometric gates are all still roadmap (research statement updated 2026-07-01 — see the §0 note above and §6); VLM feedback loop, SMPL representation, cross-engine executors, and gated KB write-back are staged extensions beyond that.
+- **Phase 2 is under way, and this bullet used to deny it** (corrected 2026-08-19; it had said the service, the protocol and the gates were "all still roadmap", which stopped being true some time ago and directly contradicted the notes above). What exists: the single-agent Python service (`~/Research/animation-agent`), the engine-executor contract (`agent/protocol.py` **v4** ↔ `Protocol.cs`), the runtime executor (`Assets/Scripts/AgentRuntime/`), and the geometric gates — which since 2026-08-19 run **before** execution as well as during it (§0, ADR [0009](docs/adr/0009-check-before-you-play.md)). What does **not** exist: the **bake path** — nothing writes a synthesized `AnimationClip` or an FBX, and that is deliberate until a quality gate can admit one. Staged beyond that: VLM feedback loop, SMPL/SMPL-X representation, Unreal/Blender executors, multi-agent split, gated KB write-back.
 
 ---
 
@@ -517,6 +619,8 @@ measured from.
 |---|---|---|
 | Body-part knowledge base (v1, **retired**) | git tag `kb/v1` + `schema/motionkb.v1.schema.json` (snapshot contract) | 8 actions, schema `motionkb/v1`, 6-part BodyPartFact + `composability` (incl. `posture`; `idle`/`walking`/`typing` are bases, `typing` is the first **seated** one). **Retired at the 2026-06-24 candidate→accepted promotion** — the root `agent/kb/*.json` are v2 now (next row). |
 | MotionKB **v2 (ACCEPTED)** | root `agent/kb/*.json` (schema `motionkb/v2`, `status: accepted`) · `agent/motionkb/` (Python extractor) · `engine_mask_map.json` · [ADR 0007](docs/adr/0007-v2-body-part-split.md) · [ADR 0008](docs/adr/0008-vlm-proposed-authored-fields.md) · `docs/specs/motionkb-v2-spec.md` | 9-channel split + orthogonal `ik_goals`; MEASURED filled + validated 8/8; SEMANTIC 5-tuple **filled + verified 8/8** via the VLM-proposal loop (ADR 0008), `composability` authored, `target` deferred to Phase-2. **Promoted candidate→accepted 2026-06-24** (v1 retired to tag `kb/v1`); `candidate/` now the empty staging area (see §0). |
+| **Runtime executor** (Phase 2, engine half) | `Assets/Scripts/AgentRuntime/` (15 components) · [ADR 0009](docs/adr/0009-check-before-you-play.md) | `AgentLink` (the one WebSocket, agent is the server) · `Protocol.cs` **v4**, mirrored second from `agent/protocol.py` · `SceneRegistry`/`SceneQueryService` (typed scene predicates; still answer `scene.find`/`describe`/`anchors`/`position`, which are engine-internal API now — the model's surface is `scene_search` + `scene_query`) · `MotionComposer`+`ClipLibrary` (masked layers, fractional weights, per-layer clip windows) · `PoseSynth`+`PostureTransitionEvaluator` (generated sit/stand, closed loop on measured hip height) · `IkBinder` · `Locomotion` (walking, and `Preview` for a route that is computed rather than walked) · `GateEvaluator`+`GateArming`+`GateProbe`+`ValidationCharacter` (**one judgement, two clocks** — a commit is played through on a hidden duplicate first). No LLM and no generated C# on this side. |
+| Agent service (Phase 2, decoupled half) | `~/Research/animation-agent` (WSL, its own repo) | Retrieval over the KB, the deterministic channel partition and seam schedule, the ReAct loop, the 12 declared tools, `agent/protocol.py` as the contract authority. Acceptance: `pytest` (281), `run_eval.py` (floor 7/12), `smoke_validate.py` against play mode. See §1.1 for which side to run git and python on. |
 | Typing test (2026-06-13, revised) | `Assets/Scenes/EmergencyRoom_TypingTest.unity` + `Assets/Scripts/TypingTestDriver.cs` | Copy of `EmergencyRoom`; on Play the typing nurse walks → standing Idle → **seated Typing** at the computer, reusing the `NurseAnimator` `Walk_N→Idle→Typing` state machine (driver feeds `Speed` from the NavMeshAgent, fires the `typing` trigger once arrived+Idle). **Hand IK (faithful to the source):** owned by the reused `NurseIKHelper`, which snaps the two `TwoBoneIKConstraint` (`L_Hand`/`R_Hand`) onto the shared `laptop` IK points and ramps their weights. In the source these are fired by `LaptopIK`/`ResetHandsIK` **animation events** baked into the Typing clip — but **those imported-clip events do NOT dispatch in this standalone scene** (verified: the constraint weight stays 0 through the whole ~16 s clip, no "missing receiver" warning, and `AlwaysAnimate` doesn't help — not a culling issue). So `TypingTestDriver` calls the SAME `NurseIKHelper.LaptopIK(speed)` / `ResetHandsIK(speed)` API itself on Typing enter/exit and leaves `NurseIKHelper` **enabled** — this **replaced the earlier bypass** that disabled `NurseIKHelper` and drove the constraints directly in `Update`. `TypingTestDriver.ikRampSpeed` serialized to `0.1`. **Avatar mismatch = root cause of palms-up hands:** the shared laptop IK-point world rotations are hand-authored for the **`nurse_avatar.fbx`** skeleton, and `NurseIKHelper.SetIKPoints` copies BOTH position AND rotation onto the wrist with `targetRotationWeight=1`. `Nurse1` is a **`FemaleScientists.fbx`** instance whose hand-bone bind-pose axis differs (~180° forearm roll), so the identical world rotation flips the palm UP — position lands exactly on the keys, only the wrist roll is wrong (proven from the scene: the constraint Tip/Mid/Root resolve to the FemaleScientists prefab GUID; everything else — point rotations, weights, `NurseIKHelper` code — is identical to the working source). **Fix chosen (user): use `nurse_avatar`** — added **`TypingNurse_Avatar`** (a duplicate of the `CPRNurse` nurse_avatar nurse, plus `TypingTestDriver`), which walks → idles → types with correct **palms-down** hands. In this scene **only `TypingNurse_Avatar` + `patient_avatar` are active**; `Nurse1` (FemaleScientists, palms-up, otherwise unchanged) and all other nurse avatars are `SetActive(false)`. Re-author the two `laptop` point rotations for FemaleScientist, or set `targetRotationWeight=0`, if that avatar must type instead. **Gotcha:** setting `constraint.weight` from `execute_code` does NOT engage the rig (wrong phase) — it must come from a MonoBehaviour `Update` (or `NurseIKHelper`'s own ramp). |
 | ER scene | `Assets/Scenes/EmergencyRoom.unity` | full visual environment; patient **awake/reclining (P0)** on the angled bed, patient+bed Animators **live (2026-06-16)**; all source-active nurses active — acting/IK nurses are Jill/Kate/Dana (CPRNurse/AirwayNurse/EKGNurse); Nurse1 is background-only |
 | IK demo | `Assets/Scenes/NurseAnimTest.unity` | RigBuilder + TwoBoneIKConstraint hand IK |
@@ -542,6 +646,21 @@ measured from.
 10. **Nurses were re-activated on 2026-06-09** to match the source scene: `CPRNurse / AirwayNurse / EKGNurse / Nurse3 / FemaleScientists_PRF_URP` are `SetActive(true)` again (only `Nurse7Agent`'s AirwayNurse copy stays inactive, as in the source). The acting nurses with full IK/animation rigs are CPRNurse/AirwayNurse/EKGNurse — not Nurse1.
 11. **Orphan animation events (faithful to source)**: `patientCPR` on `nurse_cpr_long` and `lowerBed` on `nurse_drop_bed` have no receiver in either project — playing those clips logs "AnimationEvent has no receiver"; harmless.
 12. **Stray `pill_bottle` renderer on `hand_r` (magenta — found & removed 2026-06-13)**: `CPRNurse`'s right-hand **bone** `hand_r` had a `MeshFilter`+`MeshRenderer` (mesh `pill_bottle`, **null material** → Unity draws it magenta) added directly onto the bone. It is **not** in `nurse_avatar.fbx` (the model's `hand_r` carries no renderer), **not** in the source `VR4Nursing_v2` scene, and **not** referenced by `NurseAnimatorEvents` (the real held bottle is the bone's inactive `pill_bottle` child = the `medicineBottle` ref; the ambubag is `held_ambubag`). It was inherited by the `TypingNurse_Avatar` duplicate; only `CPRNurse` had it (EKGNurse/AirwayNurse/Nurse3 did not). Both were cleaned — the `MeshFilter`+`MeshRenderer` removed from the bone — and the scene now has **0 null-material renderers**. Lesson: a skeleton bone should carry no renderer, and a **null material renders magenta** (not always a shader/URP problem; check for an unmanaged mesh on a bone first).
+13. **A protocol bump has THREE speakers, and the third does not import the first.**
+    `agent/protocol.py` is the authority, `Assets/Scripts/AgentRuntime/Protocol.cs` mirrors it, and
+    `terminal.py` — standard-library-only, so no import — had the number written in as a literal. The
+    v3 → v4 bump updated two of them and every line typed into the Play-mode console was then dropped
+    as malformed. **Grep for the constant, not for the import.** Both remaining copies now derive it,
+    but the lesson generalises: any file that cannot import the contract will hold a copy of it.
+14. **A refusal nobody can see is the same as being ignored.** The same bug survived because
+    `ConsoleServer` logged the dropped line and moved on — correct about the session, wrong about the
+    person, who saw a fresh prompt. When adding a channel, decide where its errors surface before
+    deciding they are fatal.
+15. **Guessing cost three sessions; the task dump answered it on first use.** A detached service now
+    logs to `_traces/service.log`, `kill -USR1 <pid>` dumps every thread (works when blocked in a
+    syscall), `kill -USR2 <pid>` dumps every asyncio task and what it awaits. "No `run_turn` task at
+    all" is what identified it — the turn had never been created, which looks from outside exactly
+    like a turn stuck on a model response and is nothing like it.
 
 ---
 
@@ -587,6 +706,15 @@ Build order (by dependency; confirm priority with the user):
    scene compatibility) · retrieval (part-segment composability, transition validity) · assembly
    (acceleration discontinuity, foot skate, penetration, end-effector error) · scene landing (world-space
    geometry between character and objects/ground/environment).
+   **Status (2026-08-19), because the list above is the target and not a claim:** retrieval-stage checks
+   are real and run agent-side with no round trip (posture, channel partition, contested grips). Assembly
+   and scene-landing checks are real, live in `GateEvaluator`, and **run before execution** on a hidden
+   duplicate as well as during it — contact hold, contact reached, ground penetration, support landing,
+   hip travel, descent saturation. Foot skate is measured and deliberately **not** judged (no calibrated
+   threshold). Not built: acceleration discontinuity, and any body-versus-scene collision metric. The
+   intent stage has no gate of its own — reachability is decided by the walk and by the executor's own
+   refusals. Rollback replanning is one hop: a refusal names the metric and which of four things to
+   change, and the model re-plans in the same turn.
 5. **Staged extensions (not current work)**: multi-agent split (intent / retrieval / assembly planning /
    visual verification / scene landing as specialist agents); Unreal/Blender executors; a VLM semantic
    feedback loop; SMPL/SMPL-X unified representation; optional pre-bake full-body coordination refinement;
@@ -618,6 +746,7 @@ Build order (by dependency; confirm priority with the user):
 - `read_console` is error-free (ignore the benign NRE from §4 item 8); the controller has no missing-script and the avatar has no missing materials.
 - The MotionKB validates — `python agent/motionkb/validate_motionkb.py` checks the 8 **v2 accepted root files** (`agent/kb/*.json`, `status: accepted`; its dir-glob skips `engine_mask_map.json`) against `motionkb.v2.schema.json` + the cross-field invariants (locks/free partition of the 8 anatomical channels, overlay lock-disjointness, posture compatibility, ik effector→channel resolution, channel-vocabulary agreement with `engine_mask_map.json`) + the **semantic-consistency gate** (`validate_semantic_consistency`); 8/8 pass. Re-run reproducibility is guarded by `python agent/motionkb/test_golden_extraction.py` (golden MEASURED reproduces from the frozen `_raw`, 8/8), and `source_clip.guid → asset` resolution by the Unity-side `MotionKB.MotionKBValidator` (8 resolved → `_reports/kb_state.md`); one-command gate `scripts/check_motionkb.sh` runs them all. The former v1 store is retired to git tag `kb/v1` (`motionkb.v1.schema.json` kept as its snapshot contract). See §8.
 - In `EmergencyRoom.unity`, the patient is at the **awake/reclining P0** pose on the angled bed with no clipping; its Animator is now **live** (breathes in Play, in place — no drift), and edit-mode shows the baked P0 pose; the nurse roster matches the source scene (see `SCENARIO.md` §2).
+- The runtime path holds — run these in the agent repo (WSL; see §1.1): `pytest` green, `python run_eval.py` still at the 7/12 floor, and `python smoke_validate.py` against play mode, which is the only check that exercises the real executor. **If you changed `PROTOCOL_VERSION`, also type a line into the Play-mode console** — `smoke_validate.py` and `drive.py` both import the contract, so neither can catch a speaker that has the number written into it (§4 item 13). The last is the one that matters after any change to `Assets/Scripts/AgentRuntime/` or `agent/protocol.py`: **both halves ship together and a version mismatch is fatal by design**, so a rebuilt Unity side and an unchanged service will refuse to talk rather than half-speak.
 - After changing an avatar pose / asset, **save the scene**, and prefer committing in the `Animation/` git repo (only commit when the user asks).
 
 ---
@@ -641,7 +770,8 @@ live in `agent/kb/README.md`; the authoritative shape is
 - **Why it's built this way:** see `docs/adr/` (0001 contract-first · 0002 measured/semantic split ·
   0003 skeletal split + metrics · 0004 mask+layer disjoint-only · 0005 git-as-version/ledger ·
   0006 peak-resilience-by-design · **0007 v2 9-channel split + engine-decoupled Python extractor**,
-  supersedes 0003).
+  supersedes 0003 · 0008 VLM-proposed SEMANTIC fields · **0009 a plan is checked on a hidden duplicate
+  before the visible character moves, protocol v4**).
 - **Rolling back** a KB version / extraction / mesh / pose: `docs/ROLLBACK.md`.
 
 Status: the data contract (v1 **+ v2** schema + `validate_motionkb.py` + ADRs incl. **0007** + CHANGELOG)
