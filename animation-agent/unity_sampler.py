@@ -269,8 +269,14 @@ def write_raw(clip_id, dump_text):
     in-engine writer produced), and re-indenting them would turn every re-sample of unchanged data into a
     65k-line diff, destroying `git status` as a drift detector for the KB.
     """
+    # Imported here rather than at module scope: this is the pipeline, and it should not pull the
+    # runtime package in just to hand back a cache invalidation.
+    from agent.transitions import forget_raw
+
     dump = json.loads(dump_text)
-    return paths.write_text(raw_path(clip_id), dump_text), dump
+    written = paths.write_text(raw_path(clip_id), dump_text)
+    forget_raw()   # `_raw` just moved; anything memoised from it is now about a corpus that is gone
+    return written, dump
 
 
 def emit_sampler_file(clip, out_path):

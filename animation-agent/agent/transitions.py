@@ -104,10 +104,44 @@ def _foot_heights(bones):
     return [max(left[i][1], right[i][1]) for i in range(min(len(left), len(right)))]
 
 
+# (path, loop) -> Clip, for the default corpus only. See load_clip and forget_raw.
+_CLIP_CACHE = {}
+
+
+def forget_raw():
+    """Drop everything memoised from the default `_raw`. The sampler calls this after writing a dump.
+
+    Nothing else needs it: `_raw` is frozen for every process that only reads the KB, and the one writer
+    is `unity_sampler.write_raw`, which runs in the offline pipeline.
+    """
+    _CLIP_CACHE.clear()
+    _FINGERPRINT_CACHE.pop(paths.RAW_DIR, None)
+
+
 def load_clip(clip_name, loop=False, raw_dir=None):
+    """One `_raw` dump as a Clip.
+
+    MEMOISED FOR THE DEFAULT CORPUS. These dumps are about 900 KB each and get loaded by every seam
+    search, every segment build and every plan that windows a layer. On a local disk re-reading them is
+    cheap; the KB normally sits on a Windows worktree over DrvFs, where one open costs about 19 ms, and
+    across a test suite that was two seconds of pure re-reading. A Clip is a read-only value object
+    (`__slots__`, built once in `__init__`, never written to afterwards), so sharing one is safe.
+
+    Pass `raw_dir` and the read is unconditional -- that is the corpus a caller brought itself, and this
+    module has no idea when it changes.
+    """
+    frozen = raw_dir is None
     path = os.path.join(raw_dir or paths.RAW_DIR, clip_name + ".json")
+    key = (path, bool(loop))
+    if frozen:
+        hit = _CLIP_CACHE.get(key)
+        if hit is not None:
+            return hit
     with open(path, encoding="utf-8") as fh:
-        return Clip(json.load(fh), loop=loop)
+        clip = Clip(json.load(fh), loop=loop)
+    if frozen:
+        _CLIP_CACHE[key] = clip
+    return clip
 
 
 # ---- pose distance ---------------------------------------------------------------------------
@@ -637,23 +671,59 @@ def schedule(action_ids, kb, clips, min_loop_cycles=1, generate_posture_changes=
 TABLE_PATH = os.path.join(paths.KB_DIR, "_derived", "transitions.json")
 
 
+# raw_dir -> (stat signature, digest). See raw_fingerprint.
+_FINGERPRINT_CACHE = {}
+
+
 def raw_fingerprint(raw_dir=None):
     """Content hash of every `_raw` dump the table was derived from.
 
     A cache with no way to notice its inputs moved is worse than no cache: it answers confidently with
     the old corpus. Re-sample one clip and this changes, so a stale table announces itself instead of
-    being believed. Cheap enough to do on every read (7 MB of JSON, low tens of milliseconds).
+    being believed.
+
+    WHY THIS IS MEMOISED. Every `read_table` calls it, and it hashes 7 MB of JSON. That is low tens of
+    milliseconds on a local disk -- the cost the original version budgeted for -- but the KB normally
+    lives on a Windows worktree reached over DrvFs, where the same read is about 270 ms. Paid once per
+    tool registry and once per table, across a test suite it was most of a nine-second gap between
+    running against the mounted KB and against a local copy of it.
+
+    So it is memoised, and the DEFAULT corpus is memoised without touching the filesystem at all. That
+    is not an assumption about disks, it is the write discipline: the only writer of `_raw` is
+    `unity_sampler.write_raw`, running in the offline pipeline, and it calls `forget_raw`. Every other
+    process treats the KB as read-only, so within one of them `_raw` cannot move. A stat-per-file check
+    would cost 8 x 19 ms here and prove something already guaranteed.
+
+    Pass `raw_dir` explicitly -- as the builders and the tests do -- and the memo is verified against
+    each file's (name, size, mtime) instead, because that corpus is the caller's and may well change.
     """
     import hashlib
+    frozen = raw_dir is None
     raw_dir = raw_dir or paths.RAW_DIR
+
+    if frozen:
+        cached = _FINGERPRINT_CACHE.get(raw_dir)
+        if cached is not None:
+            return cached[1]
+        names, signature = None, None
+    else:
+        names = sorted(n for n in os.listdir(raw_dir) if n.endswith(".json"))
+        signature = tuple((n, s.st_size, s.st_mtime_ns) for n, s in
+                          ((n, os.stat(os.path.join(raw_dir, n))) for n in names))
+        cached = _FINGERPRINT_CACHE.get(raw_dir)
+        if cached is not None and cached[0] == signature:
+            return cached[1]
+
+    if names is None:
+        names = sorted(n for n in os.listdir(raw_dir) if n.endswith(".json"))
     h = hashlib.sha256()
-    for name in sorted(os.listdir(raw_dir)):
-        if not name.endswith(".json"):
-            continue
+    for name in names:
         h.update(name.encode("utf-8"))
         with open(os.path.join(raw_dir, name), "rb") as fh:
             h.update(fh.read())
-    return h.hexdigest()[:16]
+    digest = h.hexdigest()[:16]
+    _FINGERPRINT_CACHE[raw_dir] = (signature, digest)
+    return digest
 
 
 def write_table(seams, path=None, extra=None, raw_dir=None):
@@ -676,19 +746,43 @@ def write_table(seams, path=None, extra=None, raw_dir=None):
     return paths.write_json(path or TABLE_PATH, doc)
 
 
+# TABLE_PATH -> ((size, mtime_ns, raw fingerprint), table). See read_table.
+_TABLE_CACHE = {}
+
+
 def read_table(path=None, check_fingerprint=True, raw_dir=None):
     """Cached seams keyed by (from, to), or None if there is no usable cache.
 
     Returns None rather than stale data when `_raw` has moved underneath it, so the caller recomputes
     instead of quietly answering about a corpus that no longer exists.
+
+    WHY THE DEFAULT PATH IS MEMOISED. Every tool registry reads this table once, and a test suite builds
+    a registry per test, so the same file was opened a few hundred times. On a local disk that is
+    nothing; the KB normally lives on a Windows worktree reached over DrvFs, where one open costs about
+    9 ms and one stat about 1.4 ms, and it became seconds. The memo is keyed on the file's (size, mtime)
+    together with the `_raw` fingerprint, so it expires for exactly the reasons the fingerprint exists.
+    Only the default path is cached: pass `path` explicitly -- as the builders and the tests do -- and
+    the read is unconditional. The cached table is SHARED; copy it before mutating.
     """
+    memo = path is None and raw_dir is None and check_fingerprint
     path = path or TABLE_PATH
     if not os.path.exists(path):
         return None
+    fingerprint = raw_fingerprint(raw_dir) if check_fingerprint else None
+    key = None
+    if memo:
+        st = os.stat(path)
+        key = (st.st_size, st.st_mtime_ns, fingerprint)
+        hit = _TABLE_CACHE.get(path)
+        if hit is not None and hit[0] == key:
+            return hit[1]
     with open(path, encoding="utf-8") as fh:
         doc = json.load(fh)
     if check_fingerprint:
         stored = (doc.get("_meta") or {}).get("raw_fingerprint")
-        if stored and stored != raw_fingerprint(raw_dir):
+        if stored and stored != fingerprint:
             return None
-    return {(s["from"], s["to"]): s for s in doc.get("seams", [])}
+    table = {(s["from"], s["to"]): s for s in doc.get("seams", [])}
+    if memo:
+        _TABLE_CACHE[path] = (key, table)
+    return table

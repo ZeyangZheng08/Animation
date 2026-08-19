@@ -286,19 +286,43 @@ def write_table(table, path=None, raw_dir=None):
     return paths.write_json(path or TABLE_PATH, doc)
 
 
+# TABLE_PATH -> ((size, mtime_ns, raw fingerprint), table). See read_table.
+_TABLE_CACHE = {}
+
+
 def read_table(path=None, check_fingerprint=True, raw_dir=None):
     """The cached table, or None when there is none or `_raw` has moved under it.
 
     None rather than stale data, for the reason the seam table gives: a cache that cannot notice its
     inputs changed answers confidently about a corpus that no longer exists.
+
+    WHY THE DEFAULT PATH IS MEMOISED. Every tool registry reads this table once, and a test suite builds
+    a registry per test, so the same file was opened a few hundred times. On a local disk that is
+    nothing; the KB normally lives on a Windows worktree reached over DrvFs, where one open costs about
+    9 ms and one stat about 1.4 ms, and it became seconds. The memo is keyed on the file's (size, mtime)
+    together with the `_raw` fingerprint, so it expires for exactly the reasons the fingerprint exists.
+    Only the default path is cached: pass `path` explicitly -- as the builders and the tests do -- and
+    the read is unconditional. The cached table is SHARED; copy it before mutating.
     """
     from .transitions import raw_fingerprint
+    memo = path is None and raw_dir is None and check_fingerprint
     path = path or TABLE_PATH
     if not os.path.exists(path):
         return None
+    fingerprint = raw_fingerprint(raw_dir) if check_fingerprint else None
+    key = None
+    if memo:
+        st = os.stat(path)
+        key = (st.st_size, st.st_mtime_ns, fingerprint)
+        hit = _TABLE_CACHE.get(path)
+        if hit is not None and hit[0] == key:
+            return hit[1]
     doc = paths.read_json(path)
     if check_fingerprint:
         stored = (doc.get("_meta") or {}).get("raw_fingerprint")
-        if stored and stored != raw_fingerprint(raw_dir):
+        if stored and stored != fingerprint:
             return None
-    return doc.get("segments") or None
+    table = doc.get("segments") or None
+    if memo:
+        _TABLE_CACHE[path] = (key, table)
+    return table
