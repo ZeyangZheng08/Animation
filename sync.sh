@@ -4,44 +4,57 @@
 # This repository is a one-way MIRROR. Nothing here is edited in place: everything under unity/ and
 # animation-agent/ is copied from the source of truth, so an edit made here is lost on the next run.
 #
-# FOUR TRAPS, each already paid for once:
+# SIX TRAPS, each already paid for once. Every one of them fails QUIETLY -- a plausible count, exit 0,
+# nothing in red -- which is why the two guards below exist.
 #
 #   1. Never run this WSL git inside /mnt/f. Linux git over the 9p mount reports hundreds of files as
 #      dirty on file mode and CRLF alone. Windows git decides what is tracked over there --
 #      `git.exe -C "F:/..."` -- and this script only reads bytes back out of it.
-#   2. Read source content out of the object store (`git show HEAD:path`), never off the Windows
-#      working tree. That tree is checked out CRLF while this branch is pinned LF, so a byte compare
-#      calls every text file different, copies it needlessly, and puts CRLF back. The blob is already
-#      normalised to LF and is binary-safe. It also means only COMMITTED work is ever published.
-#   3. Never decide what to copy by subtracting the LFS list. One FBX under Assets/Animations has a
-#      Unicode apostrophe in its name, so `git ls-files` quotes the path and `git lfs ls-files` does
-#      not; the difference of the two lists leaves that FBX looking like an ordinary text file. New
-#      files are offered by extension whitelist instead, and never added automatically.
-#   4. Test list membership with `case`, not `grep -q` down a pipe. Under `pipefail` the early exit
-#      of `grep -q` hands the writing end a SIGPIPE, so the pipeline reports failure even though the
-#      pattern matched -- and it is a race, so only some published files get called new.
+#   2. `git.exe` drains the stdin of the `while read` loop it is called from. Without `</dev/null` the
+#      loop stops at the first unity/ path, having done the animation-agent files and none of the 571
+#      Unity ones, and still prints a refreshed count. The count guard after the loop catches it.
+#   3. `git show HEAD:path` on an LFS-tracked file returns the POINTER TEXT, not the file. Publishing
+#      that writes "version https://git-lfs.github.com/spec/v1" where a PNG belongs, on the one branch
+#      whose point is carrying no LFS. LFS paths are listed once and read from the Windows working tree
+#      instead. The LFS-count guard catches an unreachable git.exe, which would look like "no LFS here".
+#   4. For everything else, read content from the object store rather than the Windows working tree.
+#      That tree is checked out CRLF while this branch is pinned LF, so a byte compare calls every text
+#      file different, copies it needlessly, and re-injects CRLF. It also means only COMMITTED work is
+#      ever published, which is the right rule anyway.
+#   5. Never pick files by subtracting `git lfs ls-files` from `git ls-files`. One FBX under
+#      Assets/Animations has a Unicode apostrophe in its name, so the first quotes that path and the
+#      second does not, and the difference smuggles it through as if it were text. New files are offered
+#      by extension whitelist. Also: plain `git lfs ls-files` truncates paths at spaces -- use `-n`.
+#   6. Test list membership with `case`, not `grep -q` down a pipe. Under `pipefail` the early exit of
+#      `grep -q` SIGPIPEs the writer and the pipeline reports failure though the pattern matched. It is
+#      a race, so it misfires on only some entries and reads like a real finding.
+#
+# Editing note: this file contains no literal CR. If you patch it with a script, open it in BINARY mode
+# -- Python's text mode converts a lone CR to LF, which once turned `tr -d CR` into `tr -d newline` and
+# collapsed the whole LFS path list onto one line.
 set -euo pipefail
-
-nl="
-"   # a literal newline; the membership tests fence candidates with it
 
 UNITY_WIN="F:/Research/AI_agent/Animation/Animation_agent/Project/Animation"
 UNITY_POSIX="/mnt/f/Research/AI_agent/Animation/Animation_agent/Project/Animation"
 AGENT="$HOME/Research/animation-agent"
 cd "$(dirname "$0")"
 
-# The Unity repository tracks its binaries through LFS, and `git show HEAD:path` on an LFS file returns
-# the POINTER TEXT, not the file. Publishing that would put "version https://git-lfs.github.com/spec/v1"
-# where a PNG belongs -- on a branch whose whole point is carrying no LFS. So the LFS paths are listed
-# once here and read from the Windows working tree instead, where they are already smudged to content.
-# `lfs ls-files -n` is the only safe listing: the default output truncates paths at spaces.
-lfs_paths=$(git.exe -C "$UNITY_WIN" lfs ls-files -n 2>/dev/null | tr -d "")
+nl="
+"   # a literal newline; the membership tests fence candidates with it
+
+# `|| true` matters: set -e aborts on a failing assignment, so without it git.exe exiting 128
+# kills the script here and the guard below never gets to say why.
+lfs_paths=$(git.exe -C "$UNITY_WIN" lfs ls-files -n 2>/dev/null | tr -d '\015' || true)
+lfs_count=$(printf '%s' "$lfs_paths" | grep -c . || true)
+if [ "$lfs_count" -lt 100 ]; then
+  echo "ABORT: the Unity repository listed $lfs_count LFS files; it tracks about 800." >&2
+  echo "git.exe is probably not reachable from here. Publishing now would write LFS pointer" >&2
+  echo "text where the images belong." >&2
+  exit 1
+fi
 lfs_paths="$nl$lfs_paths$nl"
 
 blob() {  # published path -> its current committed content on stdout; non-zero if it is gone
-  # `</dev/null` is load-bearing, not tidiness: this runs inside a `while read` loop, and git.exe
-  # drains the loop's stdin. Without it the loop stops at the first unity/ path -- silently, with a
-  # success exit and a plausible-looking "refreshed N" line. See the count guard after the loop.
   case "$1" in
     unity/*)
       rel="${1#unity/}"
@@ -50,12 +63,12 @@ blob() {  # published path -> its current committed content on stdout; non-zero 
         *)              git.exe -C "$UNITY_WIN" show "HEAD:$rel" 2>/dev/null </dev/null ;;
       esac ;;
     animation-agent/*) git -C "$AGENT" show "HEAD:${1#animation-agent/}" 2>/dev/null </dev/null ;;
-    *) return 1 ;;    # sync.sh, README.md, .gitattributes are authored here, not mirrored
+    *) return 1 ;;    # sync.sh, .pubignore, README.md, .gitattributes are authored here, not mirrored
   esac
 }
 
 tmp=$(mktemp); trap 'rm -f "$tmp"' EXIT
-expected=$(git ls-files | wc -l)
+expected=$(git ls-files | grep -c .)
 seen=0; refreshed=0; missing=()
 while IFS= read -r -d '' f; do
   seen=$((seen+1))
@@ -92,8 +105,8 @@ dirs=$(printf '%s\n' "$have" | xargs -d '\n' -n1 dirname | sort -u)
 have="$nl$have$nl"
 dirs="$nl$dirs$nl"
 {
-  git.exe -C "$UNITY_WIN" ls-files 2>/dev/null | tr -d '\r' | sed 's|^|unity/|'
-  git -C "$AGENT" ls-files | sed 's|^|animation-agent/|'
+  git.exe -C "$UNITY_WIN" ls-files 2>/dev/null </dev/null | tr -d '\015' | sed 's|^|unity/|'
+  git -C "$AGENT" ls-files </dev/null | sed 's|^|animation-agent/|'
 } | grep -Ei "\.($exts)\$" | while IFS= read -r f; do
   case "$have" in *"$nl$f$nl"*) continue ;; esac
   case "$dirs" in *"$nl$(dirname "$f")$nl"*) ;; *) continue ;; esac
