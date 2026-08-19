@@ -474,16 +474,31 @@ over MCP, and Windows git on the Unity worktree.
 **The measured cost of the one crossing that remains.** The agent reads the KB over 9p via
 `MOTIONKB_DIR=/mnt/f/.../agent/kb`. Same suite, same KB, only the filesystem differs:
 
-| | KB on `/mnt/f` | KB copied to ext4 |
+| suite excluding `tests/test_tools_files.py` | KB on `/mnt/f` | KB copied to ext4 |
 |---|---|---|
-| suite excluding `tests/test_tools_files.py` | 19.5 s | 10.6 s |
-| `tests/test_tools_files.py` alone | 13.1 s | (skips — it walks the Unity tree by design) |
+| before 2026-08-18 | 19.5 s | 10.6 s |
+| after | **12.6 s** | 9.9 s |
 
-The 9 s is not really the filesystem: `KBIndex.load()` re-reads the whole KB directory on every call
-with no cache, and 9p multiplies that waste by about 125×. ext4 hides the same defect. **The live path
-is unaffected** — every `KBIndex.load()` call site is a process entry point, so the console loads once
-at startup and never per request. Do not "fix" this by moving the KB: it is a derivative of the Unity
-animation assets and ships in the same commit as the FBX it was measured from.
+`tests/test_tools_files.py` adds 13.1 s on top and is not comparable — it walks the Unity tree by
+design, so it skips against a copied KB.
+
+**How that gap was found, because two plausible answers were wrong.** It is not `KBIndex.load()` (0.27 s,
+five module-scoped calls) and it is not the content hash in `raw_fingerprint` (memoising it changed
+nothing measurable). Instrumenting `os.stat` / `open` / `os.listdir` gave the real shape: **225 stats and
+112 opens of `_raw` per run, 6.4 s of the 9**, at about 19 ms per stat and 9 ms per open over DrvFs. Guess
+twice, then measure — profile by leaf cost, not by reading the code and reasoning about it.
+
+The fix is not caching by checking, it is **caching because the write discipline already guarantees it**:
+`_raw` has exactly one writer, `unity_sampler.write_raw`, which now calls `transitions.forget_raw()`.
+Every other process treats the KB as read-only, so within one of them `_raw` cannot move, and the readers
+stop proving it — `raw_fingerprint`, `load_clip` and both `read_table`s memoise the default corpus with
+no filesystem call on a hit. Pass `raw_dir` or `path` explicitly, as the builders and the tests do, and
+the read is verified against size and mtime or not cached at all.
+
+**The live path never had this problem** — every `KBIndex.load()` call site is a process entry point, so
+the console loads once at startup and never per request. And do not "fix" the residual 2.8 s by moving
+the KB: it is a derivative of the Unity animation assets and ships in the same commit as the FBX it was
+measured from.
 
 ---
 
