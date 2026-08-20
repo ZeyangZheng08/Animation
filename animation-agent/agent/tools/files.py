@@ -15,8 +15,9 @@ base and named after it, and that was wrong in two directions at once.
 
 So there is one workspace with named mounts, and the three tools address all of it:
 
-    kb/       the motion knowledge base: accepted records, _raw per-frame dumps, _frames renders,
-              _derived tables, the manifest, the eval set
+    kb/       the motion knowledge base: actions/ holds the accepted records, one file per action,
+              alongside _raw per-frame dumps, _frames renders, _derived tables, the manifest, the
+              eval set
     source/   the Unity animation assets the knowledge base was extracted from
 
 Paths are `<mount>/<rest>`; `read(".")` lists the mounts. There are no absolute paths, because the
@@ -301,7 +302,7 @@ READ_PARAMS = {
     "additionalProperties": False,
     "properties": {
         "file_path": {"type": "string",
-                      "description": "Path to a file or directory, e.g. 'kb/typing.json'. Use '.' to "
+                      "description": "Path to a file or directory, e.g. 'kb/actions/typing.json'. Use '.' to "
                                      "list the places that exist."},
         "offset": {"type": "integer", "minimum": 1, "description": "First line to read (1-based)."},
         "limit": {"type": "integer", "minimum": 1, "maximum": MAX_READ_LINES},

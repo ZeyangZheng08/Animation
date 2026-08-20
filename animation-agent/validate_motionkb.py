@@ -49,10 +49,6 @@ CAND_DIR = paths.CAND_DIR
 SCHEMA_PATH = os.path.join(paths.SCHEMA_DIR, "motionkb.v2.schema.json")
 ENGINE_MAP_PATH = os.path.join(KB_DIR, "engine_mask_map.json")
 
-# Top-level agent/kb/*.json that are NOT action facts (skip when validating a directory) —
-# the shared channel vocabulary + the derived corpus index/eval seed sit alongside the action files.
-NON_ACTION_FILES = {"engine_mask_map.json", "kb_manifest.json", "retrieval_eval_set.json"}
-
 STATE_CHANNELS = ["root", "torso", "head", "left_arm", "right_arm", "left_leg", "right_leg", "left_hand", "right_hand"]
 PARTITION_CHANNELS = ["torso", "head", "left_arm", "right_arm", "left_leg", "right_leg", "left_hand", "right_hand"]
 EFFECTOR_TO_CHANNEL = {"left_hand": "left_hand", "right_hand": "right_hand", "left_foot": "left_leg", "right_foot": "right_leg"}
@@ -61,6 +57,13 @@ EFFECTOR_TO_CHANNEL = {"left_hand": "left_hand", "right_hand": "right_hand", "le
 ROLE_FREE = "free"
 RELEVANT_ROLES = {"primary", "stabilizer", "support"}
 MOVING_MOTION_TYPES = {"reach", "manipulate", "cyclic-locomotion"}
+LEG_CHANNELS = ("left_leg", "right_leg")
+
+
+def _any_leg_dynamic(doc):
+    """Whether either leg channel is measured as moving. The precondition for cyclic-locomotion."""
+    ch = doc.get("channels") or {}
+    return any((ch.get(c) or {}).get("state_label") == "dynamic" for c in LEG_CHANNELS)
 
 
 # ----------------------------- schema interpreter -----------------------------
@@ -220,7 +223,6 @@ def validate_semantic_consistency(data, errors, warns):
     free = set(comp.get("free", []) or [])
     locks = set(comp.get("locks", []) or [])
     root = ch.get("root")
-    root_dynamic = isinstance(root, dict) and root.get("state_label") == "dynamic"
     ik_by_channel = {}
     for g in data.get("ik_goals", []) or []:
         c = EFFECTOR_TO_CHANNEL.get(g.get("effector"))
@@ -267,8 +269,13 @@ def validate_semantic_consistency(data, errors, warns):
             errors.append(f"channels.{c}: state is dynamic but motion_type=hold-static")
         if state == "static" and mt in MOVING_MOTION_TYPES:
             errors.append(f"channels.{c}: state is static but motion_type={mt} implies movement")
-        if mt == "cyclic-locomotion" and not root_dynamic:
-            errors.append(f"channels.{c}: motion_type=cyclic-locomotion but the root channel is not dynamic")
+        # Stepping is a LEG fact, not a root fact. The root channel says where the body went, and
+        # whether a clip travels is a property the runtime converts either way: Locomotion.cs drives
+        # a NavMeshAgent while an in-place walk plays, and root motion can equally be applied. The
+        # KB's own `walking` is an in-place walk whose legs are cyclic-locomotion and whose body does
+        # not move at all, so gating on the root would reject the clearest example of the label.
+        if mt == "cyclic-locomotion" and not _any_leg_dynamic(data):
+            errors.append(f"channels.{c}: motion_type=cyclic-locomotion but neither leg channel is dynamic")
 
         # soft signals (review nudges, not blockers)
         if role == "primary" and state == "static" and not has_ik:
@@ -285,14 +292,9 @@ def validate_semantic_consistency(data, errors, warns):
 
 
 # --------------------------------- driver -------------------------------------
-def _dir_action_json(d):
-    return [f for f in sorted(glob.glob(os.path.join(d, "*.json")))
-            if os.path.basename(f) not in NON_ACTION_FILES]
-
-
 def accepted_files():
-    """The root accepted store only (never candidate/) — what validate_guids.py resolves against."""
-    return _dir_action_json(KB_DIR)
+    """The accepted store only (never candidate/) — what validate_guids.py resolves against."""
+    return paths.action_files()
 
 
 def collect_files(args):
@@ -300,13 +302,25 @@ def collect_files(args):
         files = []
         for a in args:
             if os.path.isdir(a):
-                files.extend(_dir_action_json(a))
+                files.extend(paths.action_files(a))
             else:
                 files.append(a)
         return files
-    # prefer staged candidates; once promoted (candidate/ empty) validate the root accepted store
-    cand = _dir_action_json(CAND_DIR)
-    return cand if cand else _dir_action_json(KB_DIR)
+    # BOTH stores, always. This used to return the candidates alone whenever any were staged, on the
+    # reasoning that candidates are what is being worked on -- but it meant the accepted store went
+    # unchecked for as long as anything sat in candidate/, and the run still printed a pass count.
+    # A field that the schema forbids (extraction.measurement_space) lived in all eight accepted
+    # records through several green runs because of it. A gate that stops covering the thing it
+    # guards, without saying so, is worse than no gate.
+    #
+    # Deduped by path, candidates first so a staged file is reported before the record it will
+    # replace.
+    seen, files = set(), []
+    for f in paths.action_files(CAND_DIR) + paths.action_files():
+        if f not in seen:
+            seen.add(f)
+            files.append(f)
+    return files
 
 
 def main(argv):

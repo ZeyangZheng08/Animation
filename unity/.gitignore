@@ -125,3 +125,15 @@ key.env
 # (2) regenerating them needs a running Unity editor + the MCP bridge, which would make restoring
 # the pure-Python agent side depend on booting the engine. They are binary, so *.png routes them
 # through git-lfs (see .gitattributes); their .meta stay in plain git.
+
+# The bulk Mixamo corpus is UNTRACKED. It is ~2400 skinless FBX (~1 GB) fetched from mixamo.com
+# and fully reproducible from Dataset/tools/mixamo_batch.py plus the catalog.json and _state.json
+# beside it, so nothing about it is authored here. Tracking it would route every file through
+# git-lfs on a repository whose LFS objects already total 3.2 GB and therefore cannot be pushed
+# (ADR 0005). A clip becomes repo content only when it enters the knowledge base: at that point
+# `git mv` it into a tracked animation folder, so the FBX and its KB entry still land in one
+# commit and the .meta -- and therefore the guid the KB records -- travels with it.
+/[Aa]ssets/[Aa]nimations/Mixamo30/
+# ...and the folder's own .meta, so `git status` stays usable as the drift detector
+# (ADR 0005) instead of permanently showing one untracked file.
+/[Aa]ssets/[Aa]nimations/Mixamo30.meta

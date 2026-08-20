@@ -225,6 +225,33 @@ try {
     var invRoot = UnityEngine.Quaternion.Inverse(inst.transform.rotation);
     for (int b=0;b<BONES.Length;b++){ rots[b][fr] = invRoot * tf[b].rotation; }
   }
+  // THIRD PASS: Unity's normalised Humanoid pose.
+  //
+  // Everything above is metres and world rotations, so it carries the sampled avatar's proportions
+  // with it -- the same clip measured on nurse_avatar and on X Bot differs by -18.3%% at the torso
+  // and +16.5%% at root_gait. HumanPose is the representation Unity already normalises every avatar
+  // into: each muscle is its joint's rotation expressed against that avatar's own limits, and
+  // bodyPosition is scaled by the avatar's size. Measured across those same two rigs on one clip,
+  // 1900 muscle values differed by 0.00009 on average and bodyPosition by 0.0000.
+  //
+  // Appended after every pre-existing key, like bone_rot before it, so the dump's prefix stays
+  // byte-identical and a re-sample is still checkable with a plain string comparison.
+  int MUSCLES = UnityEngine.HumanTrait.MuscleCount;
+  var muscles = new float[N][];
+  var bodyPos = new UnityEngine.Vector3[N];
+  var bodyRot = new UnityEngine.Quaternion[N];
+  var poseHandler = new UnityEngine.HumanPoseHandler(anim.avatar, inst.transform);
+  try {
+    for (int fr=0; fr<N; fr++) {
+      float t = (N<=1)?0f:(clip.length*fr/(N-1));
+      UnityEditor.AnimationMode.SampleAnimationClip(inst, clip, t);
+      var hp = new UnityEngine.HumanPose();
+      poseHandler.GetHumanPose(ref hp);
+      muscles[fr] = (float[])hp.muscles.Clone();
+      bodyPos[fr] = hp.bodyPosition;
+      bodyRot[fr] = hp.bodyRotation;
+    }
+  } finally { poseHandler.Dispose(); }
   for (int b=0;b<BONES.Length;b++){
     if(b>0) sb.Append(",");
     sb.Append("\""+BONES[b]+"\":[");
@@ -246,6 +273,22 @@ try {
   }
   sb.Append("},\"root_rot\":[");
   for(int fr=0;fr<N;fr++){ var q=rootRot[fr]; if(fr>0)sb.Append(","); sb.Append("["+q.x.ToString("R")+","+q.y.ToString("R")+","+q.z.ToString("R")+","+q.w.ToString("R")+"]"); }
+  sb.Append("],\"muscles\":[");
+  for(int fr=0;fr<N;fr++){
+    if(fr>0)sb.Append(",");
+    sb.Append("[");
+    for(int m=0;m<MUSCLES;m++){ if(m>0)sb.Append(","); sb.Append(muscles[fr][m].ToString("R")); }
+    sb.Append("]");
+  }
+  sb.Append("],\"body_pos\":[");
+  for(int fr=0;fr<N;fr++){ var v=bodyPos[fr]; if(fr>0)sb.Append(","); sb.Append("["+v.x.ToString("R")+","+v.y.ToString("R")+","+v.z.ToString("R")+"]"); }
+  sb.Append("],\"body_rot\":[");
+  for(int fr=0;fr<N;fr++){ var q=bodyRot[fr]; if(fr>0)sb.Append(","); sb.Append("["+q.x.ToString("R")+","+q.y.ToString("R")+","+q.z.ToString("R")+","+q.w.ToString("R")+"]"); }
+  sb.Append("],\"muscle_names\":[");
+  { var mn = UnityEngine.HumanTrait.MuscleName;
+    for(int m=0;m<MUSCLES;m++){ if(m>0)sb.Append(","); sb.Append("\""+mn[m]+"\""); } }
+  sb.Append("],\"muscle_bone\":[");
+  for(int m=0;m<MUSCLES;m++){ if(m>0)sb.Append(","); sb.Append(UnityEngine.HumanTrait.BoneFromMuscle(m).ToString()); }
   sb.Append("],\"rot_frame\":\"root_local\",\"rot_order\":\"xyzw\"}");
 } finally { UnityEditor.AnimationMode.StopAnimationMode(); UnityEngine.Object.DestroyImmediate(inst); }
 return sb.ToString();
@@ -497,7 +540,7 @@ def build_render_csharp(clip, views=RENDER_VIEWS, fracs=RENDER_FRACS, w=1024, h=
     vdy = ",".join("%ff" % v[1][1] for v in views)
     vdz = ",".join("%ff" % v[1][2] for v in views)
     fr = ",".join("%ff" % f for f in fracs)
-    return r'''
+    return (r'''
 string GUID="%s"; long FID=%dL; int W=%d,H=%d;
 var VN=new string[]{%s}; var VX=new float[]{%s}; var VY=new float[]{%s}; var VZ=new float[]{%s};
 var FR=new float[]{%s};
@@ -507,33 +550,94 @@ UnityEngine.AnimationClip clip=null;
 foreach (var o in UnityEditor.AssetDatabase.LoadAllAssetsAtPath(clipPath)) { var ac=o as UnityEngine.AnimationClip; if(ac==null)continue; string gg; long lid; if(UnityEditor.AssetDatabase.TryGetGUIDAndLocalFileIdentifier(ac,out gg,out lid)&&lid==FID){clip=ac;break;} }
 if(clip==null) return "CLIP NOT FOUND";
 
+string AVATAR=__RENDER_AVATAR__;
 string avatarPath=null;
-foreach (var g in UnityEditor.AssetDatabase.FindAssets("nurse_avatar")) { var p=UnityEditor.AssetDatabase.GUIDToAssetPath(g); if(p.ToLower().EndsWith(".fbx")){avatarPath=p;break;} }
+// Match the FILE NAME exactly. A bare FindAssets("X Bot") also returns "X Bot@Typing.fbx" -- an
+// animation file with no mesh and no avatar -- and taking the first .fbx hit lands on it.
+foreach (var g in UnityEditor.AssetDatabase.FindAssets(System.IO.Path.GetFileNameWithoutExtension(AVATAR))) {
+  var p=UnityEditor.AssetDatabase.GUIDToAssetPath(g);
+  if(System.IO.Path.GetFileName(p)==AVATAR){avatarPath=p;break;}
+}
+if(avatarPath==null) return "RENDER AVATAR NOT FOUND: "+AVATAR;
 var model = UnityEditor.AssetDatabase.LoadAssetAtPath(avatarPath, typeof(UnityEngine.GameObject)) as UnityEngine.GameObject;
 var inst = UnityEngine.Object.Instantiate(model) as UnityEngine.GameObject;
 inst.transform.position = UnityEngine.Vector3.zero; inst.transform.rotation = UnityEngine.Quaternion.identity;
 
-foreach (var tr in inst.GetComponentsInChildren<UnityEngine.Transform>(true)) tr.gameObject.layer = 31;
+// The avatar itself stays OFF the render layer; the camera sees baked static meshes built per
+// frame (below). GPU skinning is not refreshed under a manual cam.Render() in edit mode, which
+// stranded the head and hands at an earlier position on any clip that travels.
+foreach (var tr in inst.GetComponentsInChildren<UnityEngine.Transform>(true)) tr.gameObject.layer = 0;
 var lightGO = new UnityEngine.GameObject("MKB_Light"); var light = lightGO.AddComponent<UnityEngine.Light>();
 light.type = UnityEngine.LightType.Directional; light.intensity = 1.2f; lightGO.transform.rotation = UnityEngine.Quaternion.Euler(50f,-30f,0f);
 // Soft fill from the opposite side so a shadowed limb (e.g. a hand against the body) keeps some form and
 // doesn't sink to solid black -- helps read overlapping same-colour parts. The key light stays dominant.
 var fillGO = new UnityEngine.GameObject("MKB_Fill"); var fill = fillGO.AddComponent<UnityEngine.Light>();
 fill.type = UnityEngine.LightType.Directional; fill.intensity = 0.4f; fillGO.transform.rotation = UnityEngine.Quaternion.Euler(25f,150f,0f);
+// Rim light from behind. The avatar is near-white and so is the floor; without an edge the
+// silhouette dissolves into the ground exactly where a reader looks for the feet.
+var rimGO = new UnityEngine.GameObject("MKB_Rim"); var rim = rimGO.AddComponent<UnityEngine.Light>();
+rim.type = UnityEngine.LightType.Directional; rim.intensity = 0.9f;
+rim.color = new UnityEngine.Color(0.75f,0.80f,0.95f,1f); rimGO.transform.rotation = UnityEngine.Quaternion.Euler(8f,200f,0f);
 var camGO = new UnityEngine.GameObject("MKB_RenderCam"); var cam = camGO.AddComponent<UnityEngine.Camera>();
 cam.clearFlags = UnityEngine.CameraClearFlags.SolidColor; cam.backgroundColor = new UnityEngine.Color(0.25f,0.27f,0.30f,1f);
 cam.fieldOfView=35f; cam.cullingMask = 1<<31; cam.nearClipPlane=0.03f; cam.farClipPlane=50f;
 int SS = 2;   // supersample: render at SSx then downscale -> clean anti-aliasing, independent of the URP MSAA path
 var rt = new UnityEngine.RenderTexture(W*SS,H*SS,24); rt.antiAliasing = 4; cam.targetTexture = rt;
 var rends = inst.GetComponentsInChildren<UnityEngine.SkinnedMeshRenderer>();
+// WHICH PIECES GET DRAWN. All 88 renderers on this avatar report enabled+activeInHierarchy: Unity
+// leans on the LODGroup to choose 34 of them, and the character ships five interchangeable variants
+// of each costume item (Mask_SurgicalA..E, HairA..E, Skin_A..E, Glasses_A/C/E). Baking everything
+// stacked three LOD levels and five masks on top of each other -- one of which skinned to a
+// different place and floated in mid-air, which a labeller would read as a held or dropped prop.
+// So: LOD0 only, one renderer per costume family, and BODY ONLY. Masks, straps, glasses and the
+// stethoscope are deliberately dropped -- the frames exist to show how the body moves, and a
+// clinical prop in shot is exactly the kind of thing that pulls a label toward a nursing reading
+// the movement does not support.
+var lodg = inst.GetComponentInChildren<UnityEngine.LODGroup>(true);
+var lod0 = new System.Collections.Generic.HashSet<UnityEngine.Renderer>();
+if(lodg!=null){ var lv=lodg.GetLODs(); if(lv.Length>0) foreach(var r0 in lv[0].renderers) if(r0!=null) lod0.Add(r0); }
+string[] FAMILIES = new string[]{"Skin_","TOP","BTM","Shirt","Hair"};
+var draw = new System.Collections.Generic.List<UnityEngine.SkinnedMeshRenderer>();
+var seenFam = new System.Collections.Generic.HashSet<string>();
+foreach(var sr1 in rends){
+  if(lod0.Count>0 && !lod0.Contains(sr1)) continue;
+  if(sr1.name.Contains("_Fade")) continue;
+  string fam=null;
+  for(int fi2=0; fi2<FAMILIES.Length; fi2++) if(sr1.name.StartsWith(FAMILIES[fi2])) { fam=FAMILIES[fi2]; break; }
+  if(fam==null || seenFam.Contains(fam)) continue;
+  seenFam.Add(fam); draw.Add(sr1);
+}
+// The family list above is specific to nurse_avatar, which ships five interchangeable
+// variants of each costume item and three LOD levels. A plain mannequin like Y Bot has
+// neither, so nothing matches and everything is drawn -- which is the right answer for it.
+if(draw.Count==0) foreach(var sr1 in rends) draw.Add(sr1);
+// KEEP EVERY PIECE SKINNED. A SkinnedMeshRenderer culls on bounds derived from the BIND pose, and a
+// culled renderer stops being skinned at all -- it keeps rendering its last evaluated pose. On a clip
+// that travels (Mixamo locomotion moves the body over a metre), the small separate meshes of this
+// avatar -- head, hands -- fall outside those stale bounds and freeze in place while the body mesh
+// moves on, so the frames show a detached floating head and hands. The nurse clips never travel, which
+// is why this only appeared with the Mixamo corpus. updateWhenOffscreen recomputes bounds and skinning
+// every sample, which is what an offline renderer wants regardless of cost.
+foreach(var sr0 in rends) sr0.updateWhenOffscreen = true;
 
 // A simple ground plane on the SAME isolation layer, so the VLM can see whether feet are planted on it.
 var floor = UnityEngine.GameObject.CreatePrimitive(UnityEngine.PrimitiveType.Plane);
 foreach (var fcol in floor.GetComponents<UnityEngine.Collider>()) UnityEngine.Object.DestroyImmediate(fcol);
-floor.layer = 31; floor.transform.position = new UnityEngine.Vector3(0f,0f,0f); floor.transform.localScale = new UnityEngine.Vector3(0.6f,1f,0.6f);
+floor.layer = 31;   // position is set per frame, once groundY is known floor.transform.localScale = new UnityEngine.Vector3(0.6f,1f,0.6f);
 var fsh = UnityEngine.Shader.Find("Universal Render Pipeline/Lit"); if(fsh==null) fsh=UnityEngine.Shader.Find("Standard"); if(fsh==null) fsh=UnityEngine.Shader.Find("Sprites/Default");
 var fmat = new UnityEngine.Material(fsh);
-if(fmat.HasProperty("_BaseColor")) fmat.SetColor("_BaseColor", new UnityEngine.Color(0.42f,0.44f,0.47f,1f)); else fmat.color = new UnityEngine.Color(0.42f,0.44f,0.47f,1f);
+if(fmat.HasProperty("_BaseColor")) fmat.SetColor("_BaseColor", UnityEngine.Color.white); else fmat.color = UnityEngine.Color.white;
+// A metre-scale checker. A flat floor gives a reader nothing to judge against: whether the figure
+// travelled, whether a foot is planted or hovering, and how big a stride is all become guesses.
+var ctex = new UnityEngine.Texture2D(64,64);
+for(int cy=0; cy<64; cy++) for(int cx=0; cx<64; cx++){
+  bool even = ((cx/32) + (cy/32)) %% 2 == 0;
+  ctex.SetPixel(cx, cy, even ? new UnityEngine.Color(0.40f,0.43f,0.48f,1f) : new UnityEngine.Color(0.28f,0.30f,0.35f,1f));
+}
+ctex.Apply(); ctex.wrapMode = UnityEngine.TextureWrapMode.Repeat; ctex.filterMode = UnityEngine.FilterMode.Bilinear;
+if(fmat.HasProperty("_BaseMap")) { fmat.SetTexture("_BaseMap", ctex); fmat.SetTextureScale("_BaseMap", new UnityEngine.Vector2(12f,12f)); }
+fmat.mainTexture = ctex; fmat.mainTextureScale = new UnityEngine.Vector2(12f,12f);
+if(fmat.HasProperty("_Smoothness")) fmat.SetFloat("_Smoothness", 0f);
 floor.GetComponent<UnityEngine.Renderer>().sharedMaterial = fmat;
 
 var summary = new System.Text.StringBuilder(); int wrote=0;
@@ -547,17 +651,67 @@ try {
   int GN = (int)UnityEngine.Mathf.Min(UnityEngine.Mathf.Max(2f, UnityEngine.Mathf.Round(clip.length*clip.frameRate)), 24f); if(GN<1)GN=1;
   for(int gi=0; gi<GN; gi++){
     UnityEditor.AnimationMode.SampleAnimationClip(inst, clip, GN==1?0f:clip.length*(float)gi/(GN-1));
-    inst.transform.position = UnityEngine.Vector3.zero;
-    foreach(var sr in rends){ var bm=new UnityEngine.Mesh(); sr.BakeMesh(bm); var vs=bm.vertices; var l2w=sr.transform.localToWorldMatrix; for(int k=0;k<vs.Length;k++){ float wy=l2w.MultiplyPoint3x4(vs[k]).y; if(wy<groundY)groundY=wy; } UnityEngine.Object.DestroyImmediate(bm); }
+    foreach(var sr in draw){ var bm=new UnityEngine.Mesh(); sr.BakeMesh(bm); var vs=bm.vertices; var l2w=sr.transform.localToWorldMatrix; for(int k=0;k<vs.Length;k++){ float wy=l2w.MultiplyPoint3x4(vs[k]).y; if(wy<groundY)groundY=wy; } UnityEngine.Object.DestroyImmediate(bm); }
   }
   if(groundY>1e29f||groundY<-1e29f) groundY=0f;
+
+  // ONE camera setup for every frame of this clip. Framing each moment on its own bounds made the
+  // figure change size between shots, and apparent size is precisely the cue a reader uses to judge
+  // whether the body moved toward or away. Bounds are taken over the moments actually shot, so the
+  // subject still fills the frame.
+  // FIXED DISTANCE, TRACKING CENTRE. Two things a reader needs at once: the body big enough to read
+  // limb by limb, and a size that means something across frames. Framing each moment on its own
+  // bounds gave the first and destroyed the second; framing all moments on their union gave the
+  // second and shrank the figure to a third of the frame. So the camera distance is fixed -- from
+  // the largest SINGLE pose, not the union -- and the camera re-centres each frame. The figure keeps
+  // one apparent size, and the checker floor is what shows that it travelled.
+  UnityEngine.Vector3 shotC=UnityEngine.Vector3.zero; float shotR=0f; bool shotHas=false;
+  for(int pf=0; pf<FR.Length; pf++){
+    UnityEditor.AnimationMode.SampleAnimationClip(inst, clip, clip.length*FR[pf]);
+    UnityEngine.Bounds pb=new UnityEngine.Bounds(); bool pHas=false;
+    foreach(var sr in draw){
+      var pm=new UnityEngine.Mesh(); sr.BakeMesh(pm); var pv=pm.vertices; var pl2w=sr.transform.localToWorldMatrix;
+      int pstep=UnityEngine.Mathf.Max(1,pv.Length/200);
+      for(int k=0;k<pv.Length;k+=pstep){ var wp=pl2w.MultiplyPoint3x4(pv[k]); if(!pHas){pb=new UnityEngine.Bounds(wp,UnityEngine.Vector3.zero);pHas=true;} else pb.Encapsulate(wp); }
+      UnityEngine.Object.DestroyImmediate(pm);
+    }
+    if(!pHas) continue;
+    float pr=pb.extents.magnitude; if(pr>shotR) shotR=pr;
+    shotC = shotHas ? (shotC+pb.center)*0.5f : pb.center; shotHas=true;
+  }
+  if(!shotHas){ shotC=inst.transform.position; shotR=0.95f; }
+  if(shotR<0.6f) shotR=0.95f;
+  float shotDist = shotR / UnityEngine.Mathf.Tan(cam.fieldOfView*0.5f*UnityEngine.Mathf.Deg2Rad) * 1.12f;
+  floor.transform.position = new UnityEngine.Vector3(shotC.x, groundY, shotC.z);
+  floor.transform.localScale = new UnityEngine.Vector3(3.0f, 1f, 3.0f);
+
   for(int fi=0; fi<FR.Length; fi++){
     UnityEditor.AnimationMode.SampleAnimationClip(inst, clip, clip.length*FR[fi]);
-    inst.transform.position = new UnityEngine.Vector3(0f, -groundY, 0f);   // rest the lowest-ever point on y=0
-    UnityEngine.Bounds b=new UnityEngine.Bounds(inst.transform.position, UnityEngine.Vector3.one); bool has=false;
-    foreach(var sr in rends){ if(!has){b=sr.bounds;has=true;} else b.Encapsulate(sr.bounds); }
-    UnityEngine.Vector3 c=b.center; float r=b.extents.magnitude; if(r<0.6f)r=0.95f;
-    float dist = r / UnityEngine.Mathf.Tan(cam.fieldOfView*0.5f*UnityEngine.Mathf.Deg2Rad) * 1.25f;
+    // DO NOT move  after sampling. SampleAnimationClip applies the clip's root motion to the
+    // instance transform, and moving it afterwards leaves each renderer's cached skinning and bounds
+    // describing the pre-move placement -- which is what drew a detached head and hands on clips that
+    // travel. The avatar stays where the sample put it and the FLOOR is moved to meet it instead.
+    // Frame from BAKED vertices. SkinnedMeshRenderer.bounds is a cache that edit-mode sampling does not
+    // refresh -- measured 0.35..0.68 on x while the true skinned centroids were all near -0.30.
+    // Frame from BAKED vertices. SkinnedMeshRenderer.bounds is a cache that edit-mode sampling does
+    // not refresh -- measured 0.35..0.68 on x while the true skinned centroids were all near -0.30.
+    // Only the bounds are taken from the bake; Unity still draws the avatar itself, because it is the
+    // only thing that picks the right LOD level and the right one of the five costume variants.
+    var proxies = new System.Collections.Generic.List<UnityEngine.GameObject>();
+    UnityEngine.Bounds b=new UnityEngine.Bounds(); bool has=false;
+    foreach(var sr in draw){
+      var bmesh=new UnityEngine.Mesh(); sr.BakeMesh(bmesh);
+      var go=new UnityEngine.GameObject("MKB_Baked"); go.layer=31;
+      go.transform.position=sr.transform.position; go.transform.rotation=sr.transform.rotation; go.transform.localScale=sr.transform.lossyScale;
+      go.AddComponent<UnityEngine.MeshFilter>().sharedMesh=bmesh;
+      go.AddComponent<UnityEngine.MeshRenderer>().sharedMaterials=sr.sharedMaterials;
+      proxies.Add(go);
+      var bv=bmesh.vertices; var bl2w=go.transform.localToWorldMatrix; int bstep=UnityEngine.Mathf.Max(1,bv.Length/200);
+      for(int k=0;k<bv.Length;k+=bstep){ var wp=bl2w.MultiplyPoint3x4(bv[k]); if(!has){b=new UnityEngine.Bounds(wp,UnityEngine.Vector3.zero);has=true;} else b.Encapsulate(wp); }
+    }
+    if(!has) b=new UnityEngine.Bounds(inst.transform.position, UnityEngine.Vector3.one);
+    // centre on THIS pose, at the distance fixed above
+    UnityEngine.Vector3 c=has?b.center:shotC; float dist=shotDist;
     for(int vi=0; vi<VN.Length; vi++){
       UnityEngine.Vector3 dir=new UnityEngine.Vector3(VX[vi],VY[vi],VZ[vi]).normalized;
       camGO.transform.position = c + dir*dist; camGO.transform.LookAt(c);
@@ -572,14 +726,16 @@ try {
       summary.AppendLine(fn+"|"+System.Convert.ToBase64String(png));
       UnityEngine.Object.DestroyImmediate(tex); wrote++;
     }
+    foreach(var g in proxies){ var mf=g.GetComponent<UnityEngine.MeshFilter>(); if(mf!=null&&mf.sharedMesh!=null) UnityEngine.Object.DestroyImmediate(mf.sharedMesh); UnityEngine.Object.DestroyImmediate(g); }
   }
 } finally {
   UnityEditor.AnimationMode.StopAnimationMode();
   cam.targetTexture=null; UnityEngine.Object.DestroyImmediate(rt); UnityEngine.Object.DestroyImmediate(camGO);
-  UnityEngine.Object.DestroyImmediate(lightGO); UnityEngine.Object.DestroyImmediate(fillGO); UnityEngine.Object.DestroyImmediate(floor); UnityEngine.Object.DestroyImmediate(inst);
+  UnityEngine.Object.DestroyImmediate(lightGO); UnityEngine.Object.DestroyImmediate(fillGO); UnityEngine.Object.DestroyImmediate(rimGO); UnityEngine.Object.DestroyImmediate(floor); UnityEngine.Object.DestroyImmediate(inst);
 }
 return summary.ToString();
 ''' % (clip["guid"], int(clip["file_id"]), w, h, vnames, vdx, vdy, vdz, fr)
+    ).replace("__RENDER_AVATAR__", json.dumps(C.RENDER_AVATAR))
 
 
 def write_frames(clip_name, result_text):

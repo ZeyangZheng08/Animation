@@ -1,30 +1,30 @@
 {
   "schema_version": "motionkb/v2",
-  "action_id": "grab_bottle",
-  "display_name": "Grab Bottle",
+  "action_id": "check_pulse",
+  "display_name": "Check Pulse",
   "status": "accepted",
   "source_clip": {
-    "fbx_or_anim": "nurse_grab_bottle.fbx",
-    "guid": "4dde3e992c4eac342a862676aa2d3574",
+    "fbx_or_anim": "nurse_check_pulse.fbx",
+    "guid": "17f12876b88d7e449bb424d3e0e56e24",
     "file_id": 1827226128182048838,
-    "clip_name": "nurse_grab_aspirin"
+    "clip_name": "nurse_check_pulse"
   },
-  "controller_state": "Get Aspirin",
+  "controller_state": "Check Pulse",
   "controller_layer": "Base Layer",
-  "trigger_param": "getAspirin",
-  "duration": 1.333,
+  "trigger_param": "pulse",
+  "duration": 2.867,
   "frame_rate": 30,
   "loop": false,
-  "overall_intent": "The nurse reaches out and grasps an aspirin bottle while standing.",
+  "overall_intent": "The nurse leans in, looks down, and reaches with one hand to palpate a patient's wrist pulse while standing.",
   "tags": [
-    "nurse",
-    "aspirin",
-    "bottle",
-    "grab",
-    "reach",
-    "medication",
-    "pick_up",
-    "standing"
+    "nursing",
+    "pulse",
+    "vital_signs",
+    "wrist",
+    "palpation",
+    "assessment",
+    "standing",
+    "clinical_check"
   ],
   "mask_coverage": {
     "upper_body": true,
@@ -33,35 +33,35 @@
   },
   "channels": {
     "torso": {
-      "role": "support",
-      "motion_type": "hold-static",
+      "role": "stabilizer",
+      "motion_type": "balance",
       "contact": "none",
       "constraint": "must-maintain",
       "target": null,
-      "motion_description": "The torso remains upright and steady while the arm reaches.",
+      "motion_description": "The torso leans forward and slightly to the side to position the nurse over the pulse site.",
       "kind": "fk_part",
-      "state_label": "static",
-      "motion_magnitude": 0.0489,
+      "state_label": "dynamic",
+      "motion_magnitude": 0.1153,
       "raw_measurement": {
-        "signal": "max_torso_lean_deg",
-        "raw_value": 2.6399,
-        "divisor": 54.0
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.03659,
+        "divisor": 0.3174
       }
     },
     "head": {
-      "role": "stabilizer",
+      "role": "primary",
       "motion_type": "gaze",
       "contact": "none",
       "constraint": "must-maintain",
       "target": null,
-      "motion_description": "The head turns to look toward the bottle and reaching hand.",
+      "motion_description": "The head tilts downward to keep visual attention on the patient's wrist area.",
       "kind": "fk_part",
       "state_label": "dynamic",
-      "motion_magnitude": 0.5199,
+      "motion_magnitude": 0.111,
       "raw_measurement": {
-        "signal": "head_vs_spine_range_deg",
-        "raw_value": 8.00642,
-        "divisor": 15.4
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.06446,
+        "divisor": 0.5809
       }
     },
     "left_arm": {
@@ -70,14 +70,14 @@
       "contact": "none",
       "constraint": "must-maintain",
       "target": null,
-      "motion_description": "The left arm makes a small balancing adjustment near the body.",
+      "motion_description": "The left arm shifts subtly as a counterbalance while the nurse leans in.",
       "kind": "fk_part",
       "state_label": "dynamic",
-      "motion_magnitude": 0.1869,
+      "motion_magnitude": 0.2105,
       "raw_measurement": {
-        "signal": "mean_bone_hips_rel_pos_stddev_m",
-        "raw_value": 0.02561,
-        "divisor": 0.137
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.14552,
+        "divisor": 0.6914
       }
     },
     "right_arm": {
@@ -86,46 +86,46 @@
       "contact": "none",
       "constraint": "must-reach",
       "target": null,
-      "motion_description": "The right arm reaches forward toward the bottle.",
+      "motion_description": "The right arm reaches outward and downward toward the patient's wrist.",
       "kind": "fk_part",
       "state_label": "dynamic",
-      "motion_magnitude": 0.4878,
+      "motion_magnitude": 0.2206,
       "raw_measurement": {
-        "signal": "mean_bone_hips_rel_pos_stddev_m",
-        "raw_value": 0.06683,
-        "divisor": 0.137
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.15251,
+        "divisor": 0.6914
       }
     },
     "left_leg": {
       "role": "free",
-      "motion_type": "hold-static",
+      "motion_type": "balance",
       "contact": "ground",
       "constraint": "unconstrained",
       "target": null,
-      "motion_description": "The left leg is not driven by this action and remains in the standing stance.",
+      "motion_description": "The left leg is planted and bears the forward lean, knee softly bent.",
       "kind": "fk_part",
-      "state_label": "static",
-      "motion_magnitude": 0.0148,
+      "state_label": "dynamic",
+      "motion_magnitude": 0.1533,
       "raw_measurement": {
-        "signal": "mean_bone_world_pos_stddev_m",
-        "raw_value": 0.00366,
-        "divisor": 0.247
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.06586,
+        "divisor": 0.4296
       }
     },
     "right_leg": {
       "role": "free",
-      "motion_type": "hold-static",
+      "motion_type": "balance",
       "contact": "ground",
       "constraint": "unconstrained",
       "target": null,
-      "motion_description": "The right leg is not driven by this action and remains in the standing stance.",
+      "motion_description": "The right leg is planted behind and braces the reach forward.",
       "kind": "fk_part",
-      "state_label": "static",
-      "motion_magnitude": 0.0156,
+      "state_label": "dynamic",
+      "motion_magnitude": 0.1519,
       "raw_measurement": {
-        "signal": "mean_bone_world_pos_stddev_m",
-        "raw_value": 0.00386,
-        "divisor": 0.247
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.06525,
+        "divisor": 0.4296
       }
     },
     "left_hand": {
@@ -134,41 +134,41 @@
       "contact": "none",
       "constraint": "unconstrained",
       "target": null,
-      "motion_description": "The left hand is not used and stays relaxed at the side.",
+      "motion_description": "The left hand remains relaxed and available for the base or another layered action.",
       "kind": "hand",
       "state_label": "static",
       "motion_magnitude": 0.0,
       "raw_measurement": {
-        "signal": "mean_finger_curl_range_deg",
-        "raw_value": 0.00021,
-        "divisor": 129.0
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.0,
+        "divisor": 0.7327
       }
     },
     "right_hand": {
       "role": "primary",
       "motion_type": "manipulate",
-      "contact": "object:aspirin_bottle",
-      "constraint": "must-reach",
+      "contact": "object:patient_wrist",
+      "constraint": "must-maintain",
       "target": null,
-      "motion_description": "The right hand closes around and takes hold of the aspirin bottle.",
+      "motion_description": "The right hand uses the fingers to palpate and maintain contact with the patient's wrist pulse point.",
       "kind": "hand",
       "state_label": "dynamic",
-      "motion_magnitude": 0.3786,
+      "motion_magnitude": 0.293,
       "raw_measurement": {
-        "signal": "mean_finger_curl_range_deg",
-        "raw_value": 48.84362,
-        "divisor": 129.0
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.21466,
+        "divisor": 0.7327
       }
     },
     "root": {
       "kind": "root",
-      "state_label": "static",
-      "motion_magnitude": 0.0006,
+      "state_label": "dynamic",
+      "motion_magnitude": 0.0528,
       "raw_measurement": {
-        "signal": "max(gait/0.317, trans/0.30, heading/60)",
-        "gait_foot_yrange_m": 0.00018,
-        "trans_horiz_stddev_m": 0.0,
-        "heading_signed_stddev_deg": 0.0
+        "signal": "max(trans/1.5637, vert/1.3009, heading/142.1)",
+        "body_trans_horiz_stddev": 0.04872,
+        "body_vert_range": 0.06867,
+        "body_heading_stddev_deg": 3.138
       }
     }
   },
@@ -177,7 +177,7 @@
       "effector": "right_hand",
       "target": null,
       "constraint": "TwoBoneIKConstraint",
-      "contact_object": "aspirin_bottle",
+      "contact_object": "patient_wrist",
       "world_space": true
     }
   ],
@@ -206,15 +206,15 @@
   },
   "extraction": {
     "method": "in_engine_sample_root_local",
-    "sampled_frames": 40,
-    "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, root-local",
-    "motion_metric": "torso: max_lean_deg/54; head: head_vs_spine_range_deg/15.4; arms: mean_bone_hips_rel_pos_stddev_m/0.137; legs: mean_bone_world_pos_stddev_m/0.247; hands: mean_finger_curl_range_deg/129; root: max(gait/0.317, trans/0.30, heading/60)",
+    "sampled_frames": 86,
+    "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, HumanPose muscles + bodyPosition/bodyRotation",
+    "motion_metric": "all 8 anatomical channels: muscle_dof_stddev_rms, divided by torso 0.3174 / head 0.5809 / arm 0.6914 / leg 0.4296 / hand 0.7327; root: max(trans/1.5637, vert/1.3009, heading/142.1) from HumanPose.bodyPosition and bodyRotation",
     "bone_map_version": "v2.0.0",
-    "metric_formula_version": "v2.0.0",
+    "metric_formula_version": "v2.2.0",
     "extractor_version": "2.0.0",
     "extractor_lang": "python",
     "avatar": "nurse_avatar.fbx",
-    "extracted_at": "2026-07-01T20:17:47Z",
+    "extracted_at": "2026-08-20T22:40:31Z",
     "field_origin": {
       "measured": [
         "duration",
@@ -233,36 +233,21 @@
         "overall_intent",
         "tags",
         "mask_coverage",
-        "channels.*.motion_description",
-        "ik_goals"
+        "channels.*.motion_description"
       ],
-      "semantic_pending": [],
-      "vlm_proposed": [
-        "action_id",
-        "display_name",
-        "overall_intent",
-        "tags",
-        "mask_coverage",
+      "semantic_pending": [
         "channels.*.role",
         "channels.*.motion_type",
         "channels.*.contact",
         "channels.*.constraint",
-        "channels.*.motion_description",
-        "composability.base_or_overlay",
-        "composability.posture",
-        "composability.can_overlay_on"
-      ],
-      "derived": [
-        "composability.locks",
-        "composability.free",
-        "composability.seam_owner",
-        "ik_goals"
+        "channels.*.target",
+        "composability"
       ]
     },
     "verified_against_screenshots": false,
     "vlm_proposal": {
       "model": "gpt-5.5-2026-04-23",
-      "proposed_at": "2026-07-01T20:44:54Z",
+      "proposed_at": "2026-07-01T20:43:39Z",
       "frames": 6,
       "render_views": [
         "front",

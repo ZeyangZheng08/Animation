@@ -24,18 +24,24 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = HERE                               # this repo's root; key.env lives here, not with the KB
-sys.path.insert(0, HERE)                       # config, paths, vlm_openai, unity_sampler, validate_motionkb
+sys.path.insert(0, HERE)                       # config, paths, the vlm client, unity_sampler, validate_motionkb
 import config as C            # noqa: E402
 import paths                  # noqa: E402
-import vlm_openai             # noqa: E402
 import unity_sampler          # noqa: E402
 import validate_motionkb as V # noqa: E402
 
+# WHICH VLM. ADR 0008 constrains what a proposal must satisfy, not who produces it: every field is
+# checked against the MEASURED block by validate_semantic_consistency before it is recorded, and
+#  records which model actually proposed. So the provider is one import, chosen
+# here rather than branched at each call site. Set MOTIONKB_VLM=openai to go back to gpt-5.5.
+if os.environ.get("MOTIONKB_VLM", "anthropic").strip().lower() == "openai":
+    import vlm_openai as vlm  # noqa: E402
+else:
+    import vlm_anthropic as vlm  # noqa: E402
+
 KB_DIR = paths.KB_DIR                          # see paths.py / MOTIONKB_DIR
 CAND_DIR = paths.CAND_DIR
-VLM_MODEL = vlm_openai.MODEL
-
-NON_ACTION_FILES = {"engine_mask_map.json", "kb_manifest.json", "retrieval_eval_set.json"}
+VLM_MODEL = vlm.MODEL
 
 # Fields the VLM proposes (per partition channel) + the top-level identity/summary fields.
 SEMANTIC_CH_KEYS = ("role", "motion_type", "contact", "constraint", "target", "motion_description")
@@ -79,12 +85,10 @@ def _ik_summary(doc):
 
 
 def _store_base_actions():
-    """{action_id: {'locks': set, 'posture': str}} for accepted BASE actions already in the root store —
+    """{action_id: {'locks': set, 'posture': str}} for accepted BASE actions already in the store —
     the candidate pool an overlay's can_overlay_on may name (must be lock-disjoint + posture-compatible)."""
     out = {}
-    for p in sorted(glob.glob(os.path.join(KB_DIR, "*.json"))):
-        if os.path.basename(p) in NON_ACTION_FILES:
-            continue
+    for p in paths.action_files():
         try:
             d = json.load(open(p, encoding="utf-8"))
         except Exception:
@@ -96,15 +100,41 @@ def _store_base_actions():
     return out
 
 
-def build_prompt(doc, clip_name, bases):
+def _frame_manifest(frames):
+    """One line per attached image: which angle, how far through the clip.
+
+    Without it the model gets a bag of pictures with no stated order and no way to tell a camera
+    move from a body move, which is most of what these frames are supposed to show.
+    """
+    if not frames:
+        return "  (frame order not recorded)"
+    out = []
+    for i, f in enumerate(frames, 1):
+        stem = os.path.basename(f).rsplit(".", 1)[0]
+        view, _, pct = stem.rpartition("_f")
+        pretty = view.replace("_", " ") if view else stem
+        out.append("  frame %d: %s view, %s%% through the clip" % (i, pretty, pct or "?"))
+    return "\n".join(out)
+
+
+def build_prompt(doc, clip_name, bases, frames=None):
     existing_aid = doc.get("action_id")
+    frame_lines = _frame_manifest(frames)
     base_lines = "\n".join("  %-14s owns(locks)=%s posture=%s" % (b, sorted(v["locks"]), v["posture"])
                            for b, v in sorted(bases.items())) or "  (none registered yet)"
     return (
-        "You are labelling a nursing-care animation clip at the BODY-PART level for a motion knowledge base.\n"
-        "You are shown several rendered frames of one clip (an untextured nurse avatar, multiple camera angles\n"
-        "at a few moments in time). Judge ONLY the categorical, meaning-level labels from what you see and from\n"
-        "the MEASURED facts below. You do NOT set any numbers — those are already measured.\n\n"
+        "You are labelling one animation clip at the BODY-PART level for a motion knowledge base.\n"
+        "You are shown several rendered frames of it. They are listed below in the order they are attached,\n"
+        "each labelled with its camera angle and how far through the clip it was taken, so you can read the\n"
+        "movement as a sequence rather than as unrelated poses. Every frame uses the SAME camera setup, so\n"
+        "a change in the figure's size or position between frames is real movement, not framing. Judge\n"
+        "ONLY the categorical, meaning-level labels from what you see and from the MEASURED facts below. You do\n"
+        "NOT set any numbers — those are already measured.\n"
+        "THE COSTUME IS NOT EVIDENCE. Every clip is previewed on one shared avatar, which happens to wear\n"
+        "clinical scrubs, so the figure looks like a nurse whatever it is doing. This library holds general\n"
+        "motion — locomotion, sport, combat, dance, everyday gesture — alongside nursing tasks. Label the\n"
+        "movement you actually see; do not reach for a clinical reading the movement does not support.\n\n"
+        "Frames attached, in order:\n%s\n\n"
         "Clip name (asset): %s\n"
         "%s\n\n"
         "MEASURED facts per channel (these are FIXED — your labels must agree with them):\n%s\n\n"
@@ -136,7 +166,7 @@ def build_prompt(doc, clip_name, bases):
         "    posture         : 'standing' or 'seated'.\n"
         "    can_overlay_on  : for an OVERLAY, the subset of the base action_ids listed above whose owned\n"
         "                      parts do NOT conflict with the parts THIS action owns, that share its posture,\n"
-        "                      and that make clinical sense. For a BASE action, use [].\n\n"
+        "                      and that make sense performed together. For a BASE action, use [].\n\n"
         "HARD consistency rules your proposal MUST satisfy (auto-checked, rejected otherwise):\n"
         "  - a channel with role=free must have constraint=unconstrained.\n"
         "  - a channel that has an IK goal must have role!=free, constraint=must-reach, and\n"
@@ -145,7 +175,8 @@ def build_prompt(doc, clip_name, bases):
         "    (must-maintain or must-reach), not unconstrained.\n"
         "  - motion_type must agree with the measured state: a 'dynamic' channel is not 'hold-static'; a\n"
         "    'static' channel is not 'reach'/'manipulate'/'cyclic-locomotion'; 'cyclic-locomotion' is only\n"
-        "    allowed if the root channel is dynamic.\n"
+        "    allowed if at least one LEG channel is dynamic. It does NOT require the body to travel --\n"
+        "    a walk performed on the spot is still a walk, and the scene moves the character.\n"
         "  - gaze only on head; manipulate only on a hand channel.\n"
         "  - can_overlay_on may only name base actions from the list above; none may own a part this action\n"
         "    owns; all must share this action's posture; a base action's can_overlay_on must be empty.\n\n"
@@ -155,7 +186,7 @@ def build_prompt(doc, clip_name, bases):
         " \"composability\":{\"base_or_overlay\":\"...\",\"posture\":\"...\",\"can_overlay_on\":[...]},\n"
         " \"channels\":{\"torso\":{\"role\":...,\"motion_type\":...,\"contact\":...,\"constraint\":...,"
         "\"target\":null,\"motion_description\":\"...\"}, ... all 8 anatomical channels ...}}\n"
-        % (clip_name,
+        % (frame_lines, clip_name,
            ("Current action_id (keep unless clearly wrong): %s" % existing_aid) if existing_aid else
            "No action_id yet — propose one.",
            _measured_summary(doc), _ik_summary(doc), base_lines))
@@ -292,13 +323,13 @@ def propose_clip(clip_name, source_doc_path, retries=2):
     if not frames:
         raise RuntimeError("no frames at %s — run `python extract.py render %s` first"
                            % (frames_dir, clip_name))
-    api_key = vlm_openai.load_api_key(REPO_ROOT)
+    api_key = vlm.load_api_key(REPO_ROOT)
     bases = _store_base_actions()
-    base_prompt = build_prompt(doc, clip_name, bases)
+    base_prompt = build_prompt(doc, clip_name, bases, frames)
     feedback = ""
     cand = errors = warns = proposed_aid = None
     for attempt in range(retries + 1):
-        proposal, _usage = vlm_openai.propose(api_key, base_prompt + feedback, frames)
+        proposal, _usage = vlm.propose(api_key, base_prompt + feedback, frames)
         cand, proposed_aid = merge_proposal(doc, proposal)
         errors, warns = [], []
         V.validate_semantic_consistency(cand, errors, warns)

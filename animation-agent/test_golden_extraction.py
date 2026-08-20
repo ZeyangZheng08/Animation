@@ -25,7 +25,6 @@ import unity_sampler         # noqa: E402
 
 KB_DIR = paths.KB_DIR                                            # see paths.py / MOTIONKB_DIR
 
-NON_ACTION_FILES = {"engine_mask_map.json", "kb_manifest.json", "retrieval_eval_set.json"}
 MEASURED_KEYS = ("kind", "state_label", "motion_magnitude", "raw_measurement")
 EPS = 1e-9
 
@@ -50,8 +49,7 @@ def _cmp(path, expected, got, errors):
 
 
 def accepted_files():
-    return [f for f in sorted(glob.glob(os.path.join(KB_DIR, "*.json")))
-            if os.path.basename(f) not in NON_ACTION_FILES]
+    return paths.action_files()
 
 
 def main():

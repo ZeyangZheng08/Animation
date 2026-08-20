@@ -41,11 +41,11 @@
       "motion_description": "The torso bends and shifts forward to support the medication-giving posture.",
       "kind": "fk_part",
       "state_label": "dynamic",
-      "motion_magnitude": 0.5684,
+      "motion_magnitude": 0.2414,
       "raw_measurement": {
-        "signal": "max_torso_lean_deg",
-        "raw_value": 30.69545,
-        "divisor": 54.0
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.07662,
+        "divisor": 0.3174
       }
     },
     "head": {
@@ -57,11 +57,11 @@
       "motion_description": "The head tilts downward to watch the hands and pills.",
       "kind": "fk_part",
       "state_label": "dynamic",
-      "motion_magnitude": 0.8491,
+      "motion_magnitude": 0.2595,
       "raw_measurement": {
-        "signal": "head_vs_spine_range_deg",
-        "raw_value": 13.07585,
-        "divisor": 15.4
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.15076,
+        "divisor": 0.5809
       }
     },
     "left_arm": {
@@ -73,11 +73,11 @@
       "motion_description": "The left arm reaches forward and downward to position the receiving or offering hand.",
       "kind": "fk_part",
       "state_label": "dynamic",
-      "motion_magnitude": 0.7303,
+      "motion_magnitude": 0.4456,
       "raw_measurement": {
-        "signal": "mean_bone_hips_rel_pos_stddev_m",
-        "raw_value": 0.10005,
-        "divisor": 0.137
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.30808,
+        "divisor": 0.6914
       }
     },
     "right_arm": {
@@ -89,11 +89,11 @@
       "motion_description": "The right arm reaches across toward the left hand to assist with the pill transfer.",
       "kind": "fk_part",
       "state_label": "dynamic",
-      "motion_magnitude": 0.6342,
+      "motion_magnitude": 0.1801,
       "raw_measurement": {
-        "signal": "mean_bone_hips_rel_pos_stddev_m",
-        "raw_value": 0.08689,
-        "divisor": 0.137
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.12452,
+        "divisor": 0.6914
       }
     },
     "left_leg": {
@@ -105,11 +105,11 @@
       "motion_description": "The left leg makes small stance adjustments to keep balance while leaning.",
       "kind": "fk_part",
       "state_label": "dynamic",
-      "motion_magnitude": 0.3036,
+      "motion_magnitude": 0.2022,
       "raw_measurement": {
-        "signal": "mean_bone_world_pos_stddev_m",
-        "raw_value": 0.07498,
-        "divisor": 0.247
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.08685,
+        "divisor": 0.4296
       }
     },
     "right_leg": {
@@ -121,11 +121,11 @@
       "motion_description": "The right leg supports the standing posture with slight weight shifting.",
       "kind": "fk_part",
       "state_label": "dynamic",
-      "motion_magnitude": 0.2658,
+      "motion_magnitude": 0.1973,
       "raw_measurement": {
-        "signal": "mean_bone_world_pos_stddev_m",
-        "raw_value": 0.06565,
-        "divisor": 0.247
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.08477,
+        "divisor": 0.4296
       }
     },
     "left_hand": {
@@ -137,11 +137,11 @@
       "motion_description": "The left hand opens and moves to hold or present the pills.",
       "kind": "hand",
       "state_label": "dynamic",
-      "motion_magnitude": 0.853,
+      "motion_magnitude": 0.8019,
       "raw_measurement": {
-        "signal": "mean_finger_curl_range_deg",
-        "raw_value": 110.03768,
-        "divisor": 129.0
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.58759,
+        "divisor": 0.7327
       }
     },
     "right_hand": {
@@ -153,22 +153,22 @@
       "motion_description": "The right hand makes small finger and wrist motions to place or steady the pills.",
       "kind": "hand",
       "state_label": "dynamic",
-      "motion_magnitude": 0.2028,
+      "motion_magnitude": 0.2027,
       "raw_measurement": {
-        "signal": "mean_finger_curl_range_deg",
-        "raw_value": 26.15981,
-        "divisor": 129.0
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.14855,
+        "divisor": 0.7327
       }
     },
     "root": {
       "kind": "root",
-      "state_label": "static",
-      "motion_magnitude": 0.1995,
+      "state_label": "dynamic",
+      "motion_magnitude": 0.0687,
       "raw_measurement": {
-        "signal": "max(gait/0.317, trans/0.30, heading/60)",
-        "gait_foot_yrange_m": 0.06325,
-        "trans_horiz_stddev_m": 0.0,
-        "heading_signed_stddev_deg": 0.0
+        "signal": "max(trans/1.5637, vert/1.3009, heading/142.1)",
+        "body_trans_horiz_stddev": 0.03402,
+        "body_vert_range": 0.08938,
+        "body_heading_stddev_deg": 8.229
       }
     }
   },
@@ -213,14 +213,14 @@
   "extraction": {
     "method": "in_engine_sample_root_local",
     "sampled_frames": 64,
-    "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, root-local",
-    "motion_metric": "torso: max_lean_deg/54; head: head_vs_spine_range_deg/15.4; arms: mean_bone_hips_rel_pos_stddev_m/0.137; legs: mean_bone_world_pos_stddev_m/0.247; hands: mean_finger_curl_range_deg/129; root: max(gait/0.317, trans/0.30, heading/60)",
+    "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, HumanPose muscles + bodyPosition/bodyRotation",
+    "motion_metric": "all 8 anatomical channels: muscle_dof_stddev_rms, divided by torso 0.3174 / head 0.5809 / arm 0.6914 / leg 0.4296 / hand 0.7327; root: max(trans/1.5637, vert/1.3009, heading/142.1) from HumanPose.bodyPosition and bodyRotation",
     "bone_map_version": "v2.0.0",
-    "metric_formula_version": "v2.0.0",
+    "metric_formula_version": "v2.2.0",
     "extractor_version": "2.0.0",
     "extractor_lang": "python",
     "avatar": "nurse_avatar.fbx",
-    "extracted_at": "2026-07-01T20:17:47Z",
+    "extracted_at": "2026-08-20T22:40:31Z",
     "field_origin": {
       "measured": [
         "duration",
@@ -239,30 +239,15 @@
         "overall_intent",
         "tags",
         "mask_coverage",
-        "channels.*.motion_description",
-        "ik_goals"
+        "channels.*.motion_description"
       ],
-      "semantic_pending": [],
-      "vlm_proposed": [
-        "action_id",
-        "display_name",
-        "overall_intent",
-        "tags",
-        "mask_coverage",
+      "semantic_pending": [
         "channels.*.role",
         "channels.*.motion_type",
         "channels.*.contact",
         "channels.*.constraint",
-        "channels.*.motion_description",
-        "composability.base_or_overlay",
-        "composability.posture",
-        "composability.can_overlay_on"
-      ],
-      "derived": [
-        "composability.locks",
-        "composability.free",
-        "composability.seam_owner",
-        "ik_goals"
+        "channels.*.target",
+        "composability"
       ]
     },
     "verified_against_screenshots": false,

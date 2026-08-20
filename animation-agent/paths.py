@@ -16,12 +16,18 @@ platform, so a file written from Linux is byte-identical to one written from Win
 / `write_json` / `write_bytes` — never a bare `open(..., "w")`, whose newline translation is platform
 dependent.
 """
+import glob
 import json
 import os
 
 DEFAULT_KB_DIR = "/mnt/f/Research/AI_agent/Animation/Animation_agent/Project/Animation/agent/kb"
 
 KB_DIR      = os.path.abspath(os.environ.get("MOTIONKB_DIR", DEFAULT_KB_DIR))
+# The accepted action records, one file per action, and NOTHING else. Their own directory because a
+# flat KB root made every consumer carry the same denylist of the shared JSONs sitting beside them
+# ({engine_mask_map, kb_manifest, retrieval_eval_set}.json) -- seven copies under two names, which is
+# what a layout costs when membership has to be asserted instead of read off the path. See ADR 0012.
+ACTIONS_DIR = os.path.join(KB_DIR, "actions")
 RAW_DIR     = os.path.join(KB_DIR, "_raw")
 FRAMES_DIR  = os.path.join(KB_DIR, "_frames")
 REPORTS_DIR = os.path.join(KB_DIR, "_reports")
@@ -39,6 +45,21 @@ def require_kb():
             "directory (from WSL that is a /mnt/<drive>/... path) and make sure the drive is mounted."
             % KB_DIR)
     return KB_DIR
+
+
+def action_files(d=None):
+    """Every action record in `d`, sorted; the accepted store by default.
+
+    Membership is the DIRECTORY, not a denylist. While the records sat loose in the KB root beside
+    engine_mask_map.json / kb_manifest.json / retrieval_eval_set.json, every consumer that walked the
+    store had to name those three in order to skip them, and that set was pasted into seven files
+    under two different names. A fourth shared file would have had to be added to all seven, or be
+    silently validated as an action record. actions/ holds action records and nothing else, so there
+    is nothing to exclude and no list to keep in sync.
+
+    Takes a directory so candidate/ -- which holds staged records and equally nothing else -- is read
+    through the same call."""
+    return sorted(glob.glob(os.path.join(d or ACTIONS_DIR, "*.json")))
 
 
 def rel(path):

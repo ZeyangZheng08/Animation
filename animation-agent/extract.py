@@ -39,6 +39,7 @@ import paths
 import unity_sampler
 
 KB_DIR = paths.KB_DIR                          # see paths.py / MOTIONKB_DIR
+ACTIONS_DIR = paths.ACTIONS_DIR
 CAND_DIR = paths.CAND_DIR
 REPORT = os.path.join(paths.REPORTS_DIR, "extract_run.md")
 SAMPLER_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_generated_sampler.cs")
@@ -51,18 +52,13 @@ def _now():
     return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-NON_ACTION_FILES = {"engine_mask_map.json", "kb_manifest.json", "retrieval_eval_set.json"}
-
-
 def _source_files():
     """Source action entries the MEASURE half iterates: candidate/*.json (new / in-progress) unioned with
-    the root accepted store, deduped by source_clip.clip_name (candidate wins). Skips the shared/non-action
-    JSONs. Working artifacts are keyed by clip_name; the action_id is decided later in the PROPOSE stage."""
+    the accepted store, deduped by source_clip.clip_name (candidate wins). Working artifacts are keyed by
+    clip_name; the action_id is decided later in the PROPOSE stage."""
     by_clip = {}
-    for d in (KB_DIR, CAND_DIR):                       # root first, candidate overrides
-        for p in sorted(glob.glob(os.path.join(d, "*.json"))):
-            if os.path.basename(p) in NON_ACTION_FILES:
-                continue
+    for d in (ACTIONS_DIR, CAND_DIR):                  # accepted first, candidate overrides
+        for p in paths.action_files(d):
             try:
                 cn = (_load(p).get("source_clip") or {}).get("clip_name")
             except Exception:
@@ -96,7 +92,7 @@ def emit_sampler():
     snippet for every clip itself and needs no file."""
     clips = _clips_to_sample()
     if not clips:
-        print("No source entries found under %s" % KB_DIR)
+        print("No source entries found under %s" % paths.rel(ACTIONS_DIR))
         return 1
     unity_sampler.emit_sampler_file(clips[0], SAMPLER_OUT)
     print("Wrote the sampler C# for '%s' (1 of %d clips) ->\n  %s" % (clips[0]["id"], len(clips), SAMPLER_OUT))
@@ -214,10 +210,23 @@ def _build_extraction(raw):
     return {
         "method": "in_engine_sample_root_local",
         "sampled_frames": raw["frames"],
-        "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, root-local",
-        "motion_metric": ("torso: max_lean_deg/54; head: head_vs_spine_range_deg/15.4; "
-                          "arms: mean_bone_hips_rel_pos_stddev_m/0.137; legs: mean_bone_world_pos_stddev_m/0.247; "
-                          "hands: mean_finger_curl_range_deg/129; root: max(gait/0.317, trans/0.30, heading/60)"),
+        "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, HumanPose muscles + bodyPosition/bodyRotation",
+        # Derived from config, never retyped. This string is the record's own account of how its
+        # numbers were produced; hardcoding the divisors here meant that refitting them in config.py
+        # would leave every record describing a formula it was not computed with.
+        # Derived from config, never retyped. This string is the record's own account of how its
+        # numbers were produced; a hardcoded copy went stale the moment the divisors were refitted,
+        # and every record then claimed a formula it was not computed with. Deriving it also means a
+        # signal that disappears from config (root_gait did, in ADR 0011) fails loudly here instead
+        # of leaving the description quietly wrong.
+        "motion_metric": ("all 8 anatomical channels: muscle_dof_stddev_rms, divided by "
+                          "torso %(torso)s / head %(head)s / arm %(arm)s / leg %(leg)s / hand %(hand)s; "
+                          "root: max(trans/%(trans)s, vert/%(vert)s, heading/%(heading)s) from "
+                          "HumanPose.bodyPosition and bodyRotation"
+                          % {"torso": C.DIVISOR[C.TORSO], "head": C.DIVISOR[C.HEAD],
+                             "arm": C.DIVISOR["arm"], "leg": C.DIVISOR["leg"],
+                             "hand": C.DIVISOR["hand"], "trans": C.DIVISOR["root_trans"],
+                             "vert": C.DIVISOR["root_vert"], "heading": C.DIVISOR["root_heading"]}),
         "bone_map_version": C.BONE_MAP_VERSION,
         "metric_formula_version": C.FORMULA_VERSION,
         "extractor_version": C.EXTRACTOR_VERSION,
@@ -293,7 +302,7 @@ def sample(host, port, instance, only=None):
             print("No source entry with clip_name '%s'." % only)
             return 1
     if not clips:
-        print("No source entries found under %s" % KB_DIR)
+        print("No source entries found under %s" % paths.rel(ACTIONS_DIR))
         return 1
     if not unity_sampler.bridge_healthy(host, port):
         print("Unity MCP bridge not reachable at %s:%d.\n"
@@ -567,7 +576,7 @@ def _promote_candidate(clip_name, human):
     if not aid or not re.match(r"^[a-z][a-z0-9_]*$", aid):
         print("Candidate action_id %r is not a valid slug ([a-z][a-z0-9_]*)." % aid)
         return 1
-    root_path = os.path.join(KB_DIR, aid + ".json")
+    root_path = os.path.join(ACTIONS_DIR, aid + ".json")
     for p in _source_files():                                  # uniqueness across the accepted store
         if os.path.abspath(p) == os.path.abspath(root_path):
             continue
@@ -641,7 +650,7 @@ def main(argv):
             print("usage: extract.py author <clip_name|all>"); return 2
         if argv[2] == "all":
             rc = 0
-            for p in sorted(glob.glob(os.path.join(CAND_DIR, "*.json"))):
+            for p in paths.action_files(CAND_DIR):
                 rc |= author(os.path.splitext(os.path.basename(p))[0])
             return rc
         return author(argv[2])

@@ -22,10 +22,28 @@ All identifiers/comments are English (all-English-artifacts rule).
 """
 
 SCHEMA_VERSION   = "motionkb/v2"
-FORMULA_VERSION  = "v2.0.0"
+FORMULA_VERSION  = "v2.2.0"   # v2.2.0: measured in Unity's normalised Humanoid space (ADR 0011)
 BONE_MAP_VERSION = "v2.0.0"
 EXTRACTOR_VERSION = "2.0.0"
 CALIBRATION_AVATAR = "nurse_avatar.fbx"
+
+# The avatar the EVIDENCE FRAMES are drawn on — deliberately not the one above.
+#
+# Measurement and rendering are the two halves ADR 0008 keeps apart: the sampler produces the
+# numbers, the frames are what a VLM reads to propose the categorical labels. They may therefore use
+# different bodies, and they should.
+#
+# Rendering on nurse_avatar put every clip in clinical scrubs, so a cartwheel and a sword swing were
+# both previewed on something that looks like a nurse. This library is general motion — locomotion,
+# sport, combat, dance — and a costume in shot is exactly the kind of cue that pulls a label toward
+# a reading the movement does not support. Y Bot is Mixamo's featureless mannequin: no clothing, no
+# props, nothing to read into.
+#
+# Measurement stays on nurse_avatar because the DIVISOR table is fitted in metres against its limb
+# lengths (ADR 0010). Swapping the sampled avatar shifts every raw signal — measured on one clip,
+# nurse_avatar vs X Bot differs by -18.3% at the torso and +16.5% at root_gait — so it would
+# invalidate the calibration for no benefit the frames do not already give.
+RENDER_AVATAR = "Y Bot.fbx"
 
 # ---- Sampling rule (fixes v1's fixed-30 undersampling): N = clamp(round(dur*fps), MIN, MAX) ----
 # MAX=600 > the longest current native frame count (cpr=540), so no clip is sub-native; a max-based
@@ -93,24 +111,45 @@ def all_sample_bones():
 
 
 # ---- Frozen normalization (divisor: raw/divisor=magnitude clamped [0,1]; provenance = ref clip) ----
+# Fitted on the corpus, in Unity's normalised Humanoid space.
+#
+# The signals these divide are muscle values now, not metres (ADR 0011): each is one joint's rotation
+# expressed against that avatar's own limit, so it is dimensionless and body-independent. Fitted over
+# 150 randomly sampled Mixamo clips (calibrate_divisors.py --scratch ~/calib_muscle, seed 0) so that
+# the corpus 99th percentile normalises to 0.85, leaving 0-0.7% saturation.
 DIVISOR = {
-    TORSO: 54.0,        # max-lean deg;      check_pulse 45.9  -> 0.85
-    HEAD: 15.4,         # head range deg;    giving_pills 13.1 -> 0.85
-    "arm": 0.137,       # hips-rel stddev m; check_pulse 0.1163-> 0.85
-    "leg": 0.247,       # world stddev m;    walking 0.2100    -> 0.85
-    "hand": 129.0,      # curl-range deg;    giving_pills 110.0-> 0.85
-    "root_gait": 0.317, # foot Y-range m;    walking 0.2694    -> 0.85
-    "root_trans": 0.30, # horiz root stddev m  (Phase-2, forward-declared; corpus is in-place)
-    "root_heading": 60.0,  # signed heading stddev deg (Phase-2, forward-declared)
+    TORSO: 0.3174,          # per-DOF stddev RMS;  corpus p99 0.2698 -> 0.85
+    HEAD: 0.5809,           #                      corpus p99 0.4937 -> 0.85
+    "arm": 0.6914,          #                      corpus p99 0.5877 -> 0.85
+    "leg": 0.4296,          #                      corpus p99 0.3652 -> 0.85
+    "hand": 0.7327,         #                      corpus p99 0.6228 -> 0.85
+    # The root channel answers where the BODY went, from HumanPose.bodyPosition / bodyRotation, which
+    # Unity scales by the avatar's size. There is no foot-gait term any more: foot lift was a
+    # metre-space proxy for "is this locomotion", and that question belongs to the leg channels --
+    # an in-place walk is still a walk, and the scene moves the character (validate_motionkb.py).
+    "root_trans": 1.5637,   # horizontal stddev;   corpus p99 1.3291 -> 0.85
+    "root_vert": 1.3009,    # vertical range;      corpus p99 1.1058 -> 0.85
+    "root_heading": 142.1,  # signed-yaw stddev deg; corpus p99 120.79 -> 0.85
 }
 
-# Static threshold on the RAW physical signal (never one global normalized constant — the channel
-# normalizations are dimensionally incommensurable). state_label = dynamic iff raw >= threshold.
+# Static threshold on the RAW signal. ONE constant now, which the previous scheme could not have.
+#
+# Under v2.1.0 each channel needed its own threshold because the signals were dimensionally
+# incommensurable -- degrees for the torso, metres for an arm, degrees of finger curl for a hand.
+# Muscle values are all the same kind of number: one joint's rotation as a fraction of its own
+# limit. So "this joint barely moves" is one number across every channel.
+#
+# 0.02 is roughly twice the largest channel reading of the store's own reference for standing still:
+# `idle` measures 0.0047 at the torso and 0.0109 at its busiest channel. Heading keeps a separate
+# value because it is the one signal still in degrees.
+STATIC_MUSCLE = 0.02
 STATIC = {
-    TORSO: 5.0,    # idle 2.3 / static<=3.6 | dynamic>=28.8 (deg)
-    HEAD: 4.0,     # idle 1.5 / static<=2.7 | dynamic>=8.0 (deg)
-    "arm": 0.015,  # idle 0.004 | dynamic>=0.022 (m)
-    "leg": 0.015,  # planted<=0.006 | dynamic step>=0.066 (m)
-    "hand": 5.0,   # idle/cpr<=0.2 | dynamic>=19.8 (deg)
-    "root_gait": 0.10,  # step<=0.063 | walking 0.2694 (m, locomotion)
+    TORSO: STATIC_MUSCLE,
+    HEAD: STATIC_MUSCLE,
+    "arm": STATIC_MUSCLE,
+    "leg": STATIC_MUSCLE,
+    "hand": STATIC_MUSCLE,
+    "root_trans": STATIC_MUSCLE,
+    "root_vert": STATIC_MUSCLE,
+    "root_heading": 2.0,   # degrees
 }

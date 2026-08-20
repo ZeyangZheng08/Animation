@@ -41,11 +41,11 @@
       "motion_description": "The torso remains upright in a neutral standing posture.",
       "kind": "fk_part",
       "state_label": "static",
-      "motion_magnitude": 0.0432,
+      "motion_magnitude": 0.0148,
       "raw_measurement": {
-        "signal": "max_torso_lean_deg",
-        "raw_value": 2.33066,
-        "divisor": 54.0
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.00469,
+        "divisor": 0.3174
       }
     },
     "head": {
@@ -57,11 +57,11 @@
       "motion_description": "The head stays generally forward with a calm neutral gaze.",
       "kind": "fk_part",
       "state_label": "static",
-      "motion_magnitude": 0.099,
+      "motion_magnitude": 0.0103,
       "raw_measurement": {
-        "signal": "head_vs_spine_range_deg",
-        "raw_value": 1.52495,
-        "divisor": 15.4
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.00598,
+        "divisor": 0.5809
       }
     },
     "left_arm": {
@@ -73,11 +73,11 @@
       "motion_description": "The left arm hangs relaxed at the side.",
       "kind": "fk_part",
       "state_label": "static",
-      "motion_magnitude": 0.0327,
+      "motion_magnitude": 0.0158,
       "raw_measurement": {
-        "signal": "mean_bone_hips_rel_pos_stddev_m",
-        "raw_value": 0.00448,
-        "divisor": 0.137
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.01091,
+        "divisor": 0.6914
       }
     },
     "right_arm": {
@@ -89,11 +89,11 @@
       "motion_description": "The right arm hangs relaxed at the side.",
       "kind": "fk_part",
       "state_label": "static",
-      "motion_magnitude": 0.0281,
+      "motion_magnitude": 0.0141,
       "raw_measurement": {
-        "signal": "mean_bone_hips_rel_pos_stddev_m",
-        "raw_value": 0.00385,
-        "divisor": 0.137
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.00976,
+        "divisor": 0.6914
       }
     },
     "left_leg": {
@@ -105,11 +105,11 @@
       "motion_description": "The left leg remains planted in a neutral standing stance.",
       "kind": "fk_part",
       "state_label": "static",
-      "motion_magnitude": 0.0111,
+      "motion_magnitude": 0.0169,
       "raw_measurement": {
-        "signal": "mean_bone_world_pos_stddev_m",
-        "raw_value": 0.00275,
-        "divisor": 0.247
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.00726,
+        "divisor": 0.4296
       }
     },
     "right_leg": {
@@ -121,11 +121,11 @@
       "motion_description": "The right leg remains planted in a neutral standing stance.",
       "kind": "fk_part",
       "state_label": "static",
-      "motion_magnitude": 0.0127,
+      "motion_magnitude": 0.0145,
       "raw_measurement": {
-        "signal": "mean_bone_world_pos_stddev_m",
-        "raw_value": 0.00314,
-        "divisor": 0.247
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.00621,
+        "divisor": 0.4296
       }
     },
     "left_hand": {
@@ -139,9 +139,9 @@
       "state_label": "static",
       "motion_magnitude": 0.0,
       "raw_measurement": {
-        "signal": "mean_finger_curl_range_deg",
-        "raw_value": 0.00033,
-        "divisor": 129.0
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.0,
+        "divisor": 0.7327
       }
     },
     "right_hand": {
@@ -155,20 +155,20 @@
       "state_label": "static",
       "motion_magnitude": 0.0,
       "raw_measurement": {
-        "signal": "mean_finger_curl_range_deg",
-        "raw_value": 0.00044,
-        "divisor": 129.0
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.0,
+        "divisor": 0.7327
       }
     },
     "root": {
       "kind": "root",
       "state_label": "static",
-      "motion_magnitude": 0.0141,
+      "motion_magnitude": 0.0038,
       "raw_measurement": {
-        "signal": "max(gait/0.317, trans/0.30, heading/60)",
-        "gait_foot_yrange_m": 0.00195,
-        "trans_horiz_stddev_m": 0.00422,
-        "heading_signed_stddev_deg": 0.0
+        "signal": "max(trans/1.5637, vert/1.3009, heading/142.1)",
+        "body_trans_horiz_stddev": 0.00432,
+        "body_vert_range": 0.0,
+        "body_heading_stddev_deg": 0.545
       }
     }
   },
@@ -196,14 +196,14 @@
   "extraction": {
     "method": "in_engine_sample_root_local",
     "sampled_frames": 251,
-    "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, root-local",
-    "motion_metric": "torso: max_lean_deg/54; head: head_vs_spine_range_deg/15.4; arms: mean_bone_hips_rel_pos_stddev_m/0.137; legs: mean_bone_world_pos_stddev_m/0.247; hands: mean_finger_curl_range_deg/129; root: max(gait/0.317, trans/0.30, heading/60)",
+    "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, HumanPose muscles + bodyPosition/bodyRotation",
+    "motion_metric": "all 8 anatomical channels: muscle_dof_stddev_rms, divided by torso 0.3174 / head 0.5809 / arm 0.6914 / leg 0.4296 / hand 0.7327; root: max(trans/1.5637, vert/1.3009, heading/142.1) from HumanPose.bodyPosition and bodyRotation",
     "bone_map_version": "v2.0.0",
-    "metric_formula_version": "v2.0.0",
+    "metric_formula_version": "v2.2.0",
     "extractor_version": "2.0.0",
     "extractor_lang": "python",
     "avatar": "nurse_avatar.fbx",
-    "extracted_at": "2026-07-01T20:17:47Z",
+    "extracted_at": "2026-08-20T22:40:31Z",
     "field_origin": {
       "measured": [
         "duration",
@@ -222,30 +222,15 @@
         "overall_intent",
         "tags",
         "mask_coverage",
-        "channels.*.motion_description",
-        "ik_goals"
+        "channels.*.motion_description"
       ],
-      "semantic_pending": [],
-      "vlm_proposed": [
-        "action_id",
-        "display_name",
-        "overall_intent",
-        "tags",
-        "mask_coverage",
+      "semantic_pending": [
         "channels.*.role",
         "channels.*.motion_type",
         "channels.*.contact",
         "channels.*.constraint",
-        "channels.*.motion_description",
-        "composability.base_or_overlay",
-        "composability.posture",
-        "composability.can_overlay_on"
-      ],
-      "derived": [
-        "composability.locks",
-        "composability.free",
-        "composability.seam_owner",
-        "ik_goals"
+        "channels.*.target",
+        "composability"
       ]
     },
     "verified_against_screenshots": false,

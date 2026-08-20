@@ -56,7 +56,8 @@ inside the commit either way.
 
 Investigating (when the descriptions are not enough):
 - glob / grep / read work over two places: `kb/`, the motion library's own files, and `source/`, the \
-animation assets the library was built from. Use them to settle what exists rather than rephrasing \
+animation assets the library was built from. The accepted records are `kb/actions/<action_id>.json`, one \
+file per action. Use them to settle what exists rather than rephrasing \
 kb_search until something turns up. Everything is small — one grep answers "which actions mention X" \
 outright, and a miss is evidence of absence rather than a reason to search again.
 - Whether something exists ANYWHERE is a question about `source/`, not `kb/`. The library holds only \

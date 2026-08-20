@@ -21,12 +21,7 @@ OUT = os.path.expanduser("~/render_probe")
 
 
 def clip_entry(clip_name):
-    for fn in sorted(os.listdir(KB_DIR)):
-        if not fn.endswith(".json"):
-            continue
-        path = os.path.join(KB_DIR, fn)
-        if not os.path.isfile(path):
-            continue
+    for path in paths.action_files():
         with open(path, encoding="utf-8") as fh:
             try:
                 doc = json.load(fh)

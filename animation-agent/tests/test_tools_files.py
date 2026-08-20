@@ -116,17 +116,19 @@ def test_glob_finds_the_rendered_frames(registry, loop):
 def test_a_pattern_is_relative_to_path_but_results_are_not(registry, loop):
     """`glob('*.json', path='kb')` has to mean what it looks like, and still return something `read`
     accepts. Those are two different path flavours and both are load-bearing."""
-    out = call(registry, loop, "glob", pattern="*.json", path="kb")
-    assert out["success"] and "kb/typing.json" in out["paths"]
-    assert call(registry, loop, "read", file_path="kb/typing.json")["success"]
+    out = call(registry, loop, "glob", pattern="*.json", path="kb/actions")
+    assert out["success"] and "kb/actions/typing.json" in out["paths"]
+    assert call(registry, loop, "read", file_path="kb/actions/typing.json")["success"]
 
 
 def test_a_top_level_glob_does_not_leak_into_subdirectories(registry, loop):
-    """`*.json` must mean the accepted records, not those plus every _raw dump. fnmatch alone matches
-    across separators and would silently turn this into a recursive search."""
+    """`*.json` at the KB root must mean the shared files that sit there, not those plus every record
+    under actions/ and every dump under _raw/. fnmatch alone matches across separators and would
+    silently turn this into a recursive search."""
     out = call(registry, loop, "glob", pattern="*.json", path="kb")
     assert out["success"] and out["paths"]
     assert all(p.count("/") == 1 for p in out["paths"])
+    assert not any("/actions/" in p or "/_raw/" in p for p in out["paths"])
 
 
 def test_glob_spans_every_place_when_unscoped(registry, loop, has_source):
@@ -142,10 +144,10 @@ def test_glob_spans_every_place_when_unscoped(registry, loop, has_source):
 def test_grep_answers_which_actions_are_seated_in_one_call(registry, loop):
     """One call replaces the rephrasing loop. The manifest matches too, since it aggregates every
     record — so the claim is about which ACTION records match, not which files."""
-    out = call(registry, loop, "grep", pattern='"posture": "seated"', path="kb", include="*.json")
+    out = call(registry, loop, "grep", pattern='"posture": "seated"', path="kb", include="**/*.json")
     assert out["success"]
     records = [f for f in out["files_with_matches"] if not f.endswith("kb_manifest.json")]
-    assert records == ["kb/typing.json"]
+    assert records == ["kb/actions/typing.json"]
 
 
 def test_grep_skips_binaries_and_says_so(registry, loop):

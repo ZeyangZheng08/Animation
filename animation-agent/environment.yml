@@ -21,7 +21,9 @@ dependencies:
   - pip:
       # The offline MotionKB pipeline needs NONE of these — it is stdlib-only and runs on a bare
       # python3. They are for the runtime agent service being built on top of it.
-      - openai          # the agent loop's LLM (Realtime API) and the propose step's VLM
+      - openai          # the agent loop's LLM (Realtime API). NOT the propose step's VLM any more:
+                        # that is Claude (claude-opus-5) via vlm_anthropic.py, which like
+                        # vlm_openai.py is stdlib urllib and needs no package at all.
       - httpx           # persistent connections to the engine-side executor
       - websockets      # BOTH the runtime channel (we are the server, the engine connects in)
                         # and the OpenAI Realtime session (we are the client)

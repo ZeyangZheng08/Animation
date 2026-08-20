@@ -68,7 +68,7 @@ def main(argv):
 
     entries = _entries()
     if not entries:
-        print("FATAL: no accepted MotionKB actions found under %s" % paths.KB_DIR)
+        print("FATAL: no accepted MotionKB actions found under %s" % paths.ACTIONS_DIR)
         return 1
     missing = [e["key"] for e in entries if not e["guid"]]
     if missing:

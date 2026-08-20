@@ -52,6 +52,62 @@ def _stddev_scalar(xs):
 def _range(xs):
     return max(xs) - min(xs)
 
+# ---------------------------------------------------------------------------------------------
+# Unity's normalised Humanoid pose
+#
+# Everything measured from bone POSITIONS carries the sampled avatar's proportions with it: the same
+# clip read on nurse_avatar and on X Bot differs by -18.3% at the torso and +16.5% at root gait,
+# because a 26% longer forearm sweeps 26% more metres for the same shoulder rotation. That makes the
+# numbers a statement about the body as much as about the motion.
+#
+# HumanPose is the representation Unity already normalises every rigged avatar into. A muscle is one
+# degree of freedom expressed against that avatar's own joint limit, so it is dimensionless and
+# body-independent; bodyPosition is scaled by the avatar's size. Measured across nurse_avatar, X Bot
+# and Y Bot on one clip: mean |difference| of 0.0001 across 95 muscles, and 0.00002 on bodyPosition.
+#
+# It also measures a better thing. nurse_cpr_30's head reads 0.0856 in metres and 0.0000 in muscles,
+# and the muscle answer is the true one: across all 540 frames the neck and head joints rotate by
+# less than 0.0003 of their range. The head is carried by a leaning torso, not moved by its own
+# joints, and "which body part does this action drive" is a question about joints.
+#
+# HumanBodyBones index -> channel. `muscle_bone` in the dump gives the owning bone per muscle, so the
+# grouping is read off the engine rather than restated here as name matching that could drift.
+MUSCLE_BONE_CHANNEL = {
+    7: C.TORSO, 8: C.TORSO, 54: C.TORSO,                              # Spine, Chest, UpperChest
+    9: C.HEAD, 10: C.HEAD,                                            # Neck, Head
+    1: C.LEFT_LEG, 3: C.LEFT_LEG, 5: C.LEFT_LEG, 19: C.LEFT_LEG,      # UpperLeg, LowerLeg, Foot, Toes
+    2: C.RIGHT_LEG, 4: C.RIGHT_LEG, 6: C.RIGHT_LEG, 20: C.RIGHT_LEG,
+    11: C.LEFT_ARM, 13: C.LEFT_ARM, 15: C.LEFT_ARM, 17: C.LEFT_ARM,   # Shoulder, UpperArm, LowerArm, Hand
+    12: C.RIGHT_ARM, 14: C.RIGHT_ARM, 16: C.RIGHT_ARM, 18: C.RIGHT_ARM,
+}
+for _b in range(24, 39):
+    MUSCLE_BONE_CHANNEL[_b] = C.LEFT_HAND      # 15 left finger bones
+for _b in range(39, 54):
+    MUSCLE_BONE_CHANNEL[_b] = C.RIGHT_HAND     # 15 right finger bones
+
+# LeftEye, RightEye, Jaw. This corpus carries no facial animation, and the Mixamo rigs do not even
+# have these bones -- 52 mapped bones against nurse_avatar's 55. Including them would add channels
+# that are identically zero on every clip.
+MUSCLE_BONES_EXCLUDED = {21, 22, 23}
+
+
+def _channel_muscles(raw):
+    out = {}
+    for m, bone in enumerate(raw.get("muscle_bone") or []):
+        if bone in MUSCLE_BONES_EXCLUDED:
+            continue
+        ch = MUSCLE_BONE_CHANNEL.get(bone)
+        if ch:
+            out.setdefault(ch, []).append(m)
+    return out
+
+
+def _quat_fwd(q):
+    """The +Z axis of a quaternion (x, y, z, w), as a vector."""
+    x, y, z, w = q
+    return (2.0 * (x * z + w * y), 2.0 * (y * z - w * x), 1.0 - 2.0 * (x * x + y * y))
+
+
 def _signed_yaw(f0, fi):
     """Signed angle (deg) between two ground-projected forward vectors about +Y (wrap-safe)."""
     a = (f0[0], 0.0, f0[2]); b = (fi[0], 0.0, fi[2])
@@ -103,11 +159,53 @@ def compute_raw_signals(raw):
     # root: gait (foot vertical oscillation), translation, heading
     gait = (_range([bones[C.LEFT_FOOT][k][1] for k in range(N)]) +
             _range([bones[C.RIGHT_FOOT][k][1] for k in range(N)])) / 2.0
-    rp = raw["root_pos"]
-    mx = sum(p[0] for p in rp) / N; mz = sum(p[2] for p in rp) / N
-    root_trans = math.sqrt(sum((p[0]-mx)**2 + (p[2]-mz)**2 for p in rp) / N)
-    fwd = raw["root_fwd"]
-    root_heading = _stddev_scalar([_signed_yaw(fwd[0], fwd[k]) for k in range(N)])
+    # TRANSLATION AND TURNING COME FROM THE HIPS, NOT THE ROOT TRANSFORM.
+    #
+    # The corpus is imported with Root Transform Position and Rotation baked into the pose, so Unity
+    # applies one constant offset for the whole clip and `inst.transform` never moves. Measured:
+    # root_pos was identical on every frame of all 150 corpus clips sampled for ADR 0010, which made
+    # both of these signals 0.0 for a walk that covers 1.125 m of ground. Read off the root they say
+    # nothing; the travel is in the body, so that is where they are read.
+    #
+    # Bone positions are recorded root-local and a standard deviation is translation-invariant, so
+    # this is the real excursion, not an artefact of where the root happens to sit. `net displacement`
+    # deliberately is NOT the signal: a capoeira ginga returns to where it started (net 0.000 m) while
+    # covering 1.5 m of ground, and it is the covering that makes it locomotion.
+    # ---- Unity-normalised signals, when the dump carries a HumanPose (sampler >= 2026-08-20) -----
+    muscles = raw.get("muscles")
+    if muscles:
+        cm = _channel_muscles(raw)
+        out_m = {}
+        for ch, idxs in cm.items():
+            # RMS across the channel's degrees of freedom of each one's stddev over time.
+            # RMS rather than the mean so a channel is not diluted by its own size -- a hand has 20
+            # DOF against the torso's 9, and a mean would make the hand read lower for the same
+            # amount of movement. Not the max either, which would let one twitchy DOF speak for the
+            # whole channel.
+            sds = [_stddev_scalar([muscles[f][m] for f in range(N)]) for m in idxs]
+            out_m[ch] = math.sqrt(sum(x * x for x in sds) / len(sds)) if sds else 0.0
+        bp = raw["body_pos"]
+        bx = sum(p[0] for p in bp) / N
+        bz = sum(p[2] for p in bp) / N
+        out_m["_root_trans"] = math.sqrt(sum((p[0]-bx)**2 + (p[2]-bz)**2 for p in bp) / N)
+        out_m["_root_vert"] = max(p[1] for p in bp) - min(p[1] for p in bp)
+        bfwd = [_quat_fwd(q) for q in raw["body_rot"]]
+        out_m["_root_heading"] = _stddev_scalar([_signed_yaw(bfwd[0], f) for f in bfwd])
+        return out_m
+
+    # ---- legacy: metre-space signals, for dumps taken before muscles were sampled ---------------
+    hips_pos = (raw.get("bones") or {}).get(C.HIPS) or raw["root_pos"]
+    mx = sum(p[0] for p in hips_pos) / N; mz = sum(p[2] for p in hips_pos) / N
+    root_trans = math.sqrt(sum((p[0]-mx)**2 + (p[2]-mz)**2 for p in hips_pos) / N)
+    hips_rot = (raw.get("bone_rot") or {}).get(C.HIPS)
+    if hips_rot:
+        hf = [_quat_fwd(q) for q in hips_rot]
+        root_heading = _stddev_scalar([_signed_yaw(hf[0], hf[k]) for k in range(N)])
+    else:
+        # Dumps predating the 2026-08-06 rotation pass have no bone_rot; fall back rather than fail,
+        # and accept that such a dump reports no turning.
+        fwd = raw["root_fwd"]
+        root_heading = _stddev_scalar([_signed_yaw(fwd[0], fwd[k]) for k in range(N)])
 
     return {
         C.TORSO: torso, C.HEAD: head_r,
@@ -137,26 +235,37 @@ def channel_blocks(raw):
             "raw_measurement": {"signal": signal_name, "raw_value": round(rawv, 5), "divisor": div},
         }
 
-    fk_or_hand(C.TORSO, "fk_part", "max_torso_lean_deg", C.TORSO, C.TORSO)
-    fk_or_hand(C.HEAD, "fk_part", "head_vs_spine_range_deg", C.HEAD, C.HEAD)
-    fk_or_hand(C.LEFT_ARM, "fk_part", "mean_bone_hips_rel_pos_stddev_m", "arm", "arm")
-    fk_or_hand(C.RIGHT_ARM, "fk_part", "mean_bone_hips_rel_pos_stddev_m", "arm", "arm")
-    fk_or_hand(C.LEFT_LEG, "fk_part", "mean_bone_world_pos_stddev_m", "leg", "leg")
-    fk_or_hand(C.RIGHT_LEG, "fk_part", "mean_bone_world_pos_stddev_m", "leg", "leg")
-    fk_or_hand(C.LEFT_HAND, "hand", "mean_finger_curl_range_deg", "hand", "hand")
-    fk_or_hand(C.RIGHT_HAND, "hand", "mean_finger_curl_range_deg", "hand", "hand")
+    # One signal name for every anatomical channel, because it is now literally the same measurement
+    # everywhere: the RMS over that channel's Humanoid degrees of freedom of each one's stddev in time.
+    SIG = "muscle_dof_stddev_rms"
+    fk_or_hand(C.TORSO, "fk_part", SIG, C.TORSO, C.TORSO)
+    fk_or_hand(C.HEAD, "fk_part", SIG, C.HEAD, C.HEAD)
+    fk_or_hand(C.LEFT_ARM, "fk_part", SIG, "arm", "arm")
+    fk_or_hand(C.RIGHT_ARM, "fk_part", SIG, "arm", "arm")
+    fk_or_hand(C.LEFT_LEG, "fk_part", SIG, "leg", "leg")
+    fk_or_hand(C.RIGHT_LEG, "fk_part", SIG, "leg", "leg")
+    fk_or_hand(C.LEFT_HAND, "hand", SIG, "hand", "hand")
+    fk_or_hand(C.RIGHT_HAND, "hand", SIG, "hand", "hand")
 
-    g, t, h = sig["_root_gait"], sig["_root_trans"], sig["_root_heading"]
-    root_mag = _clamp01(max(g / C.DIVISOR["root_gait"], t / C.DIVISOR["root_trans"], h / C.DIVISOR["root_heading"]))
+    t, v, h = sig["_root_trans"], sig["_root_vert"], sig["_root_heading"]
+    root_mag = _clamp01(max(t / C.DIVISOR["root_trans"],
+                            v / C.DIVISOR["root_vert"],
+                            h / C.DIVISOR["root_heading"]))
+    # Dynamic if the body went anywhere at all -- moved, rose or turned. Foot lift is deliberately
+    # not part of this: an in-place walk's body does not travel, and whether its legs are stepping
+    # is what the leg channels say.
+    root_dynamic = (t >= C.STATIC["root_trans"] or v >= C.STATIC["root_vert"]
+                    or h >= C.STATIC["root_heading"])
     out[C.ROOT] = {
         "kind": "root",
-        "state_label": "dynamic" if g >= C.STATIC["root_gait"] else "static",
+        "state_label": "dynamic" if root_dynamic else "static",
         "motion_magnitude": round(root_mag, 4),
         "raw_measurement": {
-            "signal": "max(gait/0.317, trans/0.30, heading/60)",
-            "gait_foot_yrange_m": round(g, 5),
-            "trans_horiz_stddev_m": round(t, 5),
-            "heading_signed_stddev_deg": round(h, 3),
+            "signal": "max(trans/%s, vert/%s, heading/%s)" % (
+                C.DIVISOR["root_trans"], C.DIVISOR["root_vert"], C.DIVISOR["root_heading"]),
+            "body_trans_horiz_stddev": round(t, 5),
+            "body_vert_range": round(v, 5),
+            "body_heading_stddev_deg": round(h, 3),
         },
     }
     return out

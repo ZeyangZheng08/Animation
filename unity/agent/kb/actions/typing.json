@@ -42,11 +42,11 @@
       "motion_description": "The torso makes small stabilizing adjustments while seated.",
       "kind": "fk_part",
       "state_label": "dynamic",
-      "motion_magnitude": 0.1229,
+      "motion_magnitude": 0.1156,
       "raw_measurement": {
-        "signal": "max_torso_lean_deg",
-        "raw_value": 6.63402,
-        "divisor": 54.0
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.03668,
+        "divisor": 0.3174
       }
     },
     "head": {
@@ -57,12 +57,12 @@
       "target": null,
       "motion_description": "The head stays oriented downward toward the typing area.",
       "kind": "fk_part",
-      "state_label": "static",
-      "motion_magnitude": 0.1774,
+      "state_label": "dynamic",
+      "motion_magnitude": 0.121,
       "raw_measurement": {
-        "signal": "head_vs_spine_range_deg",
-        "raw_value": 2.73264,
-        "divisor": 15.4
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.0703,
+        "divisor": 0.5809
       }
     },
     "left_arm": {
@@ -74,11 +74,11 @@
       "motion_description": "The left arm holds a forward typing position with small movements.",
       "kind": "fk_part",
       "state_label": "dynamic",
-      "motion_magnitude": 0.1576,
+      "motion_magnitude": 0.1242,
       "raw_measurement": {
-        "signal": "mean_bone_hips_rel_pos_stddev_m",
-        "raw_value": 0.02159,
-        "divisor": 0.137
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.08589,
+        "divisor": 0.6914
       }
     },
     "right_arm": {
@@ -90,11 +90,11 @@
       "motion_description": "The right arm moves more actively in a forward typing position.",
       "kind": "fk_part",
       "state_label": "dynamic",
-      "motion_magnitude": 0.4273,
+      "motion_magnitude": 0.1911,
       "raw_measurement": {
-        "signal": "mean_bone_hips_rel_pos_stddev_m",
-        "raw_value": 0.05854,
-        "divisor": 0.137
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.13213,
+        "divisor": 0.6914
       }
     },
     "left_leg": {
@@ -106,11 +106,11 @@
       "motion_description": "The left leg remains planted to support the seated posture.",
       "kind": "fk_part",
       "state_label": "static",
-      "motion_magnitude": 0.0237,
+      "motion_magnitude": 0.0246,
       "raw_measurement": {
-        "signal": "mean_bone_world_pos_stddev_m",
-        "raw_value": 0.00586,
-        "divisor": 0.247
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.01058,
+        "divisor": 0.4296
       }
     },
     "right_leg": {
@@ -122,11 +122,11 @@
       "motion_description": "The right leg remains planted to support the seated posture.",
       "kind": "fk_part",
       "state_label": "static",
-      "motion_magnitude": 0.0224,
+      "motion_magnitude": 0.0244,
       "raw_measurement": {
-        "signal": "mean_bone_world_pos_stddev_m",
-        "raw_value": 0.00552,
-        "divisor": 0.247
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.01047,
+        "divisor": 0.4296
       }
     },
     "left_hand": {
@@ -138,11 +138,11 @@
       "motion_description": "The left hand performs small key-pressing motions over the keyboard area.",
       "kind": "hand",
       "state_label": "dynamic",
-      "motion_magnitude": 0.2499,
+      "motion_magnitude": 0.2453,
       "raw_measurement": {
-        "signal": "mean_finger_curl_range_deg",
-        "raw_value": 32.2327,
-        "divisor": 129.0
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.17974,
+        "divisor": 0.7327
       }
     },
     "right_hand": {
@@ -154,22 +154,22 @@
       "motion_description": "The right hand performs active key-pressing motions over the keyboard area.",
       "kind": "hand",
       "state_label": "dynamic",
-      "motion_magnitude": 0.5468,
+      "motion_magnitude": 0.3098,
       "raw_measurement": {
-        "signal": "mean_finger_curl_range_deg",
-        "raw_value": 70.54116,
-        "divisor": 129.0
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.22698,
+        "divisor": 0.7327
       }
     },
     "root": {
       "kind": "root",
       "state_label": "static",
-      "motion_magnitude": 0.0611,
+      "motion_magnitude": 0.0134,
       "raw_measurement": {
-        "signal": "max(gait/0.317, trans/0.30, heading/60)",
-        "gait_foot_yrange_m": 0.01936,
-        "trans_horiz_stddev_m": 0.0,
-        "heading_signed_stddev_deg": 0.0
+        "signal": "max(trans/1.5637, vert/1.3009, heading/142.1)",
+        "body_trans_horiz_stddev": 0.01235,
+        "body_vert_range": 0.00769,
+        "body_heading_stddev_deg": 1.907
       }
     }
   },
@@ -212,14 +212,14 @@
   "extraction": {
     "method": "in_engine_sample_root_local",
     "sampled_frames": 494,
-    "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, root-local",
-    "motion_metric": "torso: max_lean_deg/54; head: head_vs_spine_range_deg/15.4; arms: mean_bone_hips_rel_pos_stddev_m/0.137; legs: mean_bone_world_pos_stddev_m/0.247; hands: mean_finger_curl_range_deg/129; root: max(gait/0.317, trans/0.30, heading/60)",
+    "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, HumanPose muscles + bodyPosition/bodyRotation",
+    "motion_metric": "all 8 anatomical channels: muscle_dof_stddev_rms, divided by torso 0.3174 / head 0.5809 / arm 0.6914 / leg 0.4296 / hand 0.7327; root: max(trans/1.5637, vert/1.3009, heading/142.1) from HumanPose.bodyPosition and bodyRotation",
     "bone_map_version": "v2.0.0",
-    "metric_formula_version": "v2.0.0",
+    "metric_formula_version": "v2.2.0",
     "extractor_version": "2.0.0",
     "extractor_lang": "python",
     "avatar": "nurse_avatar.fbx",
-    "extracted_at": "2026-07-01T20:17:47Z",
+    "extracted_at": "2026-08-20T22:40:32Z",
     "field_origin": {
       "measured": [
         "duration",
@@ -238,30 +238,15 @@
         "overall_intent",
         "tags",
         "mask_coverage",
-        "channels.*.motion_description",
-        "ik_goals"
+        "channels.*.motion_description"
       ],
-      "semantic_pending": [],
-      "vlm_proposed": [
-        "action_id",
-        "display_name",
-        "overall_intent",
-        "tags",
-        "mask_coverage",
+      "semantic_pending": [
         "channels.*.role",
         "channels.*.motion_type",
         "channels.*.contact",
         "channels.*.constraint",
-        "channels.*.motion_description",
-        "composability.base_or_overlay",
-        "composability.posture",
-        "composability.can_overlay_on"
-      ],
-      "derived": [
-        "composability.locks",
-        "composability.free",
-        "composability.seam_owner",
-        "ik_goals"
+        "channels.*.target",
+        "composability"
       ]
     },
     "verified_against_screenshots": false,

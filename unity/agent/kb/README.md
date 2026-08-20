@@ -5,10 +5,27 @@ level** — one JSON file per action. It's the canonical store the project's ret
 instead of treating an animation as one indivisible block, a planner can ask "which clip has the legs
 walking and the right hand reaching?" and reason about individual parts.
 
-Everything here is plain JSON. The knowledge base is the eight `*.json` action files in this folder; the
-`candidate/`, `_raw/`, and `_reports/` subfolders are extractor working files you can ignore. Unity is
-used only to *sample* the clips (to find where the bones are) — all the knowledge lives in these files,
-outside any engine.
+Everything here is plain JSON. **The knowledge base is `actions/` — the eight `<action_id>.json` files
+in it, and nothing else.** Unity is used only to *sample* the clips (to find where the bones are); all
+the knowledge lives in these files, outside any engine.
+
+```
+kb/
+├── actions/          the accepted records, one file per action — THIS is the knowledge base
+├── candidate/        staged records awaiting review (usually empty)
+├── schema/           the JSON Schema contract every record is validated against
+├── engine_mask_map.json     9 channels -> Unity AvatarMask
+├── retrieval_eval_set.json  the retrieval evaluation seed
+├── kb_manifest.json         generated corpus index
+├── _raw/             frozen per-frame pose dumps — the only input to the MEASURED half
+├── _frames/          rendered evidence frames — the only input to the SEMANTIC half
+├── _derived/         generated segment / transition tables
+└── _reports/         generated run reports
+```
+
+The `_`-prefixed folders are generated working files. `actions/` is its own directory so that
+membership is the path rather than a list every consumer has to keep in sync — see
+[ADR 0012](../../docs/adr/0012-accepted-store-in-its-own-directory.md).
 
 > **Status:** the current library covers 8 nursing actions. This README is the human overview; pointers
 > to the deeper docs (and version/rollback details) are at the end.
@@ -141,7 +158,7 @@ numbers, then **author** the meaning. Every step is a plain Python command; the 
    and the composability judgement calls (base-vs-overlay, posture, which bases it can layer onto); the program
    then **derives** `composability.locks`/`free`/`seam_owner` from the proposed roles. A deterministic
    consistency + composability gate checks all of it (self-correcting on failure). **By default the result is
-   kept** and promoted to the accepted store as `<action_id>.json` (provenance `vlm_accepted`, no human
+   kept** and promoted to the accepted store as `actions/<action_id>.json` (provenance `vlm_accepted`, no human
    required); add `--stage` to hold it in `candidate/` for review instead. (Needs `OPENAI_API_KEY` in
    `key.env`, which is git-ignored.)
 6. `python extract.py author <clip | all>` — **optional** human review: re-promote a staged

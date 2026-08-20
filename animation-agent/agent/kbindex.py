@@ -47,9 +47,6 @@ MODEL_VISIBLE_FIELDS = frozenset({
     "overall_intent", "tags", "mask_coverage", "channels", "ik_goals", "composability",
 })
 
-# Files under the KB root that are not action records.
-_NOT_ACTIONS = {"kb_manifest.json", "retrieval_eval_set.json", "engine_mask_map.json"}
-
 _STOP = frozenset("""
 a an the and or but of to in on at by for with from into over under while during as is are was were be
 been being it its this that these those her his their she he they them we you i not no nor so then than
@@ -109,15 +106,11 @@ class KBIndex:
     # ---- loading ---------------------------------------------------------------------------
 
     @classmethod
-    def load(cls, kb_dir=None):
-        kb_dir = kb_dir or paths.require_kb()
+    def load(cls, actions_dir=None):
+        paths.require_kb()
+        actions_dir = actions_dir or paths.ACTIONS_DIR
         actions = {}
-        for name in sorted(os.listdir(kb_dir)):
-            if not name.endswith(".json") or name in _NOT_ACTIONS:
-                continue
-            path = os.path.join(kb_dir, name)
-            if not os.path.isfile(path):
-                continue
+        for path in paths.action_files(actions_dir):
             with open(path, encoding="utf-8") as f:
                 rec = json.load(f)
             if rec.get("status") != "accepted":
@@ -126,7 +119,7 @@ class KBIndex:
         if not actions:
             raise SystemExit(
                 "no accepted actions found in %s — the KB is present but empty, which would make every "
-                "retrieval silently return nothing" % kb_dir)
+                "retrieval silently return nothing" % actions_dir)
         return cls(actions)
 
     # ---- the searchable document -----------------------------------------------------------
