@@ -72,11 +72,23 @@ WHERE THE NUMBERS COME FROM. `ROLE_PRIORITY` was already in the contract and alr
 channel; normalising it is not a new judgement, and it needed no new KB field, no schema change and no
 re-authoring. A number chosen instead would have been a number nobody could defend.
 
-ROOT IS NEVER MIXED. Two root motions added together are not a motion — see the note on root below,
-which is decided by `state == "dynamic"` and not by this partition at all.
+ROOT IS NEVER MIXED. Two root motions added together are not a motion, so the channel goes whole to
+one part or to nobody.
 
-ROOT goes to the single part whose root channel is `dynamic`. In this corpus only `walking` qualifies
-(magnitude 0.850; the next is 0.200 and labelled static).
+ROOT FOLLOWS THE LEGS. Whichever part ends up owning the leg channels owns the root, because where a
+body goes is decided by what its legs did. It is read off `claims`, so it inherits every step of the
+partition above for free — including a mix, whose owner takes the root the same way it takes the
+channel. If nobody claims a leg, no part is driving the lower body and the root stays with the base.
+Two parts each driving one leg is a real ambiguity and is reported as a conflict.
+
+The rule used to be "root goes to the single part whose root channel is dynamic", which held while
+the root signal was `max(gait, trans, heading)` in metres and only `walking` read dynamic. In muscle
+space the root is `max(trans, vert, heading)` from `bodyPosition`/`bodyRotation` and counts turning,
+so four of the eight actions read dynamic — and `walking` reads the LOWEST of the four (0.0382),
+because the store's walk is in place: its body does not travel, only its step bounce rises. Ranking by
+that number would hand the root to `giving_pills` (0.0687) over the walk. ADR 0011 had already moved
+the same question in the validator, where `cyclic-locomotion` gates on a leg channel being dynamic
+rather than on the root; this is that move applied here. See ADR 0013.
 
 WHAT `free_channels` MEANS — and does not. It is an ownership statement: nobody claims these, so a later
 overlay may take them without contention. It is NOT a masking instruction. Layer 0 plays the base clip
@@ -99,6 +111,8 @@ from its foot Y-range (stepping), not from travel. Moving the character across t
 NavMeshAgent's job; owning `root` here means owning the stepping motion, nothing more.
 """
 from .kbindex import ANATOMICAL, CHANNELS, ROLE_PRIORITY
+
+LEGS = ("left_leg", "right_leg")
 
 BASE_CLAIMS = frozenset({"primary", "support"})
 OVERLAY_CLAIMS = frozenset({"primary"})
@@ -268,7 +282,7 @@ class Assembly:
                     "grips something there, in which case the gripping side takes it whole; two grips "
                     "give the channel to one side and drop the other's object, and are a conflict only "
                     "when the request named both; "
-                    "root to the part whose root channel is dynamic, never mixed",
+                    "root to whichever part owns the legs, never mixed",
         }
 
     def __repr__(self):
@@ -380,13 +394,15 @@ def arbitrate(base_id, overlay_ids, kb, named_objects=None, _promoted=False):
         shared.append(mix)
         claims[channel] = mix.owner
 
-    dynamic_root = [aid for aid in parts
-                    if (channels_of[aid].get("root") or {}).get("state") == "dynamic"]
-    if len(dynamic_root) > 1:
-        conflicts.append(Conflict("root", dynamic_root, "dynamic"))
+    # Read off `claims`, so a mixed leg channel hands the root to the mix's owner without a second
+    # rule for it. `claims` is only populated where somebody claimed the channel, so legs left free
+    # mean no part is driving the lower body and the base keeps the root.
+    leg_owners = sorted({claims[c] for c in LEGS if c in claims})
+    if len(leg_owners) > 1:
+        conflicts.append(Conflict("root", leg_owners, "driving one leg each"))
         root_owner = None
     else:
-        root_owner = dynamic_root[0] if dynamic_root else base_id
+        root_owner = leg_owners[0] if leg_owners else base_id
 
     mixed_in = {aid for mix in shared for aid, _ in mix.shares}
     layers = []

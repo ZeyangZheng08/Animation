@@ -48,16 +48,35 @@ def test_arbitration_reproduces_the_ground_truth_partition(kb, eval_cases):
         assert not assembly.conflicts, case["id"]
 
 
-def test_root_goes_to_the_only_dynamic_root_action(kb, eval_cases):
-    """Ground truth names root only in dc-walk-carry; it is asserted separately from the partition."""
+def test_root_goes_to_whichever_part_owns_the_legs(kb, eval_cases):
+    """Ground truth names root only in dc-walk-carry; it is asserted separately from the partition.
+
+    Not to the part whose root channel is dynamic: since ADR 0011 the root counts turning, so four of
+    the eight actions read dynamic and the in-place walk reads the lowest of them. Where a body goes
+    is decided by what its legs did."""
     walk_carry = next(c for c in eval_cases if c["id"] == "dc-walk-carry")
     assembly = A.decompose([p["action_id"] for p in walk_carry["expected"]["parts"]], kb)
     assert assembly.root_owner == "walking"
     assert "root" in assembly.channels_of("walking")
+    # The rule it replaced would refuse this partition: grab_bottle's root is dynamic too (0.0467 to
+    # the walk's 0.0382), on 6.6 degrees of yaw while reaching for the bottle.
+    assert kb.channels("grab_bottle")["root"]["state"] == "dynamic"
+    assert not assembly.conflicts
 
     gaze = next(c for c in eval_cases if c["id"] == "dc-givepills-gaze")
     assembly = A.decompose([p["action_id"] for p in gaze["expected"]["parts"]], kb)
-    assert assembly.root_owner == "giving_pills"   # no dynamic root in the corpus; falls to the base
+    assert assembly.root_owner == "giving_pills"   # it owns its own legs, as the base
+
+    # Legs nobody claims leave the root with the base rather than inventing an owner. Neither of
+    # these two touches the lower body, and neither is promoted away, so the base keeps it.
+    assembly = A.arbitrate("bvm", ["check_pulse"], kb)
+    assert "left_leg" in assembly.free_channels and "right_leg" in assembly.free_channels
+    assert assembly.root_owner == "bvm" and not assembly.conflicts
+
+    # `idle` claims nothing anywhere, so arbitrate promotes it away and grab_bottle becomes the
+    # base of its own motion. The root still lands on the base, which is now the former overlay.
+    assembly = A.decompose(["idle", "grab_bottle"], kb)
+    assert assembly.base == "grab_bottle" and assembly.root_owner == "grab_bottle"
 
 
 def test_both_halves_of_the_claim_rule_are_load_bearing(kb):
