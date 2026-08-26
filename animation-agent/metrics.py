@@ -9,7 +9,7 @@ Input `raw` (one clip), as produced by the Unity sampler (unity_sampler.py):
       "root_fwd": [[x,y,z], ... per frame],   # world forward (for the root heading signal)
     }
 
-Signals (mirror the validated 2026-06-18 calibration):
+Signals (variation; mirror the validated 2026-06-18 calibration):
   torso  = max over frames of angle(Chest-Hips, +up)              [deg]  (rest~0, a held lean is engagement)
   head   = range over frames of angle(Head-Neck, Neck-Chest)      [deg]  (range removes the ~19deg rest pedestal)
   arm    = mean over arm bones of stddev(bone - Hips)             [m]    (hips-relative)
@@ -67,7 +67,7 @@ def _range(xs):
 # Y Bot on one clip: mean |difference| of 0.0001 across 95 muscles and 0.00002 on bodyPosition;
 # re-verified on six clips (standing, walking, crouch, arms raised, CPR, free fall) against rigs whose
 # real hip heights span 15.6% -- muscles identical to 6 decimals, bodyPosition to ~1e-5. Every
-# MEASURED field, the root included, is therefore body-independent.
+# KINEMATIC field, the root included, is therefore body-independent.
 #
 # It also measures a better thing. nurse_cpr_30's head reads 0.0856 in metres and 0.0000 in muscles,
 # and the muscle answer is the true one: across all 540 frames the neck and head joints rotate by
@@ -118,45 +118,58 @@ def _quat_up(q):
     return (2.0 * (x * y - w * z), 1.0 - 2.0 * (x * x + z * z), 2.0 * (y * z + w * x))
 
 
-def posture_offsets(raw, base):
-    """{channel: offset} of this clip's MEAN pose from the reference pose — POSTURE, not motion.
+def _round(x, digits):
+    """Round for storage, without writing -0.0 into a record that a diff then has to explain."""
+    v = round(x, digits)
+    return 0.0 if v == 0 else v
 
-    stddev-over-time answers "does this joint move"; it cannot see a HOLD. An arm raised and kept
-    raised has the same stddev as an arm hanging at rest: zero. Measured on the store before this
-    signal existed: mx_Agony_Holding_The_Head (3.7 s, the head cradled in both hands) read 0.0000
-    on the head channel, and 157 records were static on every channel — ~30 of them real-duration
-    held poses, invisible to any "which clips use the left arm" query. The offset of the mean pose
-    from the reference is the orthogonal half: it sees what a channel HOLDS, while stddev sees what
-    it MOVES.
 
-    Anatomical channels: RMS over the channel's muscle DOF of (mean over frames − baseline), in
-    muscle units — dimensionless and body-independent, the same space as the variation signal.
-    Root: |mean bodyPosition.y − baseline| in normalised humanoid units, not metres (lying or
-    crouching reads low) and |mean tilt
-    of the body's up axis − baseline| in degrees (lying reads ~90) — the carriage of the body
-    itself, which no anatomical muscle shows: a corpse pose lies with straight legs and a straight
-    spine, muscle-identical to standing at rest.
+def mean_poses(raw):
+    """This clip's MEAN pose — the vector itself, not a distance from anything.
 
-    `base` is {"muscles": [per-muscle mean], "body_y": normalised units, "tilt_deg": degrees};
-    config.REFERENCE_POSE holds the store's, and since v2.5.0 it is Unity's, not this store's —
-    every muscle at 0 (the centre of its HumanTrait range), bodyPosition.y 1.0, bodyRotation
-    identity. Nothing derives it, so "displaced" means away from the HUMANOID reference, not away
-    from a relaxed human stance (ADR 0020). Requires a muscle dump (sampler >= 2026-08-20).
+    stddev-over-time answers "does this joint MOVE"; it cannot see a HOLD. An arm raised and kept
+    raised has the same stddev as an arm hanging at rest: zero. Measured on the store before any
+    pose signal existed: mx_Agony_Holding_The_Head (3.7 s, the head cradled in both hands) read
+    0.0000 on the head channel, and 157 records were static on every channel — ~30 of them
+    real-duration held poses, invisible to any "which clips use the left arm" query.
+
+    The mean pose is the other half, and it is a FACT rather than a classification. Earlier formula
+    versions reduced it to one scalar — its distance from an origin — and thresholded that into
+    neutral/displaced, which made the reading depend on where the origin was put and lost the pose
+    on the way (ADR 0021). Here every degree of freedom keeps its own mean, in the normalised muscle
+    space the variation signal already uses, so a raised-and-held arm and a hanging-still arm read
+    identically on variation and differently here, with no threshold in between.
+
+    Returns (per_channel, mean_body_height, mean_body_tilt_deg):
+      per_channel          {channel: {muscle DOF name: mean value}} for the 8 anatomical channels,
+                           keyed by the engine's own DOF names and ordered by ascending Unity muscle
+                           index — the order is the engine's, so two records list a channel's DOF
+                           the same way and a diff between them lines up.
+      mean_body_height     mean HumanPose.bodyPosition.y, in normalised humanoid units, NOT metres.
+      mean_body_tilt_deg   mean angle of bodyRotation's up axis from world up, in degrees — the
+                           carriage of the body, which no anatomical muscle shows: a corpse pose
+                           lies with straight legs and a straight spine, muscle-identical to
+                           standing at rest.
+
+    Mean XZ and mean heading are deliberately NOT here: both are properties of where the clip
+    happened to start, not of the motion, and how far the body travels is already the root
+    variation signal.
+
+    Requires a muscle dump (sampler >= 2026-08-20).
     """
     muscles = raw["muscles"]
     N = raw["frames"]
-    bm = base["muscles"]
-    if len(muscles[0]) != len(bm):
-        raise ValueError("muscle count %d != baseline %d — different sampler/avatar generation"
-                         % (len(muscles[0]), len(bm)))
-    out = {}
+    names = raw.get("muscle_names") or []
+    if len(names) != len(muscles[0]):
+        raise ValueError("dump carries %d muscle values but %d muscle names — resample the clip"
+                         % (len(muscles[0]), len(names)))
+    per_channel = {}
     for ch, idxs in _channel_muscles(raw).items():
-        offs = [sum(muscles[f][m] for f in range(N)) / N - bm[m] for m in idxs]
-        out[ch] = math.sqrt(sum(x * x for x in offs) / len(offs)) if offs else 0.0
-    out["root_height"] = abs(sum(p[1] for p in raw["body_pos"]) / N - base["body_y"])
+        per_channel[ch] = {names[m]: _round(sum(muscles[f][m] for f in range(N)) / N, 5)
+                           for m in idxs}
+    height = sum(p[1] for p in raw["body_pos"]) / N
     tilt = sum(_angle_deg(_quat_up(q), (0.0, 1.0, 0.0)) for q in raw["body_rot"]) / N
-    out["root_tilt"] = abs(tilt - base["tilt_deg"])
-    return out
+    return per_channel, _round(height, 5), _round(tilt, 3)
 
 
 def _signed_yaw(f0, fi):
@@ -242,12 +255,6 @@ def compute_raw_signals(raw):
         out_m["_root_vert"] = max(p[1] for p in bp) - min(p[1] for p in bp)
         bfwd = [_quat_fwd(q) for q in raw["body_rot"]]
         out_m["_root_heading"] = _stddev_scalar([_signed_yaw(bfwd[0], f) for f in bfwd])
-        # The orthogonal half: what each channel HOLDS, not what it moves (see posture_offsets).
-        po = posture_offsets(raw, C.REFERENCE_POSE)
-        for ch in cm:
-            out_m["_posture_" + ch] = po[ch]
-        out_m["_posture_root_height"] = po["root_height"]
-        out_m["_posture_root_tilt"] = po["root_tilt"]
         return out_m
 
     # ---- legacy: metre-space signals, for dumps taken before muscles were sampled ---------------
@@ -278,45 +285,38 @@ def _clamp01(x):
 
 
 def channel_blocks(raw):
-    """Full measured channel blocks for one clip: variation (state_label/motion_magnitude/
-    raw_measurement) AND posture (posture_label/posture_magnitude/posture_measurement).
+    """Full KINEMATIC channel blocks for one clip: variation (state_label / motion_magnitude /
+    raw_measurement) AND the mean pose (`mean_pose`; on the root, `mean_body_height` and
+    `mean_body_tilt_deg`).
 
     Two orthogonal facts per channel, because either alone misreads half the store. Variation
     (stddev over time) cannot see a hold — an arm raised and kept raised reads 0.0000, same as an
-    arm at rest. Posture (mean-pose offset from Unity's Humanoid reference) cannot see cyclic
-    motion — a walking arm swings AROUND its mean carriage and reads that carriage, not the swing.
-    Since v2.5.0 the reference is the engine's, so posture answers "how far from the Humanoid
-    reference does this channel sit", which is not the same as "how unusual is this posture": a
-    person standing relaxed reads high on arms, knees and fingers, because those sit near the ends
-    of their ranges when upright (ADR 0020).
+    arm at rest. The mean pose cannot see cyclic motion — a walking arm swings AROUND its mean
+    carriage and reads that carriage, not the swing. Neither is a judgement: both are numbers the
+    frames determine, and nothing here labels a pose as usual, unusual, resting or working
+    (ADR 0021).
     """
+    if not raw.get("muscles"):
+        raise ValueError("no muscle dump: this clip predates muscle sampling (2026-08-20) — "
+                         "re-sample it")
     sig = compute_raw_signals(raw)
-    if "_posture_" + C.TORSO not in sig:
-        raise ValueError("no posture signals: this dump predates muscle sampling (2026-08-20) — "
-                         "re-sample the clip")
+    mean_pose, mean_body_height, mean_body_tilt_deg = mean_poses(raw)
     out = {}
 
     def fk_or_hand(channel, kind, signal_name, div_key, thr_key):
         rawv = sig[channel]
         div = C.DIVISOR[div_key]
-        prawv = sig["_posture_" + channel]
-        pdiv = C.POSTURE_DIVISOR[div_key]
         out[channel] = {
             "kind": kind,
             "state_label": "dynamic" if rawv >= C.STATIC[thr_key] else "static",
             "motion_magnitude": round(_clamp01(rawv / div), 4),
             "raw_measurement": {"signal": signal_name, "raw_value": round(rawv, 5), "divisor": div},
-            "posture_label": "displaced" if prawv >= C.NEUTRAL[thr_key] else "neutral",
-            "posture_magnitude": round(_clamp01(prawv / pdiv), 4),
-            "posture_measurement": {"signal": PSIG, "raw_value": round(prawv, 5), "divisor": pdiv},
+            "mean_pose": mean_pose[channel],
         }
 
     # One signal name for every anatomical channel, because it is now literally the same measurement
     # everywhere: the RMS over that channel's Humanoid degrees of freedom of each one's stddev in time.
     SIG = "muscle_dof_stddev_rms"
-    # And its posture twin: the RMS over the same degrees of freedom of the MEAN pose's offset from
-    # the reference (config.REFERENCE_POSE — Unity's Humanoid reference pose, muscle 0 on every DOF).
-    PSIG = "muscle_dof_mean_offset_rms"
     fk_or_hand(C.TORSO, "fk_part", SIG, C.TORSO, C.TORSO)
     fk_or_hand(C.HEAD, "fk_part", SIG, C.HEAD, C.HEAD)
     fk_or_hand(C.LEFT_ARM, "fk_part", SIG, "arm", "arm")
@@ -335,13 +335,6 @@ def channel_blocks(raw):
     # is what the leg channels say.
     root_dynamic = (t >= C.STATIC["root_trans"] or v >= C.STATIC["root_vert"]
                     or h >= C.STATIC["root_heading"])
-    # Root posture is the CARRIAGE of the body: height offset (lying/crouching reads low) and tilt
-    # of the body's up axis (lying reads ~90 deg). No anatomical muscle shows either — a corpse pose
-    # lies with straight legs and a straight spine, muscle-identical to standing at rest.
-    ph, pt = sig["_posture_root_height"], sig["_posture_root_tilt"]
-    root_pmag = _clamp01(max(ph / C.POSTURE_DIVISOR["root_height"],
-                             pt / C.POSTURE_DIVISOR["root_tilt"]))
-    root_displaced = ph >= C.NEUTRAL["root_height"] or pt >= C.NEUTRAL["root_tilt"]
     out[C.ROOT] = {
         "kind": "root",
         "state_label": "dynamic" if root_dynamic else "static",
@@ -353,13 +346,13 @@ def channel_blocks(raw):
             "body_vert_range": round(v, 5),
             "body_heading_stddev_deg": round(h, 3),
         },
-        "posture_label": "displaced" if root_displaced else "neutral",
-        "posture_magnitude": round(root_pmag, 4),
-        "posture_measurement": {
-            "signal": "max(height_offset/%s, tilt_offset/%s)" % (
-                C.POSTURE_DIVISOR["root_height"], C.POSTURE_DIVISOR["root_tilt"]),
-            "body_height_offset": round(ph, 5),
-            "body_tilt_offset_deg": round(pt, 3),
-        },
+        # The root's mean pose is the CARRIAGE of the body, and it is stored as the two numbers it
+        # is rather than as a distance from a reference carriage: height in normalised humanoid
+        # units (crouching and lying read low) and the tilt of the body's up axis in degrees (lying
+        # reads ~90). No anatomical muscle shows either — a corpse pose lies with straight legs and
+        # a straight spine, muscle-identical to standing at rest. Mean XZ and mean heading are not
+        # here: they say where the clip was authored, not what the body does.
+        "mean_body_height": mean_body_height,
+        "mean_body_tilt_deg": mean_body_tilt_deg,
     }
     return out

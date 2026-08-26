@@ -6,6 +6,13 @@ bumps the metric formula v2.3.0 → v2.4.0. All 2454 records re-measured from th
 dumps; no semantic field, no raw dump, and no `state_label` changed — the raw signals and the
 static thresholds are untouched, so what moved is magnitudes and the posture half only.
 
+> **Superseded in part by [0021](0021-kinematic-facts-not-classifications.md) (2026-08-25).**
+> Everything here about the VARIATION half stands: corpus-only population, offline reproducibility
+> from frozen `raw/`, and the p99 → 0.85 divisor rule. What does not is the posture half — `REST_POSE`,
+> `POSTURE_DIVISOR` and `NEUTRAL` are deleted along with the triple they scaled, and
+> `calibrate_posture.py` with them. Formula v3.0.0 stores the mean pose itself, so there is no
+> origin-relative scale left to fit.
+
 ## Context
 
 Two constraints govern how the KB is built, and both were being violated by leftovers from earlier

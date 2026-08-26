@@ -55,7 +55,7 @@ only** — the agent side reaches this tree over DrvFs and must not manage it.
 
 | Input | Role |
 |---|---|
-| `<action_id>.json` (8 accepted, `schema_version: motionkb/v2`) | 9 channels x {measured kinematics, semantic 5-tuple}, `ik_goals`, `composability` |
+| `<action_id>.json` (8 accepted, `schema_version: motionkb/v3`) | 9 channels x {kinematic block, semantic 5-tuple}, `ik_goals`, `composability` |
 | `manifest.json` | corpus index; pin the KB by its `kb_version` |
 | `engine_mask_map.json` | engine-neutral channel vocabulary (Unity / UE5 / Blender / SMPL-X) |
 | `raw/<clip>.json` | frozen per-frame pose dumps — the golden regression's input |
@@ -63,7 +63,7 @@ only** — the agent side reaches this tree over DrvFs and must not manage it.
 | `motionkb_build/reports/kb_state.md` | last `guid → AnimationClip` resolution result |
 | `retrieval_eval_set.json` | seed eval set (full_match / decompose / no_match) |
 
-The measured/semantic split and its provenance tiers (ADR 0002, ADR 0008) are what keep this auditable;
+The kinematic/semantic split and its provenance tiers (ADR 0002, ADR 0008) are what keep this auditable;
 record which `kb_version` a run consumed.
 
 ## Gates

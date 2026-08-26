@@ -280,8 +280,9 @@ def test_an_unlabelled_record_offers_a_regex_nothing_but_its_own_identifiers(reg
     """TRIPWIRE, not an invariant. `glob`'s description tells the model to prefer it to grep for
     anything name-shaped, and this is why: a measured-only record contains its own identifiers -- the
     clip name and the guid -- and beyond those, only a vocabulary the schema fixes (`channels`,
-    `left_arm`, `static`, `null`). Not one word of it describes the motion. So grep over the store
-    reads 2446 files to return what glob matched from the file names without opening any.
+    `left_arm`, `static`, `null`, and the 95 Unity muscle DOF names `mean_pose` is keyed by). Not one
+    word of it describes the motion. So grep over the store reads 2446 files to return what glob
+    matched from the file names without opening any.
 
     The sample is the store minus the accepted records, because those ARE labelled -- one directory
     holds both now (ADR 0016) and status is what separates them.
@@ -322,10 +323,13 @@ def test_an_unlabelled_record_offers_a_regex_nothing_but_its_own_identifiers(reg
     for f in sample:
         vocabulary -= identifiers(f)
 
-    # 150, against 104 measured. The headroom absorbs a few new schema fields; it is nowhere near what
-    # 2446 free-text motion_descriptions would produce, so the tripwire still fires early in the
-    # semantic pass rather than after it.
-    assert len(vocabulary) < 150, (
+    # 200, against 164 measured. It was 150 against 104 until formula v3.0.0 gave every channel a
+    # `mean_pose` keyed by Unity's muscle DOF names (`Left Forearm Twist In-Out`, `Chest Front-Back`),
+    # which is +60 words of vocabulary and not one word about any particular clip: the names are a
+    # closed set of 95 fixed by HumanTrait, identical in every record, so what the tripwire watches
+    # for is unchanged. The headroom is still nowhere near what 2446 free-text motion_descriptions
+    # would produce, so it still fires early in the semantic pass rather than after it.
+    assert len(vocabulary) < 200, (
         "the corpus vocabulary has grown to %d words beyond the records\' own identifiers (%s ...) -- "
         "if that is the semantic pass landing, update glob\'s description in agent/tools/files.py and "
         "this test rather than relaxing the bound" % (len(vocabulary), sorted(vocabulary)[:12]))

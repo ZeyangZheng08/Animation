@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ingest_corpus.py — bring a whole animation corpus into the MotionKB as MEASURED-only records.
+ingest_corpus.py — bring a whole animation corpus into the MotionKB as KINEMATIC-only records.
 
 WHY THIS IS NOT `extract.py`. The curated path adds ONE action at a time and ends in a semantic
 proposal: `register <clip>` resolves a clip by name, `sample`/`assemble` walk the union of the
@@ -14,19 +14,19 @@ for eight hand-picked nursing actions and wrong for 2446 Mixamo clips:
     population is the index, and nothing else.
   * neither has a resume rule, and a 70-minute engine run needs one.
 
-WHAT LANDS. MEASURED and nothing else: the 9-channel block from metrics.py, plus duration/frame_rate/
+WHAT LANDS. KINEMATIC and nothing else: the 9-channel block from metrics.py, plus duration/frame_rate/
 loop and the source_clip triple, in `actions/<clip_name>.json` with `status: candidate` and the
 SEMANTIC half seeded null. That is a complete record of what the clip DOES, and no claim about what it
 MEANS. Labelling is a separate pass (ADR 0008) and is deliberately not run from here.
 
-MEASURED IS COMPUTED BY THE SAME CODE AS THE CURATED PATH — this module imports extract._apply_measured
-and extract._build_extraction rather than reimplementing them, so bulk and curated records cannot drift
-into two dialects of the same contract.
+KINEMATIC IS COMPUTED BY THE SAME CODE AS THE CURATED PATH — this module imports
+extract._apply_kinematic and extract._build_extraction rather than reimplementing them, so bulk and
+curated records cannot drift into two dialects of the same contract.
 
     python3 ingest_corpus.py index      # 1 engine call: enumerate the corpus -> motionkb_build/reports/corpus_index.tsv
     python3 ingest_corpus.py register   # pure Python: one actions/<clip>.json stub per indexed clip
     python3 ingest_corpus.py sample     # N engine calls, one per clip, resumable -> raw/<clip>.json
-    python3 ingest_corpus.py measure    # pure Python: raw -> the MEASURED block of each stub
+    python3 ingest_corpus.py measure    # pure Python: raw -> the KINEMATIC block of each stub
     python3 ingest_corpus.py status     # where the funnel stands
 
 `sample` is the only slow verb and the only one that needs Unity open. It skips clips whose dump
@@ -271,7 +271,7 @@ def cmd_measure(args):
             doc = paths.read_json(cand)
             doc["duration"] = round(raw["length"], 3)
             doc["frame_rate"] = raw["frame_rate"]
-            extract._apply_measured(doc, metrics.channel_blocks(raw))
+            extract._apply_kinematic(doc, metrics.channel_blocks(raw))
             doc["extraction"] = extract._build_extraction(raw)
             paths.write_json(cand, doc)
             # Two counts, not one. Mixamo ships *pose* assets that resolve to 2 frames, and they are
@@ -293,7 +293,7 @@ def cmd_measure(args):
         except Exception as e:                       # per-file isolation, as in extract.assemble
             errors.append((name, "%s: %s" % (type(e).__name__, e)))
 
-    lines = ["# corpus ingest — MEASURED — %s" % _now(), "",
+    lines = ["# corpus ingest — KINEMATIC — %s" % _now(), "",
              "Source: `%s` (%d clips indexed)." % (INDEX and paths.rel(INDEX), len(rows)),
              "Records are `status: candidate` with the SEMANTIC half seeded null: this pass measures "
              "what each clip does and claims nothing about what it means (ADR 0002 / ADR 0014).", "",
@@ -340,7 +340,7 @@ def cmd_status(args):
     print("corpus index      %5d   %s" % (len(rows), paths.rel(INDEX)))
     print("registered        %5d   %s" % (len(registered), paths.rel(paths.ACTIONS_DIR)))
     print("pose dumps        %5d   %s" % (have_raw, paths.rel(paths.RAW_DIR)))
-    print("MEASURED filled   %5d" % measured)
+    print("KINEMATIC filled  %5d" % measured)
     print("store total       %5d   (%d accepted, per %s)"
           % (len(paths.action_files()), len(paths.accepted_files()), paths.rel(paths.MANIFEST)))
     return 0
@@ -370,7 +370,7 @@ def main(argv=None):
     p.add_argument("--retry-failed", action="store_true", help="only the clips in the failure list")
     p.set_defaults(fn=cmd_sample)
 
-    p = sub.add_parser("measure", help="compute MEASURED from the dumps (no engine)")
+    p = sub.add_parser("measure", help="compute KINEMATIC from the dumps (no engine)")
     p.set_defaults(fn=cmd_measure)
 
     p = sub.add_parser("status", help="where the funnel stands")

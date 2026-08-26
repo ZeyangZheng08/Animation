@@ -4,7 +4,7 @@ build_transitions.py — regenerate the derived seam table, and report what it f
 
 The table is a CACHE. `kb_transition` computes the same answer live from `raw`, so deleting this file
 costs a rebuild and nothing else; it exists so the agent's tool call is a lookup instead of a 56-pair
-search. Nothing in the motionkb/v2 contract references it.
+search. Nothing in the motionkb/v3 contract references it.
 
 The report is the point of running this by hand: it prints, for every ordered pair, what a direct cut
 costs, what the aligned seam costs, and what routing through `idle` would cost — which is what the

@@ -24,7 +24,7 @@ and accepting a clip renames its file rather than moving it.
 ```
 animation_knowledge_base/          everything a CONSUMER reads
 ├── actions/                all 2454 records — 8 accepted, 2446 measured-only
-├── raw/                    frozen per-frame pose dumps — every MEASURED number comes from these,
+├── raw/                    frozen per-frame pose dumps — every KINEMATIC number comes from these,
 │                           and kb_pose and the seam tables still read them at runtime
 │                           (the corpus's own dumps, `mx_*.json`, are ~1.4 GB and deliberately untracked)
 ├── frames/                 rendered evidence frames — every SEMANTIC label was read off these
@@ -85,14 +85,14 @@ All eight are Humanoid clips (Unity's retargetable, skeleton-independent animati
 one shared character rig (`nurse_avatar.fbx`), and they play in place. "base" vs. "overlay" is a
 composition role (a foundational pose vs. something layered on top), not a Unity animation layer.
 
-## The core idea: measured vs. semantic
+## The core idea: kinematic vs. semantic
 
 Each action splits cleanly into two kinds of information:
 
-- **Measured** — *the numbers, computed by a program from the real motion.* How much each part moves,
-  whether it's static or dynamic, what pose it holds and how far that pose sits from Unity's own
-  reference pose, the duration, the frame rate. These are read straight off the
-  animation; no human or AI ever edits them. Same clip in → same numbers out.
+- **Kinematic** — *the numbers, computed by a program from the real motion.* How much each part moves,
+  whether it's static or dynamic, the average pose it sits in joint by joint, the duration, the frame
+  rate. These are read straight off the animation; no human or AI ever edits them. Same clip in → same
+  numbers out.
 - **Semantic** — *the meaning, written by a human,* with help from a **VLM** (a vision-language model that
   can look at rendered frames of the motion and suggest labels). What role each part plays (is the torso
   the lead actor, or just steadying?), what it's doing (reaching? holding?), what it touches, what it's
@@ -101,7 +101,7 @@ Each action splits cleanly into two kinds of information:
 That split is the whole point: numbers come from *measuring* real clips, never from a language model
 guessing them — language models are unreliable at precise body positioning, a finding this project is
 built on. The model is trusted only for the categorical, meaning-level labels, and even those are checked
-against the measured facts and confirmed by a human.
+against the kinematic facts and confirmed by a human.
 
 ## The 9 body-part channels
 
@@ -109,7 +109,7 @@ Every action describes the body with the same 9 channels — 8 anatomical parts 
 
 | channel                        | covers                                                         |
 | ------------------------------ | -------------------------------------------------------------- |
-| `root`                       | overall position / facing (measured only — no meaning labels) |
+| `root`                       | overall position / facing (kinematic only — no meaning labels) |
 | `torso`                      | spine / chest                                                  |
 | `head`                       | neck + head                                                    |
 | `left_arm` / `right_arm`   | shoulder → wrist                                              |
@@ -122,27 +122,31 @@ matter — today's clips all play in place.
 
 ## What an entry looks like
 
-Open [actions/cpr.json](actions/cpr.json) for a full example. For each of the 9 channels, the **measured** side records
+Open [actions/cpr.json](actions/cpr.json) for a full example. For each of the 9 channels, the **kinematic** side records
 two orthogonal facts: how much that part *moves* (a 0–1 magnitude, a static-or-dynamic label, and the
-physical number behind it) and what it *holds* (a 0–1 posture magnitude, a neutral-or-displaced label —
-the offset of its mean pose from a reference pose). Moving and holding are independent: an arm raised
-and kept raised is static yet displaced, which is what makes held poses retrievable at all.
+physical number behind it) and what pose it *sits in* — `mean_pose`, the average over the clip of each
+of that part's joint degrees of freedom, listed one by one under the engine's own names. Moving and
+holding are independent: an arm raised and kept raised has a movement magnitude of zero and a mean pose
+that says, joint by joint, that it is overhead. On the `root` the same idea is two numbers,
+`mean_body_height` and `mean_body_tilt_deg` — the carriage of the body, which no single joint shows.
 
-The reference pose is **Unity's**, not one this store fitted: every muscle at 0 — the centre of each
-joint's range of motion — with the hips at the Humanoid reference height and the body upright. It is a
-definition that ships with the engine, so nothing about it is estimated. Read `displaced` as *away from
-that reference*, and not as *away from a relaxed human stance*: nobody stands at the centre of their
-joint ranges, so a clip of someone standing still reads displaced on the arms, knees and hands, which
-sit near the ends of their ranges when a person is upright. ADR 0020 has the measurements and what the
-choice costs.
+The pose is stored as it is, and **nothing here is compared with a reference or labelled**. Earlier
+versions of the store reduced it to one number — how far the part sat from Unity's reference pose — and
+called the result `neutral` or `displaced`. That reading turned out to be a statement about where the
+reference was put as much as about the clip (a person standing relaxed reads *further* from Unity's
+reference than a boxer's raised guard, because nobody stands at the centre of their joint ranges), and
+one number cannot say which fingers are curled. [ADR 0021](../../docs/adr/0021-kinematic-facts-not-classifications.md)
+has the history and the measurements. A consumer that wants a distance is free to take one, against
+whatever reference its own task calls for.
+
 The **semantic** side records what it means: its role, what it's doing, what it touches, and a short
 plain-language description. (These are two ways of grouping a channel's fields, not separate sections of
 the file.)
 
-In CPR, for instance, the torso is *measured* as dynamic — a deep forward lean — and *semantic* as the
-primary actor driving the compressions; the hands barely move yet *measure* as displaced —
-holding the interlocked compression grip — and are *semantic* as primary too, held against the
-patient's chest. The full list of fields and their allowed values lives in the
+In CPR, for instance, the torso is *kinematically* dynamic — a deep forward lean — and *semantically* the
+primary actor driving the compressions; the hands barely move, and their mean pose is the interlocked
+compression grip — *semantically* primary too, held against the patient's chest. The full list of fields
+and their allowed values lives in the
 [schema](schema/motionkb.v2.schema.json).
 
 Two more pieces sit alongside the channels:
@@ -168,7 +172,7 @@ half a record**:
 | | `accepted` (8) | `candidate` (2446) |
 | --- | --- | --- |
 | duration, frame rate, loop | yes | yes |
-| per-channel static/dynamic + magnitude, posture | yes | yes |
+| per-channel static/dynamic + magnitude, mean pose | yes | yes |
 | `action_id`, tags, plain-language intent | yes | **null** |
 | per-channel role / motion type / contact / constraint | yes | **null** |
 | composability (what can layer onto what) | yes | **placeholder** |
@@ -188,7 +192,7 @@ static"* is a query the corpus can answer, and it will return every walk, run, j
 library without anyone having named one of them. What it cannot answer is *"clips of someone walking"* —
 that is a question about meaning, and no meaning has been recorded yet.
 
-Filling that half is the next pass. It is deliberately separate, for the reason the whole measured /
+Filling that half is the next pass. It is deliberately separate, for the reason the whole kinematic /
 semantic split exists: the numbers come from measuring, and the labels come from looking, and running
 them together is how the two get confused. The eight accepted actions were labelled by a VLM reading
 rendered frames (ADR 0008); doing the same for 2446 is a scale question that has its own answer coming.
@@ -227,7 +231,7 @@ numbers, then **author** the meaning. Every step is a plain Python command; the 
    bone positions to `agent/animation_knowledge_base/raw/<clip>.json`. (`--host`/`--port`/`--instance` if not the default.)
 3. `python extract.py assemble` — computes every measured value into `actions/<clip>.json`, leaving
    the semantic fields for the next half. Accepted records are skipped: their measured half is frozen
-   golden, and re-measuring it is `recalibrate_measured.py`'s deliberate job.
+   golden, and re-measuring it is `recalibrate_kinematic.py`'s deliberate job.
 
 **Author — the meaning (a VLM proposes, kept by default; a human may review):**
 
@@ -285,6 +289,8 @@ against the part of it a measured-only record is answerable for.
 - **Engineering notes & extractor internals** (adding an action, the rig-specific gotchas):
   [HANDOFF.md](../../HANDOFF.md) §8.
 - **Why each decision was made:** [docs/adr/](../../docs/adr/) — 0007 (the 9-channel split & extractor),
-  0008 (the VLM proposal loop), 0002 (measured vs. semantic).
-- **Rollback / versions:** [docs/ROLLBACK.md](../../docs/ROLLBACK.md); the current store is tagged `kb/v2`
-  (finalized 2026-06-24) and the retired first version is preserved at `kb/v1`.
+  0008 (the VLM proposal loop), 0002 (kinematic vs. semantic), 0021 (poses are stored, not classified).
+- **Rollback / versions:** [docs/ROLLBACK.md](../../docs/ROLLBACK.md); the current store is tagged
+  `kb/v3` (2026-08-25), and the two retired versions are preserved at `kb/v2` (2026-06-24, the
+  9-channel store with the posture triple) and `kb/v1` (the 6-part store). Only `kb/v3` holds the KB
+  at this path — the older two predate the move and keep it under `Assets/MotionKB/`.

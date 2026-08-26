@@ -38,7 +38,7 @@ import paths
 # Fallback multi-angle render views (name -> camera direction from the avatar centre) and frame fractions.
 # These fixed views assume the avatar faces -Z; `select_views` below replaces them per-action with a
 # facing-aware, data-driven pair (used by `extract.py render`). This constant is only the fallback when
-# the raw dump is missing, so a caller can still render without the MEASURED data.
+# the raw dump is missing, so a caller can still render without the KINEMATIC data.
 RENDER_VIEWS = [("front_left_3q", (-0.7, 0.25, -1.0)), ("side_right", (1.0, 0.2, 0.0))]
 RENDER_FRACS = [0.30, 0.55, 0.80]
 K_FRAMES = 3      # evidence frames per view; 3 x 2 views x ~400 KB stays well inside the 8 MB response ceiling
@@ -81,7 +81,7 @@ def _named_views(fwd):
 
 
 def select_views(blocks, root_fwd):
-    """Coarse, data-driven per-action camera views from the MEASURED channel blocks + facing.
+    """Coarse, data-driven per-action camera views from the KINEMATIC channel blocks + facing.
 
     The reading axis differs by what the action IS: a locomotion clip (root dynamic) reads best from the
     SIDE (gait/stride is a sagittal-plane signal); a stationary manipulation act (hands/torso working in
@@ -266,7 +266,7 @@ try {
   //
   // Everything above is metres and world rotations, so it carries the sampled avatar's proportions
   // with it -- the same clip measured on nurse_avatar and on X Bot differs by -18.3%% at the torso
-  // and +16.5%% at root_gait. Those arrays are kept for provenance; no MEASURED field reads them.
+  // and +16.5%% at root_gait. Those arrays are kept for provenance; no KINEMATIC field reads them.
   //
   // HumanPose is the representation Unity already normalises every avatar into, on BOTH halves: each
   // muscle is its joint's rotation against that avatar's own limits, and bodyPosition is expressed in

@@ -1,5 +1,5 @@
 """
-config.py — the canonical, ENGINE-NEUTRAL knowledge of the MotionKB v2 extractor.
+config.py — the canonical, ENGINE-NEUTRAL knowledge of the MotionKB v3 extractor.
 
 This module is the single source of truth for the body-part split and the measurement
 normalization. It is pure Python and Unity-independent: Unity is touched ONLY to sample muscle
@@ -8,27 +8,33 @@ Unity sampler resolves — the partition and metric live in Python, by design (t
 system is decoupled from the engine).
 
 9 channels = 8 anatomical (PARTITION set, partitioned by composability.locks/free) + 1 root
-(locomotion-owned, measured-only, NOT partitioned). v2 split locked 2026-06-18:
+(locomotion-owned, kinematic-only, NOT partitioned). v2 split locked 2026-06-18:
   - laterality split kept for legs AND hands (general design; forward-declared for future clips)
   - clavicle (shoulder) AND wrist both belong to the ARM channel in all engines; HAND = fingers only
   - foot+toes fold into the LEG channel; foot ground-contact lives in the orthogonal IK layer
 
-Divisors/thresholds are FROZEN and reproducible from the frozen dumps in raw/ via calibrate_divisors.py
-and calibrate_posture.py — no engine needed. Each divisor is fitted so the CORPUS p99 of its raw
-signal normalises to 0.85 (ADR 0010); each threshold sits in the gap above the corpus rest cluster.
+Divisors/thresholds are FROZEN and reproducible from the frozen dumps in raw/ via
+calibrate_divisors.py — no engine needed. Each divisor is fitted so the CORPUS p99 of its raw signal
+normalises to 0.85 (ADR 0010); the static threshold sits in the gap above the corpus rest cluster.
 Bumping any value here is a metric_formula_version change.
 
-The authority for what MEASURED means is, in order: ADR 0019 (corpus recalibration, v2.4.0),
-ADR 0018 (posture, v2.3.0), ADR 0011 (Unity
-normalised Humanoid space, v2.2.0), ADR 0010 (divisors refitted on the corpus), ADR 0007 (the
-9-channel split). docs/specs/motionkb-v2-spec.md is the v2.0.0 design narrative and its §2 metric
-table is three formula versions stale — read it for the rationale of the split, not for numbers.
+The authority for what KINEMATIC means is, in order: ADR 0021 (the mean pose is stored as a vector
+and nothing is classified against an origin, v3.0.0), ADR 0019 (the variation divisors recalibrated
+on the corpus, v2.4.0), ADR 0011 (Unity normalised Humanoid space, v2.2.0), ADR 0010 (divisors
+refitted on the corpus), ADR 0007 (the 9-channel split). docs/specs/motionkb-v2-spec.md is the
+v2.0.0 design narrative and its §2 metric table is several formula versions stale — read it for the
+rationale of the split, not for numbers.
 
 All identifiers/comments are English (all-English-artifacts rule).
 """
 
-SCHEMA_VERSION   = "motionkb/v2"
-FORMULA_VERSION  = "v2.5.0"   # v2.5.0: the posture origin is Unity's Humanoid reference pose,
+SCHEMA_VERSION   = "motionkb/v3"
+FORMULA_VERSION  = "v3.0.0"   # v3.0.0: posture is no longer classified against an origin. The
+                              #         posture triple is deleted and each channel stores `mean_pose`
+                              #         — the per-frame mean of its Humanoid muscle DOF — and the
+                              #         root stores `mean_body_height` / `mean_body_tilt_deg`. A
+                              #         breaking field change; variation is untouched (ADR 0021)
+                              # v2.5.0: the posture origin is Unity's Humanoid reference pose,
                               #         not a rest pose fitted from the corpus — the engine fixes
                               #         where zero is, the corpus only fixes scale (ADR 0020)
                               # v2.4.1: a rest observation must also run >= 1 s, so short clips
@@ -40,7 +46,7 @@ FORMULA_VERSION  = "v2.5.0"   # v2.5.0: the posture origin is Unity's Humanoid r
                               # v2.3.0: + posture (mean-pose offset from rest) per channel (ADR 0018)
                               # v2.2.0: measured in Unity's normalised Humanoid space (ADR 0011)
 BONE_MAP_VERSION = "v2.0.0"
-EXTRACTOR_VERSION = "2.0.0"
+EXTRACTOR_VERSION = "3.0.0"
 # The avatar the SAMPLER runs on. Provenance only: it records which body produced the dumps in
 # raw/, and it does not enter any number. See the block below RENDER_AVATAR.
 CALIBRATION_AVATAR = "nurse_avatar.fbx"
@@ -61,7 +67,7 @@ CALIBRATION_AVATAR = "nurse_avatar.fbx"
 # sampling host for continuity — every dump in raw/ came off it — and for no stronger reason.
 #
 # The -18.3%-at-the-torso figure that used to sit here was a v2.1.0 fact about METRE-space signals
-# read off bone positions, and ADR 0011 retired those. What MEASURED reads today is HumanPose, which
+# read off bone positions, and ADR 0011 retired those. What KINEMATIC reads today is HumanPose, which
 # is Unity's normalised Humanoid space on BOTH halves: a muscle is one joint's rotation against that
 # avatar's own limit, and bodyPosition is expressed in that same normalised frame — it is NOT metres
 # and it does NOT scale with the body. Re-verified 2026-08-22 across three rigs whose real hip
@@ -92,7 +98,7 @@ RIGHT_LEG  = "right_leg"
 LEFT_HAND  = "left_hand"
 RIGHT_HAND = "right_hand"
 
-STATE_CHANNELS     = [ROOT, TORSO, HEAD, LEFT_ARM, RIGHT_ARM, LEFT_LEG, RIGHT_LEG, LEFT_HAND, RIGHT_HAND]  # 9 (measured + state_label)
+STATE_CHANNELS     = [ROOT, TORSO, HEAD, LEFT_ARM, RIGHT_ARM, LEFT_LEG, RIGHT_LEG, LEFT_HAND, RIGHT_HAND]  # 9 (kinematic + state_label)
 PARTITION_CHANNELS = [TORSO, HEAD, LEFT_ARM, RIGHT_ARM, LEFT_LEG, RIGHT_LEG, LEFT_HAND, RIGHT_HAND]        # 8 (locks/free)
 
 # ---- Channel -> Unity HumanBodyBones names (the sampler resolves these; Python owns the grouping) ----
@@ -193,75 +199,21 @@ STATIC = {
     "root_heading": 2.0,   # degrees
 }
 
-# ---- Posture: the orthogonal half of MEASURED (v2.3.0, ADR 0018) ----
+# ---- The coordinate origin, which is NOT a rest pose ----
 #
-# Variation (stddev over time) answers "does this joint MOVE"; it cannot see a HOLD — an arm raised
-# and kept raised reads 0.0000, identical to an arm at rest. Posture is the offset of the clip's
-# MEAN pose from a rest baseline: it answers "what does this channel HOLD". A held pose is
-# static + displaced; locomotion is dynamic + neutral; rest is static + neutral.
+# HumanPose.muscles are normalised to [-1, 1] over each degree of freedom's HumanTrait range, and 0
+# is that range's CENTRE. That zero — together with bodyPosition.y = 1.0 and bodyRotation identity —
+# is what makes a number here comparable across rigs (ADR 0011). It defines the coordinate system
+# the store measures in, and that is the whole of its meaning.
 #
-# REFERENCE_POSE is Unity's, not this store's. HumanPose.muscles are normalised to [-1, 1] over
-# each degree of freedom's HumanTrait range, and 0 is that range's CENTRE — a definition that ships
-# with the engine, identical on every rig, with no estimation error and no free parameter. The root
-# half is Unity's too: the Humanoid reference pose normalises to bodyPosition.y 1.0 with
-# bodyRotation identity. Verified across the project's rigs on 2026-08-25: X Bot 1.000000,
-# Y Bot 0.999999, Fat_man 0.999963, patient_avatar 0.999963, every one of them at tilt 0.0000 —
-# humanScale puts the reference hips at 1.0 by construction, across body shapes as different as
-# X Bot and Fat_man. (nurse_avatar reads 0.984676 / 1.51 deg because its imported bind pose is not
-# a clean T-pose; that is a property of the asset, not of the standard, and it does not enter any
-# number here.)
+# It is NOT a rest pose, a standard pose or an idle. Nobody stands at the centre of their joint
+# ranges, and Unity's Humanoid spec defines no relaxed stance at all: a person standing quietly
+# reads far from muscle zero on exactly the joints held near an extreme when upright (shoulders,
+# knees, extended fingers). Formula versions v2.3.0-v2.5.0 measured a scalar distance from this
+# origin per channel and labelled it neutral/displaced; the label was a statement about the origin
+# as much as about the clip, and it is gone. v3.0.0 stores the mean pose ITSELF, so there is no
+# origin-relative threshold to calibrate and none exists (ADR 0021).
 #
-# This replaced a 95-value rest pose FITTED from the corpus (the per-DOF median of 205 clips
-# selected as at-rest by measurement). That origin sat closer to how a person actually stands, but
-# it was an estimate with selection parameters, and every idle differs; anchoring on the engine's
-# definition removes the estimate entirely. What it costs is recorded in ADR 0020 and reproducible
-# with `calibrate_posture.py --baseline fitted`: 30.99% of posture labels differ, and because
-# nobody stands at the centre of their joint ranges, "displaced" now means "away from the Humanoid
-# reference", not "away from a relaxed human stance" — a standing clip reads displaced on the arms,
-# knees and fingers, which sit near the ends of their ranges when a person is upright and relaxed.
-#
-# Not derived, not fitted, not sampled: nothing recomputes this. MUSCLE_COUNT mirrors
-# UnityEngine.HumanTrait.MuscleCount.
+# MUSCLE_COUNT mirrors UnityEngine.HumanTrait.MuscleCount: the length of every dump's per-frame
+# `muscles` row and of its `muscle_names` list.
 MUSCLE_COUNT = 95
-REFERENCE_POSE = {
-    "muscles": [0.0] * MUSCLE_COUNT,
-    "body_y": 1.0,         # HumanPose.bodyPosition.y — normalised humanoid units, NOT metres
-    "tilt_deg": 0.0,       # bodyRotation identity: the body's up axis is world up
-}
-
-# Same fitting rule as DIVISOR: the corpus p99 of the raw offset normalises to 0.85 (fitted over
-# the 2446 mx_ dumps by calibrate_posture.py — the same Mixamo-only population as everything else;
-# report in motionkb_build/reports/posture_calibration.md).
-POSTURE_DIVISOR = {
-    TORSO: 0.5944,          # corpus p99 0.5053 -> 0.85
-    HEAD: 0.7789,           # corpus p99 0.6621 -> 0.85
-    "arm": 1.0689,          # corpus p99 0.9086 -> 0.85
-    "leg": 0.6813,          # corpus p99 0.5791 -> 0.85
-    "hand": 1.3878,         # corpus p99 1.1797 -> 0.85
-    "root_height": 1.0224,  # normalised units, not metres; corpus p99 0.8690 -> 0.85
-    "root_tilt": 104.9734,  # degrees; corpus p99 89.2274 -> 0.85
-}
-
-# Neutral/displaced threshold on the RAW offset, per divisor group = 0.30 x that group's divisor —
-# one constant in NORMALISED space, like STATIC_MUSCLE is one constant in muscle space.
-#
-# Read this against what the origin now is. Distance from the Humanoid reference is NOT near zero
-# for a person standing still: muscle 0 is the centre of each joint's range, so relaxed arms
-# (shoulder near one end of [-60, 100] deg), straight knees (near the end of [-80, 80]) and
-# extended fingers all sit far from it. Measured against this origin, mx_Standing_Idle reads
-# arms 0.47/0.44, legs 0.33/0.38, hands 0.76/0.75 — above threshold — while mx_Boxing_Idle's raised
-# guard reads 0.29 on the left arm, below it. That ordering is a property of where Unity's zero is,
-# not of the threshold, and it is the price ADR 0020 accepts for an origin with no estimate in it.
-# 0.30-of-scale keeps the same scale-relative rule the fitted origin used, so the constant is
-# comparable across the two; deliberate extremes still read high (mx_Crouch_Idle head 0.4963 and
-# root height 0.4335, the hostage hold's clamped hands 0.9185/0.9278, mx_Agony_Holding_The_Head's
-# cradled right arm 0.9153).
-NEUTRAL = {
-    TORSO: 0.1783,
-    HEAD: 0.2337,
-    "arm": 0.3207,
-    "leg": 0.2044,
-    "hand": 0.4163,
-    "root_height": 0.3067,  # normalised units
-    "root_tilt": 31.492,    # degrees
-}

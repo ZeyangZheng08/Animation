@@ -60,11 +60,14 @@ def build_manifest():
             },
         })
     return {
-        "kb_version": "v2",
-        "schema_version": "motionkb/v2",
-        "schema": "schema/motionkb.v2.schema.json",
+        "kb_version": "v3",
+        "schema_version": "motionkb/v3",
+        "schema": "schema/motionkb.v3.schema.json",
         "engine_mask_map": "engine_mask_map.json",
-        "rollback_tag": "kb/v2",
+        # The tag holding this contract's accepted state. kb/v3 is the first one to carry the KB at
+        # its current path: kb/v1 and kb/v2 predate ADR 0017 and hold it under Assets/MotionKB/, so a
+        # path-scoped checkout of either restores nothing. See docs/ROLLBACK.md.
+        "rollback_tag": "kb/v3",
         "generator": "animation-agent/gen_kb_manifest.py",
         "action_count": len(actions),
         "actions": actions,

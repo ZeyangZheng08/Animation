@@ -277,7 +277,7 @@ def write_table(table, path=None, raw_dir=None):
             "cycle_travel_floor_deg": CYCLE_TRAVEL_FLOOR_DEG,
             "cycle_residual_fraction": CYCLE_RESIDUAL_FRAC,
             "quiet_fraction": QUIET_FRACTION,
-            "note": "Regenerable sidecar. Not part of the motionkb/v2 contract; no record references "
+            "note": "Regenerable sidecar. Not part of the motionkb/v3 contract; no record references "
                     "it. A window is one repetition where the channel repeats, and the span between "
                     "its first and last moving frame otherwise.",
         },

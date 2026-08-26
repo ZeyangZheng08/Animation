@@ -1,4 +1,4 @@
-# corpus ingest — MEASURED — 2026-08-26T00:33:58Z
+# corpus ingest — KINEMATIC — 2026-08-26T03:18:38Z
 
 Source: `motionkb_build/reports/corpus_index.tsv` (2446 clips indexed).
 Records are `status: candidate` with the SEMANTIC half seeded null: this pass measures what each clip does and claims nothing about what it means (ADR 0002 / ADR 0014).

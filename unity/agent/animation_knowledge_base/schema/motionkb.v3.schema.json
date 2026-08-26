@@ -1,0 +1,586 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "motionkb/v3",
+  "title": "MotionKB body-part action fact (motionkb/v3)",
+  "description": "Canonical contract for one agent/animation_knowledge_base/actions/<key>.json (v3). 9 channels = 8 anatomical (PARTITION set, partitioned by composability.locks/free) + 1 root (locomotion-owned, kinematic-only, NOT partitioned). KINEMATIC fields are program-generated from the frozen raw/ pose dumps; the SEMANTIC 5-tuple (role/motion_type/contact/constraint/target) + composability stay agent/human-owned (ADR 0002). Each channel carries two orthogonal kinematic facts: VARIATION -- state_label/motion_magnitude/raw_measurement, how much it moves -- and its MEAN POSE -- mean_pose on the anatomical channels, mean_body_height + mean_body_tilt_deg on the root -- which is stored as the vector it is and compared with nothing. v3 breaks v2 by deleting the posture triple (posture_label/posture_magnitude/posture_measurement, a neutral-or-displaced classification of the distance from Unity's muscle zero) and the root's body_height_offset/body_tilt_offset_deg, adding those mean-pose fields, and renaming the extraction.field_origin tier 'measured' to 'kinematic' (ADR 0021). Cross-field invariants JSON Schema cannot express (locks/free partition the 8, overlay lock-disjointness, ik effector->channel resolution, root kinematic-only, posture compatibility) are enforced by validate_motionkb.py. action_id/display_name/overall_intent are nullable and tags may be empty because a record whose KINEMATIC half is complete and whose SEMANTIC half has not been proposed yet is a real state of the pipeline; validate_motionkb.py requires all four the moment status is anything other than 'candidate' (ADR 0014).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "action_id",
+    "display_name",
+    "source_clip",
+    "controller_state",
+    "controller_layer",
+    "trigger_param",
+    "duration",
+    "frame_rate",
+    "loop",
+    "overall_intent",
+    "tags",
+    "mask_coverage",
+    "channels",
+    "ik_goals",
+    "composability",
+    "extraction"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "motionkb/v3"
+    },
+    "action_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "display_name": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "accepted",
+        "deprecated"
+      ]
+    },
+    "source_clip": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fbx_or_anim",
+        "guid",
+        "file_id",
+        "clip_name"
+      ],
+      "properties": {
+        "fbx_or_anim": {
+          "type": "string",
+          "minLength": 1
+        },
+        "guid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "file_id": {
+          "type": "integer"
+        },
+        "clip_name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "controller_state": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "controller_layer": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "trigger_param": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "duration": {
+      "type": "number",
+      "minimum": 0
+    },
+    "frame_rate": {
+      "type": "number",
+      "minimum": 0
+    },
+    "loop": {
+      "type": "boolean"
+    },
+    "overall_intent": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "mask_coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "upper_body",
+        "hands",
+        "lower_body"
+      ],
+      "properties": {
+        "upper_body": {
+          "type": "boolean"
+        },
+        "hands": {
+          "type": "boolean"
+        },
+        "lower_body": {
+          "type": "boolean"
+        }
+      }
+    },
+    "channels": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "root",
+        "torso",
+        "head",
+        "left_arm",
+        "right_arm",
+        "left_leg",
+        "right_leg",
+        "left_hand",
+        "right_hand"
+      ],
+      "properties": {
+        "root": {
+          "$ref": "#/$defs/rootChannel"
+        },
+        "torso": {
+          "$ref": "#/$defs/anatomicalChannel"
+        },
+        "head": {
+          "$ref": "#/$defs/anatomicalChannel"
+        },
+        "left_arm": {
+          "$ref": "#/$defs/anatomicalChannel"
+        },
+        "right_arm": {
+          "$ref": "#/$defs/anatomicalChannel"
+        },
+        "left_leg": {
+          "$ref": "#/$defs/anatomicalChannel"
+        },
+        "right_leg": {
+          "$ref": "#/$defs/anatomicalChannel"
+        },
+        "left_hand": {
+          "$ref": "#/$defs/anatomicalChannel"
+        },
+        "right_hand": {
+          "$ref": "#/$defs/anatomicalChannel"
+        }
+      }
+    },
+    "ik_goals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "effector",
+          "target",
+          "constraint",
+          "contact_object",
+          "world_space"
+        ],
+        "properties": {
+          "effector": {
+            "enum": [
+              "left_hand",
+              "right_hand",
+              "left_foot",
+              "right_foot"
+            ]
+          },
+          "target": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "constraint": {
+            "type": "string",
+            "minLength": 1
+          },
+          "contact_object": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "world_space": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "composability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "locks",
+        "free",
+        "can_overlay_on",
+        "base_or_overlay",
+        "seam_owner"
+      ],
+      "properties": {
+        "locks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/partitionChannelName"
+          }
+        },
+        "free": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/partitionChannelName"
+          }
+        },
+        "can_overlay_on": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "base_or_overlay": {
+          "enum": [
+            "base",
+            "overlay"
+          ]
+        },
+        "posture": {
+          "enum": [
+            "standing",
+            "seated"
+          ]
+        },
+        "seam_owner": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "torso",
+            "root"
+          ],
+          "properties": {
+            "torso": {
+              "enum": [
+                "base",
+                "overlay"
+              ]
+            },
+            "root": {
+              "enum": [
+                "base",
+                "overlay"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "extraction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "sampled_frames",
+        "sampling_rule",
+        "motion_metric",
+        "bone_map_version",
+        "metric_formula_version",
+        "extractor_version",
+        "avatar",
+        "extracted_at",
+        "field_origin",
+        "verified_against_screenshots"
+      ],
+      "properties": {
+        "method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sampled_frames": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sampling_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "motion_metric": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bone_map_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "metric_formula_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "extractor_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "extractor_lang": {
+          "type": "string"
+        },
+        "unity_version": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string",
+          "minLength": 1
+        },
+        "extracted_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "field_origin": {
+          "type": "object"
+        },
+        "vlm_proposal": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "model": {
+              "type": "string"
+            },
+            "proposed_at": {
+              "type": "string"
+            },
+            "frames": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "render_views": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "consistency_validated": {
+              "type": "boolean"
+            },
+            "scope": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "status": {
+              "enum": [
+                "awaiting_human_accept",
+                "vlm_accepted",
+                "human_accepted",
+                "rejected"
+              ]
+            }
+          }
+        },
+        "verified_by": {
+          "type": "string"
+        },
+        "verified_at": {
+          "type": "string"
+        },
+        "verified_against_screenshots": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "partitionChannelName": {
+      "enum": [
+        "torso",
+        "head",
+        "left_arm",
+        "right_arm",
+        "left_leg",
+        "right_leg",
+        "left_hand",
+        "right_hand"
+      ]
+    },
+    "rawMeasurement": {
+      "type": "object",
+      "required": [
+        "signal"
+      ],
+      "properties": {
+        "signal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "raw_value": {
+          "type": "number"
+        },
+        "divisor": {
+          "type": "number"
+        },
+        "body_trans_horiz_stddev": {
+          "type": "number"
+        },
+        "body_vert_range": {
+          "type": "number"
+        },
+        "body_heading_stddev_deg": {
+          "type": "number"
+        }
+      }
+    },
+    "anatomicalChannel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "state_label",
+        "motion_magnitude",
+        "raw_measurement",
+        "mean_pose",
+        "role",
+        "motion_type",
+        "contact",
+        "constraint",
+        "target",
+        "motion_description"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "fk_part",
+            "hand"
+          ]
+        },
+        "state_label": {
+          "enum": [
+            "static",
+            "dynamic"
+          ]
+        },
+        "motion_magnitude": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "raw_measurement": {
+          "$ref": "#/$defs/rawMeasurement"
+        },
+        "mean_pose": {
+          "$ref": "#/$defs/meanPose"
+        },
+        "role": {
+          "enum": [
+            "primary",
+            "stabilizer",
+            "support",
+            "free",
+            null
+          ]
+        },
+        "motion_type": {
+          "enum": [
+            "cyclic-locomotion",
+            "reach",
+            "hold-static",
+            "balance",
+            "gaze",
+            "manipulate",
+            null
+          ]
+        },
+        "contact": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "constraint": {
+          "enum": [
+            "must-maintain",
+            "must-reach",
+            "unconstrained",
+            null
+          ]
+        },
+        "target": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "motion_description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "rootChannel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "state_label",
+        "motion_magnitude",
+        "raw_measurement",
+        "mean_body_height",
+        "mean_body_tilt_deg"
+      ],
+      "properties": {
+        "kind": {
+          "const": "root"
+        },
+        "state_label": {
+          "enum": [
+            "static",
+            "dynamic"
+          ]
+        },
+        "motion_magnitude": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "raw_measurement": {
+          "$ref": "#/$defs/rawMeasurement"
+        },
+        "mean_body_height": {
+          "description": "Mean HumanPose.bodyPosition.y over the clip, in normalised humanoid units (NOT metres, and not the sampled body's scale). Crouching and lying read low. Stored as the clip's own mean, not as an offset from a reference carriage.",
+          "type": "number"
+        },
+        "mean_body_tilt_deg": {
+          "description": "Mean angle, in degrees, between bodyRotation's up axis and world up. Lying reads ~90. No anatomical muscle shows this: a corpse pose lies with straight legs and a straight spine, muscle-identical to standing at rest. Mean XZ and mean heading are deliberately absent -- both are properties of where the clip was authored, and how far the body travels is already the root's variation signal.",
+          "type": "number"
+        }
+      }
+    },
+    "meanPose": {
+      "description": "The per-frame mean of each of this channel's Unity Humanoid muscle degrees of freedom, in the normalised muscle space the variation signal already uses ([-1, 1] over each DOF's HumanTrait range; 0 is that range's centre, which is a coordinate origin and not a rest pose). Keys are the engine's own muscle DOF names and are WRITTEN in ascending Unity muscle index within the channel, so two records list a channel's degrees of freedom in the same order and a diff between them lines up. This is a fact, not a classification: nothing here is reduced to a scalar, compared with a reference pose, or thresholded. It is what distinguishes an arm raised and held from an arm hanging still, which read identically on variation (ADR 0021).",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "number"
+      }
+    }
+  }
+}

@@ -15,7 +15,7 @@ divisor per group at a chosen percentile. Nothing is written into the knowledge 
 no record, no raw/*.json. Dumps live in a scratch directory and the report is printed.
 
 Applying the result is a separate, deliberate act: it bumps metric_formula_version, rewrites the
-MEASURED block of every accepted record, and invalidates the frozen values in
+KINEMATIC block of every accepted record, and invalidates the frozen values in
 test_golden_extraction.py.
 
     python3 calibrate_divisors.py --limit 150

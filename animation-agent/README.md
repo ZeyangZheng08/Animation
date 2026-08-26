@@ -35,7 +35,7 @@ animation-agent/
 │
 │   the offline pipeline — builds the KB (stdlib only)
 ├── config.py                 body-part split + frozen measurement normalization (engine-neutral)
-├── metrics.py                the 9-channel MEASURED computation
+├── metrics.py                the 9-channel KINEMATIC computation — variation and mean pose
 ├── paths.py                  where the KB lives, and the rules for writing to it
 ├── unity_sampler.py          the ONE place that touches Unity — generates C#, never ships it at runtime
 ├── extract.py                pipeline: register / resolve-controller / sample / assemble / render / propose / author
@@ -44,8 +44,10 @@ animation-agent/
 ├── vlm_openai.py             stdlib VLM client
 ├── build_transitions.py      regenerate the derived seam table (a cache; kb_transition recomputes it)
 ├── build_segments.py         regenerate the derived per-channel segment table, and report what it found
+├── recalibrate_kinematic.py  rewrite the accepted records' KINEMATIC half after a formula bump
+├── calibrate_divisors.py     refit the variation divisors on the corpus, offline from raw/
 ├── validate_motionkb.py      schema + cross-field invariants + semantic consistency  (no engine)
-├── test_golden_extraction.py MEASURED reproduces from frozen raw                    (no engine)
+├── test_golden_extraction.py KINEMATIC reproduces from frozen raw                   (no engine)
 ├── gen_kb_manifest.py        corpus index                                            (no engine)
 ├── validate_guids.py         guid -> AnimationClip resolution                        (needs the engine)
 ├── check_kb.sh               all four gates in one command

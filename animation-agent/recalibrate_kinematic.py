@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
 """
-recalibrate_measured.py — rewrite the MEASURED block of every accepted record in place.
+recalibrate_kinematic.py — rewrite the KINEMATIC block of every accepted record in place.
 
 Run this once after a deliberate `metric_formula_version` bump. It re-runs
-`metrics.channel_blocks` over each record's frozen `raw` dump and writes back only the MEASURED
-fields (`kind`, `state_label`, `motion_magnitude`, `raw_measurement`, and the posture triple) plus the
-`extraction` block —
-exactly the split ADR 0002 draws. SEMANTIC fields, `composability`, `ik_goals`, `source_clip`,
-`controller_*` and `status` are read and written back untouched.
+`metrics.channel_blocks` over each record's frozen `raw` dump and writes back only the KINEMATIC
+fields (`kind`, `state_label`, `motion_magnitude`, `raw_measurement`, `mean_pose`, and the root's
+`mean_body_height` / `mean_body_tilt_deg`) plus the `extraction` block — exactly the split ADR 0002
+draws. SEMANTIC fields, `composability`, `ik_goals`, `source_clip`, `controller_*` and `status` are
+read and written back untouched.
 
 Why this is not `extract.py assemble`: assemble skips accepted records outright, because re-measuring
 the eight the KB is built from should never be a side effect of bringing in a new clip. This is the
-deliberate path — it rewrites the MEASURED block and nothing else, and says what it would change
+deliberate path — it rewrites the KINEMATIC block and nothing else, and says what it would change
 before it changes it.
 
-    python3 recalibrate_measured.py --dry-run     # show every magnitude that would change
-    python3 recalibrate_measured.py               # write
+    python3 recalibrate_kinematic.py --dry-run    # show every magnitude that would change
+    python3 recalibrate_kinematic.py              # write
 
-Afterwards run `./check_kb.sh`: the golden test recomputes MEASURED from the same `raw` and so
+Afterwards run `./check_kb.sh`: the golden test recomputes KINEMATIC from the same `raw` and so
 tracks the new values automatically, and the validator re-checks the contract.
 """
 import argparse
@@ -36,7 +36,7 @@ import extract as E           # noqa: E402
 
 
 def accepted_files():
-    """(path, record) for the accepted records — the ones whose MEASURED half is frozen as golden."""
+    """(path, record) for the accepted records — the ones whose KINEMATIC half is frozen as golden."""
     out = []
     for p, doc, err in paths.read_records(paths.accepted_files()):
         if err:
@@ -74,7 +74,7 @@ def main(argv=None):
                   for c in C.STATE_CHANNELS}
         state_before = {c: (doc.get("channels", {}).get(c) or {}).get("state_label")
                         for c in C.STATE_CHANNELS}
-        E._apply_measured(doc, blocks)
+        E._apply_kinematic(doc, blocks)
         doc["duration"] = round(raw["length"], 3)
         doc["frame_rate"] = raw["frame_rate"]
         doc["extraction"] = _merge_extraction(doc, E._build_extraction(raw))

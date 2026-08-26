@@ -1,5 +1,5 @@
 {
-  "schema_version": "motionkb/v2",
+  "schema_version": "motionkb/v3",
   "action_id": "cpr",
   "display_name": "CPR Chest Compressions",
   "status": "accepted",
@@ -47,12 +47,16 @@
         "raw_value": 0.02644,
         "divisor": 0.2969
       },
-      "posture_label": "displaced",
-      "posture_magnitude": 0.3008,
-      "posture_measurement": {
-        "signal": "muscle_dof_mean_offset_rms",
-        "raw_value": 0.17878,
-        "divisor": 0.5944
+      "mean_pose": {
+        "Spine Front-Back": -0.03422,
+        "Spine Left-Right": 0.13151,
+        "Spine Twist Left-Right": -0.02689,
+        "Chest Front-Back": -0.30948,
+        "Chest Left-Right": 0.01295,
+        "Chest Twist Left-Right": 0.01087,
+        "UpperChest Front-Back": -0.36673,
+        "UpperChest Left-Right": -0.18849,
+        "UpperChest Twist Left-Right": -0.04883
       }
     },
     "head": {
@@ -70,12 +74,13 @@
         "raw_value": 4e-05,
         "divisor": 0.4963
       },
-      "posture_label": "neutral",
-      "posture_magnitude": 0.0007,
-      "posture_measurement": {
-        "signal": "muscle_dof_mean_offset_rms",
-        "raw_value": 0.00053,
-        "divisor": 0.7789
+      "mean_pose": {
+        "Neck Nod Down-Up": -0.00114,
+        "Neck Tilt Left-Right": -0.00064,
+        "Neck Turn Left-Right": -0.0001,
+        "Head Nod Down-Up": 0.0,
+        "Head Tilt Left-Right": 0.0,
+        "Head Turn Left-Right": 0.0
       }
     },
     "left_arm": {
@@ -93,12 +98,16 @@
         "raw_value": 0.07788,
         "divisor": 0.6864
       },
-      "posture_label": "displaced",
-      "posture_magnitude": 0.7584,
-      "posture_measurement": {
-        "signal": "muscle_dof_mean_offset_rms",
-        "raw_value": 0.81063,
-        "divisor": 1.0689
+      "mean_pose": {
+        "Left Shoulder Down-Up": 0.89547,
+        "Left Shoulder Front-Back": -0.06009,
+        "Left Arm Down-Up": -0.41606,
+        "Left Arm Front-Back": -0.72821,
+        "Left Arm Twist In-Out": -0.39149,
+        "Left Forearm Stretch": 0.92401,
+        "Left Forearm Twist In-Out": -0.64443,
+        "Left Hand Down-Up": 0.64794,
+        "Left Hand In-Out": 1.60097
       }
     },
     "right_arm": {
@@ -116,12 +125,16 @@
         "raw_value": 0.0397,
         "divisor": 0.6864
       },
-      "posture_label": "displaced",
-      "posture_magnitude": 0.6305,
-      "posture_measurement": {
-        "signal": "muscle_dof_mean_offset_rms",
-        "raw_value": 0.67391,
-        "divisor": 1.0689
+      "mean_pose": {
+        "Right Shoulder Down-Up": 0.77625,
+        "Right Shoulder Front-Back": 0.35975,
+        "Right Arm Down-Up": -0.50286,
+        "Right Arm Front-Back": -0.65783,
+        "Right Arm Twist In-Out": -0.11855,
+        "Right Forearm Stretch": 1.02354,
+        "Right Forearm Twist In-Out": -0.27535,
+        "Right Hand Down-Up": 1.15924,
+        "Right Hand In-Out": 0.43419
       }
     },
     "left_leg": {
@@ -139,12 +152,15 @@
         "raw_value": 0.01714,
         "divisor": 0.4468
       },
-      "posture_label": "displaced",
-      "posture_magnitude": 0.6982,
-      "posture_measurement": {
-        "signal": "muscle_dof_mean_offset_rms",
-        "raw_value": 0.4757,
-        "divisor": 0.6813
+      "mean_pose": {
+        "Left Upper Leg Front-Back": 0.24013,
+        "Left Upper Leg In-Out": 0.04514,
+        "Left Upper Leg Twist In-Out": -0.45103,
+        "Left Lower Leg Stretch": 1.0839,
+        "Left Lower Leg Twist In-Out": 0.32648,
+        "Left Foot Up-Down": 0.45939,
+        "Left Foot Twist In-Out": -0.01867,
+        "Left Toes Up-Down": -0.23317
       }
     },
     "right_leg": {
@@ -162,12 +178,15 @@
         "raw_value": 0.01811,
         "divisor": 0.4468
       },
-      "posture_label": "displaced",
-      "posture_magnitude": 0.6855,
-      "posture_measurement": {
-        "signal": "muscle_dof_mean_offset_rms",
-        "raw_value": 0.46705,
-        "divisor": 0.6813
+      "mean_pose": {
+        "Right Upper Leg Front-Back": 0.24217,
+        "Right Upper Leg In-Out": -0.01671,
+        "Right Upper Leg Twist In-Out": -0.38898,
+        "Right Lower Leg Stretch": 1.08733,
+        "Right Lower Leg Twist In-Out": 0.28155,
+        "Right Foot Up-Down": 0.47787,
+        "Right Foot Twist In-Out": 0.09299,
+        "Right Toes Up-Down": -0.19048
       }
     },
     "left_hand": {
@@ -185,12 +204,27 @@
         "raw_value": 0.01505,
         "divisor": 0.7546
       },
-      "posture_label": "displaced",
-      "posture_magnitude": 0.7294,
-      "posture_measurement": {
-        "signal": "muscle_dof_mean_offset_rms",
-        "raw_value": 1.01227,
-        "divisor": 1.3878
+      "mean_pose": {
+        "Left Thumb 1 Stretched": -0.43189,
+        "Left Thumb Spread": 1.68792,
+        "Left Thumb 2 Stretched": -0.42012,
+        "Left Thumb 3 Stretched": -1.02011,
+        "Left Index 1 Stretched": 0.26055,
+        "Left Index Spread": 1.14683,
+        "Left Index 2 Stretched": -1.8372,
+        "Left Index 3 Stretched": -0.68826,
+        "Left Middle 1 Stretched": 0.363,
+        "Left Middle Spread": 2.02484,
+        "Left Middle 2 Stretched": -1.33978,
+        "Left Middle 3 Stretched": -0.80359,
+        "Left Ring 1 Stretched": 0.03565,
+        "Left Ring Spread": -1.31295,
+        "Left Ring 2 Stretched": -1.10403,
+        "Left Ring 3 Stretched": -0.5316,
+        "Left Little 1 Stretched": -0.19326,
+        "Left Little Spread": -0.22097,
+        "Left Little 2 Stretched": -1.0056,
+        "Left Little 3 Stretched": 0.11118
       }
     },
     "right_hand": {
@@ -208,12 +242,27 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "posture_label": "displaced",
-      "posture_magnitude": 0.4382,
-      "posture_measurement": {
-        "signal": "muscle_dof_mean_offset_rms",
-        "raw_value": 0.60814,
-        "divisor": 1.3878
+      "mean_pose": {
+        "Right Thumb 1 Stretched": -0.93814,
+        "Right Thumb Spread": 0.24555,
+        "Right Thumb 2 Stretched": 0.31614,
+        "Right Thumb 3 Stretched": 0.63158,
+        "Right Index 1 Stretched": 0.64534,
+        "Right Index Spread": 0.43862,
+        "Right Index 2 Stretched": 0.50579,
+        "Right Index 3 Stretched": 0.8114,
+        "Right Middle 1 Stretched": 0.57675,
+        "Right Middle Spread": 0.04061,
+        "Right Middle 2 Stretched": 0.34729,
+        "Right Middle 3 Stretched": 0.81013,
+        "Right Ring 1 Stretched": 0.41154,
+        "Right Ring Spread": 0.78641,
+        "Right Ring 2 Stretched": 0.45982,
+        "Right Ring 3 Stretched": 0.8067,
+        "Right Little 1 Stretched": 0.56169,
+        "Right Little Spread": 0.72574,
+        "Right Little 2 Stretched": 0.42571,
+        "Right Little 3 Stretched": 0.80605
       }
     },
     "root": {
@@ -226,13 +275,8 @@
         "body_vert_range": 0.01704,
         "body_heading_stddev_deg": 0.576
       },
-      "posture_label": "displaced",
-      "posture_magnitude": 0.4249,
-      "posture_measurement": {
-        "signal": "max(height_offset/1.0224, tilt_offset/104.9734)",
-        "body_height_offset": 0.05761,
-        "body_tilt_offset_deg": 44.602
-      }
+      "mean_body_height": 1.05761,
+      "mean_body_tilt_deg": 44.602
     }
   },
   "ik_goals": [
@@ -277,23 +321,23 @@
     "method": "in_engine_sample_root_local",
     "sampled_frames": 540,
     "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, HumanPose muscles + bodyPosition/bodyRotation",
-    "motion_metric": "all 8 anatomical channels: muscle_dof_stddev_rms, divided by torso 0.2969 / head 0.4963 / arm 0.6864 / leg 0.4468 / hand 0.7546; root: max(trans/1.9782, vert/1.8396, heading/131.8575) from HumanPose.bodyPosition and bodyRotation; posture: muscle_dof_mean_offset_rms vs REFERENCE_POSE (Unity's Humanoid reference: every muscle 0, bodyPosition.y 1.0, bodyRotation identity), divided by torso 0.5944 / head 0.7789 / arm 1.0689 / leg 0.6813 / hand 1.3878, displaced at 0.30x divisor; root posture: max(height_offset/1.0224, tilt_offset/104.9734)",
+    "motion_metric": "variation, all 8 anatomical channels: muscle_dof_stddev_rms, divided by torso 0.2969 / head 0.4963 / arm 0.6864 / leg 0.4468 / hand 0.7546; root variation: max(trans/1.9782, vert/1.8396, heading/131.8575) from HumanPose.bodyPosition and bodyRotation; mean pose, all 8 anatomical channels: mean_pose, the per-frame mean of each of the channel's Humanoid muscle degrees of freedom in Unity's normalised muscle space, stored as the vector it is and compared with nothing; root mean pose: mean_body_height (mean HumanPose.bodyPosition.y, normalised humanoid units) and mean_body_tilt_deg (mean angle of bodyRotation's up axis from world up)",
     "bone_map_version": "v2.0.0",
-    "metric_formula_version": "v2.5.0",
-    "extractor_version": "2.0.0",
+    "metric_formula_version": "v3.0.0",
+    "extractor_version": "3.0.0",
     "extractor_lang": "python",
     "avatar": "nurse_avatar.fbx",
-    "extracted_at": "2026-08-26T00:33:59Z",
+    "extracted_at": "2026-08-26T03:09:43Z",
     "field_origin": {
-      "measured": [
+      "kinematic": [
         "duration",
         "frame_rate",
         "channels.*.state_label",
         "channels.*.motion_magnitude",
         "channels.*.raw_measurement",
-        "channels.*.posture_label",
-        "channels.*.posture_magnitude",
-        "channels.*.posture_measurement"
+        "channels.*.mean_pose",
+        "channels.root.mean_body_height",
+        "channels.root.mean_body_tilt_deg"
       ],
       "resolved": [
         "controller_state",

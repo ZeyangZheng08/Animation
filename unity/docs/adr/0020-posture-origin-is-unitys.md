@@ -5,6 +5,15 @@ Status: Accepted (2026-08-25). Supersedes the `REST_POSE` half of
 of 0019 (corpus-only population, offline reproducibility, the divisor rule, the `_m` rename) stands
 unchanged. Formula v2.4.1 → v2.5.0, all 2454 records re-measured from their frozen `raw` dumps.
 
+> **Superseded by [0021](0021-kinematic-facts-not-classifications.md) (2026-08-25), which retires the
+> question rather than answering it a fourth time.** The cost recorded below — a relaxed stance
+> reading `displaced` while a raised guard reads `neutral`, and discrimination falling on every group
+> — is what a distance from any fixed origin costs, and formula v3.0.0 stops taking one: `mean_pose`
+> stores each channel's mean pose as a vector and the store classifies nothing. What survives from
+> here is the measurement of what Unity's Humanoid actually defines (muscle 0 is the centre of a DOF's
+> range; the reference pose normalises to `bodyPosition.y` 1.0 at 0° tilt across every rig) — that is
+> the coordinate system every KINEMATIC number still lives in. It is an origin, not a rest pose.
+
 ## Context
 
 The posture half needs an origin: `posture_magnitude` is how far a channel's mean pose sits from

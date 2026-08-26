@@ -3,6 +3,46 @@
 All notable changes to the `motionkb` schema. The schema id is the contract between the extractor and the
 Python RAG (Phase 2); bump deliberately and record every change here.
 
+## motionkb/v3 — 2026-08-25 (metric formula v3.0.0: the mean pose is stored, not classified)
+**Breaking.** In one line: **v2 was variation plus a scalar distance-to-a-reference posture; v3 is
+variation plus the actual mean pose vector.** A consumer written against v2 does not read a v3
+record.
+
+- **Removed** from every channel: `posture_label` (`neutral` | `displaced`), `posture_magnitude`,
+  `posture_measurement`; and from the root's measurement block, `body_height_offset` /
+  `body_tilt_offset_deg`. They were one number per channel — the RMS distance of the clip's mean pose
+  from a reference pose, divided by a fitted divisor and thresholded. The reference moved three
+  times (accepted `idle` → a pose fitted from the corpus → Unity's Humanoid reference) because there
+  is no non-arbitrary answer to "displaced from what", and the reduction to a scalar could not say
+  which fingers were curled.
+- **Added**, required on the 8 anatomical channels: **`mean_pose`** — an object mapping each of that
+  channel's Unity Humanoid muscle DOF names to that DOF's per-frame mean, in the same normalised
+  muscle space as variation. Keys are WRITTEN in ascending Unity muscle index within the channel, so
+  records stay diffable and the vector explains itself. Required on the root instead:
+  **`mean_body_height`** (mean `HumanPose.bodyPosition.y`, normalised humanoid units) and
+  **`mean_body_tilt_deg`** (mean angle of `bodyRotation`'s up axis from world up). Mean XZ and mean
+  heading are deliberately absent: both describe where the clip was authored, and how far the body
+  travels is already the root's variation signal.
+- **Renamed**: the `extraction.field_origin` tier `measured` → `kinematic`, on every record and in
+  the schema. The half is called KINEMATIC now — the old name described provenance and said nothing
+  about content, which is what let a thresholded label read as a measurement (ADR 0021, following the
+  2026-07-01 `authored` → `semantic` precedent). `muscle_dof_stddev_rms`, the SEMANTIC side, and the
+  `vlm_proposed` / `vlm_accepted` / `human_accepted` provenance values are unchanged.
+- **Unchanged**: the variation triple (`state_label`, `motion_magnitude`, `raw_measurement`), the
+  v2.4.0 `DIVISOR` fit, `STATIC_MUSCLE` = 0.02, the root's trans/vert/heading signals, the frozen
+  `raw` dumps, `derived/`, and the whole SEMANTIC half. Verified bit-identical across all 2454
+  re-measured records.
+- **Origin**: Unity's muscle 0 and `bodyPosition.y` = 1.0 remain the coordinate system every number
+  lives in (ADR 0011) and carry no reading of rest, standard or neutral anywhere. `REFERENCE_POSE`,
+  `POSTURE_DIVISOR` and `NEUTRAL` are deleted from `config.py`; `calibrate_posture.py` is deleted and
+  its reports archived under `motionkb_build/archive/`.
+- **Validator**: `validate_motionkb.py` targets `motionkb.v3.schema.json` and drops the two checks
+  that branched on `posture_label` (the `role=primary but static` nudge and the
+  static-but-displaced-in-`composability.free` warning), with no replacement threshold. Its schema
+  interpreter grew `minProperties` and `additionalProperties`-as-a-schema for `mean_pose`.
+- `motionkb.v2.schema.json` is kept on disk as the historical contract, as `motionkb.v1.schema.json`
+  was before it. ADR: [0021](../../../docs/adr/0021-kinematic-facts-not-classifications.md).
+
 ## motionkb/v2 — 2026-08-21 (metric formula v2.3.0: posture)
 Every channel's MEASURED block gains a posture triple, orthogonal to the variation triple:
 `posture_label` (`neutral` | `displaced`), `posture_magnitude` (0..1), `posture_measurement`.

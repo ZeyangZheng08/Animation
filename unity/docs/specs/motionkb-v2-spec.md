@@ -47,11 +47,19 @@
 >   person standing still reads displaced on arms, knees and hands, because those sit near the ends
 >   of their ranges when upright.
 >
-> Read `config.py` and ADR 0010/0011/0018/0019/0020 for the live metric. §2 below is kept as the
+> - **ADR 0021** (v3.0.0) retires the posture triple entirely, and with it the whole question of
+>   where the origin sits. Every channel now stores `mean_pose` — the per-frame mean of each of its
+>   Humanoid muscle degrees of freedom, keyed by the engine's DOF names — and the root stores
+>   `mean_body_height` / `mean_body_tilt_deg`. Nothing is reduced to a scalar, divided by a fitted
+>   divisor, or labelled `neutral` | `displaced`; the schema id moves to `motionkb/v3` and the half is
+>   called KINEMATIC. Read the previous three bullets for how the store got here, not for what it
+>   holds.
+>
+> Read `config.py` and ADR 0010/0011/0018/0019/0020/0021 for the live metric. §2 below is kept as the
 > design narrative that motivated the channel split.
 >
-> All numerics in the KB are MEASURED by the program; the semantic 5-tuple + composability stay human-owned
-> (ADR 0002).
+> All numerics in the KB are KINEMATIC — computed by the program; the semantic 5-tuple + composability
+> stay human-owned (ADR 0002).
 
 ## 0. Why v2
 v1 split the body into 6 parts (`head, chest, left_arm, right_arm, legs, feet`). That split:

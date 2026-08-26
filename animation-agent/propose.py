@@ -3,9 +3,9 @@ propose.py — the VLM-PROPOSE half of the MotionKB pipeline (ADR 0008), engine-
 
 `extract.py render <clip>` saves multi-angle frames; this module builds the prompt, asks the VLM
 (gpt-5.5-2026-04-23 via vlm_openai) to PROPOSE the SEMANTIC fields from those frames + the
-MEASURED facts, runs the SAME deterministic consistency gate the validator uses
+KINEMATIC facts, runs the SAME deterministic consistency gate the validator uses
 (validate_motionkb.validate_semantic_consistency) plus the composability invariants, with a
-self-correction retry loop, and writes a candidate. MEASURED is never touched (ADR 0002).
+self-correction retry loop, and writes a candidate. KINEMATIC is never touched (ADR 0002).
 
 The model proposes only SEMANTIC/relevance labels (its strength): the per-channel 5-tuple, the action
 identity/summary, mask_coverage, and the composability judgement calls (base_or_overlay / posture /
@@ -13,7 +13,7 @@ can_overlay_on).
 The mechanical parts of composability are DERIVED, not guessed: locks/free fall out of the proposed roles
 (free <=> role==free, the exact relation the gate enforces) and seam_owner is a fixed convention.
 mask_coverage stays VLM-proposed (it is 'what the clip drives', not 'what it locks' — a neutral base drives
-the whole body yet locks nothing, so coverage != ownership). Every number stays MEASURED; the gate enforces
+the whole body yet locks nothing, so coverage != ownership). Every number stays KINEMATIC; the gate enforces
 agreement with the measured magnitudes / ik_goals / composability before anything is recorded.
 """
 import datetime
@@ -31,7 +31,7 @@ import unity_sampler          # noqa: E402
 import validate_motionkb as V # noqa: E402
 
 # WHICH VLM. ADR 0008 constrains what a proposal must satisfy, not who produces it: every field is
-# checked against the MEASURED block by validate_semantic_consistency before it is recorded, and
+# checked against the KINEMATIC block by validate_semantic_consistency before it is recorded, and
 #  records which model actually proposed. So the provider is one import, chosen
 # here rather than branched at each call site. Set MOTIONKB_VLM=openai to go back to gpt-5.5.
 if os.environ.get("MOTIONKB_VLM", "anthropic").strip().lower() == "openai":
@@ -63,15 +63,27 @@ def _now():
     return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def _measured_summary(doc):
-    """Compact per-channel measured facts the VLM must stay consistent with."""
+def _kinematic_summary(doc):
+    """Compact per-channel kinematic facts the VLM must stay consistent with.
+
+    Two lines per channel: what it MOVES (state + magnitude) and what pose it sits in (the mean of
+    each of its muscle degrees of freedom, or the body's carriage on the root). The pose is given as
+    the numbers it is — there is no neutral/displaced label to hand over any more, and inventing one
+    for the prompt would be inventing a fact the store does not hold (ADR 0021).
+    """
     ch = doc.get("channels", {})
     lines = []
     for c in C.STATE_CHANNELS:
         f = ch.get(c) or {}
-        lines.append("  %-11s state=%-7s magnitude=%-6s posture_label=%-9s posture_magnitude=%-6s kind=%s"
-                     % (c, f.get("state_label"), f.get("motion_magnitude"),
-                        f.get("posture_label"), f.get("posture_magnitude"), f.get("kind", "root")))
+        lines.append("  %-11s state=%-7s magnitude=%-6s kind=%s"
+                     % (c, f.get("state_label"), f.get("motion_magnitude"), f.get("kind", "root")))
+        pose = f.get("mean_pose")
+        if isinstance(pose, dict) and pose:
+            lines.append("              mean pose: "
+                         + ", ".join("%s=%.2f" % (dof, v) for dof, v in pose.items()))
+        elif f.get("mean_body_height") is not None:
+            lines.append("              mean carriage: height=%s tilt_deg=%s"
+                         % (f.get("mean_body_height"), f.get("mean_body_tilt_deg")))
     return "\n".join(lines)
 
 
@@ -139,7 +151,7 @@ def build_prompt(doc, clip_name, bases, frames=None):
         "each labelled with its camera angle and how far through the clip it was taken, so you can read the\n"
         "movement as a sequence rather than as unrelated poses. Every frame uses the SAME camera setup, so\n"
         "a change in the figure's size or position between frames is real movement, not framing. Judge\n"
-        "ONLY the categorical, meaning-level labels from what you see and from the MEASURED facts below. You do\n"
+        "ONLY the categorical, meaning-level labels from what you see and from the KINEMATIC facts below. You do\n"
         "NOT set any numbers — those are already measured.\n"
         "THE SETTING IS NOT SHOWN. Every clip is previewed on one shared untextured mannequin, alone on an\n"
         "empty floor: no costume, no scene, and NO PROPS — a figure holding a bottle or pressing a monitor\n"
@@ -151,7 +163,7 @@ def build_prompt(doc, clip_name, bases, frames=None):
         "Frames attached, in order:\n%s\n\n"
         "Clip name (asset): %s\n"
         "%s\n\n"
-        "MEASURED facts per channel (these are FIXED — your labels must agree with them):\n%s\n\n"
+        "KINEMATIC facts per channel (these are FIXED — your labels must agree with them):\n%s\n\n"
         "IK goals (end-effectors constrained to scene targets — orthogonal to the body-part mask):\n%s\n\n"
         "Existing BASE actions an overlay may layer onto (for can_overlay_on):\n%s\n\n"
         "Propose, for each of the 8 anatomical channels (torso, head, left_arm, right_arm, left_leg,\n"
@@ -203,7 +215,7 @@ def build_prompt(doc, clip_name, bases, frames=None):
         % (frame_lines, clip_name,
            ("Current action_id (keep unless clearly wrong): %s" % existing_aid) if existing_aid else
            "No action_id yet — propose one.",
-           _measured_summary(doc), _ik_summary(doc), base_lines))
+           _kinematic_summary(doc), _ik_summary(doc), base_lines))
 
 
 def _derive_composability(cand, proposal):
@@ -252,7 +264,7 @@ def _derive_ik_goals(cand):
 def merge_proposal(doc, proposal, keep_action_id=True):
     """Overlay the VLM's SEMANTIC proposal onto a copy of the source doc, then DERIVE composability.locks/
     free/seam_owner AND ik_goals from the proposed roles/contacts. mask_coverage is taken from the proposal
-    (it is 'what the clip drives', not derivable from locks). MEASURED, source_clip and controller_* are
+    (it is 'what the clip drives', not derivable from locks). KINEMATIC, source_clip and controller_* are
     untouched; ik_goals[].target stays null (the scene anchor is engine-specific -> Phase-2 grounding).
     Returns (candidate_doc, action_id)."""
     cand = json.loads(json.dumps(doc))  # deep copy

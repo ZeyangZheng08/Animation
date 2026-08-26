@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-extract.py — the MotionKB v2 extractor orchestration (pure Python; engine-decoupled).
+extract.py — the MotionKB v3 extractor orchestration (pure Python; engine-decoupled).
 
 Two steps, because the only engine-dependent part (sampling muscle clips) is isolated:
 
@@ -12,16 +12,16 @@ Two steps, because the only engine-dependent part (sampling muscle clips) is iso
        `emit-sampler` writes the same C# to a file instead, for running by hand at an MCP client.
 
   2) python extract.py assemble
-       Reads the raw pose dumps, computes the 9-channel MEASURED blocks (metrics.py), and writes them
-       back into <KB>/actions/<key>.json — MEASURED authoritative, SEMANTIC preserved. Accepted records
-       are left alone: their MEASURED half is frozen golden, and re-measuring them is a deliberate
-       migration (recalibrate_measured.py), not a side effect of bringing in a new clip. Emits a
+       Reads the raw pose dumps, computes the 9-channel KINEMATIC blocks (metrics.py), and writes them
+       back into <KB>/actions/<key>.json — KINEMATIC authoritative, SEMANTIC preserved. Accepted records
+       are left alone: their KINEMATIC half is frozen golden, and re-measuring them is a deliberate
+       migration (recalibrate_kinematic.py), not a side effect of bringing in a new clip. Emits a
        run-log. Per-file isolated.
 
 The KB itself lives in the Unity repository (it is a derivative of that project's animation assets);
 this repo reaches it through paths.py / MOTIONKB_DIR.
 
-MEASURED is program-generated and never fabricated (ADR 0002); the v2 SEMANTIC 5-tuple
+KINEMATIC is program-generated and never fabricated (ADR 0002); the SEMANTIC 5-tuple
 (role/motion_type/contact/constraint/target) is VLM-proposed in the propose stage. composability is
 DERIVED there from the proposed roles (locks/free) plus a few VLM judgement calls (base_or_overlay/
 posture/can_overlay_on); controller_* is RESOLVED from the AnimatorController (register/resolve-controller).
@@ -45,8 +45,14 @@ ACTIONS_DIR = paths.ACTIONS_DIR
 REPORT = os.path.join(paths.REPORTS_DIR, "extract_run.md")
 SAMPLER_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_generated_sampler.cs")
 
-MEASURED_KEYS = ("kind", "state_label", "motion_magnitude", "raw_measurement",
-                 "posture_label", "posture_magnitude", "posture_measurement")
+# The KINEMATIC half of a channel. Not every key is on every channel: `mean_pose` is the anatomical
+# channels' and the root's two carriage means are the root's, so a key absent from a block is
+# removed from the record rather than left behind.
+KINEMATIC_KEYS = ("kind", "state_label", "motion_magnitude", "raw_measurement", "mean_pose",
+                  "mean_body_height", "mean_body_tilt_deg")
+# Keys the contract used to carry here (the v2.3.0-v2.5.0 posture triple, ADR 0021 deleted them). A
+# re-measure drops them, so a record cannot keep a number no formula produces any more.
+RETIRED_KINEMATIC_KEYS = ("posture_label", "posture_magnitude", "posture_measurement")
 SEMANTIC_CH_KEYS = ("role", "motion_type", "contact", "constraint", "target", "motion_description")
 
 
@@ -206,14 +212,31 @@ def _migrate_composability(v1, bp):
     }
 
 
-def _apply_measured(doc, blocks):
+def _apply_kinematic(doc, blocks):
+    """Overwrite the KINEMATIC half of every channel; leave the SEMANTIC half exactly as it was.
+
+    Keys that already exist are ASSIGNED IN PLACE rather than removed and re-added, because a Python
+    dict keeps insertion order and the records are read as text: re-adding would reorder every
+    channel in 2454 files and bury the values that actually changed. New keys land at the end of the
+    channel, retired ones are dropped.
+
+    This is also where a record's `schema_version` is stamped, because the KINEMATIC half is what
+    the contract version describes: a record cannot be rewritten by this formula and still claim the
+    contract of the one before it.
+    """
+    doc["schema_version"] = C.SCHEMA_VERSION
     ch = doc.setdefault("channels", {})
     for name in C.STATE_CHANNELS:
         existing = ch.get(name) or {}
         block = blocks[name]
-        for k in MEASURED_KEYS:                       # overwrite measured
-            existing[k] = block[k]
-        if name == C.ROOT:                            # root is measured-only
+        for k in RETIRED_KINEMATIC_KEYS:
+            existing.pop(k, None)
+        for k in KINEMATIC_KEYS:                      # overwrite kinematic
+            if k in block:
+                existing[k] = block[k]
+            else:
+                existing.pop(k, None)                 # not a key this channel carries
+        if name == C.ROOT:                            # root is kinematic-only
             for k in SEMANTIC_CH_KEYS:
                 existing.pop(k, None)
         else:                                         # seed semantic stubs if absent
@@ -232,24 +255,20 @@ def _build_extraction(raw):
         # and every record then claimed a formula it was not computed with. Deriving it also means a
         # signal that disappears from config (root_gait did, in ADR 0011) fails loudly here instead
         # of leaving the description quietly wrong.
-        "motion_metric": ("all 8 anatomical channels: muscle_dof_stddev_rms, divided by "
+        "motion_metric": ("variation, all 8 anatomical channels: muscle_dof_stddev_rms, divided by "
                           "torso %(torso)s / head %(head)s / arm %(arm)s / leg %(leg)s / hand %(hand)s; "
-                          "root: max(trans/%(trans)s, vert/%(vert)s, heading/%(heading)s) from "
-                          "HumanPose.bodyPosition and bodyRotation; posture: "
-                          "muscle_dof_mean_offset_rms vs REFERENCE_POSE (Unity's Humanoid "
-                          "reference: every muscle 0, bodyPosition.y 1.0, bodyRotation identity), "
-                          "divided by torso %(p_torso)s / head %(p_head)s / arm %(p_arm)s / "
-                          "leg %(p_leg)s / hand %(p_hand)s, displaced at 0.30x divisor; root "
-                          "posture: max(height_offset/%(p_h)s, tilt_offset/%(p_t)s)"
+                          "root variation: max(trans/%(trans)s, vert/%(vert)s, heading/%(heading)s) "
+                          "from HumanPose.bodyPosition and bodyRotation; mean pose, all 8 "
+                          "anatomical channels: mean_pose, the per-frame mean of each of the "
+                          "channel's Humanoid muscle degrees of freedom in Unity's normalised "
+                          "muscle space, stored as the vector it is and compared with nothing; root "
+                          "mean pose: mean_body_height (mean HumanPose.bodyPosition.y, normalised "
+                          "humanoid units) and mean_body_tilt_deg (mean angle of bodyRotation's up "
+                          "axis from world up)"
                           % {"torso": C.DIVISOR[C.TORSO], "head": C.DIVISOR[C.HEAD],
                              "arm": C.DIVISOR["arm"], "leg": C.DIVISOR["leg"],
                              "hand": C.DIVISOR["hand"], "trans": C.DIVISOR["root_trans"],
-                             "vert": C.DIVISOR["root_vert"], "heading": C.DIVISOR["root_heading"],
-                             "p_torso": C.POSTURE_DIVISOR[C.TORSO], "p_head": C.POSTURE_DIVISOR[C.HEAD],
-                             "p_arm": C.POSTURE_DIVISOR["arm"], "p_leg": C.POSTURE_DIVISOR["leg"],
-                             "p_hand": C.POSTURE_DIVISOR["hand"],
-                             "p_h": C.POSTURE_DIVISOR["root_height"],
-                             "p_t": C.POSTURE_DIVISOR["root_tilt"]}),
+                             "vert": C.DIVISOR["root_vert"], "heading": C.DIVISOR["root_heading"]}),
         "bone_map_version": C.BONE_MAP_VERSION,
         "metric_formula_version": C.FORMULA_VERSION,
         "extractor_version": C.EXTRACTOR_VERSION,
@@ -257,10 +276,10 @@ def _build_extraction(raw):
         "avatar": C.CALIBRATION_AVATAR,
         "extracted_at": _now(),
         "field_origin": {
-            "measured": ["duration", "frame_rate", "channels.*.state_label",
-                         "channels.*.motion_magnitude", "channels.*.raw_measurement",
-                         "channels.*.posture_label", "channels.*.posture_magnitude",
-                         "channels.*.posture_measurement"],
+            "kinematic": ["duration", "frame_rate", "channels.*.state_label",
+                          "channels.*.motion_magnitude", "channels.*.raw_measurement",
+                          "channels.*.mean_pose", "channels.root.mean_body_height",
+                          "channels.root.mean_body_tilt_deg"],
             "resolved": ["controller_state", "controller_layer", "trigger_param"],
             "semantic": ["display_name", "overall_intent", "tags", "mask_coverage",
                          "channels.*.motion_description"],
@@ -275,7 +294,7 @@ def assemble():
     os.makedirs(ACTIONS_DIR, exist_ok=True)
     os.makedirs(os.path.dirname(REPORT), exist_ok=True)
     rows, ok, fail, skipped = [], 0, 0, 0
-    rows.append("# MotionKB v2 extraction run — " + _now())
+    rows.append("# MotionKB v3 extraction run — " + _now())
     rows.append("")
     rows.append("| clip | frames | torso | head | l_arm | r_arm | l_leg | r_leg | l_hand | r_hand | root |")
     rows.append("|---|---|---|---|---|---|---|---|---|---|---|")
@@ -288,17 +307,22 @@ def assemble():
         if rec.get("status") == "accepted":
             # Frozen golden. One store (ADR 0016) means assemble now walks the accepted records too,
             # and writing them here would silently re-measure the eight the KB is built from -- what
-            # recalibrate_measured.py exists to do deliberately, with a dry run and a report.
+            # recalibrate_kinematic.py exists to do deliberately, with a dry run and a report.
             skipped += 1
             continue
         key = rec["source_clip"]["clip_name"]         # working key = clip name, NOT action_id
         try:
             raw = unity_sampler.read_raw(key)
             blocks = metrics.channel_blocks(raw)
-            doc = rec if rec.get("schema_version") == C.SCHEMA_VERSION else _migrate_from_v1(rec, raw)
+            # v1 records are the ones with a `body_parts` block; everything else is already
+            # channel-shaped and is brought up to the current contract in place by
+            # `_apply_kinematic`. Keying this on "is not the current schema_version" broke the
+            # moment the version bumped — a v2 record went down the v1 migration, which reads a
+            # `body_parts` block it does not have.
+            doc = _migrate_from_v1(rec, raw) if "body_parts" in rec else rec
             doc["duration"] = round(raw["length"], 3)
             doc["frame_rate"] = raw["frame_rate"]
-            _apply_measured(doc, blocks)
+            _apply_kinematic(doc, blocks)
             doc["extraction"] = _build_extraction(raw)
             _atomic_write(p, doc)
             m = lambda c: doc["channels"][c]["motion_magnitude"]
@@ -314,9 +338,9 @@ def assemble():
             fail += 1
 
     rows.append("")
-    rows.append("**%d ok / %d failed / %d accepted and left alone** -> actions/ (MEASURED "
+    rows.append("**%d ok / %d failed / %d accepted and left alone** -> actions/ (KINEMATIC "
                 "authoritative; role/motion_type/contact/constraint/target + composability are PENDING "
-                "semantic). Re-measuring an accepted record is recalibrate_measured.py's job."
+                "semantic). Re-measuring an accepted record is recalibrate_kinematic.py's job."
                 % (ok, fail, skipped))
     report = "\n".join(rows) + "\n"
     with open(REPORT, "w", encoding="utf-8") as f:
@@ -380,7 +404,7 @@ def _parse_bridge_flags(rest):
 
 
 def _new_source_stub(clip_name, fbx_or_anim, guid, file_id):
-    """A minimal valid v2 candidate skeleton with source_clip filled. MEASURED comes from assemble;
+    """A minimal valid candidate skeleton with source_clip filled. KINEMATIC comes from assemble;
     SEMANTIC (incl. action_id) + composability from the propose stage (VLM-proposed/derived); controller_*
     from register/resolve-controller. composability seeded all-free here is just a placeholder."""
     channels = {ch: ({"kind": "root"} if ch == C.ROOT else {}) for ch in C.STATE_CHANNELS}
@@ -519,7 +543,7 @@ def render(clip_name, host, port, instance):
         print("Unity MCP bridge not reachable at %s:%d (open Unity + start the MCP HTTP server)." % (host, port))
         return 1
     out_dir = os.path.join(paths.FRAMES_DIR, clip_name)
-    # Pick the camera views per-action from the MEASURED data + facing (falls back to the fixed pair if
+    # Pick the camera views per-action from the KINEMATIC data + facing (falls back to the fixed pair if
     # the raw dump is missing, e.g. render before sample). See unity_sampler.select_views.
     views = unity_sampler.RENDER_VIEWS
     fracs = unity_sampler.RENDER_FRACS

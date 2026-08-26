@@ -5,6 +5,13 @@ Status: Accepted (2026-08-21). Extends the MEASURED half of every channel with a
 bumps the metric formula v2.2.0 → v2.3.0. All 2454 records re-measured from their frozen `raw`
 dumps; no semantic field, no raw dump, and no variation number changed.
 
+> **Superseded in part by [0021](0021-kinematic-facts-not-classifications.md) (2026-08-25).** The
+> problem stated below stands: variation cannot see a hold. The fix does not. The posture triple is
+> deleted in formula v3.0.0, which stores each channel's mean pose as the vector it is (`mean_pose`;
+> `mean_body_height` / `mean_body_tilt_deg` on the root) instead of reducing it to a distance from a
+> baseline and thresholding that into `neutral` | `displaced`. Read this ADR for why a second signal
+> exists beside variation, not for what the store holds.
+
 ## Context
 
 The measured state of a channel was one signal: `muscle_dof_stddev_rms`, the variation of that

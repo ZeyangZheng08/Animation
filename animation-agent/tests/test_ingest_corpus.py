@@ -5,7 +5,7 @@ store. Each of them, if it went through instead, would silently overwrite someth
 record, or an accepted action — and the loss would only surface much later as a wrong measurement
 attached to the right name.
 
-The guarantee: MEASURED comes out of `extract`, so the bulk path cannot grow its own dialect of the
+The guarantee: KINEMATIC comes out of `extract`, so the bulk path cannot grow its own dialect of the
 block. That one is checked by identity, not by comparing two copies that happen to agree today.
 """
 import json
@@ -189,10 +189,10 @@ def test_retry_failed_runs_only_the_names_in_the_list(kb, monkeypatch):
 
 
 # -------------------------------------------------------------------------------- measure
-def test_measure_uses_extracts_own_measured_block(kb):
+def test_measure_uses_extracts_own_kinematic_block(kb):
     """Not 'produces the same thing as' — IS the same function. Two paths into one store must not be
     able to drift into two dialects of one contract."""
-    assert I.extract._apply_measured is extract._apply_measured
+    assert I.extract._apply_kinematic is extract._apply_kinematic
     assert I.extract._build_extraction is extract._build_extraction
 
 
@@ -222,6 +222,9 @@ def test_measure_counts_pose_assets_instead_of_silently_dropping_them(kb):
     doc = paths.read_json(os.path.join(paths.ACTIONS_DIR, "mx_Test_Clip.json"))
     assert doc["channels"]["torso"]["state_label"] == "static"
     assert doc["channels"]["torso"]["role"] is None          # measured, not labelled
+    assert doc["channels"]["torso"]["mean_pose"]              # the pose itself, not a label for it
+    assert doc["channels"]["root"]["mean_body_height"] is not None
+    assert doc["schema_version"] == C.SCHEMA_VERSION
     assert doc["extraction"]["metric_formula_version"] == C.FORMULA_VERSION
 
 

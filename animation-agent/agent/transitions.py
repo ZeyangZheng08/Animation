@@ -768,7 +768,7 @@ def write_table(seams, path=None, extra=None, raw_dir=None):
             "raw_fingerprint": raw_fingerprint(raw_dir),
             "max_blend_rate_deg_per_s": MAX_BLEND_RATE_DEG_PER_S,
             "search_fraction": SEARCH_FRACTION,
-            "note": "Regenerable sidecar. Not part of the motionkb/v2 contract; no record references it.",
+            "note": "Regenerable sidecar. Not part of the motionkb/v3 contract; no record references it.",
         },
         "seams": [s.as_dict() for s in seams],
     }

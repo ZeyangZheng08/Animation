@@ -8,22 +8,35 @@ One page of "how do I undo X" for this repo. Rollback here is git + asset reassi
 > `git …` line here, on the Windows side. The KB itself is still versioned in **this** repository.
 
 ## Roll back the whole MotionKB to a named version
-Once a version tag exists (`git tag kb/<ver>`; see `../HANDOFF.md` §8.2 module C):
+Each contract version has a tag. Make new ones annotated, with a message that names the snapshot and
+spells out its own checkout command — `kb/v1` and `kb/v3` do, and `kb/v2` is lightweight only because
+somebody typed `git tag kb/v2`. See `../HANDOFF.md` §8.2 module C.
 
-    git checkout kb/<ver> -- agent/animation_knowledge_base/
+    git checkout kb/v3 -- agent/animation_knowledge_base/
     python validate_motionkb.py        # confirm the restored set is valid
 
-**The existing `kb/v1` and `kb/v2` tags predate the 2026-08-05 move and hold the KB at
-`Assets/MotionKB/`, not `agent/animation_knowledge_base/`.** Against those two tags the command above matches nothing and
-exits 0 — a silent no-op, not a rollback. Use the old path and move the result:
+**`kb/v3` is the only tag that command works against.** `kb/v1` and `kb/v2` predate the 2026-08-05
+move (ADR 0017) and hold the KB at `Assets/MotionKB/`, not `agent/animation_knowledge_base/`, so
+against those two it matches nothing and exits 0 — a silent no-op, not a rollback. Use the old path
+and move the result:
 
     git checkout kb/v2 -- Assets/MotionKB/
     git mv Assets/MotionKB agent/animation_knowledge_base        # or move the files and delete the stray .meta
 
 Check first, always: `git ls-tree --name-only <tag>` tells you which layout that tag has.
 
-List versions: `git tag --list 'kb/*'` (currently `kb/v1` — the retired 6-part store — and `kb/v2`). The
-human changelog is `agent/animation_knowledge_base/schema/CHANGELOG.md`.
+**Rolling back to `kb/v2` is not just a path change — it is a different contract.** That snapshot is
+`motionkb/v2`: every channel carries the `posture_label` / `posture_magnitude` / `posture_measurement`
+triple and no `mean_pose`, and `field_origin` names its tier `measured`. Restoring it means restoring
+`motionkb.v2.schema.json` as the validator's target and a `config.py` that still holds `REFERENCE_POSE`
+/ `POSTURE_DIVISOR` / `NEUTRAL` — which live in the `animation-agent` repository, so a KB-only checkout
+leaves the two halves disagreeing. Roll the pipeline back to the matching commit as well, or do not
+roll back past `kb/v3`. `kb/v1` is a third contract again (6 body parts, not 9 channels).
+
+List versions: `git tag --list 'kb/*'` — `kb/v1` (the retired 6-part store), `kb/v2` (the 9-channel
+store with the posture triple) and `kb/v3` (the current one: `mean_pose`, KINEMATIC, formula v3.0.0).
+`manifest.json`'s `rollback_tag` names the tag matching the store as it stands; the human changelog is
+`agent/animation_knowledge_base/schema/CHANGELOG.md`.
 
 ## Discard a bad re-extraction (before acceptance)
 Since ADR 0016 there is one store: re-extraction writes the record in place at
@@ -49,8 +62,10 @@ Then re-run `python validate_motionkb.py`.
 
     git checkout <commit> -- agent/motionkb_build/archive/motionkb.v1.schema.json
 
-A breaking schema change should be a new id (`motionkb/v2`) + a converter, not an in-place edit —
-see `adr/0001-data-contract-first.md` and `agent/animation_knowledge_base/schema/CHANGELOG.md`.
+A breaking schema change should be a new id (`motionkb/v3` was the last one) + a converter, not an
+in-place edit — see `adr/0001-data-contract-first.md` and
+`agent/animation_knowledge_base/schema/CHANGELOG.md`. The retired contracts are kept: v1 under
+`agent/motionkb_build/archive/`, v2 beside the live one in `agent/animation_knowledge_base/schema/`.
 
 ## Revert a de-clipped bed mesh (Cover / Sheet / Mattress)
 The blanket / sheet / mattress use edited source meshes (`*_declipped.mesh`). To revert a layer: in

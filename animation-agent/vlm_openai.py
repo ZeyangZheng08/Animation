@@ -10,7 +10,7 @@ the rest of `agent/motionkb/`.
 The model is `gpt-5.5-2026-04-23` (a reasoning model — give it generous `max_completion_tokens`). The API
 key is read from the OPENAI_API_KEY env var, else from `key.env` at the repo root (which is git-ignored —
 NEVER commit it, NEVER log the key). The proposal is gated downstream by `validate_semantic_consistency`
-(the model proposes; numbers stay MEASURED; a human accepts) — see ADR 0008.
+(the model proposes; numbers stay KINEMATIC; a human accepts) — see ADR 0008.
 """
 import base64
 import json

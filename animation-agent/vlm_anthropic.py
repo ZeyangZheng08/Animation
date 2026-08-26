@@ -24,7 +24,7 @@ different model rather than a failed clip.
 
 The API key is read from ANTHROPIC_API_KEY, else from a git-ignored `key.env`. NEVER commit it,
 NEVER log it. The proposal is gated downstream by `validate_semantic_consistency` (the model
-proposes; numbers stay MEASURED; a human may accept) — see ADR 0008.
+proposes; numbers stay KINEMATIC; a human may accept) — see ADR 0008.
 """
 import base64
 import json

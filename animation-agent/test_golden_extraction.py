@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 """
-test_golden_extraction.py — golden re-extraction regression for the MotionKB MEASURED pipeline
+test_golden_extraction.py — golden re-extraction regression for the MotionKB KINEMATIC pipeline
 (HANDOFF.md §8 module E-now; ADR 0007). Stdlib only — no pip, no Unity.
 
-The MEASURED block in the accepted store was produced by `agent/motionkb/metrics.channel_blocks`
-over the saved per-frame pose dumps in `agent/animation_knowledge_base/raw/<id>.json`. This test RE-RUNS that exact
-computation from the same frozen `raw` dumps and asserts the result still reproduces the MEASURED
-fields (`kind`, `state_label`, `motion_magnitude`, `raw_measurement`, and the posture triple
-`posture_label` / `posture_magnitude` / `posture_measurement`) in each accepted `<id>.json`.
+The KINEMATIC block in the accepted store was produced by `metrics.channel_blocks` over the saved
+per-frame pose dumps in `agent/animation_knowledge_base/raw/<id>.json`. This test RE-RUNS that exact
+computation from the same frozen `raw` dumps and asserts the result still reproduces the KINEMATIC
+fields (`kind`, `state_label`, `motion_magnitude`, `raw_measurement`, `mean_pose`, and the root's
+`mean_body_height` / `mean_body_tilt_deg`) in each accepted `<id>.json`.
 
-It is the regression guard for `metrics.py` + `config.py` (divisors/thresholds/bone-map): any drift in
+It is the regression guard for `metrics.py` + `config.py` (divisors/threshold/bone-map): any drift in
 a formula or a constant that is not a deliberate `metric_formula_version` bump will flip this red. The
 SEMANTIC 5-tuple is human-owned (ADR 0002) and intentionally NOT checked here.
 
 Usage:  python test_golden_extraction.py
-Exit:   0 if every accepted file's MEASURED reproduces from _raw; non-zero otherwise (per-file isolated).
+Exit:   0 if every accepted file's KINEMATIC reproduces from raw/; non-zero otherwise (per-file isolated).
 """
 import sys, os, glob, json
 
@@ -26,8 +26,11 @@ import unity_sampler         # noqa: E402
 
 KB_DIR = paths.KB_DIR                                            # see paths.py / MOTIONKB_DIR
 
-MEASURED_KEYS = ("kind", "state_label", "motion_magnitude", "raw_measurement",
-                 "posture_label", "posture_magnitude", "posture_measurement")
+# Every key the KINEMATIC half can carry. `mean_pose` is the anatomical channels', the two carriage
+# means are the root's, so a key missing from BOTH the record and the recomputation is not a
+# difference — a key missing from only one is.
+KINEMATIC_KEYS = ("kind", "state_label", "motion_magnitude", "raw_measurement", "mean_pose",
+                  "mean_body_height", "mean_body_tilt_deg")
 EPS = 1e-9
 
 
@@ -67,13 +70,13 @@ def main():
             doc = json.load(open(f, encoding="utf-8"))
             clip = doc["source_clip"]["clip_name"]               # MEASURE pipeline keys raw by clip name
             raw = unity_sampler.read_raw(clip)                   # frozen sampled poses (keyed by clip name)
-            recomputed = metrics.channel_blocks(raw)             # re-run the REAL measured pipeline
+            recomputed = metrics.channel_blocks(raw)             # re-run the REAL kinematic pipeline
             errors = []
             for ch in C.STATE_CHANNELS:
                 acc = doc["channels"][ch]
                 rec = recomputed[ch]
-                for k in MEASURED_KEYS:
-                    if k == "kind" and ch == C.ROOT and k not in acc:
+                for k in KINEMATIC_KEYS:
+                    if k not in acc and k not in rec:
                         continue
                     _cmp(f"channels.{ch}.{k}", acc.get(k), rec.get(k), errors)
         except FileNotFoundError as e:
@@ -89,7 +92,7 @@ def main():
             passed += 1
             print(f"  PASS  {short}")
     print(f"\n{passed} passed / {failed} failed"
-          + ("" if failed else "  (MEASURED reproduces from frozen raw via metrics.py — pipeline stable)"))
+          + ("" if failed else "  (KINEMATIC reproduces from frozen raw via metrics.py — pipeline stable)"))
     return 1 if failed else 0
 
 

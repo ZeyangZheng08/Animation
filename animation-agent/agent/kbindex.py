@@ -243,10 +243,18 @@ class KBIndex:
         return {k: rec[k] for k in rec if k in wanted}
 
     def channels(self, action_id):
-        """Per-channel occupancy: what each body part is doing, what it holds, and what it touches.
+        """Per-channel occupancy: what each body part is doing, what pose it sits in, and what it
+        touches.
 
-        This is the projection the assembly step actually reasons over, and it is ~200 tokens against
-        the ~2100 of a full record.
+        This is the projection the assembly step actually reasons over, and it is a fraction of the
+        ~2100 tokens of a full record.
+
+        `mean_pose` is handed over whole rather than summarised, because the point of storing the
+        vector is that no single number stands in for it: a raised-and-held arm and a hanging-still
+        arm are both `state: static`, and the pose is the only thing that tells them apart
+        (ADR 0021). Values are rounded to 2 decimals here — that is this projection's compaction,
+        not the record's precision, which is 5. Nothing is labelled: there is no neutral/displaced
+        reading of these numbers and no threshold that would produce one.
         """
         rec = self.record(action_id)
         out = {}
@@ -254,10 +262,13 @@ class KBIndex:
             ch = rec.get("channels", {}).get(name)
             if ch is None:
                 continue
-            # posture_label VERBATIM, not shortened to "posture": search hits already carry
-            # composability.posture (standing|seated), and one key with two disjoint vocabularies
-            # is the constraint-vs-constraint trap over again.
-            entry = {"state": ch.get("state_label"), "posture_label": ch.get("posture_label")}
+            entry = {"state": ch.get("state_label")}
+            pose = ch.get("mean_pose")
+            if isinstance(pose, dict):
+                entry["mean_pose"] = {dof: round(v, 2) for dof, v in pose.items()}
+            for key in ("mean_body_height", "mean_body_tilt_deg"):
+                if ch.get(key) is not None:
+                    entry[key] = ch[key]
             for key in ("role", "motion_type", "contact"):
                 if ch.get(key) is not None:
                     entry[key] = ch[key]

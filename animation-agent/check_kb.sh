@@ -19,7 +19,7 @@ echo "== [1/4] JSON Schema + cross-field invariants + semantic consistency (no e
 $PY validate_motionkb.py -q
 echo
 
-echo "== [2/4] golden re-extraction regression (MEASURED reproduces from frozen raw) =="
+echo "== [2/4] golden re-extraction regression (KINEMATIC reproduces from frozen raw) =="
 $PY test_golden_extraction.py
 echo
 

@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-validate_motionkb.py - the non-Unity validation path for the MotionKB v2 data contract
+validate_motionkb.py - the non-Unity validation path for the MotionKB v3 data contract
 (HANDOFF.md section 8 module A; ADR 0001/0007). Stdlib only - no pip install.
 
-It enforces TWO layers against every v2 action JSON:
-  1. SHAPE: the JSON Schema motionkb.v2.schema.json (self-contained subset interpreter:
-     type / const / enum / required / properties / additionalProperties / items / $ref /
-     minLength / minItems / minimum / maximum, nullable via type lists and null-in-enum).
+It enforces TWO layers against every v3 action JSON:
+  1. SHAPE: the JSON Schema motionkb.v3.schema.json (self-contained subset interpreter:
+     type / const / enum / required / properties / additionalProperties (false or a schema) /
+     items / $ref / minLength / minItems / minProperties / minimum / maximum, nullable via type
+     lists and null-in-enum).
   2. INVARIANTS JSON Schema cannot express:
        - composability.locks and free PARTITION the 8 PARTITION_CHANNELS (disjoint, union == all 8)
        - overlay lock-disjointness: an action's locks must not intersect the locks of any base it
@@ -23,12 +24,19 @@ It enforces TWO layers against every v2 action JSON:
        - soft WARN: mask_coverage.lower_body == false while a leg channel is dynamic
        - soft WARN: a channel whose state is dynamic but composability lists it free (occupied? semantic)
 
+Every check here reads a fact the record actually stores. Two that did not survived until v3.0.0:
+both branched on `posture_label`, a neutral/displaced classification of how far a channel's mean
+pose sat from Unity's muscle zero. v3.0.0 stores the mean pose itself and classifies nothing
+(ADR 0021), so "this channel holds a non-rest pose" is no longer a fact any record asserts, and the
+two checks are gone rather than re-expressed as a distance threshold this file would have had to
+invent.
+
 SCOPE — this gate certifies SELF-CONSISTENCY, NOT CORRECTNESS. Passing means the semantic labels do not
-contradict each other, the MEASURED facts, or the schema; it does NOT mean the interpretation is the
+contradict each other, the KINEMATIC facts, or the schema; it does NOT mean the interpretation is the
 "right"/intended one. The interpretive fields (role/motion_type/constraint) have no measurable ground
 truth — e.g. a swinging arm labelled `free` and one labelled `support` BOTH pass — so never read an
 all-pass run as "the semantics are verified correct"; it means "the semantics are self-consistent". Run-to-run VLM
-variance lives in exactly these fields; MEASURED stays reproducible via test_golden_extraction.py.
+variance lives in exactly these fields; KINEMATIC stays reproducible via test_golden_extraction.py.
 
 NOT checked here (needs the engine): source_clip.guid resolving via AssetDatabase.GUIDToAssetPath —
 that layer is validate_guids.py, which drives the AssetDatabase over the Unity MCP bridge.
@@ -46,7 +54,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import paths                                                     # noqa: E402
 
 KB_DIR = paths.KB_DIR                                            # see paths.py / MOTIONKB_DIR
-SCHEMA_PATH = os.path.join(paths.SCHEMA_DIR, "motionkb.v2.schema.json")
+SCHEMA_PATH = os.path.join(paths.SCHEMA_DIR, "motionkb.v3.schema.json")
 ENGINE_MAP_PATH = paths.ENGINE_MASK_MAP
 
 STATE_CHANNELS = ["root", "torso", "head", "left_arm", "right_arm", "left_leg", "right_leg", "left_hand", "right_hand"]
@@ -110,6 +118,8 @@ def validate_shape(value, schema, root, path, errors):
         errors.append(f"{path}: must be one of {schema['enum']}, got {value!r}")
     if isinstance(value, str) and "minLength" in schema and len(value) < schema["minLength"]:
         errors.append(f"{path}: string shorter than minLength {schema['minLength']}")
+    if isinstance(value, dict) and "minProperties" in schema and len(value) < schema["minProperties"]:
+        errors.append(f"{path}: object has {len(value)} properties, minProperties {schema['minProperties']}")
     if isinstance(value, (int, float)) and not isinstance(value, bool):
         if "minimum" in schema and value < schema["minimum"]:
             errors.append(f"{path}: {value} < minimum {schema['minimum']}")
@@ -126,10 +136,18 @@ def validate_shape(value, schema, root, path, errors):
         for req in schema.get("required", []):
             if req not in value:
                 errors.append(f"{path}: missing required field '{req}'")
-        if schema.get("additionalProperties", True) is False:
+        extra = schema.get("additionalProperties", True)
+        if extra is False:
             for k in value:
                 if k not in props:
                     errors.append(f"{path}: unexpected field '{k}' (additionalProperties=false)")
+        elif isinstance(extra, dict):
+            # A schema rather than a flag: an open-keyed object whose VALUES are constrained. That is
+            # what `mean_pose` is -- the keys are the engine's muscle DOF names and differ per
+            # channel, so they cannot be enumerated, but every value must be a number.
+            for k in value:
+                if k not in props:
+                    validate_shape(value[k], extra, root, f"{path}.{k}", errors)
         for k, sub in props.items():
             if k in value:
                 validate_shape(value[k], sub, root, f"{path}.{k}", errors)
@@ -168,7 +186,7 @@ def validate_invariants(data, errors, engine_channels):
     # The SEMANTIC half is required to ACCEPT a record, not to hold one. The schema lets action_id,
     # display_name, overall_intent be null and tags be empty, because "measured, not yet labelled" is a
     # real state: the bulk corpus is registered and measured in one pass and proposed later. Requiring
-    # them in the schema meant a MEASURED-complete record was a schema violation, so the gate could not
+    # them in the schema meant a KINEMATIC-complete record was a schema violation, so the gate could not
     # tell an unlabelled record from a malformed one. Here the requirement is attached to the claim it
     # actually belongs to -- status. Fail-closed: only an explicit 'candidate' is exempt, so a record
     # with no status at all is still held to the full bar (ADR 0014).
@@ -235,14 +253,10 @@ def soft_warnings(data, warns):
             fact = ch.get(part)
             if isinstance(fact, dict) and fact.get("state_label") == "dynamic":
                 warns.append(f"channels.{part} is dynamic but composability lists it free (occupied? confirm semantic locks)")
-            if (isinstance(fact, dict) and fact.get("state_label") == "static"
-                    and fact.get("posture_label") == "displaced"):
-                warns.append(f"channels.{part} holds a non-rest pose (static but displaced) yet composability "
-                             f"lists it free (a hold occupies the channel)")
 
 
 def validate_semantic_consistency(data, errors, warns):
-    """Gate the SEMANTIC 5-tuple against the MEASURED block + ik_goals + composability.
+    """Gate the SEMANTIC 5-tuple against the KINEMATIC block + ik_goals + composability.
 
     Fires on a partition channel only once its 5-tuple is filled (role != null) — so it is inert on
     candidates whose semantic fields are still seeded null, and becomes the acceptance gate the moment
@@ -313,10 +327,14 @@ def validate_semantic_consistency(data, errors, warns):
             errors.append(f"channels.{c}: motion_type=cyclic-locomotion but neither leg channel is dynamic")
 
         # soft signals (review nudges, not blockers)
-        if (role == "primary" and state == "static" and not has_ik
-                and f.get("posture_label") != "displaced"):
-            warns.append(f"channels.{c}: role=primary but static, at rest posture, and no ik_goal "
-                         f"(confirm it really drives the action)")
+        #
+        # There used to be a third: role=primary on a channel that is static and has no ik_goal.
+        # It only ever made sense with the neutral/displaced posture label gating it, because a
+        # channel that HOLDS a pose is primary exactly as often as one that moves -- and without
+        # that gate the nudge fires on every held pose in the store, which is the case the pose
+        # signal was added to make visible in the first place. v3.0.0 stores the mean pose and
+        # labels nothing (ADR 0021), so the nudge is gone rather than re-armed on a distance
+        # threshold invented here.
         if mt == "gaze" and c != "head":
             warns.append(f"channels.{c}: motion_type=gaze on a non-head channel")
         if mt == "manipulate" and kind != "hand":
@@ -395,7 +413,7 @@ def main(argv):
     validate_overlay_disjointness(loaded, errors_by_file)
 
     passed = failed = 0
-    print(f"MotionKB validation - schema motionkb/v2 - {len(files)} file(s)"
+    print(f"MotionKB validation - schema motionkb/v3 - {len(files)} file(s)"
           + ("  (quiet: failures only)\n" if quiet else "\n"))
     for short in errors_by_file:
         errs = errors_by_file[short]

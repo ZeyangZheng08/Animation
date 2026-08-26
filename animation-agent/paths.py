@@ -43,7 +43,7 @@ KB_DIR      = os.path.abspath(os.environ.get("MOTIONKB_DIR", DEFAULT_KB_DIR))
 # its key -- <action_id>.json once it has an action_id, <clip_name>.json until then -- so promotion is a
 # rename inside this directory rather than a move between two.
 ACTIONS_DIR = os.path.join(KB_DIR, "actions")
-# Frozen evidence: `raw` is the per-frame pose dump every MEASURED number is computed from, `frames`
+# Frozen evidence: `raw` is the per-frame pose dump every KINEMATIC number is computed from, `frames`
 # the rendered pictures every SEMANTIC label was read off. Both are inputs to the build AND data the
 # runtime reads — kb_pose indexes a dump, the seam and segment tables are derived from them — which is
 # why they are in the knowledge base and not among the build artifacts (ADR 0017).
@@ -65,7 +65,7 @@ ARCHIVE_DIR = os.path.join(BUILD_DIR, "archive")
 EVAL_SET    = os.path.join(BUILD_DIR, "retrieval_eval_set.json")
 
 # The KB is reached over DrvFs from WSL, where opening a file costs about 28 ms whatever its size. The
-# store is 14 MB in 2454 files, so reading it one at a time takes 68 s; 32 threads bring that to 6 s and
+# store is 26 MB in 2454 files, so reading it one at a time takes 68 s; 32 threads bring that to 6 s and
 # more threads do not help. Anything that walks the whole store goes through read_records().
 READ_WORKERS = 32
 
