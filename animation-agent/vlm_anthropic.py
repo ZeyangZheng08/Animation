@@ -45,7 +45,7 @@ def _key_env_candidates(repo_root):
     yield os.path.join(repo_root, "key.env")
     try:
         import paths
-        project_root = os.path.dirname(os.path.dirname(paths.KB_DIR))  # <project>/agent/kb -> <project>
+        project_root = os.path.dirname(os.path.dirname(paths.KB_DIR))  # <project>/agent/animation_knowledge_base -> <project>
         yield os.path.join(project_root, "key.env")
     except Exception:
         pass

@@ -1,8 +1,14 @@
 # 0012 — The accepted store is a directory, not a naming convention
 
-Status: Accepted (2026-08-20). Refines the layout ADR 0001 fixes the contract for; supersedes nothing.
-The schema, the field semantics and every measured value are untouched — this record is only about
-where the files sit.
+Status: Accepted (2026-08-20); the directory it names is
+`agent/animation_knowledge_base/actions/` since [0017](0017-knowledge-base-and-its-build-artifacts.md),
+and 0017 also removed the last consumer still carrying the denylist this record was written to delete.
+The two-store half is superseded by
+[0016](0016-one-store-status-is-the-membership-test.md) (2026-08-21), which merged `candidate/` into
+`actions/` and made `status` the membership test. What stands is this record's actual decision — that
+records live in a directory of their own so membership is read off the path instead of asserted with a
+denylist. Refines the layout ADR 0001 fixes the contract for. The schema, the field semantics and every
+measured value are untouched — this record is only about where the files sit.
 
 ## Context
 
@@ -12,7 +18,7 @@ with three files that are not action records:
 | file | what it is |
 | --- | --- |
 | `engine_mask_map.json` | the 9-channel → Unity `AvatarMask` mapping |
-| `kb_manifest.json` | the generated corpus index |
+| `manifest.json` | the generated corpus index |
 | `retrieval_eval_set.json` | the retrieval evaluation seed |
 
 Nothing in a path said which of the eleven files was an action record, so every consumer that walked
@@ -68,7 +74,7 @@ The files moved with `git mv`, so per-record history follows them.
 **Nothing about a record changed.** Same schema version, same `action_id`, same filename, same bytes.
 The four gates pass unchanged: `validate_motionkb` 8/0, `test_golden_extraction` 8/0, `gen_kb_manifest`
 8 actions, `validate_guids` 8 resolved. Golden passing is the load-bearing one — it recomputes every
-MEASURED value from the frozen `_raw` dumps, so a move that had disturbed a record would fail it.
+MEASURED value from the frozen `raw` dumps, so a move that had disturbed a record would fail it.
 
 **Validator output reads better by accident.** Paths are reported relative to the KB root, so a line
 that used to say `PASS cpr.json` now says `PASS actions/cpr.json`, and a staged candidate is
@@ -81,7 +87,7 @@ until `collect_files` was fixed.
 that looked like an answer about records. It now returns the 3 shared files, and records are
 `kb/actions/*.json`. `agent/prompt.py` names the new path, and the two tests that asserted the old
 result assert the new one, including a new assertion that the root glob does not reach into
-`actions/` or `_raw/`.
+`actions/` or `raw/`.
 
 **`kbindex.load` takes `actions_dir` instead of `kb_dir`.** Every call site passes nothing, so this is
 a rename of an unused parameter, but the meaning is different and the name should say so.
@@ -96,7 +102,7 @@ not a reason to keep a layout.
 **Move the three shared files into an `_`-prefixed directory instead.** `kb/*.json` would then mean
 exactly the accepted records, the denylists would disappear just the same, and only three paths would
 move rather than eight. Rejected on what the prefix would be claiming: every other `_` directory in
-the KB (`_raw`, `_frames`, `_derived`, `_reports`) holds regenerable working files, and
+the KB (`raw`, `frames`, `derived`, `_reports`) holds regenerable working files, and
 `engine_mask_map.json` is a hand-maintained part of the contract while `retrieval_eval_set.json` is
 the evaluation ground truth. Filing them as working files to tidy the root would mislabel two of the
 three. It also leaves the KB root as the action store, which does not survive 2446 records.

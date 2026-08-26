@@ -38,13 +38,15 @@ import paths
 # Fallback multi-angle render views (name -> camera direction from the avatar centre) and frame fractions.
 # These fixed views assume the avatar faces -Z; `select_views` below replaces them per-action with a
 # facing-aware, data-driven pair (used by `extract.py render`). This constant is only the fallback when
-# the _raw dump is missing, so a caller can still render without the MEASURED data.
+# the raw dump is missing, so a caller can still render without the MEASURED data.
 RENDER_VIEWS = [("front_left_3q", (-0.7, 0.25, -1.0)), ("side_right", (1.0, 0.2, 0.0))]
 RENDER_FRACS = [0.30, 0.55, 0.80]
+K_FRAMES = 3      # evidence frames per view; 3 x 2 views x ~400 KB stays well inside the 8 MB response ceiling
+SEED_CAP = 32     # candidate starts for the greedy traversal in `select_frame_indices`
 
 
 def _representative_fwd(root_fwd):
-    """Mean flattened (XZ) facing from a _raw dump's per-frame `root_fwd`; unit (x,0,z), fallback (0,0,1).
+    """Mean flattened (XZ) facing from a raw dump's per-frame `root_fwd`; unit (x,0,z), fallback (0,0,1).
     The clips are in-place, so a single representative forward is enough to orient the camera basis."""
     sx = sz = 0.0
     n = 0
@@ -85,7 +87,7 @@ def select_views(blocks, root_fwd):
     SIDE (gait/stride is a sagittal-plane signal); a stationary manipulation act (hands/torso working in
     FRONT of the body — cpr/pulse/giving/bvm/typing) reads best from the FRONT, so the reaching hands are
     not foreshortened; an essentially still clip keeps a neutral 3/4 + side pair. `front` is the avatar's
-    real front (from _raw root_fwd), which also fixes the fixed views accidentally shooting the back.
+    real front (from raw root_fwd), which also fixes the fixed views accidentally shooting the back.
     Returns a [(name, dir), ...] list shaped like RENDER_VIEWS."""
     V = _named_views(_representative_fwd(root_fwd))
 
@@ -102,57 +104,92 @@ def select_views(blocks, root_fwd):
     return [(n, V[n]) for n in names]
 
 
-def _busiest_effector_reach(raw):
-    """Per-frame reach (distance from Hips) of the effector (hand/foot) whose reach varies most over the
-    clip. This traces the action: it is LOW during the idle transitions at the clip ends (limb down) and
-    HIGH while the action is engaged (arm extended / foot in stride). Returns (series, nfr) or (None, 0).
+def _pose_distance(a, b):
+    """RMS over the 95 normalised muscle DOF. This is the space the channel metric already measures in
+    (`muscle_dof_stddev_rms`), so "these two frames differ by 0.4" means the same thing here as it does
+    in `motion_magnitude`, and it is avatar-independent by construction."""
+    s = 0.0
+    for x, y in zip(a, b):
+        d = x - y
+        s += d * d
+    return math.sqrt(s / len(a))
 
-    Note: uses reach-from-Hips, NOT deviation-from-mean-pose — the latter flags the idle->action->idle
-    TRANSITIONS as the outliers (the held action pose dominates the mean), which is exactly backwards for
-    the settle-and-hold nursing actions."""
-    b = raw.get("bones") or {}
-    hips = b.get("Hips")
-    seqs = [s for s in b.values() if s]
-    if not hips or not seqs:
-        return None, 0
-    nfr = min([len(s) for s in seqs] + [len(hips)])
-    if nfr < 2:
-        return None, 0
+
+def _greedy_kcenter(M, seed, k):
+    """Farthest-point traversal from `seed`: repeatedly add the frame furthest from everything already
+    chosen. Returns (sorted indices, radius), where RADIUS is the distance from the worst-covered frame
+    of the clip to its nearest chosen frame -- i.e. how much of the motion no attached picture shows."""
+    n = len(M)
+    sel = [seed]
+    mind = [_pose_distance(M[i], M[seed]) for i in range(n)]
+    while len(sel) < k:
+        nxt = max(range(n), key=lambda i: (mind[i], -i))   # ties -> the earlier frame, so this is deterministic
+        sel.append(nxt)
+        for i in range(n):
+            d = _pose_distance(M[i], M[nxt])
+            if d < mind[i]:
+                mind[i] = d
+    return sorted(sel), max(mind)
+
+
+def _seed_candidates(n, cap=SEED_CAP):
+    """Where the traversal starts changes the result (its 2x-optimal guarantee does not), so try several
+    starts and keep the best. Measured on the eight accepted clips, capping the starts at 32 evenly
+    spread frames matches trying all n on seven of them and loses 7% on the eighth, for 10x less work:
+    the 600-frame worst case costs 0.44 s instead of 6 s."""
+    if n <= cap:
+        return list(range(n))
+    return sorted({int(round(i * (n - 1) / (cap - 1))) for i in range(cap)})
+
+
+def select_frame_indices(raw, k=K_FRAMES):
+    """The k frames that best REPRESENT the clip: minimise the largest distance from any frame to the
+    nearest chosen one (the k-center objective, in muscle space). Returns None if `raw` is unusable.
+
+    WHAT THIS REPLACED, AND WHY. The previous selector found an "action window" -- the frames where the
+    busiest effector's distance from the Hips was in the top 40% of its range -- and spread three frames
+    at 15/50/85% of it, on the reasoning that the idle transitions at the clip ends are not the action.
+    That reasoning is wrong for exactly the actions this KB is built from. `check_pulse` is a 2.9 s clip
+    that ramps into a held pose over 13 frames and then holds it for 63: the window IS the hold, so all
+    three frames landed inside it and the labeller saw one pose three times, while nothing in the clip's
+    entire range of movement was shown. Measured as radius, that is 0.4090 -- the worst-covered frame of
+    the clip was further from every attached picture than most clips' total range.
+
+    Choosing for coverage instead makes the objective the thing that was actually wanted, and it needs no
+    notion of what an "action window" is: a held pose gets one frame (one is enough to cover 63 identical
+    ones) and spends the other two on the approach; a cycle gets its phases; a clip that really is three
+    distinct poses gets all three. Radius on the eight accepted clips:
+
+        check_pulse  0.4090 -> 0.0931      giving_pills  0.3329 -> 0.2365
+        cpr          0.0391 -> 0.0178      typing        0.3060 -> 0.2381
+        bvm          0.1116 -> 0.0446      walking       0.1221 -> 0.1206
+        grab_bottle  0.1798 -> 0.1311      idle          0.0081 -> 0.0065
+
+    Better on all eight, mean 0.1886 -> 0.1110. `select_views` is untouched: which ANGLES to shoot from
+    is a different question, and the measured data still answers it well."""
+    M = raw.get("muscles") or []
+    n = len(M)
+    if n < 2 or not M[0]:
+        return None
+    if n <= k:
+        return list(range(n))
     best = None
-    for bone in ("LeftHand", "RightHand", "LeftFoot", "RightFoot"):
-        s = b.get(bone)
-        if not s:
-            continue
-        series = []
-        for i in range(nfr):
-            p, h = s[i], hips[i]
-            series.append(math.sqrt((p[0] - h[0]) ** 2 + (p[1] - h[1]) ** 2 + (p[2] - h[2]) ** 2))
-        m = sum(series) / nfr
-        var = sum((v - m) ** 2 for v in series) / nfr
-        if best is None or var > best[0]:
-            best = (var, series)
-    return (best[1], nfr) if best else (None, 0)
+    for seed in _seed_candidates(n):
+        sel, r = _greedy_kcenter(M, seed, k)
+        if best is None or r < best[1] - 1e-12:
+            best = (sel, r)
+    return best[0]
 
 
-def select_fracs(raw):
-    """Data-driven time samples: find the ACTION WINDOW (frames where the busiest effector is engaged /
-    extended, which excludes the idle transitions at the clip ends) and spread 3 frames across it, so all
-    three show the action. This keeps the count at 3 but places them where the action actually is — a
-    plateau for a held pose (pulse/bvm), the peak region for a ballistic one (grab/give). Falls back to
-    the fixed interior fractions if _raw is unusable or the signal is flat."""
-    series, nfr = _busiest_effector_reach(raw)
-    if not series or nfr < 3:
+def select_fracs(raw, k=K_FRAMES):
+    """`select_frame_indices` as clip fractions, which is what the render snippet samples at. Frame i of
+    a dump was sampled at `length * i / (n - 1)`, so the fraction reproduces that pose exactly. Falls
+    back to the fixed interior fractions when there is no usable `raw` (e.g. render before sample)."""
+    idx = select_frame_indices(raw, k)
+    if not idx:
         return list(RENDER_FRACS)
-    lo_v, hi_v = min(series), max(series)
-    if hi_v - lo_v < 0.02:                              # near-flat (<2cm: static hold/idle) -> spread over the clip
-        lo, hi = 0, nfr - 1
-    else:
-        thr = lo_v + 0.60 * (hi_v - lo_v)               # "engaged" = reach in the top 40% of its range
-        active = [i for i in range(nfr) if series[i] >= thr]
-        lo, hi = active[0], active[-1]
-    span = hi - lo
-    idx = [lo + int(round(span * f)) for f in (0.15, 0.50, 0.85)]
-    return sorted(round(i / (nfr - 1), 3) for i in idx)
+    n = len(raw["muscles"])
+    return [round(i / (n - 1), 5) for i in idx]
 
 # The Unity MCP bridge's HTTP endpoint (localhost by default; override via env for a remote editor).
 DEFAULT_HOST = os.environ.get("UNITY_MCP_HOST", "127.0.0.1")
@@ -229,10 +266,13 @@ try {
   //
   // Everything above is metres and world rotations, so it carries the sampled avatar's proportions
   // with it -- the same clip measured on nurse_avatar and on X Bot differs by -18.3%% at the torso
-  // and +16.5%% at root_gait. HumanPose is the representation Unity already normalises every avatar
-  // into: each muscle is its joint's rotation expressed against that avatar's own limits, and
-  // bodyPosition is scaled by the avatar's size. Measured across those same two rigs on one clip,
-  // 1900 muscle values differed by 0.00009 on average and bodyPosition by 0.0000.
+  // and +16.5%% at root_gait. Those arrays are kept for provenance; no MEASURED field reads them.
+  //
+  // HumanPose is the representation Unity already normalises every avatar into, on BOTH halves: each
+  // muscle is its joint's rotation against that avatar's own limits, and bodyPosition is expressed in
+  // that same normalised frame -- not metres, and not scaled by the body. Measured across those same
+  // two rigs on one clip, 1900 muscle values differed by 0.00009 on average and bodyPosition by
+  // 0.0000; re-verified 2026-08-22 on six clips across three rigs spanning 15.6%% in real hip height.
   //
   // Appended after every pre-existing key, like bone_rot before it, so the dump's prefix stays
   // byte-identical and a re-sample is still checkable with a plain string comparison.
@@ -318,7 +358,7 @@ def write_raw(clip_id, dump_text):
 
     dump = json.loads(dump_text)
     written = paths.write_text(raw_path(clip_id), dump_text)
-    forget_raw()   # `_raw` just moved; anything memoised from it is now about a corpus that is gone
+    forget_raw()   # `raw` just moved; anything memoised from it is now about a corpus that is gone
     return written, dump
 
 
@@ -722,7 +762,11 @@ try {
       tex.ReadPixels(new UnityEngine.Rect(0,0,W,H),0,0); tex.Apply();
       UnityEngine.RenderTexture.active=prev; UnityEngine.RenderTexture.ReleaseTemporary(small);
       byte[] png = UnityEngine.ImageConversion.EncodeToPNG(tex);
-      string fn = VN[vi]+"_f"+((int)(FR[fi]*100))+".png";
+      // The ordinal, not just the percentage, because the percentage identifies neither uniquely nor in
+      // order: frames are now chosen by POSE, so two of them can fall in the same whole percent of a long
+      // clip (one file silently overwriting another), and a plain lexicographic sort puts "_f21" before
+      // "_f5" -- which matters because the prompt tells the model to read the frames as a sequence.
+      string fn = VN[vi]+"_t"+fi+"_f"+((int)(FR[fi]*100))+".png";
       summary.AppendLine(fn+"|"+System.Convert.ToBase64String(png));
       UnityEngine.Object.DestroyImmediate(tex); wrote++;
     }

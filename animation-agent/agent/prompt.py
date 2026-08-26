@@ -62,7 +62,7 @@ kb_search until something turns up. Everything is small — one grep answers "wh
 outright, and a miss is evidence of absence rather than a reason to search again.
 - Whether something exists ANYWHERE is a question about `source/`, not `kb/`. The library holds only \
 what was accepted into it; the assets hold everything there is.
-- read on a rendered frame under kb/_frames gives you the picture. Use it when the wording is \
+- read on a rendered frame under kb/frames gives you the picture. Use it when the wording is \
 ambiguous and seeing the pose would settle it. Those frames are sampled from inside an action — the \
 clip's first and last frames are never among them.
 - kb_pose measures one moment: hip height, foot contact, posture. Use it to check how an action starts \

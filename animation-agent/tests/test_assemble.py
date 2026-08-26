@@ -21,7 +21,7 @@ def kb():
 
 @pytest.fixture(scope="module")
 def eval_cases():
-    with open(os.path.join(paths.KB_DIR, "retrieval_eval_set.json"), encoding="utf-8") as f:
+    with open(paths.EVAL_SET, encoding="utf-8") as f:
         return json.load(f)["cases"]
 
 

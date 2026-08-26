@@ -39,12 +39,13 @@ animation-agent/
 ├── paths.py                  where the KB lives, and the rules for writing to it
 ├── unity_sampler.py          the ONE place that touches Unity — generates C#, never ships it at runtime
 ├── extract.py                pipeline: register / resolve-controller / sample / assemble / render / propose / author
+├── ingest_corpus.py          the same measure half over a WHOLE asset folder, and stopping there (ADR 0014)
 ├── propose.py                VLM proposes the SEMANTIC 5-tuple; composability derived from it
 ├── vlm_openai.py             stdlib VLM client
 ├── build_transitions.py      regenerate the derived seam table (a cache; kb_transition recomputes it)
 ├── build_segments.py         regenerate the derived per-channel segment table, and report what it found
 ├── validate_motionkb.py      schema + cross-field invariants + semantic consistency  (no engine)
-├── test_golden_extraction.py MEASURED reproduces from frozen _raw                    (no engine)
+├── test_golden_extraction.py MEASURED reproduces from frozen raw                    (no engine)
 ├── gen_kb_manifest.py        corpus index                                            (no engine)
 ├── validate_guids.py         guid -> AnimationClip resolution                        (needs the engine)
 ├── check_kb.sh               all four gates in one command
@@ -55,10 +56,10 @@ animation-agent/
 
 | this repo (WSL, ext4) | the Unity repo (Windows, `F:\...\Animation`) |
 |---|---|
-| everything above | the Unity project **and the MotionKB** (`agent/kb/`) |
+| everything above | the Unity project **and the MotionKB** (`agent/animation_knowledge_base/`) |
 
-The KB is not here on purpose. It cannot be regenerated without Unity — `_raw/` comes from in-engine
-`AnimationMode` sampling and `_frames/` from in-engine rendering — and it grows only when a new clip is
+The KB is not here on purpose. It cannot be regenerated without Unity — `raw/` comes from in-engine
+`AnimationMode` sampling and `frames/` from in-engine rendering — and it grows only when a new clip is
 imported into that project. It is a derivative of those animation assets, so it is versioned with them:
 adding an action is then one atomic commit containing both the FBX and its KB entry, and a guid can never
 drift out of sync with the store that records it.
@@ -73,11 +74,11 @@ means committing it here first.
 Reach it through `MOTIONKB_DIR` (see `paths.py` for the default):
 
 ```sh
-export MOTIONKB_DIR=/mnt/f/Research/AI_agent/Animation/Animation_agent/Project/Animation/agent/kb
+export MOTIONKB_DIR=/mnt/f/Research/AI_agent/Animation/Animation_agent/Project/Animation/agent/animation_knowledge_base
 ```
 
 The runtime service loads the KB into memory at startup — the whole action store is ~1.4 MB — so
-retrieval never touches the disk; only `_frames` PNGs are read on demand when the model asks for visual
+retrieval never touches the disk; only `frames` PNGs are read on demand when the model asks for visual
 evidence. It treats the KB as **read-only**. The only writer is the offline pipeline here.
 
 The agent can also *search* both the KB and the animation assets it derives from, through one set of
@@ -333,7 +334,7 @@ conda env create -f environment.yml && conda activate animation-agent   # or a b
 
 Steps 1-3 need no engine. Step 4 resolves each action's `source_clip` guid to a real `AnimationClip`,
 which only the `AssetDatabase` can do; it runs live when the bridge is up and otherwise falls back to the
-last committed `_reports/kb_state.md`.
+last committed `motionkb_build/reports/kb_state.md`.
 
 The packages in `environment.yml` are for the runtime service being built on top of this. **The offline
 pipeline needs none of them** — it is stdlib-only and runs on a bare `python3`, so a broken environment

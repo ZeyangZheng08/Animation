@@ -390,7 +390,7 @@ def _engine_failure(e):
 def register(registry, engine, kb=None):
     """Attach the scene and plan tools. `kb` enables the assembly derivation in plan_motion."""
 
-    # The per-channel segment table, read once. Built live if the sidecar is missing or `_raw` has
+    # The per-channel segment table, read once. Built live if the sidecar is missing or `raw` has
     # moved under it -- a few hundred milliseconds for eight clips, and a stale table would hand out
     # frame numbers for a corpus that no longer exists. A dict rather than None-or-dict so callers do
     # not each have to check.

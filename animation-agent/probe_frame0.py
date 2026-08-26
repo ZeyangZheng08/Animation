@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 """probe_frame0.py -- render the OPENING frames of one clip, into a scratch dir.
 
-Why this exists and is not `extract.py render`: `select_fracs` deliberately samples inside the ACTION
-WINDOW, which excludes the idle transitions at the clip ends, so frame 0 has never been rendered for
-any action. `render` also clears the target directory first, so pointing it at a different time range
-would destroy the accepted review frames. This writes elsewhere and touches nothing in the KB.
+Why this exists and is not `extract.py render`: `render` samples where `select_fracs` says the poses
+are, and clears its target directory first, so pointing it at a chosen time range would destroy the
+accepted review frames. This writes elsewhere and touches nothing in the KB.
+
+It was written when `select_fracs` sampled inside an "action window" that structurally excluded frame 0,
+which meant no frame 0 had ever been rendered for any action. Coverage-based selection picks frame 0
+whenever the opening pose is the only thing representing it -- on `check_pulse` it now does -- so this
+is no longer the only way to see one. It is still the way to see a RANGE of opening frames at a chosen
+resolution, which is what an import artefact at the head of a clip looks like.
 """
 import argparse
 import base64
@@ -21,16 +26,11 @@ OUT = os.path.expanduser("~/render_probe")
 
 
 def clip_entry(clip_name):
-    for path in paths.action_files():
-        with open(path, encoding="utf-8") as fh:
-            try:
-                doc = json.load(fh)
-            except ValueError:
-                continue
-        src = doc.get("source_clip") or {}
-        if src.get("clip_name") == clip_name:
-            return {"id": doc.get("action_id"), "guid": src["guid"], "file_id": src["file_id"]}
-    return None
+    path = paths.records_by_clip_name().get(clip_name)
+    if not path:
+        return None
+    src = paths.read_json(path).get("source_clip") or {}
+    return {"id": os.path.splitext(os.path.basename(path))[0], "guid": src["guid"], "file_id": src["file_id"]}
 
 
 def main(argv):
@@ -52,7 +52,7 @@ def main(argv):
         return 1
 
     views = unity_sampler.RENDER_VIEWS
-    raw_path = os.path.join(KB_DIR, "_raw", args.clip + ".json")
+    raw_path = os.path.join(paths.RAW_DIR, args.clip + ".json")
     if os.path.exists(raw_path):
         with open(raw_path, encoding="utf-8") as fh:
             raw = json.load(fh)

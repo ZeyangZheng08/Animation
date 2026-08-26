@@ -7,7 +7,7 @@ reason attached to every hole, rather than a demo that happened to pick a workin
 
 TWO DIFFERENT QUESTIONS, AND THE CHEAP ONE WAS NEVER THE BLOCKED ONE. Read the numbers accordingly.
 
-SCHEDULING (the default, hermetic) is pure Python over the frozen `_raw` dumps: find the seam, decide
+SCHEDULING (the default, hermetic) is pure Python over the frozen `raw` dumps: find the seam, decide
 whether the join needs frames no clip contains, derive the hip travel for them. It answers 56/56, and it
 answered 56/56 BEFORE any of the posture work — `schedule` derives the hip travel as an absolute value
 and has always been willing to plan a pair in either direction. So this number is a guard against the

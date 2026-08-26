@@ -4,44 +4,53 @@ One page of "how do I undo X" for this repo. Rollback here is git + asset reassi
 (see `adr/0005-git-as-version-and-ledger.md`); there is no separate rollback service.
 
 > Since 2026-08-05 the validators live in the separate **`animation-agent`** repository (WSL). Run every
-> `python …` line below from there with `MOTIONKB_DIR` pointing at this repo's `agent/kb/`; run every
+> `python …` line below from there with `MOTIONKB_DIR` pointing at this repo's `agent/animation_knowledge_base/`; run every
 > `git …` line here, on the Windows side. The KB itself is still versioned in **this** repository.
 
 ## Roll back the whole MotionKB to a named version
 Once a version tag exists (`git tag kb/<ver>`; see `../HANDOFF.md` §8.2 module C):
 
-    git checkout kb/<ver> -- agent/kb/
+    git checkout kb/<ver> -- agent/animation_knowledge_base/
     python validate_motionkb.py        # confirm the restored set is valid
 
 **The existing `kb/v1` and `kb/v2` tags predate the 2026-08-05 move and hold the KB at
-`Assets/MotionKB/`, not `agent/kb/`.** Against those two tags the command above matches nothing and
+`Assets/MotionKB/`, not `agent/animation_knowledge_base/`.** Against those two tags the command above matches nothing and
 exits 0 — a silent no-op, not a rollback. Use the old path and move the result:
 
     git checkout kb/v2 -- Assets/MotionKB/
-    git mv Assets/MotionKB agent/kb        # or move the files and delete the stray .meta
+    git mv Assets/MotionKB agent/animation_knowledge_base        # or move the files and delete the stray .meta
 
 Check first, always: `git ls-tree --name-only <tag>` tells you which layout that tag has.
 
 List versions: `git tag --list 'kb/*'` (currently `kb/v1` — the retired 6-part store — and `kb/v2`). The
-human changelog is `agent/kb/schema/CHANGELOG.md`.
+human changelog is `agent/animation_knowledge_base/schema/CHANGELOG.md`.
 
-## Discard a bad re-extraction (before promotion)
-Re-extraction writes only to `agent/kb/candidate/`. To drop it, delete the candidate file
-(or `git checkout -- agent/kb/candidate/`); the accepted `<id>.json` was never touched.
+## Discard a bad re-extraction (before acceptance)
+Since ADR 0016 there is one store: re-extraction writes the record in place at
+`agent/animation_knowledge_base/actions/<clip_name>.json`, and `extract.py assemble` skips anything already `accepted`, so an
+accepted record is not what a re-extraction touches. To drop the work,
+`git checkout -- agent/animation_knowledge_base/actions/<clip_name>.json`.
+
+Accepting a record RENAMES it (`<clip_name>.json` -> `<action_id>.json`), so undoing an acceptance is a
+two-file operation:
+
+    git checkout -- agent/animation_knowledge_base/actions/            # discard everything uncommitted in the store
+    python gen_kb_manifest.py                    # the manifest indexes the accepted subset — regenerate it
 
 ## Revert a single accepted action file
 
-    git checkout -- agent/kb/<id>.json          # discard uncommitted edits
-    git checkout <commit> -- agent/kb/<id>.json # or revert to a past commit
+    git checkout -- agent/animation_knowledge_base/actions/<id>.json          # discard uncommitted edits
+    git checkout <commit> -- agent/animation_knowledge_base/actions/<id>.json # or revert to a past commit
+    python gen_kb_manifest.py                           # only if status or provenance changed
 
 Then re-run `python validate_motionkb.py`.
 
 ## Roll back the schema
 
-    git checkout <commit> -- agent/kb/schema/motionkb.v1.schema.json
+    git checkout <commit> -- agent/motionkb_build/archive/motionkb.v1.schema.json
 
 A breaking schema change should be a new id (`motionkb/v2`) + a converter, not an in-place edit —
-see `adr/0001-data-contract-first.md` and `agent/kb/schema/CHANGELOG.md`.
+see `adr/0001-data-contract-first.md` and `agent/animation_knowledge_base/schema/CHANGELOG.md`.
 
 ## Revert a de-clipped bed mesh (Cover / Sheet / Mattress)
 The blanket / sheet / mattress use edited source meshes (`*_declipped.mesh`). To revert a layer: in

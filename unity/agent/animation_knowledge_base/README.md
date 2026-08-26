@@ -1,0 +1,290 @@
+# MotionKB — Body-Part-Level Nursing Motion Knowledge Base
+
+MotionKB is a small, engine-agnostic library that describes each nursing animation **at the body-part
+level** — one JSON file per action. It's the canonical store the project's retrieval system reads from:
+instead of treating an animation as one indivisible block, a planner can ask "which clip has the legs
+walking and the right hand reaching?" and reason about individual parts.
+
+Everything here is plain JSON. Unity is used only to *sample* the clips (to find where the bones are);
+all the knowledge lives in these files, outside any engine.
+
+All 2454 records live in one directory. They are not all equally known, and the field that says how
+far each one has got is `status`, not where its file sits:
+
+- **`accepted` — eight fully described nursing actions.** Measured *and* labelled, reviewed. These are
+  what the runtime plays today, and the only ones retrieval by meaning can see.
+- **`candidate` — 2446 Mixamo clips, measured only.** Every number is there; not one label is. They can
+  be searched by what they physically do and not yet by what they mean. See
+  [the corpus](#the-mixamo-corpus) below.
+
+A record is named by its key: `<clip_name>.json` while it is unlabelled, `<action_id>.json` once a
+proposal has decided what it means. So `check_pulse.json` is accepted and `mx_Sneaking.json` is not,
+and accepting a clip renames its file rather than moving it.
+
+```
+animation_knowledge_base/          everything a CONSUMER reads
+├── actions/                all 2454 records — 8 accepted, 2446 measured-only
+├── raw/                    frozen per-frame pose dumps — every MEASURED number comes from these,
+│                           and kb_pose and the seam tables still read them at runtime
+│                           (the corpus's own dumps, `mx_*.json`, are ~1.4 GB and deliberately untracked)
+├── frames/                 rendered evidence frames — every SEMANTIC label was read off these
+├── derived/                segment and transition tables, derived from raw/
+├── manifest.json           index of the ACCEPTED records
+├── engine_mask_map.json    9 channels -> Unity AvatarMask
+├── schema/                 the JSON Schema contract every record is validated against
+└── README.md               this file
+
+../motionkb_build/                 everything that exists only because the KB was BUILT
+├── reports/                run reports + the corpus enumeration `sample` resumes from
+├── archive/                superseded records and the retired v1 contract, kept for audit
+└── retrieval_eval_set.json what retrieval is expected to return — an expectation, not knowledge
+```
+
+**The split is by who reads it, not by how it was made**
+([ADR 0017](../../docs/adr/0017-knowledge-base-and-its-build-artifacts.md)). `raw/` and `frames/` are
+build outputs, but they are also the evidence behind every number and every label, and the runtime
+reads them — so they are knowledge. A run report is not. Nothing at runtime opens `motionkb_build/`,
+and the agent's search workspace does not mount it: a search must never return a superseded record,
+and moving it out of reach is a stronger answer than skipping it by name.
+
+`actions/` is its own directory so that membership is the path rather than a list every consumer has
+to keep in sync ([ADR 0012](../../docs/adr/0012-accepted-store-in-its-own-directory.md)); there used to
+be a second store, `candidate/`, and it repeated in the path what `status` already said
+([ADR 0016](../../docs/adr/0016-one-store-status-is-the-membership-test.md)).
+
+**Which are accepted is answered by `manifest.json`, not by counting files.** Opening 2454 records
+to ask costs 68 seconds across the mount this KB is reached through (6 with concurrency); the manifest
+indexes exactly that subset and `check_kb.sh` gate 3 is what keeps it honest.
+
+> **Status:** 8 fully described nursing actions, plus 2446 measured-only Mixamo clips awaiting
+> labelling. This README is the human overview; pointers to the deeper docs (and version/rollback
+> details) are at the end.
+
+## Why body-part level
+
+An avatar shouldn't be driven as whole, monolithic clips. Describing each animation part-by-part lets a
+planner reason about transitions and composition. Going from `walking` to `giving_pills`, for example,
+the legs stop and plant, the torso steadies and leans toward the patient, the head turns to look, the
+hand shapes into a pinch, and only then does the arm perform the hand-off — five things, in different
+parts, at different moments.
+
+## The 8 actions
+
+| action           | what it is                        | role          |
+| ---------------- | --------------------------------- | ------------- |
+| `idle`         | standing at rest                  | base          |
+| `walking`      | walking gait (in place)           | base          |
+| `typing`       | seated, typing at the computer    | base (seated) |
+| `giving_pills` | handing medication to the patient | overlay       |
+| `cpr`          | chest compressions                | overlay       |
+| `grab_bottle`  | picking up the medicine bottle    | overlay       |
+| `check_pulse`  | checking the patient's pulse      | overlay       |
+| `bvm`          | bag-valve-mask ventilation        | overlay       |
+
+All eight are Humanoid clips (Unity's retargetable, skeleton-independent animation format) remapped onto
+one shared character rig (`nurse_avatar.fbx`), and they play in place. "base" vs. "overlay" is a
+composition role (a foundational pose vs. something layered on top), not a Unity animation layer.
+
+## The core idea: measured vs. semantic
+
+Each action splits cleanly into two kinds of information:
+
+- **Measured** — *the numbers, computed by a program from the real motion.* How much each part moves,
+  whether it's static or dynamic, what pose it holds and how far that pose sits from Unity's own
+  reference pose, the duration, the frame rate. These are read straight off the
+  animation; no human or AI ever edits them. Same clip in → same numbers out.
+- **Semantic** — *the meaning, written by a human,* with help from a **VLM** (a vision-language model that
+  can look at rendered frames of the motion and suggest labels). What role each part plays (is the torso
+  the lead actor, or just steadying?), what it's doing (reaching? holding?), what it touches, what it's
+  constrained to.
+
+That split is the whole point: numbers come from *measuring* real clips, never from a language model
+guessing them — language models are unreliable at precise body positioning, a finding this project is
+built on. The model is trusted only for the categorical, meaning-level labels, and even those are checked
+against the measured facts and confirmed by a human.
+
+## The 9 body-part channels
+
+Every action describes the body with the same 9 channels — 8 anatomical parts plus a `root`:
+
+| channel                        | covers                                                         |
+| ------------------------------ | -------------------------------------------------------------- |
+| `root`                       | overall position / facing (measured only — no meaning labels) |
+| `torso`                      | spine / chest                                                  |
+| `head`                       | neck + head                                                    |
+| `left_arm` / `right_arm`   | shoulder → wrist                                              |
+| `left_leg` / `right_leg`   | hip → foot                                                    |
+| `left_hand` / `right_hand` | the fingers (hand pose)                                        |
+
+The wrist counts as part of the arm and the foot as part of the leg. Splitting left/right and giving
+`root` its own channel is groundwork for future walking clips, where per-leg and overall movement will
+matter — today's clips all play in place.
+
+## What an entry looks like
+
+Open [actions/cpr.json](actions/cpr.json) for a full example. For each of the 9 channels, the **measured** side records
+two orthogonal facts: how much that part *moves* (a 0–1 magnitude, a static-or-dynamic label, and the
+physical number behind it) and what it *holds* (a 0–1 posture magnitude, a neutral-or-displaced label —
+the offset of its mean pose from a reference pose). Moving and holding are independent: an arm raised
+and kept raised is static yet displaced, which is what makes held poses retrievable at all.
+
+The reference pose is **Unity's**, not one this store fitted: every muscle at 0 — the centre of each
+joint's range of motion — with the hips at the Humanoid reference height and the body upright. It is a
+definition that ships with the engine, so nothing about it is estimated. Read `displaced` as *away from
+that reference*, and not as *away from a relaxed human stance*: nobody stands at the centre of their
+joint ranges, so a clip of someone standing still reads displaced on the arms, knees and hands, which
+sit near the ends of their ranges when a person is upright. ADR 0020 has the measurements and what the
+choice costs.
+The **semantic** side records what it means: its role, what it's doing, what it touches, and a short
+plain-language description. (These are two ways of grouping a channel's fields, not separate sections of
+the file.)
+
+In CPR, for instance, the torso is *measured* as dynamic — a deep forward lean — and *semantic* as the
+primary actor driving the compressions; the hands barely move yet *measure* as displaced —
+holding the interlocked compression grip — and are *semantic* as primary too, held against the
+patient's chest. The full list of fields and their allowed values lives in the
+[schema](schema/motionkb.v2.schema.json).
+
+Two more pieces sit alongside the channels:
+
+- **`ik_goals`** — where a hand or foot is constrained to an object, kept separate from the body-part
+  description. "The right hand reaches the patient's chest" is an IK goal, not an arm-motion fact. It is
+  **DERIVED** from the semantic 5-tuple (a hand/foot whose contact is `object:<obj>` and whose constraint
+  pins it there — `must-reach` or `must-maintain`); the concrete scene anchor (`target`) is engine-specific
+  and **deferred to Phase-2 grounding** (`target: null`) — `contact_object` is the engine-neutral 'what to reach'.
+- **`composability`** — how the system will know two actions can play together: each action marks which
+  body parts it needs exclusively (*locks*) and which it leaves *free* for another action to drive, plus
+  which actions it can layer onto. (A part can be still yet locked if it's occupied — CPR's hands barely
+  move but firmly hold the chest.)
+
+## The Mixamo corpus
+
+Eight nursing actions are enough to build a pipeline on and far too few to retrieve from. So the whole
+of [Mixamo](https://www.mixamo.com)'s library — 2446 clips, re-downloaded at 30 fps to match the
+project's rig — was imported into Unity and run through the measuring half of the pipeline. The result
+sits in the store as 2446 records with `status: candidate`, one JSON per clip, and each is **exactly
+half a record**:
+
+| | `accepted` (8) | `candidate` (2446) |
+| --- | --- | --- |
+| duration, frame rate, loop | yes | yes |
+| per-channel static/dynamic + magnitude, posture | yes | yes |
+| `action_id`, tags, plain-language intent | yes | **null** |
+| per-channel role / motion type / contact / constraint | yes | **null** |
+| composability (what can layer onto what) | yes | **placeholder** |
+
+What is in it: 2446 clips, 143 minutes of motion, median 2.2 s and longest 46.7 s. Between 85% and 91%
+of them move on any given body channel; the hands are the quietest at 62%. 128 are Mixamo *pose* assets
+that resolve to a single frame pair, and 156 records measure fully static — those are kept rather than
+filtered, because a pose is a legitimate thing to retrieve, and counted in
+[`motionkb_build/reports/corpus_ingest.md`](../motionkb_build/reports/corpus_ingest.md) so nobody has to rediscover them.
+
+One caveat worth knowing before you use the corpus: **`loop` is `false` on every record**, including the
+walks and runs. It is an importer setting, not a measurement — nobody set it when the corpus was
+imported — so it records that no one has declared these clips loopable, not that they do not cycle.
+
+What that buys today is retrieval **by measurement**: *"clips whose legs are dynamic and whose torso is
+static"* is a query the corpus can answer, and it will return every walk, run, jog and sidestep in the
+library without anyone having named one of them. What it cannot answer is *"clips of someone walking"* —
+that is a question about meaning, and no meaning has been recorded yet.
+
+Filling that half is the next pass. It is deliberately separate, for the reason the whole measured /
+semantic split exists: the numbers come from measuring, and the labels come from looking, and running
+them together is how the two get confused. The eight accepted actions were labelled by a VLM reading
+rendered frames (ADR 0008); doing the same for 2446 is a scale question that has its own answer coming.
+
+Why the corpus is `status: candidate` rather than a store of its own, why a record with a null
+`action_id` is nevertheless valid, and why its pose dumps are not in git:
+[ADR 0014](../../docs/adr/0014-corpus-enters-measured-only.md).
+
+## How an entry is produced
+
+An entry comes together in three stages. First, the measured numbers are computed automatically from the
+real clip (and the controller wiring is read straight from Unity). Then the meaning-level labels — and the
+composability judgement calls — are proposed by a VLM from rendered frames of the motion, the part-ownership
+(locks/free) is derived from those labels, and an automatic check confirms everything agrees with the
+measured facts. By default the proposal is kept and added to the live store; a human review is optional.
+The commands for each stage are below.
+
+## Running the extractor
+
+The library is built by a small Python toolchain in the separate `animation-agent` repo, in two halves: first **measure** the
+numbers, then **author** the meaning. Every step is a plain Python command; the ones that touch Unity
+(`register`, `resolve-controller`, `sample`, `render`) need the editor open with the MCP server running
+(HTTP, port 8080). Working files are keyed by the clip name until the very end. Run from the repo root.
+
+> To start a **brand-new action**, first `python extract.py register <clip_name>` — it finds
+> the clip by name in Unity, fills its `source_clip` (`guid` + `file_id` + `clip_name`), **and** resolves
+> `controller_state` / `controller_layer` / `trigger_param` from the AnimatorController the clip is wired into
+> (left blank if it isn't wired yet — run `resolve-controller <clip_name>` once you wire it). That's all the
+> hand-entry there is: `composability` and every meaning-level label come from the author step below.
+> (Re-running the existing 8 doesn't need this — they're already registered.)
+
+**Measure — the numbers (program-written):**
+
+1. `python extract.py emit-sampler` — writes a small Unity sampler script.
+2. `python extract.py sample` — runs it in Unity (the one in-engine step); records per-frame
+   bone positions to `agent/animation_knowledge_base/raw/<clip>.json`. (`--host`/`--port`/`--instance` if not the default.)
+3. `python extract.py assemble` — computes every measured value into `actions/<clip>.json`, leaving
+   the semantic fields for the next half. Accepted records are skipped: their measured half is frozen
+   golden, and re-measuring it is `recalibrate_measured.py`'s deliberate job.
+
+**Author — the meaning (a VLM proposes, kept by default; a human may review):**
+
+4. `python extract.py render <clip>` — renders multi-angle frames of the clip (on a plain
+   ground plane) to `agent/animation_knowledge_base/frames/<clip>/`. The three times are chosen to COVER the clip's range
+   of pose — the frames that leave no part of the motion unrepresented — rather than spread over an
+   interval (ADR 0015); the angles come from the measured channel data and the clip's facing. These frames are **committed** (via git-lfs), not a
+   throwaway intermediate: besides feeding the proposal step below, the Phase-2 agent reads them at
+   retrieval time as open-ended visual evidence, to arbitrate between candidates that the closed-vocabulary
+   semantic labels do not separate. Regenerating them requires a running Unity editor, so tracking them is
+   what keeps the pure-Python agent side restorable without booting the engine.
+5. `python extract.py propose <clip>` — a vision-language model (gpt-5.5) looks at those frames
+   plus the measured facts and proposes the `action_id`, the per-part labels, the descriptions, `mask_coverage`,
+   and the composability judgement calls (base-vs-overlay, posture, which bases it can layer onto); the program
+   then **derives** `composability.locks`/`free`/`seam_owner` from the proposed roles. A deterministic
+   consistency + composability gate checks all of it (self-correcting on failure). **By default the result is
+   kept**: status flips to `accepted` and the record is renamed `actions/<action_id>.json` (provenance
+   `vlm_accepted`, no human required); add `--stage` to leave it at `status: candidate` for review
+   instead. (Needs `OPENAI_API_KEY` in `key.env`, which is git-ignored.)
+6. `python extract.py author <clip | all>` — **optional** human review: accept a staged record,
+   marking it `human_accepted`. (Skip it entirely and the VLM output stands as `vlm_accepted`.)
+
+**Or, for a whole corpus at once** — `python ingest_corpus.py index | register | sample | measure`
+runs the measure half over every clip in an asset folder (`Assets/Animations/Mixamo30` by default) and
+stops there, leaving 2446 measured records with their semantic half seeded null. `index` and `sample`
+need Unity; `sample` takes about an hour for the full corpus and resumes if interrupted, so re-running
+it after a failure picks up where it stopped. It never touches `actions/`.
+
+Validate any time with `python validate_motionkb.py` (add `-q` to print failures only — at 2454 files a
+PASS line each is not a report; see the next section). The measure half writes
+only numbers (never the meaning); the author half writes only meaning (never the numbers). Full per-step
+detail + the one rig-specific gotcha are in the engineering notes, [HANDOFF.md](../../HANDOFF.md) §8.3.
+
+## How the data is kept correct
+
+Every entry is checked two ways: against a strict field spec (the "contract" that lists every allowed
+field and value), and by an automated check that recomputes all the measured numbers from the original
+clips — so nothing can be hand-edited or silently drift without being caught.
+
+Run these from the **agent repository** (`~/Research/animation-agent` on WSL), with `MOTIONKB_DIR` pointing here:
+
+```
+python validate_motionkb.py    # check every entry against the contract
+./check_kb.sh                  # the full gate: contract + recompute-and-compare + manifest + guid resolution
+```
+
+All 2454 records pass today — the 8 accepted against the full contract, the 2446 corpus records
+against the part of it a measured-only record is answerable for.
+
+## Going deeper
+
+- **Exact field contract:** [`schema/motionkb.v2.schema.json`](schema/motionkb.v2.schema.json) (and
+  [`engine_mask_map.json`](engine_mask_map.json) — how these body-part names map onto other engines' bone
+  groups).
+- **Engineering notes & extractor internals** (adding an action, the rig-specific gotchas):
+  [HANDOFF.md](../../HANDOFF.md) §8.
+- **Why each decision was made:** [docs/adr/](../../docs/adr/) — 0007 (the 9-channel split & extractor),
+  0008 (the VLM proposal loop), 0002 (measured vs. semantic).
+- **Rollback / versions:** [docs/ROLLBACK.md](../../docs/ROLLBACK.md); the current store is tagged `kb/v2`
+  (finalized 2026-06-24) and the retired first version is preserved at `kb/v1`.

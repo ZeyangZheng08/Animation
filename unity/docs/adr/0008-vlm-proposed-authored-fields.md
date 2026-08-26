@@ -3,7 +3,7 @@
 Status: Accepted (2026-06-24)
 
 ## Context
-The v2 candidates (`agent/kb/candidate/*.json`) have their MEASURED block filled and validated
+The v2 candidates (`agent/animation_knowledge_base/candidate/*.json`) have their MEASURED block filled and validated
 8/8, but the per-channel SEMANTIC 5-tuple — `role` / `motion_type` / `contact` / `constraint` / `target`
 — is seeded `null` (flagged `extraction.field_origin.semantic_pending`). This is the gating item before
 candidate→accepted promotion (ADR 0007). ADR 0002 reserves SEMANTIC fields as *human-written,
@@ -79,7 +79,7 @@ scope is widened from the per-channel 5-tuple to the identity/summary fields (ac
 tags) — gated by `validate_semantic_consistency` with a self-correction retry that feeds gate errors back;
 `author` weak-gates `action_id` (slug + uniqueness, no MEASURED fact to check it against) and promotes
 `candidate/<clip>.json → <action_id>.json`. All 8 accepted actions were re-proposed this way; the prior
-claude-opus-4-8 proposal is preserved at `agent/kb/_authored_claude_backup/` (do not use / do not
+claude-opus-4-8 proposal is preserved at `agent/motionkb_build/archive/authored_claude_backup/` (do not use / do not
 delete). MEASURED was untouched (golden 8/8); the model id is recorded per file in
 `extraction.vlm_proposal.model`. Notably gpt-5.5 named actions by FUNCTION from the frames, not by the asset
 clip name (e.g. `nurse_give_meds → giving_pills`, `nurse_grab_aspirin → grab_bottle`).

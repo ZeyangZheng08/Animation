@@ -4,9 +4,10 @@ test_golden_extraction.py — golden re-extraction regression for the MotionKB M
 (HANDOFF.md §8 module E-now; ADR 0007). Stdlib only — no pip, no Unity.
 
 The MEASURED block in the accepted store was produced by `agent/motionkb/metrics.channel_blocks`
-over the saved per-frame pose dumps in `agent/kb/_raw/<id>.json`. This test RE-RUNS that exact
-computation from the same frozen `_raw` dumps and asserts the result still reproduces the MEASURED
-fields (`kind`, `state_label`, `motion_magnitude`, `raw_measurement`) in each accepted `<id>.json`.
+over the saved per-frame pose dumps in `agent/animation_knowledge_base/raw/<id>.json`. This test RE-RUNS that exact
+computation from the same frozen `raw` dumps and asserts the result still reproduces the MEASURED
+fields (`kind`, `state_label`, `motion_magnitude`, `raw_measurement`, and the posture triple
+`posture_label` / `posture_magnitude` / `posture_measurement`) in each accepted `<id>.json`.
 
 It is the regression guard for `metrics.py` + `config.py` (divisors/thresholds/bone-map): any drift in
 a formula or a constant that is not a deliberate `metric_formula_version` bump will flip this red. The
@@ -25,7 +26,8 @@ import unity_sampler         # noqa: E402
 
 KB_DIR = paths.KB_DIR                                            # see paths.py / MOTIONKB_DIR
 
-MEASURED_KEYS = ("kind", "state_label", "motion_magnitude", "raw_measurement")
+MEASURED_KEYS = ("kind", "state_label", "motion_magnitude", "raw_measurement",
+                 "posture_label", "posture_magnitude", "posture_measurement")
 EPS = 1e-9
 
 
@@ -49,7 +51,7 @@ def _cmp(path, expected, got, errors):
 
 
 def accepted_files():
-    return paths.action_files()
+    return paths.accepted_files()
 
 
 def main():
@@ -63,7 +65,7 @@ def main():
         short = paths.rel(f)
         try:
             doc = json.load(open(f, encoding="utf-8"))
-            clip = doc["source_clip"]["clip_name"]               # MEASURE pipeline keys _raw by clip name
+            clip = doc["source_clip"]["clip_name"]               # MEASURE pipeline keys raw by clip name
             raw = unity_sampler.read_raw(clip)                   # frozen sampled poses (keyed by clip name)
             recomputed = metrics.channel_blocks(raw)             # re-run the REAL measured pipeline
             errors = []
@@ -75,7 +77,7 @@ def main():
                         continue
                     _cmp(f"channels.{ch}.{k}", acc.get(k), rec.get(k), errors)
         except FileNotFoundError as e:
-            print(f"  FAIL  {short}\n          - missing _raw dump: {e}"); failed += 1; continue
+            print(f"  FAIL  {short}\n          - missing raw dump: {e}"); failed += 1; continue
         except Exception as e:
             print(f"  FAIL  {short}\n          - {type(e).__name__}: {e}"); failed += 1; continue
         if errors:
@@ -87,7 +89,7 @@ def main():
             passed += 1
             print(f"  PASS  {short}")
     print(f"\n{passed} passed / {failed} failed"
-          + ("" if failed else "  (MEASURED reproduces from frozen _raw via metrics.py — pipeline stable)"))
+          + ("" if failed else "  (MEASURED reproduces from frozen raw via metrics.py — pipeline stable)"))
     return 1 if failed else 0
 
 

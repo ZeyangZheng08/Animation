@@ -4,7 +4,7 @@ segments.py — which frames of a clip a single body channel is actually doing s
 Assembly's smallest unit used to be A WHOLE CLIP hung on a channel. `walking + cpr` therefore meant
 walking's legs under all 540 frames of chest compressions — eighteen seconds of arm, under a walk that
 takes one. What the composition wanted was one compression. This module is where that window comes
-from, and like the seam table it is DERIVED from the frozen `_raw` dumps rather than added to the
+from, and like the seam table it is DERIVED from the frozen `raw` dumps rather than added to the
 contract: no record references it, deleting it costs a rebuild.
 
 TWO KINDS OF WINDOW, AND THE CORPUS DECIDES WHICH IT HAS. Both are measured, and the numbers below are
@@ -82,7 +82,7 @@ QUIET_FRACTION = 0.10
 # the thresholds above.
 SAMPLES = 40
 
-TABLE_PATH = os.path.join(paths.KB_DIR, "_derived", "segments.json")
+TABLE_PATH = os.path.join(paths.DERIVED_DIR, "segments.json")
 
 
 def _bones(clip, channel):
@@ -217,7 +217,7 @@ def for_action(clip):
 
 
 def build_table(clips):
-    """{action_id: [segment, ...]} for every action with a `_raw` dump."""
+    """{action_id: [segment, ...]} for every action with a `raw` dump."""
     return {action_id: for_action(clip) for action_id, clip in sorted(clips.items())}
 
 
@@ -264,7 +264,7 @@ def window_for(action_segments, channels):
 
 
 def write_table(table, path=None, raw_dir=None):
-    """Write the sidecar. Same discipline as the seam table: derived, fingerprinted against `_raw`, and
+    """Write the sidecar. Same discipline as the seam table: derived, fingerprinted against `raw`, and
     referenced by no record in the contract."""
     from .transitions import raw_fingerprint
     doc = {
@@ -291,7 +291,7 @@ _TABLE_CACHE = {}
 
 
 def read_table(path=None, check_fingerprint=True, raw_dir=None):
-    """The cached table, or None when there is none or `_raw` has moved under it.
+    """The cached table, or None when there is none or `raw` has moved under it.
 
     None rather than stale data, for the reason the seam table gives: a cache that cannot notice its
     inputs changed answers confidently about a corpus that no longer exists.
@@ -300,7 +300,7 @@ def read_table(path=None, check_fingerprint=True, raw_dir=None):
     a registry per test, so the same file was opened a few hundred times. On a local disk that is
     nothing; the KB normally lives on a Windows worktree reached over DrvFs, where one open costs about
     9 ms and one stat about 1.4 ms, and it became seconds. The memo is keyed on the file's (size, mtime)
-    together with the `_raw` fingerprint, so it expires for exactly the reasons the fingerprint exists.
+    together with the `raw` fingerprint, so it expires for exactly the reasons the fingerprint exists.
     Only the default path is cached: pass `path` explicitly -- as the builders and the tests do -- and
     the read is unconditional. The cached table is SHARED; copy it before mutating.
     """

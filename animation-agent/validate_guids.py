@@ -11,7 +11,7 @@ re-extraction — is checked with no Unity by the sibling scripts.
 This replaces Assets/Editor/MotionKB/MotionKBValidator.cs. That C# Editor tool did the same resolution
 from inside the Unity project; driving it from here over the MCP bridge leaves NO agent-side code in the
 engine, which is the point of the split (ADR 0008 pattern: Python owns the knowledge, C# is generated
-and disposable). Writes agent/kb/_reports/kb_state.md, same report the Editor tool used to write.
+and disposable). Writes agent/motionkb_build/reports/kb_state.md, same report the Editor tool used to write.
 
 Usage:  python validate_guids.py [--host H] [--port P] [--instance NAME]
 Exit:   0 if every accepted action resolves; 1 on any failure or if the bridge is unreachable.
@@ -22,7 +22,6 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import paths                     # noqa: E402
 import unity_sampler             # noqa: E402
-import validate_motionkb as V    # noqa: E402
 
 REPORT = os.path.join(paths.REPORTS_DIR, "kb_state.md")
 
@@ -30,7 +29,7 @@ REPORT = os.path.join(paths.REPORTS_DIR, "kb_state.md")
 def _entries():
     """(key, guid, file_id, clip_name) for every accepted action, keyed by action_id."""
     out = []
-    for path in V.accepted_files():
+    for path in paths.accepted_files():
         doc = paths.read_json(path)
         sc = doc.get("source_clip") or {}
         out.append({
@@ -68,7 +67,7 @@ def main(argv):
 
     entries = _entries()
     if not entries:
-        print("FATAL: no accepted MotionKB actions found under %s" % paths.ACTIONS_DIR)
+        print("FATAL: manifest.json lists no accepted actions (store: %s)" % paths.ACTIONS_DIR)
         return 1
     missing = [e["key"] for e in entries if not e["guid"]]
     if missing:

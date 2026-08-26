@@ -166,7 +166,7 @@ async def test_images_go_out_as_a_message_and_stay_out_of_the_tool_result(kb):
     reg = ToolRegistry()
     reg.add("fake_frames", "returns a picture",
             {"type": "object", "additionalProperties": False, "properties": {}},
-            lambda: {"path": "kb/_frames/Typing/front_f17.png",
+            lambda: {"path": "kb/frames/Typing/front_f17.png",
                      "images": [{"data_uri": "data:image/png;base64,AAAA", "caption": "a frame"}]})
 
     backend = ScriptedBackend([calls(("fake_frames", {})), says("looked at it")])

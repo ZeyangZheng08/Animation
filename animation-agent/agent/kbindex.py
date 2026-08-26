@@ -107,19 +107,28 @@ class KBIndex:
 
     @classmethod
     def load(cls, actions_dir=None):
+        """The accepted records, in memory.
+
+        The store holds every record whatever its status (ADR 0016), and the agent retrieves only what
+        has been labelled — an unlabelled record has no tags, no intent and no motion_description, so it
+        is not findable by meaning and would only dilute the ranking. Which ones those are comes from
+        `paths.accepted_files()`, which reads the manifest rather than opening 2454 files at every
+        start. Pass `actions_dir` to read a directory directly instead; tests use it.
+        """
         paths.require_kb()
-        actions_dir = actions_dir or paths.ACTIONS_DIR
+        where = actions_dir or paths.ACTIONS_DIR
+        files = paths.action_files(actions_dir) if actions_dir else paths.accepted_files()
         actions = {}
-        for path in paths.action_files(actions_dir):
-            with open(path, encoding="utf-8") as f:
-                rec = json.load(f)
+        for path, rec, err in paths.read_records(files):
+            if err:
+                raise SystemExit("cannot read %s: %s" % (path, err))
             if rec.get("status") != "accepted":
                 continue
             actions[rec["action_id"]] = rec
         if not actions:
             raise SystemExit(
                 "no accepted actions found in %s — the KB is present but empty, which would make every "
-                "retrieval silently return nothing" % actions_dir)
+                "retrieval silently return nothing" % where)
         return cls(actions)
 
     # ---- the searchable document -----------------------------------------------------------
@@ -234,7 +243,7 @@ class KBIndex:
         return {k: rec[k] for k in rec if k in wanted}
 
     def channels(self, action_id):
-        """Per-channel occupancy: what each body part is doing and what it touches.
+        """Per-channel occupancy: what each body part is doing, what it holds, and what it touches.
 
         This is the projection the assembly step actually reasons over, and it is ~200 tokens against
         the ~2100 of a full record.
@@ -245,7 +254,10 @@ class KBIndex:
             ch = rec.get("channels", {}).get(name)
             if ch is None:
                 continue
-            entry = {"state": ch.get("state_label")}
+            # posture_label VERBATIM, not shortened to "posture": search hits already carry
+            # composability.posture (standing|seated), and one key with two disjoint vocabularies
+            # is the constraint-vs-constraint trap over again.
+            entry = {"state": ch.get("state_label"), "posture_label": ch.get("posture_label")}
             for key in ("role", "motion_type", "contact"):
                 if ch.get(key) is not None:
                     entry[key] = ch[key]

@@ -105,10 +105,11 @@ whitelist — the pre-enumerated interaction template the research claim rejects
 kills `dc-walk-carry`, since `grab_bottle.can_overlay_on == ["idle"]` excludes walking. `locks`/`free` is
 derived from `role == "free"`, so it means "busy", not "un-overridable".
 
-ROOT IS NOT LOCOMOTION HERE. Every clip in this corpus is in-place: `trans_horiz_stddev_m` is 0.0000 for
-walking and below 0.006 everywhere else, and `config.py` says so outright. `walking`'s dynamic root comes
-from its foot Y-range (stepping), not from travel. Moving the character across the room is the
-NavMeshAgent's job; owning `root` here means owning the stepping motion, nothing more.
+ROOT IS NOT LOCOMOTION HERE. Every accepted clip is in-place: `body_trans_horiz_stddev` is below 0.01
+on all of them, `walking` included — its root reads dynamic from body bob and heading sway, not from
+travel (since v2.2.0 the root channel measures where the BODY goes, and an in-place walk's body goes
+nowhere). Moving the character across the room is the NavMeshAgent's job; owning `root` here means
+owning that in-place body motion, nothing more.
 """
 from .kbindex import ANATOMICAL, CHANNELS, ROLE_PRIORITY
 

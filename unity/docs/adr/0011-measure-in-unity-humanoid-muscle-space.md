@@ -30,7 +30,8 @@ it was a load-bearing constant, and the ADR 0010 divisors were fitted to one bod
 Measure in the representation Unity already normalises every rigged avatar into.
 
 `HumanPose.muscles` is 95 floats, each one joint's rotation expressed against **that avatar's own**
-limit — dimensionless and body-independent. `HumanPose.bodyPosition` is scaled by the avatar's size.
+limit — dimensionless and body-independent. `HumanPose.bodyPosition` is expressed in that same
+normalised frame: it is not metres, and it does not scale with the body either.
 The sampler now records both, appended after every pre-existing key so the dump's prefix stays
 byte-identical (verified: the first 449,176 bytes of a re-sampled clip are unchanged).
 
@@ -43,6 +44,21 @@ The same cross-rig test, in muscle space, over 103 frames:
 
 Four orders of magnitude better than the metre-space difference, and it holds across the UE-named
 `nurse_avatar` as well as the two `mixamorig:` rigs.
+
+Re-verified 2026-08-22, because the sentence above about `bodyPosition` was ambiguous enough that
+`config.py`, `metrics.py` and `unity_sampler.py` had all drifted into asserting the opposite of this
+ADR's own conclusion. Three rigs whose real hip heights span 15.6%, six clips chosen to stress the
+root channel — standing, walking, crouching, arms raised, CPR and free fall:
+
+| rig | `humanScale` | real hip height | `bodyPosition.y` on `mx_Standing_Idle` |
+| --- | --- | --- | --- |
+| `nurse_avatar` | 0.9773 | 0.902 m | 0.966577 |
+| `Y Bot` | 1.0352 | 0.998 m | 0.966582 |
+| `X Bot` | 1.0500 | 1.043 m | 0.966581 |
+
+Muscles agree to six decimal places on every clip; `bodyPosition` to ~1e-5, worst case 1.4e-4
+(0.013%) on `nurse_cpr_30`. The root channel is body-independent along with the anatomical eight,
+and the comments have been corrected to say so.
 
 **Channel signal.** For each of the 8 anatomical channels: the RMS, across that channel's degrees of
 freedom, of each one's standard deviation over time. RMS rather than the mean so a channel is not

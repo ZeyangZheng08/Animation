@@ -63,7 +63,7 @@ namespace AgentRuntime
     /// 0.0361 m, i.e. unchanged. If that ever stops holding, the symptom is IK silently doing nothing.
     ///
     /// MASKS ARE BUILT AT RUNTIME, not authored as assets. AvatarMask.SetHumanoidBodyPartActive is a
-    /// runtime API and agent/kb/engine_mask_map.json already maps every channel to a body part, so the
+    /// runtime API and the knowledge base's engine_mask_map.json already maps every channel to a body part, so the
     /// channel list travels on the wire as data and nothing has to be pre-enumerated as an asset.
     ///
     /// ONE KNOWN LIMIT, documented in that same map: AvatarMaskBodyPart.LeftArm EXCLUDES the clavicle,

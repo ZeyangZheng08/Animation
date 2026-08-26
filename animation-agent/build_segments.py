@@ -3,7 +3,7 @@
 build_segments.py — regenerate the derived per-channel segment table, and report what it found.
 
 The table is a CACHE, on the same terms as the seam table: `agent/segments.py` computes the same answer
-live from `_raw`, deleting the file costs a rebuild and nothing else, and nothing in the motionkb/v2
+live from `raw`, deleting the file costs a rebuild and nothing else, and nothing in the motionkb/v2
 contract references it.
 
 The report is the point of running this by hand. It prints, per action and channel, how far the channel

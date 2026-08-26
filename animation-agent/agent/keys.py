@@ -17,7 +17,7 @@ FILENAME = "key.env"
 
 
 def candidate_paths():
-    """Search order: this repo, then the Unity repository (KB_DIR is <unity>/agent/kb)."""
+    """Search order: this repo, then the Unity repository (KB_DIR is <unity>/agent/animation_knowledge_base)."""
     here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     unity_root = os.path.dirname(os.path.dirname(paths.KB_DIR))
     return [os.path.join(here, FILENAME), os.path.join(unity_root, FILENAME)]

@@ -266,23 +266,36 @@ namespace AgentRuntimeEditor
 
         private static int BuildClipLibrary(ClipLibrary library)
         {
-            string kbDir = Path.Combine(Path.GetDirectoryName(Application.dataPath), "agent/kb");
+            // Built from the manifest, which indexes exactly the accepted records and already carries
+            // the identity this needs (action_id + source_clip) -- so no record is opened, where
+            // reading the store would mean parsing 2454 files to keep 8 (ADR 0016).
+            //
+            // The loop this replaces globbed "*.json" at the KB ROOT and skipped three shared files by
+            // name. That has returned ZERO items since ADR 0012 moved the records down into actions/:
+            // the only *.json left at the root were the three it skipped. It failed silently, because
+            // an empty library is indistinguishable from a library nobody asked about.
+            string kbDir = Path.Combine(Path.GetDirectoryName(Application.dataPath),
+                                        "agent/animation_knowledge_base");
+            string manifestPath = Path.Combine(kbDir, "manifest.json");
             List<ClipLibrary.Item> items = new List<ClipLibrary.Item>();
-            if (!Directory.Exists(kbDir))
+            if (!File.Exists(manifestPath))
             {
-                Debug.LogWarning("[AgentRuntime] no knowledge base at " + kbDir);
+                Debug.LogWarning("[AgentRuntime] no knowledge base manifest at " + manifestPath);
                 return 0;
             }
 
-            foreach (string path in Directory.GetFiles(kbDir, "*.json"))
+            var manifest = Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(manifestPath));
+            var entries = manifest["actions"] as Newtonsoft.Json.Linq.JArray;
+            if (entries == null)
             {
-                string file = Path.GetFileName(path);
-                if (file == "kb_manifest.json" || file == "retrieval_eval_set.json" ||
-                    file == "engine_mask_map.json") continue;
+                Debug.LogWarning("[AgentRuntime] manifest has no 'actions' array: " + manifestPath);
+                return 0;
+            }
 
-                var doc = Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(path));
-                if (doc.Value<string>("status") != "accepted") continue;
-                var source = doc["source_clip"] as Newtonsoft.Json.Linq.JObject;
+            foreach (var entry in entries)
+            {
+                if (entry.Value<string>("status") != "accepted") continue;
+                var source = entry["source_clip"] as Newtonsoft.Json.Linq.JObject;
                 if (source == null) continue;
 
                 string guid = source.Value<string>("guid");
@@ -291,13 +304,13 @@ namespace AgentRuntimeEditor
                 AnimationClip clip = FindClip(assetPath, clipName);
                 if (clip == null)
                 {
-                    Debug.LogWarning("[AgentRuntime] no clip for " + doc.Value<string>("action_id") +
+                    Debug.LogWarning("[AgentRuntime] no clip for " + entry.Value<string>("action_id") +
                                      " (guid " + guid + ")");
                     continue;
                 }
                 items.Add(new ClipLibrary.Item
                 {
-                    actionId = doc.Value<string>("action_id"), clipName = clipName, clip = clip
+                    actionId = entry.Value<string>("action_id"), clipName = clipName, clip = clip
                 });
             }
             library.Replace(items);

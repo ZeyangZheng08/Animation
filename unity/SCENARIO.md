@@ -127,7 +127,7 @@ From source `NurseAnimator.cs` / `IntentDefinitions.cs` (verified, see git histo
 
 ## 6. Intent → animation mapping and MotionKB coverage
 
-Covered by `agent/kb/` (8): `idle`, `walking` (Walk_N), `typing` (Typing), `giving_pills`
+Covered by `agent/animation_knowledge_base/` (8): `idle`, `walking` (Walk_N), `typing` (Typing), `giving_pills`
 (giveAspirin), `cpr` (CPR), `grab_bottle` (getAspirin), `check_pulse` (pulse), `bvm` (BVM) — these
 fully cover Check_Pulse, CPR+BVM resuscitation, the Administer_Med nurse motion, and the seated
 computer charting (`typing` added 2026-06-13 — the first **seated** action; uses the two-handed

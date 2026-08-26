@@ -46,11 +46,11 @@ from agent.kbindex import ANATOMICAL, KBIndex
 # Only the constant at module scope: the baseline arm must not drag in the LLM stack to run.
 from agent.llm import DEFAULT_MODEL
 
-EVAL_FILE = "retrieval_eval_set.json"
-
-
 def load_cases():
-    path = os.path.join(paths.require_kb(), EVAL_FILE)
+    # The eval set is a build artifact, not knowledge: it says what retrieval SHOULD return, which is a
+    # statement about this project's expectations rather than a fact about any motion (ADR 0017).
+    paths.require_kb()
+    path = paths.EVAL_SET
     if not os.path.exists(path):
         raise SystemExit("eval set not found at %s" % path)
     with open(path, encoding="utf-8") as f:

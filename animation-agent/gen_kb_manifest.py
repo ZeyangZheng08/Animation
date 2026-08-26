@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-gen_kb_manifest.py — generate agent/kb/kb_manifest.json (HANDOFF.md §8 module C).
+gen_kb_manifest.py — generate the knowledge base's manifest.json (HANDOFF.md §8 module C).
 
-A single discoverable index of the accepted store: per-action IDENTITY (action_id, file, source_clip)
+A single discoverable index of the accepted records: per-action IDENTITY (action_id, file, source_clip)
 + PROVENANCE (extractor/formula/bone-map version, extracted_at, verification, vlm-proposal status). It
 is for the Phase-2 RAG to enumerate the corpus and trust its provenance from one file.
 
@@ -12,7 +12,7 @@ and is fully derived from the store (regenerating is idempotent — `git diff` s
 Stdlib only, no Unity.
 
 Usage:
-  python gen_kb_manifest.py            # (re)generate the KB's kb_manifest.json
+  python gen_kb_manifest.py            # (re)generate the KB's manifest.json
   python gen_kb_manifest.py --check    # fail (exit 1) if the on-disk manifest is stale
 """
 import sys, os, glob, json
@@ -21,17 +21,23 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import paths                                                     # noqa: E402
 
 KB_DIR = paths.KB_DIR                                            # see paths.py / MOTIONKB_DIR
-MANIFEST = os.path.join(KB_DIR, "kb_manifest.json")
-
-
-def _accepted_files():
-    return paths.action_files()
+MANIFEST = paths.MANIFEST
 
 
 def build_manifest():
+    """Rebuild the index from the store.
+
+    This is the one place that decides what 'accepted' means by READING it. Everything else asks
+    paths.accepted_files(), which reads this file — so this walks the whole store (2454 records since
+    the corpus landed, ADR 0014) and filters on status, and `--check` below is gate 3 of check_kb.sh,
+    which is what stops the index and the store from drifting apart unnoticed.
+    """
     actions = []
-    for f in _accepted_files():
-        d = json.load(open(f, encoding="utf-8"))
+    for f, d, err in paths.read_records():
+        if err:
+            raise SystemExit("cannot read %s: %s" % (f, err))
+        if d.get("status") != "accepted":
+            continue
         ex = d.get("extraction", {})
         comp = d.get("composability", {})
         va = ex.get("vlm_proposal") or {}
@@ -75,12 +81,12 @@ def main(argv):
     text = _serialize(manifest)
     if "--check" in argv[1:]:
         if not os.path.exists(MANIFEST):
-            print("STALE: kb_manifest.json does not exist (run gen_kb_manifest.py)"); return 1
+            print("STALE: manifest.json does not exist (run gen_kb_manifest.py)"); return 1
         # universal newlines on read -> the comparison is about content, not line endings
         on_disk = open(MANIFEST, encoding="utf-8").read()
         if on_disk != text:
-            print("STALE: kb_manifest.json is out of date (regenerate via gen_kb_manifest.py)"); return 1
-        print(f"kb_manifest.json up to date ({manifest['action_count']} actions)"); return 0
+            print("STALE: manifest.json is out of date (regenerate via gen_kb_manifest.py)"); return 1
+        print(f"manifest.json up to date ({manifest['action_count']} actions)"); return 0
     paths.write_text(MANIFEST, text)
     print(f"wrote {paths.rel(MANIFEST)} ({manifest['action_count']} actions)")
     return 0

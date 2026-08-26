@@ -36,20 +36,26 @@ What that leaves is the part that is actually the work:
 | `unity/Assets/Scenes/` | the scenes themselves, minus what they reference |
 | `unity/Assets/Animations/` | the TEXT half only: the Animator controllers, the avatar masks and the clips. The FBX, meshes and textures they were built from are not here. Note that the agent path does not use the controllers at all — it drives a PlayableGraph directly, and these are the older demo's state machine, kept because `SCENARIO.md` describes it |
 | `unity/Packages/com.unity.animation.rigging/` | kept, because it is embedded rather than resolved from the registry — the IK constraints are built on it |
-| `unity/agent/kb/` | the MotionKB: 8 accepted actions, the schema, the frozen per-frame pose dumps, the derived seam and segment tables, and the render frames |
+| `unity/agent/animation_knowledge_base/` | the MotionKB as its consumers read it: the 8 accepted actions, the schema, the frozen per-frame pose dumps behind them, the derived seam and segment tables, and the render frames |
+| `unity/agent/motionkb_build/` | what only building the KB produced: the calibration and state reports, the retired v1 schema, the earlier authoring pass kept for comparison, and the retrieval eval set |
 | `unity/docs/adr/` | the architecture decision records, including where each was amended |
 | `animation-agent/` | all of it — 0.8 MB of Python and tests |
 
-The knowledge base is complete and self-contained: `_raw/` holds the sampled pose data every
-measurement is derived from, so the whole offline pipeline and every hermetic test run from this
-branch alone, with no engine and no assets.
+The knowledge base is complete and self-contained for the 8 accepted actions: `raw/` holds the
+sampled pose data every one of their measurements is derived from, so the whole offline pipeline and
+every hermetic test run from this branch alone, with no engine and no assets.
+
+The 2446-clip Mixamo corpus is **not** here. Its records are 307 MB that a change of measurement
+formula rewrites in full, and its pose dumps are 1.5 GB that the working repository does not track
+either. What the corpus is and how it was measured is in `unity/docs/adr/0014` and `0019`/`0020`;
+`animation-agent/ingest_corpus.py` is the program that builds it.
 
 ## Running what can be run
 
 ```sh
 cd animation-agent
 conda env create -f environment.yml && conda activate animation-agent
-export MOTIONKB_DIR="$PWD/../unity/agent/kb"
+export MOTIONKB_DIR="$PWD/../unity/agent/animation_knowledge_base"
 
 python -m pytest -q          # the agent side, no editor and no API key
 python run_eval.py           # retrieval scored against the seed eval set

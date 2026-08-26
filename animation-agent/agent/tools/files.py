@@ -15,10 +15,15 @@ base and named after it, and that was wrong in two directions at once.
 
 So there is one workspace with named mounts, and the three tools address all of it:
 
-    kb/       the motion knowledge base: actions/ holds the accepted records, one file per action,
-              alongside _raw per-frame dumps, _frames renders, _derived tables, the manifest, the
-              eval set
+    kb/       the motion knowledge base: actions/ holds the records, one file per action, alongside
+              raw/ per-frame pose dumps, frames/ renders, derived/ segment and seam tables, the
+              manifest and the schema
     source/   the Unity animation assets the knowledge base was extracted from
+
+What is NOT mounted is the other half of the split (ADR 0017): the build artifacts next door in
+`motionkb_build/` — run reports, the corpus enumeration, and the archive of superseded records and
+retired contracts. A report about how the KB was built is not a fact about motion, and a superseded
+record is the one thing a search must never return.
 
 Paths are `<mount>/<rest>`; `read(".")` lists the mounts. There are no absolute paths, because the
 workspace is virtual — the model has no business knowing this repository is reached over /mnt/f.
@@ -41,7 +46,7 @@ import paths
 from .registry import ToolFailure
 
 MAX_MATCHES = 60
-MAX_LINE_CHARS = 400      # a _raw dump is ONE line of ~2 MB; without this a single hit floods the window
+MAX_LINE_CHARS = 400      # a raw dump is ONE line of ~2 MB; without this a single hit floods the window
 MAX_READ_LINES = 200
 MAX_READ_CHARS = 8000
 MAX_PATHS = 200
@@ -53,25 +58,42 @@ BINARY_SUFFIXES = IMAGE_SUFFIXES + (".fbx", ".blend", ".wav", ".mp3", ".ttf", ".
 # They are half the file count under `source/`, so grep skips them; glob still lists them.
 SKIP_SUFFIXES = BINARY_SUFFIXES + (".meta",)
 
-FRAME_NOTE = ("Rendered frames are named <view>_f<percent>.png and are sampled INSIDE the action "
-              "window -- a clip's very first and last frames are never among them. kb_pose measures "
-              "how an action actually starts or ends.")
+FRAME_NOTE = ("Rendered frames are named <view>_t<ordinal>_f<percent>.png. The three times are chosen "
+              "to COVER the clip's range of pose (ADR 0015), so they are spread over what the motion "
+              "does -- but they are still three moments, and a held pose gets one of them because one "
+              "stands for all of it. kb_pose measures any frame, including the first and the last.")
 
 # Directory names that are not part of the searchable workspace, however deep they sit.
 #
-# `_authored_claude_backup` is a wholesale-superseded snapshot: every record in it was replaced when
-# the semantic half was re-authored, and it is kept only so the change stays auditable. Left visible it
-# would answer a search with a record the pipeline no longer produces — the same shape of confident
-# wrong answer as `sit` matching `position`, and harder to notice, because a stale record looks exactly
-# like a current one. Widening the scope means being deliberate about what is IN it.
-EXCLUDED_DIRS = ("_authored_claude_backup",)
+# Empty since ADR 0017, and kept rather than deleted because the reason it existed has not gone away.
+# It held `_authored_claude_backup`, a wholesale-superseded snapshot: every record in it was replaced
+# when the semantic half was re-authored, and it is kept only so the change stays auditable. Left
+# visible it would answer a search with a record the pipeline no longer produces — the same shape of
+# confident wrong answer as `sit` matching `position`, and harder to notice, because a stale record
+# looks exactly like a current one. That snapshot now lives in `motionkb_build/archive/`, outside every
+# mount, which is a better answer than a denylist: it cannot be reached at all rather than skipped by
+# name. Anything superseded belongs there. This stays for something superseded that cannot move.
+EXCLUDED_DIRS = ()
+
+# Directories GREP does not read unless asked for by name. Not hidden — `glob` lists them, `read` opens
+# them, and naming one in `path` searches it.
+#
+# `raw` holds one pose dump per clip: per-frame joint positions, rotations and muscle values, written
+# at full float precision. The only words in a 600 KB file are the fifty bone names and the ninety-five
+# muscle names, repeated once each. Since the Mixamo corpus landed the directory is 1.4 GB, and a grep
+# that reads it costs about 24 s (measured 9.3 s at 0.53 GB) to search text that is not there.
+#
+# The exclusion is by DIRECTORY, not by size or by a `mx_` prefix: what makes these files unsearchable
+# is what they contain, and that was true of the eight original dumps too — it just did not cost
+# anything to be wrong about.
+UNSEARCHED_BY_GREP = ("raw",)
 
 
 def default_mounts():
     """The two places worth searching, with the source assets optional.
 
     `source` is derived from the KB path rather than configured separately: the KB lives at
-    <unity project>/agent/kb, so the animation assets are two directories up and over. If that is not
+    <unity project>/agent/animation_knowledge_base, so the animation assets are two directories up and over. If that is not
     where they are — a KB copied elsewhere for a test — the mount is simply absent and the tools work
     with one. Overridable with MOTION_SOURCE_DIR.
     """
@@ -154,7 +176,7 @@ class Workspace:
 FS_WORKERS = 16
 
 # Files read per batch. Bounds peak memory: without it a wide tree is pulled into RAM whole, and one
-# `_raw` dump is about 900 KB.
+# `raw` dump is about 900 KB.
 READ_BATCH = 64
 
 
@@ -227,7 +249,7 @@ def _read_batched(ws, workspace_paths):
 def _matches(rel, pattern):
     """fnmatch, but `**` spans directories and a bare `*.json` stays at the top level.
 
-    fnmatch alone lets `*` cross separators, which would make `*.json` match `_raw/Typing.json` and
+    fnmatch alone lets `*` cross separators, which would make `*.json` match `raw/Typing.json` and
     quietly turn a top-level search into a recursive one.
     """
     if not pattern:
@@ -257,7 +279,7 @@ def _clip(line):
 
 
 def _frames_note(rel):
-    return FRAME_NOTE if "/_frames/" in "/" + rel else None
+    return FRAME_NOTE if "/frames/" in "/" + rel else None
 
 
 # ---- schemas ---------------------------------------------------------------------------------
@@ -272,10 +294,10 @@ GLOB_PARAMS = {
     "additionalProperties": False,
     "properties": {
         "pattern": {"type": "string",
-                    "description": "Glob pattern, e.g. '*.json', '**/*.png', '_frames/**/*.png'. "
+                    "description": "Glob pattern, e.g. '*.json', '**/*.png', 'frames/**/*.png'. "
                                    "'**' spans directories. Relative to `path` when one is given."},
         "path": {"type": "string",
-                 "description": "Directory to search in, e.g. 'kb' or 'kb/_frames'. Omit to search "
+                 "description": "Directory to search in, e.g. 'kb' or 'kb/frames'. Omit to search "
                                 "everywhere."},
     },
     "required": ["pattern"],
@@ -335,12 +357,19 @@ def register(registry, mounts=None):
             raise ToolFailure("not a valid regular expression: %s" % e)
 
         files, matches, skipped, example = [], [], 0, None
+        # A caller who names a directory inside raw/ has asked for it, and gets it.
+        asked_for_dumps = any(seg in UNSEARCHED_BY_GREP
+                              for seg in (path or "").replace("\\", "/").split("/"))
+        files_dumps = 0
         candidates = []
         for rel, full in ws.scope(path):
             if include and not _matches(rel, include):
                 continue
             if full.lower().endswith(SKIP_SUFFIXES):
                 skipped += 1
+                continue
+            if not asked_for_dumps and any(seg in UNSEARCHED_BY_GREP for seg in full.split("/")):
+                files_dumps += 1
                 continue
             candidates.append(full)
         searched = len(candidates)
@@ -390,9 +419,19 @@ def register(registry, mounts=None):
                          % searched)
         if skipped:
             notes.append("%d binary or .meta file(s) skipped; glob lists them" % skipped)
+        if files_dumps:
+            notes.append("%d pose dump(s) under raw/ not searched -- they are per-frame numbers, and "
+                         "the only words in one are bone and muscle names; name a path inside raw/ to "
+                         "search them anyway" % files_dumps)
         if not files:
-            notes.append("no file matched, in %s. The corpus is small, so absence here is real."
-                         % (path or "any place"))
+            # This used to read "the corpus is small, so absence here is real". The point was right --
+            # a miss has to be usable as evidence, or the model rephrases its way to the iteration
+            # limit -- but it rested on a premise the Mixamo corpus removed. So it now rests on what
+            # the call actually did: a count the model can check, and the two things that would widen
+            # it. Never restore a claim about the corpus's size; it is 2454 records.
+            notes.append("no file matched in %s, out of %d file(s) searched. That is evidence of "
+                         "absence, not a search that fell short -- widen `path` or drop `include` "
+                         "before rephrasing the pattern." % (path or "any place", searched))
         if notes:
             result["note"] = "; ".join(notes)
         return result
@@ -456,10 +495,21 @@ def register(registry, mounts=None):
             out["note"] = "; ".join(notes)
         return out
 
+    # WHY THIS DESCRIPTION NAMES grep. Two whole populations here carry their meaning in their file
+    # name and nowhere else, and for both of them a grep reads thousands of files to arrive at the
+    # answer glob had without opening any. An animation asset under source/ is curve data. An
+    # unlabelled record under kb/actions/ holds about 50 distinct words, and every one of them
+    # except its clip name is drawn from a vocabulary the schema fixes -- `channels`, `left_arm`,
+    # `static`, `null`. Measured across the corpus that vocabulary is under 80 words in total. That is
+    # a fact about the corpus's CURRENT state, not a permanent one: the semantic
+    # pass fills motion_description / tags / overall_intent, and the sentence stops being true. See
+    # the tripwire in tests/test_tools_files.py, which fails when it does.
     registry.add("glob",
                  "Find files by name pattern. Places: %s. Use it to settle what exists before "
-                 "assuming it does not. Under source/ this is the tool that answers such questions: "
-                 "an animation asset is curve data whose only readable name is its file name." % places,
+                 "assuming it does not, and prefer it to grep whenever the question is a name: an "
+                 "animation asset under source/ is curve data whose only readable name is its file "
+                 "name, and an unlabelled record under kb/actions/ has exactly one word in it that "
+                 "the other records do not also have -- its clip name." % places,
                  GLOB_PARAMS, glob)
     registry.add("grep",
                  "Search file contents with a regular expression. One call answers 'which actions "

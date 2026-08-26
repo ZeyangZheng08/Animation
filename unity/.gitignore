@@ -137,3 +137,13 @@ key.env
 # ...and the folder's own .meta, so `git status` stays usable as the drift detector
 # (ADR 0005) instead of permanently showing one untracked file.
 /[Aa]ssets/[Aa]nimations/Mixamo30.meta
+
+# ...and the pose dumps sampled from that corpus, for the same reason and by the same rule.
+# A dump is JSON at about 5.6 KB per sampled frame; 2446 clips come to roughly 1.4 GB, some
+# 600 MB packed. Tracking them would preserve only half a reproduction chain that is already
+# broken at its source, since the FBX they were sampled from are untracked too — and it would
+# grow a repository that already cannot be pushed. The candidate records built FROM them ARE
+# tracked: those are knowledge base content, about 6 KB each. When a corpus clip is promoted
+# into agent/animation_knowledge_base/actions/, its dump is added in the same commit as its FBX
+# (ADR 0014; the path is ADR 0017's).
+/agent/animation_knowledge_base/raw/mx_*.json

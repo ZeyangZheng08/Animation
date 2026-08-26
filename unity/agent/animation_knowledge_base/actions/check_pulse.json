@@ -1,0 +1,343 @@
+{
+  "schema_version": "motionkb/v2",
+  "action_id": "check_pulse",
+  "display_name": "Check Pulse",
+  "status": "accepted",
+  "source_clip": {
+    "fbx_or_anim": "nurse_check_pulse.fbx",
+    "guid": "17f12876b88d7e449bb424d3e0e56e24",
+    "file_id": 1827226128182048838,
+    "clip_name": "nurse_check_pulse"
+  },
+  "controller_state": "Check Pulse",
+  "controller_layer": "Base Layer",
+  "trigger_param": "pulse",
+  "duration": 2.867,
+  "frame_rate": 30,
+  "loop": false,
+  "overall_intent": "The nurse leans in, looks down, and reaches with one hand to palpate a patient's wrist pulse while standing.",
+  "tags": [
+    "nursing",
+    "pulse",
+    "vital_signs",
+    "wrist",
+    "palpation",
+    "assessment",
+    "standing",
+    "clinical_check"
+  ],
+  "mask_coverage": {
+    "upper_body": true,
+    "hands": true,
+    "lower_body": false
+  },
+  "channels": {
+    "torso": {
+      "role": "stabilizer",
+      "motion_type": "balance",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The torso leans forward and slightly to the side to position the nurse over the pulse site.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.1232,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.03659,
+        "divisor": 0.2969
+      },
+      "posture_label": "neutral",
+      "posture_magnitude": 0.1792,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.10654,
+        "divisor": 0.5944
+      }
+    },
+    "head": {
+      "role": "primary",
+      "motion_type": "gaze",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The head tilts downward to keep visual attention on the patient's wrist area.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.1299,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.06446,
+        "divisor": 0.4963
+      },
+      "posture_label": "neutral",
+      "posture_magnitude": 0.2044,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.15921,
+        "divisor": 0.7789
+      }
+    },
+    "left_arm": {
+      "role": "stabilizer",
+      "motion_type": "balance",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The left arm shifts subtly as a counterbalance while the nurse leans in.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.212,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.14552,
+        "divisor": 0.6864
+      },
+      "posture_label": "displaced",
+      "posture_magnitude": 0.4463,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.47706,
+        "divisor": 1.0689
+      }
+    },
+    "right_arm": {
+      "role": "primary",
+      "motion_type": "reach",
+      "contact": "none",
+      "constraint": "must-reach",
+      "target": null,
+      "motion_description": "The right arm reaches outward and downward toward the patient's wrist.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.2222,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.15251,
+        "divisor": 0.6864
+      },
+      "posture_label": "displaced",
+      "posture_magnitude": 0.3627,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.38769,
+        "divisor": 1.0689
+      }
+    },
+    "left_leg": {
+      "role": "free",
+      "motion_type": "balance",
+      "contact": "ground",
+      "constraint": "unconstrained",
+      "target": null,
+      "motion_description": "The left leg is planted and bears the forward lean, knee softly bent.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.1474,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.06586,
+        "divisor": 0.4468
+      },
+      "posture_label": "displaced",
+      "posture_magnitude": 0.5729,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.39034,
+        "divisor": 0.6813
+      }
+    },
+    "right_leg": {
+      "role": "free",
+      "motion_type": "balance",
+      "contact": "ground",
+      "constraint": "unconstrained",
+      "target": null,
+      "motion_description": "The right leg is planted behind and braces the reach forward.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.146,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.06525,
+        "divisor": 0.4468
+      },
+      "posture_label": "displaced",
+      "posture_magnitude": 0.5164,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.35182,
+        "divisor": 0.6813
+      }
+    },
+    "left_hand": {
+      "role": "free",
+      "motion_type": "hold-static",
+      "contact": "none",
+      "constraint": "unconstrained",
+      "target": null,
+      "motion_description": "The left hand remains relaxed and available for the base or another layered action.",
+      "kind": "hand",
+      "state_label": "static",
+      "motion_magnitude": 0.0,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.0,
+        "divisor": 0.7546
+      },
+      "posture_label": "displaced",
+      "posture_magnitude": 0.4084,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.56671,
+        "divisor": 1.3878
+      }
+    },
+    "right_hand": {
+      "role": "primary",
+      "motion_type": "manipulate",
+      "contact": "object:patient_wrist",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The right hand uses the fingers to palpate and maintain contact with the patient's wrist pulse point.",
+      "kind": "hand",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.2845,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.21466,
+        "divisor": 0.7546
+      },
+      "posture_label": "displaced",
+      "posture_magnitude": 0.4718,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.6547,
+        "divisor": 1.3878
+      }
+    },
+    "root": {
+      "kind": "root",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.0373,
+      "raw_measurement": {
+        "signal": "max(trans/1.9782, vert/1.8396, heading/131.8575)",
+        "body_trans_horiz_stddev": 0.04872,
+        "body_vert_range": 0.06867,
+        "body_heading_stddev_deg": 3.138
+      },
+      "posture_label": "displaced",
+      "posture_magnitude": 0.3546,
+      "posture_measurement": {
+        "signal": "max(height_offset/1.0224, tilt_offset/104.9734)",
+        "body_height_offset": 0.0719,
+        "body_tilt_offset_deg": 37.227
+      }
+    }
+  },
+  "ik_goals": [
+    {
+      "effector": "right_hand",
+      "target": null,
+      "constraint": "TwoBoneIKConstraint",
+      "contact_object": "patient_wrist",
+      "world_space": true
+    }
+  ],
+  "composability": {
+    "locks": [
+      "torso",
+      "head",
+      "left_arm",
+      "right_arm",
+      "right_hand"
+    ],
+    "free": [
+      "left_leg",
+      "right_leg",
+      "left_hand"
+    ],
+    "can_overlay_on": [
+      "idle"
+    ],
+    "base_or_overlay": "overlay",
+    "posture": "standing",
+    "seam_owner": {
+      "torso": "base",
+      "root": "base"
+    }
+  },
+  "extraction": {
+    "method": "in_engine_sample_root_local",
+    "sampled_frames": 86,
+    "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, HumanPose muscles + bodyPosition/bodyRotation",
+    "motion_metric": "all 8 anatomical channels: muscle_dof_stddev_rms, divided by torso 0.2969 / head 0.4963 / arm 0.6864 / leg 0.4468 / hand 0.7546; root: max(trans/1.9782, vert/1.8396, heading/131.8575) from HumanPose.bodyPosition and bodyRotation; posture: muscle_dof_mean_offset_rms vs REFERENCE_POSE (Unity's Humanoid reference: every muscle 0, bodyPosition.y 1.0, bodyRotation identity), divided by torso 0.5944 / head 0.7789 / arm 1.0689 / leg 0.6813 / hand 1.3878, displaced at 0.30x divisor; root posture: max(height_offset/1.0224, tilt_offset/104.9734)",
+    "bone_map_version": "v2.0.0",
+    "metric_formula_version": "v2.5.0",
+    "extractor_version": "2.0.0",
+    "extractor_lang": "python",
+    "avatar": "nurse_avatar.fbx",
+    "extracted_at": "2026-08-26T00:33:58Z",
+    "field_origin": {
+      "measured": [
+        "duration",
+        "frame_rate",
+        "channels.*.state_label",
+        "channels.*.motion_magnitude",
+        "channels.*.raw_measurement",
+        "channels.*.posture_label",
+        "channels.*.posture_magnitude",
+        "channels.*.posture_measurement"
+      ],
+      "resolved": [
+        "controller_state",
+        "controller_layer",
+        "trigger_param"
+      ],
+      "semantic": [
+        "display_name",
+        "overall_intent",
+        "tags",
+        "mask_coverage",
+        "channels.*.motion_description"
+      ],
+      "semantic_pending": [
+        "channels.*.role",
+        "channels.*.motion_type",
+        "channels.*.contact",
+        "channels.*.constraint",
+        "channels.*.target",
+        "composability"
+      ]
+    },
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "gpt-5.5-2026-04-23",
+      "proposed_at": "2026-07-01T20:43:39Z",
+      "frames": 6,
+      "render_views": [
+        "front",
+        "front_left_3q"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_id",
+        "display_name",
+        "overall_intent",
+        "tags",
+        "mask_coverage",
+        "channels.*.role",
+        "channels.*.motion_type",
+        "channels.*.contact",
+        "channels.*.constraint",
+        "channels.*.motion_description",
+        "composability.base_or_overlay",
+        "composability.posture",
+        "composability.can_overlay_on"
+      ],
+      "status": "vlm_accepted"
+    },
+    "verified_by": "auto-accepted: gpt-5.5 proposed + consistency-gated, no human review (ADR 0008)",
+    "verified_at": "2026-07-01T21:42:45Z"
+  }
+}

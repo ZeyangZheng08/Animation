@@ -16,9 +16,39 @@
 >   native-rate (the draft's 300-cap decimated cpr). See ADR 0007's metric table.
 > - **Engine-neutrality corrected.** Clavicle+wrist → arm channel in all engines; toes are an optional
 >   leg leaf absent in SMPL-X; IK layer inert in SMPL-X; the "1:1 Unity AvatarMaskBodyPart" claim was
->   wrong and is dropped. See `agent/kb/engine_mask_map.json`.
+>   wrong and is dropped. See `agent/animation_knowledge_base/engine_mask_map.json`.
 > - **Positioning made honest.** BPQ is prior art (6-FK backbone), not "consensus"; hands/root/IK are
 >   domain extensions; `role`'s 4 values are a semantic contribution (only `free`≈BPQ "Not Relevant").
+>
+> **The metric of §2 has been replaced twice since, and §2 is NOT what the extractor computes:**
+> - **ADR 0010** (v2.1.0) refitted the divisors on the Mixamo corpus instead of one reference clip:
+>   the rule is now "the corpus p99 of the raw signal normalises to 0.85", not "the most-active
+>   reference clip reads 0.85".
+> - **ADR 0011** (v2.2.0) moved every signal out of metres and degrees into Unity's normalised
+>   Humanoid space — `HumanPose.muscles` for the 8 anatomical channels and `HumanPose.bodyPosition` /
+>   `bodyRotation` for the root — which makes the numbers body-independent. §2's per-channel table
+>   (torso lean in degrees, arm position stddev in metres, finger curl, foot gait) describes signals
+>   that no longer exist.
+> - **ADR 0018** (v2.3.0) added the orthogonal POSTURE half: every channel now carries what it HOLDS
+>   (the offset of the clip's mean pose from a reference pose) beside what it MOVES. §2 has only
+>   the latter, so a raised-and-held arm reads there as indistinguishable from a resting one.
+>
+> - **ADR 0019** (v2.4.0) refit every constant on the FULL frozen corpus (2446 mx_ dumps, offline)
+>   and replaced the rest baseline: REST_POSE is now the median pose of the corpus clips that
+>   measure as at-rest, selected with no name matching — no project clip is a calibration input.
+>   Its 2026-08-24 amendment (v2.4.1) adds a duration floor to that selection: a clip must run at
+>   least a second to count as an observation of rest.
+>
+> - **ADR 0020** (v2.5.0) supersedes that baseline: the posture origin is **Unity's Humanoid
+>   reference pose** — every muscle at 0 (the centre of its `HumanTrait` range),
+>   `bodyPosition.y` 1.0, `bodyRotation` identity — not a pose fitted from the corpus. The
+>   engine fixes where zero is; the corpus fixes only how much counts as a lot. Read
+>   `posture_label` as "away from the Humanoid reference", NOT as "away from a relaxed stance": a
+>   person standing still reads displaced on arms, knees and hands, because those sit near the ends
+>   of their ranges when upright.
+>
+> Read `config.py` and ADR 0010/0011/0018/0019/0020 for the live metric. §2 below is kept as the
+> design narrative that motivated the channel split.
 >
 > All numerics in the KB are MEASURED by the program; the semantic 5-tuple + composability stay human-owned
 > (ADR 0002).
@@ -135,7 +165,7 @@ muscle-level ramp), never a hard binary cut.
 
 ## 6. Engine-neutral mask map (CONSTANT, shared — not per-file)
 
-Lives in `agent/kb/engine_mask_map.json` (one shared reference), not duplicated per action.
+Lives in `agent/animation_knowledge_base/engine_mask_map.json` (one shared reference), not duplicated per action.
 
 | Channel | Unity AvatarMaskBodyPart | UE5 branch root | Blender bone collection | SMPL-X joints |
 |---|---|---|---|---|

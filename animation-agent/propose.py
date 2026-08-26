@@ -40,7 +40,6 @@ else:
     import vlm_anthropic as vlm  # noqa: E402
 
 KB_DIR = paths.KB_DIR                          # see paths.py / MOTIONKB_DIR
-CAND_DIR = paths.CAND_DIR
 VLM_MODEL = vlm.MODEL
 
 # Fields the VLM proposes (per partition channel) + the top-level identity/summary fields.
@@ -70,8 +69,9 @@ def _measured_summary(doc):
     lines = []
     for c in C.STATE_CHANNELS:
         f = ch.get(c) or {}
-        lines.append("  %-11s state=%-7s magnitude=%-6s kind=%s"
-                     % (c, f.get("state_label"), f.get("motion_magnitude"), f.get("kind", "root")))
+        lines.append("  %-11s state=%-7s magnitude=%-6s posture_label=%-9s posture_magnitude=%-6s kind=%s"
+                     % (c, f.get("state_label"), f.get("motion_magnitude"),
+                        f.get("posture_label"), f.get("posture_magnitude"), f.get("kind", "root")))
     return "\n".join(lines)
 
 
@@ -88,16 +88,28 @@ def _store_base_actions():
     """{action_id: {'locks': set, 'posture': str}} for accepted BASE actions already in the store —
     the candidate pool an overlay's can_overlay_on may name (must be lock-disjoint + posture-compatible)."""
     out = {}
-    for p in paths.action_files():
-        try:
-            d = json.load(open(p, encoding="utf-8"))
-        except Exception:
+    for p, d, err in paths.read_records(paths.accepted_files()):
+        if err:
             continue
         comp = d.get("composability", {}) or {}
         if comp.get("base_or_overlay") == "base" and isinstance(d.get("action_id"), str):
             out[d["action_id"]] = {"locks": set(comp.get("locks", []) or []),
                                    "posture": comp.get("posture", "standing")}
     return out
+
+
+def split_frame_name(path):
+    """(view, percent) from a rendered frame's filename. The name is `<view>_t<ordinal>_f<pct>.png`;
+    the ordinal is what makes it unique and sortable once frames are chosen by pose rather than by a
+    fixed fraction (two can land in the same whole percent of a long clip, and "_f21" sorts before
+    "_f5"). Frames rendered before the ordinal existed carry only the percent, so both forms are read
+    here rather than making a stale review frame unreadable."""
+    stem = os.path.basename(path).rsplit(".", 1)[0]
+    head, _, pct = stem.rpartition("_f")
+    view, sep, ordinal = head.rpartition("_t")
+    if not (sep and ordinal.isdigit()):
+        view = head                                   # pre-ordinal name
+    return view, pct
 
 
 def _frame_manifest(frames):
@@ -110,9 +122,8 @@ def _frame_manifest(frames):
         return "  (frame order not recorded)"
     out = []
     for i, f in enumerate(frames, 1):
-        stem = os.path.basename(f).rsplit(".", 1)[0]
-        view, _, pct = stem.rpartition("_f")
-        pretty = view.replace("_", " ") if view else stem
+        view, pct = split_frame_name(f)
+        pretty = view.replace("_", " ") if view else os.path.basename(f)
         out.append("  frame %d: %s view, %s%% through the clip" % (i, pretty, pct or "?"))
     return "\n".join(out)
 
@@ -130,10 +141,13 @@ def build_prompt(doc, clip_name, bases, frames=None):
         "a change in the figure's size or position between frames is real movement, not framing. Judge\n"
         "ONLY the categorical, meaning-level labels from what you see and from the MEASURED facts below. You do\n"
         "NOT set any numbers — those are already measured.\n"
-        "THE COSTUME IS NOT EVIDENCE. Every clip is previewed on one shared avatar, which happens to wear\n"
-        "clinical scrubs, so the figure looks like a nurse whatever it is doing. This library holds general\n"
-        "motion — locomotion, sport, combat, dance, everyday gesture — alongside nursing tasks. Label the\n"
-        "movement you actually see; do not reach for a clinical reading the movement does not support.\n\n"
+        "THE SETTING IS NOT SHOWN. Every clip is previewed on one shared untextured mannequin, alone on an\n"
+        "empty floor: no costume, no scene, and NO PROPS — a figure holding a bottle or pressing a monitor\n"
+        "is rendered with empty hands against nothing. So the picture tells you the MOVEMENT and nothing\n"
+        "about where it happens or what it touches. This library holds general motion — locomotion, sport,\n"
+        "combat, dance, everyday gesture — alongside nursing tasks. Label the movement you actually see;\n"
+        "do not reach for a clinical reading the movement does not support, and do not infer an object\n"
+        "from the clip name that the pose does not itself show.\n\n"
         "Frames attached, in order:\n%s\n\n"
         "Clip name (asset): %s\n"
         "%s\n\n"
@@ -297,7 +311,7 @@ def _stamp_provenance(cand, frames, gate_ok):
         "model": VLM_MODEL,
         "proposed_at": _now(),
         "frames": len(frames),
-        "render_views": sorted(set(os.path.basename(f).rsplit("_f", 1)[0] for f in frames)),
+        "render_views": sorted({split_frame_name(f)[0] for f in frames}),
         "consistency_validated": bool(gate_ok),
         "scope": list(VLM_PROPOSED_FIELDS),
         "status": "awaiting_human_accept",
@@ -316,7 +330,7 @@ def _stamp_provenance(cand, frames, gate_ok):
 
 def propose_clip(clip_name, source_doc_path, retries=2):
     """Render-free proposal for one clip: VLM proposes -> consistency + composability gate (with retry)
-    -> write candidate. Returns (candidate_path, errors, warns, proposed_action_id)."""
+    -> write the semantic half back into the record. Returns (record_path, errors, warns, action_id)."""
     doc = json.load(open(source_doc_path, encoding="utf-8"))
     frames_dir = os.path.join(paths.FRAMES_DIR, clip_name)
     frames = sorted(glob.glob(os.path.join(frames_dir, "*.png")))
@@ -339,5 +353,8 @@ def propose_clip(clip_name, source_doc_path, retries=2):
         feedback = ("\n\nYour previous JSON FAILED these automatic consistency checks. Return corrected JSON "
                     "that fixes ALL of them:\n- " + "\n- ".join(errors))
     _stamp_provenance(cand, frames, not errors)
-    cand_path = paths.write_json(os.path.join(CAND_DIR, clip_name + ".json"), cand)
+    # Written back over the record it came from. One store (ADR 0016) means proposing fills the
+    # semantic half of the record in place; there is no second file to reconcile, and promotion is
+    # the rename that follows.
+    cand_path = paths.write_json(source_doc_path, cand)
     return cand_path, errors, warns, proposed_aid

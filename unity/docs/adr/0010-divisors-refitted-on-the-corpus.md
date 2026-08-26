@@ -117,7 +117,7 @@ not a re-authoring, and the VLM proposals that produced the semantics still stan
   account of how its numbers were produced must not be able to disagree with the code that produced
   them.
 - **Migration is re-runnable.** `recalibrate_measured.py` rewrites only the MEASURED block of the
-  accepted store from the frozen `_raw` dumps, and `test_golden_extraction.py` recomputes from those
+  accepted store from the frozen `raw` dumps, and `test_golden_extraction.py` recomputes from those
   same dumps — so the golden values track the new formula automatically rather than needing a
   separate re-freeze. Both passed 8/8 after the change.
 - **The fit is reproducible.** `calibrate_divisors.py --limit 150 --seed 0` re-draws the same sample;

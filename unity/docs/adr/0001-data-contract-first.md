@@ -3,12 +3,12 @@
 Status: Accepted (2026-06-18)
 
 ## Context
-`motionkb/v1` lived only as prose in `agent/kb/README.md`. Nothing enforced it, and the
+`motionkb/v1` lived only as prose in `agent/animation_knowledge_base/README.md`. Nothing enforced it, and the
 future Python RAG (Phase 2) would have had to reverse-engineer the shape from examples — a recipe
 for silent drift between the Unity extractor (producer) and the RAG (consumer).
 
 ## Decision
-The machine-checkable `agent/kb/schema/motionkb.v1.schema.json` (JSON Schema 2020-12) is the
+The machine-checkable `agent/motionkb_build/archive/motionkb.v1.schema.json` (JSON Schema 2020-12) is the
 single authoritative contract; both sides code against it. Cross-field invariants JSON Schema cannot
 express are enforced by a companion validator (`validate_motionkb.py` (animation-agent repo), stdlib-only), plus
 `validate_guids.py` for `guid → asset` resolution — which drives the `AssetDatabase` over the Unity MCP

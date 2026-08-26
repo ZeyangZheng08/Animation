@@ -2,7 +2,7 @@
 """
 build_transitions.py — regenerate the derived seam table, and report what it found.
 
-The table is a CACHE. `kb_transition` computes the same answer live from `_raw`, so deleting this file
+The table is a CACHE. `kb_transition` computes the same answer live from `raw`, so deleting this file
 costs a rebuild and nothing else; it exists so the agent's tool call is a lookup instead of a 56-pair
 search. Nothing in the motionkb/v2 contract references it.
 

@@ -12,7 +12,7 @@ discriminate, which is the opposite of what retrieval and arbitration need from 
 WHAT THIS DOES. Samples N clips over the Unity MCP bridge, runs metrics.compute_raw_signals on each
 dump, and reports the distribution of the RAW physical signal per divisor group — then proposes a
 divisor per group at a chosen percentile. Nothing is written into the knowledge base: no register,
-no candidate/*.json, no _raw/*.json. Dumps live in a scratch directory and the report is printed.
+no record, no raw/*.json. Dumps live in a scratch directory and the report is printed.
 
 Applying the result is a separate, deliberate act: it bumps metric_formula_version, rewrites the
 MEASURED block of every accepted record, and invalidates the frozen values in
@@ -20,6 +20,11 @@ test_golden_extraction.py.
 
     python3 calibrate_divisors.py --limit 150
     python3 calibrate_divisors.py --limit 150 --percentile 99 --json out.json
+
+The canonical v2.4.0 fit needs no engine at all: every dump is already frozen in raw/, so
+    python3 calibrate_divisors.py --reuse <KB>/raw --prefix mx_
+fits over the full Mixamo corpus (2446 dumps) and excludes the 8 nursing clips — KB content is
+one thing, the calibration population is another, and the calibration population is Mixamo only.
 """
 import argparse
 import json
@@ -123,8 +128,10 @@ def main(argv=None):
     reuse = bool(args.reuse)
     if reuse:
         scratch = args.reuse
-        names = sorted(os.path.splitext(f)[0] for f in os.listdir(scratch) if f.endswith(".json"))
-        print("reusing %d dumps from %s (no Unity calls)" % (len(names), scratch))
+        names = sorted(os.path.splitext(f)[0] for f in os.listdir(scratch)
+                       if f.endswith(".json") and f.startswith(args.prefix))
+        print("reusing %d dumps from %s (prefix %r, no Unity calls)"
+              % (len(names), scratch, args.prefix))
     else:
         if not unity_sampler.bridge_healthy(args.host, args.port):
             raise SystemExit("Unity MCP bridge not reachable at %s:%d" % (args.host, args.port))

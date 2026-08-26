@@ -3,20 +3,21 @@
 recalibrate_measured.py — rewrite the MEASURED block of every accepted record in place.
 
 Run this once after a deliberate `metric_formula_version` bump. It re-runs
-`metrics.channel_blocks` over each record's frozen `_raw` dump and writes back only the MEASURED
-fields (`kind`, `state_label`, `motion_magnitude`, `raw_measurement`) plus the `extraction` block —
+`metrics.channel_blocks` over each record's frozen `raw` dump and writes back only the MEASURED
+fields (`kind`, `state_label`, `motion_magnitude`, `raw_measurement`, and the posture triple) plus the
+`extraction` block —
 exactly the split ADR 0002 draws. SEMANTIC fields, `composability`, `ik_goals`, `source_clip`,
 `controller_*` and `status` are read and written back untouched.
 
-Why this is not `extract.py assemble`: assemble stages its output in `candidate/<clip_name>.json` and
-never writes the accepted store, which is right for a new action and wrong for a formula migration —
-promoting a candidate back over an accepted record would carry the candidate's whole document, not
-just the numbers that changed.
+Why this is not `extract.py assemble`: assemble skips accepted records outright, because re-measuring
+the eight the KB is built from should never be a side effect of bringing in a new clip. This is the
+deliberate path — it rewrites the MEASURED block and nothing else, and says what it would change
+before it changes it.
 
     python3 recalibrate_measured.py --dry-run     # show every magnitude that would change
     python3 recalibrate_measured.py               # write
 
-Afterwards run `./check_kb.sh`: the golden test recomputes MEASURED from the same `_raw` and so
+Afterwards run `./check_kb.sh`: the golden test recomputes MEASURED from the same `raw` and so
 tracks the new values automatically, and the validator re-checks the contract.
 """
 import argparse
@@ -35,12 +36,12 @@ import extract as E           # noqa: E402
 
 
 def accepted_files():
+    """(path, record) for the accepted records — the ones whose MEASURED half is frozen as golden."""
     out = []
-    for p in paths.action_files():
-        with open(p, encoding="utf-8") as fh:
-            doc = json.load(fh)
-        if doc.get("status") == "accepted":
-            out.append((p, doc))
+    for p, doc, err in paths.read_records(paths.accepted_files()):
+        if err:
+            raise SystemExit("cannot read %s: %s" % (p, err))
+        out.append((p, doc))
     return out
 
 
@@ -64,7 +65,7 @@ def main(argv=None):
         try:
             raw = unity_sampler.read_raw(clip)
         except Exception as e:
-            print("%-14s SKIPPED — no _raw for clip %r (%s)" % (aid, clip, e))
+            print("%-14s SKIPPED — no raw for clip %r (%s)" % (aid, clip, e))
             failed += 1
             continue
         blocks = metrics.channel_blocks(raw)

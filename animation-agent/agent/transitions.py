@@ -4,7 +4,7 @@ blend has to be.
 
 The knowledge base describes each action in isolation. A transition is a RELATION between two of them,
 and nothing in the v2 contract holds one. Rather than bump the contract, this derives the relation from
-the frozen `_raw` dumps: the per-frame bone rotations added on 2026-08-05 are exactly what a seam search
+the frozen `raw` dumps: the per-frame bone rotations added on 2026-08-05 are exactly what a seam search
 needs, and the result is a regenerable sidecar, not a new field on any record.
 
 Three things it answers, in the model's vocabulary:
@@ -70,7 +70,7 @@ CLASS_POSTURE_CHANGE = "posture_change"
 # ---- raw access ------------------------------------------------------------------------------
 
 class Clip(object):
-    """One `_raw` dump, with just enough structure for a seam search."""
+    """One `raw` dump, with just enough structure for a seam search."""
 
     __slots__ = ("clip_name", "frames", "fps", "rot", "bones", "pose_bones", "foot_y", "loop")
 
@@ -109,9 +109,9 @@ _CLIP_CACHE = {}
 
 
 def forget_raw():
-    """Drop everything memoised from the default `_raw`. The sampler calls this after writing a dump.
+    """Drop everything memoised from the default `raw`. The sampler calls this after writing a dump.
 
-    Nothing else needs it: `_raw` is frozen for every process that only reads the KB, and the one writer
+    Nothing else needs it: `raw` is frozen for every process that only reads the KB, and the one writer
     is `unity_sampler.write_raw`, which runs in the offline pipeline.
     """
     _CLIP_CACHE.clear()
@@ -119,7 +119,7 @@ def forget_raw():
 
 
 def load_clip(clip_name, loop=False, raw_dir=None):
-    """One `_raw` dump as a Clip.
+    """One `raw` dump as a Clip.
 
     MEMOISED FOR THE DEFAULT CORPUS. These dumps are about 900 KB each and get loaded by every seam
     search, every segment build and every plan that windows a layer. On a local disk re-reading them is
@@ -425,7 +425,7 @@ def mix_entry_frame(a, a_frame, b, channels, rec_b=None):
 # ---- the table -------------------------------------------------------------------------------
 
 def load_clips(kb, raw_dir=None):
-    """Clip objects for every accepted action, keyed by action_id (the `_raw` files are keyed by clip
+    """Clip objects for every accepted action, keyed by action_id (the `raw` files are keyed by clip
     name, which is not the same string — that mismatch is a standing trap in this repo)."""
     out = {}
     for action_id, rec in kb.actions.items():
@@ -668,19 +668,44 @@ def schedule(action_ids, kb, clips, min_loop_cycles=1, generate_posture_changes=
     return steps
 
 
-TABLE_PATH = os.path.join(paths.KB_DIR, "_derived", "transitions.json")
+TABLE_PATH = os.path.join(paths.DERIVED_DIR, "transitions.json")
 
 
 # raw_dir -> (stat signature, digest). See raw_fingerprint.
 _FINGERPRINT_CACHE = {}
 
 
+def accepted_dump_names(actions_dir=None):
+    """`<clip_name>.json` for every accepted action — the `raw` files the derived tables read.
+
+    Records are keyed by `action_id` and dumps by `clip_name`, and those are not the same string (see
+    `load_clips`), so this has to go through the records rather than guess.
+    """
+    files = paths.action_files(actions_dir) if actions_dir else paths.accepted_files()
+    names = []
+    for p, doc, err in paths.read_records(files):
+        if err:
+            continue
+        clip_name = (doc.get("source_clip") or {}).get("clip_name")
+        if clip_name:
+            names.append(clip_name + ".json")
+    return sorted(names)
+
+
 def raw_fingerprint(raw_dir=None):
-    """Content hash of every `_raw` dump the table was derived from.
+    """Content hash of every `raw` dump the table was derived from.
 
     A cache with no way to notice its inputs moved is worse than no cache: it answers confidently with
     the old corpus. Re-sample one clip and this changes, so a stale table announces itself instead of
     being believed.
+
+    WHICH DUMPS. The accepted store's, one per action -- not everything in the directory. `raw` also
+    holds the 2446-clip Mixamo corpus's dumps and whatever a calibration run left behind, and none of
+    that is an input to a table whose seams run between accepted actions. Hashing the directory was a
+    fair approximation of "the dumps it was derived from" while those were nearly all of it; measured
+    once the corpus landed it costs 52 s per process to prove that 2446 files the table never opened
+    are unchanged. Promote a corpus clip into `actions/` and its dump joins the fingerprint, which is
+    the moment it starts mattering.
 
     WHY THIS IS MEMOISED. Every `read_table` calls it, and it hashes 7 MB of JSON. That is low tens of
     milliseconds on a local disk -- the cost the original version budgeted for -- but the KB normally
@@ -689,13 +714,15 @@ def raw_fingerprint(raw_dir=None):
     running against the mounted KB and against a local copy of it.
 
     So it is memoised, and the DEFAULT corpus is memoised without touching the filesystem at all. That
-    is not an assumption about disks, it is the write discipline: the only writer of `_raw` is
+    is not an assumption about disks, it is the write discipline: the only writer of `raw` is
     `unity_sampler.write_raw`, running in the offline pipeline, and it calls `forget_raw`. Every other
-    process treats the KB as read-only, so within one of them `_raw` cannot move. A stat-per-file check
+    process treats the KB as read-only, so within one of them `raw` cannot move. A stat-per-file check
     would cost 8 x 19 ms here and prove something already guaranteed.
 
-    Pass `raw_dir` explicitly -- as the builders and the tests do -- and the memo is verified against
-    each file's (name, size, mtime) instead, because that corpus is the caller's and may well change.
+    Pass `raw_dir` explicitly -- as the builders and the tests do -- and BOTH of those narrowings are
+    off: every `.json` in that directory is hashed, and the memo is verified against each file's
+    (name, size, mtime). That corpus is the caller's, it may well change, and nothing here knows which
+    part of it they meant.
     """
     import hashlib
     frozen = raw_dir is None
@@ -705,7 +732,7 @@ def raw_fingerprint(raw_dir=None):
         cached = _FINGERPRINT_CACHE.get(raw_dir)
         if cached is not None:
             return cached[1]
-        names, signature = None, None
+        names, signature = accepted_dump_names(), None
     else:
         names = sorted(n for n in os.listdir(raw_dir) if n.endswith(".json"))
         signature = tuple((n, s.st_size, s.st_mtime_ns) for n, s in
@@ -714,12 +741,16 @@ def raw_fingerprint(raw_dir=None):
         if cached is not None and cached[0] == signature:
             return cached[1]
 
-    if names is None:
-        names = sorted(n for n in os.listdir(raw_dir) if n.endswith(".json"))
     h = hashlib.sha256()
     for name in names:
         h.update(name.encode("utf-8"))
-        with open(os.path.join(raw_dir, name), "rb") as fh:
+        p = os.path.join(raw_dir, name)
+        if not os.path.exists(p):
+            # An accepted action whose dump is gone. Hash the absence rather than raising: the caller
+            # asked whether the inputs moved, and they did.
+            h.update(b"<missing>")
+            continue
+        with open(p, "rb") as fh:
             h.update(fh.read())
     digest = h.hexdigest()[:16]
     _FINGERPRINT_CACHE[raw_dir] = (signature, digest)
@@ -727,7 +758,7 @@ def raw_fingerprint(raw_dir=None):
 
 
 def write_table(seams, path=None, extra=None, raw_dir=None):
-    """Write the cache. DERIVED, not contract: `_raw` is untouched, and deleting this file costs a
+    """Write the cache. DERIVED, not contract: `raw` is untouched, and deleting this file costs a
     rebuild, not information."""
     doc = {
         "_meta": {
@@ -753,14 +784,14 @@ _TABLE_CACHE = {}
 def read_table(path=None, check_fingerprint=True, raw_dir=None):
     """Cached seams keyed by (from, to), or None if there is no usable cache.
 
-    Returns None rather than stale data when `_raw` has moved underneath it, so the caller recomputes
+    Returns None rather than stale data when `raw` has moved underneath it, so the caller recomputes
     instead of quietly answering about a corpus that no longer exists.
 
     WHY THE DEFAULT PATH IS MEMOISED. Every tool registry reads this table once, and a test suite builds
     a registry per test, so the same file was opened a few hundred times. On a local disk that is
     nothing; the KB normally lives on a Windows worktree reached over DrvFs, where one open costs about
     9 ms and one stat about 1.4 ms, and it became seconds. The memo is keyed on the file's (size, mtime)
-    together with the `_raw` fingerprint, so it expires for exactly the reasons the fingerprint exists.
+    together with the `raw` fingerprint, so it expires for exactly the reasons the fingerprint exists.
     Only the default path is cached: pass `path` explicitly -- as the builders and the tests do -- and
     the read is unconditional. The cached table is SHARED; copy it before mutating.
     """

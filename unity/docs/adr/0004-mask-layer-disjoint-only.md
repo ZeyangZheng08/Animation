@@ -97,7 +97,7 @@ clip on a channel. Under that reading, walking while doing chest compressions me
 arm under a one-second walk.
 
 `agent/segments.py` measures, per action and channel, the frames it is moving in and — where the motion
-repeats — one repetition, from the frozen `_raw` dumps. `MotionComposer.LayerSpec` gained
+repeats — one repetition, from the frozen `raw` dumps. `MotionComposer.LayerSpec` gained
 `ClipEndSeconds` and `LoopInWindow` to play it; unset, every layer behaves exactly as before. The window
 is per ACTION rather than per channel, for the reason the entry phase already is: a clip is one
 performance.

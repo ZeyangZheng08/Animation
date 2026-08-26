@@ -7,7 +7,7 @@ here earns a tool of its own by doing work no file read can do:
 
     kb_search       scores the corpus against a description and reports how well it covered the words
     kb_get_action   projects one record, with two field names repaired (see below)
-    kb_pose         indexes into a `_raw` dump -- ONE line of about two megabytes -- and measures
+    kb_pose         indexes into a `raw` dump -- ONE line of about two megabytes -- and measures
     kb_transition   searches for the best seam between two clips, and costs the blend it would need
 
 The line is not "knowledge base versus filesystem". It is fetching versus computing. `kb_frames` used

@@ -1,6 +1,8 @@
 # 0006 — "Peak resilience" means graceful degradation by design, not QPS load-testing
 
-Status: Accepted (2026-06-18)
+Status: Accepted (2026-06-18). One mechanism below has changed shape: "write only to `candidate/`" is
+now "write in place, and `assemble` skips accepted records", since ADR 0016 merged the two stores. The
+property it was protecting — a re-extraction cannot damage an accepted record — still holds.
 
 ## Context
 The required qualities include 能抗峰值 (peak-resilient). This project is a single-user, offline

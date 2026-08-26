@@ -7,14 +7,16 @@ Two steps, because the only engine-dependent part (sampling muscle clips) is iso
   1) python extract.py sample
        Reads each accepted <id>.json for its source_clip, generates the generic Unity pose-sampler C#
        (bone list from config.py) ONE CLIP AT A TIME, runs it over the Unity MCP execute_code bridge
-       (the ONLY Unity touch), and writes the returned pose dump to <KB>/_raw/<clip_name>.json.
+       (the ONLY Unity touch), and writes the returned pose dump to <KB>/raw/<clip_name>.json.
        The dump crosses the HTTP transport as the snippet's return value — Unity writes nothing.
        `emit-sampler` writes the same C# to a file instead, for running by hand at an MCP client.
 
   2) python extract.py assemble
-       Reads the _raw pose dumps, computes the 9-channel MEASURED blocks (metrics.py), and writes
-       <KB>/candidate/<id>.json — MEASURED authoritative, SEMANTIC preserved (read-merge of an
-       existing candidate) or migrated from v1 and flagged PENDING. Emits a run-log. Per-file isolated.
+       Reads the raw pose dumps, computes the 9-channel MEASURED blocks (metrics.py), and writes them
+       back into <KB>/actions/<key>.json — MEASURED authoritative, SEMANTIC preserved. Accepted records
+       are left alone: their MEASURED half is frozen golden, and re-measuring them is a deliberate
+       migration (recalibrate_measured.py), not a side effect of bringing in a new clip. Emits a
+       run-log. Per-file isolated.
 
 The KB itself lives in the Unity repository (it is a derivative of that project's animation assets);
 this repo reaches it through paths.py / MOTIONKB_DIR.
@@ -40,11 +42,11 @@ import unity_sampler
 
 KB_DIR = paths.KB_DIR                          # see paths.py / MOTIONKB_DIR
 ACTIONS_DIR = paths.ACTIONS_DIR
-CAND_DIR = paths.CAND_DIR
 REPORT = os.path.join(paths.REPORTS_DIR, "extract_run.md")
 SAMPLER_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_generated_sampler.cs")
 
-MEASURED_KEYS = ("kind", "state_label", "motion_magnitude", "raw_measurement")
+MEASURED_KEYS = ("kind", "state_label", "motion_magnitude", "raw_measurement",
+                 "posture_label", "posture_magnitude", "posture_measurement")
 SEMANTIC_CH_KEYS = ("role", "motion_type", "contact", "constraint", "target", "motion_description")
 
 
@@ -52,19 +54,33 @@ def _now():
     return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+_BY_CLIP = None
+
+
+def _by_clip():
+    """{clip_name: record path} for the whole store, built once per process.
+
+    Three lookups here used to walk the store and json.load every file to find one clip. Since the
+    corpus landed that is 2454 opens apiece and 68 s each over the DrvFs mount the KB is reached
+    through; one concurrent pass, held for the run, costs 6 s.
+    """
+    global _BY_CLIP
+    if _BY_CLIP is None:
+        _BY_CLIP = paths.records_by_clip_name()
+    return _BY_CLIP
+
+
+def _record_path(clip_name):
+    """Where this clip's record lives, or where it would live if it has none yet. A record is named by
+    its key: <clip_name>.json until PROPOSE decides an action_id, <action_id>.json after (ADR 0016)."""
+    return _by_clip().get(clip_name) or os.path.join(ACTIONS_DIR, clip_name + ".json")
+
+
 def _source_files():
-    """Source action entries the MEASURE half iterates: candidate/*.json (new / in-progress) unioned with
-    the accepted store, deduped by source_clip.clip_name (candidate wins). Working artifacts are keyed by
-    clip_name; the action_id is decided later in the PROPOSE stage."""
-    by_clip = {}
-    for d in (ACTIONS_DIR, CAND_DIR):                  # accepted first, candidate overrides
-        for p in paths.action_files(d):
-            try:
-                cn = (_load(p).get("source_clip") or {}).get("clip_name")
-            except Exception:
-                cn = None
-            by_clip[cn or os.path.basename(p)] = p
-    return [by_clip[k] for k in sorted(by_clip)]
+    """Every record the MEASURE half iterates, in clip-name order. Working artifacts -- the raw dumps,
+    the frames directories, the sampler itself -- are keyed by clip_name, and the action_id is not
+    decided until PROPOSE, so this half works in clip names throughout."""
+    return [p for _, p in sorted(_by_clip().items())]
 
 
 def _load(p):
@@ -212,9 +228,6 @@ def _build_extraction(raw):
         "sampled_frames": raw["frames"],
         "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, HumanPose muscles + bodyPosition/bodyRotation",
         # Derived from config, never retyped. This string is the record's own account of how its
-        # numbers were produced; hardcoding the divisors here meant that refitting them in config.py
-        # would leave every record describing a formula it was not computed with.
-        # Derived from config, never retyped. This string is the record's own account of how its
         # numbers were produced; a hardcoded copy went stale the moment the divisors were refitted,
         # and every record then claimed a formula it was not computed with. Deriving it also means a
         # signal that disappears from config (root_gait did, in ADR 0011) fails loudly here instead
@@ -222,11 +235,21 @@ def _build_extraction(raw):
         "motion_metric": ("all 8 anatomical channels: muscle_dof_stddev_rms, divided by "
                           "torso %(torso)s / head %(head)s / arm %(arm)s / leg %(leg)s / hand %(hand)s; "
                           "root: max(trans/%(trans)s, vert/%(vert)s, heading/%(heading)s) from "
-                          "HumanPose.bodyPosition and bodyRotation"
+                          "HumanPose.bodyPosition and bodyRotation; posture: "
+                          "muscle_dof_mean_offset_rms vs REFERENCE_POSE (Unity's Humanoid "
+                          "reference: every muscle 0, bodyPosition.y 1.0, bodyRotation identity), "
+                          "divided by torso %(p_torso)s / head %(p_head)s / arm %(p_arm)s / "
+                          "leg %(p_leg)s / hand %(p_hand)s, displaced at 0.30x divisor; root "
+                          "posture: max(height_offset/%(p_h)s, tilt_offset/%(p_t)s)"
                           % {"torso": C.DIVISOR[C.TORSO], "head": C.DIVISOR[C.HEAD],
                              "arm": C.DIVISOR["arm"], "leg": C.DIVISOR["leg"],
                              "hand": C.DIVISOR["hand"], "trans": C.DIVISOR["root_trans"],
-                             "vert": C.DIVISOR["root_vert"], "heading": C.DIVISOR["root_heading"]}),
+                             "vert": C.DIVISOR["root_vert"], "heading": C.DIVISOR["root_heading"],
+                             "p_torso": C.POSTURE_DIVISOR[C.TORSO], "p_head": C.POSTURE_DIVISOR[C.HEAD],
+                             "p_arm": C.POSTURE_DIVISOR["arm"], "p_leg": C.POSTURE_DIVISOR["leg"],
+                             "p_hand": C.POSTURE_DIVISOR["hand"],
+                             "p_h": C.POSTURE_DIVISOR["root_height"],
+                             "p_t": C.POSTURE_DIVISOR["root_tilt"]}),
         "bone_map_version": C.BONE_MAP_VERSION,
         "metric_formula_version": C.FORMULA_VERSION,
         "extractor_version": C.EXTRACTOR_VERSION,
@@ -235,7 +258,9 @@ def _build_extraction(raw):
         "extracted_at": _now(),
         "field_origin": {
             "measured": ["duration", "frame_rate", "channels.*.state_label",
-                         "channels.*.motion_magnitude", "channels.*.raw_measurement"],
+                         "channels.*.motion_magnitude", "channels.*.raw_measurement",
+                         "channels.*.posture_label", "channels.*.posture_magnitude",
+                         "channels.*.posture_measurement"],
             "resolved": ["controller_state", "controller_layer", "trigger_param"],
             "semantic": ["display_name", "overall_intent", "tags", "mask_coverage",
                          "channels.*.motion_description"],
@@ -247,42 +272,52 @@ def _build_extraction(raw):
 
 
 def assemble():
-    os.makedirs(CAND_DIR, exist_ok=True)
+    os.makedirs(ACTIONS_DIR, exist_ok=True)
     os.makedirs(os.path.dirname(REPORT), exist_ok=True)
-    rows, ok, fail = [], 0, 0
+    rows, ok, fail, skipped = [], 0, 0, 0
     rows.append("# MotionKB v2 extraction run — " + _now())
     rows.append("")
     rows.append("| clip | frames | torso | head | l_arm | r_arm | l_leg | r_leg | l_hand | r_hand | root |")
     rows.append("|---|---|---|---|---|---|---|---|---|---|---|")
 
-    for p in _source_files():
-        v1 = _load(p)
-        key = v1["source_clip"]["clip_name"]          # working key = clip name, NOT action_id
+    for p, rec, read_error in paths.read_records(_source_files()):
+        if read_error:
+            rows.append("| %s | ERROR: %s |" % (paths.rel(p), read_error))
+            fail += 1
+            continue
+        if rec.get("status") == "accepted":
+            # Frozen golden. One store (ADR 0016) means assemble now walks the accepted records too,
+            # and writing them here would silently re-measure the eight the KB is built from -- what
+            # recalibrate_measured.py exists to do deliberately, with a dry run and a report.
+            skipped += 1
+            continue
+        key = rec["source_clip"]["clip_name"]         # working key = clip name, NOT action_id
         try:
             raw = unity_sampler.read_raw(key)
             blocks = metrics.channel_blocks(raw)
-            cand_path = os.path.join(CAND_DIR, key + ".json")
-            doc = _load(cand_path) if os.path.exists(cand_path) else _migrate_from_v1(v1, raw)
+            doc = rec if rec.get("schema_version") == C.SCHEMA_VERSION else _migrate_from_v1(rec, raw)
             doc["duration"] = round(raw["length"], 3)
             doc["frame_rate"] = raw["frame_rate"]
             _apply_measured(doc, blocks)
             doc["extraction"] = _build_extraction(raw)
-            _atomic_write(cand_path, doc)
+            _atomic_write(p, doc)
             m = lambda c: doc["channels"][c]["motion_magnitude"]
             rows.append("| %s | %d | %s | %s | %s | %s | %s | %s | %s | %s | %s |" % (
                 key, raw["frames"], m(C.TORSO), m(C.HEAD), m(C.LEFT_ARM), m(C.RIGHT_ARM),
                 m(C.LEFT_LEG), m(C.RIGHT_LEG), m(C.LEFT_HAND), m(C.RIGHT_HAND), m(C.ROOT)))
             ok += 1
         except FileNotFoundError:
-            rows.append("| %s | NO _raw (run emit-sampler + sample first) |" % key)
+            rows.append("| %s | NO raw (run emit-sampler + sample first) |" % key)
             fail += 1
         except Exception as e:  # per-file isolation
             rows.append("| %s | ERROR: %s |" % (key, e))
             fail += 1
 
     rows.append("")
-    rows.append("**%d ok / %d failed** -> candidate/ (MEASURED authoritative; role/motion_type/contact/"
-                "constraint/target + composability are PENDING semantic)." % (ok, fail))
+    rows.append("**%d ok / %d failed / %d accepted and left alone** -> actions/ (MEASURED "
+                "authoritative; role/motion_type/contact/constraint/target + composability are PENDING "
+                "semantic). Re-measuring an accepted record is recalibrate_measured.py's job."
+                % (ok, fail, skipped))
     report = "\n".join(rows) + "\n"
     with open(REPORT, "w", encoding="utf-8") as f:
         f.write(report)
@@ -365,11 +400,12 @@ def _new_source_stub(clip_name, fbx_or_anim, guid, file_id):
 
 
 def register(clip_name, host, port, instance):
-    """Resolve a clip BY NAME in Unity (guid + file_id) and scaffold candidate/<clip_name>.json with
+    """Resolve a clip BY NAME in Unity (guid + file_id) and scaffold actions/<clip_name>.json with
     source_clip filled — removes the manual file_id step from 'add a new action'."""
-    cand_path = os.path.join(CAND_DIR, clip_name + ".json")
-    if os.path.exists(cand_path):
-        print("candidate/%s.json already exists." % clip_name); return 1
+    existing = _by_clip().get(clip_name)
+    if existing:
+        print("'%s' already has a record at %s." % (clip_name, paths.rel(existing))); return 1
+    cand_path = os.path.join(ACTIONS_DIR, clip_name + ".json")
     if not unity_sampler.bridge_healthy(host, port):
         print("Unity MCP bridge not reachable at %s:%d (open Unity + start the MCP HTTP server)." % (host, port)); return 1
     ok, result_text, _ = unity_sampler.run_csharp_over_http(
@@ -385,7 +421,7 @@ def register(clip_name, host, port, instance):
             print("   ", m)
         return 1
     path, guid, file_id = matches[0].split("|")
-    os.makedirs(CAND_DIR, exist_ok=True)
+    os.makedirs(ACTIONS_DIR, exist_ok=True)
     _atomic_write(cand_path, _new_source_stub(clip_name, os.path.basename(path), guid, file_id))
     print("registered '%s':  fbx_or_anim=%s  guid=%s  file_id=%s" % (clip_name, os.path.basename(path), guid, file_id))
     # Best-effort: if the clip is already wired into a controller, fill controller_* now; else leave blank.
@@ -406,11 +442,8 @@ def register(clip_name, host, port, instance):
 
 
 def _doc_path_by_clip(clip_name):
-    """Path to the action JSON whose source_clip.clip_name == clip_name (candidate preferred over root)."""
-    for p in _source_files():
-        if (_load(p).get("source_clip") or {}).get("clip_name") == clip_name:
-            return p
-    return None
+    """Path to the record whose source_clip.clip_name == clip_name, or None."""
+    return _by_clip().get(clip_name)
 
 
 def _run_resolve(clip_name, host, port, instance):
@@ -468,16 +501,15 @@ def resolve_controller(clip_name, host, port, instance):
 
 def _clip_by_name(clip_name):
     """Find the source entry whose source_clip.clip_name == clip_name; return {id, guid, file_id}."""
-    for p in _source_files():
-        d = _load(p)
-        sc = d.get("source_clip") or {}
-        if sc.get("clip_name") == clip_name:
-            return {"id": clip_name, "guid": sc["guid"], "file_id": sc["file_id"]}
-    return None
+    p = _by_clip().get(clip_name)
+    if not p:
+        return None
+    sc = _load(p).get("source_clip") or {}
+    return {"id": clip_name, "guid": sc["guid"], "file_id": sc["file_id"]}
 
 
 def render(clip_name, host, port, instance):
-    """Render multi-angle frames of one clip into <KB>/_frames/<clip_name>/ (kept for review). The PNGs
+    """Render multi-angle frames of one clip into <KB>/frames/<clip_name>/ (kept for review). The PNGs
     come back base64 over the transport; Unity writes nothing."""
     clip = _clip_by_name(clip_name)
     if not clip:
@@ -488,10 +520,10 @@ def render(clip_name, host, port, instance):
         return 1
     out_dir = os.path.join(paths.FRAMES_DIR, clip_name)
     # Pick the camera views per-action from the MEASURED data + facing (falls back to the fixed pair if
-    # the _raw dump is missing, e.g. render before sample). See unity_sampler.select_views.
+    # the raw dump is missing, e.g. render before sample). See unity_sampler.select_views.
     views = unity_sampler.RENDER_VIEWS
     fracs = unity_sampler.RENDER_FRACS
-    raw_path = os.path.join(KB_DIR, "_raw", clip_name + ".json")
+    raw_path = os.path.join(paths.RAW_DIR, clip_name + ".json")
     if os.path.exists(raw_path):
         try:
             with open(raw_path, encoding="utf-8") as f:
@@ -499,11 +531,11 @@ def render(clip_name, host, port, instance):
             views = unity_sampler.select_views(metrics.channel_blocks(raw), raw.get("root_fwd"))
             fracs = unity_sampler.select_fracs(raw)
             print("  views (data-driven): %s" % ", ".join(n for n, _ in views))
-            print("  times (action-window): %s" % ", ".join("%d%%" % int(f * 100) for f in fracs))  # int() = the C# frame-filename convention
+            print("  times (pose coverage): %s" % ", ".join("%d%%" % int(f * 100) for f in fracs))  # int() = the C# frame-filename convention
         except Exception as e:  # never let angle/time selection break the render
             print("  (could not derive per-action views/times: %s — using fixed fallback)" % e)
     else:
-        print("  no _raw/%s.json — using fixed fallback views/times (run `sample` first)" % clip_name)
+        print("  no raw/%s.json — using fixed fallback views/times (run `sample` first)" % clip_name)
     # Clear stale frames so a re-render with a different view set doesn't leave old-named PNGs for `propose`.
     for old in glob.glob(os.path.join(out_dir, "*.png")) + glob.glob(os.path.join(out_dir, "*.png.meta")):
         try:
@@ -525,14 +557,10 @@ def render(clip_name, host, port, instance):
 
 def propose(clip_name, host, port, instance, stage=False):
     """Propose one clip: ensure frames (render if missing) -> VLM proposes -> consistency + composability
-    gate -> candidate. By default the VLM output is KEPT (auto-promoted to the accepted store as
-    `vlm_accepted`, no human required); `--stage` holds it in candidate/ for optional human review
-    (`author` then blesses it as `human_accepted`)."""
-    src = None
-    for p in _source_files():
-        if (_load(p).get("source_clip") or {}).get("clip_name") == clip_name:
-            src = p
-            break
+    gate -> the semantic half written back into the record. By default the VLM output is KEPT (accepted
+    as `vlm_accepted`, no human required); `--stage` leaves the record at status `candidate` for optional
+    human review (`author` then blesses it as `human_accepted`)."""
+    src = _doc_path_by_clip(clip_name)
     if not src:
         print("No source entry with clip_name '%s'." % clip_name)
         return 1
@@ -545,7 +573,7 @@ def propose(clip_name, host, port, instance, stage=False):
     print("Asking the VLM (%s) to propose semantic fields for '%s' ..." % (_propose.VLM_MODEL, clip_name))
     cand_path, errors, warns, proposed_aid = _propose.propose_clip(clip_name, src)
     print("  proposed action_id : %s" % proposed_aid)
-    print("  wrote candidate    : %s" % paths.rel(cand_path))
+    print("  wrote semantic half: %s" % paths.rel(cand_path))
     print("  consistency gate   : %s" % ("PASS (0 errors)" if not errors else "%d ERROR(S)" % len(errors)))
     for e in errors:
         print("    - %s" % e)
@@ -554,8 +582,8 @@ def propose(clip_name, host, port, instance, stage=False):
     if errors:
         return 1
     if stage:
-        print("  staged: kept as candidate/%s.json (review it, then `author %s`, or re-run `propose`)."
-              % (clip_name, clip_name))
+        print("  staged: %s keeps status 'candidate' (review it, then `author %s`, or re-run `propose`)."
+              % (paths.rel(cand_path), clip_name))
         return 0
     print("  auto-accepting (VLM output kept by default; human review is optional via `author %s`) ..."
           % clip_name)
@@ -563,13 +591,16 @@ def propose(clip_name, host, port, instance, stage=False):
 
 
 def _promote_candidate(clip_name, human):
-    """Promote candidate/<clip_name>.json -> root <action_id>.json (the accepted store). `human` records
-    WHO accepted it: human=True is the optional human review (status human_accepted, screenshots verified);
-    human=False is the default keep (status vlm_accepted — gpt-5.5 proposed + consistency-gated, no human
-    review). action_id is gated (slug + uniqueness) either way."""
-    cand_path = os.path.join(CAND_DIR, clip_name + ".json")
-    if not os.path.exists(cand_path):
-        print("No candidate at %s (run `propose %s` first)." % (cand_path, clip_name))
+    """Accept the record for `clip_name` and rename it to <action_id>.json. There is one store (ADR
+    0016), so what changes is `status`; the path only follows because the record's key changed from the
+    clip it came from to the action it now means. `human` records WHO accepted it: human=True is the
+    optional human review (status human_accepted, screenshots verified); human=False is the default keep
+    (status vlm_accepted — gpt-5.5 proposed + consistency-gated, no human review). action_id is gated
+    (slug + uniqueness) either way."""
+    cand_path = _by_clip().get(clip_name)
+    if not cand_path:
+        print("No record for clip '%s' (run `register %s` / `propose %s` first)."
+              % (clip_name, clip_name, clip_name))
         return 1
     doc = _load(cand_path)
     aid = doc.get("action_id")
@@ -577,12 +608,11 @@ def _promote_candidate(clip_name, human):
         print("Candidate action_id %r is not a valid slug ([a-z][a-z0-9_]*)." % aid)
         return 1
     root_path = os.path.join(ACTIONS_DIR, aid + ".json")
-    for p in _source_files():                                  # uniqueness across the accepted store
-        if os.path.abspath(p) == os.path.abspath(root_path):
+    mine = {os.path.abspath(root_path), os.path.abspath(cand_path)}
+    for p, other, err in paths.read_records(_source_files()):  # uniqueness across the whole store
+        if err or os.path.abspath(p) in mine:                  # the record being promoted isn't its own rival
             continue
-        if os.path.abspath(p) == os.path.abspath(cand_path):   # the candidate being promoted isn't a rival
-            continue
-        if (_load(p).get("action_id")) == aid:
+        if other.get("action_id") == aid:
             print("action_id '%s' already used by %s — pick a unique id." % (aid, os.path.basename(p)))
             return 1
     ex = doc.setdefault("extraction", {})
@@ -604,10 +634,11 @@ def _promote_candidate(clip_name, human):
     ex["verified_at"] = _now()
     doc["status"] = "accepted"
     _atomic_write(root_path, doc)
-    os.remove(cand_path)
-    print("%s '%s' -> %s  (promoted from candidate/%s.json)"
+    if os.path.abspath(root_path) != os.path.abspath(cand_path):
+        os.remove(cand_path)                                   # the rename: <clip_name> -> <action_id>
+    print("%s '%s' -> %s  (was %s)"
           % ("human-accepted" if human else "auto-accepted (vlm)", aid,
-             paths.rel(root_path), clip_name))
+             paths.rel(root_path), paths.rel(cand_path)))
     return 0
 
 
@@ -650,8 +681,15 @@ def main(argv):
             print("usage: extract.py author <clip_name|all>"); return 2
         if argv[2] == "all":
             rc = 0
-            for p in paths.action_files(CAND_DIR):
-                rc |= author(os.path.splitext(os.path.basename(p))[0])
+            # Everything PROPOSED but not yet accepted -- not every unlabelled record. The corpus is
+            # 2446 of those and not one has an action_id to be accepted under, so a bare status test
+            # would try to promote the whole KB and fail 2446 times.
+            for p, doc, err in paths.read_records():
+                if err or doc.get("status") == "accepted" or not doc.get("action_id"):
+                    continue
+                clip = (doc.get("source_clip") or {}).get("clip_name")
+                if clip:
+                    rc |= author(clip)
             return rc
         return author(argv[2])
     print("usage: extract.py [register <clip>|resolve-controller <clip>|emit-sampler|sample [clip]|assemble|"

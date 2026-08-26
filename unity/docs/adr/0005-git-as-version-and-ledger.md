@@ -1,7 +1,10 @@
 # 0005 — Version, rollback, and decisions via git; no separate DB / hash store / ledger
 
 Status: Accepted (2026-06-18), amended (2026-08-18) — a source-only mirror is now published, which
-changes the premise below but not the decision. Read the amendment at the end.
+changes the premise below but not the decision. Read the amendment at the end. One mechanical detail
+has since changed: promotion is no longer a `git mv` between two directories but a rename inside one
+store, because ADR 0016 merged `candidate/` into `actions/`. The status flip and the commit-as-ledger
+decision are unaffected.
 
 ## Context
 The KB is ~8 small JSON files in a single-author repo that had never been pushed (see the 2026-08-18
@@ -11,9 +14,9 @@ rejected as over-engineering for this scale.
 
 ## Decision
 git IS the change detector, decision log, and rollback mechanism. A KB version = a `git tag kb/<ver>`
-plus a human `CHANGELOG.md`; rollback = `git checkout kb/<ver> -- agent/kb/`. Candidate vs
+plus a human `CHANGELOG.md`; rollback = `git checkout kb/<ver> -- agent/animation_knowledge_base/`. Candidate vs
 accepted is a `status` field + a `candidate/` directory; promotion is a `git mv` + status flip whose
-COMMIT MESSAGE is the decision record. A `kb_manifest.json` indexes identity/provenance (action → file →
+COMMIT MESSAGE is the decision record. A `manifest.json` indexes identity/provenance (action → file →
 kb_version → extractor_git_sha) but stores NO per-entry content hash. If a content hash is ever needed,
 compute it on demand in the validator — do not store-and-reconcile it as a standing invariant.
 

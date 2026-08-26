@@ -144,7 +144,7 @@ def test_a_non_looping_clip_pays_no_foot_penalty():
 @pytest.fixture(scope="module")
 def corpus():
     if not os.path.isdir(T.paths.RAW_DIR):
-        pytest.skip("no _raw dumps available")
+        pytest.skip("no raw dumps available")
     kb = KBIndex.load()
     return kb, T.load_clips(kb)
 
@@ -444,3 +444,103 @@ def test_a_walk_that_is_really_walking_still_gets_its_whole_stride(corpus):
     kb, clips = corpus
     padded = T.schedule(["walking", "typing"], kb, clips, generate_posture_changes=True)
     assert padded[1].start_at_s > clips["walking"].frames / float(clips["walking"].fps or 30) * 0.9
+
+
+# --------------------------------------------------------------------------------------------------
+# raw_fingerprint scope. `raw` holds the 2446-clip Mixamo corpus as well as the accepted store's own
+# dumps; a table whose seams run between accepted actions is not derived from any of it. Hashing the
+# whole directory cost 52 s per process once the corpus landed (ADR 0014).
+
+def test_the_fingerprint_covers_the_accepted_dumps_and_only_those(tmp_path):
+    import paths
+    from agent import transitions as T
+
+    raw = tmp_path / "_raw"
+    actions = tmp_path / "actions"
+    raw.mkdir(); actions.mkdir()
+    paths.write_json(str(actions / "walk.json"),
+                     {"action_id": "walk", "status": "accepted",
+                      "source_clip": {"clip_name": "Walk_N"}})
+    assert T.accepted_dump_names(str(actions)) == ["Walk_N.json"]
+
+
+def test_adding_a_corpus_dump_does_not_stale_a_table_built_from_the_accepted_store(tmp_path, monkeypatch):
+    import paths
+    from agent import transitions as T
+
+    raw = tmp_path / "_raw"
+    actions = tmp_path / "actions"
+    raw.mkdir(); actions.mkdir()
+    paths.write_json(str(actions / "walk.json"),
+                     {"action_id": "walk", "status": "accepted",
+                      "source_clip": {"clip_name": "Walk_N"}})
+    paths.write_text(str(raw / "Walk_N.json"), "{}")
+    monkeypatch.setattr(paths, "ACTIONS_DIR", str(actions))
+    monkeypatch.setattr(paths, "RAW_DIR", str(raw))
+    T.forget_raw()
+
+    before = T.raw_fingerprint()
+    paths.write_text(str(raw / "mx_Some_Corpus_Clip.json"), '{"frames": 2}')
+    T.forget_raw()
+    assert T.raw_fingerprint() == before, "a corpus dump the table never opened must not invalidate it"
+
+    # ...but re-sampling an accepted action's clip must.
+    paths.write_text(str(raw / "Walk_N.json"), '{"frames": 3}')
+    T.forget_raw()
+    assert T.raw_fingerprint() != before
+
+
+def test_promoting_a_corpus_clip_brings_its_dump_into_the_fingerprint(tmp_path, monkeypatch):
+    """The moment a corpus clip stops being corpus, its dump starts mattering — no extra rule needed,
+    because the fingerprint is read off the accepted store rather than off a name pattern."""
+    import paths
+    from agent import transitions as T
+
+    raw = tmp_path / "_raw"
+    actions = tmp_path / "actions"
+    raw.mkdir(); actions.mkdir()
+    paths.write_json(str(actions / "walk.json"),
+                     {"action_id": "walk", "status": "accepted",
+                      "source_clip": {"clip_name": "Walk_N"}})
+    paths.write_text(str(raw / "Walk_N.json"), "{}")
+    paths.write_text(str(raw / "mx_Jog.json"), "{}")
+    monkeypatch.setattr(paths, "ACTIONS_DIR", str(actions))
+    monkeypatch.setattr(paths, "RAW_DIR", str(raw))
+    T.forget_raw()
+    before = T.raw_fingerprint()
+
+    paths.write_json(str(actions / "jog.json"),
+                     {"action_id": "jog", "status": "accepted",
+                      "source_clip": {"clip_name": "mx_Jog"}})
+    T.forget_raw()
+    assert T.raw_fingerprint() != before
+
+
+def test_an_explicit_raw_dir_is_still_hashed_whole(tmp_path):
+    """The narrowing is for the default corpus only. A caller who passes a directory means that
+    directory — nothing here knows which part of it they meant."""
+    import paths
+    from agent import transitions as T
+
+    raw = tmp_path / "scratch"
+    raw.mkdir()
+    paths.write_text(str(raw / "anything.json"), "{}")
+    before = T.raw_fingerprint(str(raw))
+    paths.write_text(str(raw / "mx_Also_This.json"), "{}")
+    assert T.raw_fingerprint(str(raw)) != before
+
+
+def test_a_named_dump_that_is_missing_is_hashed_as_absent_not_raised(tmp_path, monkeypatch):
+    import paths
+    from agent import transitions as T
+
+    raw = tmp_path / "_raw"
+    actions = tmp_path / "actions"
+    raw.mkdir(); actions.mkdir()
+    paths.write_json(str(actions / "walk.json"),
+                     {"action_id": "walk", "status": "accepted",
+                      "source_clip": {"clip_name": "Never_Sampled"}})
+    monkeypatch.setattr(paths, "ACTIONS_DIR", str(actions))
+    monkeypatch.setattr(paths, "RAW_DIR", str(raw))
+    T.forget_raw()
+    assert T.raw_fingerprint()          # a digest, not an exception

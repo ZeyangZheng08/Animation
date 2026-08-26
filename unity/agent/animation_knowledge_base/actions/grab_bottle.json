@@ -1,0 +1,343 @@
+{
+  "schema_version": "motionkb/v2",
+  "action_id": "grab_bottle",
+  "display_name": "Grab Bottle",
+  "status": "accepted",
+  "source_clip": {
+    "fbx_or_anim": "nurse_grab_bottle.fbx",
+    "guid": "4dde3e992c4eac342a862676aa2d3574",
+    "file_id": 1827226128182048838,
+    "clip_name": "nurse_grab_aspirin"
+  },
+  "controller_state": "Get Aspirin",
+  "controller_layer": "Base Layer",
+  "trigger_param": "getAspirin",
+  "duration": 1.333,
+  "frame_rate": 30,
+  "loop": false,
+  "overall_intent": "The nurse reaches out and grasps an aspirin bottle while standing.",
+  "tags": [
+    "nurse",
+    "aspirin",
+    "bottle",
+    "grab",
+    "reach",
+    "medication",
+    "pick_up",
+    "standing"
+  ],
+  "mask_coverage": {
+    "upper_body": true,
+    "hands": true,
+    "lower_body": false
+  },
+  "channels": {
+    "torso": {
+      "role": "support",
+      "motion_type": "balance",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The torso turns toward the reaching hand and holds the body over its base.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.2336,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.06935,
+        "divisor": 0.2969
+      },
+      "posture_label": "neutral",
+      "posture_magnitude": 0.152,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.09037,
+        "divisor": 0.5944
+      }
+    },
+    "head": {
+      "role": "stabilizer",
+      "motion_type": "gaze",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The head turns to look toward the bottle and reaching hand.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.1449,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.07193,
+        "divisor": 0.4963
+      },
+      "posture_label": "neutral",
+      "posture_magnitude": 0.092,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.07164,
+        "divisor": 0.7789
+      }
+    },
+    "left_arm": {
+      "role": "stabilizer",
+      "motion_type": "balance",
+      "contact": "none",
+      "constraint": "must-maintain",
+      "target": null,
+      "motion_description": "The left arm makes a small balancing adjustment near the body.",
+      "kind": "fk_part",
+      "state_label": "static",
+      "motion_magnitude": 0.0025,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.00169,
+        "divisor": 0.6864
+      },
+      "posture_label": "displaced",
+      "posture_magnitude": 0.3071,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.32823,
+        "divisor": 1.0689
+      }
+    },
+    "right_arm": {
+      "role": "primary",
+      "motion_type": "reach",
+      "contact": "none",
+      "constraint": "must-reach",
+      "target": null,
+      "motion_description": "The right arm reaches forward toward the bottle.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.1658,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.11379,
+        "divisor": 0.6864
+      },
+      "posture_label": "neutral",
+      "posture_magnitude": 0.2184,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.23348,
+        "divisor": 1.0689
+      }
+    },
+    "left_leg": {
+      "role": "free",
+      "motion_type": "balance",
+      "contact": "ground",
+      "constraint": "unconstrained",
+      "target": null,
+      "motion_description": "The left leg absorbs the small weight shift as the body turns.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.0711,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.03177,
+        "divisor": 0.4468
+      },
+      "posture_label": "displaced",
+      "posture_magnitude": 0.5858,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.3991,
+        "divisor": 0.6813
+      }
+    },
+    "right_leg": {
+      "role": "free",
+      "motion_type": "balance",
+      "contact": "ground",
+      "constraint": "unconstrained",
+      "target": null,
+      "motion_description": "The right leg absorbs the small weight shift as the body turns.",
+      "kind": "fk_part",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.0467,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.02085,
+        "divisor": 0.4468
+      },
+      "posture_label": "displaced",
+      "posture_magnitude": 0.6013,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.40965,
+        "divisor": 0.6813
+      }
+    },
+    "left_hand": {
+      "role": "free",
+      "motion_type": "hold-static",
+      "contact": "none",
+      "constraint": "unconstrained",
+      "target": null,
+      "motion_description": "The left hand is not used and stays relaxed at the side.",
+      "kind": "hand",
+      "state_label": "static",
+      "motion_magnitude": 0.0,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.0,
+        "divisor": 0.7546
+      },
+      "posture_label": "displaced",
+      "posture_magnitude": 0.4084,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.56671,
+        "divisor": 1.3878
+      }
+    },
+    "right_hand": {
+      "role": "primary",
+      "motion_type": "manipulate",
+      "contact": "object:aspirin_bottle",
+      "constraint": "must-reach",
+      "target": null,
+      "motion_description": "The right hand closes around and takes hold of the aspirin bottle.",
+      "kind": "hand",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.2856,
+      "raw_measurement": {
+        "signal": "muscle_dof_stddev_rms",
+        "raw_value": 0.21549,
+        "divisor": 0.7546
+      },
+      "posture_label": "displaced",
+      "posture_magnitude": 0.3834,
+      "posture_measurement": {
+        "signal": "muscle_dof_mean_offset_rms",
+        "raw_value": 0.5321,
+        "divisor": 1.3878
+      }
+    },
+    "root": {
+      "kind": "root",
+      "state_label": "dynamic",
+      "motion_magnitude": 0.0504,
+      "raw_measurement": {
+        "signal": "max(trans/1.9782, vert/1.8396, heading/131.8575)",
+        "body_trans_horiz_stddev": 0.00654,
+        "body_vert_range": 0.00722,
+        "body_heading_stddev_deg": 6.641
+      },
+      "posture_label": "neutral",
+      "posture_magnitude": 0.0216,
+      "posture_measurement": {
+        "signal": "max(height_offset/1.0224, tilt_offset/104.9734)",
+        "body_height_offset": 0.02213,
+        "body_tilt_offset_deg": 1.079
+      }
+    }
+  },
+  "ik_goals": [
+    {
+      "effector": "right_hand",
+      "target": null,
+      "constraint": "TwoBoneIKConstraint",
+      "contact_object": "aspirin_bottle",
+      "world_space": true
+    }
+  ],
+  "composability": {
+    "locks": [
+      "torso",
+      "head",
+      "left_arm",
+      "right_arm",
+      "right_hand"
+    ],
+    "free": [
+      "left_leg",
+      "right_leg",
+      "left_hand"
+    ],
+    "can_overlay_on": [
+      "idle"
+    ],
+    "base_or_overlay": "overlay",
+    "posture": "standing",
+    "seam_owner": {
+      "torso": "base",
+      "root": "base"
+    }
+  },
+  "extraction": {
+    "method": "in_engine_sample_root_local",
+    "sampled_frames": 40,
+    "sampling_rule": "clamp(round(duration*frame_rate),2,600), native rate, HumanPose muscles + bodyPosition/bodyRotation",
+    "motion_metric": "all 8 anatomical channels: muscle_dof_stddev_rms, divided by torso 0.2969 / head 0.4963 / arm 0.6864 / leg 0.4468 / hand 0.7546; root: max(trans/1.9782, vert/1.8396, heading/131.8575) from HumanPose.bodyPosition and bodyRotation; posture: muscle_dof_mean_offset_rms vs REFERENCE_POSE (Unity's Humanoid reference: every muscle 0, bodyPosition.y 1.0, bodyRotation identity), divided by torso 0.5944 / head 0.7789 / arm 1.0689 / leg 0.6813 / hand 1.3878, displaced at 0.30x divisor; root posture: max(height_offset/1.0224, tilt_offset/104.9734)",
+    "bone_map_version": "v2.0.0",
+    "metric_formula_version": "v2.5.0",
+    "extractor_version": "2.0.0",
+    "extractor_lang": "python",
+    "avatar": "nurse_avatar.fbx",
+    "extracted_at": "2026-08-26T00:33:59Z",
+    "field_origin": {
+      "measured": [
+        "duration",
+        "frame_rate",
+        "channels.*.state_label",
+        "channels.*.motion_magnitude",
+        "channels.*.raw_measurement",
+        "channels.*.posture_label",
+        "channels.*.posture_magnitude",
+        "channels.*.posture_measurement"
+      ],
+      "resolved": [
+        "controller_state",
+        "controller_layer",
+        "trigger_param"
+      ],
+      "semantic": [
+        "display_name",
+        "overall_intent",
+        "tags",
+        "mask_coverage",
+        "channels.*.motion_description"
+      ],
+      "semantic_pending": [
+        "channels.*.role",
+        "channels.*.motion_type",
+        "channels.*.contact",
+        "channels.*.constraint",
+        "channels.*.target",
+        "composability"
+      ]
+    },
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "gpt-5.5-2026-04-23",
+      "proposed_at": "2026-07-01T20:44:54Z",
+      "frames": 6,
+      "render_views": [
+        "front",
+        "front_left_3q"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_id",
+        "display_name",
+        "overall_intent",
+        "tags",
+        "mask_coverage",
+        "channels.*.role",
+        "channels.*.motion_type",
+        "channels.*.contact",
+        "channels.*.constraint",
+        "channels.*.motion_description",
+        "composability.base_or_overlay",
+        "composability.posture",
+        "composability.can_overlay_on"
+      ],
+      "status": "vlm_accepted"
+    },
+    "verified_by": "auto-accepted: gpt-5.5 proposed + consistency-gated, no human review (ADR 0008)",
+    "verified_at": "2026-07-01T21:42:45Z"
+  }
+}

@@ -36,18 +36,18 @@ that layer is validate_guids.py, which drives the AssetDatabase over the Unity M
 Per-file failure isolation (module H): one bad file never aborts the batch; exit non-zero iff any failed.
 
 Usage:
-  python validate_motionkb.py                 # validate the KB's candidate/*.json, else the accepted store
+  python validate_motionkb.py                 # validate every record in the store, whatever its status
+  python validate_motionkb.py -q              # same, but print only failures (the corpus is ~2400 files)
   python validate_motionkb.py <dir|file>...   # validate explicit dir/files
 """
-import sys, os, json, glob
+import sys, os, json
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import paths                                                     # noqa: E402
 
 KB_DIR = paths.KB_DIR                                            # see paths.py / MOTIONKB_DIR
-CAND_DIR = paths.CAND_DIR
 SCHEMA_PATH = os.path.join(paths.SCHEMA_DIR, "motionkb.v2.schema.json")
-ENGINE_MAP_PATH = os.path.join(KB_DIR, "engine_mask_map.json")
+ENGINE_MAP_PATH = paths.ENGINE_MASK_MAP
 
 STATE_CHANNELS = ["root", "torso", "head", "left_arm", "right_arm", "left_leg", "right_leg", "left_hand", "right_hand"]
 PARTITION_CHANNELS = ["torso", "head", "left_arm", "right_arm", "left_leg", "right_leg", "left_hand", "right_hand"]
@@ -165,6 +165,20 @@ def validate_invariants(data, errors, engine_channels):
         if eff not in EFFECTOR_TO_CHANNEL:
             errors.append(f"ik_goals: effector '{eff}' has no channel resolution")
 
+    # The SEMANTIC half is required to ACCEPT a record, not to hold one. The schema lets action_id,
+    # display_name, overall_intent be null and tags be empty, because "measured, not yet labelled" is a
+    # real state: the bulk corpus is registered and measured in one pass and proposed later. Requiring
+    # them in the schema meant a MEASURED-complete record was a schema violation, so the gate could not
+    # tell an unlabelled record from a malformed one. Here the requirement is attached to the claim it
+    # actually belongs to -- status. Fail-closed: only an explicit 'candidate' is exempt, so a record
+    # with no status at all is still held to the full bar (ADR 0014).
+    if data.get("status") != "candidate":
+        for field in ("action_id", "display_name", "overall_intent"):
+            if data.get(field) is None:
+                errors.append(f"{field} is null, which only a status='candidate' record may be")
+        if not (data.get("tags") or []):
+            errors.append("tags is empty, which only a status='candidate' record may be")
+
 
 def validate_overlay_disjointness(by_id, errors_by_file):
     # SCOPE: this is a MODEL-A (mask+layer overlay co-playback) check, NOT a universal invariant. It
@@ -189,7 +203,24 @@ def validate_overlay_disjointness(by_id, errors_by_file):
                     f"composability: posture mismatch overlaying on '{base}' ({posture_of[aid]} vs {posture_of[base]})")
 
 
+def _semantic_proposed(data):
+    """True once anything has proposed the SEMANTIC half of this record.
+
+    Both warnings below compare a measured fact against a semantic declaration, so on a record whose
+    semantic half is still the register-time placeholder -- mask_coverage all-false, every channel
+    free -- they do not report a disagreement, they report the placeholder. On a 2400-clip corpus that
+    is ten thousand lines of noise saying nothing. Same gate `validate_semantic_consistency` already
+    uses: a non-null role is the mark that somebody claimed something."""
+    ch = data.get("channels", {})
+    if not isinstance(ch, dict):
+        return False
+    return any(isinstance(f, dict) and f.get("role") is not None
+               for c, f in ch.items() if c in PARTITION_CHANNELS)
+
+
 def soft_warnings(data, warns):
+    if not _semantic_proposed(data):
+        return
     mc = data.get("mask_coverage", {})
     ch = data.get("channels", {})
     if isinstance(mc, dict) and mc.get("lower_body") is False and isinstance(ch, dict):
@@ -204,6 +235,10 @@ def soft_warnings(data, warns):
             fact = ch.get(part)
             if isinstance(fact, dict) and fact.get("state_label") == "dynamic":
                 warns.append(f"channels.{part} is dynamic but composability lists it free (occupied? confirm semantic locks)")
+            if (isinstance(fact, dict) and fact.get("state_label") == "static"
+                    and fact.get("posture_label") == "displaced"):
+                warns.append(f"channels.{part} holds a non-rest pose (static but displaced) yet composability "
+                             f"lists it free (a hold occupies the channel)")
 
 
 def validate_semantic_consistency(data, errors, warns):
@@ -278,8 +313,10 @@ def validate_semantic_consistency(data, errors, warns):
             errors.append(f"channels.{c}: motion_type=cyclic-locomotion but neither leg channel is dynamic")
 
         # soft signals (review nudges, not blockers)
-        if role == "primary" and state == "static" and not has_ik:
-            warns.append(f"channels.{c}: role=primary but static and no ik_goal (confirm it really drives the action)")
+        if (role == "primary" and state == "static" and not has_ik
+                and f.get("posture_label") != "displaced"):
+            warns.append(f"channels.{c}: role=primary but static, at rest posture, and no ik_goal "
+                         f"(confirm it really drives the action)")
         if mt == "gaze" and c != "head":
             warns.append(f"channels.{c}: motion_type=gaze on a non-head channel")
         if mt == "manipulate" and kind != "hand":
@@ -292,12 +329,17 @@ def validate_semantic_consistency(data, errors, warns):
 
 
 # --------------------------------- driver -------------------------------------
-def accepted_files():
-    """The accepted store only (never candidate/) — what validate_guids.py resolves against."""
-    return paths.action_files()
-
-
 def collect_files(args):
+    """What to validate: the named files/directories, or the whole store.
+
+    THE WHOLE store, always. This used to validate the staged candidates alone whenever any were
+    staged, on the reasoning that candidates are what is being worked on -- but it meant the accepted
+    records went unchecked for as long as anything sat in candidate/, and the run still printed a pass
+    count. A field that the schema forbids (extraction.measurement_space) lived in all eight accepted
+    records through several green runs because of it. A gate that stops covering the thing it guards,
+    without saying so, is worse than no gate. One store (ADR 0016) removes the choice that made that
+    possible: there is nothing to prefer, so nothing to skip.
+    """
     if args:
         files = []
         for a in args:
@@ -306,21 +348,7 @@ def collect_files(args):
             else:
                 files.append(a)
         return files
-    # BOTH stores, always. This used to return the candidates alone whenever any were staged, on the
-    # reasoning that candidates are what is being worked on -- but it meant the accepted store went
-    # unchecked for as long as anything sat in candidate/, and the run still printed a pass count.
-    # A field that the schema forbids (extraction.measurement_space) lived in all eight accepted
-    # records through several green runs because of it. A gate that stops covering the thing it
-    # guards, without saying so, is worse than no gate.
-    #
-    # Deduped by path, candidates first so a staged file is reported before the record it will
-    # replace.
-    seen, files = set(), []
-    for f in paths.action_files(CAND_DIR) + paths.action_files():
-        if f not in seen:
-            seen.add(f)
-            files.append(f)
-    return files
+    return paths.action_files()
 
 
 def main(argv):
@@ -338,24 +366,23 @@ def main(argv):
     except Exception as e:
         print(f"WARN: cannot load engine_mask_map.json ({e}); skipping channel-vocabulary check")
 
-    files = collect_files(argv[1:])
+    rest = [a for a in argv[1:] if a not in ("-q", "--quiet")]
+    quiet = len(rest) != len(argv[1:])
+    files = collect_files(rest)
     if not files:
         print("FATAL: no MotionKB JSON files found")
         return 1
 
     errors_by_file, warns_by_file, loaded = {}, {}, {}
-    for fname in files:
+    for fname, data, read_error in paths.read_records(files):
         try:
             short = os.path.relpath(fname, KB_DIR)
         except ValueError:
             short = fname  # path on another drive (e.g. a scratch test file) — don't abort the batch
         errors_by_file[short] = []
         warns_by_file[short] = []
-        try:
-            with open(fname, encoding="utf-8") as f:
-                data = json.load(f)
-        except Exception as e:
-            errors_by_file[short].append(f"not valid JSON: {e}")
+        if read_error:
+            errors_by_file[short].append(f"not valid JSON: {read_error}")
             continue
         validate_shape(data, schema, schema, "$", errors_by_file[short])
         validate_invariants(data, errors_by_file[short], engine_channels)
@@ -368,7 +395,8 @@ def main(argv):
     validate_overlay_disjointness(loaded, errors_by_file)
 
     passed = failed = 0
-    print(f"MotionKB validation - schema motionkb/v2 - {len(files)} file(s)\n")
+    print(f"MotionKB validation - schema motionkb/v2 - {len(files)} file(s)"
+          + ("  (quiet: failures only)\n" if quiet else "\n"))
     for short in errors_by_file:
         errs = errors_by_file[short]
         warns = warns_by_file.get(short, [])
@@ -379,9 +407,11 @@ def main(argv):
                 print(f"          - {e}")
         else:
             passed += 1
-            print(f"  PASS  {short}" + (f"   ({len(warns)} warning(s))" if warns else ""))
-        for w in warns:
-            print(f"          ~ warn: {w}")
+            if not quiet:
+                print(f"  PASS  {short}" + (f"   ({len(warns)} warning(s))" if warns else ""))
+        if not quiet:
+            for w in warns:
+                print(f"          ~ warn: {w}")
 
     print(f"\n{passed} passed / {failed} failed"
           + ("" if failed else "  (guid->asset resolution needs the engine; run validate_guids.py for that layer)"))
