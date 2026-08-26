@@ -3,6 +3,14 @@
 Status: Accepted (2026-06-18). Supersedes ADR 0003 (the v1 6-part split). ADR 0002 (measured vs
 semantic) remains binding and is reinforced here.
 
+> **Amended, 2026-08-26.** The 9-channel split stands exactly as decided, and so does the
+> Python-side reproducible extractor. Two things this ADR describes around it are gone with
+> motionkb/v4 ([0022](0022-the-kb-describes-the-agent-decides.md)): the 8 anatomical channels are no
+> longer "partitioned by `composability.locks`/`free`" — that block is deleted, and the partition
+> arrives from the agent's plan — and the orthogonal `ik_goals` layer is deleted too, with IK goals
+> named per request instead. Where the text below says PARTITION set, read: the eight anatomical
+> channels, root excluded, each carrying a kinematic block and one `motion_description`.
+
 ## Context
 The v1 split (`head, chest, left_arm, right_arm, legs, feet`) merged both legs, folded hands into arms,
 and had no root channel or orthogonal IK layer. A 4-lens adversarial review of the v2 draft spec

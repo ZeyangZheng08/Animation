@@ -11,18 +11,23 @@ VLM proposal metadata. None of that helps a model decide which motion to play. S
 is a projection, and `MODEL_VISIBLE_FIELDS` is the whitelist. `record()` returns the full document but is
 for internal use — the executor needs `source_clip`'s guid and file_id, and the model never does.
 
-TOKENIZATION. Tags are snake_case (`chest_compressions`, `bag_valve_mask`) while queries are ordinary
-English ("performs chest compressions"). Splitting on non-alphanumerics is therefore load-bearing, not
-cosmetic: without it the highest-signal field in the corpus never matches anything a user types.
+TOKENIZATION. Descriptions are ordinary English and so are queries, but the fold on non-alphanumerics
+and trivial plurals still earns its place: "chest compressions" has to match a sentence that says
+"compression", and `action_id`s are snake_case.
 
-WHAT THIS DELIBERATELY DOES NOT READ. `composability.can_overlay_on`, `.locks` and `.free` are in the
-contract but are not consulted. `can_overlay_on` is an enumerated whitelist — precisely the pre-enumerated
-interaction template the research claim rejects — and `locks`/`free` is derived from `role == "free"`, so
-it means "this channel is busy", not "this channel may not be overridden". Taken literally they reject
-both decompose cases in the eval set: `grab_bottle.can_overlay_on == ["idle"]` excludes walking, and
-`giving_pills.free == []` cannot free the head. Channel ownership is decided by `role` priority instead,
-in `arbitrate()` — which needs no change to the KB, since `role` is already in the contract and filled
-for all eight actions.
+WHAT A RECORD NOW HOLDS, and what follows from it. Since motionkb/v4 (ADR 0022) a record carries
+measured kinematics and two kinds of description — one for the action, one per anatomical channel —
+and nothing else. There is no `role`, no `contact`, no `composability`, no `ik_goals`. That is not a
+loss this module works around: those fields answered questions about a COMBINATION (may another
+action drive this part, what is this hand holding, may these two play together), and a clip alone on
+a rendering floor cannot answer them. The agent decides them from the task and the scene, and says so
+in its plan. So `arbitrate()` — which used to rank `role` and hand back an owner per channel — is
+gone from this module, and channel ownership arrives from the plan instead (see agent/assemble.py).
+
+WHAT IS DERIVED HERE. `posture_of` is a bin over the root channel's measured `mean_body_height`, not
+a stored label. It is derived rather than deleted because the ENGINE needs it — every plan step
+carries a posture so the executor can refuse to walk a seated character off a chair — and because it
+is a fact about the clip's carriage that the measurement already contains.
 """
 import json
 import os
@@ -30,22 +35,42 @@ import re
 
 import paths
 
-# Ranked weakest to strongest. A part whose role ranks STRICTLY higher takes the channel; a tie means
-# the two parts genuinely contend and the caller must decide (or the structural gate rejects the plan).
-ROLE_PRIORITY = {"free": 0, "stabilizer": 1, "support": 2, "primary": 3}
-
 # The 8 anatomical channels plus root. Mirrors config.STATE_CHANNELS; kept here as the retrieval-side
 # vocabulary so this module does not drag in the extractor's calibration constants.
 CHANNELS = ("root", "torso", "head", "left_arm", "right_arm",
             "left_leg", "right_leg", "left_hand", "right_hand")
 ANATOMICAL = CHANNELS[1:]
 
+# Below this mean body height (normalised humanoid units, HumanPose.bodyPosition.y) a clip's carriage
+# is a seated one. It is a bin over a measurement, and the corpus leaves an unusually wide gap for it
+# to sit in: the one seated action reads 0.647 and the lowest standing action (bvm, leaning over a
+# patient) reads 0.859. 0.75 is the middle of that gap. Deliberately NOT combined with
+# `mean_body_tilt_deg`: tilt measures forward lean, and cpr (44.6 deg) and bvm (39.3 deg) lean far
+# harder than the seated clip does (8.7 deg), so any rule reading tilt gets those two wrong.
+SEATED_BELOW = 0.75
+
 # What a tool may hand to the model. `extraction` and `source_clip` are absent on purpose: provenance
 # and asset guids cost tokens and inform no decision the model makes.
 MODEL_VISIBLE_FIELDS = frozenset({
-    "action_id", "display_name", "duration", "frame_rate", "loop",
-    "overall_intent", "tags", "mask_coverage", "channels", "ik_goals", "composability",
+    "action_id", "action_description", "duration", "frame_rate", "loop", "channels",
 })
+
+
+def posture_of(rec):
+    """'standing' or 'seated', binned from the record's measured carriage.
+
+    Through v3 this was `composability.posture`, a label a VLM proposed and a human accepted. It is
+    computed now because the label is gone (ADR 0022) and because it was never really a judgement:
+    where the hips sit over the clip is a measurement, and the record keeps it.
+
+    A record with no root carriage falls back to standing, which is what the executor assumes.
+    """
+    if not isinstance(rec, dict):
+        return "standing"
+    h = ((rec.get("channels") or {}).get("root") or {}).get("mean_body_height")
+    if not isinstance(h, (int, float)):
+        return "standing"
+    return "seated" if h < SEATED_BELOW else "standing"
 
 _STOP = frozenset("""
 a an the and or but of to in on at by for with from into over under while during as is are was were be
@@ -75,20 +100,18 @@ def tokenize(text):
 class Hit:
     """One search result. Kept small on purpose — see the module docstring on the context budget."""
 
-    __slots__ = ("action_id", "display_name", "score", "why", "base_or_overlay", "posture")
+    __slots__ = ("action_id", "description", "score", "why", "posture")
 
-    def __init__(self, action_id, display_name, score, why, base_or_overlay, posture):
+    def __init__(self, action_id, description, score, why, posture):
         self.action_id = action_id
-        self.display_name = display_name
+        self.description = description
         self.score = score
         self.why = why
-        self.base_or_overlay = base_or_overlay
         self.posture = posture
 
     def as_dict(self):
-        return {"action_id": self.action_id, "display_name": self.display_name,
-                "score": round(self.score, 2), "why": self.why,
-                "kind": self.base_or_overlay, "posture": self.posture}
+        return {"action_id": self.action_id, "description": self.description,
+                "score": round(self.score, 2), "why": self.why, "posture": self.posture}
 
     def __repr__(self):
         return "Hit(%s, %.2f)" % (self.action_id, self.score)
@@ -110,8 +133,8 @@ class KBIndex:
         """The accepted records, in memory.
 
         The store holds every record whatever its status (ADR 0016), and the agent retrieves only what
-        has been labelled — an unlabelled record has no tags, no intent and no motion_description, so it
-        is not findable by meaning and would only dilute the ranking. Which ones those are comes from
+        has been described — an undescribed record has no sentence anywhere in it, so it is not
+        findable by meaning and would only dilute the ranking. Which ones those are comes from
         `paths.accepted_files()`, which reads the manifest rather than opening 2454 files at every
         start. Pass `actions_dir` to read a directory directly instead; tests use it.
         """
@@ -137,21 +160,21 @@ class KBIndex:
     def _document(rec):
         """Field-weighted bag of tokens. Weighting is by repetition, which is how BM25 sees emphasis.
 
-        Tags carry the most signal per token (they are curated keywords), contact objects next — a query
-        naming a bottle or a monitor is usually naming the thing the motion must touch.
+        Two sources now, where v3 had six. `tags` carried the most signal per token and is deleted
+        along with `display_name`, `overall_intent`, `motion_type` and the contact objects lifted out
+        of `ik_goals` (ADR 0022). What replaces them is `action_description` — one sentence about the
+        whole action, repeated x3 to hold the weight the curated keywords used to — plus the eight
+        per-channel sentences at x1. The x3 is not a tuned number: it is the old tag weight, applied
+        to the field that inherited the tags' job, and it keeps a ~15-token summary from being
+        outvoted by ~80 tokens of body-part detail. `action_id` is added at x1 because it is the only
+        remaining place a compound name like `check_pulse` appears as one phrase.
         """
         parts = []
-        parts += tokenize(" ".join(rec.get("tags", []))) * 3
-        parts += tokenize(rec.get("display_name", "")) * 2
-        parts += tokenize(rec.get("overall_intent", ""))
-        for goal in rec.get("ik_goals", []):
-            if goal.get("contact_object"):
-                parts += tokenize(goal["contact_object"]) * 2
+        parts += tokenize(rec.get("action_description") or "") * 3
+        parts += tokenize(rec.get("action_id") or "")
         for name, ch in rec.get("channels", {}).items():
             if ch.get("motion_description"):
                 parts += tokenize(ch["motion_description"])
-            if ch.get("motion_type"):
-                parts += tokenize(ch["motion_type"])
         return parts
 
     def _ensure_bm25(self):
@@ -182,9 +205,7 @@ class KBIndex:
 
     def _hit(self, aid, score, why):
         rec = self.actions[aid]
-        comp = rec.get("composability", {})
-        return Hit(aid, rec.get("display_name", aid), float(score), why,
-                   comp.get("base_or_overlay"), comp.get("posture"))
+        return Hit(aid, rec.get("action_description"), float(score), why, posture_of(rec))
 
     def _why(self, aid, query):
         """The query terms this action actually matched, so the model can judge the hit rather than
@@ -198,31 +219,28 @@ class KBIndex:
 
     @staticmethod
     def _matches(rec, filters):
-        comp = rec.get("composability", {})
+        """Structured narrowing, over the two things a v4 record can still be filtered BY.
+
+        v3 filtered on `base_or_overlay`, `motion_type`, `contact_object` and a per-channel `role`
+        as well. Each of those read a deleted field, and none has an honest substitute: what a clip
+        touches and which part matters are readings the task supplies. `posture` survives because it
+        is now measured (see `posture_of`), `loop` because it always was, and `moves_channel` is
+        added in their place — "which action moves the legs" is a question the KINEMATIC half can
+        answer, and it is the nearest thing to `channel_role` that is not a guess.
+        """
         channels = rec.get("channels", {})
 
         for key, want in filters.items():
             if want is None:
                 continue
-            if key == "base_or_overlay" and comp.get("base_or_overlay") != want:
-                return False
-            elif key == "posture" and comp.get("posture") != want:
+            if key == "posture" and posture_of(rec) != want:
                 return False
             elif key == "loop" and bool(rec.get("loop")) != bool(want):
                 return False
-            elif key == "motion_type":
-                if not any(ch.get("motion_type") == want for ch in channels.values()):
-                    return False
-            elif key == "contact_object":
-                objects = {g.get("contact_object") for g in rec.get("ik_goals", [])}
-                objects |= {(ch.get("contact") or "").removeprefix("object:")
-                            for ch in channels.values() if (ch.get("contact") or "").startswith("object:")}
-                if want not in objects:
-                    return False
-            elif key == "channel_role":
-                # {"left_leg": "primary"} — "which action drives the legs?"
-                for channel, role in want.items():
-                    if channels.get(channel, {}).get("role") != role:
+            elif key == "moves_channel":
+                # ["left_leg", "right_leg"] — every named channel must be measured dynamic.
+                for channel in ([want] if isinstance(want, str) else want):
+                    if (channels.get(channel) or {}).get("state_label") != "dynamic":
                         return False
         return True
 
@@ -243,11 +261,13 @@ class KBIndex:
         return {k: rec[k] for k in rec if k in wanted}
 
     def channels(self, action_id):
-        """Per-channel occupancy: what each body part is doing, what pose it sits in, and what it
-        touches.
+        """Per-channel facts: what each body part is doing, what pose it sits in, and how the record
+        describes it.
 
-        This is the projection the assembly step actually reasons over, and it is a fraction of the
-        ~2100 tokens of a full record.
+        This is the projection the model and the assembly step reason over, and it is a fraction of
+        the ~2100 tokens of a full record. Everything in it is either measured or a sentence: the
+        `role` / `motion_type` / `contact` entries this used to carry were the assembler's whole
+        input, and their removal (ADR 0022) is exactly why the plan now names channels itself.
 
         `mean_pose` is handed over whole rather than summarised, because the point of storing the
         vector is that no single number stands in for it: a raised-and-held arm and a hanging-still
@@ -269,9 +289,8 @@ class KBIndex:
             for key in ("mean_body_height", "mean_body_tilt_deg"):
                 if ch.get(key) is not None:
                     entry[key] = ch[key]
-            for key in ("role", "motion_type", "contact"):
-                if ch.get(key) is not None:
-                    entry[key] = ch[key]
+            if ch.get("motion_description"):
+                entry["describes"] = ch["motion_description"]
             out[name] = entry
         return out
 
@@ -294,43 +313,7 @@ class KBIndex:
             vocabulary.update(tokens)
         return round(sum(1 for t in query if t in vocabulary) / len(query), 2)
 
-    def contacts(self):
-        """object name -> [(action_id, effector)]. Answers "what in the corpus touches an aspirin
-        bottle?" — the bridge from a scene object back to candidate motions."""
-        out = {}
-        for aid in self._ids:
-            for goal in self.actions[aid].get("ik_goals", []):
-                obj = goal.get("contact_object")
-                if obj:
-                    out.setdefault(obj, []).append((aid, goal.get("effector")))
-        return out
-
-
-def arbitrate(parts):
-    """Decide which part owns each channel, by role priority.
-
-    `parts` is [(action_id, channels_projection)]. Returns (owners, contested) where owners maps
-    channel -> action_id and contested lists channels where the top role is tied.
-
-    This replaces `can_overlay_on`/`locks`/`free` — see the module docstring. Strictly-higher wins:
-    `grab_bottle.right_arm` is `primary` and `walking.right_arm` is `stabilizer`, so carrying a bottle
-    while walking resolves without either clip needing to know the other exists.
-    """
-    owners, contested = {}, []
-    for channel in CHANNELS:
-        claims = []
-        for action_id, channels in parts:
-            ch = channels.get(channel)
-            if ch is None:
-                continue
-            # root has no role in the contract; whoever supplies locomotion supplies it.
-            role = ch.get("role", "primary" if channel == "root" else "free")
-            claims.append((ROLE_PRIORITY.get(role, 0), action_id))
-        if not claims:
-            continue
-        claims.sort(reverse=True)
-        top = claims[0][0]
-        if len(claims) > 1 and claims[1][0] == top:
-            contested.append(channel)
-        owners[channel] = claims[0][1]
-    return owners, contested
+    # `contacts()` lived here: object name -> [(action_id, effector)], read off `ik_goals`, as the
+    # bridge from a scene object back to candidate motions. It had no callers, and v4 removes the
+    # field it read (ADR 0022) -- what a clip touches is something the scene and the task decide, and
+    # the plan's `ik_bindings` / `carry` are where that arrives.

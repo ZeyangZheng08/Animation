@@ -2,15 +2,15 @@
 vlm_openai.py — minimal stdlib client for the MotionKB PROPOSE step's VLM (ADR 0008).
 
 The propose step needs a vision-language model to look at rendered frames of a clip and PROPOSE the
-SEMANTIC fields (action_id + display_name + intent + tags + the per-channel 5-tuple). This
-module is the thin transport for that one call: it POSTs to the OpenAI Chat Completions API with the
+record's descriptions (action_id + action_description + one motion_description per anatomical
+channel). This module is the thin transport for that one call: it POSTs to the OpenAI Chat Completions API with the
 rendered PNGs as image inputs and returns the parsed JSON proposal. No SDK — stdlib `urllib` only, matching
 the rest of `agent/motionkb/`.
 
 The model is `gpt-5.5-2026-04-23` (a reasoning model — give it generous `max_completion_tokens`). The API
 key is read from the OPENAI_API_KEY env var, else from `key.env` at the repo root (which is git-ignored —
-NEVER commit it, NEVER log the key). The proposal is gated downstream by `validate_semantic_consistency`
-(the model proposes; numbers stay KINEMATIC; a human accepts) — see ADR 0008.
+NEVER commit it, NEVER log the key). The proposal is gated downstream by `validate_descriptions`
+(the model proposes; numbers stay KINEMATIC; a human may accept) — see ADR 0008.
 """
 import base64
 import json

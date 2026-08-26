@@ -14,10 +14,13 @@ import sys
 
 from agent import assemble as A
 from agent import gates as G
+from agent import kbindex as KI
 from agent import protocol as P
 from agent import transitions as T
 from agent.engine import DEFAULT_HOST, DEFAULT_PORT, EngineLink
 from agent.kbindex import KBIndex
+
+OTHER_HAND = {"left_hand": "right_hand", "right_hand": "left_hand"}
 
 
 def steps_of(order, kb, clips, seat_id=None, seat_surface=None):
@@ -36,8 +39,7 @@ def steps_of(order, kb, clips, seat_id=None, seat_surface=None):
         # Same field the real path sends. A probe whose payload has drifted from the tool's stops being
         # evidence about the tool: this one passed while leaving the executor's posture on "standing",
         # because it was the one caller not sending it.
-        entry["posture"] = ((kb.record(step.action_id).get("composability") or {}).get("posture")
-                            or "standing")
+        entry["posture"] = KI.posture_of(kb.record(step.action_id))
         if entry.get("generated") and seat_id:
             entry["generated"]["support_object_id"] = seat_id
             entry["generated"]["support_surface_m"] = seat_surface
@@ -55,6 +57,11 @@ async def main(argv):
                     help="move the character to the seat before the descent, which is the fix the "
                          "gate named when the first generated sit landed in mid-air")
     ap.add_argument("--face", default=None, help="object_id to turn towards after arriving")
+    ap.add_argument("--bind", nargs="*", default=["left_hand=Laptop"], metavar="HAND=OBJECT",
+                    help="what a hand is asked to reach, e.g. left_hand=Laptop. The record no "
+                         "longer says (ADR 0022), so the probe names it; where the object carries "
+                         "per-hand anchors the other hand is bound too. Pass --bind with nothing "
+                         "after it to measure no contact at all.")
     args = ap.parse_args(argv)
 
     kb = KBIndex.load()
@@ -106,43 +113,63 @@ async def main(argv):
                       % (g["kind"], g["start_hip_height_m"], g["target_hip_height_m"],
                          g["hip_travel_m"], g["duration_s"]))
 
-        # The contacts the clips make by themselves, measured but never bound -- same payload the tool
-        # sends. `typing` animates both hands against a keyboard; whether they meet the real one is
-        # decided by where she ends up sitting, and nothing used to ask.
-        expect = []
-        for step in steps:
-            start = (step.get("start_at_s") or 0.0)
+        # WHAT SHE IS ASKED TO TOUCH, OUT OF THIS PROBE'S OWN --bind LIST.
+        #
+        # It used to be read off the knowledge base: `typing` declared both hands `contact:
+        # object:keyboard`, and the alias joined that to the laptop. A v4 record says how a hand
+        # moves, not what it is on (ADR 0022), because what a hand holds is a fact about the scene
+        # and the task. In a real turn the PLAN names it; a probe has no plan, so it is named here
+        # and the same list feeds the measurement and the binding.
+        #
+        # DUE WHEN THE LAST STEP HAS SETTLED, which is what `_binding_due` falls back to when no
+        # layer explicitly drives the hand -- and no layer does here, because these steps carry no
+        # overlays. A step reached through a generated posture change is not settled when it starts:
+        # the descent is still running through it, and the worst contact error on this very plan
+        # landed 0.12 m mid-way down with the hands correct before and after.
+        def settled(step):
+            start = step.get("start_at_s") or 0.0
             if step.get("generated"):
                 start += step["generated"].get("duration_s") or 0.0
-            for channel, spec in (kb.record(step["action_id"]).get("channels") or {}).items():
-                contact = (spec or {}).get("contact") or ""
-                if channel in ("left_hand", "right_hand") and contact.startswith("object:"):
-                    hits = (await link.call(P.T.SCENE_FIND,
-                                            {"alias": contact[len("object:"):]}))["objects"]
-                    if len(hits) == 1:
-                        expect.append({"effector": channel, "object_id": hits[0]["id"],
-                                       "due_at_s": start})
+            return round(start, 4)
+
+        due_at = settled(steps[-1]) if steps else 0.0
+        expect, two_handed = [], {}
+        for spec in args.bind:
+            effector, _, name = spec.partition("=")
+            effector, name = effector.strip(), name.strip()
+            if effector not in OTHER_HAND or not name:
+                print("   ignoring --bind %r; write it as left_hand=Laptop" % spec)
+                continue
+            hits = (await link.call(P.T.SCENE_FIND, {"name_contains": name}))["objects"]
+            if len(hits) != 1:
+                print("   --bind %s: %r matched %d objects, so nothing is bound to it"
+                      % (effector, name, len(hits)))
+                continue
+            expect.append({"effector": effector, "object_id": hits[0]["id"], "due_at_s": due_at})
+            two_handed[hits[0]["id"]] = bool(hits[0].get("two_handed_anchors"))
+
+        # The other hand, when the OBJECT says where both of them go. Same rule the tool applies in
+        # `_pair_bound_hands`, and it is the object's rule rather than the probe's: where a thing
+        # carries one grab point, aiming two hands at it pulls both wrists onto the same spot.
+        bound = {e["effector"] for e in expect}
+        for e in list(expect):
+            other = OTHER_HAND[e["effector"]]
+            if other not in bound and two_handed.get(e["object_id"]):
+                bound.add(other)
+                expect.append({"effector": other, "object_id": e["object_id"], "due_at_s": due_at})
+
         for e in expect:
             print("   contact %-11s -> %-14s due at %5.2fs"
                   % (e["effector"], e["object_id"], e["due_at_s"]))
 
-        # Bind each declared hand to the object's OWN per-hand anchor, where it has them. Same rule the
-        # tool applies: two hands may be aimed at something only when it says where both of them go.
-        #
-        # AND AT THE SAME MOMENT THE CONTACT FALLS DUE. A binding belongs to the step that reaches for
-        # something, not to the plan -- applied from frame zero it drags her arms toward the desk for
-        # the whole walk. `due_at_s` above is that moment and there is not a second one: a probe that
-        # sent a different payload from the tool is how a verified path and the real path came to
-        # disagree once already.
-        ik = []
-        for e in expect:
-            found = (await link.call(P.T.SCENE_FIND, {"name_contains": e["object_id"][4:]}))["objects"]
-            if found and found[0].get("two_handed_anchors"):
-                ik.append({"effector": e["effector"], "object_id": e["object_id"],
-                           "at_s": e["due_at_s"]})
+        # THE BINDINGS ARE THE SAME LIST AT THE SAME MOMENT. A binding belongs to the step that
+        # reaches for something, not to the plan -- applied from frame zero it drags her arms toward
+        # the desk for the whole walk. A probe that sent a different payload from the tool's is how a
+        # verified path and the real path came to disagree once already.
+        ik = [{"effector": e["effector"], "object_id": e["object_id"], "at_s": e["due_at_s"]}
+              for e in expect]
         for b in ik:
-            print("   bind    %-11s -> %-14s from %5.2fs (per-hand anchors)"
-                  % (b["effector"], b["object_id"], b["at_s"]))
+            print("   bind    %-11s -> %-14s from %5.2fs" % (b["effector"], b["object_id"], b["at_s"]))
 
         await link.call(P.T.MOTION_ASSEMBLE,
                         {"character": character, "steps": steps, "expect_contact": expect,

@@ -14,24 +14,24 @@ The line is not "knowledge base versus filesystem". It is fetching versus comput
 to sit here and did not belong: handing back a rendered PNG is a file read whose only distinguishing
 feature was the extension, so `read` does it now.
 
-TWO NAMING TRAPS ARE FIXED AT THIS BOUNDARY rather than explained to the model:
+WHAT A RECORD OFFERS THE MODEL, since motionkb/v4. Descriptions and measurements, and nothing else.
+The two naming traps this boundary used to repair -- `channels.*.constraint` against
+`ik_goals[].constraint`, and `contact: "object:pills"` against `contact_object: "pills"` -- are gone
+with the fields (ADR 0022), along with `role`, `motion_type`, `tags`, `display_name` and the whole
+`composability` block. A record says what an action looks like and how each part moves; what a hand
+holds and which part matters are the agent's to decide, from the task and the scene.
 
-  * `channels.*.constraint` (must-maintain | must-reach | unconstrained) and `ik_goals[].constraint`
-    (always "TwoBoneIKConstraint") are disjoint vocabularies sharing a field name. They are emitted as
-    `reach_requirement` and `solver`.
-  * `channels.*.contact` stores "object:pills" while `ik_goals[].contact_object` stores bare "pills" for
-    the same referent. Contact is emitted as {"kind": "object", "name": "pills"} so the two line up.
-
-A prompt instruction not to confuse them would be a request; renaming at the boundary is a guarantee.
-
-THE DEFECTIVE FIELDS ARE OMITTED, NOT DISCOURAGED. `composability.can_overlay_on`, `.locks` and `.free`
-never appear in any tool output. See `assemble.py` for why they are wrong. A schema omission is
-enforceable; a prompt instruction is not.
+The filters shrank with them. `posture` survives because it is measured now -- a bin over the clip's
+mean body height -- `loop` because it always was, and `moves_channel` replaces `drives_channel`:
+"which action animates the legs" is a question the kinematic half can answer, where "which action
+OWNS the legs" was never a property of a clip. `kind` and `touches_object` are simply gone; there is
+no honest substitute for either.
 
 NO NO-MATCH THRESHOLD. `kb_search` reports `top_margin` and `query_coverage` and lets the model decide.
 Tuning a cutoff on the same twelve cases the system is evaluated on is overfitting, and across a corpus
 of eight documents the cutoff is noise.
 """
+from .. import kbindex as KI
 from .. import segments as S
 from .. import transitions as T
 from ..kbindex import ANATOMICAL, CHANNELS
@@ -49,25 +49,14 @@ SEARCH_PARAMS = {
             "description": "Natural-language description of the motion, e.g. 'presses on the chest "
                            "repeatedly' or 'walks across the room'.",
         },
-        "posture": {"type": "string", "enum": ["standing", "seated"]},
-        "kind": {
-            "type": "string", "enum": ["base", "overlay"],
-            "description": "base = can stand alone and set the posture; overlay = grafted onto a base.",
-        },
-        "touches_object": {
-            "type": "string",
-            "description": "Name of a thing the motion must make contact with, as the knowledge base "
-                           "spells it: pills, aspirin_bottle, patient_chest, patient_wrist, bvm_mask, "
-                           "bvm_bag, keyboard.",
-        },
-        "drives_channel": {
-            "type": "object", "additionalProperties": False,
-            "description": "Keep only actions whose role for this body channel is the given one.",
-            "properties": {
-                "channel": {"type": "string", "enum": _ANATOMICAL_ENUM},
-                "role": {"type": "string", "enum": ["primary", "support", "stabilizer", "free"]},
-            },
-            "required": ["channel", "role"],
+        "posture": {"type": "string", "enum": ["standing", "seated"],
+                    "description": "Measured from how the clip carries the body, not declared."},
+        "moves_channel": {
+            "type": "array", "minItems": 1, "maxItems": 8,
+            "items": {"type": "string", "enum": _ANATOMICAL_ENUM},
+            "description": "Keep only actions that actually animate every one of these body parts. "
+                           "The question to ask when looking for something to combine: an action that "
+                           "does not move a part has nothing to contribute there.",
         },
         "limit": {"type": "integer", "minimum": 1, "maximum": 8, "default": 5},
     },
@@ -82,7 +71,7 @@ GET_PARAMS = {
         "include": {
             "type": "array",
             "description": "What to return. Default is channels only, which is what assembly needs.",
-            "items": {"type": "string", "enum": ["channels", "ik_goals", "summary"]},
+            "items": {"type": "string", "enum": ["channels", "summary"]},
         },
         "channels": {
             "type": "array", "items": {"type": "string", "enum": _CHANNEL_ENUM},
@@ -113,17 +102,13 @@ TRANSITION_PARAMS = {
 }
 
 
-def _contact(raw):
-    """'object:pills' -> {'kind':'object','name':'pills'}; 'ground'/'none' -> {'kind': ...}."""
-    if not raw:
-        return None
-    if raw.startswith("object:"):
-        return {"kind": "object", "name": raw[len("object:"):]}
-    return {"kind": raw}
-
-
 def _channel_block(kb, action_id, wanted=None, segments=None):
-    """One action's channels, as the model reads them.
+    """One action's channels, as the model reads them: what each part is doing and how it is described.
+
+    `describes` IS WHAT ASSEMBLY READS NOW. v3 handed over `role` / `motion_type` / `contact` here and
+    the model never had to choose a channel, because a deterministic rule chose for it off those
+    labels. v4 deletes them (ADR 0022) and the model names the channels itself, so what this owes it
+    is the evidence for that choice: whether the part moves, and the sentence saying what it does.
 
     `repeats` IS THE ONLY THING FROM THE SEGMENT TABLE THAT COMES THROUGH, and deliberately so: an
     action whose arm repeats can be grafted onto something longer without outliving it, which is worth
@@ -136,37 +121,12 @@ def _channel_block(kb, action_id, wanted=None, segments=None):
         if wanted and name not in wanted:
             continue
         entry = {"state": ch.get("state")}
-        if ch.get("role"):
-            entry["role"] = ch["role"]
-        if ch.get("motion_type"):
-            entry["motion_type"] = ch["motion_type"]
-        contact = _contact(ch.get("contact"))
-        if contact:
-            entry["contact"] = contact
+        if ch.get("describes"):
+            entry["describes"] = ch["describes"]
         if (by_channel.get(name) or {}).get("cycle_frames"):
             entry["repeats"] = True
         out[name] = entry
     return out
-
-
-def _reach_requirements(record, wanted=None):
-    """`channels.*.constraint`, renamed. Only the channels that actually require something."""
-    out = {}
-    for name, ch in record.get("channels", {}).items():
-        if wanted and name not in wanted:
-            continue
-        value = ch.get("constraint")
-        if value and value != "unconstrained":
-            out[name] = value
-    return out
-
-
-def _ik_goals(record):
-    return [{"effector": g.get("effector"),
-             "contact_object": g.get("contact_object"),
-             "solver": g.get("constraint"),
-             "grounded": g.get("target") is not None}
-            for g in record.get("ik_goals", [])]
 
 
 def _blank(value):
@@ -202,19 +162,6 @@ def _height(clip, bone, frame):
     return round(track[frame][1], 4)
 
 
-def _known_contact_objects(kb):
-    names = set()
-    for rec in kb.actions.values():
-        for goal in rec.get("ik_goals", []):
-            if goal.get("contact_object"):
-                names.add(goal["contact_object"])
-        for ch in rec.get("channels", {}).values():
-            contact = ch.get("contact") or ""
-            if contact.startswith("object:"):
-                names.add(contact[len("object:"):])
-    return names
-
-
 def register(registry, kb, measuring=True):
     """Attach the KB tools to a registry, bound to a loaded KBIndex.
 
@@ -222,7 +169,6 @@ def register(registry, kb, measuring=True):
     which is the tool surface as it stood before per-frame measurement was exposed at all — the arm
     only means something if its membership stays fixed while these modules are reorganised around it.
     """
-    contact_objects = _known_contact_objects(kb)
     clips = {}                                  # action_id -> Clip, loaded on first use
     # The segment table, read once and lazily. Only one bit of it is exposed -- whether a channel
     # repeats -- so a missing sidecar costs that bit and nothing else.
@@ -246,22 +192,11 @@ def register(registry, kb, measuring=True):
                 raise ToolFailure("no per-frame data for %s" % action_id)
         return clips[action_id]
 
-    def kb_search(query, posture=None, kind=None, touches_object=None,
-                  drives_channel=None, limit=5):
-        posture, kind = _blank(posture), _blank(kind)
-        touches_object = _blank(touches_object)
-        if touches_object is not None and touches_object not in contact_objects:
-            # Better a correctable error than an empty result: "ground" and "none" are things the
-            # knowledge base says about contact, but they are not objects, and filtering on them
-            # removes every action while looking like a legitimate miss.
-            raise ToolFailure(
-                "no action in the library contacts anything called %r" % touches_object,
-                hint="objects it knows: " + ", ".join(sorted(contact_objects)) +
-                     ". Omit this filter to search without it.")
-
-        filters = {"posture": posture, "base_or_overlay": kind, "contact_object": touches_object}
-        if drives_channel:
-            filters["channel_role"] = {drives_channel["channel"]: drives_channel["role"]}
+    def kb_search(query, posture=None, moves_channel=None, limit=5):
+        posture = _blank(posture)
+        filters = {"posture": posture}
+        if moves_channel:
+            filters["moves_channel"] = list(moves_channel)
 
         hits = kb.search(query, filters, limit=limit)
         if not hits:
@@ -274,16 +209,16 @@ def register(registry, kb, measuring=True):
             channels = kb.channels(hit.action_id)
             results.append({
                 "action_id": hit.action_id,
-                "display_name": hit.display_name,
+                "description": hit.description,
                 "score": round(hit.score, 2),
                 "matched": hit.why,
-                "kind": hit.base_or_overlay,
                 "posture": hit.posture,
                 "duration_s": record.get("duration"),
                 "loop": record.get("loop"),
-                "drives": [c for c in ANATOMICAL if channels.get(c, {}).get("role") == "primary"],
-                "touches": sorted({g["contact_object"] for g in record.get("ik_goals", [])
-                                   if g.get("contact_object")}),
+                # MEASURED, and named for what it is. This was `drives`, the channels whose `role` was
+                # `primary` -- a preview of a partition that no longer exists. What a hit can honestly
+                # offer is the parts it animates, which is the pool the plan's channel lists draw from.
+                "moves": [c for c in ANATOMICAL if channels.get(c, {}).get("state") == "dynamic"],
             })
 
         # Diagnostics instead of a tuned cutoff — see the module docstring.
@@ -313,22 +248,14 @@ def register(registry, kb, measuring=True):
 
         include = set(include or ["channels"])
         wanted = set(channels) if channels else None
-        out = {"action_id": action_id, "display_name": record.get("display_name")}
+        out = {"action_id": action_id, "description": record.get("action_description")}
 
         if "summary" in include:
-            out["intent"] = record.get("overall_intent")
-            out["tags"] = record.get("tags")
             out["duration_s"] = record.get("duration")
             out["loop"] = record.get("loop")
-            out["kind"] = record.get("composability", {}).get("base_or_overlay")
-            out["posture"] = record.get("composability", {}).get("posture")
+            out["posture"] = KI.posture_of(record)
         if "channels" in include:
             out["channels"] = _channel_block(kb, action_id, wanted, segments_for(action_id))
-            requirements = _reach_requirements(record, wanted)
-            if requirements:
-                out["reach_requirement"] = requirements
-        if "ik_goals" in include:
-            out["ik_goals"] = _ik_goals(record)
         return out
 
     def kb_pose(action_id, at):
@@ -337,8 +264,6 @@ def register(registry, kb, measuring=True):
         frame = _frame_index(clip, at)
         left, right = _height(clip, "LeftFoot", frame), _height(clip, "RightFoot", frame)
         lowest = min(clip.foot_y) if clip.foot_y else None
-        contacts = {name: ch.get("contact") for name, ch in (rec.get("channels") or {}).items()
-                    if ch.get("contact") and ch["contact"] != "none"}
         return {
             "action_id": action_id, "at": at, "frame": frame, "frames_total": clip.frames,
             "hips_height_m": _height(clip, "Hips", frame),
@@ -347,8 +272,7 @@ def register(registry, kb, measuring=True):
             "both_feet_planted": (left is not None and right is not None and lowest is not None
                                   and (left - lowest) <= T.PLANTED_BAND_M
                                   and (right - lowest) <= T.PLANTED_BAND_M),
-            "posture": (rec.get("composability") or {}).get("posture"),
-            "contacts": contacts,
+            "posture": KI.posture_of(rec),
             "note": "Heights are metres above the floor for this avatar. Standing hips sit near 0.90 m.",
         }
 
@@ -394,8 +318,8 @@ def register(registry, kb, measuring=True):
 
     registry.add(
         "kb_get_action",
-        "Read one action: which body channels it drives and what it touches. Needed before combining "
-        "two actions, to see which channels each one owns.",
+        "Read one action: what each body part does in it, and whether that part moves at all. Needed "
+        "before combining two actions, to decide which parts to take from each.",
         GET_PARAMS, kb_get_action)
 
     if not measuring:

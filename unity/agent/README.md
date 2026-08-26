@@ -55,7 +55,7 @@ only** — the agent side reaches this tree over DrvFs and must not manage it.
 
 | Input | Role |
 |---|---|
-| `<action_id>.json` (8 accepted, `schema_version: motionkb/v3`) | 9 channels x {kinematic block, semantic 5-tuple}, `ik_goals`, `composability` |
+| `actions/*.json` (2454 records, 8 accepted; `schema_version: motionkb/v4`) | 9 channels x the kinematic block, plus two description fields: `action_description` and each anatomical channel's `motion_description`. A record is named `<clip_name>.json` while unlabelled and `<action_id>.json` once accepted |
 | `manifest.json` | corpus index; pin the KB by its `kb_version` |
 | `engine_mask_map.json` | engine-neutral channel vocabulary (Unity / UE5 / Blender / SMPL-X) |
 | `raw/<clip>.json` | frozen per-frame pose dumps — the golden regression's input |
@@ -64,12 +64,17 @@ only** — the agent side reaches this tree over DrvFs and must not manage it.
 | `retrieval_eval_set.json` | seed eval set (full_match / decompose / no_match) |
 
 The kinematic/semantic split and its provenance tiers (ADR 0002, ADR 0008) are what keep this auditable;
-record which `kb_version` a run consumed.
+record which `kb_version` a run consumed. Since
+[ADR 0022](../docs/adr/0022-the-kb-describes-the-agent-decides.md) the semantic half is those two
+description fields and nothing else: a record says what the action looks like and how each body part
+moves, while composition, contact, IK and channel ownership are decided at runtime by the agent, which is
+the side that has the task and the scene. The kinematic half was untouched by that change — no number
+moved.
 
 ## Gates
 
-All four live in the agent repo and run from there: `./check_kb.sh`. Three need no engine (schema and
-cross-field invariants, golden re-extraction from frozen `raw`, manifest sync). The fourth,
+All four live in the agent repo and run from there: `./check_kb.sh`. Three need no engine (schema,
+channel vocabulary and description completeness; golden re-extraction from frozen `raw`; manifest sync). The fourth,
 `validate_guids.py`, resolves each `source_clip.guid` to a real `AnimationClip` by driving the
 `AssetDatabase` over the Unity MCP bridge, and writes `motionkb_build/reports/kb_state.md`.
 

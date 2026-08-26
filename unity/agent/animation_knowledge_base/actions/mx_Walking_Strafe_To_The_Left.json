@@ -1,7 +1,6 @@
 {
-  "schema_version": "motionkb/v3",
+  "schema_version": "motionkb/v4",
   "action_id": null,
-  "display_name": null,
   "status": "candidate",
   "source_clip": {
     "fbx_or_anim": "mx_Walking_Strafe_To_The_Left.fbx",
@@ -15,13 +14,7 @@
   "duration": 0.933,
   "frame_rate": 30,
   "loop": false,
-  "overall_intent": null,
-  "tags": [],
-  "mask_coverage": {
-    "upper_body": false,
-    "hands": false,
-    "lower_body": false
-  },
+  "action_description": null,
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -43,11 +36,6 @@
         "raw_value": 0.04673,
         "divisor": 0.2969
       },
-      "role": null,
-      "motion_type": null,
-      "contact": null,
-      "constraint": null,
-      "target": null,
       "motion_description": null,
       "mean_pose": {
         "Spine Front-Back": -0.08441,
@@ -69,11 +57,6 @@
         "raw_value": 0.02348,
         "divisor": 0.4963
       },
-      "role": null,
-      "motion_type": null,
-      "contact": null,
-      "constraint": null,
-      "target": null,
       "motion_description": null,
       "mean_pose": {
         "Neck Nod Down-Up": -0.0932,
@@ -92,11 +75,6 @@
         "raw_value": 0.19051,
         "divisor": 0.6864
       },
-      "role": null,
-      "motion_type": null,
-      "contact": null,
-      "constraint": null,
-      "target": null,
       "motion_description": null,
       "mean_pose": {
         "Left Shoulder Down-Up": -0.99039,
@@ -118,11 +96,6 @@
         "raw_value": 0.17292,
         "divisor": 0.6864
       },
-      "role": null,
-      "motion_type": null,
-      "contact": null,
-      "constraint": null,
-      "target": null,
       "motion_description": null,
       "mean_pose": {
         "Right Shoulder Down-Up": -0.54765,
@@ -144,11 +117,6 @@
         "raw_value": 0.20645,
         "divisor": 0.4468
       },
-      "role": null,
-      "motion_type": null,
-      "contact": null,
-      "constraint": null,
-      "target": null,
       "motion_description": null,
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.37356,
@@ -169,11 +137,6 @@
         "raw_value": 0.19066,
         "divisor": 0.4468
       },
-      "role": null,
-      "motion_type": null,
-      "contact": null,
-      "constraint": null,
-      "target": null,
       "motion_description": null,
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.3914,
@@ -194,11 +157,6 @@
         "raw_value": 0.17552,
         "divisor": 0.7546
       },
-      "role": null,
-      "motion_type": null,
-      "contact": null,
-      "constraint": null,
-      "target": null,
       "motion_description": null,
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.63607,
@@ -231,11 +189,6 @@
         "raw_value": 0.14579,
         "divisor": 0.7546
       },
-      "role": null,
-      "motion_type": null,
-      "contact": null,
-      "constraint": null,
-      "target": null,
       "motion_description": null,
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.49631,
@@ -261,26 +214,6 @@
       }
     }
   },
-  "ik_goals": [],
-  "composability": {
-    "locks": [],
-    "free": [
-      "torso",
-      "head",
-      "left_arm",
-      "right_arm",
-      "left_leg",
-      "right_leg",
-      "left_hand",
-      "right_hand"
-    ],
-    "can_overlay_on": [],
-    "base_or_overlay": "overlay",
-    "seam_owner": {
-      "torso": "base",
-      "root": "base"
-    }
-  },
   "extraction": {
     "method": "in_engine_sample_root_local",
     "sampled_frames": 28,
@@ -288,10 +221,10 @@
     "motion_metric": "variation, all 8 anatomical channels: muscle_dof_stddev_rms, divided by torso 0.2969 / head 0.4963 / arm 0.6864 / leg 0.4468 / hand 0.7546; root variation: max(trans/1.9782, vert/1.8396, heading/131.8575) from HumanPose.bodyPosition and bodyRotation; mean pose, all 8 anatomical channels: mean_pose, the per-frame mean of each of the channel's Humanoid muscle degrees of freedom in Unity's normalised muscle space, stored as the vector it is and compared with nothing; root mean pose: mean_body_height (mean HumanPose.bodyPosition.y, normalised humanoid units) and mean_body_tilt_deg (mean angle of bodyRotation's up axis from world up)",
     "bone_map_version": "v2.0.0",
     "metric_formula_version": "v3.0.0",
-    "extractor_version": "3.1.0",
+    "extractor_version": "4.0.0",
     "extractor_lang": "python",
     "avatar": "nurse_avatar.fbx",
-    "extracted_at": "2026-08-26T20:14:48Z",
+    "extracted_at": "2026-08-26T21:34:59Z",
     "field_origin": {
       "kinematic": [
         "duration",
@@ -308,20 +241,9 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic": [
-        "display_name",
-        "overall_intent",
-        "tags",
-        "mask_coverage",
-        "channels.*.motion_description"
-      ],
       "semantic_pending": [
-        "channels.*.role",
-        "channels.*.motion_type",
-        "channels.*.contact",
-        "channels.*.constraint",
-        "channels.*.target",
-        "composability"
+        "action_description",
+        "channels.*.motion_description"
       ]
     },
     "verified_against_screenshots": false

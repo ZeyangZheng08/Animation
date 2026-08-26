@@ -498,18 +498,19 @@ def register(registry, mounts=None):
     # WHY THIS DESCRIPTION NAMES grep. Two whole populations here carry their meaning in their file
     # name and nowhere else, and for both of them a grep reads thousands of files to arrive at the
     # answer glob had without opening any. An animation asset under source/ is curve data. An
-    # unlabelled record under kb/actions/ holds a couple of hundred distinct words, and every one of
+    # undescribed record under kb/actions/ holds a couple of hundred distinct words, and every one of
     # them except its clip name is drawn from a vocabulary the schema fixes -- `channels`,
     # `left_arm`, `static`, `null`, and the 95 Unity muscle DOF names that key `mean_pose`. Measured
-    # across the corpus that vocabulary is 164 words in total, and it is the SAME 164 in every
-    # record. That is a fact about the corpus's CURRENT state, not a permanent one: the semantic
-    # pass fills motion_description / tags / overall_intent, and the sentence stops being true. See
-    # the tripwire in tests/test_tools_files.py, which fails when it does.
+    # across the corpus that vocabulary is a fixed set of a few hundred words, and it is the SAME set
+    # in every record. That is a fact about the corpus's CURRENT state, not a permanent one: the
+    # description pass fills `action_description` and the eight `motion_description`s, and the
+    # sentence stops being true. See the tripwire in tests/test_tools_files.py, which fails when it
+    # does and which carries the measured number.
     registry.add("glob",
                  "Find files by name pattern. Places: %s. Use it to settle what exists before "
                  "assuming it does not, and prefer it to grep whenever the question is a name: an "
                  "animation asset under source/ is curve data whose only readable name is its file "
-                 "name, and an unlabelled record under kb/actions/ has exactly one word in it that "
+                 "name, and an undescribed record under kb/actions/ has exactly one word in it that "
                  "the other records do not also have -- its clip name." % places,
                  GLOB_PARAMS, glob)
     registry.add("grep",

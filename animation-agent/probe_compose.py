@@ -10,18 +10,27 @@ FOUR OUTCOMES, AND ONLY ONE OF THEM IS A CAPABILITY:
 
   posture     refused before any channel is looked at. `typing` is the only seated action, so it
               composes with nothing -- 14 pairs, and no amount of channel work changes that.
-  conflict    refused because the request named two objects for one hand. Nothing names anything
-              here, so this arm should report zero; it is run to prove the refusal did not simply
+  conflict    refused because the plan pins a hand two actions both drive. Nothing is pinned here,
+              so this arm should report zero; it is run to prove the refusal did not simply
               disappear when it stopped being the default.
   degenerate  assembled, but only one action ends up driving anything. Every `idle` pair is here.
               Counting these as compositions is how a corpus of eight looks like a corpus of thirty,
               so they are reported separately and NOT added to the total.
   composed    two actions, both driving something. This is the number.
 
-WHAT A DROPPED GRIP MEANS FOR THE COUNT. Six of the eight actions grip with the right hand, so most
-pairs need one of them to let go of its object. That is reported per pair rather than folded into the
-total: a composition whose meaning depends on an empty hand is still a composition, but somebody has
-to be able to see which ones they are.
+WHERE THE CHANNEL LISTS COME FROM, AND WHY THAT IS A STAND-IN. Since motionkb/v4 (ADR 0022) the
+partition is not derivable from a record: `role` is gone, because which part of a clip matters is a
+fact about the task. In a live turn the AGENT names the channels. This probe has no task and no
+agent, so it uses the only honest substitute the kinematics offer -- the channels each clip actually
+ANIMATES, which is the same pool `kb_search` hands the model as `moves`. That is a floor, not a
+plan: an agent that names fewer channels contests fewer of them, so a pair composable here may be
+composable in more ways than this counts, and a pair that is not is not composable at all.
+
+WHAT A SHARED CHANNEL MEANS FOR THE COUNT. Six of the eight actions animate the right hand, so most
+pairs have both clips reaching for a part. Nothing is dropped -- v3 detached the losing grip and
+reported it, and there is no declared grip left to detach -- the part is HALVED between them and the
+pair is reported as sharing it, so somebody can see which compositions are averages rather than
+partitions.
 
     python probe_compose.py                # hermetic: the partition only, no engine
     python probe_compose.py --verbose      # every pair, not only the interesting ones
@@ -33,6 +42,7 @@ import itertools
 import sys
 
 from agent import assemble as A
+from agent import kbindex as KI
 from agent import segments as S
 from agent import transitions as T
 from agent.engine import DEFAULT_HOST, DEFAULT_PORT, EngineLink
@@ -41,23 +51,43 @@ from agent.kbindex import ANATOMICAL, KBIndex
 POSTURE, CONFLICT, DEGENERATE, COMPOSED = "posture", "conflict", "degenerate", "composed"
 
 
-def posture_of(kb, action_id):
-    return (kb.record(action_id).get("composability") or {}).get("posture") or "standing"
+def moves(kb, action_id):
+    """The anatomical channels this clip animates. See the module docstring: this stands in for the
+    channel list an agent would name, and it is the widest one that is honest."""
+    channels = kb.channels(action_id)
+    return [c for c in ANATOMICAL if (channels.get(c) or {}).get("state") == "dynamic"]
+
+
+def driven(assembly):
+    """Every action driving anything, outright or as a share. An action holding only a share owns no
+    channel in `layers`, and reading ownership alone would count a real mix as degenerate."""
+    out = {aid for aid, channels in assembly.layers if channels}
+    out |= {aid for mix in assembly.shared for aid, _ in mix.shares}
+    return sorted(out)
 
 
 def classify(kb, base, overlay):
-    """(outcome, assembly, note) for one ordered pair, with nothing named."""
-    if posture_of(kb, base) != posture_of(kb, overlay):
-        return POSTURE, None, "%s is %s, %s is %s" % (base, posture_of(kb, base),
-                                                      overlay, posture_of(kb, overlay))
-    assembly = A.arbitrate(base, [overlay], kb)
+    """(outcome, assembly, note) for one ordered pair, with nothing pinned."""
+    postures = KI.posture_of(kb.record(base)), KI.posture_of(kb.record(overlay))
+    if postures[0] != postures[1]:
+        return POSTURE, None, "%s is %s, %s is %s" % (base, postures[0], overlay, postures[1])
+    wants = moves(kb, overlay)
+    if not wants:
+        # Refused by `normalise_overlays` rather than defaulted, so it is answered before it is asked:
+        # an empty mask plays FULL BODY in the engine, and there is nothing here to mask to. `idle`
+        # animates nothing at all, which is what makes every idle pair degenerate.
+        return DEGENERATE, None, "%s animates no body part, so there is nothing to graft" % overlay
+    assembly = A.arbitrate(base, [(overlay, wants)], kb, base_channels=moves(kb, base))
     if assembly.conflicts:
         return CONFLICT, assembly, "; ".join(c.why() for c in assembly.conflicts)
-    driving = [aid for aid, channels in assembly.layers if channels]
     partition = "; ".join("%s=%s" % (aid, "+".join(chans))
                           for aid, chans in assembly.layers if chans)
-    if len(driving) < 2:
-        return DEGENERATE, assembly, "only %s drives anything" % (driving[0] if driving else "nothing")
+    shared = ", ".join(mix.channel for mix in assembly.shared)
+    if shared:
+        partition = "%s; shared %s" % (partition, shared) if partition else "shared " + shared
+    parts = driven(assembly)
+    if len(parts) < 2:
+        return DEGENERATE, assembly, "only %s drives anything" % (parts[0] if parts else "nothing")
     return COMPOSED, assembly, partition
 
 
@@ -67,9 +97,13 @@ def windows(kb, segment_table, assembly):
     anybody meant by combining them."""
     out = []
     for aid, channels in assembly.layers:
+        # Owned channels AND shared ones: a clip is one performance, so which frames of it are worth
+        # playing is decided over everything it drives, not over the half it happens to own outright.
+        channels = set(channels) | {mix.channel for mix in assembly.shared
+                                    if aid in dict(mix.shares)}
         if aid == assembly.base or not channels:
             continue
-        window = S.window_for(segment_table.get(aid), [c for c in channels if c in ANATOMICAL])
+        window = S.window_for(segment_table.get(aid), sorted(c for c in channels if c in ANATOMICAL))
         if window:
             out.append("%s frames %d-%d (%s)" % (aid, window["start_frame"], window["end_frame"],
                                                  window["why"]))
@@ -93,8 +127,12 @@ async def commit(kb, pairs, host, port, wait, who):
         registry = kb_tools.register(ToolRegistry(), kb)
         scene_tools.register(registry, link, kb)
         for index, (base, overlay) in enumerate(pairs):
+            # The same channel lists `classify` used, so what is committed is the partition this
+            # probe just counted rather than a second one that merely looks like it.
             out = await registry.dispatch("plan_motion", {
-                "base": base, "overlays": [overlay], "character": who, "mode": "commit"})
+                "base": base, "base_channels": moves(kb, base),
+                "overlays": [{"action_id": overlay, "channels": moves(kb, overlay)}],
+                "character": who, "mode": "commit"})
             ok = out.get("success") is not False
             results[(base, overlay)] = (ok, out.get("error") or "committed")
             print("  %3d/%d  %-4s %-14s + %-14s %s"
@@ -130,23 +168,21 @@ def main(argv):
         if outcome != COMPOSED and not args.verbose:
             continue
         print("  %-10s %-14s + %-14s %s" % (outcome, pair[0], pair[1], note))
-        if assembly is not None and assembly.dropped:
-            for drop in assembly.dropped:
-                print("             %s" % drop.why())
         for line in windows(kb, segment_table, assembly) if assembly else []:
             print("             takes %s" % line)
 
     counts = {name: sum(1 for o, _, _ in outcomes.values() if o == name)
               for name in (POSTURE, CONFLICT, DEGENERATE, COMPOSED)}
     composed = [pair for pair, (o, _, _) in outcomes.items() if o == COMPOSED]
-    with_drop = [pair for pair in composed if outcomes[pair][1].dropped]
+    with_share = [pair for pair in composed if outcomes[pair][1].shared]
 
     print("\n  composed      %d/%d   <- the number" % (counts[COMPOSED], len(pairs)))
     print("  degenerate    %d      one action ends up driving everything; not a composition"
           % counts[DEGENERATE])
     print("  posture       %d      %s is the only seated action" % (counts[POSTURE], "typing"))
-    print("  conflict      %d      nothing is named here, so this should be 0" % counts[CONFLICT])
-    print("\n  of the composed, %d need a hand to let go of its object" % len(with_drop))
+    print("  conflict      %d      nothing is pinned here, so this should be 0" % counts[CONFLICT])
+    print("\n  of the composed, %d have a body part driven by both clips at half each"
+          % len(with_share))
     cyclic = sorted({aid for aid, segs in segment_table.items()
                      for seg in segs if seg.get("cycle_frames")})
     print("  overlays contributing one repetition rather than a whole clip: %s"

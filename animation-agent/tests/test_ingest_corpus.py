@@ -221,7 +221,11 @@ def test_measure_counts_pose_assets_instead_of_silently_dropping_them(kb):
 
     doc = paths.read_json(os.path.join(paths.ACTIONS_DIR, "mx_Test_Clip.json"))
     assert doc["channels"]["torso"]["state_label"] == "static"
-    assert doc["channels"]["torso"]["role"] is None          # measured, not labelled
+    # Measured, not described. `motion_description` is the whole of a v4 channel's semantic half --
+    # `role`, `motion_type`, `contact`, `constraint` and `target` were deleted with the contract
+    # (ADR 0022), so this is the one field the bulk path must leave null.
+    assert doc["channels"]["torso"]["motion_description"] is None
+    assert doc["action_description"] is None
     assert doc["channels"]["torso"]["mean_pose"]              # the pose itself, not a label for it
     assert doc["channels"]["root"]["mean_body_height"] is not None
     assert doc["schema_version"] == C.SCHEMA_VERSION

@@ -6,8 +6,8 @@ Run this once after a deliberate `metric_formula_version` bump. It re-runs
 `metrics.channel_blocks` over each record's frozen `raw` dump and writes back only the KINEMATIC
 fields (`state_label`, `motion_magnitude`, `raw_measurement`, `mean_pose`, and the root's
 `mean_body_height` / `mean_body_tilt_deg`) plus the `extraction` block — exactly the split ADR 0002
-draws. SEMANTIC fields, `composability`, `ik_goals`, `source_clip`, `controller_*` and `status` are
-read and written back untouched.
+draws. The descriptions (`action_description`, `channels.*.motion_description`), `source_clip`,
+`controller_*` and `status` are read and written back untouched.
 
 Why this is not `extract.py assemble`: assemble skips accepted records outright, because re-measuring
 the eight the KB is built from should never be a side effect of bringing in a new clip. This is the
@@ -77,7 +77,7 @@ def main(argv=None):
         E._apply_kinematic(doc, blocks)
         doc["duration"] = round(raw["length"], 3)
         doc["frame_rate"] = raw["frame_rate"]
-        doc["extraction"] = _merge_extraction(doc, E._build_extraction(raw))
+        doc["extraction"] = _merge_extraction(doc, E._build_extraction(raw, doc))
 
         rows, flipped = [], []
         for c in C.STATE_CHANNELS:

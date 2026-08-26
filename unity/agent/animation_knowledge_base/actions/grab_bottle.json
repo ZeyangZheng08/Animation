@@ -1,7 +1,6 @@
 {
-  "schema_version": "motionkb/v3",
+  "schema_version": "motionkb/v4",
   "action_id": "grab_bottle",
-  "display_name": "Grab Bottle",
   "status": "accepted",
   "source_clip": {
     "fbx_or_anim": "nurse_grab_bottle.fbx",
@@ -15,29 +14,9 @@
   "duration": 1.333,
   "frame_rate": 30,
   "loop": false,
-  "overall_intent": "The nurse reaches out and grasps an aspirin bottle while standing.",
-  "tags": [
-    "nurse",
-    "aspirin",
-    "bottle",
-    "grab",
-    "reach",
-    "medication",
-    "pick_up",
-    "standing"
-  ],
-  "mask_coverage": {
-    "upper_body": true,
-    "hands": true,
-    "lower_body": false
-  },
+  "action_description": "The nurse reaches out and grasps an aspirin bottle while standing.",
   "channels": {
     "torso": {
-      "role": "support",
-      "motion_type": "balance",
-      "contact": "none",
-      "constraint": "must-maintain",
-      "target": null,
       "motion_description": "The torso turns toward the reaching hand and holds the body over its base.",
       "state_label": "dynamic",
       "motion_magnitude": 0.2336,
@@ -59,11 +38,6 @@
       }
     },
     "head": {
-      "role": "stabilizer",
-      "motion_type": "gaze",
-      "contact": "none",
-      "constraint": "must-maintain",
-      "target": null,
       "motion_description": "The head turns to look toward the bottle and reaching hand.",
       "state_label": "dynamic",
       "motion_magnitude": 0.1449,
@@ -82,11 +56,6 @@
       }
     },
     "left_arm": {
-      "role": "stabilizer",
-      "motion_type": "balance",
-      "contact": "none",
-      "constraint": "must-maintain",
-      "target": null,
       "motion_description": "The left arm makes a small balancing adjustment near the body.",
       "state_label": "static",
       "motion_magnitude": 0.0025,
@@ -108,11 +77,6 @@
       }
     },
     "right_arm": {
-      "role": "primary",
-      "motion_type": "reach",
-      "contact": "none",
-      "constraint": "must-reach",
-      "target": null,
       "motion_description": "The right arm reaches forward toward the bottle.",
       "state_label": "dynamic",
       "motion_magnitude": 0.1658,
@@ -134,11 +98,6 @@
       }
     },
     "left_leg": {
-      "role": "free",
-      "motion_type": "balance",
-      "contact": "ground",
-      "constraint": "unconstrained",
-      "target": null,
       "motion_description": "The left leg absorbs the small weight shift as the body turns.",
       "state_label": "dynamic",
       "motion_magnitude": 0.0711,
@@ -159,11 +118,6 @@
       }
     },
     "right_leg": {
-      "role": "free",
-      "motion_type": "balance",
-      "contact": "ground",
-      "constraint": "unconstrained",
-      "target": null,
       "motion_description": "The right leg absorbs the small weight shift as the body turns.",
       "state_label": "dynamic",
       "motion_magnitude": 0.0467,
@@ -184,11 +138,6 @@
       }
     },
     "left_hand": {
-      "role": "free",
-      "motion_type": "hold-static",
-      "contact": "none",
-      "constraint": "unconstrained",
-      "target": null,
       "motion_description": "The left hand is not used and stays relaxed at the side.",
       "state_label": "static",
       "motion_magnitude": 0.0,
@@ -221,11 +170,6 @@
       }
     },
     "right_hand": {
-      "role": "primary",
-      "motion_type": "manipulate",
-      "contact": "object:aspirin_bottle",
-      "constraint": "must-reach",
-      "target": null,
       "motion_description": "The right hand closes around and takes hold of the aspirin bottle.",
       "state_label": "dynamic",
       "motion_magnitude": 0.2856,
@@ -270,38 +214,6 @@
       "mean_body_tilt_deg": 1.079
     }
   },
-  "ik_goals": [
-    {
-      "effector": "right_hand",
-      "target": null,
-      "constraint": "TwoBoneIKConstraint",
-      "contact_object": "aspirin_bottle",
-      "world_space": true
-    }
-  ],
-  "composability": {
-    "locks": [
-      "torso",
-      "head",
-      "left_arm",
-      "right_arm",
-      "right_hand"
-    ],
-    "free": [
-      "left_leg",
-      "right_leg",
-      "left_hand"
-    ],
-    "can_overlay_on": [
-      "idle"
-    ],
-    "base_or_overlay": "overlay",
-    "posture": "standing",
-    "seam_owner": {
-      "torso": "base",
-      "root": "base"
-    }
-  },
   "extraction": {
     "method": "in_engine_sample_root_local",
     "sampled_frames": 40,
@@ -309,10 +221,10 @@
     "motion_metric": "variation, all 8 anatomical channels: muscle_dof_stddev_rms, divided by torso 0.2969 / head 0.4963 / arm 0.6864 / leg 0.4468 / hand 0.7546; root variation: max(trans/1.9782, vert/1.8396, heading/131.8575) from HumanPose.bodyPosition and bodyRotation; mean pose, all 8 anatomical channels: mean_pose, the per-frame mean of each of the channel's Humanoid muscle degrees of freedom in Unity's normalised muscle space, stored as the vector it is and compared with nothing; root mean pose: mean_body_height (mean HumanPose.bodyPosition.y, normalised humanoid units) and mean_body_tilt_deg (mean angle of bodyRotation's up axis from world up)",
     "bone_map_version": "v2.0.0",
     "metric_formula_version": "v3.0.0",
-    "extractor_version": "3.1.0",
+    "extractor_version": "4.0.0",
     "extractor_lang": "python",
     "avatar": "nurse_avatar.fbx",
-    "extracted_at": "2026-08-26T20:15:11Z",
+    "extracted_at": "2026-08-26T21:29:28Z",
     "field_origin": {
       "kinematic": [
         "duration",
@@ -330,19 +242,8 @@
         "trigger_param"
       ],
       "semantic": [
-        "display_name",
-        "overall_intent",
-        "tags",
-        "mask_coverage",
+        "action_description",
         "channels.*.motion_description"
-      ],
-      "semantic_pending": [
-        "channels.*.role",
-        "channels.*.motion_type",
-        "channels.*.contact",
-        "channels.*.constraint",
-        "channels.*.target",
-        "composability"
       ]
     },
     "verified_against_screenshots": false,
@@ -357,18 +258,8 @@
       "consistency_validated": true,
       "scope": [
         "action_id",
-        "display_name",
-        "overall_intent",
-        "tags",
-        "mask_coverage",
-        "channels.*.role",
-        "channels.*.motion_type",
-        "channels.*.contact",
-        "channels.*.constraint",
-        "channels.*.motion_description",
-        "composability.base_or_overlay",
-        "composability.posture",
-        "composability.can_overlay_on"
+        "action_description",
+        "channels.*.motion_description"
       ],
       "status": "vlm_accepted"
     },

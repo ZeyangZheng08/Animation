@@ -1,5 +1,26 @@
 # MotionKB v2 — Body-Part Split & Reproducible Extractor Spec
 
+> **SUPERSEDED — read this as history, not as the contract (2026-08-26).** This is the design narrative
+> for the v2 body-part split, written in 2026-06 and now several contract versions stale. The live
+> contract is `agent/animation_knowledge_base/schema/motionkb.v4.schema.json`, and the field-level record
+> of how it got there is `agent/animation_knowledge_base/schema/CHANGELOG.md`.
+>
+> Two whole sections below describe blocks that no longer exist. **§4 (`ik_goals`)** and
+> **§5 (`composability`)** were deleted by
+> [ADR 0022](../adr/0022-the-kb-describes-the-agent-decides.md), together with the per-channel 5-tuple of
+> §3 (`role`, `motion_type`, `contact`, `constraint`, `target`), because every one of them stated a
+> decision about a COMBINATION on a record that describes one clip: whether an arm swing is incidental
+> depends on what the character is being asked to do, what a hand holds depends on what is in the room,
+> and where an IK goal pins depends on both. A v4 record answers two questions and no others — what the
+> action looks like (`action_description`, renamed from `overall_intent`) and how each body part moves
+> (`channels.*.motion_description` plus the kinematic block). Composition, contact, IK and channel
+> ownership are decided at runtime by the agent, which is the side holding the task and the scene.
+>
+> What is still worth reading here: **§0-§1** (why the body is split into nine channels, and the three
+> independent constraints that split satisfies) and **§6** (the engine-neutral mask map, unaffected —
+> it describes masking primitives per engine and says nothing about ownership). §2's metric has been
+> replaced repeatedly; see the note below.
+>
 > Status: ACCEPTED & IMPLEMENTED (2026-06-18). The decision record is **ADR 0007** (supersedes ADR 0003);
 > the authoritative numbers/shape now live in the implementation, not this draft. This file is kept as the
 > design narrative — read ADR 0007 + the code/schema for the final values.
@@ -58,8 +79,9 @@
 > Read `config.py` and ADR 0010/0011/0018/0019/0020/0021 for the live metric. §2 below is kept as the
 > design narrative that motivated the channel split.
 >
-> All numerics in the KB are KINEMATIC — computed by the program; the semantic 5-tuple + composability
-> stay human-owned (ADR 0002).
+> All numerics in the KB are KINEMATIC — computed by the program; the semantic half stays out of the
+> program's reach (ADR 0002). Since ADR 0022 that half is exactly two fields, `action_description` and
+> the per-channel `motion_description`; the 5-tuple and `composability` named here are gone.
 
 ## 0. Why v2
 v1 split the body into 6 parts (`head, chest, left_arm, right_arm, legs, feet`). That split:
@@ -140,6 +162,10 @@ until re-checked. The program does NOT fabricate these.
 
 ## 4. Orthogonal IK / contact layer (`ik_goals`, top-level array)
 
+> **Deleted in v4** ([ADR 0022](../adr/0022-the-kb-describes-the-agent-decides.md)). `target` was null on
+> every record in the store because the anchor is scene-specific — two thirds of a decision with the
+> deciding third permanently absent. The runtime plan binds an effector to a scene object instead.
+
 FK mask ("which bone's rotation comes from which clip") is SEPARATE from IK goal ("which end-effector is
 constrained to a world/scene target"). Unity encodes this separation too (FootIK/HandIK are distinct enum
 entries). `ik_goals` is **DERIVED** from the semantic 5-tuple — each hand/foot channel whose `contact` is
@@ -160,6 +186,11 @@ Rule: "right hand reaches the patient" is an IK goal, NOT a right_arm FK mask.
 never a single quantity.
 
 ## 5. composability (over the 8 anatomical channels)
+
+> **Deleted in v4** ([ADR 0022](../adr/0022-the-kb-describes-the-agent-decides.md)). The partition now
+> arrives in the agent's plan (`overlays[].channels`, an optional `base_channels`, everything else free),
+> and `posture` survives only as a MEASUREMENT — the root's `mean_body_height` binned at 0.75. The seam
+> rule below is still the right description of the problem; it is solved per plan now, not per record.
 
 `locks`/`free` PARTITION the 8 channels {torso, head, left_arm, right_arm, left_leg, right_leg, left_hand,
 right_hand} (root is owned by the locomotion source, handled by the composition seam rule below).

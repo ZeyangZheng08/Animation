@@ -1,7 +1,17 @@
 # 0004 — mask+layer co-playback is valid only for disjoint locks
 
-Status: Accepted (2026-06-18), amended (2026-08-12) — the restriction below has been lifted for a
-stated subset. Read the amendment at the end before quoting the decision.
+Status: **Superseded (2026-08-26) by [0022](0022-the-kb-describes-the-agent-decides.md).** Previously
+Accepted (2026-06-18), amended (2026-08-12) — the restriction was already lifted for a stated subset.
+Read the amendments at the end before quoting the decision.
+
+> **Superseded, 2026-08-26.** This ADR is about `composability` — `locks`, `free` and
+> `can_overlay_on` — and motionkb/v4 deletes that block. The reason is in
+> [0022](0022-the-kb-describes-the-agent-decides.md): a lock is a claim about a COMBINATION stored on
+> a record that describes one clip, and which body parts an action may cede depends on the task it is
+> being used for. What the runtime does instead is not a different gate on the same declaration; it
+> is the agent naming the channel split in its plan, per request. The GEOMETRIC half of this ADR's
+> reasoning — that half a hand shaped for two different grips grips neither — survives, as the rule
+> that a channel the plan pins to a scene object may not be blended between two actions.
 
 ## Context
 It is tempting to treat Unity avatar-mask + animation-layer co-playback as "composition". It is not:

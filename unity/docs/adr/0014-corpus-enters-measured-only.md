@@ -7,7 +7,13 @@ semantic 5-tuple) are what it implements at corpus scale. Where the records LAND
 [0016](0016-one-store-status-is-the-membership-test.md) merged `candidate/` into `actions/`, so read
 every `candidate/<clip>.json` below as `actions/<clip>.json`. Nothing else here is affected — this
 record is about what enters the KB and what licenses a null semantic half, not about which directory
-holds it.
+holds it. WHAT that half consists of has since changed too:
+[0022](0022-the-kb-describes-the-agent-decides.md) narrows it to `action_description` plus each
+channel's `motion_description`, so "SEMANTIC not yet proposed" now means those nine fields are null,
+and the nullability this ADR argued for applies to them. `mask_coverage`, `tags`, `display_name` and
+the per-channel 5-tuple named below no longer exist, and the two soft warnings this ADR added — which
+compared `mask_coverage` and `composability.free` against `state_label` — are deleted rather than
+re-expressed.
 
 ## Context
 

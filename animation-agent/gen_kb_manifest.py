@@ -39,15 +39,16 @@ def build_manifest():
         if d.get("status") != "accepted":
             continue
         ex = d.get("extraction", {})
-        comp = d.get("composability", {})
         va = ex.get("vlm_proposal") or {}
         actions.append({
+            # IDENTITY + PROVENANCE only. `display_name`, `base_or_overlay` and `posture` used to sit
+            # here; the first is deleted and the other two were composability's, which v4 removes
+            # (ADR 0022). Nothing read them: the Unity side's manifest reader takes `status`,
+            # `source_clip` and `action_id`, and an index that mirrors a judgement is an index that
+            # goes stale against a judgement the runtime now makes for itself.
             "action_id": d.get("action_id"),
             "file": os.path.basename(f),
             "status": d.get("status"),
-            "display_name": d.get("display_name"),
-            "base_or_overlay": comp.get("base_or_overlay"),
-            "posture": comp.get("posture"),
             "source_clip": d.get("source_clip"),
             "provenance": {
                 "extractor_version": ex.get("extractor_version"),
@@ -60,14 +61,14 @@ def build_manifest():
             },
         })
     return {
-        "kb_version": "v3",
-        "schema_version": "motionkb/v3",
-        "schema": "schema/motionkb.v3.schema.json",
+        "kb_version": "v4",
+        "schema_version": "motionkb/v4",
+        "schema": "schema/motionkb.v4.schema.json",
         "engine_mask_map": "engine_mask_map.json",
-        # The tag holding this contract's accepted state. kb/v3 is the first one to carry the KB at
+        # The tag holding this contract's accepted state. kb/v3 was the first one to carry the KB at
         # its current path: kb/v1 and kb/v2 predate ADR 0017 and hold it under Assets/MotionKB/, so a
         # path-scoped checkout of either restores nothing. See docs/ROLLBACK.md.
-        "rollback_tag": "kb/v3",
+        "rollback_tag": "kb/v4",
         "generator": "animation-agent/gen_kb_manifest.py",
         "action_count": len(actions),
         "actions": actions,

@@ -23,6 +23,7 @@ import asyncio
 import itertools
 import sys
 
+from agent import kbindex as KI
 from agent import protocol as P
 from agent import transitions as T
 from agent.engine import DEFAULT_HOST, DEFAULT_PORT, EngineLink
@@ -30,7 +31,12 @@ from agent.kbindex import KBIndex
 
 
 def posture_of(kb, action_id):
-    return (kb.record(action_id).get("composability") or {}).get("posture") or "standing"
+    """Standing or seated, binned from the clip's measured carriage.
+
+    It used to read `composability.posture`, a label a VLM proposed and a human accepted; v4 deletes
+    the whole block (ADR 0022). Delegated to `kbindex` rather than reimplemented, so this probe and
+    the tools cannot come to disagree about which action is the seated one."""
+    return KI.posture_of(kb.record(action_id))
 
 
 def schedule_pair(kb, clips, a, b):

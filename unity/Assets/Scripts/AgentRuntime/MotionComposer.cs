@@ -45,11 +45,12 @@ namespace AgentRuntime
     /// geodesic between them. The left elbow, outside the mask, moved 0.00. So the weight blends and the
     /// mask still confines, which is exactly the pair of properties this needs.
     ///
-    /// ADR 0004 originally restricted co-playback to DISJOINT channels, and the amendment says when that
-    /// restriction lifts — both claimants free of any object contact, and the split taken from the role
-    /// table rather than chosen. Where either side grips something, the arbitration still refuses: half
-    /// of a hand on a patient's chest and half on a pill bottle satisfies neither grip, which is the same
-    /// argument that stops two hands being aimed at one anchor.
+    /// ADR 0004 originally restricted co-playback to DISJOINT channels; ADR 0022 deleted the record
+    /// fields that restriction was written against. The agent's plan now states which channels each
+    /// overlay drives, and a channel two of them name is mixed half each. Where the plan pins a channel
+    /// to a scene object — a carry, an IK binding, a gaze-bound head — mixing is refused by name instead:
+    /// half of a hand shaped for a patient's chest and half for a pill bottle grips neither, which is the
+    /// same argument that stops two hands being aimed at one anchor.
     ///
     /// Two clips mixed at unrelated phases average two unrelated poses, so a mixed layer also carries its
     /// own entry time — see `LayerSpec.ClipStartSeconds`. Both numbers are computed agent-side.
@@ -665,9 +666,10 @@ namespace AgentRuntime
             /// 0.6 of the base and 0.4 of this, on the channels this layer's mask reaches and nowhere
             /// else. That is why the split is expressed as one number rather than a pair.
             ///
-            /// Where it comes from: agent/assemble.py, off the role table, for a channel two actions
-            /// both claim and neither of them grips anything with. Nothing here decides it — same split
-            /// that keeps the channel partition and the seam schedule on the agent side.
+            /// Where it comes from: agent/assemble.py, for a channel that two overlays in the plan both
+            /// name and that the plan pins to no scene object — half each since ADR 0022. Nothing here
+            /// decides it — same split that keeps the channel partition and the seam schedule on the
+            /// agent side.
             /// </summary>
             public float Weight = 1f;
 

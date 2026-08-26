@@ -5,6 +5,7 @@ import os
 
 import pytest
 
+import config as C
 from agent import transitions as T
 from agent.kbindex import KBIndex
 
@@ -87,28 +88,52 @@ def test_unknown_posture_does_not_invent_a_change():
 
 # ---- trim budget -----------------------------------------------------------------------------
 
-def test_a_loop_has_no_payload_to_protect():
-    assert T.payload_window({"loop": True, "channels": {}}, 30) is None
+def rec_with(loop=False, **channels):
+    """A v4 record stub: per channel a measured `raw_measurement.raw_value` and nothing else.
+
+    v3 wrote `role` and `contact` here and `payload_window` read both. Neither survives ADR 0022 --
+    what a clip touches is a fact about the scene it is played in -- so what marks a payload is now
+    measured: a one-shot whose HANDS move is a one-shot doing something with them.
+    """
+    return {"loop": loop,
+            "channels": {name: {"raw_measurement": {"raw_value": value}}
+                         for name, value in channels.items()}}
 
 
-def test_a_one_shot_without_object_contact_is_freely_trimmable():
-    rec = {"loop": False, "channels": {"right_arm": {"role": "primary", "contact": "none"}}}
-    assert T.payload_window(rec, 40) is None
+def test_a_one_shot_with_still_hands_is_freely_trimmable():
+    """Nothing is being held, so no span of it is the point. `left_hand` reads exactly 0.0 on
+    `grab_bottle` in the real store, so this is the corpus's own shape, not an invented one."""
+    assert T.payload_window(rec_with(right_arm=0.4, right_hand=0.0), 40) is None
 
 
-def test_a_one_shot_touching_an_object_protects_its_middle():
-    rec = {"loop": False, "channels": {"right_hand": {"role": "primary", "contact": "object:pills"}}}
-    assert T.payload_window(rec, 40) == (5, 34)
+def test_a_one_shot_whose_hands_move_protects_its_middle():
+    """`grab_bottle` reads 0.286 on the right hand and `giving_pills` 0.779 on the left. Cutting into
+    that span removes the grasp and the action stops being itself."""
+    assert T.payload_window(rec_with(right_hand=0.3), 40) == (5, 34)
 
 
-def test_contact_on_a_non_primary_channel_does_not_protect_anything():
-    """A stabilizer leaning on something is not the point of the action."""
-    rec = {"loop": False, "channels": {"torso": {"role": "stabilizer", "contact": "object:bed"}}}
-    assert T.payload_window(rec, 40) is None
+def test_the_threshold_is_the_stores_own_static_constant():
+    """Not a number chosen here. A hand below `STATIC_MUSCLE` is one the store already calls static,
+    so nothing new is calibrated to decide what a payload is."""
+    assert T.payload_window(rec_with(right_hand=C.STATIC_MUSCLE), 40) is None
+    assert T.payload_window(rec_with(right_hand=C.STATIC_MUSCLE * 1.1), 40) == (5, 34)
+
+
+def test_a_busy_channel_that_is_not_a_hand_protects_nothing():
+    """A torso that moves is most of the corpus; it is what the clip does, not what the clip is FOR.
+    Only the hands mark a payload, which is the same coarseness the v3 rule had for the same reason:
+    there is no per-frame contact track to be finer with."""
+    assert T.payload_window(rec_with(torso=0.9, left_leg=0.9, right_hand=0.0), 40) is None
+
+
+def test_a_loop_has_no_payload_however_busy_its_hands_are():
+    """Every frame of a cycle is as good as any other, so the loop test comes first and nothing below
+    it can overrule it."""
+    assert T.payload_window(rec_with(loop=True, right_hand=0.9), 40) is None
 
 
 def test_search_range_skips_the_payload():
-    rec = {"loop": False, "channels": {"right_hand": {"role": "primary", "contact": "object:pills"}}}
+    rec = rec_with(right_hand=0.3)
     c = clip("c", {"Hips": [IDENT] * 40})
     allowed = T._search_range(c, rec, tail=True)
     lo, hi = T.payload_window(rec, 40)
@@ -117,10 +142,27 @@ def test_search_range_skips_the_payload():
 
 def test_search_range_is_never_empty_even_when_the_payload_swallows_it():
     """A clip whose protected span covers the whole search window still has to be joinable somewhere."""
-    rec = {"loop": False, "channels": {"right_hand": {"role": "primary", "contact": "object:x"}}}
+    rec = rec_with(right_hand=0.3)
     c = clip("c", {"Hips": [IDENT] * 8})
     assert T._search_range(c, rec, tail=True) != []
     assert T._search_range(c, rec, tail=False) != []
+
+
+# ---- what is standing on what ----------------------------------------------------------------
+
+def test_a_standing_clip_carries_its_weight_through_both_legs():
+    """v3 read `contact == "ground"` per channel; v4 records do not say what a channel touches, so the
+    question is answered from the measured CARRIAGE instead. This reproduces the v3 answer on the
+    whole accepted corpus -- every standing record marked both legs `ground`, the one seated record
+    marked neither."""
+    standing = {"channels": {"root": {"mean_body_height": 0.90}}}
+    seated = {"channels": {"root": {"mean_body_height": 0.65}}}
+
+    assert T.support_channels(standing, standing) == {"root", "torso", "left_leg", "right_leg"}
+    assert T.support_channels(seated, seated) == {"root", "torso"}
+    # Both ends of a seam are consulted: a support being given up is still being stood on for part of
+    # the blend, so a stand-to-sit holds the legs across the whole of it.
+    assert T.support_channels(standing, seated) == {"root", "torso", "left_leg", "right_leg"}
 
 
 # ---- foot preference -------------------------------------------------------------------------
@@ -353,8 +395,9 @@ def test_a_channel_with_less_to_do_starts_later(corpus):
 
 
 def test_the_channels_holding_her_up_cross_the_whole_seam(corpus):
-    """A leg cannot arrive late: the weight is on it the whole way down. Read off `contact == ground`
-    rather than listed, so it stays true if an action ever puts a hand on the floor."""
+    """A leg cannot arrive late: the weight is on it the whole way down. Derived from the measured
+    carriage rather than listed here -- see `support_channels` -- so a corpus that grows a second
+    seated action does not need this test rewritten."""
     kb, clips = corpus
     window, groups = _ramps(kb, clips, ["walking", "typing"], generate=True)
     start = {channel: group["offset_s"] for group in groups for channel in group["channels"]}

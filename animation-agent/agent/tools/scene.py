@@ -54,6 +54,7 @@ from .. import protocol as P
 from .. import segments as S
 from .. import transitions as T
 from ..engine import EngineError, EngineTimeout, EngineUnavailable
+from .. import kbindex as KI
 from ..kbindex import ANATOMICAL
 from .registry import ToolFailure
 
@@ -137,10 +138,38 @@ PLAN_PARAMS = {
     "additionalProperties": False,
     "properties": {
         "character": {"type": "string", "description": "Only needed when more than one character is connected; there is normally one and it is used by default."},
-        "base": {"type": "string", "description": "action_id of the action that sets the posture."},
+        "base": {"type": "string", "description": "action_id of the action that sets the posture. It "
+                                                  "animates the whole body underneath everything "
+                                                  "else, so whatever no overlay drives comes from it."},
+        "base_channels": {
+            "type": "array", "maxItems": 8,
+            "items": {"type": "string", "enum": list(ANATOMICAL)},
+            "description": "Body parts the base OWNS, when you want to say so. The base animates the "
+                           "whole body regardless; naming parts here reserves them, so an overlay "
+                           "asking for one of them contends with the base instead of simply taking "
+                           "it. Leave it out unless you mean to reserve something.",
+        },
         "overlays": {
             "type": "array", "maxItems": 3,
-            "items": {"type": "string", "description": "action_id grafted onto the base."},
+            "items": {
+                "type": "object", "additionalProperties": False,
+                "properties": {
+                    "action_id": {"type": "string", "description": "action grafted onto the base."},
+                    "channels": {
+                        "type": "array", "minItems": 1, "maxItems": 8,
+                        "items": {"type": "string", "enum": list(ANATOMICAL)},
+                        "description": "Which body parts this overlay drives.",
+                    },
+                },
+                "required": ["action_id", "channels"],
+            },
+            "description": "Actions layered on top of the base, each with the body parts it drives. "
+                           "YOU decide that split, and it is the decision this tool cannot make for "
+                           "you: whether a walk's arm swing is incidental or is the point depends on "
+                           "what she is doing, and the library describes one clip at a time. Name "
+                           "only what the overlay is FOR -- carrying a bottle while walking is the "
+                           "arm and the hand that hold it, not the torso that leans with them. Two "
+                           "overlays naming the same part get half of it each.",
         },
         "hold_final_pose": {
             "type": "array", "maxItems": 3,
@@ -196,7 +225,20 @@ PLAN_PARAMS = {
                 "type": "object", "additionalProperties": False,
                 "properties": {
                     "base": {"type": "string", "description": "action_id to play next."},
-                    "overlays": {"type": "array", "maxItems": 3, "items": {"type": "string"}},
+                    "base_channels": {"type": "array", "maxItems": 8,
+                                      "items": {"type": "string", "enum": list(ANATOMICAL)}},
+                    "overlays": {
+                        "type": "array", "maxItems": 3,
+                        "items": {
+                            "type": "object", "additionalProperties": False,
+                            "properties": {
+                                "action_id": {"type": "string"},
+                                "channels": {"type": "array", "minItems": 1, "maxItems": 8,
+                                             "items": {"type": "string", "enum": list(ANATOMICAL)}},
+                            },
+                            "required": ["action_id", "channels"],
+                        },
+                    },
                     "hold_final_pose": {"type": "array", "maxItems": 3, "items": {"type": "string"}},
                     "sit_on": {"type": "string",
                                "description": "Accepted here as well as at the top level, for the "
@@ -252,29 +294,26 @@ PLAN_PARAMS = {
 # `scene.find` is still reachable from inside this file.
 
 
-def _step_starts(steps):
-    """When each step's contacts fall due, keyed by action id.
+def _settled_at(step):
+    """When a step's contacts fall due: its start, plus the posture change it is reached through.
 
     A step reached through a generated posture change is not settled when it starts -- the descent is
     still running through it. Measured: the worst contact error on a walk-sit-type plan landed at
     0.12 m mid-descent, with the hands correct before and after, because the torso was still on its
     way down. The contact falls due when the change finishes.
-
-    Shared by the contacts the gate MEASURES and the bindings the engine APPLIES, because they are the
-    same moment. Computing them separately is how a gate came to judge from frame zero a hand that a
-    binding would not reach for until three seconds in.
     """
-    starts = {}
-    for step in steps:
-        due = step.get("start_at_s") or 0.0
-        if step.get("generated"):
-            due += step["generated"].get("duration_s") or 0.0
-        starts.setdefault(step["action_id"], due)
-    return starts
+    due = step.get("start_at_s") or 0.0
+    if step.get("generated"):
+        due += step["generated"].get("duration_s") or 0.0
+    return round(due, 4)
 
 
-def _binding_due(gates, starts, effector):
+def _binding_due(steps, effector):
     """When an IK binding for this hand should engage.
+
+    ONE ANSWER FOR THE CONTACT THE GATE MEASURES AND THE BINDING THE ENGINE APPLIES, because they are
+    the same moment. Computing them separately is how a gate came to judge from frame zero a hand
+    that a binding would not reach for until three seconds in.
 
     A BINDING BELONGS TO THE STEP THAT REACHES FOR SOMETHING, NOT TO THE PLAN. Everything used to be
     applied at commit, so a plan that walked to a laptop and then typed on it pulled both wrists onto
@@ -282,19 +321,25 @@ def _binding_due(gates, starts, effector):
     walk played with her arms stretched behind her toward the desk, and nothing reported it, because
     every check the gate runs is about where she ENDS up.
 
-    The step is read off the knowledge base rather than asked for: `typing` records both hands as
-    `contact: object:keyboard`, `walking` records them as `free / none`. So the hand is left to the
-    walk's own animation until the step that actually touches something begins -- which is the same
-    rule as "what the clip already does is not missing", applied in time instead of in space.
+    WHICH STEP, in a v4 plan. It used to be read off the knowledge base -- `typing` recorded both
+    hands as `contact: object:keyboard`, `walking` recorded them as `free / none`, so the step that
+    touched something identified itself. v4 records say no such thing (ADR 0022), so the plan is asked
+    instead, in two passes:
 
-    Falls back to zero when no step declares the contact: the model asked for that binding on its own
-    and there is nothing to time it against.
+      1. A step where some layer explicitly drives this hand. That is the agent saying "this action,
+         here, is what this hand is doing", which is exactly the step the binding belongs to.
+      2. Failing that, the LAST step -- because a plan with several steps that pins a hand is pinning
+         it to what it walks towards, not to what it is walking away from. On a single-step plan the
+         last step is the first, so the binding engages at zero, which is the same answer as before.
+
+    Either way the moment is the step's SETTLED time, not its start: a hand cannot be on a keyboard
+    while the descent that puts her in front of it is still running. See `_settled_at`.
     """
-    for gate in gates:
-        for want in gate.get("clip_contacts") or []:
-            if want["effector"] == effector:
-                return round(starts.get(want["from_action"], 0.0), 4)
-    return 0.0
+    for step in steps:
+        for layer in step.get("layers") or []:
+            if effector in (layer.get("channels") or []):
+                return _settled_at(step)
+    return _settled_at(steps[-1]) if steps else 0.0
 
 
 def _metres(value):
@@ -376,6 +421,19 @@ def _validation_failure(verdict):
         % ", ".join(named),
         # dict.fromkeys rather than set: two failures with the same repair say it once, in order.
         hint="nothing was played and nothing moved. " + " ".join(dict.fromkeys(repairs)))
+
+
+def _bad_split(e):
+    """A channel assignment the plan got wrong, said in the shape that would have been right.
+
+    The example matters more than the message: what the model has to change is the SHAPE of an
+    overlay entry, and an error naming the missing field without showing where it goes sends it
+    rewriting the action ids instead.
+    """
+    return ToolFailure("could not build the channel split: %s" % e,
+                       hint="every overlay names the body parts it drives, e.g. "
+                            "overlays: [{\"action_id\": \"grab_bottle\", "
+                            "\"channels\": [\"right_arm\", \"right_hand\"]}]")
 
 
 def _engine_failure(e):
@@ -749,29 +807,33 @@ def register(registry, engine, kb=None):
                               "with relative_to." % ask)
         return result
 
-    def _one_step(base, overlays, hold_final_pose, ik_bindings, named_objects=None):
-        """Derive one step's channel split and its gates. Raises ToolFailure with the reason a model
+    def _one_step(base, overlays, hold_final_pose, ik_bindings, base_channels=None, pinned=None):
+        """Build one step's channel split and its gates. Raises ToolFailure with the reason a model
         can act on.
 
-        `named_objects` is what the request asked for by name. It only ever decides which of two hands
-        keeps its object when both grip the same one -- see assemble.arbitrate.
+        `overlays` is [{"action_id":…, "channels":[…]}] -- the split the AGENT decided. Through v3 it
+        was a list of bare action_ids and this function derived the split from the KB's `role` labels;
+        motionkb/v4 deletes those (ADR 0022) because which part of a clip matters depends on the task,
+        which only the agent can see. `pinned` are the channels this plan attaches to a scene object.
         """
-        unknown = [a for a in [base] + list(overlays) if a not in kb.actions]
+        # THROUGH THE SAME REFUSAL AS THE ARBITRATION BELOW. This normalisation is where a malformed
+        # overlay is actually caught -- `arbitrate` normalises again, but by then the list is already
+        # clean -- so leaving it outside the guard turned the one error a model can fix by itself, an
+        # overlay that names no channels, into "plan_motion failed internally".
+        try:
+            overlays = A.normalise_overlays(overlays) if overlays else []
+        except ValueError as e:
+            raise _bad_split(e)
+        unknown = [a for a in [base] + [aid for aid, _ in overlays] if a not in kb.actions]
         if unknown:
             raise ToolFailure("unknown action_id: %s" % ", ".join(unknown),
                               hint="use kb_search and pass an action_id it returns")
 
-        # AN ACTION CANNOT FIGHT ITSELF FOR A BODY PART. Measured on a live turn: the model sent
-        # `typing` twice in one call and got back "these actions fight over the same body parts:
-        # left_arm (typing and typing)" -- a true sentence about nothing, which cost it an iteration
-        # and a wrong conclusion about what had gone wrong. A repeat asks for the same layer twice and
-        # the second says nothing the first did not, so it is dropped rather than reported.
-        overlays = [a for a in dict.fromkeys(overlays) if a != base]
-
         # Posture first: two actions that cannot share a stance cannot be combined however the channels
         # fall out, and reporting a channel conflict instead would send the model looking for a
         # different overlay when the real problem is that one of them is seated.
-        posture = _posture_gate(base, overlays, kb)
+        overlay_ids = [aid for aid, _ in overlays if aid != base]
+        posture = _posture_gate(base, overlay_ids, kb)
         if posture["status"] == "fail":
             # NAMES THE SHAPE THAT WORKS, because the old hint -- "choose actions with the same
             # posture" -- sent the model looking for a different action when the actions were right and
@@ -779,8 +841,7 @@ def register(registry, engine, kb=None):
             # `typing` in `overlays` alongside a standing base, then the turn ran out of budget.
             # Overlays play AT THE SAME TIME, which two postures cannot; `then` plays them in order,
             # and that is the one that makes the frames in between.
-            seated = [a for a in [base] + list(overlays)
-                      if (kb.record(a).get("composability") or {}).get("posture") == "seated"]
+            seated = [a for a in [base] + overlay_ids if _posture_of(a) == "seated"]
             raise ToolFailure(
                 posture["detail"],
                 hint="overlays play at the same time as the base, and two postures cannot happen at "
@@ -788,25 +849,26 @@ def register(registry, engine, kb=None):
                      "naming something to sit on, that is what generates the frames between standing "
                      "and seated." % (seated[0] if seated else "the seated action"))
 
-        # The partition is DERIVED here; the model never supplies channels. See assemble.py.
         try:
-            assembly = A.arbitrate(base, list(overlays), kb, named_objects=named_objects)
+            assembly = A.arbitrate(base, overlays, kb, base_channels=base_channels,
+                                   pinned_channels=pinned)
+        except ValueError as e:
+            raise _bad_split(e)
         except Exception as e:                       # noqa: BLE001
-            raise ToolFailure("could not derive the channel split: %s" % e)
+            raise ToolFailure("could not build the channel split: %s" % e)
 
         if assembly.conflicts:
-            # NAMING THE REASON, NOT JUST THE CHANNEL. A channel two actions both claim is normally
-            # shared between them, and two actions gripping one hand normally resolve by one of them
-            # keeping its object. What reaches here is the case neither can settle: the request itself
-            # named both things, so there is nothing left to decide that the caller has not already
-            # decided twice. The objects are named because "they conflict" leaves the model guessing
-            # which pair to break up.
+            # NAMING THE REASON, NOT JUST THE CHANNEL. A channel two actions both name is normally
+            # shared between them, half each. What reaches here is the case that cannot be halved: the
+            # plan pinned that hand to something in the scene, so a blend of two grips would hold
+            # neither, and the model needs to know which pair to break up rather than that "they
+            # conflict".
             names = ", ".join("%s (%s)" % (c.channel, c.why()) for c in assembly.conflicts)
             raise ToolFailure(
                 "these actions cannot both drive the same body part: %s" % names,
-                hint="one hand cannot hold two things, and this plan asked for both of them by name. "
-                     "Ask for one of the objects and the other hand keeps its motion without it, or "
-                     "do the two actions one after the other with `then`.")
+                hint="a hand bound to an object cannot be blended out of two motions. Give that part "
+                     "to one of the actions, drop the binding, or do the two actions one after the "
+                     "other with `then`.")
 
         # A SHARED CHANNEL MUST NOT BE MASKED INTO ITS OWNER'S LAYER. `assembly.layers` is an ownership
         # partition, so the larger shareholder holds a mixed channel there -- and a layer masked to it
@@ -848,47 +910,14 @@ def register(registry, engine, kb=None):
         layers.extend(_mixed_layers(assembly, hold_final_pose, windows))
 
         gates = [posture] + _structural_gates(assembly, kb, ik_bindings or [])
-        if assembly.dropped:
-            # A WARN, NOT A FAILURE, AND NOT SILENCE. The plan plays: the hand keeps that action's
-            # motion and simply has nothing in it. That is a real difference from the clip the model
-            # retrieved, so it is said here -- a reply describing her handing over the pills when the
-            # pills were never attached is the failure this exists to prevent.
-            gates.append({
-                "id": "dropped_grip", "status": "warn",
-                "detail": "; ".join(d.why() for d in assembly.dropped),
-                "hint": "say the hand performs the motion without the object. To hold that object "
-                        "instead, name it -- or play the two actions one after the other with `then`.",
-                "dropped_grips": [d.as_dict() for d in assembly.dropped]})
         return assembly, layers, gates
 
-    async def _asked_objects(action_ids, object_ids):
-        """Which of the library's contact aliases the request named, by naming the scene object.
-
-        TWO VOCABULARIES, AND THE ENGINE OWNS THE MAP. The library spells a grip `pills`; the scene
-        calls the thing `obj:PillBottle`. Matching those two strings by shape would work for
-        `aspirin_bottle` / `obj:AspirinBottle` and fail for exactly the pair this is about, so the
-        alias is resolved the same way every other alias in this file is: by asking the scene, which
-        is where the annotation lives.
-
-        Only the aliases actually contested are looked up -- the hand grips of the actions in this
-        plan -- so a plan that names nothing costs nothing and the busiest costs a handful of 0.3 ms
-        round trips.
-        """
-        wanted = {oid for oid in object_ids if oid}
-        if not wanted:
-            return set()
-        aliases = set()
-        for action_id in dict.fromkeys(action_ids):
-            for channel, spec in (kb.record(action_id).get("channels") or {}).items():
-                contact = str((spec or {}).get("contact") or "")
-                if channel in ("left_hand", "right_hand") and contact.startswith("object:"):
-                    aliases.add(contact[len("object:"):])
-        named = set()
-        for alias in sorted(aliases):
-            hits = (await _call(P.T.SCENE_FIND, {"alias": alias})).get("objects") or []
-            if any(hit.get("id") in wanted for hit in hits):
-                named.add(alias)
-        return named
+    # `_asked_objects` lived here. It resolved the KB's contact aliases (`pills`) against the scene's
+    # ids (`obj:PillBottle`) so that arbitrate could tell which of two competing grips the request had
+    # asked for. v4 records declare no grips (ADR 0022), so there is no second grip to weigh against
+    # the request: what a hand holds is named once, by the plan, in `carry` or `ik_bindings`, and it
+    # is already a scene id. The alias vocabulary survives in scene_search, where a person still types
+    # "pills".
 
     def _apply_window(entry, window):
         """Put an action's frame window on the layer that carries it. A no-op without one, which is
@@ -1160,42 +1189,33 @@ def register(registry, engine, kb=None):
         return await _walk_there(_who(character), destination, face=face, stop_within=stop_within,
                                  then_wait=then_wait, settle=True)
 
-    async def _face_for(order):
-        """What the coming motion is aimed at, read off the actions themselves. Returns
-        (object_id, action_id) or (None, None).
+    def _face_for(bindings, gaze_at=None):
+        """What the coming motion is aimed at. Returns (object_id, why) or (None, None).
 
-        THE RULE: a character faces the thing the action she is about to perform interacts with.
-        Typing on a laptop means facing the laptop. A seat decides only where she sits; it has nothing
-        to say about which way she faces, and taking the facing from it is how she came to sit with
-        her back to the desk.
+        THE RULE IS UNCHANGED: a character faces the thing the action she is about to perform
+        interacts with. Typing on a laptop means facing the laptop. A seat decides only where she
+        sits; it has nothing to say about which way she faces, and taking the facing from it is how
+        she came to sit with her back to the desk.
 
-        Nothing new is authored for this. Every action already records what it touches --
-        `typing` spells both hands `contact: object:keyboard`, `cpr` names the chest, `check_pulse`
-        the wrist -- and the registry's alias list is what joins `keyboard` to `obj:Laptop`. So the
-        rule generalises to every action in the corpus for free, where a per-seat `faceAnchor` would
-        have to be re-authored for each new chair and would still be wrong for a chair used to face
-        something else.
+        WHERE IT READS THE ANSWER DID CHANGE. v3 read it off the knowledge base: `typing` spelled both
+        hands `contact: object:keyboard`, `cpr` named the chest, and the registry's alias list joined
+        `keyboard` to `obj:Laptop`. v4 records say how a hand moves, not what it is on (ADR 0022), so
+        the answer comes from the plan, which names the object once and already names it as a scene
+        id -- no alias round trip, and no ambiguity to refuse.
 
-        `walking` and `idle` touch nothing and return None, which leaves the facing to the route --
-        also correct: there is nothing they are aimed at.
+        Hands before gaze, and in a fixed order, so the same plan resolves the same way twice. A gaze
+        target counts only if nothing is held: looking at a monitor while working on a patient should
+        not turn the body away from the patient.
 
-        Hands first, and in a fixed order, so a foot resting on the floor cannot outvote what the
-        hands are working on and so the same plan resolves the same way twice.
+        A plan that pins nothing returns None, which leaves the facing to the route -- also correct:
+        there is nothing it is aimed at. That is what `walking` and `idle` on their own now do.
         """
-        for action_id in order:
-            channels = kb.record(action_id).get("channels") or {}
-            names = [c for c in ("left_hand", "right_hand") if c in channels]
-            names += [c for c in sorted(channels) if c not in names]
-            for channel in names:
-                contact = (channels.get(channel) or {}).get("contact") or ""
-                if not contact.startswith("object:"):
-                    continue
-                hits = (await _call(P.T.SCENE_FIND,
-                                    {"alias": contact[len("object:"):]})).get("objects") or []
-                if len(hits) == 1:
-                    return hits[0]["id"], action_id
-                # More than one match is a real question and picking the first would be a guess; keep
-                # looking rather than answer it here.
+        for effector in ("left_hand", "right_hand"):
+            for b in bindings:
+                if b.get("effector") == effector and b.get("object_id"):
+                    return b["object_id"], "%s is bound to it" % effector
+        if gaze_at:
+            return gaze_at, "she is looking at it"
         return None, None
 
     async def _turn_to_face(character, object_id):
@@ -1287,41 +1307,54 @@ def register(registry, engine, kb=None):
                                    "scene_search('chair') finds one")
         return found
 
-    async def _ground_declared_hands(gates, ik_bindings):
-        """Bind a clip's declared hand contacts to the object's own per-hand anchors, where it has them.
+    async def _pair_bound_hands(ik_bindings):
+        """When one hand is bound to something that says where BOTH hands go, bind the other too.
 
-        THE SCENE ALREADY KNEW THIS AND THE REGISTRY DID NOT. `typing` records both hands contacting
-        `keyboard`; the laptop carries four authored transforms saying where each hand and each elbow
-        goes; the demo path engages them and the hands land 0.000 m from the laptop. The agent path
-        disabled that helper and knew only a single grab point, so the same request either left the
-        hands hovering a fifth of a metre under the keyboard or, when the model bound them, pulled both
-        wrists onto one point.
+        THE SCENE KNOWS THIS AND NOTHING ELSE DOES. The laptop carries four authored transforms saying
+        where each hand and each elbow goes; the demo path engages them and the hands land 0.000 m
+        from it. An agent binding one hand and leaving the other to the clip gets one hand on the
+        keyboard and one hovering a fifth of a metre under it.
 
-        The rule is the object's, not the model's: two hands may be aimed at something only when it
-        says where both of them go. Where it does not -- a bottle, a button -- this binds nothing and
-        the clip is left alone. Neither side of that is a judgement call, so neither is left to one.
+        The rule is the OBJECT's, not the model's and not the library's: two hands may be aimed at
+        something exactly when it says where both of them go. Where it does not -- a bottle, a button
+        -- this adds nothing and the other hand keeps the clip's own motion. Neither side of that is a
+        judgement call, so neither is left to one.
+
+        v3 read the pairs out of the knowledge base instead, off `channels.*.contact` -- `typing`
+        declared both hands on `keyboard`, so both were bound without the agent saying anything. A v4
+        record does not say what a hand holds (ADR 0022), so the agent names one binding and the
+        object supplies the second.
+
+        LOOKED UP BY NAME, THEN NARROWED BY ID. `scene.find` filters on the name, the alias list and
+        the category; `id` is not one of its predicates, and the engine keeps the same blank-clause
+        guard `scene_search` describes -- so asking for one was asking for no filter at all, which
+        comes back as the whole registry and never as the single hit this needs. The id is still what
+        decides: the name search is the only way in, and the exact match is taken out of what it
+        returns rather than trusted to be the first row.
         """
-        bound = {b["effector"] for b in ik_bindings}
+        bound = {b["effector"] for b in ik_bindings if b.get("effector")}
         added = []
-        for gate in gates:
-            for want in gate.get("clip_contacts") or []:
-                if want["effector"] in bound:
-                    continue
-                hits = (await _call(P.T.SCENE_FIND, {"alias": want["contact"]})).get("objects") or []
-                if len(hits) != 1 or not hits[0].get("two_handed_anchors"):
-                    continue
-                bound.add(want["effector"])
-                added.append({"effector": want["effector"], "object_id": hits[0]["id"],
-                              "because": "%s works %s with both hands and %s says where each one goes"
-                                         % (want["from_action"], want["contact"], hits[0]["id"])})
+        for binding in list(ik_bindings):
+            other = {"left_hand": "right_hand", "right_hand": "left_hand"}.get(binding.get("effector"))
+            if not other or other in bound:
+                continue
+            object_id = binding["object_id"]
+            found = (await _call(P.T.SCENE_FIND,
+                                 {"name_contains": object_id.split(":", 1)[-1]})).get("objects") or []
+            hits = [hit for hit in found if hit.get("id") == object_id]
+            if len(hits) != 1 or not hits[0].get("two_handed_anchors"):
+                continue
+            bound.add(other)
+            added.append({"effector": other, "object_id": hits[0]["id"],
+                          "because": "%s says where both hands go, and %s is already on it"
+                                     % (hits[0]["id"], binding["effector"])})
         return added
 
-    async def _declared_contacts(gates, steps):
-        """What the clips say their hands will touch, resolved to real objects and timed.
+    def _expect_contacts(bindings, steps):
+        """What the plan says a hand will touch, and when the engine should start measuring it.
 
-        NOT A BINDING. Nothing is attached and no IK is applied -- the clip's own hand motion is left
-        exactly as authored, which is the point. This only names what the engine should MEASURE, so
-        that "her hands are on the laptop" becomes a number instead of something to squint at.
+        NOT A BINDING -- the bindings are applied separately. This names what to MEASURE, so that "her
+        hands are on the laptop" becomes a number instead of something to squint at.
 
         It is worth measuring because the geometry does not always work out and nothing said so.
         Measured on `typing` against this scene: the clip types at 0.70 m above the floor and 0.33 m in
@@ -1329,21 +1362,18 @@ def register(registry, engine, kb=None):
         her hands a fifth of a metre under the keyboard. Every check passed and the hands looked wrong,
         which is the same shape of failure as the sit that landed on nothing.
 
-        `due_at_s` is when the step that declares the contact starts. Without it the whole plan is
-        judged by its worst frame, and a hand cannot be on a keyboard while she is still walking to it.
+        `due_at_s` is when the step that pins the hand starts -- the same moment the binding engages,
+        computed by the same function, so the check and the thing it checks cannot drift apart.
+        Without it the whole plan is judged by its worst frame, and a hand cannot be on a keyboard
+        while she is still walking to it.
         """
-        starts = _step_starts(steps)
         out, seen = [], set()
-        for gate in gates:
-            for want in gate.get("clip_contacts") or []:
-                if want["effector"] in seen:
-                    continue
-                hits = (await _call(P.T.SCENE_FIND, {"alias": want["contact"]})).get("objects") or []
-                if len(hits) != 1:
-                    continue          # nothing to measure against, or a choice that is not ours
-                seen.add(want["effector"])
-                out.append({"effector": want["effector"], "object_id": hits[0]["id"],
-                            "due_at_s": starts.get(want["from_action"], 0.0)})
+        for b in bindings:
+            eff, oid = b.get("effector"), b.get("object_id")
+            if not eff or not oid or eff in seen:
+                continue
+            seen.add(eff)
+            out.append({"effector": eff, "object_id": oid, "due_at_s": _binding_due(steps, eff)})
         return out
 
     async def _opening_step(character, base, overlays, then, projected=None):
@@ -1412,10 +1442,16 @@ def register(registry, engine, kb=None):
         return playing, True
 
     def _posture_of(action_id):
-        """An action's posture, as the knowledge base recorded it. Falls back to standing rather than
-        to null: the executor treats a missing posture as standing, and agreeing here keeps a record
-        with an incomplete composability block from meaning two different things on the two sides."""
-        return (kb.record(action_id).get("composability") or {}).get("posture") or "standing"
+        """An action's posture, binned from its measured carriage (kbindex.posture_of).
+
+        v3 read `composability.posture`, a label proposed and accepted alongside the rest of the
+        semantic half. v4 deletes it (ADR 0022), and this is the one piece of that block worth
+        keeping, for two reasons: the ENGINE needs it -- every plan step carries a posture so the
+        executor can refuse to walk a seated character off a chair -- and it was never a judgement.
+        Where the hips sit over a clip is a measurement, and `mean_body_height` is that measurement.
+
+        Falls back to standing rather than to null, which is what the executor assumes."""
+        return KI.posture_of(kb.record(action_id))
 
     async def _commit_sequence(character, order, sit_on=None):
         """Build and commit a plain ordered plan — no overlays, no bindings, no gaze.
@@ -1508,10 +1544,13 @@ def register(registry, engine, kb=None):
         rise["note"] = "she did not finish standing up; nothing was walked"
         return rise
 
-    async def plan_motion(base, character=None, overlays=None, hold_final_pose=None, ik_bindings=None,
+    async def plan_motion(base, character=None, overlays=None, base_channels=None,
+                          hold_final_pose=None, ik_bindings=None,
                           gaze_at=None, stand_at=None, carry=None, then=None, sit_on=None,
                           walk_to=None, stop_within=None, mode="commit"):
         overlays = overlays or []
+        # `overlays` is [{action_id, channels}] since v4 -- the agent's own channel split (ADR 0022).
+        overlay_ids = [o.get("action_id") if isinstance(o, dict) else o for o in overlays]
         if kb is None:
             raise ToolFailure("no motion library is loaded")
         character = _who(character)
@@ -1534,10 +1573,6 @@ def register(registry, engine, kb=None):
             sit_on = sit_on or step.pop("sit_on", None)
         sit_on = await _resolve_id(sit_on)
 
-        # The order as the model asked for it. The opener may still be substituted below, but what the
-        # plan is aimed AT is decided by the actions it named, not by what it ends up opening on.
-        intended = [base] + [entry["base"] for entry in (then or [])]
-
         # SITTING ON SOMETHING MEANS BEING AT IT, so naming a seat is naming somewhere to walk. Left to
         # the model this went wrong in both directions on real turns: one committed the sit while she
         # was still crossing the room, and the rest walked there with move_to, which ends by parking
@@ -1554,28 +1589,26 @@ def register(registry, engine, kb=None):
         if sit_on and not walk_to:
             walk_to = sit_on
 
-        # EVERY OBJECT THE MODEL NAMED, RESOLVED BEFORE ANYTHING MOVES. It used to be resolved after
-        # the partition was derived, which was fine while the partition did not depend on it. It does
-        # now -- when two actions grip the same hand, the one whose object was asked for keeps it, and
-        # both being asked for is the one case still refused -- and the walk below needs it too, since
-        # a bottle carried across the room has to be in her hand for the crossing.
+        # EVERY OBJECT THE MODEL NAMED, RESOLVED BEFORE ANYTHING MOVES. The walk below needs them --
+        # a bottle carried across the room has to be in her hand for the crossing -- and so does the
+        # partition, which refuses to blend a hand the plan has pinned to something.
         gaze_at = await _resolve_id(gaze_at)
         for binding in (ik_bindings or []):
             binding["object_id"] = await _resolve_id(binding.get("object_id"))
         for held in (carry or []):
             held["object_id"] = await _resolve_id(held.get("object_id"))
-        asked_objects = await _asked_objects(
-            [base] + list(overlays) + [e["base"] for e in (then or [])],
-            [b.get("object_id") for b in (ik_bindings or [])]
-            + [h.get("object_id") for h in (carry or [])])
+        # The channels this plan attaches to the scene. A hand holding something cannot be averaged
+        # out of two motions, so arbitrate reports that as a conflict instead of a mix.
+        pinned = ({b["effector"] for b in (ik_bindings or []) if b.get("effector")}
+                  | {h["hand"] for h in (carry or []) if h.get("hand")})
 
         # WHAT SHE DOES WHILE SHE IS WALKING. A plan whose base IS the walk is asking for a composed
         # motion -- "walk over holding the bottle out" -- and its overlays belong on top of the walk
-        # that gets her there, not after it. Derived here so a plan that cannot be assembled is
+        # that gets her there, not after it. Built here so a plan that cannot be assembled is
         # refused before she takes a step, rather than half-played and then rejected.
         while_walking = list(overlays) if (walk_to and overlays and base == LOCOMOTION_ACTION) else None
         if while_walking:
-            _one_step(base, while_walking, hold_final_pose, ik_bindings, asked_objects)
+            _one_step(base, while_walking, hold_final_pose, ik_bindings, base_channels, pinned)
 
         # ON HER FEET BEFORE ANYTHING ELSE. A plan that opens standing while she is seated used to be
         # refused outright; the frames for getting up are generated now, and the only thing that stays
@@ -1614,7 +1647,9 @@ def register(registry, engine, kb=None):
             # arrival carries the heading she will actually be at when the motion starts; a hidden copy
             # checked facing the way she walked is checked in the wrong direction, which for a sit at a
             # desk is backwards.
-            aim, aimed_for = await _face_for(intended)
+            aim, aimed_for = _face_for((ik_bindings or []) + [{"effector": h.get("hand"),
+                                                              "object_id": h.get("object_id")}
+                                                             for h in (carry or [])], gaze_at)
             preview = await _preview_walk(character, walk_to, stop_within=stop_within, face=aim)
 
         asked_base = base
@@ -1630,10 +1665,11 @@ def register(registry, engine, kb=None):
         # so the opener is decided against what the walk will leave behind. `_walk_there` plays the
         # walk cycle and is told not to settle it, so this is construction rather than a guess.
         base, at_rest = await _opening_step(
-            character, base, overlays, then,
+            character, base, overlay_ids, then,
             projected={"going": False, "playing": LOCOMOTION_ACTION}
             if preview and preview.get("will_walk") else None)
-        assembly, layers, gates = _one_step(base, overlays, hold_final_pose, ik_bindings, asked_objects)
+        assembly, layers, gates = _one_step(base, overlays, hold_final_pose, ik_bindings,
+                                            base_channels, pinned)
         if arrived_composing:
             # A DIFFERENT SUBSTITUTION AND A DIFFERENT REASON, so it does not borrow the sentence
             # below. Nothing was dropped and nothing failed: she really did walk and really did
@@ -1642,7 +1678,7 @@ def register(registry, engine, kb=None):
                 "id": "opening_step", "status": "pass",
                 "detail": "%s played under the walk that got her here and is still playing; the walk "
                           "is over, so what commits now is the same overlay over a stance rather than "
-                          "over a stride." % ", ".join(overlays),
+                          "over a stride." % ", ".join(overlay_ids),
                 "hint": "she did this while walking, not after arriving."})
         elif base != asked_base:
             # SAID, NOT DONE QUIETLY. The model reports what it committed, and a substitution it
@@ -1667,8 +1703,8 @@ def register(registry, engine, kb=None):
         # (`sit_on` is hoisted off the `then` entry and resolved at the top of this function, because
         # the walk that may precede the plan needs the seat to know how close to stop. `gaze_at`,
         # `ik_bindings` and `carry` are resolved above, ahead of the partition that now consults them.)
-        seated = [a for a in [base] + list(overlays) + [e["base"] for e in (then or [])]
-                  if (kb.record(a).get("composability") or {}).get("posture") == "seated"]
+        seated = [a for a in [base] + overlay_ids + [e["base"] for e in (then or [])]
+                  if a in kb.actions and _posture_of(a) == "seated"]
         if seated and not sit_on:
             raise ToolFailure(
                 "%s is a seated action and nothing was named to sit on" % seated[0],
@@ -1736,7 +1772,8 @@ def register(registry, engine, kb=None):
                 else:
                     entry = then[index - 1]
                     a, step_layers, step_gates = _one_step(
-                        aid, entry.get("overlays") or [], entry.get("hold_final_pose"), None)
+                        aid, entry.get("overlays") or [], entry.get("hold_final_pose"), None,
+                        entry.get("base_channels"), pinned)
                     derived.append(a.as_dict())
                     assemblies.append(a)
                     gates = gates + step_gates
@@ -1753,8 +1790,7 @@ def register(registry, engine, kb=None):
                                              timed["generated"].get("target_hip_height_m"), aid)
                 steps.append(timed)
 
-        grounded = await _ground_declared_hands(gates, ik_bindings or [])
-        starts = _step_starts(steps)
+        paired = await _pair_bound_hands(ik_bindings or [])
         walk_payload = None
         if while_walking and mode == "commit":
             # The walk-with-overlays plan, built here so it can be checked before she sets off and
@@ -1769,9 +1805,9 @@ def register(registry, engine, kb=None):
             "steps": steps,
             "free_channels": assembly.free_channels,
             "ik": [{"effector": b["effector"], "object_id": b["object_id"],
-                    "at_s": _binding_due(gates, starts, b["effector"])}
-                   for b in (ik_bindings or []) + grounded],
-            "expect_contact": await _declared_contacts(gates, steps),
+                    "at_s": _binding_due(steps, b["effector"])}
+                   for b in (ik_bindings or []) + paired],
+            "expect_contact": _expect_contacts((ik_bindings or []) + paired, steps),
             "gaze_at": gaze_at,
             # Same reasoning as a hand binding, with nothing in the knowledge base to time it against:
             # a gaze is for the step the plan settles into, and holding a head-aim through the walk
@@ -1812,7 +1848,7 @@ def register(registry, engine, kb=None):
                 if not await _turn_to_face(character, aim):
                     walked["note"] = "still turning to face %s when the plan committed" % aim
                 walked["facing"] = aim
-                walked["facing_from"] = "%s touches it, so that is what she faces" % aimed_for
+                walked["facing_from"] = aimed_for
             for key in ("path_length_m", "eta_s"):
                 if walked.get(key) is None and preview.get(key) is not None:
                     walked[key] = preview[key]
@@ -1848,14 +1884,11 @@ def register(registry, engine, kb=None):
                  for step in steps for layer in step["layers"] if "window_why" in layer]
         if taken:
             result["segments"] = taken
-        # WHICH HAND CAME UP EMPTY. Two actions gripping one hand no longer refuse the plan: the hand
-        # keeps one of the two motions and the other's object is simply not attached. That is a real
-        # difference from the retrieved clip, so it travels in the result rather than only in a gate --
-        # a reply describing her handing over pills that were never in her hand is the failure this is
-        # here to stop.
-        detached = [d for a in assemblies for d in a.dropped]
-        if detached:
-            result["dropped_grips"] = [d.as_dict() for d in detached]
+        # `dropped_grips` was reported here: two v3 actions each declared a `contact` in the knowledge
+        # base, one hand could serve only one of them, and the losing action kept its motion without
+        # its object. v4 records declare no contact (ADR 0022), so there is no second grip to lose --
+        # a hand holds what the plan says it holds, once, and a plan that asks two actions to drive a
+        # pinned hand is refused by name instead.
         if walked is not None:
             # Said back for the same reason the substituted opener is: the model did not watch the
             # walk happen, and how far she actually went is the difference between "she walked over
@@ -1875,8 +1908,11 @@ def register(registry, engine, kb=None):
             result["opened_on"] = {"asked_for": asked_base, "played": base,
                                    "why": "she was not walking anywhere; %s is what she was already "
                                           "doing" % base}
-        if grounded:
-            result["grounded_hands"] = grounded
+        if paired:
+            # The bindings the plan did not write. One hand was named, the object said where both go,
+            # and the second binding is therefore something the model has to be told about rather than
+            # discover from a reply describing one hand on a keyboard.
+            result["paired_hands"] = paired
         if len(steps) > 1:
             result["sequence"] = [{"action_id": s["action_id"], "starts_at_s": s["start_at_s"],
                                    "fades_in_over_s": s["blend_in_s"]} for s in steps]
@@ -1979,9 +2015,13 @@ def register(registry, engine, kb=None):
 
 
 def _posture_gate(base, overlays, kb):
-    """The most fundamental check and the cheapest, so it runs first and alone."""
-    postures = {aid: kb.record(aid).get("composability", {}).get("posture")
-                for aid in [base] + list(overlays)}
+    """The most fundamental check and the cheapest, so it runs first and alone.
+
+    The posture is MEASURED now -- a bin over the clip's mean body height (kbindex.posture_of) --
+    where v3 read a `composability.posture` label. The gate is unchanged: a standing action and a
+    seated one cannot play at the same time however the channels fall out.
+    """
+    postures = {aid: KI.posture_of(kb.record(aid)) for aid in [base] + list(overlays)}
     distinct = {p for p in postures.values() if p}
     if len(distinct) <= 1:
         return {"id": "posture", "status": "pass",
@@ -2003,50 +2043,39 @@ def _structural_gates(assembly, kb, ik_bindings):
                   "detail": "%d channel(s) driven, %d free"
                             % (len(owned), len(assembly.free_channels))})
 
-    # WHAT THE CLIP ALREADY DOES IS NOT MISSING. This used to report every hand contact that had no
-    # ik_binding as "not bound to anything in the scene", and that sentence is what caused the damage:
-    # the model read it as an instruction and bound both hands to the laptop, which has one grab
-    # anchor, so both wrists were pulled onto the same point -- measured, right hand 0.000 m from it
-    # and left hand 0.065 m. That is clasping, not typing.
+    # WHAT THE PLAN PINS, AND WHETHER ANYTHING IS DRIVING IT.
     #
-    # The knowledge base says so plainly and the check simply was not reading it. `typing` records both
-    # hands as `role: primary` with `contact: object:keyboard` and `constraint: must-maintain`: the
-    # clip animates those hands against a keyboard already. Nothing has to reach for anything. What has
-    # to be true is that the CHARACTER is at the laptop, which is what move_to and sit_on are for.
+    # This gate used to read `channels.*.contact` and `channels.*.role` off the knowledge base: a hand
+    # the CLIP declared it worked against an object was reported as "animated against its object by
+    # the clip itself" and quietly handed downstream to be bound and measured. v4 deletes both fields
+    # (ADR 0022) -- a record describes how a hand moves, not what it is holding, because what it is
+    # holding is a fact about the scene and the task.
     #
-    # A hand a contact is declared on but which this plan does not drive is a different matter, and
-    # still reported.
-    held_by_clip, adrift = [], []
-    for aid, chans in assembly.layers:
-        record = kb.record(aid)
-        for channel in chans:
-            if channel not in ANATOMICAL or channel not in ("left_hand", "right_hand"):
-                continue
-            spec = record.get("channels", {}).get(channel) or {}
-            contact = spec.get("contact") or ""
-            if not contact.startswith("object:"):
-                continue
-            entry = (channel, contact[len("object:"):], aid)
-            (held_by_clip if spec.get("role") in ("primary", "stabilizer") else adrift).append(entry)
+    # So the source is the plan, which is where a grip is named now: `carry` and `ik_bindings` each
+    # say one effector and one object. What is left to check is the thing the KB could never say
+    # anyway -- that the plan is coherent with itself. Two effectors aimed at one object is the shape
+    # that once pulled both of typing's wrists onto a single grab point (measured: right hand 0.000 m,
+    # left hand 0.065 m -- clasping, not typing), and it is a warn here rather than a refusal because
+    # an object CAN say where both hands go, and when it does that is exactly what should happen. The
+    # object is asked, in `_pair_bound_hands`.
+    pins = [{"effector": b["effector"], "object_id": b["object_id"]}
+            for b in ik_bindings if b.get("effector") and b.get("object_id")]
+    by_object = {}
+    for pin in pins:
+        by_object.setdefault(pin["object_id"], []).append(pin["effector"])
+    doubled = {oid: effs for oid, effs in by_object.items() if len(set(effs)) > 1}
 
     gates.append({
-        "id": "contact_grounded",
-        "status": "pass" if not adrift else "warn",
-        "detail": ("no hand contacts to ground" if not held_by_clip and not adrift else
-                   "; ".join(filter(None, [
-                       ("animated against its object by the clip itself: "
-                        + ", ".join("%s on %s (%s)" % m for m in held_by_clip))
-                       if held_by_clip else "",
-                       ("driven without its contact: "
-                        + ", ".join("%s should touch %s (%s)" % m for m in adrift))
-                       if adrift else ""]))),
-        "hint": ("put the character at the object -- move_to it, and sit_on it if the action is "
-                 "seated. Do not bind these hands yourself: where the object says where each hand "
-                 "goes, they are bound to those anchors for you, and where it does not, aiming two "
-                 "hands at one grab point pulls both wrists onto it.") if held_by_clip else None,
-        # Carried out of the gate because it is measured, not only reported. The clip says these hands
-        # meet an object; whether they meet the real one depends on where she ends up standing or
-        # sitting, and that is a geometric question the engine can answer once the motion is playing.
-        "clip_contacts": [{"effector": e, "contact": c, "from_action": a} for e, c, a in held_by_clip],
+        "id": "contact_bindings",
+        "status": "warn" if doubled else "pass",
+        "detail": ("nothing is bound to the scene" if not pins else
+                   "; ".join("%s -> %s" % (p["effector"], p["object_id"]) for p in pins)),
+        "hint": ("two hands are aimed at one object. That is right only when the object says where "
+                 "each hand goes; where it does not, both wrists are pulled onto the same point. Bind "
+                 "one hand and the other keeps the clip's own motion.") if doubled else None,
+        # Carried out of the gate because it is measured, not only reported: whether a bound hand
+        # actually meets its object depends on where she ends up standing or sitting, and that is a
+        # geometric question the engine answers once the motion is playing.
+        "plan_contacts": pins,
     })
     return gates

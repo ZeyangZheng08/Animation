@@ -1,17 +1,24 @@
-"""Channel arbitration, checked against the eval set's own ground truth.
+"""Channel arbitration, against the eval set's own ground truth.
 
-The point of these is that the partition rule is DERIVED, not asserted. If someone later changes what a
-base or an overlay claims, these fail against `retrieval_eval_set.json` rather than against a number
-somebody typed into a test.
+WHAT THESE STOPPED BEING ABLE TO ASSERT. Through v3 the partition was DERIVED from a `role` label on
+every channel, and the tests here checked that the derivation reproduced `retrieval_eval_set.json`
+without anybody typing the answer into a test. motionkb/v4 deletes `role` (ADR 0022): which part of a
+clip matters is a fact about the task, not about the clip, so the assignment now ARRIVES from the
+agent's plan.
+
+So the subject changed and the fixture did not. The ground-truth channel sets are still what these
+run on -- they are now the INPUT rather than the expected output, and what is checked is that a given
+assignment is carried through unaltered, that the root follows the legs, that a channel two parts name
+is halved, and that the assignments a plan cannot mean are refused by name. The eval file is still the
+source of the channel lists, so a case that changes there changes here.
 """
 import json
-import os
 
 import pytest
 
 import paths
 from agent import assemble as A
-from agent.kbindex import ANATOMICAL, KBIndex, ROLE_PRIORITY
+from agent.kbindex import ANATOMICAL, KBIndex
 
 
 @pytest.fixture(scope="module")
@@ -29,15 +36,31 @@ def decompose_cases(cases):
     return [c for c in cases if c["expected"]["type"] == "decompose"]
 
 
+def ground_truth(case):
+    """The case's parts as the plan would write them: {action_id: [anatomical channels]}.
+
+    `root` is stripped because it is never assigned by a plan -- it follows the legs, which is the
+    thing `test_root_goes_to_whichever_part_owns_the_legs` is about.
+    """
+    return {part["action_id"]: [c for c in part["channels"] if c != "root"]
+            for part in case["expected"]["parts"]}
+
+
 def test_the_eval_set_still_has_the_two_decompose_cases(eval_cases):
     ids = [c["id"] for c in decompose_cases(eval_cases)]
     assert ids == ["dc-walk-carry", "dc-givepills-gaze"]
 
 
-def test_arbitration_reproduces_the_ground_truth_partition(kb, eval_cases):
+def test_a_given_partition_is_carried_through_unaltered(kb, eval_cases):
+    """The plan says who drives what; this module must hand back exactly that and nothing else.
+
+    It used to be a test that the RULE reproduced these sets. There is no rule left to test -- the
+    sets are the input now -- so what is worth checking is that nothing is quietly added, dropped or
+    reassigned on the way through, and that everything nobody named comes back as free.
+    """
     for case in decompose_cases(eval_cases):
         expected = case["expected"]
-        assembly = A.decompose([p["action_id"] for p in expected["parts"]], kb)
+        assembly = A.decompose(ground_truth(case), kb)
 
         for part in expected["parts"]:
             want = sorted(c for c in part["channels"] if c != "root")
@@ -48,6 +71,33 @@ def test_arbitration_reproduces_the_ground_truth_partition(kb, eval_cases):
         assert not assembly.conflicts, case["id"]
 
 
+def test_a_partition_that_leaves_a_part_out_is_rejected_rather_than_guessed(kb):
+    """The one thing v4 may not do is invent the channel list it stopped deriving.
+
+    An overlay with no channels is not "an overlay over everything": an empty mask plays FULL BODY at
+    full weight in the engine, so accepting one would replace the whole body with the overlay, and
+    dropping it would answer a request nobody made.
+    """
+    with pytest.raises(ValueError, match="names no channels"):
+        A.arbitrate("walking", ["grab_bottle"], kb)
+    with pytest.raises(ValueError, match="names no channels"):
+        A.arbitrate("walking", [{"action_id": "grab_bottle", "channels": []}], kb)
+    with pytest.raises(ValueError, match="do not exist"):
+        A.arbitrate("walking", [("grab_bottle", ["elbow"])], kb)
+    with pytest.raises(ValueError, match="do not exist"):
+        A.arbitrate("walking", [("grab_bottle", ["right_arm"])], kb, base_channels=["elbow"])
+
+
+def test_both_ways_of_writing_an_overlay_mean_the_same_thing(kb):
+    """The plan schema emits dicts; the eval arm and the probes write pairs. One normalisation, so a
+    partition cannot depend on which caller built it."""
+    pairs = A.arbitrate("walking", [("grab_bottle", ["right_arm", "right_hand"])], kb)
+    dicts = A.arbitrate("walking",
+                        [{"action_id": "grab_bottle", "channels": ["right_hand", "right_arm"]}], kb)
+    assert pairs.layers == dicts.layers
+    assert pairs.free_channels == dicts.free_channels
+
+
 def test_root_goes_to_whichever_part_owns_the_legs(kb, eval_cases):
     """Ground truth names root only in dc-walk-carry; it is asserted separately from the partition.
 
@@ -55,7 +105,7 @@ def test_root_goes_to_whichever_part_owns_the_legs(kb, eval_cases):
     the eight actions read dynamic and the in-place walk reads the lowest of them. Where a body goes
     is decided by what its legs did."""
     walk_carry = next(c for c in eval_cases if c["id"] == "dc-walk-carry")
-    assembly = A.decompose([p["action_id"] for p in walk_carry["expected"]["parts"]], kb)
+    assembly = A.decompose(ground_truth(walk_carry), kb)
     assert assembly.root_owner == "walking"
     assert "root" in assembly.channels_of("walking")
     # The rule it replaced would refuse this partition: grab_bottle's root is dynamic too (0.0467 to
@@ -64,96 +114,70 @@ def test_root_goes_to_whichever_part_owns_the_legs(kb, eval_cases):
     assert not assembly.conflicts
 
     gaze = next(c for c in eval_cases if c["id"] == "dc-givepills-gaze")
-    assembly = A.decompose([p["action_id"] for p in gaze["expected"]["parts"]], kb)
-    assert assembly.root_owner == "giving_pills"   # it owns its own legs, as the base
+    assembly = A.decompose(ground_truth(gaze), kb)
+    assert assembly.root_owner == "giving_pills"   # it drives its own legs, as the base
 
     # Legs nobody claims leave the root with the base rather than inventing an owner. Neither of
-    # these two touches the lower body, and neither is promoted away, so the base keeps it.
-    assembly = A.arbitrate("bvm", ["check_pulse"], kb)
+    # these two is asked for the lower body, so the base keeps it.
+    assembly = A.arbitrate("bvm", [("check_pulse", ["left_arm", "right_arm"])], kb)
     assert "left_leg" in assembly.free_channels and "right_leg" in assembly.free_channels
     assert assembly.root_owner == "bvm" and not assembly.conflicts
 
-    # `idle` claims nothing anywhere, so arbitrate promotes it away and grab_bottle becomes the
-    # base of its own motion. The root still lands on the base, which is now the former overlay.
-    assembly = A.decompose(["idle", "grab_bottle"], kb)
-    assert assembly.base == "grab_bottle" and assembly.root_owner == "grab_bottle"
+    # A base that claims nothing still holds the root, because it is layer 0 and it is what the legs
+    # are playing. This is the shape every lone-overlay plan takes.
+    assembly = A.arbitrate("idle", [("grab_bottle", ["right_arm", "right_hand"])], kb)
+    assert assembly.base == "idle" and assembly.root_owner == "idle"
 
 
-def test_both_halves_of_the_claim_rule_are_load_bearing(kb):
-    """Each half is falsified by the other case — this is why the rule is asymmetric."""
-    grab = kb.channels("grab_bottle")
-    give = kb.channels("giving_pills")
-
-    # An overlay claiming `support` too would take grab_bottle's torso, which the ground truth leaves free
-    assert grab["torso"]["role"] == "support"
-    # A base claiming only `primary` would drop giving_pills' torso and legs, which the ground truth owns
-    assert give["torso"]["role"] == "support"
-    assert give["left_leg"]["role"] == "support"
-
-
-def test_stabilizer_channels_are_claimed_by_nobody(kb):
-    """This is what makes a carry able to override a walking arm swing."""
-    walking = kb.channels("walking")
-    assert walking["right_arm"]["role"] == "stabilizer"
-    assembly = A.decompose(["walking", "grab_bottle"], kb)
-    assert "right_arm" in assembly.channels_of("grab_bottle")
-    assert "right_arm" not in assembly.channels_of("walking")
-
-
-def test_equal_claims_are_reported_not_silently_resolved(kb):
-    """giving_pills and cpr both drive both hands as `primary`, each holding something different.
-
-    The hand goes whole to one of them -- half a grip is no grip -- and the other loses its OBJECT
-    rather than the whole plan. Reported either way: what must never happen is the pills quietly
-    ceasing to exist.
-    """
-    assembly = A.arbitrate("idle", ["giving_pills", "cpr"], kb)
-    assert assembly.ok
-    dropped = {d.channel: d for d in assembly.dropped}
-    assert {"left_hand", "right_hand"} <= set(dropped)
-    for drop in dropped.values():
-        assert {drop.action_id, drop.kept_action_id} == {"giving_pills", "cpr"}
-        assert drop.object and drop.kept_object and drop.object != drop.kept_object
-
-
-def test_a_grip_the_request_named_is_the_one_that_is_kept(kb):
-    """The only thing that outranks role priority here. Asked to hold the pills, the hand that holds
-    the pills is the one grounded, and cpr's chest contact is what comes off."""
-    assembly = A.arbitrate("cpr", ["giving_pills"], kb, named_objects=["pills"])
-    assert assembly.ok
-    right = next(d for d in assembly.dropped if d.channel == "right_hand")
-    assert right.action_id == "cpr" and right.object == "patient_chest"
-    assert right.kept_action_id == "giving_pills" and right.kept_object == "pills"
-    assert "right_hand" in assembly.channels_of("giving_pills")
-
-
-def test_naming_both_objects_is_still_a_conflict(kb):
-    """Dropping either would be doing subtraction on the caller's behalf: it asked for both by name.
-    So this one stays a refusal, and names the two things it is about."""
-    assembly = A.arbitrate("cpr", ["giving_pills"], kb, named_objects=["pills", "patient_chest"])
+def test_two_parts_driving_one_leg_each_is_a_conflict_not_half_a_root(kb):
+    """Root is never split, so a lower body the plan cut down the middle has no owner to give it to.
+    Reported rather than resolved: which of the two decides where she goes is a real question."""
+    assembly = A.arbitrate("walking", [("giving_pills", ["right_leg"])], kb,
+                           base_channels=["left_leg"])
     assert not assembly.ok
-    right = next(c for c in assembly.conflicts if c.channel == "right_hand")
-    assert set(right.action_ids) == {"cpr", "giving_pills"}
-    assert "patient_chest" in right.detail and "pills" in right.detail
+    root = next(c for c in assembly.conflicts if c.channel == "root")
+    assert set(root.action_ids) == {"walking", "giving_pills"}
+    assert root.reason == "driving one leg each"
 
 
-def test_a_lone_overlay_is_promoted_rather_than_stacked_on_idle(kb):
-    """Slipping idle underneath would claim nothing (it is `free` everywhere) while looking like it
-    worked, so a sole overlay becomes the base and claims its support channels too."""
-    assembly = A.decompose(["cpr"], kb)
+def test_the_base_claims_nothing_unless_it_says_so(kb):
+    """Claiming is not playing. Layer 0 animates the whole body whatever this list holds, so an empty
+    `base_channels` is not a base that has stopped moving -- it is a base that will not contend."""
+    loose = A.arbitrate("walking", [("grab_bottle", ["right_arm"])], kb)
+    assert loose.channels_of("grab_bottle") == ["right_arm"]
+    assert loose.shared == []
+
+    reserved = A.arbitrate("walking", [("grab_bottle", ["right_arm"])], kb,
+                           base_channels=["right_arm"])
+    assert [m.channel for m in reserved.shared] == ["right_arm"]
+
+
+def test_a_single_part_is_its_own_base(kb):
+    """A lone action is not an overlay looking for something to sit on. v3 slipped `idle` underneath
+    and then promoted it away again when it turned out to claim nothing; there is nothing to promote
+    now, because the plan named one part and that part is the whole motion."""
+    channels = ["torso", "left_arm", "right_arm", "left_hand", "right_hand"]
+    assembly = A.decompose({"cpr": channels}, kb)
     assert assembly.base == "cpr"
-    assert "torso" in assembly.channels_of("cpr")      # primary
-    assert "left_leg" in assembly.channels_of("cpr")   # support — only a base claims these
+    assert sorted(c for c in assembly.channels_of("cpr") if c != "root") == sorted(channels)
+    assert assembly.root_owner == "cpr"
 
 
-def test_two_bases_are_rejected(kb):
-    with pytest.raises(ValueError, match="more than one base"):
-        A.decompose(["walking", "idle"], kb)
+def test_the_base_can_be_named_rather_than_inferred(kb):
+    """Whichever part drives a leg is the default because that is what sets the stance, but a caller
+    that knows better says so. Under v3 this was read off `composability.base_or_overlay`, a stored
+    label v4 deletes -- whether a clip is foundational or grafted on is a fact about the combination."""
+    parts = {"walking": ["left_leg", "right_leg"], "grab_bottle": ["right_arm", "right_hand"]}
+    assert A.decompose(parts, kb).base == "walking"
+    assert A.decompose(parts, kb, base="grab_bottle").base == "grab_bottle"
 
 
 def test_every_channel_is_owned_at_most_once(kb):
-    for parts in (["walking", "grab_bottle"], ["giving_pills"], ["idle", "grab_bottle"],
-                  ["walking", "check_pulse"]):
+    for parts in ({"walking": ["left_leg", "right_leg"],
+                   "grab_bottle": ["right_arm", "right_hand"]},
+                  {"giving_pills": ["torso", "left_arm", "right_arm"]},
+                  {"idle": [], "grab_bottle": ["right_arm", "right_hand"]},
+                  {"walking": ["left_leg", "right_leg"], "check_pulse": ["left_arm", "right_arm"]}):
         assembly = A.decompose(parts, kb)
         owned = [c for _, chans in assembly.layers for c in chans]
         assert len(owned) == len(set(owned)), parts
@@ -161,82 +185,90 @@ def test_every_channel_is_owned_at_most_once(kb):
         assert set(assembly.free_channels) | set(owned) >= set(ANATOMICAL), parts
 
 
+def test_an_action_cannot_fight_itself_for_a_body_part(kb):
+    """The same action named twice asks for one layer twice, and the second request says nothing the
+    first did not. Measured on a live turn: `typing` sent twice came back as "typing and typing fight
+    over left_arm" -- true, about nothing."""
+    assembly = A.arbitrate("idle", [("cpr", ["torso", "left_arm"]), ("cpr", ["right_arm"])], kb)
+    assert assembly.ok
+    assert [aid for aid, _ in assembly.layers].count("cpr") == 1
+    assert sorted(assembly.channels_of("cpr")) == ["left_arm", "right_arm", "torso"]
+
+
 # ---- one channel, two sources -------------------------------------------------------------------
 
 def test_a_contested_channel_is_mixed_rather_than_won(kb):
-    """The change this module exists for. walking drives the legs as `primary` and giving_pills braces
-    them as `support`; the brace used to be discarded outright because primary outranks support."""
-    assembly = A.arbitrate("giving_pills", ["walking"], kb)
+    """The module exists for this. Two parts asked for one body part get half of it each, and the
+    request is answered rather than half-discarded."""
+    assembly = A.arbitrate("giving_pills", [("walking", ["left_leg", "right_leg"])], kb,
+                           base_channels=["left_leg", "right_leg"])
     assert assembly.ok
     mixed = {m.channel: dict(m.shares) for m in assembly.shared}
     assert set(mixed) == {"left_leg", "right_leg"}
     for channel, shares in mixed.items():
-        assert shares["walking"] == pytest.approx(0.6), channel
-        assert shares["giving_pills"] == pytest.approx(0.4), channel
+        assert shares["walking"] == pytest.approx(0.5), channel
+        assert shares["giving_pills"] == pytest.approx(0.5), channel
         assert sum(shares.values()) == pytest.approx(1.0), channel
 
 
-def test_the_shares_are_the_role_table_and_not_a_number_someone_chose(kb):
-    """0.6/0.4 is ROLE_PRIORITY primary(3) against support(2), normalised. Asserted against the table
-    rather than against the literals, so changing the table fails here instead of drifting."""
-    assembly = A.arbitrate("giving_pills", ["walking"], kb)
-    shares = dict(assembly.shared[0].shares)
-    primary, support = ROLE_PRIORITY["primary"], ROLE_PRIORITY["support"]
-    assert shares["walking"] == pytest.approx(primary / float(primary + support))
-    assert shares["giving_pills"] == pytest.approx(support / float(primary + support))
+def test_the_shares_are_equal_because_nothing_is_left_to_rank_them_by(kb):
+    """v3 normalised ROLE_PRIORITY and got 0.6/0.4 for primary against support. That number was
+    defensible exactly as long as the ranking behind it existed; v4 deletes `role` (ADR 0022), and
+    inventing a replacement weight here would be the plan emitting a motion numeric by proxy. Half
+    each is the honest reading of "the agent asked for both of these here", and it stays half each
+    however many parts contend."""
+    two = A.arbitrate("giving_pills", [("walking", ["left_leg"])], kb, base_channels=["left_leg"])
+    assert sorted(dict(two.shared[0].shares).values()) == [pytest.approx(0.5), pytest.approx(0.5)]
+
+    three = A.arbitrate("giving_pills", [("walking", ["left_leg"]), ("cpr", ["left_leg"])], kb,
+                        base_channels=["left_leg"])
+    shares = dict(three.shared[0].shares)
+    assert len(shares) == 3
+    assert all(s == pytest.approx(1 / 3.0) for s in shares.values())
 
 
-def test_two_equal_claims_split_the_channel_evenly(kb):
-    """check_pulse and grab_bottle are both `primary` on right_arm and neither holds anything THERE --
-    both grips are on right_hand, which is a different channel and stays a conflict."""
-    assembly = A.arbitrate("check_pulse", ["grab_bottle"], kb)
-    arm = [m for m in assembly.shared if m.channel == "right_arm"]
-    assert len(arm) == 1
-    assert sorted(dict(arm[0].shares).values()) == [pytest.approx(0.5), pytest.approx(0.5)]
-
-
-def test_two_grips_on_one_channel_are_never_mixed(kb):
-    """Half a hand on a patient's chest and half on a pill bottle satisfies neither grip, so a
-    contested hand is never SHARED however it is resolved. A hand is a shape, not an axis -- which is
-    why the mix that arms, torso and legs get stops at the wrist."""
-    assembly = A.arbitrate("cpr", ["giving_pills"], kb)
-    assert not [m for m in assembly.shared if m.channel in ("left_hand", "right_hand")]
-    for channel in ("left_hand", "right_hand"):
-        drivers = [aid for aid, chans in assembly.layers if channel in chans]
-        assert len(drivers) == 1
-
-
-def test_the_base_keeps_a_contested_hand_when_nothing_was_named(kb):
-    """No request, no role difference: both are `primary` and both hold something. The base takes it,
-    which is the same tiebreak a mix uses and for the same reason -- the base sets the context."""
-    assembly = A.arbitrate("cpr", ["giving_pills"], kb)
-    assert "right_hand" in assembly.channels_of("cpr")
-    right = next(d for d in assembly.dropped if d.channel == "right_hand")
-    assert right.action_id == "giving_pills" and right.object == "pills"
-
-
-def test_a_single_grip_takes_the_channel_whole(kb):
-    """A contact is a hard constraint and a share is not, so a channel one side grips and the other
-    does not is not a mix -- it goes to the side with something to hold."""
-    assembly = A.arbitrate("walking", ["grab_bottle"], kb)
-    assert kb.channels("grab_bottle")["right_hand"]["contact"].startswith("object:")
-    assert "right_hand" in assembly.channels_of("grab_bottle")
+def test_a_pinned_channel_is_refused_rather_than_halved(kb):
+    """Half a hand shaped for a pill bottle and half shaped for a patient's chest grips neither, and
+    an IK constraint then drags the wrist of a pose that was never a grip. A hand is a shape, not an
+    axis. So where the plan pins an effector -- through `carry` or `ik_bindings` -- a contested
+    channel is named back to the caller instead of blended."""
+    assembly = A.arbitrate("cpr", [("giving_pills", ["right_hand"])], kb,
+                           base_channels=["right_hand"], pinned_channels=["right_hand"])
+    assert not assembly.ok
     assert not [m for m in assembly.shared if m.channel == "right_hand"]
+    right = next(c for c in assembly.conflicts if c.channel == "right_hand")
+    assert set(right.action_ids) == {"cpr", "giving_pills"}
+    assert right.reason == "driving a channel the plan pins to an object"
+    assert "right_hand" in right.why() and "holds neither" in right.why()
+
+
+def test_an_unpinned_hand_is_mixable_like_anything_else(kb):
+    """The refusal above is about the PIN, not about the hand. Nothing in a v4 record says what a hand
+    holds, so a plan that pins nothing has asked for two motions on one hand and gets both."""
+    assembly = A.arbitrate("cpr", [("giving_pills", ["right_hand"])], kb,
+                           base_channels=["right_hand"])
+    assert assembly.ok
+    assert [m.channel for m in assembly.shared] == ["right_hand"]
 
 
 def test_root_is_never_mixed(kb):
-    """Two root motions added together are not a motion. Root is decided by `state == "dynamic"`, which
-    is a different question from the role partition and stays that way."""
-    for base, overlays in (("giving_pills", ["walking"]), ("cpr", ["walking"]),
-                           ("check_pulse", ["grab_bottle"])):
-        assembly = A.arbitrate(base, overlays, kb)
+    """Two root motions added together are not a motion, so the channel goes whole to one part or to
+    nobody -- including when the legs that decide it are themselves shared."""
+    for base, overlays, claimed in (
+            ("giving_pills", [("walking", ["left_leg", "right_leg"])], ["left_leg", "right_leg"]),
+            ("cpr", [("walking", ["left_leg", "right_leg"])], ["left_leg", "right_leg"]),
+            ("check_pulse", [("grab_bottle", ["right_arm"])], ["right_arm"])):
+        assembly = A.arbitrate(base, overlays, kb, base_channels=claimed)
         assert "root" not in {m.channel for m in assembly.shared}
+        assert assembly.root_owner is not None
 
 
 def test_an_action_that_only_holds_a_share_still_gets_a_layer(kb):
-    """grab_bottle owns nothing outright against check_pulse -- it holds 0.5 of right_arm and loses
-    right_hand to the conflict. Dropping it from `layers` is how a mix silently becomes a winner."""
-    assembly = A.arbitrate("check_pulse", ["grab_bottle"], kb)
+    """grab_bottle owns nothing outright here -- it holds half of right_arm and nothing else. Dropping
+    it from `layers` is how a mix silently becomes a winner-take-all, one layer short and looking
+    correct."""
+    assembly = A.arbitrate("check_pulse", [("grab_bottle", ["right_arm"])], kb,
+                           base_channels=["right_arm"])
     assert assembly.channels_of("grab_bottle") == []
     assert "grab_bottle" in [aid for aid, _ in assembly.layers]
     assert assembly.share_of("grab_bottle", "right_arm") == pytest.approx(0.5)
@@ -245,20 +277,48 @@ def test_an_action_that_only_holds_a_share_still_gets_a_layer(kb):
 
 def test_mixing_leaves_the_eval_ground_truth_alone(kb, eval_cases):
     """Neither decompose case contests a channel, so neither may acquire a mix. This is the guard on
-    the whole change: `layers` stays an ownership partition and the eval keeps scoring it by set
+    the whole mechanism: `layers` stays an ownership partition and the eval keeps scoring it by set
     equality."""
-    for case in eval_cases:
-        expected = case["expected"]
-        if expected["type"] != "decompose":
-            continue
-        assembly = A.decompose([p["action_id"] for p in expected["parts"]], kb)
+    for case in decompose_cases(eval_cases):
+        assembly = A.decompose(ground_truth(case), kb)
         assert assembly.shared == [], case["id"]
 
 
 def test_a_mix_is_reported_as_a_decomposition(kb):
     """One body part driven by two retrieved clips at once is the strongest decomposition there is, so
     the verdict says so rather than leaving it to be inferred from the partition."""
-    assembly = A.arbitrate("giving_pills", ["walking"], kb)
+    assembly = A.arbitrate("giving_pills", [("walking", ["left_leg", "right_leg"])], kb,
+                           base_channels=["left_leg", "right_leg"])
     answer = A.verdict(assembly)
     assert answer["type"] == A.DECOMPOSE
     assert {m["channel"] for m in answer["shared"]} == {"left_leg", "right_leg"}
+
+
+def test_a_base_that_claims_nothing_is_not_part_of_the_composition(kb):
+    """Naming a posture-setting action under a lone overlay is how a single overlay is played at all:
+    something has to hold the rest of the body up. It contributed no body part, so scoring it as a
+    composition would penalise a plan for being more correct than the ground truth, which calls
+    `giving_pills` alone a full match. Read off the claims rather than off the id -- v3 hardcoded
+    `"idle"` here, which stopped being true the moment any other action was used as a stance."""
+    assembly = A.arbitrate("idle", [("grab_bottle", ["right_arm", "right_hand"])], kb)
+    assert A.verdict(assembly) == {"type": A.FULL_MATCH, "action_id": "grab_bottle"}
+
+    # Any standing action can play that part, and the answer has to be the same one.
+    assembly = A.arbitrate("walking", [("grab_bottle", ["right_arm", "right_hand"])], kb)
+    assert A.verdict(assembly) == {"type": A.FULL_MATCH, "action_id": "grab_bottle"}
+
+
+def test_a_gaze_is_a_decomposition_that_still_names_the_action_it_freed_the_head_from(kb):
+    """`dc-givepills-gaze`: one retrieved clip plus a head solved by IK rather than retrieved. That
+    is the FK-retrieval / IK-goal split, so the ground truth calls it a decompose even though only
+    one action was fetched.
+
+    And the part has to be NAMED. A base that claims nothing is normally dropped from `contributing`
+    -- a posture-holder under a lone overlay is not a second motion -- but when the gaze is the only
+    reason this is a decomposition at all, dropping it leaves "decomposed into nothing", which is not
+    what happened: the action is there, with its head freed."""
+    assembly = A.arbitrate("giving_pills", [], kb)
+    answer = A.verdict(assembly, gaze_at="obj:MonitorVitals")
+    assert answer["type"] == A.DECOMPOSE
+    assert [p["action_id"] for p in answer["parts"]] == ["giving_pills"]
+    assert "head" in answer["free_channels"]

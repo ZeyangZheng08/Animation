@@ -3,6 +3,58 @@
 All notable changes to the `motionkb` schema. The schema id is the contract between the extractor and the
 Python RAG (Phase 2); bump deliberately and record every change here.
 
+## motionkb/v4 — 2026-08-26 (the SEMANTIC half collapses to descriptions)
+**Breaking.** In one line: **the knowledge base describes what an action LOOKS like and how each body
+part MOVES; composition, contact, IK and channel ownership are decided at runtime by the agent, with
+the task and the scene in front of it.** A consumer written against v3 does not read a v4 record.
+
+Every field deleted below answered a question about a COMBINATION, written into a record that
+describes one clip. Whether `walking`'s arm swing is incidental or is the point depends on what the
+character is being asked to do; what a hand is holding depends on what is in the room; which effector
+an IK goal pins and where depends on both. A clip previewed alone on an empty floor cannot answer any
+of them, and a stored answer is a pre-enumerated composition — the thing this project's claim rejects.
+So they are not moved or reinterpreted, they are removed, and the runtime agent supplies them.
+
+- **Removed** from the top level: `display_name`, `tags`, `mask_coverage`, `ik_goals`, and the whole
+  `composability` block (`locks`, `free`, `can_overlay_on`, `base_or_overlay`, `posture`,
+  `seam_owner`).
+- **Removed** from all 8 anatomical channels: `role`, `motion_type`, `contact`, `constraint`,
+  `target` — the SEMANTIC 5-tuple ADR 0008 introduced. The root channel was already free of them.
+- **Renamed**: `overall_intent` → **`action_description`**. A record describes an appearance; it does
+  not declare an intent, and an intent is what the agent brings to it.
+- **Kept, and now the whole of the semantic half**: `action_description` and each anatomical
+  channel's `motion_description`. `extraction.field_origin.semantic` is exactly those two paths, and
+  `semantic_pending` names them instead wherever they are still null — which is the 2446 measured-
+  but-undescribed corpus records.
+- **No number changed.** Variation, `mean_pose`, the root's carriage means, `raw_measurement`, the
+  frozen `raw` dumps and `derived/` are untouched; `metric_formula_version` stays **v3.0.0** and
+  `extractor_version` goes 3.1.0 → **4.0.0**, which with `schema_version` and `extracted_at` are the
+  only other lines the store rewrite moves. Verified field-by-field against the pre-migration store
+  across all 2454 records.
+- **A leftover v3 field is now an error.** The top level and both channel definitions are
+  `additionalProperties: false`, so a record still carrying `role`, `contact`, `ik_goals`,
+  `composability`, `tags`, `display_name` or `overall_intent` fails validation instead of passing
+  with a field the contract no longer describes.
+- **Validator**: `validate_motionkb.py` targets `motionkb.v4.schema.json`. `validate_semantic_
+  consistency` (the 5-tuple against `composability` + `ik_goals` + `state_label`), the cross-file
+  overlay lock-disjointness pass, the posture-compatibility check and both soft warnings are DELETED
+  — every one of them read a field that no longer exists, and prose has nothing to contradict. One
+  check replaces them, `validate_descriptions`: an accepted record carries a non-blank
+  `action_description` and a non-blank `motion_description` on each of the eight channels.
+- **Propose**: the VLM now proposes three things — `action_id`, `action_description`, and the eight
+  `motion_description`s. The constrained-vocabulary machinery goes with the vocabularies: no enums to
+  violate, no cross-field rules, and the retry loop's one remaining job is a proposal that skipped a
+  channel. The 2026-06-25b derivation of `composability.locks`/`free`/`seam_owner` and of `ik_goals`
+  from the proposed roles is gone. The eight existing records' descriptions were carried through the
+  migration verbatim; no proposal was re-run.
+- **Supersedes**: the 2026-08-21 entry below, which made `display_name`/`overall_intent`/`tags`
+  nullable — two of those three are deleted and the third is renamed. The 2026-07-01 entry making
+  `ik_goals` a derived field is superseded outright.
+- `engine_mask_map.json` is unaffected: it is a different contract (`motionkb-engine-map/v1`)
+  describing each channel's masking primitive per engine, and it says nothing about ownership.
+- ADR: [0022](../../../docs/adr/0022-the-kb-describes-the-agent-decides.md). Rollback tag: `kb/v4`;
+  `motionkb.v3.schema.json` is kept on disk as the historical contract, as v2 was before it.
+
 ## motionkb/v3 — 2026-08-26 (amended: the channel `kind` field is removed)
 **Not a new contract id.** `kind` carried no information a consumer could not already read, so it is
 deleted from every channel block rather than kept as a field every writer has to fill correctly.

@@ -38,15 +38,15 @@ animation-agent/
 ├── metrics.py                the 9-channel KINEMATIC computation — variation and mean pose
 ├── paths.py                  where the KB lives, and the rules for writing to it
 ├── unity_sampler.py          the ONE place that touches Unity — generates C#, never ships it at runtime
-├── extract.py                pipeline: register / resolve-controller / sample / assemble / render / propose / author
+├── extract.py                pipeline: register / resolve-controller / sample / assemble / migrate / render / propose / author
 ├── ingest_corpus.py          the same measure half over a WHOLE asset folder, and stopping there (ADR 0014)
-├── propose.py                VLM proposes the SEMANTIC 5-tuple; composability derived from it
+├── propose.py                VLM proposes the descriptions: action_description + one per channel
 ├── vlm_openai.py             stdlib VLM client
 ├── build_transitions.py      regenerate the derived seam table (a cache; kb_transition recomputes it)
 ├── build_segments.py         regenerate the derived per-channel segment table, and report what it found
 ├── recalibrate_kinematic.py  rewrite the accepted records' KINEMATIC half after a formula bump
 ├── calibrate_divisors.py     refit the variation divisors on the corpus, offline from raw/
-├── validate_motionkb.py      schema + cross-field invariants + semantic consistency  (no engine)
+├── validate_motionkb.py      schema + channel vocabulary + description completeness  (no engine)
 ├── test_golden_extraction.py KINEMATIC reproduces from frozen raw                   (no engine)
 ├── gen_kb_manifest.py        corpus index                                            (no engine)
 ├── validate_guids.py         guid -> AnimationClip resolution                        (needs the engine)
@@ -285,27 +285,34 @@ nothing arranged: name a standing action while she is seated and the rise is com
 then the walk — that order is forced, because re-enabling the navigation agent warps the transform to
 the nearest walkable point, which is not under the chair.
 
-**One body part driven by two clips.** A channel two actions both claim is mixed rather than won, at
-shares taken from the `role` table already in the contract: primary against support is 0.6/0.4, two
-primaries are half each. The entry phase is searched per contributing clip, over all the channels it
+**One body part driven by two clips.** A channel two actions both name is mixed rather than won, half
+each. The entry phase is searched per contributing clip, over all the channels it
 mixes on at once, because a clip is one performance and giving its channels separate phases would play
 one walk cycle at two phases.
+
+Half each, because there is nothing left to rank the two by. Until motionkb/v4 the shares came from
+normalising the `role` table the knowledge base carried — primary against support was 0.6/0.4 — and
+that number was defensible exactly as long as the ranking it normalised existed. v4 deletes `role`
+(ADR 0022): which part of a clip matters depends on the task, and a record describing one clip cannot
+know the task. So the agent names the channels its overlays drive, in the plan, and two names on one
+channel is the agent asking for both. The rule that no numeric ever comes from the model is unchanged
+and still structural — every leaf in the plan schema is a string or a boolean.
 
 That one is the part worth being sceptical of, so it is measured rather than asserted: `probe_mix.py`
 reads the weight back **off the mixer**, not off the request, because a plan that asked for a mix and
 one that quietly resolved the channel to a single winner both play and look identical from outside.
 
-**A hand is a shape, not an axis.** A channel where either side grips an object is never mixed: half a
-hand on a patient's chest and half on a pill bottle satisfies neither grip. One side takes it whole, and
-the other keeps its hand MOTION while losing its OBJECT — because a grip is two things fused, and only
-one of them is in the animation. The FK curves are joint rotations; what holds the bottle is the
-`ik_goal` aiming the wrist and the event that makes the prop visible, both of which live outside the
-clip. Every detachment is reported as `dropped_grips`, so "her hand performs that motion with nothing in
-it" is something the reply can say. Naming both objects — carrying one and binding a hand to the other —
-is still refused, because there is nothing left to decide that the request has not decided twice.
+**A hand is a shape, not an axis.** A channel the plan PINS to a scene object — a carried thing, a hand
+bound with `ik_bindings`, a gaze-bound head — is never mixed: half a hand shaped for a patient's chest
+and half for a pill bottle grips neither, and the IK then drags the wrist of a pose that was never a
+grip. Two actions given that same channel is refused by name, so the caller can see which pair of
+things cannot both happen rather than being served a blend of them.
 
-This matters because of the corpus's shape: **six of the eight actions grip with the right hand.** As a
-veto that refused 20 of the 56 ordered pairs outright.
+Under v3 a grip was something the KB declared, per action, so two clips could each bring one to the
+same hand: the channel went whole to one side and the other kept its hand MOTION while losing its
+OBJECT, reported as `dropped_grips`. A v4 record declares nothing of the sort (ADR 0022) — what a
+hand holds is a fact about the scene — so there is no second grip to lose. A hand holds what the plan
+says it holds, once.
 
 **An overlay contributes part of a clip, not all of it.** Assembly's unit used to be a whole clip hung
 on a channel, so "walk while doing chest compressions" meant eighteen seconds of arm under a one-second

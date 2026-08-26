@@ -6,13 +6,13 @@ Schema + cross-field invariants are checked with no Unity by validate_motionkb.p
 
 | action | schema | status | clip resolved | clip_name | asset path |
 |---|---|---|---|---|---|
-| bvm | motionkb/v3 | accepted | YES | nurse_bvm_2 | Assets/Animations/NurseAnimation/nurse_bvm_long.fbx |
-| check_pulse | motionkb/v3 | accepted | YES | nurse_check_pulse | Assets/Animations/NurseAnimation/nurse_check_pulse.fbx |
-| cpr | motionkb/v3 | accepted | YES | nurse_cpr_30 | Assets/Animations/NurseAnimation/nurse_cpr_long.fbx |
-| giving_pills | motionkb/v3 | accepted | YES | nurse_give_meds | Assets/Animations/NurseAnimation/nurse_give_meds.fbx |
-| grab_bottle | motionkb/v3 | accepted | YES | nurse_grab_aspirin | Assets/Animations/NurseAnimation/nurse_grab_bottle.fbx |
-| idle | motionkb/v3 | accepted | YES | Idle | Assets/Animations/NurseAnimation/Idle.anim |
-| typing | motionkb/v3 | accepted | YES | Typing | Assets/Animations/NurseAnimation/X Bot@Typing.fbx |
-| walking | motionkb/v3 | accepted | YES | Walk_N | Assets/Animations/NurseAnimation/Walk_N.anim |
+| bvm | motionkb/v4 | accepted | YES | nurse_bvm_2 | Assets/Animations/NurseAnimation/nurse_bvm_long.fbx |
+| check_pulse | motionkb/v4 | accepted | YES | nurse_check_pulse | Assets/Animations/NurseAnimation/nurse_check_pulse.fbx |
+| cpr | motionkb/v4 | accepted | YES | nurse_cpr_30 | Assets/Animations/NurseAnimation/nurse_cpr_long.fbx |
+| giving_pills | motionkb/v4 | accepted | YES | nurse_give_meds | Assets/Animations/NurseAnimation/nurse_give_meds.fbx |
+| grab_bottle | motionkb/v4 | accepted | YES | nurse_grab_aspirin | Assets/Animations/NurseAnimation/nurse_grab_bottle.fbx |
+| idle | motionkb/v4 | accepted | YES | Idle | Assets/Animations/NurseAnimation/Idle.anim |
+| typing | motionkb/v4 | accepted | YES | Typing | Assets/Animations/NurseAnimation/X Bot@Typing.fbx |
+| walking | motionkb/v4 | accepted | YES | Walk_N | Assets/Animations/NurseAnimation/Walk_N.anim |
 
 **8 resolved / 0 failed / 0 warning(s).**

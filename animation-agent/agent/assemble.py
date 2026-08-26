@@ -1,147 +1,127 @@
 """
-assemble.py — deciding which action drives which body channel. Deterministic, no model involved.
+assemble.py — turning the agent's channel assignment into an executable partition. No model here.
 
-THE MODEL DOES NOT EMIT THE PARTITION. It picks actions, scene targets and gaze/IK intent; this module
-derives the channel assignment from the `role` table already in the contract. That is checkable, and it
-was checked: the rule below reproduces both decompose cases in `retrieval_eval_set.json` exactly, channel
-for channel. Having the model produce the partition would add an error mode and would turn the eval from
-"can it retrieve and ground?" into "can it do arithmetic over a role table?".
+WHO DECIDES THE PARTITION, AND WHY IT CHANGED. Through v3 this module DERIVED the assignment from a
+`role` label the knowledge base carried on every channel: a base claimed `primary` and `support`, an
+overlay claimed `primary`, and `stabilizer`/`free` were claimed by nobody. That rule reproduced both
+decompose cases in the eval set exactly, and it was the right rule for the contract it read.
 
-THE RULE, derived from the ground truth rather than assumed:
+motionkb/v4 deletes `role` (ADR 0022), and not as an oversight. `role` was a statement about a
+COMBINATION written into a record that describes one clip: `walking`'s arms are "stabilizer" only
+relative to some other action that might want them, and whether a swinging arm is incidental or is
+the point depends entirely on what the character is being asked to do. A clip previewed alone on an
+empty floor cannot answer that, and a stored answer is a pre-enumerated composition — the thing the
+research claim rejects.
 
-    a BASE claims the channels where its role is `primary` or `support`
-    an OVERLAY claims only the channels where its role is `primary`
+So the assignment ARRIVES here, from the agent's plan. The agent has the task and the scene; it names
+which action drives which channel. This module does what remains, all of it deterministic and all of
+it checkable: it detects the channels two actions both claim, it decides what happens there, it
+routes the root, and it reports what it could not settle. Nothing here guesses.
 
-Both halves are load-bearing, and each is falsified by the other case:
+It was worth checking that the alternative was really closed. It is: no threshold on the surviving
+kinematics reconstructs the old partition. `walking.left_arm` is stabilizer at magnitude 0.165,
+`cpr.left_arm` is support at 0.114 and `typing.left_arm` is primary at 0.125 — the ordering is not
+even monotone. An argmax-magnitude rule gets 3 of 8 channels wrong on `dc-walk-carry`, and all three
+failures are the same shape: a channel that moves and that nobody should claim. That distinction is a
+judgement about what the motion is FOR, which is what the agent is there to supply.
 
-    grab_bottle (overlay)  primary   = right_arm, right_hand              == ground truth
-                           +support  = ... + torso                        != ground truth
-    giving_pills (base)    primary   = both arms, both hands              != ground truth
-                           +support  = ... + torso, both legs             == ground truth
+THE ASSIGNMENT, and what it defaults to:
 
-It is also the semantically right split. A base establishes the postural context, so the channels
-actively holding it up belong to it; an overlay is grafted on and should touch as little as possible.
-`stabilizer` (incidental balance, idle gaze) and `free` are claimed by nobody — which is exactly what
-makes an arm swing overridable by a carry.
+    base            the action that sets the posture. Plays on layer 0, FULL BODY, always.
+    base_channels   the channels the base CLAIMS, default none. Claiming is not playing: layer 0 is
+                    never masked, so this list does not decide what the base animates. It decides
+                    what an overlay may not take without contending for it.
+    overlays        [(action_id, channels)] — each overlay names the channels it drives. An overlay
+                    that names none is rejected rather than dropped: a layer with an empty mask plays
+                    FULL BODY at full weight in the engine, so silently keeping it would replace the
+                    whole body with the overlay, and silently dropping it would answer a request the
+                    caller did not make.
 
-CONTENTION USED TO BE WINNER-TAKE-ALL. It no longer is, and that is the change this module exists to
-carry: a channel two actions both claim is MIXED, at shares taken from the same role table that used to
-decide the winner. Winner-take-all survives as the special case where the loser's share is zero.
+CONTENTION. A channel two parts both name is MIXED, half each.
 
-    neither claimant grips anything on that channel   ->  mix, shares = normalised ROLE_PRIORITY
-                                                          primary vs support  = 0.6 / 0.4
-                                                          primary vs primary  = 0.5 / 0.5
-    exactly one of them grips something               ->  that one takes the channel whole
-    more than one grips something                     ->  the channel goes whole to one side and the
-                                                          other's GRIP IS DROPPED, named; Conflict only
-                                                          when the request named both objects
-    root                                              ->  never mixed (see below)
+    two claimants, neither pinned    ->  mix, 0.5 / 0.5
+    the channel carries an IK pin    ->  conflict, named
+    root                             ->  never mixed (see below)
 
-WHY A GRIP IS NOT MIXABLE, AND WHY IT IS ALSO NOT A VETO. Half a hand on a patient's chest and half on a
-pill bottle satisfies neither grip, so the FK on that channel goes whole to one side — a hand is a shape,
-not an axis, and this is the one place the "half a pose nobody performs" argument really bites.
+The shares are equal because there is nothing left to rank them by, and because the plan is the one
+place a number must never come from: the agent names actions and channels, never weights (a rule the
+plan schema enforces structurally — every leaf in it is a string or a boolean). Under v3 the shares
+came from normalising `ROLE_PRIORITY`, which gave 0.6/0.4 for primary-against-support. That number
+was defensible only as long as the ranking it normalised existed. Half each is what is left, and it
+is the honest reading of "the agent asked for both of these here".
 
-But a grip is two things fused, and only one of them is in the animation. The FK curves are joint
-rotations; nothing in them holds anything. What holds the bottle is the `ik_goal` pulling the wrist to a
-scene anchor and the animation event that makes the prop visible — both of which live outside the clip
-and can simply not be applied. So the losing side keeps its hand motion and loses its object, which is
-reported rather than done quietly: "she performs giving_pills' hand motion, with nothing in that hand"
-is a true and useful description, and a refusal in its place threw away the other six channels too.
+WHY A PINNED CHANNEL IS NOT MIXABLE. Half a hand shaped for a pill bottle and half shaped for a
+patient's chest is a shape that grips neither, and an IK constraint then drags the wrist of a pose
+that was never a grip. A hand is a shape, not an axis. When the plan pins an effector to an object —
+through `carry` or `ik_bindings` — and then asks two actions to drive that same hand, the two halves
+of the request contradict each other and the caller is told so by name rather than served a blend.
 
-This matters because of how the corpus is shaped: EVERY channel where two actions tie is `right_hand`,
-and every one of those has both sides holding a different object — `cpr` on `patient_chest`,
-`giving_pills` on `pills`, `grab_bottle` on `aspirin_bottle`, `bvm` on `bvm_bag`, `check_pulse` on
-`patient_wrist`. Six of the eight actions grip with that one hand. Under a veto, 20 of the 56 ordered
-pairs were refused outright.
-
-WHAT IS STILL REFUSED. If the REQUEST named both objects — both in `carry`, both bound with
-`ik_bindings` — then dropping either is doing subtraction on the caller's behalf. That is reported as a
-Conflict and left for the caller to resolve, which is what the veto was right about all along.
-
-WHAT THE MIX IS ACTUALLY FOR is the other kind of contention:
-
-    base=cpr           overlay=walking   left_leg / right_leg :  support vs primary
-    base=giving_pills  overlay=walking   left_leg / right_leg :  support vs primary
-
-"walk while giving the pills". The legs come mostly from the walk, but the bracing stance `giving_pills`
-declares on them used to be discarded outright because primary outranks support. Those two are the only
-contested pairs in the corpus with no grip on either side, and they are the shape `dc-walk-carry` is
-about.
-
-WHERE THE NUMBERS COME FROM. `ROLE_PRIORITY` was already in the contract and already decided this
-channel; normalising it is not a new judgement, and it needed no new KB field, no schema change and no
-re-authoring. A number chosen instead would have been a number nobody could defend.
+Nothing is DROPPED any more. v3 carried a `DroppedGrip`: two actions each declared a `contact` in the
+KB, one kept its object and the other kept its motion without it. That whole machinery read
+`channels.*.contact`, and a v4 record does not say what a clip holds — the plan does, once, per hand.
+There is no second grip left to drop.
 
 ROOT IS NEVER MIXED. Two root motions added together are not a motion, so the channel goes whole to
 one part or to nobody.
 
-ROOT FOLLOWS THE LEGS. Whichever part ends up owning the leg channels owns the root, because where a
-body goes is decided by what its legs did. It is read off `claims`, so it inherits every step of the
-partition above for free — including a mix, whose owner takes the root the same way it takes the
-channel. If nobody claims a leg, no part is driving the lower body and the root stays with the base.
-Two parts each driving one leg is a real ambiguity and is reported as a conflict.
+ROOT FOLLOWS THE LEGS. Whichever part owns the leg channels owns the root, because where a body goes
+is decided by what its legs did. It is read off the claims, so it inherits the assignment above for
+free — including a mix, whose owner takes the root the same way it takes the channel. If nobody
+claims a leg, no part is driving the lower body and the root stays with the base. Two parts each
+driving one leg is a real ambiguity and is reported as a conflict.
 
 The rule used to be "root goes to the single part whose root channel is dynamic", which held while
 the root signal was `max(gait, trans, heading)` in metres and only `walking` read dynamic. In muscle
 space the root is `max(trans, vert, heading)` from `bodyPosition`/`bodyRotation` and counts turning,
-so four of the eight actions read dynamic — and `walking` reads the LOWEST of the four (0.0382),
-because the store's walk is in place: its body does not travel, only its step bounce rises. Ranking by
-that number would hand the root to `giving_pills` (0.0687) over the walk. ADR 0011 had already moved
-the same question in the validator, where `cyclic-locomotion` gates on a leg channel being dynamic
-rather than on the root; this is that move applied here. See ADR 0013.
+so four of the eight actions read dynamic — and `walking` reads the LOWEST of the four, because the
+store's walk is in place. Ranking by that number would hand the root to `giving_pills` over the walk.
+See ADR 0013.
 
-WHAT `free_channels` MEANS — and does not. It is an ownership statement: nobody claims these, so a later
-overlay may take them without contention. It is NOT a masking instruction. Layer 0 plays the base clip
-full-body and overlays mask on top; if unclaimed channels were masked out of layer 0 too, they would fall
-back to the bind pose and the character would T-pose from the waist up.
+WHAT `free_channels` MEANS — and does not. It is an ownership statement: nobody claimed these, so a
+later overlay may take them without contention. It is NOT a masking instruction. Layer 0 plays the
+base clip full-body and overlays mask on top; if unclaimed channels were masked out of layer 0 too,
+they would fall back to the bind pose and the character would T-pose from the waist up.
 
 IK IS ORTHOGONAL and does not participate in this partition at all. `engine_mask_map.json` says so
-outright ("the IK/contact layer (ik_goals) is ORTHOGONAL to this FK mask"), and the ground truth agrees:
-`grab_bottle` owns `right_hand` as an FK channel *and* carries an `ik_goal` for it, because a
-TwoBoneIKConstraint post-processes the animated pose rather than replacing it.
-
-WHAT IS NOT READ: `composability.can_overlay_on`, `.locks`, `.free`. `can_overlay_on` is an enumerated
-whitelist — the pre-enumerated interaction template the research claim rejects — and taken literally it
-kills `dc-walk-carry`, since `grab_bottle.can_overlay_on == ["idle"]` excludes walking. `locks`/`free` is
-derived from `role == "free"`, so it means "busy", not "un-overridable".
+outright, and it stays true: a TwoBoneIKConstraint post-processes the animated pose rather than
+replacing it, so an action can own a hand as an FK channel and have that same hand pulled to a scene
+anchor. What changed is only where the goal comes from — the plan, not the record.
 
 ROOT IS NOT LOCOMOTION HERE. Every accepted clip is in-place: `body_trans_horiz_stddev` is below 0.01
 on all of them, `walking` included — its root reads dynamic from body bob and heading sway, not from
-travel (since v2.2.0 the root channel measures where the BODY goes, and an in-place walk's body goes
-nowhere). Moving the character across the room is the NavMeshAgent's job; owning `root` here means
+travel. Moving the character across the room is the NavMeshAgent's job; owning `root` here means
 owning that in-place body motion, nothing more.
 """
-from .kbindex import ANATOMICAL, CHANNELS, ROLE_PRIORITY
+from .kbindex import ANATOMICAL, CHANNELS
 
 LEGS = ("left_leg", "right_leg")
 
-BASE_CLAIMS = frozenset({"primary", "support"})
-OVERLAY_CLAIMS = frozenset({"primary"})
+# The channels an IK pin can land on. `gaze_at` pins the head the same way a carry pins a hand.
+PINNABLE = ("left_hand", "right_hand", "head")
 
 
 class Conflict:
     """One channel two parts want and that cannot be split. Reported by name, never resolved by coin
     flip.
 
-    `detail` is the whole reason as a phrase, when there is one worth reading. For the case this is
-    mostly about — two actions gripping two different objects with one hand — "they conflict" does not
-    tell anyone which two things cannot both be held, and a model reading it has no way to know which
-    pair to break up. Absent, the reason is the bare role and the phrasing falls back to it.
+    `detail` is the whole reason as a phrase, when there is one worth reading. "They conflict" does
+    not tell anyone what cannot both happen, and a model reading it has no way to know which part of
+    its plan to change. Absent, the phrasing falls back to the bare reason.
     """
 
-    __slots__ = ("channel", "action_ids", "role", "detail")
+    __slots__ = ("channel", "action_ids", "reason", "detail")
 
-    def __init__(self, channel, action_ids, role, detail=None):
+    def __init__(self, channel, action_ids, reason, detail=None):
         self.channel = channel
         self.action_ids = tuple(action_ids)
-        self.role = role
+        self.reason = reason
         self.detail = detail
 
     def why(self):
-        return self.detail or ("%s both %s" % (" and ".join(self.action_ids), self.role))
+        return self.detail or ("%s both %s" % (" and ".join(self.action_ids), self.reason))
 
     def as_dict(self):
-        return {"channel": self.channel, "actions": list(self.action_ids), "role": self.role,
+        return {"channel": self.channel, "actions": list(self.action_ids), "reason": self.reason,
                 "why": self.why()}
 
     def __repr__(self):
@@ -152,7 +132,7 @@ class Mix:
     """One channel two actions drive at once, and the share each of them holds.
 
     `shares` is the answer to "how much of this channel is whose", normalised to 1 and ordered with the
-    base first. `overlay_share` is the same fact in the form the engine needs: a layer mixer is
+    base first. `overlay_weights` is the same fact in the form the engine needs: a layer mixer is
     cumulative and the base is already underneath unmasked, so what travels on the wire is one number
     per overlay, not a pair.
     """
@@ -165,8 +145,9 @@ class Mix:
 
     @property
     def owner(self):
-        """Whoever holds the larger share. Ties go to the first, which is the base — the base
-        establishes the posture, so it is the defensible tiebreak rather than an arbitrary one."""
+        """Whoever holds the larger share. Every mix is equal-share now, so in practice this is
+        always the first — which is the base, and the base establishes the posture, so it is the
+        defensible tiebreak rather than an arbitrary one."""
         return max(self.shares, key=lambda pair: pair[1])[0]
 
     def overlay_weights(self, base_id):
@@ -200,42 +181,11 @@ class Mix:
                                 " + ".join("%.2f %s" % (s, a) for a, s in self.shares))
 
 
-class DroppedGrip:
-    """An object one action holds in its clip that this assembly does not give it.
-
-    Not a failure and not a silent loss. The hand still performs that action's motion; what it does not
-    get is the IK goal aiming its wrist and the prop attached to it, because the other action holding
-    that same hand is the one being grounded. Carried so the plan can say which hand ends up empty.
-    """
-
-    __slots__ = ("action_id", "channel", "object", "kept_action_id", "kept_object")
-
-    def __init__(self, action_id, channel, obj, kept_action_id, kept_object):
-        self.action_id = action_id
-        self.channel = channel
-        self.object = obj
-        self.kept_action_id = kept_action_id
-        self.kept_object = kept_object
-
-    def why(self):
-        return ("%s drives %s and is grounded on %s, so %s's %s is not attached"
-                % (self.kept_action_id, self.channel, self.kept_object, self.action_id, self.object))
-
-    def as_dict(self):
-        return {"action_id": self.action_id, "channel": self.channel, "object": self.object,
-                "kept": {"action_id": self.kept_action_id, "object": self.kept_object},
-                "why": self.why()}
-
-    def __repr__(self):
-        return "DroppedGrip(%s: %s)" % (self.channel, self.why())
-
-
 class Assembly:
-    """The derived partition: who drives what, what is shared, what is left free, what could not be
-    decided."""
+    """The partition as the engine will run it: who drives what, what is shared, what is left free,
+    what could not be decided."""
 
-    def __init__(self, base, layers, free_channels, conflicts, root_owner, shared=None,
-                 dropped=None):
+    def __init__(self, base, layers, free_channels, conflicts, root_owner, shared=None):
         self.base = base
         self.layers = layers                # [(action_id, [channels])], base first, root appended
         self.free_channels = free_channels
@@ -246,9 +196,6 @@ class Assembly:
         # actions there would make the ground truth unscoreable. The engine needs both — who owns what,
         # and what is mixed — so they travel as two fields rather than one ambiguous one.
         self.shared = list(shared or [])
-        # Grips this partition did not honour. Separate from `conflicts` because they are not failures:
-        # the plan proceeds, one hand comes up empty, and the caller is told which.
-        self.dropped = list(dropped or [])
 
     @property
     def ok(self):
@@ -275,14 +222,10 @@ class Assembly:
                         "owns_root": aid == self.root_owner}
                        for aid, chans in self.layers],
             "shared": [m.as_dict() for m in self.shared],
-            "dropped_grips": [d.as_dict() for d in self.dropped],
             "free_channels": self.free_channels,
             "conflicts": [c.as_dict() for c in self.conflicts],
-            "rule": "base claims role in {primary,support}; overlay claims role=='primary'; "
-                    "a channel both claim is mixed at normalised role priority, unless either side "
-                    "grips something there, in which case the gripping side takes it whole; two grips "
-                    "give the channel to one side and drop the other's object, and are a conflict only "
-                    "when the request named both; "
+            "rule": "each part drives the channels the plan gave it; a channel two parts name is "
+                    "mixed half each, unless an IK pin lands on it, which makes it a conflict; "
                     "root to whichever part owns the legs, never mixed",
         }
 
@@ -293,105 +236,94 @@ class Assembly:
         return "Assembly(%s | %s)" % (owned, ", ".join(repr(m) for m in self.shared))
 
 
-def _role(channels, channel):
-    return (channels.get(channel) or {}).get("role", "free")
+def normalise_overlays(overlays):
+    """`overlays` as [(action_id, [channels])], from either that shape or a list of dicts.
 
-
-def _gripped(channels, channel):
-    """What this action holds on this channel, or None. `contact` is spelled `object:<alias>` when it is
-    a thing and `ground`/`none` when it is not, so this is a read rather than an interpretation."""
-    contact = str((channels.get(channel) or {}).get("contact") or "none")
-    return contact[len("object:"):] if contact.startswith("object:") else None
-
-
-def _shares(claimants):
-    """Normalised role priority. `claimants` is [(action_id, role)]; returns [(action_id, share)].
-
-    Nothing is invented here: `ROLE_PRIORITY` already ranked these roles and already decided this
-    channel back when the higher rank simply took it. primary(3) against support(2) is 0.6 to 0.4;
-    two primaries are half each. A rank of 0 cannot appear — `free` is never claimed.
+    A bare action_id is REJECTED rather than defaulted. Naming the channels is the decision v4 hands
+    to the agent, and there is no honest default for it: an empty mask plays full body in the engine,
+    and inventing a channel list here would be re-deriving the partition from a record that no longer
+    describes one.
     """
-    weights = [(aid, float(ROLE_PRIORITY[role])) for aid, role in claimants]
-    total = sum(w for _, w in weights)
-    return [(aid, w / total) for aid, w in weights]
+    out = []
+    for item in overlays or []:
+        if isinstance(item, dict):
+            aid = item.get("action_id")
+            chans = item.get("channels")
+        elif isinstance(item, (tuple, list)) and len(item) == 2:
+            aid, chans = item
+        else:
+            aid, chans = item, None
+        if not aid:
+            raise ValueError("an overlay with no action_id")
+        if not chans:
+            raise ValueError("overlay '%s' names no channels — say which body parts it drives "
+                             "(any of: %s)" % (aid, ", ".join(ANATOMICAL)))
+        unknown = [c for c in chans if c not in ANATOMICAL]
+        if unknown:
+            raise ValueError("overlay '%s' names channels that do not exist: %s (have: %s)"
+                             % (aid, ", ".join(unknown), ", ".join(ANATOMICAL)))
+        out.append((aid, [c for c in ANATOMICAL if c in set(chans)]))
+    return out
 
 
-def arbitrate(base_id, overlay_ids, kb, named_objects=None, _promoted=False):
-    """Derive the channel partition. `kb` is a KBIndex. Returns an Assembly.
+def arbitrate(base_id, overlays, kb=None, base_channels=None, pinned_channels=None):
+    """Build the Assembly from the agent's assignment. Returns an Assembly.
 
-    `named_objects` is what the REQUEST asked for by name — the things it said to carry or to bind a
-    hand to. It is consulted for one thing only: when two actions grip the same hand, the one whose
-    object was named keeps it, and if BOTH were named the pair is a conflict instead, because choosing
-    then would be deciding something the caller already decided twice.
+    `overlays` is what the plan asked for: [(action_id, channels)] or [{"action_id":…,"channels":[…]}].
+    `base_channels` is what the base claims; empty by default, because the base plays full-body on
+    layer 0 whether or not it claims anything, so claiming is only about keeping an overlay off.
+    `pinned_channels` are the channels the plan pins to a scene object (a carried hand, a gaze-bound
+    head). A pinned channel two actions both drive is a conflict rather than a mix.
 
-    A base that claims nothing is promoted away. `idle`'s role table is `free` on every channel, so it
-    asserts nothing about any body part — as a base it establishes no posture at all. When it is the
-    base under a single overlay, the overlay is the only thing setting posture, so it becomes the base
-    and claims its `support` channels too. Concretely, "give the pills while standing idle" then keeps
-    giving_pills' forward torso lean and its bracing legs, instead of handing pills bolt upright.
+    `kb` is accepted and unused. It is kept in the signature because every caller has one and because
+    a later check that a named action exists belongs here; the arbitration itself no longer reads the
+    knowledge base at all, which is the whole point of v4.
     """
-    overlay_ids = list(overlay_ids)
-    named = {str(n) for n in (named_objects or []) if n}
-    if not _promoted and len(overlay_ids) == 1:
-        base_channels = kb.channels(base_id)
-        if not any(_role(base_channels, c) in BASE_CLAIMS for c in ANATOMICAL):
-            return arbitrate(overlay_ids[0], [], kb, named_objects=named, _promoted=True)
+    overlays = normalise_overlays(overlays)
+    pinned = {c for c in (pinned_channels or []) if c in ANATOMICAL}
 
-    parts = [base_id] + overlay_ids
-    channels_of = {aid: kb.channels(aid) for aid in parts}
+    unknown = [c for c in (base_channels or []) if c not in ANATOMICAL]
+    if unknown:
+        raise ValueError("base '%s' names channels that do not exist: %s (have: %s)"
+                         % (base_id, ", ".join(unknown), ", ".join(ANATOMICAL)))
 
-    # Everyone who claims each channel, in `parts` order so the base is always first — which is what
-    # makes the tiebreak and the wire's layer order deterministic rather than dict-order luck.
-    claimants = {}       # channel -> [(action_id, role)]
-    for aid in parts:
-        allowed = BASE_CLAIMS if aid == base_id else OVERLAY_CLAIMS
+    # AN ACTION CANNOT FIGHT ITSELF FOR A BODY PART. A repeated action_id asks for the same layer
+    # twice and the second says nothing the first did not, so the channel lists are merged.
+    # The base is always a part, even claiming nothing: it plays layer 0 and holds up every channel
+    # no overlay took.
+    merged = {base_id: {c for c in ANATOMICAL if c in set(base_channels or [])}}
+    order = [base_id]
+    for aid, chans in overlays:
+        if aid == base_id:
+            merged[base_id].update(chans)
+            continue
+        if aid not in merged:
+            merged[aid] = set()
+            order.append(aid)
+        merged[aid].update(chans)
+
+    claimants = {}       # channel -> [action_id], in plan order so the base is always first
+    for aid in order:
         for channel in ANATOMICAL:
-            role = _role(channels_of[aid], channel)
-            if role in allowed:
-                claimants.setdefault(channel, []).append((aid, role))
+            if channel in merged[aid]:
+                claimants.setdefault(channel, []).append(aid)
 
     claims = {}          # channel -> action_id, for the channels one action owns outright
     shared = []
     conflicts = []
-    dropped = []
-    roles = {(aid, channel): role for channel, who in claimants.items() for aid, role in who}
     for channel, who in sorted(claimants.items()):
         if len(who) == 1:
-            claims[channel] = who[0][0]
+            claims[channel] = who[0]
             continue
-
-        # A GRIP IS NOT A SHARE. Contact is read straight off the contract, so which branch a channel
-        # takes is a fact about the data rather than a judgement made here.
-        gripping = [(aid, _gripped(channels_of[aid], channel)) for aid, _ in who]
-        gripping = [(aid, obj) for aid, obj in gripping if obj]
-        if len(gripping) == 1:
-            claims[channel] = gripping[0][0]
+        if channel in pinned:
+            conflicts.append(Conflict(
+                channel, who, "driving a channel the plan pins to an object",
+                detail="%s is bound to something in the scene, and %s were both asked to drive it — "
+                       "a hand blended out of two grips holds neither"
+                       % (channel, " and ".join(who))))
             continue
-        if len(gripping) > 1:
-            asked_for = [(aid, obj) for aid, obj in gripping if obj in named]
-            if len(asked_for) > 1:
-                # BOTH NAMED BY THE REQUEST. Dropping either would be doing subtraction on the
-                # caller's behalf, so this one stays a refusal and says which two things it is about.
-                conflicts.append(Conflict(
-                    channel, [aid for aid, _ in asked_for],
-                    "holding " + " and ".join(sorted(obj for _, obj in asked_for)),
-                    detail=", ".join("%s holds %s" % (aid, obj) for aid, obj in asked_for)))
-                continue
-            # Otherwise the channel goes whole to one side and the others lose their OBJECT, not their
-            # motion. Order of preference, each step deterministic: what the request named, then role
-            # priority, then the base — the same tiebreak `Mix.owner` uses, and for the same reason.
-            keeper, kept_object = max(
-                gripping,
-                key=lambda pair: (pair[1] in named,
-                                  ROLE_PRIORITY.get(roles.get((pair[0], channel), "free"), 0),
-                                  pair[0] == base_id))
-            claims[channel] = keeper
-            for aid, obj in gripping:
-                if aid != keeper:
-                    dropped.append(DroppedGrip(aid, channel, obj, keeper, kept_object))
-            continue
-
-        mix = Mix(channel, _shares(who))
+        share = 1.0 / len(who)
+        mix = Mix(channel, [(aid, share) for aid in who])
         shared.append(mix)
         claims[channel] = mix.owner
 
@@ -407,7 +339,7 @@ def arbitrate(base_id, overlay_ids, kb, named_objects=None, _promoted=False):
 
     mixed_in = {aid for mix in shared for aid, _ in mix.shares}
     layers = []
-    for aid in parts:
+    for aid in order:
         chans = [c for c in ANATOMICAL if claims.get(c) == aid]
         if aid == root_owner:
             chans = chans + ["root"]
@@ -419,31 +351,35 @@ def arbitrate(base_id, overlay_ids, kb, named_objects=None, _promoted=False):
             layers.append((aid, chans))
 
     free = [c for c in ANATOMICAL if c not in claims]
-    # A drop only means something if the losing action is still in the plan. One that ended up driving
-    # nothing at all is not "holding nothing" — it is absent, and saying its bottle was detached would
-    # describe a hand that is not in this motion.
-    still_here = {aid for aid, _ in layers}
-    dropped = [d for d in dropped if d.action_id in still_here]
-    return Assembly(base_id, layers, free, conflicts, root_owner, shared, dropped)
+    return Assembly(base_id, layers, free, conflicts, root_owner, shared)
 
 
-def decompose(parts, kb):
-    """Same rule, expressed the way the eval ground truth is written: an unordered list of actions.
+def decompose(parts, kb=None, base=None):
+    """The same arbitration, expressed the way the eval ground truth is written: a mapping from
+    action_id to the channels that action drives.
 
-    The base is the one part the KB marks `base`. When every part is an overlay the single part is
-    promoted rather than slipping `idle` underneath — `idle` is `free` on every channel, so it would sit
-    below everything and claim nothing, making the arbitration vacuous while looking like it worked.
+    The base is named explicitly, or is whichever part drives a leg — where a body's weight goes is
+    what a posture is, so the part driving the legs is the one setting the stance. Failing that, the
+    first part. Under v3 the base was read off `composability.base_or_overlay`, a stored label that
+    v4 deletes (ADR 0022); nothing measured replaces it, because whether a clip is foundational or
+    grafted-on is a fact about the combination it is used in.
     """
-    parts = list(parts)
-    if not parts:
+    if isinstance(parts, dict):
+        items = list(parts.items())
+    else:
+        items = [(p["action_id"], p["channels"]) if isinstance(p, dict) else tuple(p) for p in parts]
+    # `root` is accepted in the input and dropped: the eval's ground truth names it on the part that
+    # owns the legs, and it is not a channel anything assigns. Whoever ends up with the legs gets it.
+    items = [(aid, [c for c in chans if c in ANATOMICAL]) for aid, chans in items]
+    if not items:
         raise ValueError("decompose needs at least one action")
 
-    bases = [aid for aid in parts
-             if kb.record(aid).get("composability", {}).get("base_or_overlay") == "base"]
-    if len(bases) > 1:
-        raise ValueError("more than one base action: %s" % ", ".join(sorted(bases)))
-    base = bases[0] if bases else parts[0]
-    return arbitrate(base, [aid for aid in parts if aid != base], kb)
+    if base is None:
+        legged = [aid for aid, chans in items if set(chans) & set(LEGS)]
+        base = legged[0] if legged else items[0][0]
+    base_channels = [c for aid, chans in items if aid == base for c in chans]
+    overlays = [(aid, chans) for aid, chans in items if aid != base and chans]
+    return arbitrate(base, overlays, kb, base_channels=base_channels)
 
 
 FULL_MATCH = "full_match"
@@ -461,14 +397,15 @@ def verdict(assembly, gaze_at=None):
     and the trace are statements about the same thing.
 
     Deliberately mechanical. Which branch a request took is read off the partition that was actually
-    derived, never from the model's prose about what it did.
+    built, never from the model's prose about what it did.
 
     Two cases that are not what they look like:
 
-    `idle` UNDERNEATH A LONE OVERLAY IS NOT A DECOMPOSITION. An overlay has no posture of its own, so
-    naming one over `idle` is how a single overlay is played at all. `idle` is `free` on every channel
-    and claims nothing but root, so scoring that as a composition would penalise the model for being
-    more correct than the ground truth, which calls `giving_pills` alone a full match.
+    A BASE THAT CLAIMS NOTHING IS NOT A PART OF THE COMPOSITION. Naming a posture-setting action under
+    a lone overlay is how a single overlay is played at all — something has to hold the rest of the
+    body up. A base claiming no anatomical channel contributed no body part, so scoring that as a
+    composition would penalise the model for being more correct than the ground truth, which calls
+    `giving_pills` alone a full match.
 
     A GAZE BINDING IS A DECOMPOSITION even with one retrieved part. Binding the head to a scene target
     frees it to be SOLVED rather than retrieved, which is exactly the FK-retrieval vs IK-goal split —
@@ -479,11 +416,17 @@ def verdict(assembly, gaze_at=None):
     parts = [{"action_id": aid, "channels": chans}
              for aid, chans in assembly.layers if chans or aid in mixed_in]
     contributing = [p for p in parts
-                    if p["action_id"] != "idle" or [c for c in p["channels"] if c != "root"]]
+                    if p["action_id"] != assembly.base
+                    or [c for c in p["channels"] if c != "root"]]
     freed_by_gaze = ["head"] if gaze_at else []
 
     if len(contributing) > 1 or freed_by_gaze:
-        out = {"type": DECOMPOSE, "parts": contributing,
+        # A GAZE ON A BASE THAT CLAIMS NOTHING STILL HAS A PART. `contributing` drops a base holding
+        # only the root, because a posture-holder under a lone overlay is not a second motion. When
+        # the gaze is the ONLY reason this is a decomposition, dropping it leaves "decomposed into
+        # nothing", which is not what happened: the action is there, with its head solved instead of
+        # retrieved. So it is named.
+        out = {"type": DECOMPOSE, "parts": contributing or parts,
                "free_channels": sorted(set(assembly.free_channels) | set(freed_by_gaze))}
         # A mix is the strongest form of decomposition there is — one body part being driven by two
         # retrieved clips at once — so it is named rather than left to be inferred from the partition.

@@ -1,7 +1,6 @@
 {
-  "schema_version": "motionkb/v3",
+  "schema_version": "motionkb/v4",
   "action_id": "typing",
-  "display_name": "Typing",
   "status": "accepted",
   "source_clip": {
     "fbx_or_anim": "X Bot@Typing.fbx",
@@ -15,30 +14,9 @@
   "duration": 16.467,
   "frame_rate": 30,
   "loop": false,
-  "overall_intent": "The nurse sits and types with both hands on an implied keyboard while maintaining a stable seated posture.",
-  "tags": [
-    "typing",
-    "keyboard",
-    "seated",
-    "desk_work",
-    "hands",
-    "documentation",
-    "computer",
-    "nurse",
-    "bilateral_hand_motion"
-  ],
-  "mask_coverage": {
-    "upper_body": true,
-    "hands": true,
-    "lower_body": true
-  },
+  "action_description": "The nurse sits and types with both hands on an implied keyboard while maintaining a stable seated posture.",
   "channels": {
     "torso": {
-      "role": "stabilizer",
-      "motion_type": "balance",
-      "contact": "none",
-      "constraint": "must-maintain",
-      "target": null,
       "motion_description": "The torso makes small stabilizing adjustments while seated.",
       "state_label": "dynamic",
       "motion_magnitude": 0.1235,
@@ -60,11 +38,6 @@
       }
     },
     "head": {
-      "role": "stabilizer",
-      "motion_type": "gaze",
-      "contact": "none",
-      "constraint": "must-maintain",
-      "target": null,
       "motion_description": "The head stays oriented downward toward the typing area.",
       "state_label": "dynamic",
       "motion_magnitude": 0.1417,
@@ -83,11 +56,6 @@
       }
     },
     "left_arm": {
-      "role": "primary",
-      "motion_type": "reach",
-      "contact": "none",
-      "constraint": "must-maintain",
-      "target": null,
       "motion_description": "The left arm holds a forward typing position with small movements.",
       "state_label": "dynamic",
       "motion_magnitude": 0.1251,
@@ -109,11 +77,6 @@
       }
     },
     "right_arm": {
-      "role": "primary",
-      "motion_type": "reach",
-      "contact": "none",
-      "constraint": "must-maintain",
-      "target": null,
       "motion_description": "The right arm moves more actively in a forward typing position.",
       "state_label": "dynamic",
       "motion_magnitude": 0.1925,
@@ -135,11 +98,6 @@
       }
     },
     "left_leg": {
-      "role": "support",
-      "motion_type": "hold-static",
-      "contact": "ground",
-      "constraint": "must-maintain",
-      "target": null,
       "motion_description": "The left leg remains planted to support the seated posture.",
       "state_label": "static",
       "motion_magnitude": 0.0237,
@@ -160,11 +118,6 @@
       }
     },
     "right_leg": {
-      "role": "support",
-      "motion_type": "hold-static",
-      "contact": "ground",
-      "constraint": "must-maintain",
-      "target": null,
       "motion_description": "The right leg remains planted to support the seated posture.",
       "state_label": "static",
       "motion_magnitude": 0.0234,
@@ -185,11 +138,6 @@
       }
     },
     "left_hand": {
-      "role": "primary",
-      "motion_type": "manipulate",
-      "contact": "object:keyboard",
-      "constraint": "must-maintain",
-      "target": null,
       "motion_description": "The left hand performs small key-pressing motions over the keyboard area.",
       "state_label": "dynamic",
       "motion_magnitude": 0.2382,
@@ -222,11 +170,6 @@
       }
     },
     "right_hand": {
-      "role": "primary",
-      "motion_type": "manipulate",
-      "contact": "object:keyboard",
-      "constraint": "must-maintain",
-      "target": null,
       "motion_description": "The right hand performs active key-pressing motions over the keyboard area.",
       "state_label": "dynamic",
       "motion_magnitude": 0.3008,
@@ -271,42 +214,6 @@
       "mean_body_tilt_deg": 8.661
     }
   },
-  "ik_goals": [
-    {
-      "effector": "left_hand",
-      "target": null,
-      "constraint": "TwoBoneIKConstraint",
-      "contact_object": "keyboard",
-      "world_space": true
-    },
-    {
-      "effector": "right_hand",
-      "target": null,
-      "constraint": "TwoBoneIKConstraint",
-      "contact_object": "keyboard",
-      "world_space": true
-    }
-  ],
-  "composability": {
-    "locks": [
-      "torso",
-      "head",
-      "left_arm",
-      "right_arm",
-      "left_leg",
-      "right_leg",
-      "left_hand",
-      "right_hand"
-    ],
-    "free": [],
-    "can_overlay_on": [],
-    "base_or_overlay": "base",
-    "posture": "seated",
-    "seam_owner": {
-      "torso": "base",
-      "root": "base"
-    }
-  },
   "extraction": {
     "method": "in_engine_sample_root_local",
     "sampled_frames": 494,
@@ -314,10 +221,10 @@
     "motion_metric": "variation, all 8 anatomical channels: muscle_dof_stddev_rms, divided by torso 0.2969 / head 0.4963 / arm 0.6864 / leg 0.4468 / hand 0.7546; root variation: max(trans/1.9782, vert/1.8396, heading/131.8575) from HumanPose.bodyPosition and bodyRotation; mean pose, all 8 anatomical channels: mean_pose, the per-frame mean of each of the channel's Humanoid muscle degrees of freedom in Unity's normalised muscle space, stored as the vector it is and compared with nothing; root mean pose: mean_body_height (mean HumanPose.bodyPosition.y, normalised humanoid units) and mean_body_tilt_deg (mean angle of bodyRotation's up axis from world up)",
     "bone_map_version": "v2.0.0",
     "metric_formula_version": "v3.0.0",
-    "extractor_version": "3.1.0",
+    "extractor_version": "4.0.0",
     "extractor_lang": "python",
     "avatar": "nurse_avatar.fbx",
-    "extracted_at": "2026-08-26T20:15:11Z",
+    "extracted_at": "2026-08-26T21:35:11Z",
     "field_origin": {
       "kinematic": [
         "duration",
@@ -335,19 +242,8 @@
         "trigger_param"
       ],
       "semantic": [
-        "display_name",
-        "overall_intent",
-        "tags",
-        "mask_coverage",
+        "action_description",
         "channels.*.motion_description"
-      ],
-      "semantic_pending": [
-        "channels.*.role",
-        "channels.*.motion_type",
-        "channels.*.contact",
-        "channels.*.constraint",
-        "channels.*.target",
-        "composability"
       ]
     },
     "verified_against_screenshots": false,
@@ -362,18 +258,8 @@
       "consistency_validated": true,
       "scope": [
         "action_id",
-        "display_name",
-        "overall_intent",
-        "tags",
-        "mask_coverage",
-        "channels.*.role",
-        "channels.*.motion_type",
-        "channels.*.contact",
-        "channels.*.constraint",
-        "channels.*.motion_description",
-        "composability.base_or_overlay",
-        "composability.posture",
-        "composability.can_overlay_on"
+        "action_description",
+        "channels.*.motion_description"
       ],
       "status": "vlm_accepted"
     },

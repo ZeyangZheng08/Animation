@@ -7,8 +7,9 @@ namespace AgentRuntime
     /// <summary>
     /// One driveable character: turns an assembly plan into a composed, grounded, playing motion.
     ///
-    /// The plan arrives with the channel split ALREADY DERIVED on the agent side, from each action's
-    /// role table. This side does not arbitrate; it builds masks from the channel lists it is given.
+    /// The plan arrives CARRYING the channel split: since ADR 0022 the agent states which channels each
+    /// overlay drives, rather than the knowledge base implying it through a per-action role table.
+    /// This side does not arbitrate; it builds masks from the channel lists it is given.
     /// Keeping the rule in one place means the eval runner and the live demo cannot disagree about what
     /// a plan means, and the rule stays unit-testable without an engine.
     ///

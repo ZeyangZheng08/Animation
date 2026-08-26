@@ -4,6 +4,12 @@ Status: Accepted (2026-06-18)
 
 **Terminology (2026-07-01):** 'AUTHORED' was renamed to 'SEMANTIC' for accuracy — the half is agent-neutral (mostly VLM-proposed / program-derived, not human-authored); no behavior change.
 
+**Scope (2026-08-26):** the separation itself is unchanged and still binding — KINEMATIC is
+program-generated and re-extractable, SEMANTIC is never clobbered by a re-measure. What the SEMANTIC
+side CONTAINS narrowed to two description fields (`action_description` and each channel's
+`motion_description`); everything else it held answered a question about a combination and now
+belongs to the runtime agent. See [0022](0022-the-kb-describes-the-agent-decides.md).
+
 **Terminology (2026-08-25, [ADR 0021](0021-kinematic-facts-not-classifications.md)):** 'MEASURED' was renamed to 'KINEMATIC' for the same kind of reason — the old name described provenance and said nothing about content, and a label produced by a program reads as measured even when what was measured is the program's own threshold. The half holds joint motion and joint pose; it is called that now. No behavior change, and the split this ADR draws is unaffected.
 
 ## Context

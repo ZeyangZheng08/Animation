@@ -1,6 +1,21 @@
-# 0008 — VLM proposes the SEMANTIC 5-tuple, consistency-check-gated, human-accepted
+# 0008 — VLM proposes the SEMANTIC fields, consistency-check-gated, human-accepted
 
-Status: Accepted (2026-06-24)
+Status: Accepted (2026-06-24). **The 5-tuple half is superseded (2026-08-26) by
+[0022](0022-the-kb-describes-the-agent-decides.md).**
+
+> **Amended, 2026-08-26.** The SHAPE of this decision stands and is what the pipeline still runs: a
+> VLM looks at rendered frames plus the KINEMATIC facts, PROPOSES the semantic fields, a deterministic
+> gate checks the proposal before it is recorded, and a human accept is optional. What it proposes has
+> narrowed to three things — `action_id`, `action_description`, and one `motion_description` per
+> anatomical channel. The per-channel 5-tuple (`role` / `motion_type` / `contact` / `constraint` /
+> `target`), `mask_coverage`, `tags`, `display_name` and the composability judgement calls
+> (`base_or_overlay` / `posture` / `can_overlay_on`) are deleted from the contract, and with them the
+> 2026-06-25b derivation of `locks`/`free`/`seam_owner` and `ik_goals` from the proposed roles. See
+> [0022](0022-the-kb-describes-the-agent-decides.md) for why: each of them was a decision about a
+> combination, and a clip previewed alone on an empty floor is the worst place from which to make one.
+> The gate narrowed with them — there is no vocabulary left to violate and no cross-field rule to
+> contradict, so what it checks is that the model answered for every channel. The "specific semantic
+> theory" risk this ADR flagged at the time is what came due.
 
 ## Context
 The v2 candidates (`agent/animation_knowledge_base/candidate/*.json`) have their MEASURED block filled and validated

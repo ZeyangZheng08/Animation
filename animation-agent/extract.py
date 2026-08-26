@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-extract.py — the MotionKB v3 extractor orchestration (pure Python; engine-decoupled).
+extract.py — the MotionKB v4 extractor orchestration (pure Python; engine-decoupled).
 
 Two steps, because the only engine-dependent part (sampling muscle clips) is isolated:
 
@@ -21,11 +21,22 @@ Two steps, because the only engine-dependent part (sampling muscle clips) is iso
 The KB itself lives in the Unity repository (it is a derivative of that project's animation assets);
 this repo reaches it through paths.py / MOTIONKB_DIR.
 
-KINEMATIC is program-generated and never fabricated (ADR 0002); the SEMANTIC 5-tuple
-(role/motion_type/contact/constraint/target) is VLM-proposed in the propose stage. composability is
-DERIVED there from the proposed roles (locks/free) plus a few VLM judgement calls (base_or_overlay/
-posture/can_overlay_on); controller_* is RESOLVED from the AnimatorController (register/resolve-controller).
-Assemble seeds the semantic fields as nulls — never guessed.
+  3) python extract.py migrate
+       The v4 structural migration. Rewrites every record into the motionkb/v4 shape WITHOUT
+       re-measuring: it renames `overall_intent` to `action_description`, drops the retired keys, and
+       restamps the version/provenance lines. It exists because v4 changed no number — running the
+       measure half to move a record's shape would reprocess 2454 frozen dumps to write back the
+       values they already hold. Idempotent; safe on an already-v4 store.
+
+KINEMATIC is program-generated and never fabricated (ADR 0002); the SEMANTIC half is now exactly two
+descriptions — `action_description` and each anatomical channel's `motion_description` — and is
+VLM-proposed in the propose stage (ADR 0008). controller_* is RESOLVED from the AnimatorController
+(register/resolve-controller). Assemble seeds the descriptions as nulls — never guessed.
+
+What a record does NOT hold, since v4 (ADR 0022): roles, motion types, contacts, constraints,
+targets, ik_goals, mask_coverage, tags, a display_name, and the whole composability block. Each of
+those was a composition decision dressed as a property of a clip, and the runtime agent — which can
+see the task and the scene — is where they belong.
 """
 import datetime
 import glob
@@ -54,7 +65,15 @@ KINEMATIC_KEYS = ("state_label", "motion_magnitude", "raw_measurement", "mean_po
 # `kind`, which restated the channel name it was keyed by). A re-measure drops them, so a record
 # cannot keep a field no formula produces any more.
 RETIRED_KINEMATIC_KEYS = ("posture_label", "posture_magnitude", "posture_measurement", "kind")
-SEMANTIC_CH_KEYS = ("role", "motion_type", "contact", "constraint", "target", "motion_description")
+# The whole SEMANTIC half of a channel in v4: one sentence about how the part moves.
+SEMANTIC_CH_KEYS = ("motion_description",)
+# The four the channel carried alongside it until v4, plus `target`. Every one of them answered a
+# question about a COMPOSITION — may another action drive this part, what does it hold, must the
+# effector arrive somewhere — that no clip can answer by itself (ADR 0022). Listed here, not merely
+# stopped being written, so that migrating a v3 record DELETES them.
+RETIRED_SEMANTIC_CH_KEYS = ("role", "motion_type", "contact", "constraint", "target")
+# The same at the top level. `overall_intent` is not here: it is RENAMED, see _apply_v4_shape.
+RETIRED_TOP_KEYS = ("display_name", "tags", "mask_coverage", "ik_goals", "composability")
 
 
 def _now():
@@ -126,10 +145,7 @@ def emit_sampler():
 
 # ---------------------------------------------------------------------------------------------
 def _seed_channel(desc):
-    return {
-        "role": None, "motion_type": None, "contact": None, "constraint": None, "target": None,
-        "motion_description": desc if desc else None,
-    }
+    return {"motion_description": desc if desc else None}
 
 
 def _migrate_from_v1(v1, raw):
@@ -149,22 +165,9 @@ def _migrate_from_v1(v1, raw):
     channels[C.LEFT_HAND] = _seed_channel("")
     channels[C.RIGHT_HAND] = _seed_channel("")
 
-    ik_goals = []
-    for arm in ("left_arm", "right_arm"):
-        ik = (bp.get(arm, {}) or {}).get("ik_goal")
-        if ik:
-            ik_goals.append({
-                "effector": ik.get("effector"),
-                "target": ik.get("target"),
-                "constraint": ik.get("constraint"),
-                "contact_object": (bp.get(arm, {}) or {}).get("interaction_object"),
-                "world_space": True,
-            })
-
     return {
         "schema_version": C.SCHEMA_VERSION,
         "action_id": v1.get("action_id"),
-        "display_name": v1.get("display_name"),
         "status": "candidate",
         "source_clip": v1.get("source_clip"),
         "controller_state": v1.get("controller_state"),
@@ -173,44 +176,50 @@ def _migrate_from_v1(v1, raw):
         "duration": round(raw["length"], 3),
         "frame_rate": raw["frame_rate"],
         "loop": v1.get("loop"),
-        "overall_intent": v1.get("overall_intent"),
-        "tags": v1.get("tags"),
-        "mask_coverage": v1.get("mask_coverage"),
+        "action_description": v1.get("overall_intent"),
         "channels": channels,
-        "ik_goals": ik_goals,
-        "composability": _migrate_composability(v1, bp),
         "extraction": {},
     }
 
 
-def _migrate_composability(v1, bp):
-    c1 = v1.get("composability", {}) or {}
-    v1locks = c1.get("locks", []) or []
-    locks = set()
-    for p in v1locks:
-        if p == "chest":
-            locks.add(C.TORSO)
-        elif p == "head":
-            locks.add(C.HEAD)
-        elif p == "left_arm":
-            locks.add(C.LEFT_ARM)
-        elif p == "right_arm":
-            locks.add(C.RIGHT_ARM)
-        elif p in ("legs", "feet"):
-            locks.add(C.LEFT_LEG); locks.add(C.RIGHT_LEG)
-    if C.LEFT_ARM in locks and (bp.get("left_arm", {}) or {}).get("ik_goal"):
-        locks.add(C.LEFT_HAND)
-    if C.RIGHT_ARM in locks and (bp.get("right_arm", {}) or {}).get("ik_goal"):
-        locks.add(C.RIGHT_HAND)
-    free = [p for p in C.PARTITION_CHANNELS if p not in locks]
-    return {
-        "locks": [p for p in C.PARTITION_CHANNELS if p in locks],
-        "free": free,
-        "can_overlay_on": c1.get("can_overlay_on", []) or [],
-        "base_or_overlay": c1.get("base_or_overlay", "overlay"),
-        "posture": c1.get("posture", "standing"),
-        "seam_owner": {"torso": "base", "root": "base"},
-    }
+def _apply_v4_shape(doc):
+    """Bring one record to the motionkb/v4 SHAPE: rename `overall_intent`, drop every retired key.
+
+    Separate from `_apply_kinematic` because it touches no number and needs no dump — it is what
+    `migrate` runs over the store, and what `assemble`/`recalibrate` also run so that a record cannot
+    come out of a measure still carrying a field the contract dropped. Idempotent.
+
+    The rename is done in place rather than as a delete-then-add so that `action_description` keeps
+    `overall_intent`'s position in the file: these records are read as text and diffed, and moving a
+    line that did not change is noise in a 2454-file rewrite.
+    """
+    if "overall_intent" in doc:
+        doc = _rename_key(doc, "overall_intent", "action_description")
+    doc.setdefault("action_description", None)
+    for k in RETIRED_TOP_KEYS:
+        doc.pop(k, None)
+    for name, block in (doc.get("channels") or {}).items():
+        if not isinstance(block, dict):
+            continue
+        for k in RETIRED_SEMANTIC_CH_KEYS:
+            block.pop(k, None)
+        if name == C.ROOT:
+            for k in SEMANTIC_CH_KEYS:
+                block.pop(k, None)
+        else:
+            for k in SEMANTIC_CH_KEYS:
+                block.setdefault(k, None)
+    return doc
+
+
+def _rename_key(d, old, new):
+    """A copy of `d` with `old` renamed to `new`, keeping its position among the keys."""
+    out = {}
+    for k, v in d.items():
+        out[new if k == old else k] = v
+    d.clear()
+    d.update(out)
+    return d
 
 
 def _apply_kinematic(doc, blocks):
@@ -237,16 +246,34 @@ def _apply_kinematic(doc, blocks):
                 existing[k] = block[k]
             else:
                 existing.pop(k, None)                 # not a key this channel carries
-        if name == C.ROOT:                            # root is kinematic-only
-            for k in SEMANTIC_CH_KEYS:
-                existing.pop(k, None)
-        else:                                         # seed semantic stubs if absent
-            for k in SEMANTIC_CH_KEYS:
-                existing.setdefault(k, None)
         ch[name] = existing
+    _apply_v4_shape(doc)                              # drop retired keys, seed the description stubs
 
 
-def _build_extraction(raw):
+SEMANTIC_FIELDS = ["action_description", "channels.*.motion_description"]
+
+
+def _field_origin(doc):
+    """The provenance tiers for one record. `semantic` lists the two description fields once they are
+    filled and `semantic_pending` lists them while they are not — which, on the 2446 measured-but-
+    unproposed corpus records, is the honest state. The v3 tiers named six more fields per channel;
+    v4 has two, because that is all a record holds (ADR 0022)."""
+    ch = doc.get("channels") or {}
+    described = (doc.get("action_description") is not None
+                 and all((ch.get(c) or {}).get("motion_description") is not None
+                         for c in C.ANATOMICAL_CHANNELS))
+    tiers = {
+        "kinematic": ["duration", "frame_rate", "channels.*.state_label",
+                      "channels.*.motion_magnitude", "channels.*.raw_measurement",
+                      "channels.*.mean_pose", "channels.root.mean_body_height",
+                      "channels.root.mean_body_tilt_deg"],
+        "resolved": ["controller_state", "controller_layer", "trigger_param"],
+    }
+    tiers["semantic" if described else "semantic_pending"] = list(SEMANTIC_FIELDS)
+    return tiers
+
+
+def _build_extraction(raw, doc=None):
     return {
         "method": "in_engine_sample_root_local",
         "sampled_frames": raw["frames"],
@@ -276,17 +303,7 @@ def _build_extraction(raw):
         "extractor_lang": "python",
         "avatar": C.CALIBRATION_AVATAR,
         "extracted_at": _now(),
-        "field_origin": {
-            "kinematic": ["duration", "frame_rate", "channels.*.state_label",
-                          "channels.*.motion_magnitude", "channels.*.raw_measurement",
-                          "channels.*.mean_pose", "channels.root.mean_body_height",
-                          "channels.root.mean_body_tilt_deg"],
-            "resolved": ["controller_state", "controller_layer", "trigger_param"],
-            "semantic": ["display_name", "overall_intent", "tags", "mask_coverage",
-                         "channels.*.motion_description"],
-            "semantic_pending": ["channels.*.role", "channels.*.motion_type", "channels.*.contact",
-                                 "channels.*.constraint", "channels.*.target", "composability"],
-        },
+        "field_origin": _field_origin(doc or {}),
         "verified_against_screenshots": False,
     }
 
@@ -295,7 +312,7 @@ def assemble():
     os.makedirs(ACTIONS_DIR, exist_ok=True)
     os.makedirs(os.path.dirname(REPORT), exist_ok=True)
     rows, ok, fail, skipped = [], 0, 0, 0
-    rows.append("# MotionKB v3 extraction run — " + _now())
+    rows.append("# MotionKB v4 extraction run — " + _now())
     rows.append("")
     rows.append("| clip | frames | torso | head | l_arm | r_arm | l_leg | r_leg | l_hand | r_hand | root |")
     rows.append("|---|---|---|---|---|---|---|---|---|---|---|")
@@ -324,7 +341,7 @@ def assemble():
             doc["duration"] = round(raw["length"], 3)
             doc["frame_rate"] = raw["frame_rate"]
             _apply_kinematic(doc, blocks)
-            doc["extraction"] = _build_extraction(raw)
+            doc["extraction"] = _build_extraction(raw, doc)
             _atomic_write(p, doc)
             m = lambda c: doc["channels"][c]["motion_magnitude"]
             rows.append("| %s | %d | %s | %s | %s | %s | %s | %s | %s | %s | %s |" % (
@@ -340,8 +357,8 @@ def assemble():
 
     rows.append("")
     rows.append("**%d ok / %d failed / %d accepted and left alone** -> actions/ (KINEMATIC "
-                "authoritative; role/motion_type/contact/constraint/target + composability are PENDING "
-                "semantic). Re-measuring an accepted record is recalibrate_kinematic.py's job."
+                "authoritative; action_description + the 8 motion_descriptions are PENDING semantic). "
+                "Re-measuring an accepted record is recalibrate_kinematic.py's job."
                 % (ok, fail, skipped))
     report = "\n".join(rows) + "\n"
     with open(REPORT, "w", encoding="utf-8") as f:
@@ -405,21 +422,18 @@ def _parse_bridge_flags(rest):
 
 
 def _new_source_stub(clip_name, fbx_or_anim, guid, file_id):
-    """A minimal valid candidate skeleton with source_clip filled. KINEMATIC comes from assemble;
-    SEMANTIC (incl. action_id) + composability from the propose stage (VLM-proposed/derived); controller_*
-    from register/resolve-controller. composability seeded all-free here is just a placeholder."""
+    """A minimal valid candidate skeleton with source_clip filled. KINEMATIC comes from assemble; the
+    descriptions (and action_id) from the propose stage; controller_* from register/resolve-controller.
+    Nothing here is a placeholder for a judgement: a v4 record has no field to guess at."""
     channels = {ch: {} for ch in C.STATE_CHANNELS}
     return {
         "schema_version": C.SCHEMA_VERSION,
-        "action_id": None, "display_name": None, "status": "candidate",
+        "action_id": None, "status": "candidate",
         "source_clip": {"fbx_or_anim": fbx_or_anim, "guid": guid, "file_id": int(file_id), "clip_name": clip_name},
         "controller_state": None, "controller_layer": None, "trigger_param": None,
         "duration": None, "frame_rate": None, "loop": None,
-        "overall_intent": None, "tags": [],
-        "mask_coverage": {"upper_body": False, "hands": False, "lower_body": False},
-        "channels": channels, "ik_goals": [],
-        "composability": {"locks": [], "free": list(C.PARTITION_CHANNELS), "can_overlay_on": [],
-                          "base_or_overlay": "overlay", "seam_owner": {"torso": "base", "root": "base"}},
+        "action_description": None,
+        "channels": channels,
         "extraction": {},
     }
 
@@ -461,7 +475,7 @@ def register(clip_name, host, port, instance):
         print("  controller_* left blank (not wired%s) — re-run `resolve-controller %s` after wiring it."
               % (" / ambiguous" if wiring else "", clip_name))
     print("  wrote %s — next: sample -> assemble -> render -> propose -> author "
-          "(composability + labels come from propose; controller_* handled above)"
+          "(the descriptions come from propose; controller_* handled above)"
           % paths.rel(cand_path))
     return 0
 
@@ -581,10 +595,10 @@ def render(clip_name, host, port, instance):
 
 
 def propose(clip_name, host, port, instance, stage=False):
-    """Propose one clip: ensure frames (render if missing) -> VLM proposes -> consistency + composability
-    gate -> the semantic half written back into the record. By default the VLM output is KEPT (accepted
-    as `vlm_accepted`, no human required); `--stage` leaves the record at status `candidate` for optional
-    human review (`author` then blesses it as `human_accepted`)."""
+    """Propose one clip: ensure frames (render if missing) -> VLM proposes the action_description and
+    the 8 motion_descriptions -> they are written back into the record. By default the VLM output is
+    KEPT (accepted as `vlm_accepted`, no human required); `--stage` leaves the record at status
+    `candidate` for optional human review (`author` then blesses it as `human_accepted`)."""
     src = _doc_path_by_clip(clip_name)
     if not src:
         print("No source entry with clip_name '%s'." % clip_name)
@@ -595,11 +609,11 @@ def propose(clip_name, host, port, instance, stage=False):
         if render(clip_name, host, port, instance) != 0:
             return 1
     import propose as _propose
-    print("Asking the VLM (%s) to propose semantic fields for '%s' ..." % (_propose.VLM_MODEL, clip_name))
+    print("Asking the VLM (%s) to describe '%s' ..." % (_propose.VLM_MODEL, clip_name))
     cand_path, errors, warns, proposed_aid = _propose.propose_clip(clip_name, src)
     print("  proposed action_id : %s" % proposed_aid)
-    print("  wrote semantic half: %s" % paths.rel(cand_path))
-    print("  consistency gate   : %s" % ("PASS (0 errors)" if not errors else "%d ERROR(S)" % len(errors)))
+    print("  wrote descriptions : %s" % paths.rel(cand_path))
+    print("  completeness gate  : %s" % ("PASS (0 errors)" if not errors else "%d ERROR(S)" % len(errors)))
     for e in errors:
         print("    - %s" % e)
     for w in warns[:8]:
@@ -674,6 +688,50 @@ def author(clip_name):
     return _promote_candidate(clip_name, human=True)
 
 
+def migrate(dry_run=False):
+    """Bring the whole store to the motionkb/v4 SHAPE without re-measuring anything.
+
+    v4 moved no number (ADR 0022), so there is nothing for the measure half to recompute: every value
+    a re-measure would write back is the value already on disk. What changes per record is the rename
+    `overall_intent` -> `action_description`, the deletion of the retired keys, and three provenance
+    lines — `schema_version`, `extraction.extractor_version`, `extraction.extracted_at` — plus the
+    `field_origin` tiers, which name different fields now.
+
+    Descriptions are carried through VERBATIM: nothing here reads a frame or asks a model. The
+    `vlm_proposal` block is kept as the historical record of what produced the descriptions, with its
+    `scope` narrowed to the two fields that survived — the proposal happened, and rewriting its scope
+    to claim it only ever covered those two would be a lie, so the narrowing is exactly the
+    intersection with what the record still holds.
+    """
+    changed = untouched = failed = 0
+    for p, doc, err in paths.read_records():
+        if err:
+            print("  FAIL  %s: %s" % (paths.rel(p), err))
+            failed += 1
+            continue
+        before = json.dumps(doc, ensure_ascii=False)
+        _apply_v4_shape(doc)
+        doc["schema_version"] = C.SCHEMA_VERSION
+        ex = doc.setdefault("extraction", {})
+        ex["extractor_version"] = C.EXTRACTOR_VERSION
+        ex["field_origin"] = _field_origin(doc)
+        va = ex.get("vlm_proposal")
+        if isinstance(va, dict) and isinstance(va.get("scope"), list):
+            scope = ["action_description" if k == "overall_intent" else k for k in va["scope"]]
+            va["scope"] = [k for k in scope if k == "action_id" or k in SEMANTIC_FIELDS]
+        if json.dumps(doc, ensure_ascii=False) == before:
+            untouched += 1                       # already v4; the timestamp is not restamped for nothing
+            continue
+        ex["extracted_at"] = _now()
+        if not dry_run:
+            _atomic_write(p, doc)
+        changed += 1
+    print("%d record(s) migrated to %s%s, %d already there, %d unreadable."
+          % (changed, C.SCHEMA_VERSION, " (dry run — nothing written)" if dry_run else "",
+             untouched, failed))
+    return 1 if failed else 0
+
+
 def main(argv):
     cmd = argv[1] if len(argv) > 1 else ""
     if cmd == "register":
@@ -692,6 +750,8 @@ def main(argv):
         return sample(*_parse_bridge_flags(argv[2:]), only=only)
     if cmd == "assemble":
         return assemble()
+    if cmd == "migrate":
+        return migrate(dry_run="--dry-run" in argv[2:])
     if cmd == "render":
         if len(argv) < 3:
             print("usage: extract.py render <clip_name> [--host H --port P --instance Name@hash]"); return 2
@@ -718,7 +778,7 @@ def main(argv):
             return rc
         return author(argv[2])
     print("usage: extract.py [register <clip>|resolve-controller <clip>|emit-sampler|sample [clip]|assemble|"
-          "render <clip>|propose <clip>|author <clip|all>]")
+          "migrate [--dry-run]|render <clip>|propose <clip>|author <clip|all>]")
     print("  bridge options: --host H (default %s)  --port P (default %d)  --instance Name@hash"
           % (unity_sampler.DEFAULT_HOST, unity_sampler.DEFAULT_PORT))
     return 2

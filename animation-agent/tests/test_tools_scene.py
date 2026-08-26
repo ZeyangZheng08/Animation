@@ -58,6 +58,13 @@ STANDING = {"playing": None, "going": False}
 # already doing rather than from a walk cycle she never performed.
 ROUTE = {"already_there": False}
 
+# The carry half of dc-walk-carry, written the way a plan writes it. Since v4 the agent names the
+# channels an overlay drives and the knowledge base no longer derives them (ADR 0022), so every test
+# that composes something has to say the split -- and this is the same list the eval ground truth in
+# `retrieval_eval_set.json` holds for that case.
+CARRY = {"action_id": "grab_bottle", "channels": ["right_arm", "right_hand"]}
+LEGS = ["left_leg", "right_leg"]
+
 
 def committed(submitted):
     """The plans that actually played. Since v4 every commit is preceded by the same plan sent as
@@ -344,10 +351,17 @@ async def test_query_says_which_ids_do_not_exist(wired):
     assert "scene_search" in out["note"]
 
 
-async def test_plan_derives_the_partition_and_sends_it_to_the_engine(wired):
+async def test_the_channel_split_the_plan_names_reaches_the_engine(wired):
+    """The split is the AGENT's since v4 (ADR 0022), so what this checks is carriage, not derivation:
+    the parts the plan named come out the other side masked to exactly those channels, the root goes
+    with the legs, and everything nobody asked for is reported free rather than quietly claimed.
+
+    The channel lists are dc-walk-carry's, out of `retrieval_eval_set.json`."""
     registry, submitted = wired
     out = await registry.dispatch("plan_motion", {
-        "character": "chr:CPRNurse", "base": "walking", "overlays": ["grab_bottle"],
+        "character": "chr:CPRNurse", "base": "walking",
+        "base_channels": ["left_leg", "right_leg"],
+        "overlays": [{"action_id": "grab_bottle", "channels": ["right_arm", "right_hand"]}],
         "ik_bindings": [{"effector": "right_hand", "object_id": "obj:AspirinBottle"}],
         "carry": [{"object_id": "obj:AspirinBottle", "hand": "right_hand"}]})
 
@@ -465,52 +479,74 @@ async def test_the_generated_descent_is_reachable_from_the_tool_the_model_is_giv
     assert any(s.get("generated") for s in submitted[-1]["steps"])
 
 
-async def test_a_contact_the_clip_already_animates_is_not_reported_as_missing(wired):
-    """The knowledge base answers this and the check was not reading it: `typing` records both hands as
-    `role: primary` with `contact: object:keyboard`, so the clip animates them against a keyboard
-    already. Calling that "not bound to anything in the scene" read as an instruction and the model
-    started binding wrists to grab points."""
+async def test_the_gate_reports_what_the_plan_binds_and_nothing_it_invents(wired):
+    """WHERE A GRIP IS NAMED CHANGED, and so did what this gate can say.
+
+    It used to read `channels.*.contact` off the knowledge base -- `typing` recorded both hands on
+    `object:keyboard` -- and report a hand the CLIP claimed as already grounded. v4 records do not say
+    what a hand holds (ADR 0022), because that is a fact about the scene. So the gate's source is the
+    plan, and what it reports is what the plan pinned: nothing, when nothing was pinned.
+    """
     registry, _ = wired
-    out = await registry.dispatch("plan_motion", {"base": "typing", "sit_on": "obj:Chair"})
-    assert out["success"]
-    contact = next(g for g in out["gates"] if g["id"] == "contact_grounded")
-    assert contact["status"] == "pass"
-    assert "animated against its object by the clip itself" in contact["detail"]
-    assert "Do not bind these hands yourself" in contact["hint"]
+    bare = await registry.dispatch("plan_motion", {"base": "typing", "sit_on": "obj:Chair"})
+    assert bare["success"]
+    gate = next(g for g in bare["gates"] if g["id"] == "contact_bindings")
+    assert gate["status"] == "pass"
+    assert gate["detail"] == "nothing is bound to the scene"
+    assert gate["plan_contacts"] == []
+
+    bound = await registry.dispatch("plan_motion", {
+        "base": "typing", "sit_on": "obj:Chair",
+        "ik_bindings": [{"effector": "left_hand", "object_id": "obj:Laptop"}]})
+    assert bound["success"]
+    gate = next(g for g in bound["gates"] if g["id"] == "contact_bindings")
+    assert gate["plan_contacts"] == [{"effector": "left_hand", "object_id": "obj:Laptop"}]
+    assert "left_hand -> obj:Laptop" in gate["detail"]
 
 
-async def test_declared_hands_are_bound_to_the_objects_own_per_hand_anchors(wired):
-    """The scene knew where each hand goes and the registry had never learned it: the laptop carries
-    LaptopHandLeft/Right and their elbow hints, the demo path engages them and the hands land 0.000 m
-    from it, and the agent path knew only a single grab point. `typing` declares both hands on the
-    keyboard, so the binding is derivable -- from the library and the registry, not from the model."""
+async def test_two_hands_land_on_an_object_that_says_where_both_of_them_go(wired):
+    """The scene knows this and nothing else does: the laptop carries LaptopHandLeft/Right and their
+    elbow hints, the demo path engages them and the hands land 0.000 m from it, and an agent binding
+    one hand and leaving the other gets one hand on the keyboard and one hovering a fifth of a metre
+    under it.
+
+    v3 read the pair out of the knowledge base -- `typing` declared both hands on `keyboard`, so both
+    were bound without the agent saying anything. The record no longer says that (ADR 0022), so the
+    agent names ONE binding and the OBJECT supplies the second. The rule is still the object's and
+    still not the model's."""
     registry, submitted = wired
-    out = await registry.dispatch("plan_motion", {"base": "typing", "sit_on": "obj:Chair"})
+    out = await registry.dispatch("plan_motion", {
+        "base": "typing", "sit_on": "obj:Chair",
+        "ik_bindings": [{"effector": "left_hand", "object_id": "obj:Laptop"}]})
     assert out["success"]
     assert {b["effector"]: b["object_id"] for b in submitted[-1]["ik"]} == {
         "left_hand": "obj:Laptop", "right_hand": "obj:Laptop"}
-    assert all("says where each one goes" in g["because"] for g in out["grounded_hands"])
+    assert [g["effector"] for g in out["paired_hands"]] == ["right_hand"]
+    assert all("says where both hands go" in g["because"] for g in out["paired_hands"])
 
 
-async def test_an_object_with_one_grab_point_binds_nothing(wired):
+async def test_an_object_with_one_grab_point_pairs_nothing(wired):
     """A bottle says where a hand goes only in the sense of being somewhere. Aiming two at it pulls both
-    wrists onto the same point, so where the object cannot say, nothing is bound and the clip is left
-    alone."""
+    wrists onto the same point, so where the object cannot say, the hand the plan named is the only one
+    bound and the clip keeps the other."""
     registry, submitted = wired
-    out = await registry.dispatch("plan_motion", {"base": "grab_bottle"})
+    out = await registry.dispatch("plan_motion", {
+        "base": "grab_bottle",
+        "ik_bindings": [{"effector": "right_hand", "object_id": "obj:AspirinBottle"}]})
     assert out["success"]
-    assert submitted[-1]["ik"] == []
-    assert "grounded_hands" not in out
+    assert [b["effector"] for b in submitted[-1]["ik"]] == ["right_hand"]
+    assert "paired_hands" not in out
 
 
-async def test_a_clip_carried_contact_is_measured_as_well_as_grounded(wired):
-    """Grounding and judging are separate. The hands are put on the object's own per-hand anchors, and
+async def test_a_bound_contact_is_measured_as_well_as_bound(wired):
+    """Binding and judging are separate. The hands are put on the object's own per-hand anchors, and
     the result is still measured, because reaching the anchors is not the same as the motion looking
     right: `typing` types 0.70 m above the floor and 0.33 m in front of the root, this laptop's deck is
     near 0.90 m, and where an object carries no anchors nothing is bound at all."""
     registry, submitted = wired
     out = await registry.dispatch("plan_motion", {
-        "base": "walking", "then": [{"base": "typing"}], "sit_on": "obj:Chair"})
+        "base": "walking", "then": [{"base": "typing"}], "sit_on": "obj:Chair",
+        "ik_bindings": [{"effector": "left_hand", "object_id": "obj:Laptop"}]})
     assert out["success"]
     expect = {c["effector"]: c for c in submitted[-1]["expect_contact"]}
     assert set(expect) == {"left_hand", "right_hand"}
@@ -642,39 +678,31 @@ async def test_a_standing_action_needs_no_seat(wired):
     assert out["success"]
 
 
-async def test_a_contested_hand_loses_its_object_and_says_so(wired):
-    """`giving_pills` and `cpr` both grip both hands. The plan plays -- one hand keeps one of the two
-    motions, the other's object is simply not attached -- and every dropped object is named, because a
-    reply describing her handing over pills that were never in her hand is the failure here."""
+async def test_two_hands_aimed_at_one_object_are_warned_about_not_refused(wired):
+    """The shape that once pulled both of typing's wrists onto a single grab point -- measured, right
+    hand 0.000 m and left 0.065 m, which is clasping rather than typing. A warn rather than a refusal
+    because an object CAN say where both hands go, and when it does that is exactly what should
+    happen; the object is asked, in `_pair_bound_hands`."""
     registry, submitted = wired
     out = await registry.dispatch("plan_motion", {
-        "character": "c", "base": "idle", "overlays": ["giving_pills", "cpr"]})
-    assert out["success"]
-    channels = {d["channel"] for d in out["dropped_grips"]}
-    assert {"left_hand", "right_hand"} <= channels
+        "base": "grab_bottle",
+        "ik_bindings": [{"effector": "left_hand", "object_id": "obj:AspirinBottle"},
+                        {"effector": "right_hand", "object_id": "obj:AspirinBottle"}]})
+    assert out["success"], out.get("error")
+    gate = next(g for g in out["gates"] if g["id"] == "contact_bindings")
+    assert gate["status"] == "warn"
+    assert "Bind one hand" in gate["hint"]
     assert submitted           # and it really was sent, rather than refused quietly
 
 
 async def test_mixing_postures_fails_the_cheap_gate_before_any_round_trip(wired):
     registry, submitted = wired
     out = await registry.dispatch("plan_motion", {
-        "character": "c", "base": "typing", "overlays": ["grab_bottle"]})
+        "character": "c", "base": "typing",
+        "overlays": [{"action_id": "grab_bottle", "channels": ["right_arm", "right_hand"]}]})
     assert out["success"] is False
     assert "seated" in out["error"] and "standing" in out["error"]
     assert not submitted
-
-
-async def test_a_hand_contact_is_named_without_being_called_missing(wired):
-    """grab_bottle's right hand touches the aspirin bottle and the clip animates it doing so. Saying
-    which object is worth saying; calling it unbound was not, because the fix it implied -- an IK
-    binding -- is the wrong mechanism. What grounds it is carrying the bottle or standing at it."""
-    registry, _ = wired
-    out = await registry.dispatch("plan_motion", {"base": "grab_bottle"})
-    contact = next(g for g in out["gates"] if g["id"] == "contact_grounded")
-    assert contact["status"] == "pass"
-    assert "aspirin_bottle" in contact["detail"]
-    assert "move_to it" in contact["hint"]
-    assert out["success"]
 
 
 async def test_scene_tools_degrade_when_the_engine_is_absent(kb, unused_tcp_port):
@@ -754,7 +782,7 @@ async def test_every_object_the_model_names_is_looked_up_not_just_the_seat(wired
 async def test_a_carried_object_is_looked_up_too(wired):
     registry, submitted = wired
     out = await registry.dispatch("plan_motion", {
-        "base": "walking", "overlays": ["grab_bottle"],
+        "base": "walking", "overlays": [CARRY],
         "carry": [{"object_id": "Aspirin Bottle", "hand": "right_hand"}]})
 
     assert out["success"] is True
@@ -806,7 +834,7 @@ async def test_a_walk_with_an_overlay_is_still_planned(wired):
     carries the posture -- walking while grabbing a bottle -- and taking that away would remove a
     capability over a plan the model may yet follow with a move_to."""
     registry, submitted = wired
-    out = await registry.dispatch("plan_motion", {"base": "walking", "overlays": ["grab_bottle"]})
+    out = await registry.dispatch("plan_motion", {"base": "walking", "overlays": [CARRY]})
 
     assert out["success"] is True
     assert submitted[-1]["steps"][0]["action_id"] == "walking"
@@ -845,17 +873,23 @@ async def test_a_walk_stays_a_walk_while_she_really_is_walking(wired):
 
 
 async def test_a_hand_binding_waits_for_the_step_that_reaches(wired):
-    """The laptop's per-hand anchors are bound for her, because `typing` records both hands on a
-    keyboard. They must not engage during the walk that gets her there: measured, the walk played with
+    """A binding must not engage during the walk that gets her there: measured, the walk played with
     her arms stretched back toward the desk, and no geometric check saw it, because every one of them
-    is about where she ends UP."""
+    is about where she ends UP.
+
+    WHICH step it belongs to used to be read off the knowledge base -- `typing` recorded both hands
+    on a keyboard and `walking` recorded them free, so the step that touched something identified
+    itself. v4 records say no such thing (ADR 0022), so the plan is asked instead: a step whose
+    layers explicitly drive this hand, and failing that the LAST step, because a plan with several
+    steps that pins a hand is pinning it to what it walks towards."""
     registry, submitted = wired
     out = await registry.dispatch("plan_motion", {
-        "base": "walking", "then": [{"base": "typing"}], "sit_on": "obj:Chair"})
+        "base": "walking", "then": [{"base": "typing"}], "sit_on": "obj:Chair",
+        "ik_bindings": [{"effector": "left_hand", "object_id": "obj:Laptop"}]})
 
     assert out["success"] is True
     sent = submitted[-1]
-    assert sent["ik"], "the laptop publishes a per-hand anchor, so the hands are grounded for her"
+    assert len(sent["ik"]) == 2, "the laptop says where both hands go, so both are bound"
     for binding in sent["ik"]:
         assert binding["at_s"] > 0.0, "a binding for the typing step cannot start during the walk"
 
@@ -909,20 +943,50 @@ async def test_walking_to_the_seat_leaves_no_standstill_in_between(walked):
     assert out["walked"]["path_length_m"] == 1.08 and out["walked"]["arrived"] is True
 
 
-async def test_the_facing_comes_from_what_the_action_touches(walked):
-    """A character faces the thing the action she is about to perform interacts with. `typing` records
-    both hands as `contact: object:keyboard` and the registry aliases that to the laptop, so nothing
-    is authored per seat -- and the seat does not get a vote, which is how she came to sit with her
-    back to the desk when the facing was taken from the chair."""
+async def test_the_facing_comes_from_what_the_plan_aims_at(walked):
+    """A character faces the thing the motion she is about to perform interacts with, and the seat
+    does not get a vote -- which is how she came to sit with her back to the desk when the facing was
+    taken from the chair. THE RULE IS UNCHANGED; where it reads the answer is not.
+
+    v3 read it off the knowledge base: `typing` spelled both hands `contact: object:keyboard` and the
+    registry's alias list joined `keyboard` to `obj:Laptop`. A v4 record says how a hand moves, not
+    what it is on (ADR 0022), so the answer comes from the plan -- which names the object once, and
+    names it as a scene id, so there is no alias round trip and no ambiguity to refuse."""
     registry, _, moves = walked
     out = await registry.dispatch("plan_motion", {
         "base": "walking", "walk_to": "obj:Chair", "then": [{"base": "typing"}],
-        "sit_on": "obj:Chair"})
+        "sit_on": "obj:Chair",
+        "ik_bindings": [{"effector": "left_hand", "object_id": "obj:Laptop"}]})
 
     assert out["success"] is True
     assert out["walked"]["facing"] == "obj:Laptop"
-    assert "typing" in out["walked"]["facing_from"]
+    assert out["walked"]["facing_from"] == "left_hand is bound to it"
     assert [m["face_only"] for m in moves if m.get("face_only")] == ["obj:Laptop"]
+
+
+async def test_a_gaze_decides_the_facing_only_when_nothing_is_held(walked):
+    """Hands before gaze, in a fixed order, so the same plan resolves the same way twice. Looking at
+    a monitor while working on a patient should not turn the body away from the patient."""
+    registry, _, moves = walked
+    out = await registry.dispatch("plan_motion", {
+        "base": "walking", "walk_to": "obj:Chair", "then": [{"base": "typing"}],
+        "sit_on": "obj:Chair", "gaze_at": "obj:MonitorVitals"})
+
+    assert out["success"] is True
+    assert out["walked"]["facing"] == "obj:MonitorVitals"
+    assert out["walked"]["facing_from"] == "she is looking at it"
+
+
+async def test_a_plan_that_aims_at_nothing_leaves_the_facing_to_the_route(walked):
+    """Also correct: there is nothing it is aimed at. `walking` and `idle` on their own take this
+    branch, where v3 would have gone looking through the KB's contacts for a target."""
+    registry, _, moves = walked
+    out = await registry.dispatch("plan_motion", {
+        "base": "walking", "overlays": [CARRY], "walk_to": "obj:Patient"})
+
+    assert out["success"] is True
+    assert "facing" not in out["walked"]
+    assert not [m for m in moves if m.get("face_only")]
 
 
 async def test_an_overlay_plays_on_top_of_the_walk_that_gets_her_there(walked):
@@ -934,28 +998,33 @@ async def test_an_overlay_plays_on_top_of_the_walk_that_gets_her_there(walked):
     """
     registry, submitted, _ = walked
     out = await registry.dispatch("plan_motion", {
-        "base": "walking", "overlays": ["grab_bottle"], "walk_to": "obj:Patient"})
+        "base": "walking", "overlays": [CARRY], "walk_to": "obj:Patient"})
 
     assert out["success"] is True
     departure = submitted[0]["steps"][0]
     assert departure["action_id"] == "walking"
     assert [l["action_id"] for l in departure["layers"]] == ["walking", "grab_bottle"]
-    assert out["walked"]["while_walking"] == ["grab_bottle"]
+    assert out["walked"]["while_walking"] == [CARRY]
 
 
 async def test_the_overlay_carries_on_after_the_walk_ends(walked):
     """The walk is over; the overlay is not. Committing `walking` again would stride her on the spot,
-    so what is left is the same overlay over a stance -- `idle` claims no channel, so nothing about
-    the arm changes. What must not happen is the reach ending because the crossing did."""
+    so what is left is the same overlay over a stance. What must not happen is the reach ending
+    because the crossing did."""
     registry, submitted, _ = walked
     out = await registry.dispatch("plan_motion", {
-        "base": "walking", "overlays": ["grab_bottle"], "walk_to": "obj:Patient"})
+        "base": "walking", "overlays": [CARRY], "walk_to": "obj:Patient"})
 
     assert out["success"] is True
-    # `idle` under a lone overlay is promoted away rather than layered -- it is `free` on every
-    # channel, so it would sit underneath claiming nothing. What is left is the reach, standing.
-    assert [l["action_id"] for l in submitted[-1]["steps"][0]["layers"]] == ["grab_bottle"]
-    assert out["played_while_walking"]["overlays"] == ["grab_bottle"]
+    # `idle` STAYS UNDERNEATH now, where v3 promoted it away. It claims no channel -- the plan gave
+    # it none -- so it drives nothing the overlay wanted; it plays layer 0 full-body and holds up the
+    # rest of her while the reach carries on over the top. The arm is unchanged either way; what
+    # changed is that a base claiming nothing is no longer a special case to be probed for.
+    layers = {l["action_id"]: l for l in submitted[-1]["steps"][0]["layers"]}
+    assert set(layers) == {"idle", "grab_bottle"}
+    assert layers["idle"]["channels"] == ["root"] and layers["idle"]["source"] == "base"
+    assert layers["grab_bottle"]["channels"] == ["right_arm", "right_hand"]
+    assert out["played_while_walking"]["overlays"] == [CARRY]
 
 
 async def test_a_walk_to_nowhere_plays_nothing(walked):
@@ -1007,11 +1076,16 @@ async def test_an_action_cannot_fight_itself(wired):
     """Measured on a live turn: the model sent `typing` twice in one call and got back "these actions
     fight over the same body parts: left_arm (typing and typing)" -- true, about nothing."""
     registry, _ = wired
-    out = await registry.dispatch("plan_motion", {"base": "idle", "overlays": ["cpr", "cpr"]})
+    out = await registry.dispatch("plan_motion", {
+        "base": "idle",
+        "overlays": [{"action_id": "cpr", "channels": ["torso", "left_arm"]},
+                     {"action_id": "cpr", "channels": ["right_arm"]}]})
     assert out["success"] is True, out.get("error")
-    # The repeat is dropped, not layered: one overlay over idle is how a lone overlay is played, so
-    # this resolves to cpr itself rather than to a composition of cpr with cpr.
+    # The repeat is merged, not layered twice: the second entry says nothing the first did not, so
+    # what comes out is one cpr driving the union of the two channel lists. Over an idle that claims
+    # nothing, that is cpr itself rather than a composition of cpr with cpr.
     assert out["retrieval"] == {"type": "full_match", "action_id": "cpr"}
+    assert sorted(out["derived"]["layers"][-1]["channels"]) == ["left_arm", "right_arm", "torso"]
     driving = [layer["action_id"] for layer in out["derived"]["layers"]]
     assert driving.count("cpr") == 1, "the repeat asked for the same layer twice"
 
@@ -1025,8 +1099,10 @@ async def test_a_plan_records_which_branch_the_library_answered_on(wired):
     whole = await registry.dispatch("plan_motion", {"base": "cpr"})
     assert whole["retrieval"] == {"type": "full_match", "action_id": "cpr"}
 
-    composed = await registry.dispatch("plan_motion", {"base": "walking",
-                                                      "overlays": ["giving_pills"]})
+    composed = await registry.dispatch("plan_motion", {
+        "base": "walking", "base_channels": LEGS,
+        "overlays": [{"action_id": "giving_pills",
+                      "channels": ["torso", "left_arm", "right_arm", "left_hand", "right_hand"]}]})
     assert composed["retrieval"]["type"] == "decompose"
     by_action = {p["action_id"]: set(p["channels"]) for p in composed["retrieval"]["parts"]}
     assert set(by_action) == {"walking", "giving_pills"}
@@ -1040,36 +1116,51 @@ async def test_the_verdict_is_the_one_the_eval_scores(wired, kb):
     from agent import assemble as A
 
     registry, _ = wired
-    out = await registry.dispatch("plan_motion", {"base": "walking", "overlays": ["giving_pills"]})
-    assert out["retrieval"] == A.verdict(A.arbitrate("walking", ["giving_pills"], kb))
+    overlays = [{"action_id": "giving_pills", "channels": ["torso", "left_arm", "right_arm"]}]
+    out = await registry.dispatch("plan_motion", {
+        "base": "walking", "base_channels": LEGS, "overlays": overlays})
+    assert out["retrieval"] == A.verdict(
+        A.arbitrate("walking", overlays, kb, base_channels=LEGS))
 
 
 # ---- a channel with two sources, all the way to the wire ----------------------------------------
+#
+# A MIX IS NOW SOMETHING THE PLAN ASKS FOR. Under v3 it fell out of the role table -- walking took the
+# legs as `primary` and giving_pills braced them as `support`, and the two labels met on one channel.
+# v4 has no labels to meet (ADR 0022), so a contested channel is one the plan named twice: the base
+# reserved it with `base_channels` and an overlay asked for it anyway. The engine-side half of the
+# mechanism -- its own layer, its own weight, its own aligned entry frame -- is unchanged, and that is
+# what these are about.
+
+MIXED_LEGS = {"base": "giving_pills", "base_channels": LEGS,
+              "overlays": [{"action_id": "walking", "channels": LEGS}],
+              "mode": "commit"}
+
 
 async def test_a_mix_reaches_the_engine_as_its_own_layer(wired):
-    """The end of the chain the role table starts. walking takes the legs as `primary`, giving_pills
-    braces them as `support`, and what leaves here is a layer masked to those legs at the share the
-    table gave it -- not a leg the walk simply won."""
+    """The end of the chain. Both parts were asked for on the legs, so what leaves here is a layer
+    masked to those legs at half weight -- not a leg one of them simply won."""
     registry, submitted = wired
-    await registry.dispatch("plan_motion", {"base": "giving_pills", "overlays": ["walking"],
-                                            "mode": "commit"})
+    await registry.dispatch("plan_motion", dict(MIXED_LEGS))
     layers = submitted[-1]["steps"][0]["layers"]
     mixed = [l for l in layers if l.get("source") == "mix"]
     assert len(mixed) == 1
     assert mixed[0]["action_id"] == "walking"
     assert sorted(mixed[0]["channels"]) == ["left_leg", "right_leg"]
-    assert mixed[0]["weight"] == pytest.approx(0.6)
+    # 0.5, not the 0.6 the normalised role table used to give. There is nothing left to rank the two
+    # claims by, and a weight invented here would be the plan emitting a motion numeric by proxy.
+    assert mixed[0]["weight"] == pytest.approx(0.5)
 
 
 async def test_the_owner_of_a_mixed_channel_does_not_also_mask_it(wired):
-    """A layer masked to a channel at full weight IS winner-take-all. walking owns the legs in the
-    ownership partition and must not carry them into its own mask, or the mix never happens."""
+    """A layer masked to a channel at full weight IS winner-take-all. The mix's owner holds the legs
+    in the ownership partition and must not carry them into its own mask, or the mix never happens."""
     registry, submitted = wired
-    await registry.dispatch("plan_motion", {"base": "giving_pills", "overlays": ["walking"],
-                                            "mode": "commit"})
+    await registry.dispatch("plan_motion", dict(MIXED_LEGS))
     layers = submitted[-1]["steps"][0]["layers"]
-    outright = [l for l in layers if l.get("source") == "overlay" and l["action_id"] == "walking"]
-    assert outright and outright[0]["channels"] == ["root"]
+    assert not [l for l in layers if l.get("source") == "overlay" and l["action_id"] == "walking"], \
+        "walking drives the legs only through the mix, so it may not also be masked to them"
+    assert [l["action_id"] for l in layers if l.get("source") == "mix"] == ["walking"]
     assert all(l.get("weight", 1.0) == 1.0 for l in layers if l.get("source") != "mix")
 
 
@@ -1077,8 +1168,7 @@ async def test_a_mixed_layer_enters_on_its_aligned_frame(wired):
     """Averaging two poses half a stride apart puts the legs where neither clip put them, so the
     overlay enters where the channels already agree rather than at frame 0."""
     registry, submitted = wired
-    await registry.dispatch("plan_motion", {"base": "giving_pills", "overlays": ["walking"],
-                                            "mode": "commit"})
+    await registry.dispatch("plan_motion", dict(MIXED_LEGS))
     mixed = [l for l in submitted[-1]["steps"][0]["layers"] if l.get("source") == "mix"][0]
     assert mixed["clip_start_frame"] > 0
     # Reported so a mix that had to average two distant poses is visible as such.
@@ -1089,8 +1179,7 @@ async def test_both_mixed_channels_of_one_clip_share_a_phase(wired):
     """Two legs at two phases is two legs stepping independently. Asked separately they want frames
     11 and 1; a clip is one performance, so they get one frame between them."""
     registry, submitted = wired
-    await registry.dispatch("plan_motion", {"base": "giving_pills", "overlays": ["walking"],
-                                            "mode": "commit"})
+    await registry.dispatch("plan_motion", dict(MIXED_LEGS))
     mixed = [l for l in submitted[-1]["steps"][0]["layers"] if l.get("source") == "mix"]
     assert len({l["clip_start_frame"] for l in mixed}) == 1
 
@@ -1099,8 +1188,8 @@ async def test_a_plan_with_no_contested_channel_carries_no_weights(wired):
     """dc-walk-carry's shape. Nothing here is contested, so nothing may acquire a weight or a mix --
     this is the guard that mixing did not change every plan that came before it."""
     registry, submitted = wired
-    await registry.dispatch("plan_motion", {"base": "walking", "overlays": ["grab_bottle"],
-                                            "mode": "commit"})
+    await registry.dispatch("plan_motion", {"base": "walking", "base_channels": LEGS,
+                                            "overlays": [CARRY], "mode": "commit"})
     layers = submitted[-1]["steps"][0]["layers"]
     assert not [l for l in layers if l.get("source") == "mix"]
     assert all("weight" not in l for l in layers)
@@ -1111,8 +1200,8 @@ async def test_the_base_is_never_cut_and_an_overlay_is(wired):
     for six frames; the overlay contributes the reach and leaves them, while `walking` -- the base,
     which sets the posture everything else hangs on -- keeps every frame it has."""
     registry, submitted = wired
-    await registry.dispatch("plan_motion", {"base": "walking", "overlays": ["grab_bottle"],
-                                            "mode": "commit"})
+    await registry.dispatch("plan_motion", {"base": "walking", "base_channels": LEGS,
+                                            "overlays": [CARRY], "mode": "commit"})
     layers = {l["action_id"]: l for l in submitted[-1]["steps"][0]["layers"]}
     assert "clip_end_frame" not in layers["walking"]
     assert layers["grab_bottle"]["clip_end_frame"] == 34
@@ -1124,8 +1213,9 @@ async def test_a_repeating_overlay_contributes_one_repetition(wired):
     """`cpr` is thirty chest compressions over eighteen seconds. Walking while doing them wants one
     compression, looping, not an arm that outlives the walk by seventeen seconds."""
     registry, submitted = wired
-    await registry.dispatch("plan_motion", {"base": "walking", "overlays": ["cpr"],
-                                            "mode": "commit"})
+    await registry.dispatch("plan_motion", {
+        "base": "walking", "base_channels": LEGS, "mode": "commit",
+        "overlays": [{"action_id": "cpr", "channels": ["torso", "left_arm", "right_arm"]}]})
     layers = {l["action_id"]: l for l in submitted[-1]["steps"][0]["layers"]}
     cpr = layers["cpr"]
     assert (cpr["clip_start_frame"], cpr["clip_end_frame"]) == (0, 18)
@@ -1133,18 +1223,40 @@ async def test_a_repeating_overlay_contributes_one_repetition(wired):
     assert "repetition" in cpr["window_why"]
 
 
-async def test_two_grips_the_request_named_are_refused_by_name(wired):
-    """Asked to carry the bottle AND to press on the chest, there is nothing left to decide: the
-    caller decided twice. The refusal names the two things, because "they conflict" does not tell the
-    model which pair to break up."""
+async def test_a_pinned_hand_two_actions_drive_is_refused_by_name(wired):
+    """Asked to carry the bottle in that hand AND to drive it from two clips, there is nothing left
+    to decide: half a hand shaped for a bottle and half shaped for a chest grips neither, and the IK
+    constraint then drags the wrist of a pose that was never a grip. A hand is a shape, not an axis,
+    so this is the one contested channel that is refused rather than halved.
+
+    v3 got here a different way: both records DECLARED a contact, one hand could serve only one of
+    them, and the loser had its object detached and reported as a `dropped_grip`. A v4 record
+    declares nothing (ADR 0022) -- what a hand holds is named once, by the plan -- so there is no
+    second grip left to drop, and the refusal names the body part and the pair instead of two
+    objects."""
     registry, _ = wired
     out = await registry.dispatch("plan_motion", {
-        "base": "cpr", "overlays": ["grab_bottle"], "mode": "commit",
-        "carry": [{"object_id": "obj:AspirinBottle", "hand": "right_hand"}],
-        "ik_bindings": [{"effector": "right_hand", "object_id": "obj:Patient"}]})
+        "base": "cpr", "base_channels": ["right_hand"], "mode": "commit",
+        "overlays": [{"action_id": "grab_bottle", "channels": ["right_arm", "right_hand"]}],
+        "carry": [{"object_id": "obj:AspirinBottle", "hand": "right_hand"}]})
     assert out["success"] is False
     assert "right_hand" in out["error"]
-    assert "patient_chest" in out["error"] and "aspirin_bottle" in out["error"]
+    assert "cpr and grab_bottle" in out["error"]
+    assert "holds neither" in out["error"]
+    assert "one after the other with `then`" in out["hint"]
+
+
+async def test_the_same_pair_is_mixed_when_the_plan_pins_nothing(wired):
+    """The refusal above is about the PIN, not about the hand. Drop the carry and the two claims are
+    an ordinary contested channel, which is halved and played -- because nothing in the record says
+    either clip is holding anything."""
+    registry, submitted = wired
+    out = await registry.dispatch("plan_motion", {
+        "base": "cpr", "base_channels": ["right_hand"], "mode": "commit",
+        "overlays": [{"action_id": "grab_bottle", "channels": ["right_arm", "right_hand"]}]})
+    assert out["success"] is True, out.get("error")
+    mixed = [l for l in submitted[-1]["steps"][0]["layers"] if l.get("source") == "mix"]
+    assert [l["channels"] for l in mixed] == [["right_hand"]]
 
 
 # ---- getting up, which is the same machinery as sitting down with the ends swapped ---------------
@@ -1429,7 +1541,7 @@ async def test_the_walk_itself_is_checked_before_it_starts(walked):
     the last."""
     registry, submitted, moves = walked
     out = await registry.dispatch("plan_motion", {
-        "base": "walking", "overlays": ["grab_bottle"], "walk_to": "obj:Chair"})
+        "base": "walking", "overlays": [CARRY], "walk_to": "obj:Chair"})
 
     assert out["success"]
     probes = checked(submitted)

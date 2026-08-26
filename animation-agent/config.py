@@ -1,22 +1,27 @@
 """
-config.py — the canonical, ENGINE-NEUTRAL knowledge of the MotionKB v3 extractor.
+config.py — the canonical, ENGINE-NEUTRAL knowledge of the MotionKB v4 extractor.
 
 This module is the single source of truth for the body-part split and the measurement
 normalization. It is pure Python and Unity-independent: Unity is touched ONLY to sample muscle
 clips (see unity_sampler.py), and even the bone names here are plain strings that the generic
-Unity sampler resolves — the partition and metric live in Python, by design (the multi-agent
+Unity sampler resolves — the split and the metric live in Python, by design (the multi-agent
 system is decoupled from the engine).
 
-9 channels = 8 anatomical (PARTITION set, partitioned by composability.locks/free) + 1 root
-(locomotion-owned, kinematic-only, NOT partitioned). v2 split locked 2026-06-18:
+9 channels = 8 ANATOMICAL (each carrying a kinematic block and one motion_description) + 1 root
+(kinematic-only, no description). v2 split locked 2026-06-18:
   - laterality split kept for legs AND hands (general design; forward-declared for future clips)
   - clavicle (shoulder) AND wrist both belong to the ARM channel in all engines; HAND = fingers only
-  - foot+toes fold into the LEG channel; foot ground-contact lives in the orthogonal IK layer
+  - foot+toes fold into the LEG channel; where a foot contacts is a runtime reading, not a KB field
 
 Divisors/thresholds are FROZEN and reproducible from the frozen dumps in raw/ via
 calibrate_divisors.py — no engine needed. Each divisor is fitted so the CORPUS p99 of its raw signal
 normalises to 0.85 (ADR 0010); the static threshold sits in the gap above the corpus rest cluster.
 Bumping any value here is a metric_formula_version change.
+
+What a record may hold at all is ADR 0022's: the KB describes what an action LOOKS like and how each
+part MOVES, and every field that encoded a composition decision — roles, contacts, IK goals, the
+composability block — is gone, because those depend on the task and the scene and are the runtime
+agent's to make.
 
 The authority for what KINEMATIC means is, in order: ADR 0021 (the mean pose is stored as a vector
 and nothing is classified against an origin, v3.0.0), ADR 0019 (the variation divisors recalibrated
@@ -28,7 +33,7 @@ rationale of the split, not for numbers.
 All identifiers/comments are English (all-English-artifacts rule).
 """
 
-SCHEMA_VERSION   = "motionkb/v3"
+SCHEMA_VERSION   = "motionkb/v4"
 FORMULA_VERSION  = "v3.0.0"   # v3.0.0: posture is no longer classified against an origin. The
                               #         posture triple is deleted and each channel stores `mean_pose`
                               #         — the per-frame mean of its Humanoid muscle DOF — and the
@@ -46,7 +51,9 @@ FORMULA_VERSION  = "v3.0.0"   # v3.0.0: posture is no longer classified against 
                               # v2.3.0: + posture (mean-pose offset from rest) per channel (ADR 0018)
                               # v2.2.0: measured in Unity's normalised Humanoid space (ADR 0011)
 BONE_MAP_VERSION = "v2.0.0"
-EXTRACTOR_VERSION = "3.1.0"
+EXTRACTOR_VERSION = "4.0.0"   # 4.0.0: the motionkb/v4 contract — SEMANTIC collapses to descriptions.
+                              #        No number moved, so FORMULA_VERSION stays v3.0.0; what changed
+                              #        is which fields a record may hold at all (ADR 0022)
 # The avatar the SAMPLER runs on. Provenance only: it records which body produced the dumps in
 # raw/, and it does not enter any number. See the block below RENDER_AVATAR.
 CALIBRATION_AVATAR = "nurse_avatar.fbx"
@@ -98,8 +105,11 @@ RIGHT_LEG  = "right_leg"
 LEFT_HAND  = "left_hand"
 RIGHT_HAND = "right_hand"
 
-STATE_CHANNELS     = [ROOT, TORSO, HEAD, LEFT_ARM, RIGHT_ARM, LEFT_LEG, RIGHT_LEG, LEFT_HAND, RIGHT_HAND]  # 9 (kinematic + state_label)
-PARTITION_CHANNELS = [TORSO, HEAD, LEFT_ARM, RIGHT_ARM, LEFT_LEG, RIGHT_LEG, LEFT_HAND, RIGHT_HAND]        # 8 (locks/free)
+STATE_CHANNELS      = [ROOT, TORSO, HEAD, LEFT_ARM, RIGHT_ARM, LEFT_LEG, RIGHT_LEG, LEFT_HAND, RIGHT_HAND]  # 9 (kinematic)
+# The eight that carry a motion_description. Called PARTITION_CHANNELS until v4, after the
+# composability.locks/free partition it was the domain of; that partition is gone (ADR 0022) and the
+# set survives it, because "the anatomical channels, root excluded" is what it always denoted.
+ANATOMICAL_CHANNELS = [TORSO, HEAD, LEFT_ARM, RIGHT_ARM, LEFT_LEG, RIGHT_LEG, LEFT_HAND, RIGHT_HAND]        # 8
 
 # ---- Channel -> Unity HumanBodyBones names (the sampler resolves these; Python owns the grouping) ----
 ARM_BONES = {

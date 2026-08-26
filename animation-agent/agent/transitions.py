@@ -26,6 +26,8 @@ import os
 import config
 import paths
 
+from . import kbindex
+
 # Angular rate a joint is allowed to sweep during a blend. A blend that moves the average joint faster
 # than this reads as a snap. This is an ASSUMPTION, stated here so the gate's velocity-continuity
 # measurement can falsify it — it was not fitted to any evaluation set.
@@ -50,6 +52,10 @@ FINGER_CHANNELS = ("left_hand", "right_hand")
 # Between any ground contact and the root. Fixed by the humanoid rig: the feet hang off the legs, the
 # legs off the hips, the hips are the root. See `support_channels` for why that matters.
 CARRIES_WEIGHT_ALWAYS = ("root", "torso")
+
+# What a standing body's weight is on. The legs are between the floor and the hips on every humanoid
+# rig, so a clip performed on the feet carries its load through them.
+LEG_CHANNELS = ("left_leg", "right_leg")
 
 # Fraction of each clip the seam search may look at: the tail of A, the head of B. Wide enough to find
 # a compatible moment, narrow enough that a "transition" is still recognisably a join of the two.
@@ -193,43 +199,58 @@ def support_channels(rec_a, rec_b):
     has spent that descent straightening under a pelvis that was already on its way down. That is the
     pose nobody performs, and it is what the first version of the generated sit produced.
 
-    Read off `contact`, not listed here: a channel touching the ground is load-bearing whichever action
-    it belongs to, and the two ends of a seam are both consulted because a contact that is being taken up
-    or given up is still being stood on for part of the blend. Everything between that contact and the
-    root goes with it — for a foot that is the leg it belongs to plus the hips and spine, and for a hand
-    on the ground it is that hand's arm.
+    WHAT IS STANDING ON WHAT, without a `contact` field to read it off. v3 read `contact == "ground"`
+    per channel; v4 records do not say what a channel touches (ADR 0022), because that is a fact about
+    the scene the clip is played in. So the question is answered from the CARRIAGE, which is measured:
+    a standing clip has its weight on both legs, and a seated one has it on the pelvis and spine. Both
+    ends of a seam are consulted, because a support being taken up or given up is still being stood on
+    for part of the blend.
+
+    This reproduces the v3 answer on the whole accepted corpus -- every standing record marked both
+    legs `ground`, and the one seated record marked neither -- and it degrades in the safe direction:
+    the set only ever grows, and a channel wrongly held to cross the whole seam costs a slightly worse
+    blend, while one wrongly allowed to arrive late costs a leg straightening under a descending
+    pelvis, which is the pose nobody performs.
+
+    A hand on the ground -- a push-up, a crawl -- is no longer detectable and is not guessed at. The
+    corpus has no such clip, and inventing a rule for one from a mean pose would be the kind of
+    threshold this project deletes rather than tunes.
     """
     out = set(CARRIES_WEIGHT_ALWAYS)
     for rec in (rec_a, rec_b):
-        for channel, spec in (rec.get("channels") or {}).items():
-            if (spec or {}).get("contact") != "ground":
-                continue
-            out.add(channel)
-            if channel in FINGER_CHANNELS:
-                out.add(channel.replace("_hand", "_arm"))
+        if kbindex.posture_of(rec) == "standing":
+            out.update(LEG_CHANNELS)
     return out
 
 
 # ---- trim budget -----------------------------------------------------------------------------
 
 def payload_window(record, frames):
-    """The frames a seam must not cut into: the span where a `primary` channel is touching an object.
+    """The frames a seam must not cut into: the span where the thing the clip is FOR happens.
 
     Cutting the tail off `grab_bottle` removes the grasp and the action stops being itself. A loop has
     no payload in this sense — every frame of a walk cycle is as good as any other — so it returns None
     and the whole clip is available.
 
-    The knowledge base has no per-frame contact track, so this is deliberately coarse: an action with an
-    object contact on a primary channel protects its whole middle, keeping only the outer eighths
-    trimmable. That is a conservative budget, and being conservative here costs a slightly worse seam
-    while being wrong the other way costs the action's meaning.
+    WHAT MARKS A PAYLOAD, now that a record does not say what it holds. v3 asked for an object contact
+    on a `primary` channel; both fields are gone (ADR 0022). What is left is measured, and it says the
+    same thing about this corpus: a one-shot whose HANDS move is a one-shot doing something with them.
+    `grab_bottle` reads 0.286 on the right hand, `giving_pills` 0.779 on the left, `check_pulse` 0.284;
+    the clips with nothing in their hands are the loops, which return above. The threshold is
+    `STATIC_MUSCLE`, the same constant the store uses to call a channel static at all, so nothing new
+    is calibrated here.
+
+    Deliberately coarse, as the v3 rule was: there is no per-frame contact track, so a clip with a
+    payload protects its whole middle and keeps only the outer eighths trimmable. Being conservative
+    costs a slightly worse seam; being wrong the other way costs the action's meaning.
     """
     if record.get("loop"):
         return None
     channels = record.get("channels") or {}
-    contacts = [ch for ch in channels.values()
-                if ch.get("role") == "primary" and str(ch.get("contact", "none")).startswith("object:")]
-    if not contacts:
+    busy_hands = [c for c in FINGER_CHANNELS
+                  if ((channels.get(c) or {}).get("raw_measurement") or {}).get("raw_value", 0.0)
+                  > config.STATIC_MUSCLE]
+    if not busy_hands:
         return None
     margin = max(1, int(frames * 0.125))
     return (margin, frames - 1 - margin)
@@ -352,8 +373,8 @@ def find_seam(from_id, to_id, kb, clips):
     seam = Seam(from_id, to_id, i, j, cost, 0, None, [], per_channel,
                 support_channels(rec_a, rec_b))
     frames = blend_frames_for(seam.pace_deg(), fps)
-    posture_a = (rec_a.get("composability") or {}).get("posture")
-    posture_b = (rec_b.get("composability") or {}).get("posture")
+    posture_a = kbindex.posture_of(rec_a)
+    posture_b = kbindex.posture_of(rec_b)
     cls = classify(frames, posture_a, posture_b)
 
     notes = []

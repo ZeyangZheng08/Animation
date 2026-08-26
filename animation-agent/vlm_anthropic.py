@@ -3,9 +3,9 @@ vlm_anthropic.py — minimal stdlib client for the MotionKB PROPOSE step's VLM (
 
 Drop-in sibling of `vlm_openai.py`: same three symbols (`MODEL`, `load_api_key`, `propose`) with the
 same signatures, so `propose.py` selects a provider by import rather than by branching. The propose
-step needs a vision-language model to look at rendered frames of a clip and PROPOSE the SEMANTIC
-fields (action_id + display_name + intent + tags + the per-channel 5-tuple); this module is the thin
-transport for that one call.
+step needs a vision-language model to look at rendered frames of a clip and PROPOSE the record's
+descriptions (action_id + action_description + one motion_description per anatomical channel); this
+module is the thin transport for that one call.
 
 No SDK — stdlib `urllib` only, matching `vlm_openai.py` and the rest of the offline pipeline, which
 `environment.yml` documents as running on a bare python3. (The official `anthropic` SDK is the
@@ -23,7 +23,7 @@ policy decline on one frame set would otherwise abort that clip's proposal. With
 different model rather than a failed clip.
 
 The API key is read from ANTHROPIC_API_KEY, else from a git-ignored `key.env`. NEVER commit it,
-NEVER log it. The proposal is gated downstream by `validate_semantic_consistency` (the model
+NEVER log it. The proposal is gated downstream by `validate_descriptions` (the model
 proposes; numbers stay KINEMATIC; a human may accept) — see ADR 0008.
 """
 import base64

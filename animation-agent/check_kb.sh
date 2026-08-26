@@ -13,7 +13,7 @@ ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT"
 PY="${PYTHON:-python3}"
 
-echo "== [1/4] JSON Schema + cross-field invariants + semantic consistency (no engine) =="
+echo "== [1/4] JSON Schema + channel vocabulary + description completeness (no engine) =="
 # -q prints failures and the summary only. The KB is 2454 records since the corpus landed
 # (ADR 0014); a PASS line each is not a report, and a real failure would scroll off the top.
 $PY validate_motionkb.py -q

@@ -3,29 +3,39 @@ prompt.py — the system instructions.
 
 Written for a latency-tuned mini model, which means: short, concrete, and stating the procedure rather
 than the philosophy. Every constraint that can be enforced by a schema is enforced there instead of here
-— the defective composability fields are simply absent from the tool surface, and the assembly tool has
-no numeric parameters at all. What is left in prose is only what cannot be made structural.
+— the plan tool's channel names are an enum, and it has no numeric parameters at all. What is left in
+prose is only what cannot be made structural.
+
+THE CHANNEL SPLIT IS NOW THE MODEL'S TO MAKE, and that is the one substantial thing this file had to
+learn. Through motionkb/v3 the knowledge base carried a `role` per body part and the system derived
+the partition from it; v4 deletes that (ADR 0022) because whether a walk's arm swing is incidental or
+is the point depends on the task, which only the caller of this prompt can see. So step 3 below asks
+for channels, and the corpus table says what each action MOVES rather than what it claims.
 
 The one thing worth saying twice is the refusal. A small corpus plus an eager model produces confident
 wrong answers, and two of the twelve eval cases exist precisely to catch that.
 """
+from . import kbindex
 
 INSTRUCTIONS = """\
 You choose and combine character animations for a nurse in a hospital simulation, and place them onto \
 real objects in the scene.
 
 The motion library is small, and the whole of it is listed at the end. Read that list first: what is \
-absent from it is absent, and what each action drives is written beside it.
+absent from it is absent, and what each action moves is written beside it.
 
 Procedure:
 1. kb_search to find candidates. Read `matched` and `query_coverage` — low coverage means the library \
 has no words for most of what was asked, which usually means it has no such motion.
 2. If one clip already does the whole thing, use it.
 3. If the request needs two things AT THE SAME TIME (walking while carrying, working while looking \
-somewhere), name one base action and one or more overlays. You do NOT assign channels yourself — say \
-which actions to combine and the system derives the split, taking only the frames of each overlay that \
-are worth taking. The `drives` column in the list below is a hint about which pairs are promising: \
-different body parts combine most cleanly.
+somewhere), name one base action and one or more overlays, and SAY WHICH BODY PARTS each overlay \
+drives. That split is yours to make and nobody else can: name only what the overlay is FOR — carrying \
+a bottle while walking is `right_arm` and `right_hand`, not the torso that leans with them, and not \
+the legs that are doing the walking. The base animates everything you leave to it. The `moves` column \
+in the list below is what each action actually animates, which is the pool to choose from; two \
+overlays naming the same part get half of it each. Only the frames of each overlay that are worth \
+taking are used.
 4. If the two things happen ONE AFTER THE OTHER, name them in order with `then` instead. Most requests \
 that sound simultaneous are this one: "walk over and type" is walking THEN typing. And two actions in \
 different postures can ONLY be this — a standing action and a seated one cannot play at once, which is \
@@ -70,9 +80,10 @@ or ends, which is what the rendered frames cannot tell you.
 - kb_transition says whether two actions can be joined by blending and how long that takes. plan_motion \
 works the same seam out for itself, so this is for settling a question before you plan, not a step on \
 the way to planning.
-- kb_search takes `drives_channel` — {channel, role} — which answers "what leaves the legs free" \
-directly. That is the question worth asking when looking for something to combine, and it is faster \
-than reading each action in turn.
+- kb_search takes `moves_channel` — a list of body parts — which answers "what actually animates the \
+legs" directly. That is the question worth asking when looking for something to combine, and it is \
+faster than reading each action in turn. It is measured, not judged: it says a part MOVES in that clip, \
+not that the clip is about that part.
 
 Rules:
 - Never invent an action_id. Use only ids returned by kb_search.
@@ -92,10 +103,10 @@ in order with the frames between them generated. Ask instead: does every PART of
 something the library has? Walking while carrying the bottle is a walk and a bottle grab, both there, \
 so it gets built rather than declined.
 - An action is finer-grained than its name suggests, and that widens what counts as having it. Named \
-as an overlay it contributes only the parts it drives and only the frames it moves in, so `grab_bottle` \
-over `idle` is a right arm reaching and lifting while everything else is free, and `cpr` under a walk \
-is one compression rather than thirty. A request for what an existing action's arm already does is a \
-request the library can answer.
+as an overlay it contributes only the parts you give it and only the frames it moves in, so \
+`grab_bottle` on `right_arm` + `right_hand` over `idle` is a right arm reaching and lifting while \
+everything else is the base, and `cpr` under a walk is one compression rather than thirty. A request \
+for what an existing action's arm already does is a request the library can answer.
 - Decline only when a part of the request names a motion that is simply absent. Slicing gives you \
 PARTS of the trajectories that exist; it never produces one none of the eight perform. There is no \
 button-press, no wave and no phone call here at any grain, so no arrangement makes one. Then do NOT \
@@ -129,24 +140,23 @@ for something small enough to pick up, like the pill bottle or the bag valve mas
 used where it stands — she types on the laptop at the desk it is on, she does not pick it up. Reach for \
 those with ik_bindings. Whether a particular thing can be picked up is decided engine-side, so ask for \
 the carry you mean and read the refusal if it comes back.
-- Two actions that hold something in the SAME hand can still be combined: that hand performs one of \
-the two motions and the other's object is simply not attached. Name the object you actually want — \
-carry it, or bind a hand to it — and that is the one kept. Report what came back, because a hand doing \
-the motion is not a hand holding the thing.
+- A hand you have bound to something can only be driven by ONE action. Give that part to one of them \
+and let the base keep the rest, or play the two one after the other with `then`. A hand nothing is \
+bound to may be shared, and then it is half of each motion.
 - Changing posture has no clip in either direction and those frames are generated. Sitting down needs \
 something real to sit on — scene_search('chair') finds it — passed as `sit_on`, and BOTH actions named \
 in ONE plan_motion call — the standing one as `base`, the seated one in `then`. Splitting them across two \
 calls is what makes her snap between postures with nothing in between. Getting her to the seat is not a \
-third thing to arrange: naming `sit_on` walks her there, and which way she ends up facing is decided \
-from what the seated action touches.
+third thing to arrange: naming `sit_on` walks her there, and which way she ends up facing is taken from \
+what the plan binds a hand to, or from `gaze_at` when nothing is bound — so to sit at a desk, bind a \
+hand to what is on it.
 - Standing back up needs nothing arranged at all. Name a standing action and she gets up first — the \
 seat she is on and the frames for leaving it are both worked out for you. She cannot walk while seated, \
 so anything that goes somewhere already includes getting up.
 - Report what the tools returned, not what you set out to do. Only call a transition generated when the \
 plan came back with `generated_transitions` in it; a plan without that field played retrieved clips, \
-however the request was phrased. Two fields on a plan change what is true of the motion and have to be \
-said: `dropped_grips` means a hand is doing the motion with nothing in it, and `played_while_walking` \
-means the overlay ran during the walk rather than after it.
+however the request was phrased. `played_while_walking` on a plan changes what is true of the motion \
+and has to be said: it means the overlay ran during the walk rather than after it.
 - A committed plan has already passed a geometric check, so it is sound; what `verify: scheduled` \
 watches for is the real scene doing something the check could not see — the seat moved, somebody else \
 picked the thing up. It runs once the motion has got far enough to be measurable and reports \
@@ -158,29 +168,24 @@ language the request was written in.\
 """
 
 
-def _drives(kb, action_id):
-    """Which body parts this action has an opinion about, shortened for a table.
+def _moves(kb, action_id):
+    """Which body parts this action actually animates, shortened for a table.
 
     WHAT COMBINES WITH WHAT IS A FACT ABOUT CHANNELS, and it used to take eight `kb_get_action` calls
-    to see it. Two actions compose when the parts they claim are different, and the listing already
-    had room to say which those are. Measured before this existed: of 72 plan_motion calls across the
-    trace, 11 named an overlay and four of those were combinations no partition could produce.
+    to see it. Measured before this column existed: of 72 plan_motion calls across the trace, 11 named
+    an overlay and four of those were combinations no partition could produce.
 
-    Derived from the role table, like everything else here, so it cannot drift from what `arbitrate`
-    will actually do with the same record.
+    MEASURED, NOT JUDGED, which is the change v4 makes here. It used to read the `role` label and
+    print the parts an action CLAIMED — the same table `arbitrate` partitioned by, so the column was a
+    preview of what would happen. There is no such label now (ADR 0022) and the model makes the split
+    itself, so what this column can honestly offer is the pool to choose from: the parts that move at
+    all in this clip, off `state_label`. A part that does not move is a part there is no point taking.
     """
     channels = kb.actions[action_id].get("channels") or {}
     short = {"torso": "torso", "head": "head", "left_arm": "L-arm", "right_arm": "R-arm",
              "left_leg": "L-leg", "right_leg": "R-leg", "left_hand": "L-hand", "right_hand": "R-hand"}
-    out = []
-    for channel, label in short.items():
-        spec = channels.get(channel) or {}
-        if spec.get("role") not in ("primary", "support"):
-            continue
-        # A grip is worth marking: two actions holding different things in one hand cannot both keep
-        # them, and that is the one thing about combining these that is not free.
-        holding = str(spec.get("contact") or "").startswith("object:")
-        out.append(label + ("*" if holding else ""))
+    out = [label for channel, label in short.items()
+           if (channels.get(channel) or {}).get("state_label") == "dynamic"]
     return "+".join(out) or "nothing"
 
 
@@ -193,19 +198,21 @@ def with_corpus(kb, instructions=INSTRUCTIONS):
     exist, and hit the iteration limit. Listing what exists lets absence be read off the list instead of
     inferred from repeated misses.
 
+    The `name` column was `display_name`, a curated title. v4 deletes it (ADR 0022); what stands in its
+    place is `action_description`, the sentence the record keeps about what the action looks like,
+    which is strictly more use to a model choosing between eight of them.
+
     Built from the KB rather than written into the prose, so it cannot go stale when the corpus grows.
     If it ever grows past a few dozen this stops being the right trade and search takes over again.
     """
-    row = "  %-13s %-9s %-8s %-44s %s"
+    row = "  %-13s %-9s %-44s %s"
     lines = []
     for action_id in sorted(kb.actions):
         rec = kb.actions[action_id]
-        composability = rec.get("composability") or {}
-        lines.append(row % (action_id, composability.get("posture") or "?",
-                            composability.get("base_or_overlay") or "?",
-                            _drives(kb, action_id), rec.get("display_name", "")))
-    return ("%s\n\nThe library holds exactly these %d actions and nothing else. `drives` is the body "
-            "parts each one has an opinion about, which is what decides whether two of them can be "
-            "combined; a `*` means that hand is holding something:\n%s\n%s\n"
+        lines.append(row % (action_id, kbindex.posture_of(rec), _moves(kb, action_id),
+                            rec.get("action_description") or ""))
+    return ("%s\n\nThe library holds exactly these %d actions and nothing else. `moves` is the body "
+            "parts each one actually animates — the pool to choose from when you give an overlay its "
+            "channels:\n%s\n%s\n"
             % (instructions, len(lines),
-               row % ("action", "posture", "kind", "drives", "name"), "\n".join(lines)))
+               row % ("action", "posture", "moves", "what it looks like"), "\n".join(lines)))

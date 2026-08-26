@@ -83,7 +83,11 @@ def test_the_superseded_authoring_snapshot_is_not_in_the_workspace(registry, loo
     found = call(registry, loop, "glob", pattern="**/*.json", path="kb")
     assert not any("authored_claude_backup" in p for p in found["paths"])
 
-    hits = call(registry, loop, "grep", pattern="overall_intent", path="kb")
+    # A field every record in the store carries, so a hit here would be the archive and nothing else.
+    # It used to be `overall_intent`, which v4 renamed away (ADR 0022) -- leaving the grep matching
+    # nothing anywhere and the assertion vacuously true.
+    hits = call(registry, loop, "grep", pattern="action_description", path="kb")
+    assert hits["files_with_matches"], "the pattern has to match something, or this proves nothing"
     assert not any("authored_claude_backup" in f for f in hits["files_with_matches"])
 
     # No path spells it, because it is not under a mount. The traversal that would reach it is the
@@ -154,12 +158,17 @@ def test_glob_spans_every_place_when_unscoped(registry, loop, has_source):
 # ---- grep ------------------------------------------------------------------------------------
 
 def test_grep_answers_which_actions_are_seated_in_one_call(registry, loop):
-    """One call replaces the rephrasing loop. The manifest matches too, since it aggregates every
-    record — so the claim is about which ACTION records match, not which files."""
-    out = call(registry, loop, "grep", pattern='"posture": "seated"', path="kb", include="**/*.json")
+    """One call replaces the rephrasing loop.
+
+    WHAT IT MATCHES ON CHANGED. It used to be `"posture": "seated"`, a stored label; v4 deletes the
+    whole `composability` block (ADR 0022) and derives the posture from the measured carriage
+    instead, which is a number no regex can bin. What a described record still says in words is its
+    `action_description`, and typing's says she sits. So this is now a search over prose, which is
+    what grep is for — and it is scoped to `actions/`, because the sentence also turns up in the
+    retired v2/v3 schema files and in the derived transition table."""
+    out = call(registry, loop, "grep", pattern="seated", path="kb/actions")
     assert out["success"]
-    records = [f for f in out["files_with_matches"] if not f.endswith("manifest.json")]
-    assert records == ["kb/actions/typing.json"]
+    assert out["files_with_matches"] == ["kb/actions/typing.json"]
 
 
 def test_grep_skips_binaries_and_says_so(registry, loop):
@@ -287,10 +296,10 @@ def test_an_unlabelled_record_offers_a_regex_nothing_but_its_own_identifiers(reg
     The sample is the store minus the accepted records, because those ARE labelled -- one directory
     holds both now (ADR 0016) and status is what separates them.
 
-    WHEN THIS FAILS, the semantic pass has landed: records now carry motion_description / tags /
-    overall_intent, the vocabulary is prose rather than field names, and grep over the store starts
-    earning the ~7 s it costs. Update glob's description in agent/tools/files.py and this test —
-    do not relax the bound. See ADR 0014.
+    WHEN THIS FAILS, the semantic pass has landed: records now carry an `action_description` and
+    eight `motion_description`s, the vocabulary is prose rather than field names, and grep over the
+    store starts earning the ~7 s it costs. Update glob's description in agent/tools/files.py and
+    this test — do not relax the bound. See ADR 0014.
     """
     import glob as globmod
     import io
@@ -323,13 +332,22 @@ def test_an_unlabelled_record_offers_a_regex_nothing_but_its_own_identifiers(reg
     for f in sample:
         vocabulary -= identifiers(f)
 
-    # 200, against 164 measured. It was 150 against 104 until formula v3.0.0 gave every channel a
-    # `mean_pose` keyed by Unity's muscle DOF names (`Left Forearm Twist In-Out`, `Chest Front-Back`),
-    # which is +60 words of vocabulary and not one word about any particular clip: the names are a
-    # closed set of 95 fixed by HumanTrait, identical in every record, so what the tripwire watches
-    # for is unchanged. The headroom is still nowhere near what 2446 free-text motion_descriptions
-    # would produce, so it still fires early in the semantic pass rather than after it.
-    assert len(vocabulary) < 200, (
+    # 175, against 141 measured. The bound has always carried about 35 words of headroom -- it was
+    # 150 against 104 until formula v3.0.0 gave every channel a `mean_pose` keyed by Unity's muscle
+    # DOF names (`Left Forearm Twist In-Out`, `Chest Front-Back`), then 200 against 164.
+    #
+    # It comes DOWN for the first time here, because motionkb/v4 deleted fields rather than adding
+    # them: `role`, `motion_type`, `contact`, `constraint`, `target`, `tags`, `display_name`,
+    # `overall_intent`, `mask_coverage`, `ik_goals` and the `composability` block are gone (ADR
+    # 0022), and on an undescribed record every one of them was a KEY holding a null -- schema
+    # vocabulary that said nothing about any clip. Losing 23 such words made the corpus MORE
+    # measured-only than it was, so the bound follows it down rather than sitting 59 above and
+    # quietly becoming a weaker tripwire than the one it replaced.
+    #
+    # What remains is the 95 HumanTrait muscle DOF names, the channel and field names the schema
+    # fixes, and `static` / `dynamic` / `null`. Still nowhere near what 2446 free-text descriptions
+    # would produce, so it fires early in the semantic pass rather than after it.
+    assert len(vocabulary) < 175, (
         "the corpus vocabulary has grown to %d words beyond the records\' own identifiers (%s ...) -- "
         "if that is the semantic pass landing, update glob\'s description in agent/tools/files.py and "
         "this test rather than relaxing the bound" % (len(vocabulary), sorted(vocabulary)[:12]))

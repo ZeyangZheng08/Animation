@@ -5,6 +5,13 @@ are written against the two ways that can go wrong: the schema staying strict en
 measured-only record reads as malformed, or the invariant going soft enough that an unlabelled record
 can be accepted. Both are checked against a REAL accepted record rather than a hand-built dict, so a
 future schema field cannot make them vacuously pass.
+
+WHAT THE SEMANTIC HALF IS NOW. Through v3 it was a five-field label tuple per channel plus
+`display_name`, `tags`, `overall_intent`, `mask_coverage`, `ik_goals` and `composability`, and the
+gate cross-checked those against each other. motionkb/v4 deletes all of it (ADR 0022) and leaves
+prose: an `action_description` and eight `motion_description`s. Prose has nothing to contradict, so
+the only thing left to be wrong is a HOLE — a channel nobody described, or an empty string standing in
+for a sentence — and a record accepted with one is a record retrieval silently cannot see.
 """
 import copy
 import json
@@ -24,7 +31,7 @@ def schema():
 
 @pytest.fixture(scope="module")
 def accepted():
-    """A real accepted record — measured, labelled, and known to pass the whole gate."""
+    """A real accepted record — measured, described, and known to pass the whole gate."""
     return paths.read_json(os.path.join(paths.ACTIONS_DIR, "walking.json"))
 
 
@@ -36,15 +43,17 @@ def check(doc, schema):
 
 
 def unlabelled(doc):
-    """The same record with its semantic half back to what `register` writes."""
+    """The same record with its semantic half back to what `register` writes.
+
+    Two fields and eight sentences, where v3 had to blank a five-key tuple per channel plus four
+    top-level fields. That shrinkage is the contract change, not a simplification of the fixture.
+    """
     d = copy.deepcopy(doc)
     d["status"] = "candidate"
-    d["action_id"] = d["display_name"] = d["overall_intent"] = None
-    d["tags"] = []
+    d["action_id"] = d["action_description"] = None
     for name, fact in d["channels"].items():
-        for k in ("role", "motion_type", "contact", "constraint", "target", "motion_description"):
-            if k in fact:
-                fact[k] = None
+        if "motion_description" in fact:
+            fact["motion_description"] = None
     return d
 
 
@@ -67,7 +76,7 @@ def test_the_measured_half_is_still_required_of_a_candidate(accepted, schema):
     assert any("extraction" in e and "metric_formula_version" in e for e in errors)
 
 
-@pytest.mark.parametrize("field", ["action_id", "display_name", "overall_intent"])
+@pytest.mark.parametrize("field", ["action_id", "action_description"])
 def test_an_accepted_record_may_not_have_a_null_semantic_field(accepted, schema, field):
     d = copy.deepcopy(accepted)
     d[field] = None
@@ -75,39 +84,35 @@ def test_an_accepted_record_may_not_have_a_null_semantic_field(accepted, schema,
     assert [e for e in errors if e.startswith(field)], errors
 
 
-def test_an_accepted_record_may_not_have_empty_tags(accepted, schema):
+def test_an_accepted_record_may_not_have_a_channel_nobody_described(accepted, schema):
+    """The hole the completeness gate exists for. A missing sentence is not a schema violation --
+    the field is nullable, because a candidate legitimately has none -- so nothing but this catches a
+    record that was accepted with one part of the body undescribed."""
     d = copy.deepcopy(accepted)
-    d["tags"] = []
-    assert [e for e in check(d, schema) if e.startswith("tags")]
+    d["channels"]["left_hand"]["motion_description"] = None
+    assert [e for e in check(d, schema) if "left_hand" in e and "motion_description" in e]
+
+
+def test_a_blank_description_is_not_a_description(accepted, schema):
+    """An empty string passes every type check there is and says nothing. It is what a model writes
+    when it has no answer, so it is refused where a null is refused."""
+    d = copy.deepcopy(accepted)
+    d["action_description"] = "   "
+    d["channels"]["head"]["motion_description"] = ""
+    errors = check(d, schema)
+    assert any(e.startswith("action_description") and "blank" in e for e in errors)
+    assert any("channels.head" in e and "blank" in e for e in errors)
 
 
 def test_a_record_with_no_status_is_held_to_the_full_bar(accepted, schema):
-    """Fail-closed. Only an explicit 'candidate' is exempt — absence of a claim is not a claim."""
+    """Fail-closed. Only an explicit 'candidate' is exempt — absence of a claim is not a claim.
+
+    Ten, because that is what the v4 semantic half is: `action_id`, `action_description`, and one
+    `motion_description` for each of the eight anatomical channels. It was four under v3 (three
+    fields plus `tags`), and the count is spelled out rather than derived so that a field quietly
+    dropping out of the gate fails here instead of passing.
+    """
     d = unlabelled(accepted)
     d.pop("status")
     errors = check(d, schema)
-    assert len(errors) == 4, errors      # the three fields plus tags
-
-
-def test_placeholder_composability_does_not_warn_on_an_unlabelled_record(accepted):
-    """`soft_warnings` compares two semantic declarations against a measured fact. On a fresh stub both
-    are register-time placeholders, so it would report the placeholder, not a disagreement — 24k lines
-    of it across the corpus."""
-    d = unlabelled(accepted)
-    d["mask_coverage"] = {"upper_body": False, "hands": False, "lower_body": False}
-    d["composability"]["locks"], d["composability"]["free"] = [], sorted(V.PARTITION_CHANNELS)
-    assert any(f.get("state_label") == "dynamic" for f in d["channels"].values())   # there IS something to warn about
-    warns = []
-    V.soft_warnings(d, warns)
-    assert warns == []
-
-
-def test_the_same_placeholder_does_warn_once_something_has_been_labelled(accepted):
-    d = unlabelled(accepted)
-    d["mask_coverage"] = {"upper_body": False, "hands": False, "lower_body": False}
-    d["composability"]["locks"], d["composability"]["free"] = [], sorted(V.PARTITION_CHANNELS)
-    d["channels"]["left_leg"]["role"] = "primary"        # somebody claimed something
-    warns = []
-    V.soft_warnings(d, warns)
-    assert any("mask_coverage.lower_body" in w for w in warns)
-    assert any("composability lists it free" in w for w in warns)
+    assert len(errors) == 2 + len(V.ANATOMICAL_CHANNELS) == 10, errors

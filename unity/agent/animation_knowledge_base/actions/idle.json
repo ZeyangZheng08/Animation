@@ -1,7 +1,6 @@
 {
-  "schema_version": "motionkb/v3",
+  "schema_version": "motionkb/v4",
   "action_id": "idle",
-  "display_name": "Standing Idle",
   "status": "accepted",
   "source_clip": {
     "fbx_or_anim": "Idle.anim",
@@ -15,29 +14,9 @@
   "duration": 8.367,
   "frame_rate": 30,
   "loop": true,
-  "overall_intent": "The nurse stands neutrally at rest with a relaxed whole-body posture.",
-  "tags": [
-    "idle",
-    "standing",
-    "neutral_pose",
-    "resting",
-    "nurse",
-    "ready",
-    "relaxed",
-    "full_body"
-  ],
-  "mask_coverage": {
-    "upper_body": true,
-    "hands": true,
-    "lower_body": true
-  },
+  "action_description": "The nurse stands neutrally at rest with a relaxed whole-body posture.",
   "channels": {
     "torso": {
-      "role": "free",
-      "motion_type": "hold-static",
-      "contact": "none",
-      "constraint": "unconstrained",
-      "target": null,
       "motion_description": "The torso remains upright in a neutral standing posture.",
       "state_label": "static",
       "motion_magnitude": 0.0158,
@@ -59,11 +38,6 @@
       }
     },
     "head": {
-      "role": "free",
-      "motion_type": "gaze",
-      "contact": "none",
-      "constraint": "unconstrained",
-      "target": null,
       "motion_description": "The head stays generally forward with a calm neutral gaze.",
       "state_label": "static",
       "motion_magnitude": 0.0121,
@@ -82,11 +56,6 @@
       }
     },
     "left_arm": {
-      "role": "free",
-      "motion_type": "hold-static",
-      "contact": "none",
-      "constraint": "unconstrained",
-      "target": null,
       "motion_description": "The left arm hangs relaxed at the side.",
       "state_label": "static",
       "motion_magnitude": 0.0159,
@@ -108,11 +77,6 @@
       }
     },
     "right_arm": {
-      "role": "free",
-      "motion_type": "hold-static",
-      "contact": "none",
-      "constraint": "unconstrained",
-      "target": null,
       "motion_description": "The right arm hangs relaxed at the side.",
       "state_label": "static",
       "motion_magnitude": 0.0142,
@@ -134,11 +98,6 @@
       }
     },
     "left_leg": {
-      "role": "free",
-      "motion_type": "hold-static",
-      "contact": "ground",
-      "constraint": "unconstrained",
-      "target": null,
       "motion_description": "The left leg remains planted in a neutral standing stance.",
       "state_label": "static",
       "motion_magnitude": 0.0163,
@@ -159,11 +118,6 @@
       }
     },
     "right_leg": {
-      "role": "free",
-      "motion_type": "hold-static",
-      "contact": "ground",
-      "constraint": "unconstrained",
-      "target": null,
       "motion_description": "The right leg remains planted in a neutral standing stance.",
       "state_label": "static",
       "motion_magnitude": 0.0139,
@@ -184,11 +138,6 @@
       }
     },
     "left_hand": {
-      "role": "free",
-      "motion_type": "hold-static",
-      "contact": "none",
-      "constraint": "unconstrained",
-      "target": null,
       "motion_description": "The left hand rests open and relaxed beside the body.",
       "state_label": "static",
       "motion_magnitude": 0.0,
@@ -221,11 +170,6 @@
       }
     },
     "right_hand": {
-      "role": "free",
-      "motion_type": "hold-static",
-      "contact": "none",
-      "constraint": "unconstrained",
-      "target": null,
       "motion_description": "The right hand rests open and relaxed beside the body.",
       "state_label": "static",
       "motion_magnitude": 0.0,
@@ -270,27 +214,6 @@
       "mean_body_tilt_deg": 0.558
     }
   },
-  "ik_goals": [],
-  "composability": {
-    "locks": [],
-    "free": [
-      "torso",
-      "head",
-      "left_arm",
-      "right_arm",
-      "left_leg",
-      "right_leg",
-      "left_hand",
-      "right_hand"
-    ],
-    "can_overlay_on": [],
-    "base_or_overlay": "base",
-    "posture": "standing",
-    "seam_owner": {
-      "torso": "base",
-      "root": "base"
-    }
-  },
   "extraction": {
     "method": "in_engine_sample_root_local",
     "sampled_frames": 251,
@@ -298,10 +221,10 @@
     "motion_metric": "variation, all 8 anatomical channels: muscle_dof_stddev_rms, divided by torso 0.2969 / head 0.4963 / arm 0.6864 / leg 0.4468 / hand 0.7546; root variation: max(trans/1.9782, vert/1.8396, heading/131.8575) from HumanPose.bodyPosition and bodyRotation; mean pose, all 8 anatomical channels: mean_pose, the per-frame mean of each of the channel's Humanoid muscle degrees of freedom in Unity's normalised muscle space, stored as the vector it is and compared with nothing; root mean pose: mean_body_height (mean HumanPose.bodyPosition.y, normalised humanoid units) and mean_body_tilt_deg (mean angle of bodyRotation's up axis from world up)",
     "bone_map_version": "v2.0.0",
     "metric_formula_version": "v3.0.0",
-    "extractor_version": "3.1.0",
+    "extractor_version": "4.0.0",
     "extractor_lang": "python",
     "avatar": "nurse_avatar.fbx",
-    "extracted_at": "2026-08-26T20:15:11Z",
+    "extracted_at": "2026-08-26T21:29:28Z",
     "field_origin": {
       "kinematic": [
         "duration",
@@ -319,19 +242,8 @@
         "trigger_param"
       ],
       "semantic": [
-        "display_name",
-        "overall_intent",
-        "tags",
-        "mask_coverage",
+        "action_description",
         "channels.*.motion_description"
-      ],
-      "semantic_pending": [
-        "channels.*.role",
-        "channels.*.motion_type",
-        "channels.*.contact",
-        "channels.*.constraint",
-        "channels.*.target",
-        "composability"
       ]
     },
     "verified_against_screenshots": false,
@@ -346,18 +258,8 @@
       "consistency_validated": true,
       "scope": [
         "action_id",
-        "display_name",
-        "overall_intent",
-        "tags",
-        "mask_coverage",
-        "channels.*.role",
-        "channels.*.motion_type",
-        "channels.*.contact",
-        "channels.*.constraint",
-        "channels.*.motion_description",
-        "composability.base_or_overlay",
-        "composability.posture",
-        "composability.can_overlay_on"
+        "action_description",
+        "channels.*.motion_description"
       ],
       "status": "vlm_accepted"
     },

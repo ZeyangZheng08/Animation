@@ -140,6 +140,12 @@ computer charting (`typing` added 2026-06-13 — the first **seated** action; us
 > are now the **root accepted store** (`status: accepted`); their SEMANTIC 5-tuple was filled + verified 8/8
 > via the VLM-proposal loop (ADR 0008) and **promoted candidate→accepted on 2026-06-24** (v1 retired to git
 > tag `kb/v1`). See the project README §2/§7 and `docs/adr/0007`/`0008`.
+>
+> **Still true, and still not about coverage (2026-08-26).** The contract is `motionkb/v4` now, and the
+> `ik_goals` layer and the SEMANTIC 5-tuple named above are deleted: a record describes what an action
+> looks like and how each part moves, and composition, contact and IK are decided at runtime by the
+> agent (ADR 0022). As before, that changes the representation and not the action coverage — these are
+> the same 8 actions — so nothing in the scenario contract below moves.
 
 Used by the source scenario but **not yet in MotionKB** (next extraction targets):
 

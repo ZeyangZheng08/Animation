@@ -6,9 +6,20 @@ The eval set has existed since Phase 1 with `_meta` saying "DATA ONLY - there is
 This is that runner.
 
 ARMS. The point of the `baseline` arm is to make the agent's number mean something. It is BM25 argmax
-with no model at all: it can only ever answer `full_match`, so it should get the eight `fm-*` cases and
-fail both `dc-*` and both `nm-*`. That 8/12 is the floor. An agent arm that also scores 8/12 has bought
-nothing, and without the floor printed next to it, 8/12 reads like a success.
+with no model at all: it can only ever answer `full_match`, so its CEILING is the eight `fm-*` cases
+and it must fail both `dc-*` and both `nm-*`. What it actually scores is **7/12**, and has since
+before the v4 contract change: `fm-giving-pills` ("hands the patient the oral medication to take")
+returns `grab_bottle`, which it also did under v3. That is the floor. An agent arm that only matches
+the floor has bought nothing, and without the floor printed next to it the number reads like a success.
+
+THE FLOOR DID NOT MOVE ACROSS motionkb/v4, and that was measured rather than assumed. v4 deletes
+`tags`, `display_name` and `overall_intent` (ADR 0022), so the searchable document went from six term
+sources to two: `action_description` at triple weight -- the tags' old weight, on the field that
+inherited their job -- plus `action_id` and the eight `motion_description`s. Losing curated keywords
+is a real weakening, and the natural guess is that `fm-giving-pills` is what it cost. It is not: the
+v3 document was rebuilt verbatim over the v3 records straight out of git and scored 7/12, failing the
+same case to the same wrong answer. Nothing was reweighted to reach that number, and nothing should
+be -- fitting the index to these twelve cases is the thing the `no_match` cases exist to catch.
 
     baseline   no LLM, no engine, no API key. Hermetic, so it can live in check_kb.sh.
     realtime   gpt-realtime over the Realtime API (added with the LLM layer)
@@ -23,11 +34,16 @@ SCORING is deliberately not one number.
                 than collapsing to a binary miss.
     no_match    the arm must decline. `nearest` is advisory in the ground truth and is not scored.
 
-ONE WART IN THE GROUND TRUTH, worked around rather than edited: `free_channels` carries two different
-meanings across the two decompose cases — "unclaimed by any overlay" in dc-walk-carry, and "retargeted
-to IK" in dc-givepills-gaze. They coincide numerically here (giving_pills' head is a `stabilizer`, so
-the role rule leaves it unclaimed anyway), so both are reproduced by the same derivation. If a future
-case separates them, the field will need splitting.
+WHAT THE DECOMPOSE CASES MEASURE CHANGED, and the number will move with it. Through motionkb/v3 the
+channel split was DERIVED from the KB's `role` labels, so `dc-walk-carry` scored a deterministic rule
+and the model only had to name two actions. v4 deletes those labels (ADR 0022) and the split arrives
+from the plan, so the same two cases now measure whether the MODEL partitions the body correctly.
+That is a harder task and a more honest one -- it is the decision the system claims the agent makes --
+but a decompose score before and after this change is not the same measurement.
+
+`free_channels` in the ground truth carries two meanings across the two cases -- "given to nobody" in
+dc-walk-carry, and "retargeted to IK" in dc-givepills-gaze. Both are still reproducible: the first is
+what the plan leaves unnamed, the second is what `gaze_at` frees.
 
 Usage:
     python run_eval.py                     # baseline arm, all cases
@@ -88,28 +104,45 @@ async def agent_arm(case, kb, model):
     registry = kb_tools.register(ToolRegistry(), kb, measuring=False)
     planned = []
 
-    def plan_motion(character=None, base=None, overlays=None, gaze_at=None, **_ignored):
-        """Stands in for the engine-backed tool: derives the same partition, commits nothing.
+    def plan_motion(character=None, base=None, overlays=None, base_channels=None, gaze_at=None,
+                    **_ignored):
+        """Stands in for the engine-backed tool: builds the same partition, commits nothing.
 
         `gaze_at` must exist here even though there is no engine: without it the model cannot express
         "give the pills while looking at the monitor" at all, and dc-givepills-gaze would be scoring a
         capability the tool surface does not offer rather than anything about the model.
         """
+        from agent.tools import ToolFailure
         if base not in kb.actions:
-            from agent.tools import ToolFailure
             raise ToolFailure("unknown action_id: %s" % base)
-        assembly = A.arbitrate(base, [o for o in (overlays or []) if o in kb.actions], kb)
+        known = [o for o in (overlays or [])
+                 if isinstance(o, dict) and o.get("action_id") in kb.actions]
+        try:
+            assembly = A.arbitrate(base, known, kb, base_channels=base_channels)
+        except ValueError as e:
+            raise ToolFailure(str(e))
         planned.append((assembly, gaze_at))
         return {"derived": assembly.as_dict(), "gaze_at": gaze_at}
 
     registry.add("plan_motion",
-                 "Combine one base action with optional overlays and play it. The body-channel split "
-                 "is derived for you from the actions you name. Use gaze_at to have the character look "
-                 "at something while the motion plays -- the head is then solved by IK, not retrieved.",
+                 "Combine one base action with optional overlays and play it. YOU say which body "
+                 "parts each overlay drives, and which the base reserves; anything nobody names comes "
+                 "from the base. Use gaze_at to have the character look at something while the motion "
+                 "plays -- the head is then solved by IK, not retrieved.",
                  {"type": "object", "additionalProperties": False,
                   "properties": {"character": {"type": "string"},
                                  "base": {"type": "string"},
-                                 "overlays": {"type": "array", "items": {"type": "string"}},
+                                 "base_channels": {"type": "array",
+                                                   "items": {"type": "string", "enum": list(ANATOMICAL)}},
+                                 "overlays": {
+                                     "type": "array",
+                                     "items": {"type": "object", "additionalProperties": False,
+                                               "properties": {
+                                                   "action_id": {"type": "string"},
+                                                   "channels": {"type": "array", "minItems": 1,
+                                                                "items": {"type": "string",
+                                                                          "enum": list(ANATOMICAL)}}},
+                                               "required": ["action_id", "channels"]}},
                                  "gaze_at": {"type": "string"}},
                   "required": ["base"]},
                  plan_motion)

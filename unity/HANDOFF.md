@@ -8,6 +8,73 @@
 
 ## 0. TL;DR — current state
 
+> **✓ THE KNOWLEDGE BASE DESCRIBES; THE AGENT DECIDES (2026-08-26).** A record now answers two
+> questions and no others: what does this action LOOK like (`action_description`, renamed from
+> `overall_intent`) and how does each body part MOVE (`channels.*.motion_description` + the kinematic
+> block). Deleted outright: `display_name`, `tags`, `mask_coverage`, `ik_goals`, the whole
+> `composability` block, and the per-channel `role` / `motion_type` / `contact` / `constraint` /
+> `target`. Schema `motionkb/v3` → **`motionkb/v4`**, extractor 3.1.0 → **4.0.0**, formula **unchanged
+> at v3.0.0 — no number moved anywhere**. See ADR
+> [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md).
+>
+> - **Why, in one line.** Every deleted field was a claim about a COMBINATION written onto a
+>   description of one clip. `walking`'s arms are `stabilizer` — free for a carry to override — which
+>   is right for "walk while carrying" and wrong for "walk swinging your arms", and the clip is
+>   identical in both. `contact: object:keyboard` is a fact about the room. `ik_goals[].target` was
+>   `null` on all eight records because the anchor is scene-specific: two thirds of a decision with
+>   the deciding third permanently missing. `can_overlay_on` is a pre-enumerated interaction template,
+>   which is the thing this project's claim rejects — and `assemble.py`, `kbindex.py` and
+>   `tools/kb.py` each already carried a paragraph explaining why they refused to read it. A contract
+>   three consumers agree in writing to ignore is not a contract.
+> - **The partition moved into the plan.** `plan_motion`'s `overlays` are now
+>   `{action_id, channels[]}` and there is an optional `base_channels`; anything nobody names is
+>   `free_channels`, and the base still plays layer 0 full-body underneath. A channel two parts name
+>   is mixed **half each** — v3's 0.6/0.4 came from normalising `ROLE_PRIORITY`, which is gone, and
+>   half is the honest reading of "the agent asked for both here". The model still emits no numeric:
+>   every leaf in the plan schema is a string or a boolean, and the structural test still holds.
+>   A channel the plan PINS to a scene object (`carry` / `ik_bindings` / gaze) may not be mixed — that
+>   is a named refusal, and it is the one thing ADR 0004's geometry argument still buys.
+> - **`role` cannot be reconstructed, and that was checked, not assumed.** `walking.left_arm` is
+>   stabilizer at magnitude 0.165, `cpr.left_arm` support at 0.114, `typing.left_arm` primary at
+>   0.125 — not even monotone. Argmax-magnitude, the natural substitute, gets 3 of 8 channels wrong on
+>   `dc-walk-carry`, all three the same shape: a channel that moves and that nobody should claim.
+> - **`posture` survives as a MEASUREMENT, not a label.** `kbindex.posture_of` bins the root's
+>   `mean_body_height` at 0.75 — seated reads 0.647, the lowest standing (`bvm`) 0.859. Deliberately
+>   not `mean_body_tilt_deg`: that is forward lean, and `cpr` (44.6°) and `bvm` (39.3°) lean harder
+>   than the seated clip (8.7°). The engine needs it, so it stays on every plan step.
+> - **Two capabilities changed hands rather than disappearing.** The facing rule ("she sits facing the
+>   desk, not the chair") read `channels.*.contact` and now reads what the plan binds a hand to,
+>   falling back to `gaze_at`. Two-handed grounding (`typing` at 0.000 m on the laptop) now fires when
+>   ONE hand is bound to an object whose registry entry declares `two_handed_anchors` — the object
+>   says where both hands go, which is the same rule sourced from the side that knows.
+>   `dropped_grips` is gone with the thing it reported: a hand holds what the plan says, once.
+> - **Unity C# needed no code change.** Only `AgentRuntimeSetup.cs` opens anything in the KB, and it
+>   reads `manifest.json` for `status` / `source_clip` / `action_id`. `MotionComposer` and
+>   `GateEvaluator` consume the PLAN, not records. Four comments were reworded.
+> - **The whole-store diff reconciles exactly**: 6 changed lines per candidate record
+>   (`schema_version`, `action_description`, `extractor_version`, `extracted_at`, two `field_origin`
+>   entries) and 7 per accepted one (plus the narrowed `vlm_proposal.scope`) — 14732 added, 206395
+>   deleted, 2446×84 + 931 on the delete side. Every kinematic field verified equal record by record
+>   against the pre-migration store; the eight records' descriptions byte-identical, and no VLM
+>   proposal re-run.
+> - **Gates:** validate 2454/2454 against `motionkb.v4.schema.json`, golden 8/8, manifest in sync,
+>   guid resolution 8/8, agent-repo suite **350/350** (349 before; 12 tests deleted with the machinery
+>   they tested, 13 added or rewritten), zero occurrences of any deleted key across `actions/`,
+>   retrieval eval baseline **7/12 — unchanged**, which was measured by rebuilding the v3 document
+>   over the v3 records out of git rather than inferred. **Tagged `kb/v4`**; `kb/v3` is the one step
+>   back and is a different contract, so `docs/ROLLBACK.md` says what rolling past v4 costs.
+> - **Four bugs the rewrite exposed, all in `agent/tools/scene.py` and all now fixed.** `plan_motion`
+>   raised `NameError` on every successful plan (a leftover read of the deleted
+>   `_ground_declared_hands` result); the actionable refusal for an overlay with no channels was
+>   unreachable because normalisation ran outside the `try`; `_binding_due` had silently dropped the
+>   generated-descent offset, so a hand binding on a walk-then-sit engaged mid-descent; and
+>   `_pair_bound_hands` searched the scene with an `{"id": …}` predicate the engine does not have,
+>   which falls through its blank-clause guard as NO filter and returns the whole registry — so the
+>   two-handed pairing never fired at all.
+> - **Migration path**: `python extract.py migrate [--dry-run]`, a new verb. It rewrites shape and
+>   restamps provenance and reads no pose dump, because v4 moved no number — running the measure half
+>   would reprocess 2454 frozen dumps to write back the values they already hold.
+
 > **✓ THE CHANNEL `kind` FIELD IS GONE (2026-08-26).** Every channel block carried a `kind` —
 > `fk_part` on six anatomical channels, `hand` on the two hand channels, `root` on the root — and
 > not one line of code decided anything by it. `channels` is keyed BY CHANNEL NAME, so the schema
@@ -204,6 +271,10 @@
 >   side (a hand is a shape, not an axis — never mixed) and the other keeps its MOTION without its
 >   OBJECT, reported as `dropped_grips` on the plan and as a `warn` gate. **Still refused** when the
 >   request named both objects (`carry` one, `ik_bindings` the other): there is nothing left to decide.
+>   - **Superseded 2026-08-26 (ADR [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md)):**
+>     `dropped_grips` and `ROLE_PRIORITY` are both gone. A v4 record declares no contact, so there is no
+>     second grip to lose — a hand holds what the plan binds it to, once — and a channel the plan pins to a
+>     scene object is refused by name rather than arbitrated.
 >   - Tiebreak order: what the request named → `ROLE_PRIORITY` → the base. Every tie in this corpus is
 >     primary-vs-primary on `right_hand`, so the request is the only real discriminator and the base is
 >     the fallback — the same tiebreak `Mix.owner` uses.
@@ -237,6 +308,12 @@
 >   - **Superseded on 2026-08-13, in the last clause only:** two grips no longer refuse the plan. The
 >     channel goes whole to one side and the other loses its object, reported as `dropped_grips`; a
 >     Conflict is left only when the request named both. Everything else in this entry still stands.
+>   - **Superseded again on 2026-08-26 (ADR [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md)):**
+>     `role` and `ROLE_PRIORITY` are deleted, so a contested channel is mixed **half each** rather than
+>     0.6/0.4; `dropped_grips` is gone with the `contact` field it reported on; and the partition is no
+>     longer derived here at all — it arrives in the plan as `overlays[].channels`. What survives from this
+>     entry is the measured primitive below (a masked layer at a fractional weight interpolates) and the
+>     rule that a hand is never split.
 >   - The primitive was measured BEFORE anything was built on it, because the whole thing rests on it: a
 >     masked `AnimationLayerMixerPlayable` layer at a fractional weight **interpolates**. `walking` under
 >     `nurse_cpr_30`, masked to the right arm, sampled at weights 0 / 0.5 / 1 → the ends are 69.14° apart
@@ -396,6 +473,9 @@
 > (all action clips are Base-Layer states played one-at-a-time from Idle; the only real overlay layer is
 > Upperbody/`Hold Pills`), and the §7 acceptance line below was corrected "7"→"8" MotionKB JSON. Verified
 > in-engine: clean compile, no missing scripts, MCP bridge survived the manifest change.
+> **The column itself is gone as of 2026-08-26** — `composability.base_or_overlay` was deleted with the
+> rest of the block (ADR [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md)), and README §7 now
+> carries the measured carriage in its place. The "not a Unity Animator layer" half still holds.
 
 > **✓ Patient/bed animation ENABLED (2026-06-16):** per the user, the patient's and bed's Animators
 > were turned back **on** (live), reversing the earlier "frozen backdrop" decision. Patient plays
@@ -572,7 +652,7 @@
 > the flat 2026-06-18 write-back prohibition; provenance stays separate from verified source assets).
 > README §1 and §6 below rewritten accordingly.
 
-- **Phase 1 (body-part-level motion knowledge base) is done**: 8 JSON files under `agent/animation_knowledge_base/actions/` (schema `motionkb/v3`, `status: accepted`, 9-channel + `ik_goals`; KINEMATIC program-extracted, SEMANTIC VLM-proposed + consistency-gated, current store `vlm_accepted`). (`typing` was added 2026-06-13 — the first **seated** action; see `agent/animation_knowledge_base/actions/typing.json` and the `EmergencyRoom_TypingTest` scene in §3.)
+- **Phase 1 (body-part-level motion knowledge base) is done**: 8 JSON files under `agent/animation_knowledge_base/actions/` (schema `motionkb/v4`, `status: accepted`, 9 channels; KINEMATIC program-extracted, the two description fields VLM-proposed and completeness-gated, current store `vlm_accepted`. ADR [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md) deleted `ik_goals`, `composability` and the per-channel `role`/`motion_type`/`contact`/`constraint`/`target`: composition, contact and channel ownership are runtime decisions now). (`typing` was added 2026-06-13 — the first **seated** action; see `agent/animation_knowledge_base/actions/typing.json` and the `EmergencyRoom_TypingTest` scene in §3.)
 - **The full ER scene is imported and cleaned**: `Assets/Scenes/EmergencyRoom.unity` — visual environment only, with **no** Intent/LLM/Python/XR/director scripts (65 missing-script components were stripped).
 - **The patient & bed Animators are ENABLED (live) as of 2026-06-16** — the patient breathes **in place** (no drift; `applyRootMotion` is off) and the bed holds **"Idle Up"** (backrest raised). The serialized / edit-mode pose is the baked **awake/reclining P0** state (responsive — the source's runtime-start; see `SCENARIO.md` §1), which replaced the earlier **P3** (flat, unresponsive) freeze on 2026-06-13. (This state was previously kept *frozen* via disabled Animators; that was reversed at the user's request — see the §0 note below and §2 rule 3.)
 - **The scene is scenario-aligned with the source project (2026-06-09, see `SCENARIO.md`)**: all source-active nurses are active again. The acting/IK nurses are `CPRNurse` (Jill), `AirwayNurse` (Kate), `EKGNurse` (Dana) — **`Nurse1` is only a background figure with no IK/action rig; animation work targets Jill/Kate/Dana**. `NurseAnimatorEvents.cs` was ported (prop events now have a receiver), and the missing NavMesh agent type "Nurse" (`-1372625422`) was restored in `ProjectSettings/NavMeshAreas.asset` (verified binding to the baked surface).
@@ -685,7 +765,7 @@ measured from.
 | Module | Key files / location | Notes |
 |---|---|---|
 | Body-part knowledge base (v1, **retired**) | git tag `kb/v1` + `schema/motionkb.v1.schema.json` (snapshot contract) | 8 actions, schema `motionkb/v1`, 6-part BodyPartFact + `composability` (incl. `posture`; `idle`/`walking`/`typing` are bases, `typing` is the first **seated** one). **Retired at the 2026-06-24 candidate→accepted promotion** — the accepted store `agent/animation_knowledge_base/actions/*.json` is v2 now (next row). |
-| MotionKB **v2 (ACCEPTED)** | `agent/animation_knowledge_base/actions/*.json` (schema `motionkb/v2`, `status: accepted`) · `agent/motionkb/` (Python extractor) · `engine_mask_map.json` · [ADR 0007](docs/adr/0007-v2-body-part-split.md) · [ADR 0008](docs/adr/0008-vlm-proposed-authored-fields.md) · `docs/specs/motionkb-v2-spec.md` | 9-channel split + orthogonal `ik_goals`; MEASURED filled + validated 8/8; SEMANTIC 5-tuple **filled + verified 8/8** via the VLM-proposal loop (ADR 0008), `composability` authored, `target` deferred to Phase-2. **Promoted candidate→accepted 2026-06-24** (v1 retired to tag `kb/v1`); `candidate/` now the empty staging area (see §0). |
+| MotionKB **v4 (ACCEPTED)** | `agent/animation_knowledge_base/actions/*.json` (schema `motionkb/v4`, 8 with `status: accepted` in a store of 2454) · the Python extractor, now in the agent repo · `engine_mask_map.json` · [ADR 0007](docs/adr/0007-v2-body-part-split.md) · [ADR 0008](docs/adr/0008-vlm-proposed-authored-fields.md) · **[ADR 0022](docs/adr/0022-the-kb-describes-the-agent-decides.md)** · `docs/specs/motionkb-v2-spec.md` (the v2 design narrative, superseded) | 9-channel split; KINEMATIC filled + validated, golden 8/8. Since ADR 0022 the semantic half is two description fields — `action_description` (renamed from `overall_intent`) and each anatomical channel's `motion_description` — and `ik_goals`, `composability` and the per-channel 5-tuple are deleted, because each of them stated a decision about a COMBINATION on a record describing one clip. **Promoted candidate→accepted 2026-06-24** (v1 retired to tag `kb/v1`); one store since ADR 0016, rollback tag `kb/v4`. |
 | **Runtime executor** (Phase 2, engine half) | `Assets/Scripts/AgentRuntime/` (15 components) · [ADR 0009](docs/adr/0009-check-before-you-play.md) | `AgentLink` (the one WebSocket, agent is the server) · `Protocol.cs` **v4**, mirrored second from `agent/protocol.py` · `SceneRegistry`/`SceneQueryService` (typed scene predicates; still answer `scene.find`/`describe`/`anchors`/`position`, which are engine-internal API now — the model's surface is `scene_search` + `scene_query`) · `MotionComposer`+`ClipLibrary` (masked layers, fractional weights, per-layer clip windows) · `PoseSynth`+`PostureTransitionEvaluator` (generated sit/stand, closed loop on measured hip height) · `IkBinder` · `Locomotion` (walking, and `Preview` for a route that is computed rather than walked) · `GateEvaluator`+`GateArming`+`GateProbe`+`ValidationCharacter` (**one judgement, two clocks** — a commit is played through on a hidden duplicate first). No LLM and no generated C# on this side. |
 | Agent service (Phase 2, decoupled half) | `~/Research/animation-agent` (WSL, its own repo) | Retrieval over the KB, the deterministic channel partition and seam schedule, the ReAct loop, the 12 declared tools, `agent/protocol.py` as the contract authority. Acceptance: `pytest` (281), `run_eval.py` (floor 7/12), `smoke_validate.py` against play mode. See §1.1 for which side to run git and python on. |
 | Typing test (2026-06-13, revised) | `Assets/Scenes/EmergencyRoom_TypingTest.unity` + `Assets/Scripts/TypingTestDriver.cs` | Copy of `EmergencyRoom`; on Play the typing nurse walks → standing Idle → **seated Typing** at the computer, reusing the `NurseAnimator` `Walk_N→Idle→Typing` state machine (driver feeds `Speed` from the NavMeshAgent, fires the `typing` trigger once arrived+Idle). **Hand IK (faithful to the source):** owned by the reused `NurseIKHelper`, which snaps the two `TwoBoneIKConstraint` (`L_Hand`/`R_Hand`) onto the shared `laptop` IK points and ramps their weights. In the source these are fired by `LaptopIK`/`ResetHandsIK` **animation events** baked into the Typing clip — but **those imported-clip events do NOT dispatch in this standalone scene** (verified: the constraint weight stays 0 through the whole ~16 s clip, no "missing receiver" warning, and `AlwaysAnimate` doesn't help — not a culling issue). So `TypingTestDriver` calls the SAME `NurseIKHelper.LaptopIK(speed)` / `ResetHandsIK(speed)` API itself on Typing enter/exit and leaves `NurseIKHelper` **enabled** — this **replaced the earlier bypass** that disabled `NurseIKHelper` and drove the constraints directly in `Update`. `TypingTestDriver.ikRampSpeed` serialized to `0.1`. **Avatar mismatch = root cause of palms-up hands:** the shared laptop IK-point world rotations are hand-authored for the **`nurse_avatar.fbx`** skeleton, and `NurseIKHelper.SetIKPoints` copies BOTH position AND rotation onto the wrist with `targetRotationWeight=1`. `Nurse1` is a **`FemaleScientists.fbx`** instance whose hand-bone bind-pose axis differs (~180° forearm roll), so the identical world rotation flips the palm UP — position lands exactly on the keys, only the wrist roll is wrong (proven from the scene: the constraint Tip/Mid/Root resolve to the FemaleScientists prefab GUID; everything else — point rotations, weights, `NurseIKHelper` code — is identical to the working source). **Fix chosen (user): use `nurse_avatar`** — added **`TypingNurse_Avatar`** (a duplicate of the `CPRNurse` nurse_avatar nurse, plus `TypingTestDriver`), which walks → idles → types with correct **palms-down** hands. In this scene **only `TypingNurse_Avatar` + `patient_avatar` are active**; `Nurse1` (FemaleScientists, palms-up, otherwise unchanged) and all other nurse avatars are `SetActive(false)`. Re-author the two `laptop` point rotations for FemaleScientist, or set `targetRotationWeight=0`, if that avatar must type instead. **Gotcha:** setting `constraint.weight` from `execute_code` does NOT engage the rig (wrong phase) — it must come from a MonoBehaviour `Update` (or `NurseIKHelper`'s own ramp). |
@@ -770,7 +850,8 @@ Build order (by dependency; confirm priority with the user):
    first; a multimodal model assists only for candidate-object filtering, affordance judgment, semantic
    disambiguation, and visual feedback verification.
 4. **Hard geometric gates (the scaffold's enforcement layer)**: intent (target reachability, orientation,
-   scene compatibility) · retrieval (part-segment composability, transition validity) · assembly
+   scene compatibility) · retrieval (whether the retrieved part-segments can in fact be composed —
+   channel coverage and contention — and transition validity) · assembly
    (acceleration discontinuity, foot skate, penetration, end-effector error) · scene landing (world-space
    geometry between character and objects/ground/environment).
    **Status (2026-08-19), because the list above is the target and not a claim:** retrieval-stage checks
@@ -811,7 +892,7 @@ Build order (by dependency; confirm priority with the user):
 ## 7. Acceptance / self-check checklist
 
 - `read_console` is error-free (ignore the benign NRE from §4 item 8); the controller has no missing-script and the avatar has no missing materials.
-- The MotionKB validates — `python agent/motionkb/validate_motionkb.py` checks the 8 **v2 accepted records** (`agent/animation_knowledge_base/actions/*.json`, `status: accepted`; membership is the directory, so there is no denylist to skip — ADR 0012) against `motionkb.v3.schema.json` + the cross-field invariants (locks/free partition of the 8 anatomical channels, overlay lock-disjointness, posture compatibility, ik effector→channel resolution, channel-vocabulary agreement with `engine_mask_map.json`) + the **semantic-consistency gate** (`validate_semantic_consistency`); 8/8 pass. Re-run reproducibility is guarded by `python agent/motionkb/test_golden_extraction.py` (golden KINEMATIC reproduces from the frozen `raw`, 8/8), and `source_clip.guid → asset` resolution by `python validate_guids.py`, which posts generated C# over the Unity MCP bridge and needs the editor open (8 resolved → `motionkb_build/reports/kb_state.md`; it replaced the in-project `MotionKB.MotionKBValidator`, so no agent-side code lives in the Unity project); one-command gate `check_kb.sh` runs them all. The former v1 store is retired to git tag `kb/v1` (`motionkb.v1.schema.json` kept as its snapshot contract). See §8.
+- The MotionKB validates — `python agent/motionkb/validate_motionkb.py` checks the whole store (`agent/animation_knowledge_base/actions/*.json`, 2454 records, no status filter) against `motionkb.v4.schema.json` + channel-vocabulary agreement with `engine_mask_map.json` + **`validate_descriptions`**: an accepted record carries a non-blank `action_description` and a non-blank `motion_description` on each of the 8 anatomical channels. 2454/2454 pass, 8 of them accepted. The cross-field invariants (locks/free partition, overlay lock-disjointness, posture compatibility, ik effector→channel resolution) and `validate_semantic_consistency` are **deleted** — every one of them read a field ADR [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md) removed, and prose has nothing to contradict. The gate certifies WELL-FORMED and COMPLETE now, where it used to certify SELF-CONSISTENT; it never certified correct. Re-run reproducibility is guarded by `python agent/motionkb/test_golden_extraction.py` (golden KINEMATIC reproduces from the frozen `raw`, 8/8), and `source_clip.guid → asset` resolution by `python validate_guids.py`, which posts generated C# over the Unity MCP bridge and needs the editor open (8 resolved → `motionkb_build/reports/kb_state.md`; it replaced the in-project `MotionKB.MotionKBValidator`, so no agent-side code lives in the Unity project); one-command gate `check_kb.sh` runs them all. The former v1 store is retired to git tag `kb/v1` (`motionkb.v1.schema.json` kept as its snapshot contract). See §8.
 - In `EmergencyRoom.unity`, the patient is at the **awake/reclining P0** pose on the angled bed with no clipping; its Animator is now **live** (breathes in Play, in place — no drift), and edit-mode shows the baked P0 pose; the nurse roster matches the source scene (see `SCENARIO.md` §2).
 - The runtime path holds — run these in the agent repo (WSL; see §1.1): `pytest` green, `python run_eval.py` still at the 7/12 floor, and `python smoke_validate.py` against play mode, which is the only check that exercises the real executor. **If you changed `PROTOCOL_VERSION`, also type a line into the Play-mode console** — `smoke_validate.py` and `drive.py` both import the contract, so neither can catch a speaker that has the number written into it (§4 item 13). The last is the one that matters after any change to `Assets/Scripts/AgentRuntime/` or `agent/protocol.py`: **both halves ship together and a version mismatch is fatal by design**, so a rebuilt Unity side and an unchanged service will refuse to talk rather than half-speak.
 - After changing an avatar pose / asset, **save the scene**, and prefer committing in the `Animation/` git repo (only commit when the user asks).
@@ -822,26 +903,36 @@ Build order (by dependency; confirm priority with the user):
 
 The MotionKB has a machine-checkable contract. Don't re-document the field semantics here — they
 live in `agent/animation_knowledge_base/README.md`; the authoritative shape is
-`agent/animation_knowledge_base/schema/motionkb.v3.schema.json` (v2 and v1 kept only as the contracts of
-their snapshots).
+`agent/animation_knowledge_base/schema/motionkb.v4.schema.json` (v3, v2 and v1 kept only as the contracts of
+their snapshots). What a record answers, since ADR
+[0022](docs/adr/0022-the-kb-describes-the-agent-decides.md), is two questions and no others: what the
+action LOOKS like (`action_description`) and how each body part MOVES (`channels.*.motion_description` +
+the kinematic block). Composition, contact, IK and channel ownership are decided at runtime by the agent.
 
-- **Validate (no Unity needed):** `python agent/motionkb/validate_motionkb.py` — validates the 8 **v2 accepted root files**
+- **Validate (no Unity needed):** `python agent/motionkb/validate_motionkb.py` — validates the whole store
   (`agent/animation_knowledge_base/actions/*.json`; `collect_files()` validates BOTH stores every run — it used to return the
   candidates alone whenever any were staged, which let the accepted store go unchecked while still
   printing a pass count. Since 2026-08-21 the store also holds the 2446-clip Mixamo corpus, kinematic-only, so
-  the run covers 2454 files and `-q` prints failures only) against `motionkb.v3.schema.json` + the cross-field invariants JSON
-  Schema can't express (`locks`/`free` partition of the **8 anatomical channels**, overlay
-  lock-disjointness, posture compatibility, ik effector→channel resolution, channel-vocab agreement with
-  `engine_mask_map.json`) with per-file failure isolation. `guid → asset` resolution is the Unity-only
+  the run covers 2454 files and `-q` prints failures only) against `motionkb.v4.schema.json` + the two
+  checks JSON Schema can't express: channel-vocab agreement with `engine_mask_map.json`, and
+  **`validate_descriptions`** (an accepted record has a non-blank `action_description` and a non-blank
+  `motion_description` on each of the **8 anatomical channels**), with per-file failure isolation. The
+  old invariant battery — `locks`/`free` partition, overlay lock-disjointness, posture compatibility, ik
+  effector→channel resolution — and `validate_semantic_consistency` were deleted with the fields they
+  read (ADR [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md)). A leftover v3 field is now a
+  schema error, not a silent pass: the top level and both channel definitions are
+  `additionalProperties: false`. `guid → asset` resolution is the Unity-only
   layer, now landed as `Assets/Editor/MotionKB/MotionKBValidator.cs` (8 resolved → `motionkb_build/reports/kb_state.md`).
-  One-command gate `scripts/check_motionkb.sh` runs all live checks (schema/invariants/semantic-consistency
+  One-command gate `scripts/check_motionkb.sh` runs all live checks (schema/vocabulary/descriptions
   + golden re-extraction regression + manifest-in-sync; the guid→asset step is Unity-side, result committed
   in `kb_state.md`).
 - **Why it's built this way:** see `docs/adr/` (0001 contract-first · 0002 kinematic/semantic split ·
   0003 skeletal split + metrics · 0004 mask+layer disjoint-only · 0005 git-as-version/ledger ·
   0006 peak-resilience-by-design · **0007 v2 9-channel split + engine-decoupled Python extractor**,
   supersedes 0003 · 0008 VLM-proposed SEMANTIC fields · **0009 a plan is checked on a hidden duplicate
-  before the visible character moves, protocol v4**).
+  before the visible character moves, protocol v4** · … · **0022 the KB describes, the agent decides —
+  supersedes 0004 entirely and the SEMANTIC-5-tuple half of 0008**). The list above stops at 0009 for
+  historical reasons; `docs/adr/README.md` is the complete index.
 - **Rolling back** a KB version / extraction / mesh / pose: `docs/ROLLBACK.md`.
 
 Status: the data contract (v1 **+ v2** schema + `validate_motionkb.py` + ADRs incl. **0007** + CHANGELOG)
@@ -851,11 +942,15 @@ split, run-log — **replacing the originally-planned C# Editor script** (the C#
 superseded; read them as "their Python equivalents"). These are now **all landed (2026-06-24)**: the
 Unity-only `MotionKBValidator` (`guid → asset`, 8 resolved → `motionkb_build/reports/kb_state.md`), the golden
 re-extraction regression (`agent/motionkb/test_golden_extraction.py`, pure Python over the frozen `raw`), the
-`manifest.json` index (`agent/motionkb/gen_kb_manifest.py`), and the `retrieval_eval_set.json` seed. The **SEMANTIC pass** on the v2 candidates' 5-tuple is
+`manifest.json` index (`agent/motionkb/gen_kb_manifest.py`), and the `retrieval_eval_set.json` seed. The **SEMANTIC pass** is
 **DONE** (the VLM-proposal loop, [ADR 0008](docs/adr/0008-vlm-proposed-authored-fields.md): first
 human-accepted 2026-06-24; re-proposed on the 2026-07-01 full-pipeline re-run and auto-accepted as
 `vlm_accepted` — human `author` review is optional since 2026-06-25, so the current store has
-`verified_against_screenshots=false`); `composability` is VLM-proposed + program-derived (locks/free/seam_owner). The **candidate→accepted store promotion is DONE (2026-06-24)** — v2
+`verified_against_screenshots=false`). Since ADR
+[0022](docs/adr/0022-the-kb-describes-the-agent-decides.md) that half is exactly two fields —
+`action_description` and each anatomical channel's `motion_description` — and the 5-tuple,
+`composability` and `ik_goals` are deleted rather than reinterpreted; the eight records' descriptions were
+carried through the migration verbatim, with no proposal re-run. The **candidate→accepted store promotion is DONE (2026-06-24)** — v2
 is now the root accepted store (`status: accepted`), v1 retired to tag `kb/v1`. The only KB work left is the
 still-open Unity-only items below.
 
@@ -890,11 +985,14 @@ still-open Unity-only items below.
    per-entry `content_sha256` store-and-reconcile or a `promotion_log.jsonl` ledger — that re-implements git.
    Compute a hash on demand inside the validator only if some out-of-band gate ever needs it.
 6. **kinematic vs semantic split.** The extractor rewrites **KINEMATIC** fields only (magnitudes, mean poses, duration,
-   frame_rate, loop, root motion, the static/dynamic threshold). **SEMANTIC** fields — `motion_description`,
-   `overall_intent`, `tags`, `composability`, `target`/`interaction_object`/`faces_target`, `ik_goal`,
-   `mask_coverage`, `controller_*` — are human-written + screenshot-verified and must NEVER be clobbered by a
-   script. This is what stops "grow the KB" from re-introducing the LLM-positioning/description unreliability
-   the whole project is positioned against (see ADR 0002).
+   frame_rate, loop, root motion, the static/dynamic threshold). The **SEMANTIC** half is now exactly two
+   fields — `action_description` (renamed from `overall_intent`) and each anatomical channel's
+   `motion_description` — proposed from rendered frames, optionally human-reviewed, and never clobbered by
+   the measure half. Everything else the old list named (`tags`, `composability`, `mask_coverage`,
+   `ik_goal`, the per-channel `target`) was deleted by ADR
+   [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md); `controller_*` is resolved by program from
+   the AnimatorController, not written by hand. This is what stops "grow the KB" from re-introducing the
+   LLM-positioning/description unreliability the whole project is positioned against (see ADR 0002).
 
 The eight qualities these serve map to eight modules (one line each; this replaces the deleted blueprint):
 **A. Data Contract** (`motionkb.v2.schema.json` + invariant validator + readable KB-state report) ·
@@ -927,7 +1025,7 @@ The eight qualities these serve map to eight modules (one line each; this replac
 > store promotion is also DONE (2026-06-24): v2 is the root accepted store, v1 retired to tag `kb/v1`.**
 
 **Do-now** (small cost, high value; all gated on the Unity MCP connection except where noted):
-- **[A]** `motionkb.v1.schema.json` (landed; **superseded by `motionkb.v2.schema.json`, and that by `motionkb.v3.schema.json`** — v1 and v2 are their snapshots' contracts) + `MotionKBValidator.cs` (schema + invariants + guid resolution
+- **[A]** `motionkb.v1.schema.json` (landed; **superseded by `motionkb.v2.schema.json`, that by `motionkb.v3.schema.json`, and that by `motionkb.v4.schema.json`** — v1, v2 and v3 are their snapshots' contracts) + `MotionKBValidator.cs` (schema + invariants + guid resolution
   + a readable `motionkb_build/reports/kb_state.md`) + headless wrapper.
 - **[B]** `MotionKBExtractor.cs` — rescue the throwaway extraction snippet into a checked-in Editor script; the
   6-part bone-map and per-part metric divisors become named code constants (`BodyPartBoneMap.cs`,
@@ -974,8 +1072,9 @@ and decision-recording; the per-stage latency budget already covers the one offl
 > overview; this is the agent/operator runbook (doc-audience convention: README = humans, HANDOFF = agent).
 
 The extractor is `agent/motionkb/` (`config.py` channels/bone-map/divisors/thresholds · `metrics.py`
-formulas · `extract.py` orchestration with the `register|resolve-controller|emit-sampler|sample|assemble|render|propose|author`
-subcommands · `unity_sampler.py` the generic sampler + the render generator + the stdlib HTTP-bridge client ·
+formulas · `extract.py` orchestration with the `register|resolve-controller|emit-sampler|sample|assemble|render|propose|author|migrate`
+subcommands (`migrate [--dry-run]` is the v3→v4 converter: it rewrites shape and restamps provenance and
+reads no pose dump, because v4 moved no number) · `unity_sampler.py` the generic sampler + the render generator + the stdlib HTTP-bridge client ·
 `vlm_openai.py` the gpt-5.5 vision client · `propose.py` the proposal loop). The MEASURE half keys its
 working files by **`clip_name`** (`raw/<clip>.json`, `actions/<clip>.json`); the `action_id` is decided in
 the SEMANTIC half (VLM-proposed at `propose`) and the file is renamed to `<action_id>.json` at acceptance
@@ -992,8 +1091,8 @@ read `actions/<clip>.json`.
 1. **Register the source clip** — `python agent/motionkb/extract.py register <clip_name>` finds the clip BY
    NAME in Unity (scans `Assets/Animations`, both standalone `.anim` and FBX-embedded sub-clips via
    `unity_sampler.build_find_clip_csharp`), **auto-resolves its `guid` + `file_id`**, and scaffolds
-   `actions/<clip_name>.json` with `source_clip` filled + a blank v2 skeleton (channels, all-free
-   composability, status `candidate`, `action_id` null). It refuses if the clip already has a record
+   `actions/<clip_name>.json` with `source_clip` filled + a blank v4 skeleton (channels, status
+   `candidate`, `action_id` and both description fields null). It refuses if the clip already has a record
    anywhere in the store, found by reading `source_clip.clip_name` rather than by file name — an
    accepted record is named after its `action_id`, so a name check would miss the costly collision. It then **best-effort resolves `controller_state`/
    `controller_layer`/`trigger_param`** from the AnimatorController the clip is wired into (see step 1b); No
@@ -1003,8 +1102,11 @@ read `actions/<clip>.json`.
      `-203655887218126122`. `register` reads the clip's actual `file_id` so you never hand-copy it. If two
      clips share the name it lists every match (path|guid|file_id) and refuses to guess — disambiguate by
      renaming the clip or writing the stub by hand.
-   - **Nothing else is filled by hand.** `composability` and every meaning-level label come from the AUTHOR
-     half (step 6, VLM-proposed / program-derived); `controller_*` is resolved in step 1b.
+   - **Nothing else is filled by hand.** The only meaning-level fields left are `action_description` and
+     the per-channel `motion_description`, and both come from step 6; `controller_*` is resolved in step 1b.
+     There is no `composability`, `ik_goals` or 5-tuple to scaffold — ADR
+     [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md) deleted them, because each stated a
+     decision about a COMBINATION on a record that describes one clip.
      (`_source_files()` walks the one store, so the new clip flows through the next steps.)
    1b. **Resolve controller wiring** — `register` already attempts it; re-run explicitly with
      `python agent/motionkb/extract.py resolve-controller <clip_name>` after you wire the clip into a
@@ -1037,22 +1139,19 @@ read `actions/<clip>.json`.
    is from the nearest picture, in normalised muscle space (ADR 0015). Before 2026-08-21 they were
    spread across an "action window", which on a held action put all three inside the hold --
    `check_pulse` was labelled from one pose photographed three times.
-6. **Propose (VLM proposes + program derives + auto-keeps)** — `python agent/motionkb/extract.py propose <clip>`
-   sends those frames + the KINEMATIC facts + the existing base-action list to `gpt-5.5-2026-04-23`
-   (`vlm_openai.MODEL`). It proposes `action_id` + display_name + overall_intent + tags + `mask_coverage` + the
-   per-channel 5-tuple + descriptions **and the composability judgement calls** (`base_or_overlay`, `posture`,
-   `can_overlay_on`). The program then **derives `composability.locks`/`free`** from the proposed roles
-   (`free ⟺ role==free` — the exact relation the gate enforces, so it reproduces the existing 8 by construction)
-   `+ seam_owner` (fixed `{torso:base, root:base}` convention). It runs `validate_semantic_consistency` **plus a
-   composability gate** (`propose._composability_errors`: `can_overlay_on` names known bases, lock-disjoint,
-   posture-compatible; base ⇒ empty) with a self-correction retry loop. The program NEVER writes KINEMATIC
-   (ADR 0002); the per-channel `target` stays null; `controller_*` untouched. **`ik_goals` is DERIVED** from
-   the proposed object contacts (a hand/foot with `contact=object:<obj>` + `constraint∈{must-reach,must-maintain}`),
-   its `target` left null (the scene anchor is engine-specific → Phase-2 grounding). Needs `OPENAI_API_KEY` in `key.env`
-   (git-ignored). **By default it then AUTO-PROMOTES (`_promote_candidate(human=False)`) to `<action_id>.json`
-   with provenance `vlm_accepted`** (no human required — ADR 0008 human gate is now opt-in). `--stage` leaves the
-   record at `status: candidate` instead. `mask_coverage` is VLM-proposed, NOT derived from locks (a base/idle pose drives the
-   whole body yet locks nothing — they diverge).
+6. **Propose (VLM proposes + auto-keeps)** — `python agent/motionkb/extract.py propose <clip>`
+   sends those frames + the KINEMATIC facts + the existing action list to `gpt-5.5-2026-04-23`
+   (`vlm_openai.MODEL`). Since ADR [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md) it proposes
+   **exactly three things**: `action_id`, `action_description`, and one `motion_description` per anatomical
+   channel. There is nothing to derive from the proposal any more — the 2026-06-25b derivation of
+   `composability.locks`/`free`/`seam_owner` and of `ik_goals` went with the fields, and so did the whole
+   constrained-vocabulary and consistency apparatus, because there are no enums left to violate and no
+   cross-field rule left to satisfy. The retry loop's one remaining job is a proposal that skipped a
+   channel. The program NEVER writes KINEMATIC (ADR 0002); `controller_*` untouched. Needs
+   `OPENAI_API_KEY` in `key.env` (git-ignored). **By default it then AUTO-PROMOTES
+   (`_promote_candidate(human=False)`) to `<action_id>.json` with provenance `vlm_accepted`** (no human
+   required — ADR 0008 human gate is now opt-in). `--stage` leaves the record at `status: candidate`
+   instead.
 7. **Author (OPTIONAL human review)** — `python agent/motionkb/extract.py author <clip|all>` (or `propose --stage`
    first, then this): gates `action_id` (slug + uniqueness), flips `vlm_proposed → semantic`, sets
    `verified_against_screenshots=true` + `verified_by/at`, marks `vlm_proposal.status = human_accepted`, and
@@ -1082,9 +1181,11 @@ python3 ingest_corpus.py status     # where the funnel stands
 Four things to know before running it:
 
 - **It stops at KINEMATIC.** No render, no propose, no promotion. Records stay `status: candidate` with
-  `action_id` / the 5-tuple / `tags` null and `composability` at its register-time placeholder. That is a
-  legal record now: the schema makes those nullable and `validate_motionkb.py` requires them the moment
-  `status` is anything but `candidate` (fail-closed — a record with no `status` is held to the full bar).
+  `action_id`, `action_description` and every `motion_description` null — the whole semantic half, since
+  ADR [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md). That is a legal record: the schema makes
+  those nullable, they are listed under `field_origin.semantic_pending`, and `validate_descriptions`
+  requires them the moment `status` is anything but `candidate` (fail-closed — a record with no `status`
+  is held to the full bar).
 - **The population is the index, not the store.** `extract.py assemble` writes a candidate for every source
   entry it can see, including the 8 accepted ones; this does not. `actions/` is never read or written.
 - **`sample` is the only slow verb and the only resumable one.** It skips clips whose `raw` dump exists,
@@ -1120,3 +1221,9 @@ and `git add -f`-ing its dump in the same commit — the one-commit invariant is
 > `derived` / `resolved`. The existing 8 accepted files were NOT re-derived (their hand-authored/VLM-proposed
 > composability + controller stand); this only changes how NEW actions are produced. Gate green: validate 8/8,
 > golden 8/8 (MEASURED untouched). See the 2026-06-25 update in [ADR 0008](docs/adr/0008-vlm-proposed-authored-fields.md).
+>
+> **Half of this entry is history as of 2026-08-26 (ADR
+> [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md)):** point (2) is void — `composability` and
+> `ik_goals` are deleted, so nothing is derived from a proposed role, and `mask_coverage` is gone too.
+> Points (1) and (3) still describe the live pipeline: `controller_*` is program-resolved, and `propose`
+> auto-keeps as `vlm_accepted` with `author` the opt-in human upgrade.

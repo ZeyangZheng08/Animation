@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
 """probe_mix.py — one body part driven by two clips at once, and what the graph actually held.
 
-`giving_pills` takes the legs as `support` and `walking` takes them as `primary`. Winner-take-all threw
-the brace away; the shares from the role table are 0.4 and 0.6, and this is where that stops being an
-arithmetic claim. It sends the plan down the real path and then asks the engine, not the plan, what the
-mixer ended up holding.
+The plan names `giving_pills` and `walking` on the same legs, so both are asked for there and neither
+can simply win. Winner-take-all threw one of them away; the shares are half each, and this is where
+that stops being an arithmetic claim. It sends the plan down the real path and then asks the engine,
+not the plan, what the mixer ended up holding.
+
+WHO DECIDES THE CONTENTION CHANGED, AND THE ARITHMETIC WITH IT. Under v3 the pair contested the legs
+by themselves -- `giving_pills` labelled them `support`, `walking` labelled them `primary`, and
+normalising ROLE_PRIORITY gave 0.6 and 0.4. motionkb/v4 deletes `role` (ADR 0022), so a contested
+channel is one the PLAN named twice, and the shares are equal because nothing is left to rank them
+by. What this probe measures is unchanged: whether a fractional weight survives the trip to the
+graph.
 
 THE PRIMITIVE WAS CHECKED FIRST, SEPARATELY. Whether a masked layer interpolates at a fractional weight
 at all is a question about Unity, not about this pipeline, so it was answered on its own before any of
@@ -36,14 +43,17 @@ from agent.tools import scene as scene_tools
 
 BASE = "giving_pills"
 OVERLAY = "walking"
+# The body part both halves of the plan are asked for. The legs, because that is the pair this probe
+# was written about: a walk's stride and a hand-over's brace, on one set of legs.
+CONTESTED = ["left_leg", "right_leg"]
 
 
-def expected(kb):
-    """What the role table says, worked out here so the engine's answer has something to be wrong
-    against. Deriving it inside the probe from the same function the tool uses is deliberate: a probe
+def expected(kb, base, overlay, channels):
+    """What the arbitration says, worked out here so the engine's answer has something to be wrong
+    against. Derived inside the probe from the same function the tool uses, deliberately: a probe
     with its own copy of the rule cannot catch the rule changing."""
-    assembly = A.arbitrate(BASE, [OVERLAY], kb)
-    return {mix.channel: dict(mix.overlay_weights(assembly.base)).get(OVERLAY)
+    assembly = A.arbitrate(base, [(overlay, channels)], kb, base_channels=channels)
+    return {mix.channel: dict(mix.overlay_weights(assembly.base)).get(overlay)
             for mix in assembly.shared}
 
 
@@ -51,6 +61,10 @@ async def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--base", default=BASE)
     ap.add_argument("--overlay", default=OVERLAY)
+    ap.add_argument("--channels", nargs="+", default=CONTESTED,
+                    help="the body parts BOTH halves of the plan ask for. Since v4 a contested "
+                         "channel is one the plan named twice; nothing in a record contests "
+                         "anything by itself.")
     # Named, because there are three of them now and the tools refuse to guess. That refusal is
     # correct and this is what it costs: a probe cannot leave the character implicit any more.
     ap.add_argument("--character", default="Jill")
@@ -60,7 +74,7 @@ async def main(argv):
     args = ap.parse_args(argv)
 
     kb = KBIndex.load()
-    want = expected(kb)
+    want = expected(kb, args.base, args.overlay, args.channels)
     if not want:
         print("%s under %s contests no channel, so there is no mix to measure"
               % (args.overlay, args.base))
@@ -78,10 +92,10 @@ async def main(argv):
         character = next((cid for cid, name in names.items()
                           if name.lower() == args.character.lower()), args.character)
 
-        plan = await registry.dispatch("plan_motion", {"base": args.base,
-                                                       "overlays": [args.overlay],
-                                                       "character": args.character,
-                                                       "mode": "commit"})
+        plan = await registry.dispatch("plan_motion", {
+            "base": args.base, "base_channels": list(args.channels),
+            "overlays": [{"action_id": args.overlay, "channels": list(args.channels)}],
+            "character": args.character, "mode": "commit"})
         if plan.get("success") is False:
             print("the plan was refused: %s" % plan.get("error"))
             return 1
@@ -146,7 +160,7 @@ async def main(argv):
                   "against an object, so they miss it from anywhere else — expected here, and not "
                   "evidence about the weights above." % args.base)
 
-        print("\n%s" % ("the share the role table derived is the share the mixer is holding."
+        print("\n%s" % ("the share the arbitration derived is the share the mixer is holding."
                         if ok else "the graph is not holding what was asked for; read the two "
                                    "columns above."))
         return 0 if ok else 1

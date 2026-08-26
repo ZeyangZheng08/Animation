@@ -18,10 +18,12 @@ namespace AgentRuntime
     /// FindObjectsOfType, which keeps results stable, small, and independent of what else is in the
     /// scene.
     ///
-    /// ALIASES ARE THE JOIN. The knowledge base says a motion touches `aspirin_bottle`; the scene has an
-    /// object called "Aspirin Bottle". The alias list is what connects them, and it is the mechanism by
-    /// which a retrieved motion becomes a motion aimed at a real thing. Both `channels.*.contact`
-    /// (spelled "object:pills") and `ik_goals[].contact_object` (spelled "pills") resolve through it.
+    /// ALIASES ARE THE JOIN. A person asks for "the pills"; this scene calls that object
+    /// `obj:AspirinBottle`. The alias list is what connects the words an instruction arrives in to the
+    /// object that actually exists here, and it is the mechanism by which a planned motion becomes a
+    /// motion aimed at a real thing. Every object reference in a plan resolves through it — a carry, an
+    /// IK binding, a gaze target, a walk destination — and there is nothing to join on the other side:
+    /// since ADR 0022 a knowledge-base record names no object at all.
     ///
     /// BOUNDS COME FROM RENDERERS, NOT COLLIDERS. With 13 colliders in 600 objects, any collider-based
     /// query would silently answer for almost nothing. Do not "fix" this later with an OverlapSphere.
