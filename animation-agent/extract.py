@@ -48,11 +48,12 @@ SAMPLER_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_generat
 # The KINEMATIC half of a channel. Not every key is on every channel: `mean_pose` is the anatomical
 # channels' and the root's two carriage means are the root's, so a key absent from a block is
 # removed from the record rather than left behind.
-KINEMATIC_KEYS = ("kind", "state_label", "motion_magnitude", "raw_measurement", "mean_pose",
+KINEMATIC_KEYS = ("state_label", "motion_magnitude", "raw_measurement", "mean_pose",
                   "mean_body_height", "mean_body_tilt_deg")
-# Keys the contract used to carry here (the v2.3.0-v2.5.0 posture triple, ADR 0021 deleted them). A
-# re-measure drops them, so a record cannot keep a number no formula produces any more.
-RETIRED_KINEMATIC_KEYS = ("posture_label", "posture_magnitude", "posture_measurement")
+# Keys the contract used to carry here (the v2.3.0-v2.5.0 posture triple, ADR 0021 deleted them;
+# `kind`, which restated the channel name it was keyed by). A re-measure drops them, so a record
+# cannot keep a field no formula produces any more.
+RETIRED_KINEMATIC_KEYS = ("posture_label", "posture_magnitude", "posture_measurement", "kind")
 SEMANTIC_CH_KEYS = ("role", "motion_type", "contact", "constraint", "target", "motion_description")
 
 
@@ -407,7 +408,7 @@ def _new_source_stub(clip_name, fbx_or_anim, guid, file_id):
     """A minimal valid candidate skeleton with source_clip filled. KINEMATIC comes from assemble;
     SEMANTIC (incl. action_id) + composability from the propose stage (VLM-proposed/derived); controller_*
     from register/resolve-controller. composability seeded all-free here is just a placeholder."""
-    channels = {ch: ({"kind": "root"} if ch == C.ROOT else {}) for ch in C.STATE_CHANNELS}
+    channels = {ch: {} for ch in C.STATE_CHANNELS}
     return {
         "schema_version": C.SCHEMA_VERSION,
         "action_id": None, "display_name": None, "status": "candidate",

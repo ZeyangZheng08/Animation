@@ -46,7 +46,7 @@ FORMULA_VERSION  = "v3.0.0"   # v3.0.0: posture is no longer classified against 
                               # v2.3.0: + posture (mean-pose offset from rest) per channel (ADR 0018)
                               # v2.2.0: measured in Unity's normalised Humanoid space (ADR 0011)
 BONE_MAP_VERSION = "v2.0.0"
-EXTRACTOR_VERSION = "3.0.0"
+EXTRACTOR_VERSION = "3.1.0"
 # The avatar the SAMPLER runs on. Provenance only: it records which body produced the dumps in
 # raw/, and it does not enter any number. See the block below RENDER_AVATAR.
 CALIBRATION_AVATAR = "nurse_avatar.fbx"

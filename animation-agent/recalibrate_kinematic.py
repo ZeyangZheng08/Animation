@@ -4,7 +4,7 @@ recalibrate_kinematic.py — rewrite the KINEMATIC block of every accepted recor
 
 Run this once after a deliberate `metric_formula_version` bump. It re-runs
 `metrics.channel_blocks` over each record's frozen `raw` dump and writes back only the KINEMATIC
-fields (`kind`, `state_label`, `motion_magnitude`, `raw_measurement`, `mean_pose`, and the root's
+fields (`state_label`, `motion_magnitude`, `raw_measurement`, `mean_pose`, and the root's
 `mean_body_height` / `mean_body_tilt_deg`) plus the `extraction` block — exactly the split ADR 0002
 draws. SEMANTIC fields, `composability`, `ik_goals`, `source_clip`, `controller_*` and `status` are
 read and written back untouched.

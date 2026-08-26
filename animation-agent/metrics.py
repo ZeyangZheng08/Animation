@@ -303,11 +303,10 @@ def channel_blocks(raw):
     mean_pose, mean_body_height, mean_body_tilt_deg = mean_poses(raw)
     out = {}
 
-    def fk_or_hand(channel, kind, signal_name, div_key, thr_key):
+    def anatomical(channel, signal_name, div_key, thr_key):
         rawv = sig[channel]
         div = C.DIVISOR[div_key]
         out[channel] = {
-            "kind": kind,
             "state_label": "dynamic" if rawv >= C.STATIC[thr_key] else "static",
             "motion_magnitude": round(_clamp01(rawv / div), 4),
             "raw_measurement": {"signal": signal_name, "raw_value": round(rawv, 5), "divisor": div},
@@ -317,14 +316,14 @@ def channel_blocks(raw):
     # One signal name for every anatomical channel, because it is now literally the same measurement
     # everywhere: the RMS over that channel's Humanoid degrees of freedom of each one's stddev in time.
     SIG = "muscle_dof_stddev_rms"
-    fk_or_hand(C.TORSO, "fk_part", SIG, C.TORSO, C.TORSO)
-    fk_or_hand(C.HEAD, "fk_part", SIG, C.HEAD, C.HEAD)
-    fk_or_hand(C.LEFT_ARM, "fk_part", SIG, "arm", "arm")
-    fk_or_hand(C.RIGHT_ARM, "fk_part", SIG, "arm", "arm")
-    fk_or_hand(C.LEFT_LEG, "fk_part", SIG, "leg", "leg")
-    fk_or_hand(C.RIGHT_LEG, "fk_part", SIG, "leg", "leg")
-    fk_or_hand(C.LEFT_HAND, "hand", SIG, "hand", "hand")
-    fk_or_hand(C.RIGHT_HAND, "hand", SIG, "hand", "hand")
+    anatomical(C.TORSO, SIG, C.TORSO, C.TORSO)
+    anatomical(C.HEAD, SIG, C.HEAD, C.HEAD)
+    anatomical(C.LEFT_ARM, SIG, "arm", "arm")
+    anatomical(C.RIGHT_ARM, SIG, "arm", "arm")
+    anatomical(C.LEFT_LEG, SIG, "leg", "leg")
+    anatomical(C.RIGHT_LEG, SIG, "leg", "leg")
+    anatomical(C.LEFT_HAND, SIG, "hand", "hand")
+    anatomical(C.RIGHT_HAND, SIG, "hand", "hand")
 
     t, v, h = sig["_root_trans"], sig["_root_vert"], sig["_root_heading"]
     root_mag = _clamp01(max(t / C.DIVISOR["root_trans"],
@@ -336,7 +335,6 @@ def channel_blocks(raw):
     root_dynamic = (t >= C.STATIC["root_trans"] or v >= C.STATIC["root_vert"]
                     or h >= C.STATIC["root_heading"])
     out[C.ROOT] = {
-        "kind": "root",
         "state_label": "dynamic" if root_dynamic else "static",
         "motion_magnitude": round(root_mag, 4),
         "raw_measurement": {

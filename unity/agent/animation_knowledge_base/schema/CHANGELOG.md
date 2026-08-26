@@ -3,6 +3,27 @@
 All notable changes to the `motionkb` schema. The schema id is the contract between the extractor and the
 Python RAG (Phase 2); bump deliberately and record every change here.
 
+## motionkb/v3 — 2026-08-26 (amended: the channel `kind` field is removed)
+**Not a new contract id.** `kind` carried no information a consumer could not already read, so it is
+deleted from every channel block rather than kept as a field every writer has to fill correctly.
+
+- **Removed** from all 9 channels: `kind` (`fk_part` | `hand` on the eight anatomical channels,
+  `root` on the root). `channels` is a name-keyed object, and the schema already dispatches a
+  channel's structure on that key — the root's block is validated as the root because it is stored
+  under `"root"`, not because it declares itself one. The `hand` value was the channel name
+  `left_hand` / `right_hand` restated, and nothing computed anything from either value: the one
+  consumer, the validator's `motion_type=manipulate` nudge, now tests the channel name directly.
+- **No number changed.** Variation, `mean_pose`, the root's carriage means, `raw_measurement`,
+  the SEMANTIC half, `composability`, `ik_goals` and the frozen `raw` dumps are untouched;
+  `metric_formula_version` stays `v3.0.0` and `extractor_version` goes to `3.1.0`, which is the only
+  other line the store rewrite moves.
+- **A leftover `kind` is now an error, not a warning.** Both channel definitions are
+  `additionalProperties: false`, so a record written by an older extractor fails validation instead
+  of passing with a field the contract no longer describes.
+- `engine_mask_map.json` keeps its own per-channel `kind`: that file is a different contract
+  (`motionkb-engine-map/v1`) describing each channel's masking primitive per engine, and its value is
+  read by people, not by the record schema.
+
 ## motionkb/v3 — 2026-08-25 (metric formula v3.0.0: the mean pose is stored, not classified)
 **Breaking.** In one line: **v2 was variation plus a scalar distance-to-a-reference posture; v3 is
 variation plus the actual mean pose vector.** A consumer written against v2 does not read a v3

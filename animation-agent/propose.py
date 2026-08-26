@@ -75,8 +75,8 @@ def _kinematic_summary(doc):
     lines = []
     for c in C.STATE_CHANNELS:
         f = ch.get(c) or {}
-        lines.append("  %-11s state=%-7s magnitude=%-6s kind=%s"
-                     % (c, f.get("state_label"), f.get("motion_magnitude"), f.get("kind", "root")))
+        lines.append("  %-11s state=%-7s magnitude=%-6s"
+                     % (c, f.get("state_label"), f.get("motion_magnitude")))
         pose = f.get("mean_pose")
         if isinstance(pose, dict) and pose:
             lines.append("              mean pose: "

@@ -8,6 +8,21 @@
 
 ## 0. TL;DR — current state
 
+> **✓ THE CHANNEL `kind` FIELD IS GONE (2026-08-26).** Every channel block carried a `kind` —
+> `fk_part` on six anatomical channels, `hand` on the two hand channels, `root` on the root — and
+> not one line of code decided anything by it. `channels` is keyed BY CHANNEL NAME, so the schema
+> already dispatches the root's block on the key `"root"`, and `hand` was `left_hand` / `right_hand`
+> restated. Its single consumer, the validator's `motion_type=manipulate` nudge, now tests the
+> channel name. Removed from the 9 channel blocks of all **2454** records and from both channel
+> definitions in `motionkb.v3.schema.json`; with `additionalProperties: false` a leftover `kind` now
+> FAILS validation, which is the point. **No number moved:** schema stays **`motionkb/v3`**, formula
+> stays **v3.0.0**, extractor 3.0.0 → **3.1.0**. The whole-store diff is 22086 deleted `kind` lines
+> plus the two provenance lines per record (`extractor_version`, `extracted_at`) and nothing else.
+> `engine_mask_map.json` keeps its own per-channel `kind`: different contract
+> (`motionkb-engine-map/v1`), read by people, not by the record schema. Gates: validate 2454/2454,
+> golden 8/8, manifest in sync, suite 349/349, retrieval eval 7/12 unchanged. **No new kb tag** —
+> `kb/v3` remains the rollback point. See `schema/CHANGELOG.md`.
+
 > **✓ THE STORE STOPPED CLASSIFYING POSES AND STARTED KEEPING THEM (2026-08-25).** The MEASURED half
 > is now called **KINEMATIC**, the posture triple is gone, and every channel carries `mean_pose` — the
 > per-frame mean of each of its Humanoid muscle degrees of freedom, keyed by the engine's own DOF

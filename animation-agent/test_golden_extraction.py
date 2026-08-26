@@ -6,7 +6,7 @@ test_golden_extraction.py — golden re-extraction regression for the MotionKB K
 The KINEMATIC block in the accepted store was produced by `metrics.channel_blocks` over the saved
 per-frame pose dumps in `agent/animation_knowledge_base/raw/<id>.json`. This test RE-RUNS that exact
 computation from the same frozen `raw` dumps and asserts the result still reproduces the KINEMATIC
-fields (`kind`, `state_label`, `motion_magnitude`, `raw_measurement`, `mean_pose`, and the root's
+fields (`state_label`, `motion_magnitude`, `raw_measurement`, `mean_pose`, and the root's
 `mean_body_height` / `mean_body_tilt_deg`) in each accepted `<id>.json`.
 
 It is the regression guard for `metrics.py` + `config.py` (divisors/threshold/bone-map): any drift in
@@ -29,7 +29,7 @@ KB_DIR = paths.KB_DIR                                            # see paths.py 
 # Every key the KINEMATIC half can carry. `mean_pose` is the anatomical channels', the two carriage
 # means are the root's, so a key missing from BOTH the record and the recomputation is not a
 # difference — a key missing from only one is.
-KINEMATIC_KEYS = ("kind", "state_label", "motion_magnitude", "raw_measurement", "mean_pose",
+KINEMATIC_KEYS = ("state_label", "motion_magnitude", "raw_measurement", "mean_pose",
                   "mean_body_height", "mean_body_tilt_deg")
 EPS = 1e-9
 

@@ -66,6 +66,7 @@ ROLE_FREE = "free"
 RELEVANT_ROLES = {"primary", "stabilizer", "support"}
 MOVING_MOTION_TYPES = {"reach", "manipulate", "cyclic-locomotion"}
 LEG_CHANNELS = ("left_leg", "right_leg")
+HAND_CHANNELS = ("left_hand", "right_hand")
 
 
 def _any_leg_dynamic(doc):
@@ -284,7 +285,7 @@ def validate_semantic_consistency(data, errors, warns):
             continue  # semantic 5-tuple not filled yet -> pending, not gated
         role, mt = f.get("role"), f.get("motion_type")
         contact, constraint, target = f.get("contact"), f.get("constraint"), f.get("target")
-        state, kind = f.get("state_label"), f.get("kind")
+        state = f.get("state_label")
         has_ik = c in ik_by_channel
         in_free, in_locks = c in free, c in locks
 
@@ -337,8 +338,8 @@ def validate_semantic_consistency(data, errors, warns):
         # threshold invented here.
         if mt == "gaze" and c != "head":
             warns.append(f"channels.{c}: motion_type=gaze on a non-head channel")
-        if mt == "manipulate" and kind != "hand":
-            warns.append(f"channels.{c}: motion_type=manipulate on a non-hand channel ({kind})")
+        if mt == "manipulate" and c not in HAND_CHANNELS:
+            warns.append(f"channels.{c}: motion_type=manipulate on a non-hand channel")
         if constraint == "must-reach" and target is None and not has_ik:
             sibling_hand = {"left_arm": "left_hand", "right_arm": "right_hand"}.get(c)
             if not (sibling_hand and sibling_hand in ik_by_channel):
