@@ -41,6 +41,7 @@ animation-agent/
 ├── extract.py                pipeline: register / resolve-controller / emit-sampler / sample / assemble / migrate / render / propose / author
 ├── ingest_corpus.py          the measure half and the render step over a WHOLE asset folder, stopping
 │                            short of any description (ADR 0014); both slow verbs resume
+├── HPC_HANDOFF.md            running the semantic pass on HPC: what to build, what not to touch
 ├── propose.py                the describer: the prompt, the nine-line reply parser, the completeness loop
 ├── vlm_openai.py             stdlib VLM client (gpt-5.5); `describe` returns the reply text
 ├── vlm_anthropic.py          the same three symbols on claude-opus-5; MOTIONKB_VLM picks between them
