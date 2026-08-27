@@ -71,10 +71,16 @@ def load_api_key(repo_root):
         % "\n  ".join(searched))
 
 
-def _image_block(png_path):
-    with open(png_path, "rb") as f:
+def _media_type(path):
+    """From the extension. Frames are JPEG since the eight-view ring; the KB may still hold PNGs from
+    before it, and sending one of those under the wrong type is a request error, not a bad picture."""
+    return "image/png" if path.lower().endswith(".png") else "image/jpeg"
+
+
+def _image_block(img_path):
+    with open(img_path, "rb") as f:
         return {"type": "image",
-                "source": {"type": "base64", "media_type": "image/png",
+                "source": {"type": "base64", "media_type": _media_type(img_path),
                            "data": base64.b64encode(f.read()).decode()}}
 
 

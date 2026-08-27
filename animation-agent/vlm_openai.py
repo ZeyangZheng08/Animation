@@ -35,9 +35,15 @@ def load_api_key(repo_root):
     raise RuntimeError("OPENAI_API_KEY not set and no key.env at %s" % repo_root)
 
 
-def _data_url(png_path):
-    with open(png_path, "rb") as f:
-        return "data:image/png;base64," + base64.b64encode(f.read()).decode()
+def _media_type(path):
+    """From the extension. Frames are JPEG since the eight-view ring; the KB may still hold PNGs from
+    before it, and sending one of those under the wrong type is a request error, not a bad picture."""
+    return "image/png" if path.lower().endswith(".png") else "image/jpeg"
+
+
+def _data_url(img_path):
+    with open(img_path, "rb") as f:
+        return "data:%s;base64,%s" % (_media_type(img_path), base64.b64encode(f.read()).decode())
 
 
 def _extract_json(text):

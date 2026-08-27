@@ -26,6 +26,7 @@ stdlib client for the offline build (`POST /api/command`, `execute_code`), and a
 MCP-connected client can equally paste the snippet.
 """
 import base64
+import glob
 import http.client
 import json
 import math
@@ -35,13 +36,20 @@ import urllib.request
 import config as C
 import paths
 
-# Fallback multi-angle render views (name -> camera direction from the avatar centre) and frame fractions.
-# These fixed views assume the avatar faces -Z; `select_views` below replaces them per-action with a
-# facing-aware, data-driven pair (used by `extract.py render`). This constant is only the fallback when
-# the raw dump is missing, so a caller can still render without the KINEMATIC data.
-RENDER_VIEWS = [("front_left_3q", (-0.7, 0.25, -1.0)), ("side_right", (1.0, 0.2, 0.0))]
+# THE VIEW RING. Every clip is shot from all eight azimuths, 45 degrees apart, around the avatar's OWN
+# frame: `front` is the avatar's real front (from the raw dump's `root_fwd`), then the ring turns toward
+# the avatar's right and continues round the back to its left. This replaced a per-action selector that
+# picked two of four named views from the KINEMATIC state labels. Two angles is a bet on which axis the
+# action reads along, and the bet is what fails: an occlusion is invisible from the angle that hides it,
+# so "the hand is behind the hip" and "the hand is in front of the hip" produce the same picture and the
+# describer has no way to tell them apart. A fixed ring makes the coverage a property of the pipeline
+# rather than of a heuristic, and it costs no decision at render time.
+VIEW_ELEVATION = 0.20   # uniform slight look-down for all eight (same magnitude the old views used)
+VIEW_RING_NAMES = ("front", "front_right", "right", "back_right", "back", "back_left", "left", "front_left")
 RENDER_FRACS = [0.30, 0.55, 0.80]
-K_FRAMES = 3      # evidence frames per view; 3 x 2 views x ~400 KB stays well inside the 8 MB response ceiling
+K_FRAMES = 3      # evidence frames per view; 8 views x 3 = 24 images per clip, issued in view batches
+IMAGES_PER_CALL = 12   # per-call image budget; ~60 KB a JPEG base64-expands to ~1.0 MB vs the 8 MB ceiling
+JPEG_QUALITY = 85      # measured ~60 KB a frame against PNG's ~270 KB, with nothing a describer reads lost
 SEED_CAP = 32     # candidate starts for the greedy traversal in `select_frame_indices`
 
 
@@ -61,47 +69,28 @@ def _representative_fwd(root_fwd):
     return (sx / mag, 0.0, sz / mag)
 
 
-def _named_views(fwd):
-    """Facing-aware camera directions (avatar->centre-to-camera) built from the flat forward `fwd`.
-    `front` looks at the avatar's actual front; the lateral axis is the avatar's right = (F.z, 0, -F.x)."""
-    F = fwd
-    R = (F[2], 0.0, -F[0])  # avatar right = cross(up, F) with up=+Y
+def view_ring(root_fwd=None):
+    """The eight camera directions (avatar centre -> camera) for one clip, in ring order.
 
-    def mk(a_f, a_r, a_u):
-        v = (a_f * F[0] + a_r * R[0], a_u, a_f * F[2] + a_r * R[2])
+    Built from the clip's own facing, so `front` is the face and `right` is the avatar's right side no
+    matter which way the clip was authored. The lateral axis is the avatar's right = (F.z, 0, -F.x)
+    (= cross(up, F) with up=+Y), and each view is that basis rotated by k*45 degrees plus one uniform
+    slight look-down. Deterministic: no clip data beyond the facing enters the choice. Returns a
+    [(name, unit_dir), ...] list of length 8. `root_fwd=None` falls back to facing +Z."""
+    F = _representative_fwd(root_fwd)
+    R = (F[2], 0.0, -F[0])
+    out = []
+    for i, name in enumerate(VIEW_RING_NAMES):
+        th = math.radians(45.0 * i)
+        a_f, a_r = math.cos(th), math.sin(th)   # +a_r turns toward the avatar's right
+        v = (a_f * F[0] + a_r * R[0], VIEW_ELEVATION, a_f * F[2] + a_r * R[2])
         m = math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) or 1.0
-        return (v[0] / m, v[1] / m, v[2] / m)
-
-    return {
-        "front":         mk(1.0,  0.0, 0.20),   # straight in front of the face
-        "front_left_3q": mk(1.0, -0.7, 0.25),   # front, avatar's left
-        "front_right_3q": mk(1.0,  0.7, 0.25),  # front, avatar's right
-        "side_right":    mk(0.0,  1.0, 0.20),   # avatar's right side (sagittal plane)
-    }
+        out.append((name, (v[0] / m, v[1] / m, v[2] / m)))
+    return out
 
 
-def select_views(blocks, root_fwd):
-    """Coarse, data-driven per-action camera views from the KINEMATIC channel blocks + facing.
-
-    The reading axis differs by what the action IS: a locomotion clip (root dynamic) reads best from the
-    SIDE (gait/stride is a sagittal-plane signal); a stationary manipulation act (hands/torso working in
-    FRONT of the body — cpr/pulse/giving/bvm/typing) reads best from the FRONT, so the reaching hands are
-    not foreshortened; an essentially still clip keeps a neutral 3/4 + side pair. `front` is the avatar's
-    real front (from raw root_fwd), which also fixes the fixed views accidentally shooting the back.
-    Returns a [(name, dir), ...] list shaped like RENDER_VIEWS."""
-    V = _named_views(_representative_fwd(root_fwd))
-
-    def dyn(ch):
-        return (blocks.get(ch) or {}).get("state_label") == "dynamic"
-
-    upper_active = any(dyn(c) for c in (C.TORSO, C.LEFT_ARM, C.RIGHT_ARM, C.LEFT_HAND, C.RIGHT_HAND, C.HEAD))
-    if dyn(C.ROOT):                       # locomotion
-        names = ["side_right", "front_left_3q"]
-    elif upper_active:                    # stationary manipulation act
-        names = ["front", "front_left_3q"]
-    else:                                 # near-still (idle-like)
-        names = ["front_left_3q", "side_right"]
-    return [(n, V[n]) for n in names]
+# The ring for an avatar with no raw dump to read a facing from (e.g. render before sample).
+RENDER_VIEWS = view_ring()
 
 
 def _pose_distance(a, b):
@@ -165,8 +154,8 @@ def select_frame_indices(raw, k=K_FRAMES):
         bvm          0.1116 -> 0.0446      walking       0.1221 -> 0.1206
         grab_bottle  0.1798 -> 0.1311      idle          0.0081 -> 0.0065
 
-    Better on all eight, mean 0.1886 -> 0.1110. `select_views` is untouched: which ANGLES to shoot from
-    is a different question, and the measured data still answers it well."""
+    Better on all eight, mean 0.1886 -> 0.1110. WHICH times to shoot is the only question this answers;
+    which ANGLES to shoot from is a different one, and `view_ring` answers it by shooting all of them."""
     M = raw.get("muscles") or []
     n = len(M)
     if n < 2 or not M[0]:
@@ -568,20 +557,28 @@ return sb.ToString().Trim();
 ''' % (clip_name, dirs_lit)
 
 
-def build_render_csharp(clip, views=RENDER_VIEWS, fracs=RENDER_FRACS, w=1024, h=1024):
+def build_render_csharp(clip, views=RENDER_VIEWS, fracs=RENDER_FRACS, w=1024, h=1024, quality=JPEG_QUALITY):
     """C# (CodeDom method body) that samples one clip on nurse_avatar, renders it from several angles at
-    several times, and RETURNS the PNGs as `<filename>|<base64>` lines. `clip` = {id, guid, file_id}.
+    several times, and RETURNS the JPEGs as `<filename>|<base64>` lines. `clip` = {id, guid, file_id}.
     Frames are kept for the human-review half of the propose/author loop (ADR 0008).
 
-    Nothing is written engine-side: ~6 frames x ~400 KB base64-expands to ~3.2 MB, comfortably inside the
-    measured 8 MB response ceiling for one clip."""
+    Nothing is written engine-side, so the whole set crosses the transport as one response and the 8 MB
+    ceiling is the budget: `render_clip_frames` splits the ring into calls of IMAGES_PER_CALL images.
+    The framing is per-CLIP, not per-call — distance comes from `fracs`, which every call shares — so
+    splitting by view changes nothing about what the pictures show.
+
+    JPEG, not PNG. These frames are a lit figure on a lit floor: nothing in them is flat colour, which
+    is the only thing PNG compresses well, and at 1024 the PNGs came out ~270 KB each. The same frame at
+    quality 85 measures ~60 KB, with nothing a describer acts on lost -- separated fingers, foot-to-floor
+    contact, the cast shadow and the floor squares all survive at every azimuth. That is what pays for
+    eight views: 24 pictures now cost less than the six they replaced."""
     vnames = ",".join('"%s"' % v[0] for v in views)
     vdx = ",".join("%ff" % v[1][0] for v in views)
     vdy = ",".join("%ff" % v[1][1] for v in views)
     vdz = ",".join("%ff" % v[1][2] for v in views)
     fr = ",".join("%ff" % f for f in fracs)
     return (r'''
-string GUID="%s"; long FID=%dL; int W=%d,H=%d;
+string GUID="%s"; long FID=%dL; int W=%d,H=%d; int JQ=%d;
 var VN=new string[]{%s}; var VX=new float[]{%s}; var VY=new float[]{%s}; var VZ=new float[]{%s};
 var FR=new float[]{%s};
 
@@ -761,13 +758,13 @@ try {
       var tex=new UnityEngine.Texture2D(W,H,UnityEngine.TextureFormat.RGB24,false);
       tex.ReadPixels(new UnityEngine.Rect(0,0,W,H),0,0); tex.Apply();
       UnityEngine.RenderTexture.active=prev; UnityEngine.RenderTexture.ReleaseTemporary(small);
-      byte[] png = UnityEngine.ImageConversion.EncodeToPNG(tex);
+      byte[] img = UnityEngine.ImageConversion.EncodeToJPG(tex, JQ);
       // The ordinal, not just the percentage, because the percentage identifies neither uniquely nor in
       // order: frames are now chosen by POSE, so two of them can fall in the same whole percent of a long
       // clip (one file silently overwriting another), and a plain lexicographic sort puts "_f21" before
       // "_f5" -- which matters because the prompt tells the model to read the frames as a sequence.
-      string fn = VN[vi]+"_t"+fi+"_f"+((int)(FR[fi]*100))+".png";
-      summary.AppendLine(fn+"|"+System.Convert.ToBase64String(png));
+      string fn = VN[vi]+"_t"+fi+"_f"+((int)(FR[fi]*100))+".jpg";
+      summary.AppendLine(fn+"|"+System.Convert.ToBase64String(img));
       UnityEngine.Object.DestroyImmediate(tex); wrote++;
     }
     foreach(var g in proxies){ var mf=g.GetComponent<UnityEngine.MeshFilter>(); if(mf!=null&&mf.sharedMesh!=null) UnityEngine.Object.DestroyImmediate(mf.sharedMesh); UnityEngine.Object.DestroyImmediate(g); }
@@ -778,19 +775,62 @@ try {
   UnityEngine.Object.DestroyImmediate(lightGO); UnityEngine.Object.DestroyImmediate(fillGO); UnityEngine.Object.DestroyImmediate(rimGO); UnityEngine.Object.DestroyImmediate(floor); UnityEngine.Object.DestroyImmediate(inst);
 }
 return summary.ToString();
-''' % (clip["guid"], int(clip["file_id"]), w, h, vnames, vdx, vdy, vdz, fr)
+''' % (clip["guid"], int(clip["file_id"]), w, h, int(quality), vnames, vdx, vdy, vdz, fr)
     ).replace("__RENDER_AVATAR__", json.dumps(C.RENDER_AVATAR))
+
+
+FRAME_SUFFIXES = (".jpg", ".png")   # .png is only read, never written: pre-2026-08-26 frames on disk
+
+
+def frame_paths(frames_dir):
+    """The rendered frames in one clip's frames directory, sorted -- which is the order `propose`
+    attaches them in and tells the model to read them in. Both suffixes, so a KB that still holds
+    pre-JPEG PNGs stays readable without a re-render."""
+    out = []
+    for suf in FRAME_SUFFIXES:
+        out += glob.glob(os.path.join(frames_dir, "*" + suf))
+    return sorted(out)
+
+
+def view_batches(views, fracs, budget=IMAGES_PER_CALL):
+    """Split `views` into groups small enough that one call returns at most `budget` images.
+
+    The whole ring in one response would be 24 images -- about 4 MB base64, which fits the measured 8 MB
+    ceiling but leaves no margin for a heavier pose or a higher quality setting. Batching by VIEW is the
+    split that costs nothing: the camera distance is computed from `fracs` alone, so every batch frames
+    the clip identically and the pictures are the same ones a single call would have returned."""
+    per = max(1, budget // max(1, len(fracs)))
+    return [views[i:i + per] for i in range(0, len(views), per)]
+
+
+def render_clip_frames(clip, views, fracs, host=DEFAULT_HOST, port=DEFAULT_PORT, instance=None,
+                       w=1024, h=1024, quality=JPEG_QUALITY, on_batch=None):
+    """Render `views` x `fracs` for one clip over as many bridge calls as the image budget needs.
+
+    Returns (ok, text): the concatenated `<filename>|<base64>` lines on success, or (False, message) on
+    the first Unity-side error. `on_batch(views, text)` is called after each successful call, so a caller
+    can write frames to disk incrementally instead of holding the whole ring in memory."""
+    chunks = []
+    for grp in view_batches(views, fracs, IMAGES_PER_CALL):
+        cs = build_render_csharp(clip, views=grp, fracs=fracs, w=w, h=h, quality=quality)
+        ok, text, _ = run_csharp_over_http(cs, host=host, port=port, instance=instance)
+        if not ok:
+            return False, text
+        chunks.append(text)
+        if on_batch:
+            on_batch(grp, text)
+    return True, "\n".join(chunks)
 
 
 def write_frames(clip_name, result_text):
     """Decode the `<filename>|<base64>` lines returned by the render snippet into the KB's per-clip
-    frames directory. Returns the list of written paths. A line that is not `name.png|base64` is
-    ignored, so a Unity-side error string never lands on disk as a bogus PNG."""
+    frames directory. Returns the list of written paths. A line that is not `name.jpg|base64` is
+    ignored, so a Unity-side error string never lands on disk as a bogus image."""
     out_dir = os.path.join(paths.FRAMES_DIR, clip_name)
     written = []
     for line in (result_text or "").splitlines():
         name, sep, b64 = line.partition("|")
-        if not sep or not name.endswith(".png") or not b64:
+        if not sep or not name.lower().endswith(FRAME_SUFFIXES) or not b64:
             continue
         written.append(paths.write_bytes(os.path.join(out_dir, name), base64.b64decode(b64)))
     return written

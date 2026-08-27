@@ -548,8 +548,8 @@ def _clip_by_name(clip_name):
 
 
 def render(clip_name, host, port, instance):
-    """Render multi-angle frames of one clip into <KB>/frames/<clip_name>/ (kept for review). The PNGs
-    come back base64 over the transport; Unity writes nothing."""
+    """Render the eight-view ring of one clip into <KB>/frames/<clip_name>/ (kept for review). The JPEGs
+    come back base64 over the transport, in view batches; Unity writes nothing."""
     clip = _clip_by_name(clip_name)
     if not clip:
         print("No source entry with clip_name '%s'." % clip_name)
@@ -558,8 +558,9 @@ def render(clip_name, host, port, instance):
         print("Unity MCP bridge not reachable at %s:%d (open Unity + start the MCP HTTP server)." % (host, port))
         return 1
     out_dir = os.path.join(paths.FRAMES_DIR, clip_name)
-    # Pick the camera views per-action from the KINEMATIC data + facing (falls back to the fixed pair if
-    # the raw dump is missing, e.g. render before sample). See unity_sampler.select_views.
+    # WHICH ANGLES is no longer a decision: every clip gets all eight (unity_sampler.view_ring). The raw
+    # dump is still read, for two things it alone can answer -- which way the avatar faces (so `front` is
+    # the face) and which three moments represent the clip.
     views = unity_sampler.RENDER_VIEWS
     fracs = unity_sampler.RENDER_FRACS
     raw_path = os.path.join(paths.RAW_DIR, clip_name + ".json")
@@ -567,27 +568,38 @@ def render(clip_name, host, port, instance):
         try:
             with open(raw_path, encoding="utf-8") as f:
                 raw = json.load(f)
-            views = unity_sampler.select_views(metrics.channel_blocks(raw), raw.get("root_fwd"))
+            views = unity_sampler.view_ring(raw.get("root_fwd"))
             fracs = unity_sampler.select_fracs(raw)
-            print("  views (data-driven): %s" % ", ".join(n for n, _ in views))
             print("  times (pose coverage): %s" % ", ".join("%d%%" % int(f * 100) for f in fracs))  # int() = the C# frame-filename convention
-        except Exception as e:  # never let angle/time selection break the render
-            print("  (could not derive per-action views/times: %s — using fixed fallback)" % e)
+        except Exception as e:  # never let facing/time selection break the render
+            print("  (could not derive facing/times: %s — using the default-facing ring and fixed times)" % e)
     else:
-        print("  no raw/%s.json — using fixed fallback views/times (run `sample` first)" % clip_name)
-    # Clear stale frames so a re-render with a different view set doesn't leave old-named PNGs for `propose`.
-    for old in glob.glob(os.path.join(out_dir, "*.png")) + glob.glob(os.path.join(out_dir, "*.png.meta")):
+        print("  no raw/%s.json — default-facing ring and fixed times (run `sample` first)" % clip_name)
+    print("  views: %s" % ", ".join(n for n, _ in views))
+    # Clear stale frames so a re-render doesn't leave old-named images (incl. pre-JPEG PNGs) for `propose`.
+    stale = []
+    for suf in unity_sampler.FRAME_SUFFIXES:
+        stale += glob.glob(os.path.join(out_dir, "*" + suf)) + glob.glob(os.path.join(out_dir, "*" + suf + ".meta"))
+    for old in stale:
         try:
             os.remove(old)
         except OSError:
             pass
-    cs = unity_sampler.build_render_csharp(clip, views=views, fracs=fracs)
-    print("Rendering '%s' via %s:%d ..." % (clip_name, host, port))
-    ok, result_text, _ = unity_sampler.run_csharp_over_http(cs, host=host, port=port, instance=instance)
+    batches = unity_sampler.view_batches(views, fracs)
+    print("Rendering '%s' via %s:%d (%d view(s) x %d time(s) in %d call(s)) ..."
+          % (clip_name, host, port, len(views), len(fracs), len(batches)))
+    written = []
+
+    def _save(grp, text):
+        got = unity_sampler.write_frames(clip_name, text)
+        written.extend(got)
+        print("  %s: %d frame(s)" % (", ".join(n for n, _ in grp), len(got)))
+
+    ok, result_text = unity_sampler.render_clip_frames(
+        clip, views, fracs, host=host, port=port, instance=instance, on_batch=_save)
     if not ok:
-        print("Unity reported an error:\n%s" % result_text.strip()[:400])
+        print("Unity reported an error:\n%s" % (result_text or "").strip()[:400])
         return 1
-    written = unity_sampler.write_frames(clip_name, result_text)
     for p in written:
         print("  %s" % paths.rel(p))
     print("frames saved: %d -> %s" % (len(written), out_dir))
@@ -604,7 +616,7 @@ def propose(clip_name, host, port, instance, stage=False):
         print("No source entry with clip_name '%s'." % clip_name)
         return 1
     frames_dir = os.path.join(paths.FRAMES_DIR, clip_name)
-    if not glob.glob(os.path.join(frames_dir, "*.png")):
+    if not unity_sampler.frame_paths(frames_dir):
         print("No frames yet for '%s' — rendering first." % clip_name)
         if render(clip_name, host, port, instance) != 0:
             return 1

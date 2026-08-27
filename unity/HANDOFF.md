@@ -8,6 +8,38 @@
 
 ## 0. TL;DR — current state
 
+> **✓ EVERY CLIP IS NOW SHOT FROM ALL EIGHT SIDES (2026-08-26).** `render` used to pick TWO camera
+> angles out of four named ones, from the clip's own kinematic labels — side + 3/4 for a locomotion
+> clip, front + 3/4 for a manipulation act. Two angles is a bet on which axis the action reads along,
+> and the bet is what fails: whatever one view hides has no second view to contradict it, so "the hand
+> is in front of the hip" and "the hand is behind it" arrive as the same picture. The selector is
+> deleted. `unity_sampler.view_ring` returns eight directions 45° apart around the avatar's OWN
+> frame — `front, front_right, right, back_right, back, back_left, left, front_left`, turning toward
+> the figure's own right — built from the raw dump's `root_fwd`, all at one shared slight look-down
+> (`VIEW_ELEVATION = 0.20`). The TIMES are unchanged (`select_fracs`, three pose-coverage moments), so
+> a clip is 8 × 3 = **24 frames**.
+>
+> - **It costs less than the two views did.** Frames are **JPEG q85** now, not PNG (`EncodeToJPG`),
+>   at the same 1024×1024 with the same supersampling, MSAA, three-light rig and checkered ground
+>   plane: **~60 KB a frame against ~270 KB**. 24 pictures are **1.42 MB per clip where 6 were
+>   1.62 MB**, and the eight re-rendered clips total **11.9 MB where they were 16 MB**. A lit figure
+>   on a lit checkered floor has no flat colour for PNG to win on; inspected at every azimuth, nothing
+>   a describer reads off a frame — separated fingers, foot-to-floor contact, the cast shadow, the
+>   floor squares — is touched.
+> - **24 images do not go in one response with any margin**, so `render_clip_frames` splits the ring
+>   into calls of at most `IMAGES_PER_CALL = 12` (two per clip). Framing is computed from the three
+>   TIMES, which every call shares, so the split changes nothing about the pictures — same distance,
+>   same centre, same apparent size. The 8 MB ceiling holds with 4× margin instead of 2×.
+> - **Not rewritten: `extraction.vlm_proposal.render_views` on the existing records.** It records what
+>   the VLM actually saw when it proposed, which was two views. Only a future `propose` run writes
+>   eight. Nothing else in a record mentions the camera.
+> - The propose prompt now says the frames are one set of moments seen from eight sides and to use the
+>   far side to settle what a near one hides, and the frames are attached in RING order — sorted by
+>   name the eight interleave alphabetically (back, back_left, back_right, front, …), which puts
+>   neighbouring angles at opposite ends of a list the model is told to read in order.
+> - **Gates:** agent-repo suite **358/358**, validate **2454/2454**, golden **8/8**, guid resolution
+>   **8/8**; 192 frames re-rendered across the eight actions, 0 PNGs left under `frames/`.
+
 > **✓ THE KNOWLEDGE BASE DESCRIBES; THE AGENT DECIDES (2026-08-26).** A record now answers two
 > questions and no others: what does this action LOOK like (`action_description`, renamed from
 > `overall_intent`) and how does each body part MOVE (`channels.*.motion_description` + the kinematic
@@ -1132,13 +1164,16 @@ read `actions/<clip>.json`.
    `motionkb_build/reports/extract_run.md`. Per-file isolated, atomic write. **It SKIPS accepted records** — with one
    store it now walks them, and their KINEMATIC half is frozen golden; re-measuring those is
    `recalibrate_kinematic.py`'s deliberate job (dry-runnable, KINEMATIC-only).
-5. **Render frames** — `python agent/motionkb/extract.py render <clip>` renders multi-angle frames (avatar on
+5. **Render frames** — `python agent/motionkb/extract.py render <clip>` renders the eight-view ring (avatar on
    an isolated layer + a ground plane, so the VLM reads ground contact) to `agent/animation_knowledge_base/frames/<clip>/`,
-   kept for human review. `unity_sampler.build_render_csharp` is the generator. WHICH three times:
-   `select_frame_indices` picks the frames that minimise how far the worst-covered frame of the clip
-   is from the nearest picture, in normalised muscle space (ADR 0015). Before 2026-08-21 they were
+   kept for human review. `unity_sampler.build_render_csharp` is the generator. WHICH angles: all of
+   them, since 2026-08-26 — `view_ring` returns eight directions 45° apart around the avatar's own
+   facing, so nothing is left to a per-action guess about which axis an action reads along. WHICH three
+   times: `select_frame_indices` picks the frames that minimise how far the worst-covered frame of the
+   clip is from the nearest picture, in normalised muscle space (ADR 0015). Before 2026-08-21 they were
    spread across an "action window", which on a held action put all three inside the hold --
-   `check_pulse` was labelled from one pose photographed three times.
+   `check_pulse` was labelled from one pose photographed three times. 24 JPEGs a clip, ~60 KB each,
+   issued in two bridge calls of twelve.
 6. **Propose (VLM proposes + auto-keeps)** — `python agent/motionkb/extract.py propose <clip>`
    sends those frames + the KINEMATIC facts + the existing action list to `gpt-5.5-2026-04-23`
    (`vlm_openai.MODEL`). Since ADR [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md) it proposes

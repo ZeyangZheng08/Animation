@@ -80,7 +80,7 @@ export MOTIONKB_DIR=/mnt/f/Research/AI_agent/Animation/Animation_agent/Project/A
 ```
 
 The runtime service loads the KB into memory at startup — the whole action store is ~1.4 MB — so
-retrieval never touches the disk; only `frames` PNGs are read on demand when the model asks for visual
+retrieval never touches the disk; only `frames` JPEGs are read on demand when the model asks for visual
 evidence. It treats the KB as **read-only**. The only writer is the offline pipeline here.
 
 The agent can also *search* both the KB and the animation assets it derives from, through one set of
@@ -145,8 +145,11 @@ a request, which the architecture forbids and which does not exist in a player b
 **Payload crosses the transport, not a shared filesystem.** The generated C# writes nothing to disk; it
 returns its result and Python writes it into the KB (pose dumps verbatim, frames base64-decoded).
 Measured ceiling on that channel is **8 MB per response** (16 MB fails), against ~560 KB for one clip's
-pose dump and ~3.2 MB for one clip's frames — so calls are issued **per clip**. This is what makes the
-executor replaceable by an Unreal, Blender or remote one rather than only nominally so.
+pose dump — so calls are issued **per clip**. A clip's frames are the eight-view ring, 24 images, which
+is ~1.9 MB of base64 and would fit; they go in **two calls of twelve** anyway, because the camera
+distance is computed from the three times and not from the angles, so splitting by view costs nothing
+and keeps the margin. This is what makes the executor replaceable by an Unreal, Blender or remote one
+rather than only nominally so.
 
 The engine connects **in** to this service, not the other way round: the Unity editor drops its managed
 state on every script recompile and on entering or leaving play mode, so the side that must reconnect

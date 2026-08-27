@@ -39,6 +39,26 @@ UNITY_POSIX="/mnt/f/Research/AI_agent/Animation/Animation_agent/Project/Animatio
 AGENT="$HOME/Research/animation-agent"
 cd "$(dirname "$0")"
 
+# --adopt copies the reported additions in; --ext adds extensions to the candidate filter.
+#
+# WHY --ext EXISTS. Candidates are filtered to extensions the branch ALREADY carries, which is what
+# stops an .fbx being smuggled in (trap 5). The cost of deriving that list from the branch is that it
+# cannot bootstrap: when a published artefact changes format -- the KB render frames went from PNG to
+# JPEG -- the new files match no carried extension, so the report says nothing at all and the old ones
+# are listed as gone. Naming the extension on the command line is the human decision the report was
+# there to inform, made explicitly.
+adopt=; extra_exts=
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --adopt) adopt=1 ;;
+    --ext)   shift; extra_exts="${1:-}" ;;
+    --ext=*) extra_exts="${1#--ext=}" ;;
+    *) echo "usage: sync.sh [--adopt] [--ext jpg[,webp...]]" >&2; exit 2 ;;
+  esac
+  shift
+done
+extra_exts=$(printf '%s' "$extra_exts" | tr ',' '|')
+
 nl="
 "   # a literal newline; the membership tests fence candidates with it
 
@@ -100,6 +120,7 @@ while IFS= read -r pat; do
 done < .pubignore
 
 exts=$(git ls-files | sed -n 's|.*\.\([A-Za-z0-9]\+\)$|\1|p' | sort -u | paste -sd'|')
+[ -z "$extra_exts" ] || exts="$exts|$extra_exts"
 have=$(git ls-files -z | tr '\0' '\n')
 dirs=$(printf '%s\n' "$have" | xargs -d '\n' -n1 dirname | sort -u)
 have="$nl$have$nl"
@@ -118,7 +139,7 @@ dirs="$nl$dirs$nl"
 done | sort > /tmp/pubcode-new.txt || true
 if [ -s /tmp/pubcode-new.txt ]; then
   echo
-  if [ "${1:-}" = "--adopt" ]; then
+  if [ -n "$adopt" ]; then
     # TAKEN THROUGH `blob`, NEVER COPIED FROM THE WINDOWS WORKING TREE. Hand-copying is how trap 4
     # gets paid for a second time: that tree is checked out CRLF while this branch is pinned LF, so a
     # file carried across by hand arrives with the wrong endings and every later run calls it changed.

@@ -59,7 +59,7 @@ only** — the agent side reaches this tree over DrvFs and must not manage it.
 | `manifest.json` | corpus index; pin the KB by its `kb_version` |
 | `engine_mask_map.json` | engine-neutral channel vocabulary (Unity / UE5 / Blender / SMPL-X) |
 | `raw/<clip>.json` | frozen per-frame pose dumps — the golden regression's input |
-| `frames/<clip>/*.png` | render frames, read at retrieval time as open-ended visual evidence (lfs) |
+| `frames/<clip>/*.jpg` | render frames, read at retrieval time as open-ended visual evidence (lfs). 24 per clip: the eight-view ring (`front, front_right, right, back_right, back, back_left, left, front_left`, turning toward the figure's own right) at three pose-coverage times |
 | `motionkb_build/reports/kb_state.md` | last `guid → AnimationClip` resolution result |
 | `retrieval_eval_set.json` | seed eval set (full_match / decompose / no_match) |
 

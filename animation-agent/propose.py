@@ -21,7 +21,6 @@ to violate. What is left to check is that the model answered at all, for every c
 the gate below does.
 """
 import datetime
-import glob
 import json
 import os
 import sys
@@ -83,7 +82,7 @@ def _kinematic_summary(doc):
 
 
 def split_frame_name(path):
-    """(view, percent) from a rendered frame's filename. The name is `<view>_t<ordinal>_f<pct>.png`;
+    """(view, percent) from a rendered frame's filename. The name is `<view>_t<ordinal>_f<pct>.jpg`;
     the ordinal is what makes it unique and sortable once frames are chosen by pose rather than by a
     fixed fraction (two can land in the same whole percent of a long clip, and "_f21" sorts before
     "_f5"). Frames rendered before the ordinal existed carry only the percent, so both forms are read
@@ -94,6 +93,24 @@ def split_frame_name(path):
     if not (sep and ordinal.isdigit()):
         view = head                                   # pre-ordinal name
     return view, pct
+
+
+def frame_sort_key(path):
+    """Ring order first, then time within the angle.
+
+    Sorted by NAME the eight views interleave alphabetically — back, back_left, back_right, front,
+    front_left, front_right, left, right — which separates neighbouring angles and puts `right` last.
+    The attached order is what the prompt tells the model to read the pictures in, so it should be the
+    order the camera actually goes round: front, turning toward the avatar's right, round the back, back
+    to front_left. A view the ring does not name (an older frame set) sorts after all of them."""
+    stem = os.path.basename(path).rsplit(".", 1)[0]
+    head, _, pct = stem.rpartition("_f")
+    view, sep, ordinal = head.rpartition("_t")
+    if not (sep and ordinal.isdigit()):
+        view, ordinal = head, "0"
+    names = unity_sampler.VIEW_RING_NAMES
+    vi = names.index(view) if view in names else len(names)
+    return (vi, view, int(ordinal), int(pct) if pct.isdigit() else 0)
 
 
 def _frame_manifest(frames):
@@ -117,10 +134,15 @@ def build_prompt(doc, clip_name, frames=None):
     frame_lines = _frame_manifest(frames)
     return (
         "You are DESCRIBING one animation clip at the BODY-PART level for a motion knowledge base.\n"
-        "You are shown several rendered frames of it. They are listed below in the order they are attached,\n"
-        "each labelled with its camera angle and how far through the clip it was taken, so you can read the\n"
-        "movement as a sequence rather than as unrelated poses. Every frame uses the SAME camera setup, so\n"
-        "a change in the figure's size or position between frames is real movement, not framing. You do\n"
+        "You are shown the SAME few moments of it from EIGHT camera angles, 45 degrees apart, all the way\n"
+        "round the figure — front, then turning toward the figure's own right, round the back, and home.\n"
+        "The frames are listed below in the order they are attached, each labelled with its angle and how\n"
+        "far through the clip it was taken: read them angle by angle, and read the times within one angle\n"
+        "as a sequence. Two frames with the same percentage are ONE pose seen from two sides, not two\n"
+        "poses, so use the far side to settle what a near view hides — whether a hand is in front of the\n"
+        "body or behind it, which way the head turns, whether the feet are together or apart. Every frame\n"
+        "uses the same camera distance and height, so a change in the figure's size or position between\n"
+        "frames at different times is real movement, not framing. You do\n"
         "NOT set any numbers — those are already measured, and they are given to you below.\n"
         "THE SETTING IS NOT SHOWN. Every clip is previewed on one shared untextured mannequin, alone on an\n"
         "empty floor: no costume, no scene, and NO PROPS — a figure holding a bottle or pressing a monitor\n"
@@ -203,7 +225,7 @@ def propose_clip(clip_name, source_doc_path, retries=2):
     """
     doc = json.load(open(source_doc_path, encoding="utf-8"))
     frames_dir = os.path.join(paths.FRAMES_DIR, clip_name)
-    frames = sorted(glob.glob(os.path.join(frames_dir, "*.png")))
+    frames = sorted(unity_sampler.frame_paths(frames_dir), key=frame_sort_key)
     if not frames:
         raise RuntimeError("no frames at %s — run `python extract.py render %s` first"
                            % (frames_dir, clip_name))

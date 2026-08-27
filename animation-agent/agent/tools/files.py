@@ -58,7 +58,10 @@ BINARY_SUFFIXES = IMAGE_SUFFIXES + (".fbx", ".blend", ".wav", ".mp3", ".ttf", ".
 # They are half the file count under `source/`, so grep skips them; glob still lists them.
 SKIP_SUFFIXES = BINARY_SUFFIXES + (".meta",)
 
-FRAME_NOTE = ("Rendered frames are named <view>_t<ordinal>_f<percent>.png. The three times are chosen "
+FRAME_NOTE = ("Rendered frames are named <view>_t<ordinal>_f<percent>.jpg (older ones .png). Every clip "
+              "is shot from all eight ring views -- front, front_right, right, back_right, back, "
+              "back_left, left, front_left, going round toward the figure's OWN right -- so what one "
+              "angle hides another shows. The three times are chosen "
               "to COVER the clip's range of pose (ADR 0015), so they are spread over what the motion "
               "does -- but they are still three moments, and a held pose gets one of them because one "
               "stands for all of it. kb_pose measures any frame, including the first and the last.")
@@ -294,7 +297,7 @@ GLOB_PARAMS = {
     "additionalProperties": False,
     "properties": {
         "pattern": {"type": "string",
-                    "description": "Glob pattern, e.g. '*.json', '**/*.png', 'frames/**/*.png'. "
+                    "description": "Glob pattern, e.g. '*.json', '**/*.jpg', 'frames/**/*.jpg'. "
                                    "'**' spans directories. Relative to `path` when one is given."},
         "path": {"type": "string",
                  "description": "Directory to search in, e.g. 'kb' or 'kb/frames'. Omit to search "

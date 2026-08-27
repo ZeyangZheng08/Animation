@@ -192,6 +192,64 @@ def test_check_pulse_no_longer_shows_one_pose_three_times():
     assert radius(M, US.select_frame_indices(raw)) < 0.5 * radius(M, old)
 
 
+# ----------------------------------------------------------------------------------- the view ring
+
+def dot(a, b):
+    return sum(x * y for x, y in zip(a, b))
+
+
+def flat(v):
+    """The camera direction with the look-down component removed, renormalised -- the azimuth alone."""
+    m = math.hypot(v[0], v[2]) or 1.0
+    return (v[0] / m, 0.0, v[2] / m)
+
+
+def test_every_clip_gets_the_whole_ring():
+    """The point of the change: eight angles, always, with no per-action decision left to get wrong."""
+    for fwd in (None, [[0, 0, 1]], [[1, 0, 0]], [[-0.6, 0, 0.8]] * 5):
+        ring = US.view_ring(fwd)
+        assert [n for n, _ in ring] == list(US.VIEW_RING_NAMES)
+    assert [n for n, _ in US.RENDER_VIEWS] == list(US.VIEW_RING_NAMES)
+
+
+def test_the_ring_is_45_degrees_apart_all_the_way_round():
+    ring = US.view_ring([[0.3, 0, -0.9]] * 4)
+    az = [flat(d) for _, d in ring]
+    for i in range(len(az)):
+        cos = dot(az[i], az[(i + 1) % len(az)])
+        assert abs(cos - math.cos(math.radians(45))) < 1e-6, "step %d is not 45 degrees" % i
+
+
+def test_front_is_the_face_and_right_is_the_avatars_right():
+    """Named from the AVATAR's frame, not the world's: `front` is wherever the clip faces, and the ring
+    turns toward the avatar's own right. Shot with a facing of -Z, the avatar's right is -X."""
+    ring = dict(US.view_ring([[0, 0, -1]] * 3))
+    assert dot(flat(ring["front"]), (0, 0, -1)) > 0.999
+    assert dot(flat(ring["back"]), (0, 0, 1)) > 0.999
+    assert dot(flat(ring["right"]), (-1, 0, 0)) > 0.999
+    assert dot(flat(ring["left"]), (1, 0, 0)) > 0.999
+
+
+def test_one_elevation_for_all_eight():
+    """A view that looks down harder than its neighbours makes the same pose read as a different one."""
+    ring = US.view_ring([[0.7, 0, 0.7]] * 2)
+    ys = {round(d[1] / math.hypot(math.hypot(d[0], d[1]), d[2]), 9) for _, d in ring}
+    assert len(ys) == 1
+    assert US.VIEW_ELEVATION > 0   # looking DOWN at the figure, not up from the floor
+
+
+def test_view_batches_cover_the_ring_and_stay_inside_the_image_budget():
+    """24 images in one response is ~4 MB of base64 against an 8 MB ceiling -- it fits, with no room for
+    a heavier pose. Batching by view is free because the framing is computed from the times, not the
+    angles, so every batch frames the clip identically."""
+    ring = US.view_ring()
+    for fracs in ([0.3, 0.55, 0.8], [0.0, 0.02, 0.06, 0.12], [0.5]):
+        batches = US.view_batches(ring, fracs)
+        assert [v for b in batches for v in b] == ring          # every view, once, in ring order
+        for b in batches:
+            assert len(b) * len(fracs) <= US.IMAGES_PER_CALL
+
+
 # ------------------------------------------------------------------------------- frame filenames
 
 def test_rendered_frame_names_carry_the_ordinal():
@@ -202,24 +260,44 @@ def test_rendered_frame_names_carry_the_ordinal():
     assert 'VN[vi]+"_t"+fi+"_f"' in cs
 
 
+def test_frames_are_encoded_as_jpeg():
+    """PNG at 1024 cost ~270 KB a frame, which is what kept the ring down to two views."""
+    cs = US.build_render_csharp({"id": "x", "guid": "g", "file_id": 1},
+                                views=US.RENDER_VIEWS, fracs=[0.5])
+    assert "EncodeToJPG(tex, JQ)" in cs and "int JQ=%d;" % US.JPEG_QUALITY in cs
+    assert "EncodeToPNG" not in cs
+    assert '".jpg"' in cs
+
+
 def test_split_frame_name_reads_both_the_new_and_the_old_form():
+    assert propose.split_frame_name("/k/frames/c/back_right_t0_f7.jpg") == ("back_right", "7")
     assert propose.split_frame_name("/k/frames/c/front_left_3q_t0_f7.png") == ("front_left_3q", "7")
     assert propose.split_frame_name("/k/frames/c/side_right_t2_f100.png") == ("side_right", "100")
     assert propose.split_frame_name("/k/frames/c/front_left_3q_f21.png") == ("front_left_3q", "21")
 
 
 def test_frames_sort_in_time_order_within_a_view():
-    """`propose` attaches `sorted(glob(...))` and tells the model to read them as a sequence. Sorted
-    lexicographically, "_f21" precedes "_f5" -- which never bit while every fraction was >= 15%, and
-    would now that frame 0 gets chosen."""
-    new = sorted(["front_t0_f0.png", "front_t1_f7.png", "front_t2_f15.png"])
+    """`propose` attaches the frames in a stated order and tells the model to read them as a sequence.
+    Sorted lexicographically, "_f21" precedes "_f5" -- which never bit while every fraction was >= 15%,
+    and would now that frame 0 gets chosen."""
+    new = sorted(["front_t0_f0.jpg", "front_t1_f7.jpg", "front_t2_f15.jpg"])
     assert [propose.split_frame_name(f)[1] for f in new] == ["0", "7", "15"]
     old = sorted(["front_f0.png", "front_f7.png", "front_f15.png"])
     assert [propose.split_frame_name(f)[1] for f in old] == ["0", "15", "7"]
 
 
+def test_attached_frames_go_round_the_ring_not_down_the_alphabet():
+    """Sorted by name the eight views interleave -- back, back_left, back_right, front, ... -- so
+    neighbouring angles land far apart in the list the model is told to read in order."""
+    names = ["%s_t%d_f%d.jpg" % (v, i, i * 30)
+             for v in sorted(US.VIEW_RING_NAMES) for i in range(3)]
+    ordered = sorted(names, key=propose.frame_sort_key)
+    assert [propose.split_frame_name(f)[0] for f in ordered[::3]] == list(US.VIEW_RING_NAMES)
+    assert [propose.split_frame_name(f)[1] for f in ordered[:3]] == ["0", "30", "60"]
+
+
 def test_provenance_records_the_views_not_the_frame_names():
     cand = {}
-    propose._stamp_provenance(cand, ["a/front_left_3q_t0_f0.png", "a/front_left_3q_t1_f9.png",
-                                     "a/side_right_t0_f0.png"], True)
-    assert cand["extraction"]["vlm_proposal"]["render_views"] == ["front_left_3q", "side_right"]
+    propose._stamp_provenance(cand, ["a/front_t0_f0.jpg", "a/front_t1_f9.jpg",
+                                     "a/back_left_t0_f0.jpg"], True)
+    assert cand["extraction"]["vlm_proposal"]["render_views"] == ["back_left", "front"]

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """smoke_vision.py -- can the chosen models actually SEE a rendered frame?
 
-`read` on a rendered frame hands the model a PNG and expects it to read a pose off it. That is an
+`read` on a rendered frame hands the model an image and expects it to read a pose off it. That is an
 assumption about the model, not about our code, so it gets tested against the live API before anything
 is built on it. Two things are being checked, and they are different:
 
@@ -32,8 +32,9 @@ QUESTION = ("Look at this rendered character. Answer with exactly one word: "
 
 
 def data_uri(path):
+    mime = "image/png" if path.lower().endswith(".png") else "image/jpeg"
     with open(path, "rb") as fh:
-        return "data:image/png;base64," + base64.b64encode(fh.read()).decode("ascii")
+        return "data:%s;base64,%s" % (mime, base64.b64encode(fh.read()).decode("ascii"))
 
 
 def ask_chat(model, api_key, image_path):
@@ -108,13 +109,24 @@ def verdict(answer, expected):
 async def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--models", default="gpt-5.6-luna,gpt-realtime-2.1-mini")
-    ap.add_argument("--seated", default=os.path.expanduser("~/render_probe/Typing/front_f0.png"))
-    ap.add_argument("--standing", default=None, help="defaults to the KB's Idle front_left_3q frame")
+    ap.add_argument("--seated", default=None, help="defaults to the KB's Typing front frame")
+    ap.add_argument("--standing", default=None, help="defaults to the KB's Idle front frame")
     args = ap.parse_args(argv)
 
     from paths import FRAMES_DIR
-    standing = args.standing or os.path.join(FRAMES_DIR, "Idle", "front_left_3q_f50.png")
-    cases = [("Typing f0", args.seated, "SITTING"), ("Idle f50", standing, "STANDING")]
+    import unity_sampler
+
+    def kb_front(clip):
+        """A `front` frame of one clip, whatever it is called. Frame filenames carry the view, the
+        ordinal and the percent, and the percent moves whenever pose-coverage picks different moments,
+        so naming one here would go stale on the next re-render."""
+        got = [p for p in unity_sampler.frame_paths(os.path.join(FRAMES_DIR, clip))
+               if os.path.basename(p).startswith("front_t")]
+        return got[0] if got else os.path.join(FRAMES_DIR, clip, "front_t0.jpg")
+
+    seated = args.seated or kb_front("Typing")
+    standing = args.standing or kb_front("Idle")
+    cases = [("Typing seated", seated, "SITTING"), ("Idle standing", standing, "STANDING")]
     for _, path, _ in cases:
         if not os.path.exists(path):
             print("missing image: %s" % path)

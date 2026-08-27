@@ -119,10 +119,17 @@ def test_read_lists_a_directory(registry, loop):
 # ---- glob ------------------------------------------------------------------------------------
 
 def test_glob_finds_the_rendered_frames(registry, loop):
-    out = call(registry, loop, "glob", pattern="frames/**/*.png", path="kb")
+    out = call(registry, loop, "glob", pattern="frames/**/*.jpg", path="kb")
     assert out["success"] and out["count"] >= 40
     assert any("Typing" in p for p in out["paths"])
     assert all(p.startswith("kb/") for p in out["paths"]), "results must be usable as read paths"
+
+
+def test_glob_finds_the_far_side_of_the_ring(registry, loop):
+    """Frames are the eight-view ring since 2026-08-26, so the angle a near view hides is on disk and
+    reachable by name. Before that a clip had two views and neither of them was ever the back."""
+    out = call(registry, loop, "glob", pattern="frames/Typing/back*.jpg", path="kb")
+    assert out["success"] and out["count"] >= 3
 
 
 def test_a_pattern_is_relative_to_path_but_results_are_not(registry, loop):
