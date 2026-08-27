@@ -8,6 +8,27 @@
 
 ## 0. TL;DR — current state
 
+> **✓ THE WHOLE CORPUS IS RENDERED (2026-08-27).** All 2446 `mx_` clips now have their eight-view ring
+> on disk under `agent/animation_knowledge_base/frames/<clip_name>/`, keyed exactly as the eight
+> nursing actions' are, so the semantic pass has its visual evidence. The batch verb is
+> **`ingest_corpus.py render`**: it takes its population from the corpus index the way `sample` does,
+> does the per-clip work through `extract.render_frames` — the SAME body the curated `extract.py
+> render` runs, so bulk and curated cannot drift into two dialects of what a frame set is — and is
+> resumable on the frame count, so an interrupted run continues instead of redoing.
+>
+> - **245.9 min, ~5.7 s a clip, 3.50 GB.** Not one clip failed; nothing needed a retry.
+> - **A full ring is not always 24 images.** 128 corpus clips are Mixamo *pose* assets one frame long
+>   that sample at `SAMPLE_MIN = 2`, so `select_fracs` has only two moments to return and their ring
+>   is 8 × 2 = **16**. `_expected_frames` sizes the ring from the clip's length and frame rate (the
+>   same clamp the sampler applies) rather than assuming 24 — the first run assumed it, called all
+>   128 failures for "wrote 16/24", and would have re-rendered them on every resume forever. Final
+>   counts: **2318 dirs of 24, 128 of 16, 0 PNG**.
+> - **Corpus frames are UNTRACKED**, by the same rule as the corpus dumps and the corpus FBX:
+>   regenerable offline, and 3.5 GB on a repository that already cannot be pushed. `.gitignore` takes
+>   `/agent/animation_knowledge_base/frames/mx_*/`; the eight nursing directories (192 files) stay
+>   **tracked** and are byte-identical. `pub-code`'s `.pubignore` excludes them from the mirror too.
+> - **Gates:** agent-repo suite **358/358**, Unity-repo `git status` clean.
+
 > **✓ EVERY CLIP IS NOW SHOT FROM ALL EIGHT SIDES (2026-08-26).** `render` used to pick TWO camera
 > angles out of four named ones, from the clip's own kinematic labels — side + 3/4 for a locomotion
 > clip, front + 3/4 for a manipulation act. Two angles is a bet on which axis the action reads along,

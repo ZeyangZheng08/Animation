@@ -547,16 +547,18 @@ def _clip_by_name(clip_name):
     return {"id": clip_name, "guid": sc["guid"], "file_id": sc["file_id"]}
 
 
-def render(clip_name, host, port, instance):
-    """Render the eight-view ring of one clip into <KB>/frames/<clip_name>/ (kept for review). The JPEGs
-    come back base64 over the transport, in view batches; Unity writes nothing."""
-    clip = _clip_by_name(clip_name)
-    if not clip:
-        print("No source entry with clip_name '%s'." % clip_name)
-        return 1
-    if not unity_sampler.bridge_healthy(host, port):
-        print("Unity MCP bridge not reachable at %s:%d (open Unity + start the MCP HTTP server)." % (host, port))
-        return 1
+def _quiet(_msg):
+    """A `log` sink that drops the line. The batch caller prints one line per clip, not thirty."""
+
+
+def render_frames(clip, clip_name, host, port, instance, log=_quiet):
+    """Render the eight-view ring of one clip into <KB>/frames/<clip_name>/. Returns
+    (written_paths, error_or_None); an empty list with no error means Unity returned nothing readable.
+
+    This is the shared body of the curated `render` verb and the corpus batch
+    (`ingest_corpus.py render`), for the same reason the KINEMATIC block has one implementation: two
+    callers rendering "the frame set" must not drift into two dialects of what a frame set is. `log`
+    receives the per-step lines; the batch passes a sink that drops them."""
     out_dir = os.path.join(paths.FRAMES_DIR, clip_name)
     # WHICH ANGLES is no longer a decision: every clip gets all eight (unity_sampler.view_ring). The raw
     # dump is still read, for two things it alone can answer -- which way the avatar faces (so `front` is
@@ -570,12 +572,12 @@ def render(clip_name, host, port, instance):
                 raw = json.load(f)
             views = unity_sampler.view_ring(raw.get("root_fwd"))
             fracs = unity_sampler.select_fracs(raw)
-            print("  times (pose coverage): %s" % ", ".join("%d%%" % int(f * 100) for f in fracs))  # int() = the C# frame-filename convention
+            log("  times (pose coverage): %s" % ", ".join("%d%%" % int(f * 100) for f in fracs))  # int() = the C# frame-filename convention
         except Exception as e:  # never let facing/time selection break the render
-            print("  (could not derive facing/times: %s — using the default-facing ring and fixed times)" % e)
+            log("  (could not derive facing/times: %s — using the default-facing ring and fixed times)" % e)
     else:
-        print("  no raw/%s.json — default-facing ring and fixed times (run `sample` first)" % clip_name)
-    print("  views: %s" % ", ".join(n for n, _ in views))
+        log("  no raw/%s.json — default-facing ring and fixed times (run `sample` first)" % clip_name)
+    log("  views: %s" % ", ".join(n for n, _ in views))
     # Clear stale frames so a re-render doesn't leave old-named images (incl. pre-JPEG PNGs) for `propose`.
     stale = []
     for suf in unity_sampler.FRAME_SUFFIXES:
@@ -586,23 +588,39 @@ def render(clip_name, host, port, instance):
         except OSError:
             pass
     batches = unity_sampler.view_batches(views, fracs)
-    print("Rendering '%s' via %s:%d (%d view(s) x %d time(s) in %d call(s)) ..."
-          % (clip_name, host, port, len(views), len(fracs), len(batches)))
+    log("Rendering '%s' via %s:%d (%d view(s) x %d time(s) in %d call(s)) ..."
+        % (clip_name, host, port, len(views), len(fracs), len(batches)))
     written = []
 
     def _save(grp, text):
         got = unity_sampler.write_frames(clip_name, text)
         written.extend(got)
-        print("  %s: %d frame(s)" % (", ".join(n for n, _ in grp), len(got)))
+        log("  %s: %d frame(s)" % (", ".join(n for n, _ in grp), len(got)))
 
     ok, result_text = unity_sampler.render_clip_frames(
         clip, views, fracs, host=host, port=port, instance=instance, on_batch=_save)
     if not ok:
-        print("Unity reported an error:\n%s" % (result_text or "").strip()[:400])
+        return written, (result_text or "").strip()[:400] or "Unity returned no text"
+    return written, None
+
+
+def render(clip_name, host, port, instance):
+    """Render the eight-view ring of one clip into <KB>/frames/<clip_name>/ (kept for review). The JPEGs
+    come back base64 over the transport, in view batches; Unity writes nothing."""
+    clip = _clip_by_name(clip_name)
+    if not clip:
+        print("No source entry with clip_name '%s'." % clip_name)
+        return 1
+    if not unity_sampler.bridge_healthy(host, port):
+        print("Unity MCP bridge not reachable at %s:%d (open Unity + start the MCP HTTP server)." % (host, port))
+        return 1
+    written, err = render_frames(clip, clip_name, host, port, instance, log=print)
+    if err:
+        print("Unity reported an error:\n%s" % err)
         return 1
     for p in written:
         print("  %s" % paths.rel(p))
-    print("frames saved: %d -> %s" % (len(written), out_dir))
+    print("frames saved: %d -> %s" % (len(written), os.path.join(paths.FRAMES_DIR, clip_name)))
     return 0 if written else 1
 
 

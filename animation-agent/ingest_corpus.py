@@ -27,13 +27,16 @@ curated records cannot drift into two dialects of the same contract.
     python3 ingest_corpus.py register   # pure Python: one actions/<clip>.json stub per indexed clip
     python3 ingest_corpus.py sample     # N engine calls, one per clip, resumable -> raw/<clip>.json
     python3 ingest_corpus.py measure    # pure Python: raw -> the KINEMATIC block of each stub
+    python3 ingest_corpus.py render     # N engine calls, one per clip, resumable -> frames/<clip>/
     python3 ingest_corpus.py status     # where the funnel stands
 
-`sample` is the only slow verb and the only one that needs Unity open. It skips clips whose dump
-already exists, so an interrupted run resumes by re-running it.
+`sample` and `render` are the slow verbs and the only ones that need Unity open. Each skips the clips
+it has already done — `sample` on the dump's existence, `render` on the frame count — so an
+interrupted run resumes by re-running it.
 """
 import argparse
 import datetime
+import glob
 import json
 import os
 import sys
@@ -50,6 +53,7 @@ import unity_sampler        # noqa: E402
 DEFAULT_DIR = "Assets/Animations/Mixamo30"
 INDEX = os.path.join(paths.REPORTS_DIR, "corpus_index.tsv")
 FAILED = os.path.join(paths.REPORTS_DIR, "corpus_sample_failures.txt")
+RENDER_FAILED = os.path.join(paths.REPORTS_DIR, "corpus_render_failures.txt")
 REPORT = os.path.join(paths.REPORTS_DIR, "corpus_ingest.md")
 COLUMNS = ("clip_name", "asset_path", "guid", "file_id", "length", "frame_rate", "loop")
 
@@ -325,6 +329,113 @@ def cmd_measure(args):
     return 1 if errors else 0
 
 
+# -------------------------------------------------------------------------------------- render
+FRAMES_PER_CLIP = len(unity_sampler.VIEW_RING_NAMES) * unity_sampler.K_FRAMES   # 8 views x 3 times
+
+
+def _expected_frames(row):
+    """How many images a FULL ring is for this clip: eight views times however many representative
+    moments it has.
+
+    Usually 24, but not always, and the difference is not a defect. `select_fracs` returns one
+    fraction per frame when a clip has fewer frames than `K_FRAMES`, and 128 of the corpus's clips are
+    Mixamo *pose* assets one frame long that sample at `SAMPLE_MIN = 2` — a full ring for those is 16
+    images, because there is no third moment to shoot. Holding all 2446 to 24 would report those 128
+    as failures on every run and re-render them forever, which is what a resume rule exists to
+    prevent. The frame count is the same clamp the sampler applies, read off the index rather than by
+    parsing a dump that runs to megabytes."""
+    n = min(max(int(round(row["length"] * row["frame_rate"])), C.SAMPLE_MIN), C.SAMPLE_MAX)
+    return len(unity_sampler.VIEW_RING_NAMES) * min(unity_sampler.K_FRAMES, n)
+
+
+def _frames_complete(row):
+    """A clip is done when its frames directory holds the full ring. The test is the COUNT of .jpg,
+    not the directory's existence: a run interrupted mid-clip leaves a partial set behind (the frames
+    are written per view batch), and treating that as done would ship a clip to the describer with
+    half a ring."""
+    d = os.path.join(paths.FRAMES_DIR, row["clip_name"])
+    return len(glob.glob(os.path.join(d, "*.jpg"))) >= _expected_frames(row)
+
+
+def _needs_rendering(rows):
+    return [r for r in rows if not _frames_complete(r)]
+
+
+def cmd_render(args):
+    """The eight-view ring for every indexed clip, resumable, one clip per set of bridge calls.
+
+    WHY THIS IS NOT `extract.py render` IN A LOOP. That verb is the curated one: it resolves the clip
+    through the by-clip-name record index, prints the 24 written paths, and returns a process exit
+    code. Per action that is what you want to read; 2446 times it is 2446 index builds and 70k lines
+    of log. Here the corpus index is the population (as it is for `sample`), the per-clip work is
+    `extract.render_frames` — the SAME body the curated verb runs — and the log is one line per
+    failure plus a progress tick.
+
+    The frames are a derived artifact of `raw/` and are not tracked by the Unity repository, on the
+    same rule as the dumps themselves: regenerable, and large (2446 x 24 JPEG is about 3.4 GB)."""
+    rows = read_index()
+    if args.retry_failed:
+        if not os.path.exists(RENDER_FAILED):
+            print("No failure list at %s — nothing to retry." % paths.rel(RENDER_FAILED)); return 0
+        want = {ln.strip() for ln in open(RENDER_FAILED, encoding="utf-8") if ln.strip() and not ln.startswith("#")}
+        rows = [r for r in rows if r["clip_name"] in want]
+    # One sweep, not two: over the DrvFs mount a pass across 2446 frame directories costs ~25 s, and
+    # asking twice (once for the work list, once for the "already done" count) doubles it for nothing.
+    pending = _needs_rendering(rows)
+    todo = list(rows) if args.force else pending
+    if args.limit:
+        todo = todo[:args.limit]
+    if not todo:
+        print("Nothing to render: all %d clip(s) considered already hold a full ring in %s."
+              % (len(rows), paths.rel(paths.FRAMES_DIR)))
+        # Clearing here and not only after a render pass is what lets the failure list keep meaning
+        # "clips still owed frames". The first corpus run predates `_expected_frames` and listed all
+        # 128 two-frame pose assets as failures for writing 16 of 24; they were complete, and without
+        # this the file would outlive the reason it was written.
+        if os.path.exists(RENDER_FAILED):
+            os.remove(RENDER_FAILED)
+            print("  cleared %s — nothing is owed frames." % paths.rel(RENDER_FAILED))
+        return 0
+    if not unity_sampler.bridge_healthy(args.host, args.port):
+        print("Unity MCP bridge not reachable at %s:%d." % (args.host, args.port)); return 1
+
+    print("Rendering %d clip(s) x up to %d frame(s) (%d indexed, %d already done) via %s:%d ..."
+          % (len(todo), FRAMES_PER_CLIP, len(rows), len(rows) - len(pending), args.host, args.port))
+    t0, failed, done_bytes = time.time(), [], 0
+    for i, r in enumerate(todo, 1):
+        name = r["clip_name"]
+        clip = {"id": name, "guid": r["guid"], "file_id": r["file_id"]}
+        try:
+            written, err = extract.render_frames(clip, name, args.host, args.port, args.instance)
+        except Exception as e:                          # per-clip isolation: one bad clip is not the batch
+            written, err = [], "%s: %s" % (type(e).__name__, e)
+        want = _expected_frames(r)
+        if err or len(written) < want:
+            print("  FAIL  %-60s %s" % (name[:60], err or "wrote %d/%d frame(s)" % (len(written), want)))
+            failed.append(name)
+        else:
+            done_bytes += sum(os.path.getsize(p) for p in written)
+        if i % 25 == 0 or i == len(todo):
+            el = time.time() - t0
+            eta = el / i * (len(todo) - i)
+            print("  %5d/%d  %5.1f%%  elapsed %5.1fm  eta %5.1fm  written %.2f GB"
+                  % (i, len(todo), 100.0 * i / len(todo), el / 60, eta / 60, done_bytes / 1e9))
+            sys.stdout.flush()
+    unity_sampler.close_connections()
+
+    # Same convention as `sample`: the list EXISTS iff the last run left clips unrendered, so it never
+    # shows as a permanently-modified file in the drift detector.
+    if failed:
+        paths.write_text(RENDER_FAILED, "# clips whose render call failed — %s\n" % _now()
+                         + "".join(n + "\n" for n in failed))
+    elif os.path.exists(RENDER_FAILED):
+        os.remove(RENDER_FAILED)
+    print("\n%d rendered / %d failed in %.1f min%s"
+          % (len(todo) - len(failed), len(failed), (time.time() - t0) / 60,
+             ("  (%s — rerun with --retry-failed)" % paths.rel(RENDER_FAILED)) if failed else ""))
+    return 1 if failed else 0
+
+
 # -------------------------------------------------------------------------------------- status
 def cmd_status(args):
     rows = read_index() if os.path.exists(INDEX) else []
@@ -341,6 +452,9 @@ def cmd_status(args):
     print("registered        %5d   %s" % (len(registered), paths.rel(paths.ACTIONS_DIR)))
     print("pose dumps        %5d   %s" % (have_raw, paths.rel(paths.RAW_DIR)))
     print("KINEMATIC filled  %5d" % measured)
+    print("frame rings       %5d   %s (up to %d .jpg each)"
+          % (sum(1 for r in rows if _frames_complete(r)), paths.rel(paths.FRAMES_DIR),
+             FRAMES_PER_CLIP))
     print("store total       %5d   (%d accepted, per %s)"
           % (len(paths.action_files()), len(paths.accepted_files()), paths.rel(paths.MANIFEST)))
     return 0
@@ -372,6 +486,12 @@ def main(argv=None):
 
     p = sub.add_parser("measure", help="compute KINEMATIC from the dumps (no engine)")
     p.set_defaults(fn=cmd_measure)
+
+    p = bridge(sub.add_parser("render", help="render the 8-view ring for each indexed clip; resumable"))
+    p.add_argument("--limit", type=int, help="stop after N clips (for a pilot run)")
+    p.add_argument("--force", action="store_true", help="re-render clips that already have a full ring")
+    p.add_argument("--retry-failed", action="store_true", help="only the clips in the failure list")
+    p.set_defaults(fn=cmd_render)
 
     p = sub.add_parser("status", help="where the funnel stands")
     p.set_defaults(fn=cmd_status)

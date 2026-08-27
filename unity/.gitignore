@@ -147,3 +147,13 @@ key.env
 # into agent/animation_knowledge_base/actions/, its dump is added in the same commit as its FBX
 # (ADR 0014; the path is ADR 0017's).
 /agent/animation_knowledge_base/raw/mx_*.json
+
+# ...and the render frames of those same corpus clips, by the same rule again. The eight nursing
+# actions' frame directories above stay TRACKED: they are the consumed contract for eight records
+# that ARE repo content. The corpus's are 2446 x 24 JPEG, about 3.4 GB, regenerable offline from the
+# dumps with `ingest_corpus.py render` — and the reason the nursing frames had to be tracked (that
+# regenerating them needs a live Unity editor, which the pure-Python agent side must not depend on)
+# does not save these: the clips they show are untracked, so the engine could not regenerate them
+# from a fresh clone anyway. A corpus clip that is promoted into the knowledge base brings its
+# frames into the same commit as its FBX and its dump.
+/agent/animation_knowledge_base/frames/mx_*/

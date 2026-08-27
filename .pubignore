@@ -20,6 +20,11 @@ unity/Packages/**/*.png
 # these per-frame samples are not, and the working repository does not track them either. See README.md.
 unity/agent/animation_knowledge_base/raw/mx_*.json
 
+# ...and those clips' render frames, by the same rule: 2446 rings of 24 JPEG come to about 3.4 GB,
+# they are regenerable offline from the dumps (`ingest_corpus.py render`), and the working repository
+# does not track them either. The eight nursing actions' frames ARE published, as noted above.
+unity/agent/animation_knowledge_base/frames/mx_*
+
 # The Unity repository's own .gitattributes is where the LFS filters are declared. Publishing it
 # would hand a fresh clone LFS patterns with no objects behind them.
 unity/.gitattributes
