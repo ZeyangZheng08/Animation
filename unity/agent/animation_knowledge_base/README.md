@@ -235,9 +235,11 @@ Why the corpus is `status: candidate` rather than a store of its own, why a reco
 
 An entry comes together in three stages. First, the measured numbers are computed automatically from the
 real clip (and the controller wiring is read straight from Unity). Then a VLM watches rendered frames of
-the motion and proposes the `action_id`, the `action_description` and the eight `motion_description`s,
-and an automatic check confirms it answered for every channel. By default the proposal is kept and added
-to the live store; a human review is optional. The commands for each stage are below.
+the motion and writes the `action_description` and the eight `motion_description`s, and an automatic
+check confirms it answered for every channel. Naming is separate: describing a clip does not say what to
+call it, and dozens of corpus clips are walk variants that would collide on one `action_id`, so a record
+keeps its `clip_name` key until a human accepts it under a name. A named record is kept in the live store
+by default; a human review is optional. The commands for each stage are below.
 
 ## Running the extractor
 
@@ -278,13 +280,20 @@ numbers, then **describe** the motion. Every step is a plain Python command; the
    separate. Regenerating them requires a running Unity editor, so tracking them is
    what keeps the pure-Python agent side restorable without booting the engine. The corpus's rings are
    gitignored instead — 3.5 GB, and no clip in it is accepted yet.
-5. `python extract.py propose <clip>` — a vision-language model looks at those frames plus the
-   measured facts and proposes three things: the `action_id`, the `action_description`, and one
-   `motion_description` per anatomical channel. A deterministic gate checks it answered for every
-   channel, self-correcting on failure. **By default the result is
-   kept**: status flips to `accepted` and the record is renamed `actions/<action_id>.json` (provenance
-   `vlm_accepted`, no human required); add `--stage` to leave it at `status: candidate` for review
-   instead. (Needs the provider's key in `key.env`, which is git-ignored.)
+5. `python extract.py propose <clip>` — a vision-language model looks at those frames and writes nine
+   sentences: the `action_description`, and one `motion_description` per anatomical channel. The reply
+   comes back as nine labelled lines rather than JSON, because the corpus pass runs on a local ~27B
+   model and a model that size loses a whole record to a stray fence or a missing key, where a skipped
+   line costs one channel and a retry. A deterministic gate checks it answered for every channel,
+   self-correcting on failure.
+   The only measurement in the prompt is which parts move: `mean_pose` is a vector whose origin is a
+   coordinate centre rather than a rest pose, so nothing reads off it that the eight views do not show
+   better, and carriage is visible the same way — but three sampled moments cannot separate a hand held
+   still from a hand that trembles, and `state_label` is the field a consumer reads beside the sentence.
+   **A record that already has an `action_id` is then kept**: status flips to `accepted` and the file is
+   renamed `actions/<action_id>.json` (provenance `vlm_accepted`, no human required); `--stage` holds it
+   at `status: candidate` instead, and so does having no name yet. (Needs the provider's key in
+   `key.env`, which is git-ignored.)
 6. `python extract.py author <clip | all>` — **optional** human review: accept a staged record,
    marking it `human_accepted`. (Skip it entirely and the VLM output stands as `vlm_accepted`.)
 

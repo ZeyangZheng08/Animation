@@ -277,9 +277,9 @@ def test_split_frame_name_reads_both_the_new_and_the_old_form():
 
 
 def test_frames_sort_in_time_order_within_a_view():
-    """`propose` attaches the frames in a stated order and tells the model to read them as a sequence.
-    Sorted lexicographically, "_f21" precedes "_f5" -- which never bit while every fraction was >= 15%,
-    and would now that frame 0 gets chosen."""
+    """Each attached frame is labelled with its percentage through the clip, so the manifest has to
+    read in time order within one angle. Sorted lexicographically, "_f21" precedes "_f5" -- which never
+    bit while every fraction was >= 15%, and would now that frame 0 gets chosen."""
     new = sorted(["front_t0_f0.jpg", "front_t1_f7.jpg", "front_t2_f15.jpg"])
     assert [propose.split_frame_name(f)[1] for f in new] == ["0", "7", "15"]
     old = sorted(["front_f0.png", "front_f7.png", "front_f15.png"])
@@ -288,7 +288,8 @@ def test_frames_sort_in_time_order_within_a_view():
 
 def test_attached_frames_go_round_the_ring_not_down_the_alphabet():
     """Sorted by name the eight views interleave -- back, back_left, back_right, front, ... -- so
-    neighbouring angles land far apart in the list the model is told to read in order."""
+    neighbouring angles land far apart. Ring order keeps one angle's moments together in the attached
+    sequence; the prompt states no reading order, so nothing it says depends on this."""
     names = ["%s_t%d_f%d.jpg" % (v, i, i * 30)
              for v in sorted(US.VIEW_RING_NAMES) for i in range(3)]
     ordered = sorted(names, key=propose.frame_sort_key)

@@ -1,11 +1,12 @@
 """
 vlm_anthropic.py — minimal stdlib client for the MotionKB PROPOSE step's VLM (ADR 0008), on Claude.
 
-Drop-in sibling of `vlm_openai.py`: same three symbols (`MODEL`, `load_api_key`, `propose`) with the
-same signatures, so `propose.py` selects a provider by import rather than by branching. The propose
-step needs a vision-language model to look at rendered frames of a clip and PROPOSE the record's
-descriptions (action_id + action_description + one motion_description per anatomical channel); this
-module is the thin transport for that one call.
+Drop-in sibling of `vlm_openai.py`: same three symbols (`MODEL`, `load_api_key`, `describe`) with
+the same signatures, so `propose.py` selects a provider by import rather than by branching. The
+propose step needs a vision-language model to look at rendered frames of a clip and PROPOSE the
+record's descriptions (action_description + one motion_description per anatomical channel); this
+module is the thin transport for that one call, and it returns the reply text for
+`propose.parse_reply` to read.
 
 No SDK — stdlib `urllib` only, matching `vlm_openai.py` and the rest of the offline pipeline, which
 `environment.yml` documents as running on a bare python3. (The official `anthropic` SDK is the
@@ -14,8 +15,9 @@ it would mean a virtualenv plus new entry points for `check_kb.sh` and every scr
 migration rather than a provider swap.)
 
 The model is `claude-opus-5`. Thinking is adaptive and on by default on this model, so `thinking` is
-sent explicitly only to pin `display` off — the proposal is JSON, and a reasoning summary would just
-be text the parser has to step around. `output_config.effort` controls depth.
+sent explicitly only to pin `display` off — the reply is nine labelled lines, and a reasoning summary
+would put lines in front of them that read like more of the same. `output_config.effort` controls
+depth.
 
 Server-side refusal fallback is ON: the corpus contains combat, death and zombie motions, and a
 policy decline on one frame set would otherwise abort that clip's proposal. With `fallbacks:
@@ -84,37 +86,15 @@ def _image_block(img_path):
                            "data": base64.b64encode(f.read()).decode()}}
 
 
-def _extract_json(text):
-    """Parse the model's reply as JSON, tolerating ```json fences / surrounding prose.
-
-    Kept identical to the OpenAI client's parser: the proposal's shape is set by the prompt and
-    checked downstream by validate_semantic_consistency, and propose.py already has a
-    self-correction retry loop around it. Constraining the reply with output_config.format instead
-    would be stricter, but it would also change what the retry loop is correcting.
-    """
-    text = text.strip()
-    if text.startswith("```"):
-        text = text.split("```", 2)[1]
-        if text.lstrip().lower().startswith("json"):
-            text = text.lstrip()[4:]
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError:
-        a, b = text.find("{"), text.rfind("}")
-        if a >= 0 and b > a:
-            return json.loads(text[a:b + 1])
-        raise
-
-
 def _text_of(payload):
     """The reply text, skipping thinking blocks. content[0] is not reliably the answer."""
     parts = [b.get("text", "") for b in payload.get("content", []) if b.get("type") == "text"]
     return "\n".join(p for p in parts if p)
 
 
-def propose(api_key, prompt, image_paths, model=MODEL, max_tokens=20000, timeout=600,
-            effort="high", max_attempts=5):
-    """Call the VLM with `prompt` + the PNGs at `image_paths`; return (proposal_dict, usage_dict).
+def describe(api_key, prompt, image_paths, model=MODEL, max_tokens=20000, timeout=600,
+             effort="high", max_attempts=5):
+    """Call the VLM with `prompt` + the frames at `image_paths`; return (reply_text, usage_dict).
 
     Raises RuntimeError on a transport/API error or a refusal that the fallback did not absorb.
     429 / 529 / 5xx are retried with exponential backoff and jitter, honouring `retry-after`.
@@ -128,7 +108,7 @@ def propose(api_key, prompt, image_paths, model=MODEL, max_tokens=20000, timeout
         "max_tokens": max_tokens,
         "messages": [{"role": "user", "content": content}],
         # Adaptive thinking is on by default for this model; display stays omitted so the reply is
-        # the JSON proposal and nothing else.
+        # the nine labelled lines and nothing else.
         "thinking": {"type": "adaptive"},
         "output_config": {"effort": effort},
         "fallbacks": "default",
@@ -179,6 +159,6 @@ def propose(api_key, prompt, image_paths, model=MODEL, max_tokens=20000, timeout
         usage = payload.get("usage", {})
         usage["stop_reason"] = stop
         usage["model"] = payload.get("model", model)
-        return _extract_json(text), usage
+        return text, usage
 
     raise RuntimeError(last or "Anthropic call failed after retries")

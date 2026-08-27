@@ -2,10 +2,11 @@
 vlm_openai.py — minimal stdlib client for the MotionKB PROPOSE step's VLM (ADR 0008).
 
 The propose step needs a vision-language model to look at rendered frames of a clip and PROPOSE the
-record's descriptions (action_id + action_description + one motion_description per anatomical
-channel). This module is the thin transport for that one call: it POSTs to the OpenAI Chat Completions API with the
-rendered PNGs as image inputs and returns the parsed JSON proposal. No SDK — stdlib `urllib` only, matching
-the rest of `agent/motionkb/`.
+record's descriptions (action_description + one motion_description per anatomical channel). This
+module is the thin transport for that one call: it POSTs to the OpenAI Chat Completions API with the
+rendered frames as image inputs and returns the reply text. Parsing that text into labelled lines is
+`propose.parse_reply`'s job, so the transport stays a transport. No SDK — stdlib `urllib` only,
+matching the rest of the offline pipeline.
 
 The model is `gpt-5.5-2026-04-23` (a reasoning model — give it generous `max_completion_tokens`). The API
 key is read from the OPENAI_API_KEY env var, else from `key.env` at the repo root (which is git-ignored —
@@ -46,24 +47,8 @@ def _data_url(img_path):
         return "data:%s;base64,%s" % (_media_type(img_path), base64.b64encode(f.read()).decode())
 
 
-def _extract_json(text):
-    """Parse the model's reply as JSON, tolerating ```json fences / surrounding prose."""
-    text = text.strip()
-    if text.startswith("```"):
-        text = text.split("```", 2)[1]
-        if text.lstrip().lower().startswith("json"):
-            text = text.lstrip()[4:]
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError:
-        a, b = text.find("{"), text.rfind("}")
-        if a >= 0 and b > a:
-            return json.loads(text[a:b + 1])
-        raise
-
-
-def propose(api_key, prompt, image_paths, model=MODEL, max_tokens=20000, timeout=300):
-    """Call the VLM with `prompt` + the PNGs at `image_paths`; return (proposal_dict, usage_dict).
+def describe(api_key, prompt, image_paths, model=MODEL, max_tokens=20000, timeout=300):
+    """Call the VLM with `prompt` + the frames at `image_paths`; return (reply_text, usage_dict).
 
     Raises RuntimeError on a transport/API error. gpt-5.x param quirks (max_tokens vs
     max_completion_tokens, response_format/temperature support) are handled by a small adjust-and-retry
@@ -76,7 +61,6 @@ def propose(api_key, prompt, image_paths, model=MODEL, max_tokens=20000, timeout
         "model": model,
         "messages": [{"role": "user", "content": content}],
         "max_completion_tokens": max_tokens,
-        "response_format": {"type": "json_object"},
     }
     last = None
     for _ in range(4):
@@ -87,16 +71,13 @@ def propose(api_key, prompt, image_paths, model=MODEL, max_tokens=20000, timeout
         try:
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 resp = json.loads(r.read().decode("utf-8"))
-            msg = resp["choices"][0]["message"]["content"]
-            return _extract_json(msg), resp.get("usage", {})
+            return resp["choices"][0]["message"]["content"], resp.get("usage", {})
         except urllib.error.HTTPError as e:
             body = e.read().decode("utf-8", "replace")
             last = "OpenAI HTTP %d: %s" % (e.code, body[:400])
             if "Unsupported parameter" in body or "Unsupported value" in body or "unsupported" in body:
                 if "max_completion_tokens" in body:
                     kwargs["max_tokens"] = kwargs.pop("max_completion_tokens", max_tokens)
-                elif "response_format" in body:
-                    kwargs.pop("response_format", None)
                 elif "temperature" in body:
                     kwargs.pop("temperature", None)
                 else:

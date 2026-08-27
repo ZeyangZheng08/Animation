@@ -8,6 +8,46 @@
 
 ## 0. TL;DR — current state
 
+> **✓ THE DESCRIBER'S PROMPT IS REWRITTEN FOR THE CORPUS PASS (2026-08-27).** The frames are all on
+> disk, so the next thing 2446 clips meet is the prompt, and the shipped one was written for eight
+> curated nursing actions on a hosted reasoning model. Three changes, in the agent repo
+> (`propose.py`, both `vlm_*.py`, `extract.py`, `tests/test_propose_prompt.py`). **No record was
+> touched and no number moved** — this decides what the next 2446 descriptions are written from, not
+> what the eight existing ones say.
+>
+> - **The kinematic block in the prompt is one sentence: which parts move.** The rule is to hand the
+>   model only what the pictures cannot establish. `mean_pose` is a vector in normalised muscle space
+>   whose origin is a coordinate centre and not a rest pose (ADR 0021), so no describer reads a lean
+>   off `Spine Front-Back = -0.36` while the eight views show that lean directly; carriage is visible
+>   the same way, since a figure lying down looks like one from every angle in the ring.
+>   `motion_magnitude` as a number needs a paragraph of anchors before it is readable at all, and buys
+>   back a phrase the model would only paraphrase. What three sampled moments genuinely cannot
+>   separate is a hand held still from a hand that trembles — and `state_label` is the field a
+>   consumer reads NEXT TO the sentence, so a description contradicting it is a defect in the record.
+>   That one fact stays; about 70 numbers a prompt went. It also keeps the description independent
+>   evidence rather than a restatement of the measurement sitting beside it.
+> - **The reply is nine labelled lines, not JSON.** The corpus pass is planned on a local ~27B model,
+>   and a model that size asked for nested JSON fails in specific ways — a ```json fence, a missing
+>   channel key, a trailing comma, the `{...}` placeholder copied verbatim — each of which costs the
+>   whole record. `label: sentence` parses with one `partition`, and a line the model skipped is an
+>   absent key, which is the shape `validate_descriptions` already reports. `response_format:
+>   json_object` and both clients' `_extract_json` are gone with it; `vlm.propose` is now
+>   `vlm.describe` and returns the reply text.
+> - **The describer no longer names.** `action_id` left the prompt: dozens of corpus clips are walk
+>   variants that would collide on one, and a record is keyed by `clip_name` until acceptance. So
+>   `propose` auto-accepts a record that already HAS a name and holds an unnamed one at `candidate`,
+>   which is where all 2446 corpus records stay.
+> - **Two things the new tests caught.** A model that bolds its label writes `**action:** ...`, which
+>   left `**` at the head of the sentence once the colon was partitioned away. And the prompt used to
+>   open by tracing the ring — *front, then turning toward the figure's own right* — which was
+>   narration over a manifest that already labels every frame with its own angle, AND a claim about a
+>   sort order the module could not enforce: sorting was the caller's, so a caller passing frames in
+>   any other order got a prompt that lied with nothing to catch it. The sentence is deleted and
+>   `build_prompt` now returns `(frames_in_ring_order, prompt)`, so the order it wants is the order it
+>   produces. Use the returned list to attach the images.
+> - **Gates:** agent-repo suite **370/370** (358 before, +12 in `tests/test_propose_prompt.py`), KB
+>   untouched so validate / golden / manifest / guid are unchanged at 2454 / 8 / in-sync / 8.
+
 > **✓ THE WHOLE CORPUS IS RENDERED (2026-08-27).** All 2446 `mx_` clips now have their eight-view ring
 > on disk under `agent/animation_knowledge_base/frames/<clip_name>/`, keyed exactly as the eight
 > nursing actions' are, so the semantic pass has its visual evidence. The batch verb is
@@ -930,9 +970,15 @@ Build order (by dependency; confirm priority with the user):
 6. **The semantic pass over the corpus — the immediate next step.** All 2446 Mixamo records are measured
    and, since 2026-08-27, rendered (§0), so every one of them has its eight-view ring on disk and nothing
    in the way. What is owed is nine sentences each under the v4 contract — `action_description` plus one
-   `motion_description` per anatomical channel — and 2446 clips is not a scale `propose`'s per-clip
-   hosted-API call suits. The plan is a **local ~27B Qwen on HPC** reading the rendered frames. Not
-   started. Until it lands the corpus is retrievable by measurement (*"legs dynamic, torso static"*
+   `motion_description` per anatomical channel. **The prompt for it is written and landed** (§0): one
+   measurement, nine labelled lines, no naming, and `propose_clip` runs it end to end today against
+   either hosted provider. What is NOT built is the backend and the batch: 2446 clips is not a scale a
+   per-clip hosted-API call suits, and the plan is a **local ~27B Qwen on HPC** reading the rendered
+   frames, which needs a third `vlm_*.py` exposing the same `MODEL` / `load_api_key` / `describe` and a
+   resumable driver alongside `ingest_corpus.py`'s. Worth doing first: run the landed prompt over a
+   handful of clips chosen for shape — a walk, a floor action, a one-handed manipulation, a
+   single-frame pose asset, a lying pose — and read the nine sentences before committing a batch to
+   them. Until it lands the corpus is retrievable by measurement (*"legs dynamic, torso static"*
    returns every walk in the library) and not by meaning.
 7. **Grow the accepted set**: extract more nursing actions offline via the §8.3 runbook (next targets:
    `button`, `grab`, `call`, `lowerBed`, the patient/bed clip families — see `SCENARIO.md` §6).
@@ -1154,9 +1200,10 @@ The extractor is that repo's top level (`config.py` channels/bone-map/divisors/t
 formulas · `extract.py` orchestration with the `register|resolve-controller|emit-sampler|sample|assemble|render|propose|author|migrate`
 subcommands (`migrate [--dry-run]` is the v3→v4 converter: it rewrites shape and restamps provenance and
 reads no pose dump, because v4 moved no number) · `unity_sampler.py` the generic sampler + the render generator + the stdlib HTTP-bridge client ·
-`vlm_openai.py` the gpt-5.5 vision client · `propose.py` the proposal loop). The MEASURE half keys its
-working files by **`clip_name`** (`raw/<clip>.json`, `actions/<clip>.json`); the `action_id` is decided in
-the SEMANTIC half (VLM-proposed at `propose`) and the file is renamed to `<action_id>.json` at acceptance
+`vlm_openai.py` / `vlm_anthropic.py` the two vision clients, one `describe` each, picked by
+`MOTIONKB_VLM` · `propose.py` the prompt, the reply parser and the completeness loop). The MEASURE half
+keys its working files by **`clip_name`** (`raw/<clip>.json`, `actions/<clip>.json`); the `action_id` is
+decided by a human at acceptance, when the file is renamed to `<action_id>.json`
 (auto on `propose`, or via the optional human `author` pass).
 
 **ONE STORE since 2026-08-21 (ADR 0016).** `agent/animation_knowledge_base/actions/` holds all 2454 records whatever their
@@ -1222,19 +1269,23 @@ read `actions/<clip>.json`.
    `check_pulse` was labelled from one pose photographed three times. 24 JPEGs a clip, ~60 KB each,
    issued in two bridge calls of twelve — 16 for a clip whose dump has only two frames, since
    `select_fracs` cannot return three moments a clip does not have.
-6. **Propose (VLM proposes + auto-keeps)** — `python extract.py propose <clip>`
-   sends those frames + the KINEMATIC facts + the existing action list to `gpt-5.5-2026-04-23`
-   (`vlm_openai.MODEL`). Since ADR [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md) it proposes
-   **exactly three things**: `action_id`, `action_description`, and one `motion_description` per anatomical
-   channel. There is nothing to derive from the proposal any more — the 2026-06-25b derivation of
-   `composability.locks`/`free`/`seam_owner` and of `ik_goals` went with the fields, and so did the whole
-   constrained-vocabulary and consistency apparatus, because there are no enums left to violate and no
-   cross-field rule left to satisfy. The retry loop's one remaining job is a proposal that skipped a
-   channel. The program NEVER writes KINEMATIC (ADR 0002); `controller_*` untouched. Needs
-   `OPENAI_API_KEY` in `key.env` (git-ignored). **By default it then AUTO-PROMOTES
+6. **Propose (VLM describes + auto-keeps)** — `python extract.py propose <clip>` sends those frames to
+   the configured VLM (`MOTIONKB_VLM=openai` for `gpt-5.5-2026-04-23`, else `claude-opus-5`). Since ADR
+   [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md) it writes **descriptions only**, and since
+   the 2026-08-27 prompt rewrite (§0) that means **nine sentences**: `action_description` plus one
+   `motion_description` per anatomical channel, returned as nine `label: sentence` lines that
+   `propose.parse_reply` reads. **The prompt carries one measurement** — which parts move — for the
+   reasons in §0; `mean_pose`, carriage and the magnitudes are left to the pictures, which show them
+   better. **It does not name**: `action_id` collides across walk variants, so a record keeps its
+   `clip_name` key until acceptance. There is nothing to derive from the reply either — the 2026-06-25b
+   derivation of `composability.locks`/`free`/`seam_owner` and of `ik_goals` went with the fields, and so
+   did the constrained-vocabulary and consistency apparatus, because there are no enums left to violate
+   and no cross-field rule left to satisfy. The retry loop's one remaining job is a reply that skipped a
+   channel. The program NEVER writes KINEMATIC (ADR 0002); `controller_*` untouched. Needs the provider's
+   key in `key.env` (git-ignored). **A record that already has an `action_id` then AUTO-PROMOTES
    (`_promote_candidate(human=False)`) to `<action_id>.json` with provenance `vlm_accepted`** (no human
-   required — ADR 0008 human gate is now opt-in). `--stage` leaves the record at `status: candidate`
-   instead.
+   required — ADR 0008 human gate is now opt-in). `--stage` holds it at `status: candidate`, and so does
+   having no name yet, which is where every corpus record stays.
 7. **Author (OPTIONAL human review)** — `python extract.py author <clip|all>` (or `propose --stage`
    first, then this): gates `action_id` (slug + uniqueness), flips `vlm_proposed → semantic`, sets
    `verified_against_screenshots=true` + `verified_by/at`, marks `vlm_proposal.status = human_accepted`, and

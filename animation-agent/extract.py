@@ -625,10 +625,11 @@ def render(clip_name, host, port, instance):
 
 
 def propose(clip_name, host, port, instance, stage=False):
-    """Propose one clip: ensure frames (render if missing) -> VLM proposes the action_description and
-    the 8 motion_descriptions -> they are written back into the record. By default the VLM output is
-    KEPT (accepted as `vlm_accepted`, no human required); `--stage` leaves the record at status
-    `candidate` for optional human review (`author` then blesses it as `human_accepted`)."""
+    """Propose one clip: ensure frames (render if missing) -> the VLM writes the action_description
+    and the 8 motion_descriptions -> they are written back into the record. A NAMED record is then
+    accepted by default (`vlm_accepted`, no human required); `--stage` holds it at `candidate` for
+    optional human review (`author` then blesses it as `human_accepted`). An UNNAMED record also
+    stays `candidate`: describing does not name (ADR 0022), so acceptance waits for an action_id."""
     src = _doc_path_by_clip(clip_name)
     if not src:
         print("No source entry with clip_name '%s'." % clip_name)
@@ -640,8 +641,7 @@ def propose(clip_name, host, port, instance, stage=False):
             return 1
     import propose as _propose
     print("Asking the VLM (%s) to describe '%s' ..." % (_propose.VLM_MODEL, clip_name))
-    cand_path, errors, warns, proposed_aid = _propose.propose_clip(clip_name, src)
-    print("  proposed action_id : %s" % proposed_aid)
+    cand_path, errors, warns = _propose.propose_clip(clip_name, src)
     print("  wrote descriptions : %s" % paths.rel(cand_path))
     print("  completeness gate  : %s" % ("PASS (0 errors)" if not errors else "%d ERROR(S)" % len(errors)))
     for e in errors:
@@ -653,6 +653,13 @@ def propose(clip_name, host, port, instance, stage=False):
     if stage:
         print("  staged: %s keeps status 'candidate' (review it, then `author %s`, or re-run `propose`)."
               % (paths.rel(cand_path), clip_name))
+        return 0
+    if not _load(cand_path).get("action_id"):
+        # The describer no longer proposes one. Dozens of corpus clips are walk variants that would
+        # collide on a single action_id, and a record is keyed by its clip_name until it is accepted,
+        # so naming is left to the human who is looking at it anyway.
+        print("  no action_id on this record, so it stays 'candidate'. Give it one, then `author %s`."
+              % clip_name)
         return 0
     print("  auto-accepting (VLM output kept by default; human review is optional via `author %s`) ..."
           % clip_name)

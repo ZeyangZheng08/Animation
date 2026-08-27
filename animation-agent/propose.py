@@ -1,29 +1,53 @@
 """
 propose.py — the VLM-PROPOSE half of the MotionKB pipeline (ADR 0008), engine-decoupled.
 
-`extract.py render <clip>` saves multi-angle frames; this module builds the prompt, asks the VLM to
-PROPOSE the record's DESCRIPTIONS from those frames + the KINEMATIC facts, runs the same completeness
-gate the validator uses (validate_motionkb.validate_descriptions), and writes a candidate. KINEMATIC
-is never touched (ADR 0002).
+`extract.py render <clip>` saves the eight-view ring; this module builds the prompt, asks the VLM to
+PROPOSE the record's DESCRIPTIONS from those frames, runs the same completeness gate the validator
+uses (validate_motionkb.validate_descriptions), and writes the sentences back into the record.
+KINEMATIC is never touched (ADR 0002).
 
-What the model proposes is now exactly three kinds of text: an `action_id`, one `action_description`
-for the clip, and one `motion_description` per anatomical channel. Through v3 it also proposed a
-five-field label tuple per channel (role / motion_type / contact / constraint / target),
-`mask_coverage`, and the composability judgement calls, and the program derived `locks`/`free`/
-`seam_owner`/`ik_goals` from them. All of that is gone (ADR 0022): each one was a decision about how
-this clip COMBINES with something else, and a clip previewed alone on an empty floor is the worst
-possible place from which to make it. The runtime agent makes those calls with the task and the scene
-in front of it.
+What the model writes is nine sentences: one `action_description` for the clip and one
+`motion_description` per anatomical channel. Through v3 it also proposed a five-field label tuple per
+channel (role / motion_type / contact / constraint / target), `mask_coverage`, and the composability
+judgement calls, and the program derived `locks`/`free`/`seam_owner`/`ik_goals` from them. All of that
+is gone (ADR 0022): each one was a decision about how this clip COMBINES with something else, and a
+clip previewed alone on an empty floor is the worst possible place from which to make it.
 
-That also removes the whole constrained-vocabulary apparatus — the enums, the cross-field rules the
-proposal had to satisfy, the self-correction retry loop that fed violations back. Prose has no enum
-to violate. What is left to check is that the model answered at all, for every channel, which is what
-the gate below does.
+Three things changed when the prompt was rewritten for the corpus pass (2026-08-27):
+
+  * **The kinematic block in the prompt is one sentence of `state_label`.** The rule is to hand the
+    model only what the pictures cannot establish. `mean_pose` is a vector in normalised muscle space
+    whose origin is a coordinate centre rather than a rest pose (ADR 0021), so no describer can read a
+    lean off it, while the eight views show the lean directly. Carriage is visible the same way: a
+    figure lying down looks like one from every angle in the ring. `motion_magnitude` as a number
+    needs a paragraph of anchors before it is readable at all, and buys back a phrase the model would
+    only paraphrase. What three sampled moments genuinely cannot separate is a hand held still from a
+    hand that trembles — and `state_label` is the field a consumer reads NEXT TO the sentence, so a
+    description contradicting it is a defect in the record. That one fact stays; the rest is the
+    model's own reading, which also keeps the description independent evidence rather than a
+    restatement of the measurement sitting beside it.
+
+  * **The reply is nine labelled lines, not JSON.** The corpus pass is 2446 clips on a local ~27B
+    model, and a model that size asked for nested JSON fails in specific ways — a ```json fence, a
+    missing channel key, a trailing comma, the `{...}` placeholder copied verbatim — each of which
+    costs the whole record. `label: sentence` parses with one partition, and a line the model skipped
+    is an absent key, which is exactly the shape the completeness gate already reports.
+
+  * **No `action_id`.** Dozens of corpus clips are walk variants that would collide on one. A record
+    is keyed by `clip_name` while unlabelled and the gate does not require an id, so naming is left to
+    acceptance, which is where a human is looking anyway.
+
+The prompt states no reading order for the frames. Each one is labelled with its angle and its time
+in the manifest, which is what the model needs; a sentence tracing the ring round the figure was
+narration on top of that, and it asserted a sort order this module could not enforce. Frames are
+still sorted into ring order here so one angle's moments arrive together, but nothing in the prompt
+depends on it.
 """
 import datetime
 import json
 import os
 import sys
+import textwrap
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = HERE                               # this repo's root; key.env lives here, not with the KB
@@ -44,41 +68,20 @@ else:
 KB_DIR = paths.KB_DIR                          # see paths.py / MOTIONKB_DIR
 VLM_MODEL = vlm.MODEL
 
-# Fields the VLM proposes: one per anatomical channel, plus the two at the top level.
+# Fields the VLM proposes: one per anatomical channel, plus the one at the top level.
 SEMANTIC_CH_KEYS = ("motion_description",)
-TOP_SEMANTIC = ("action_id", "action_description")
+TOP_SEMANTIC = ("action_description",)
 
 # Provenance, audited in extraction.field_origin. There is no `derived` tier any more: the fields the
 # program used to derive from a proposal (composability.locks/free/seam_owner, ik_goals) do not exist.
-VLM_PROPOSED_FIELDS = ["action_id", "action_description", "channels.*.motion_description"]
+VLM_PROPOSED_FIELDS = ["action_description", "channels.*.motion_description"]
+
+# The labels the reply carries, in the order the prompt asks for them.
+REPLY_LABELS = ("action",) + tuple(C.ANATOMICAL_CHANNELS)
 
 
 def _now():
     return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-
-
-def _kinematic_summary(doc):
-    """Compact per-channel kinematic facts the VLM must stay consistent with.
-
-    Two lines per channel: what it MOVES (state + magnitude) and what pose it sits in (the mean of
-    each of its muscle degrees of freedom, or the body's carriage on the root). The pose is given as
-    the numbers it is — there is no neutral/displaced label to hand over any more, and inventing one
-    for the prompt would be inventing a fact the store does not hold (ADR 0021).
-    """
-    ch = doc.get("channels", {})
-    lines = []
-    for c in C.STATE_CHANNELS:
-        f = ch.get(c) or {}
-        lines.append("  %-11s state=%-7s magnitude=%-6s"
-                     % (c, f.get("state_label"), f.get("motion_magnitude")))
-        pose = f.get("mean_pose")
-        if isinstance(pose, dict) and pose:
-            lines.append("              mean pose: "
-                         + ", ".join("%s=%.2f" % (dof, v) for dof, v in pose.items()))
-        elif f.get("mean_body_height") is not None:
-            lines.append("              mean carriage: height=%s tilt_deg=%s"
-                         % (f.get("mean_body_height"), f.get("mean_body_tilt_deg")))
-    return "\n".join(lines)
 
 
 def split_frame_name(path):
@@ -95,29 +98,32 @@ def split_frame_name(path):
     return view, pct
 
 
+def frame_ordinal(path):
+    """The `_t<n>` ordinal, or "0" for a pre-ordinal name. Which MOMENT of the clip this frame is."""
+    stem = os.path.basename(path).rsplit(".", 1)[0]
+    head, _, _pct = stem.rpartition("_f")
+    _view, sep, ordinal = head.rpartition("_t")
+    return ordinal if (sep and ordinal.isdigit()) else "0"
+
+
 def frame_sort_key(path):
     """Ring order first, then time within the angle.
 
     Sorted by NAME the eight views interleave alphabetically — back, back_left, back_right, front,
     front_left, front_right, left, right — which separates neighbouring angles and puts `right` last.
-    The attached order is what the prompt tells the model to read the pictures in, so it should be the
-    order the camera actually goes round: front, turning toward the avatar's right, round the back, back
-    to front_left. A view the ring does not name (an older frame set) sorts after all of them."""
-    stem = os.path.basename(path).rsplit(".", 1)[0]
-    head, _, pct = stem.rpartition("_f")
-    view, sep, ordinal = head.rpartition("_t")
-    if not (sep and ordinal.isdigit()):
-        view, ordinal = head, "0"
+    Ring order keeps one angle's moments together in the attached sequence. A view the ring does not
+    name (an older frame set) sorts after all of them."""
+    view, pct = split_frame_name(path)
     names = unity_sampler.VIEW_RING_NAMES
     vi = names.index(view) if view in names else len(names)
-    return (vi, view, int(ordinal), int(pct) if pct.isdigit() else 0)
+    return (vi, view, int(frame_ordinal(path)), int(pct) if pct.isdigit() else 0)
 
 
 def _frame_manifest(frames):
     """One line per attached image: which angle, how far through the clip.
 
-    Without it the model gets a bag of pictures with no stated order and no way to tell a camera
-    move from a body move, which is most of what these frames are supposed to show.
+    Without it the model gets a bag of pictures with no way to tell a camera move from a body move,
+    which is most of what these frames are supposed to show.
     """
     if not frames:
         return "  (frame order not recorded)"
@@ -125,73 +131,123 @@ def _frame_manifest(frames):
     for i, f in enumerate(frames, 1):
         view, pct = split_frame_name(f)
         pretty = view.replace("_", " ") if view else os.path.basename(f)
-        out.append("  frame %d: %s view, %s%% through the clip" % (i, pretty, pct or "?"))
+        out.append("  frame %d: %s, %s%% through the clip" % (i, pretty, pct or "?"))
     return "\n".join(out)
 
 
+def _state_line(doc):
+    """One sentence naming which anatomical channels move and which hold still.
+
+    The only kinematic fact in the prompt — see the module docstring for why it is the only one.
+    """
+    ch = doc.get("channels", {}) or {}
+    moving = [c for c in C.ANATOMICAL_CHANNELS
+              if (ch.get(c) or {}).get("state_label") == "dynamic"]
+    still = [c for c in C.ANATOMICAL_CHANNELS if c not in moving]
+
+    def listing(names):
+        if len(names) == 1:
+            return names[0]
+        return ", ".join(names[:-1]) + " and " + names[-1]
+
+    if moving and still:
+        s = "Measured over every frame: %s move; %s hold still." % (listing(moving), listing(still))
+    elif moving:
+        s = "Measured over every frame: every part moves."
+    else:
+        s = "Measured over every frame: every part holds still, so the clip is one held pose."
+    # Nine channel names in one sentence runs past 130 characters, which is only a problem for the
+    # human auditing the prompt — but that is who reads it before 2446 clips go through it.
+    return "\n".join(textwrap.wrap(s, 98))
+
+
+PROMPT = """\
+Describe one animation clip, body part by body part, for a motion knowledge base.
+
+THE FRAMES
+%(nframes)d frames: %(nmoments)d moments of the clip, each shot from eight angles 45 degrees apart
+around the figure. Each frame below carries its angle and its time in the clip. Frames sharing a
+percentage are one pose seen from several sides, so read all eight before you place a hand or say
+which way the head faces. The camera holds the same distance and height throughout, so a change in
+the figure's size or position between moments is the body moving.
+
+%(frames)s
+
+THE FIGURE
+One untextured mannequin alone on an empty floor, hands empty. Every clip renders this way whatever
+it depicts, so a figure gripping a bottle or leaning on a bed comes out empty-handed on the same
+bare floor. Describe the movement the pose shows.
+
+The frames are the evidence. Use the clip name where the frames agree with it.
+
+Clip name: %(clip_name)s
+%(state_line)s
+
+WHAT TO WRITE
+Nine lines, each opening with its label and a colon, in this order:
+
+  action: one sentence for what the whole action looks like.
+  torso: one short sentence for what this part does and the pose it moves through.
+  head:
+  left_arm:
+  right_arm:
+  left_leg:
+  right_leg:
+  left_hand:
+  right_hand:
+
+A part that holds still gets a sentence too: say what pose it holds. Keep each sentence to that part
+alone. Write the nine lines and stop.
+"""
+
+
 def build_prompt(doc, clip_name, frames=None):
-    existing_aid = doc.get("action_id")
-    frame_lines = _frame_manifest(frames)
-    return (
-        "You are DESCRIBING one animation clip at the BODY-PART level for a motion knowledge base.\n"
-        "You are shown the SAME few moments of it from EIGHT camera angles, 45 degrees apart, all the way\n"
-        "round the figure — front, then turning toward the figure's own right, round the back, and home.\n"
-        "The frames are listed below in the order they are attached, each labelled with its angle and how\n"
-        "far through the clip it was taken: read them angle by angle, and read the times within one angle\n"
-        "as a sequence. Two frames with the same percentage are ONE pose seen from two sides, not two\n"
-        "poses, so use the far side to settle what a near view hides — whether a hand is in front of the\n"
-        "body or behind it, which way the head turns, whether the feet are together or apart. Every frame\n"
-        "uses the same camera distance and height, so a change in the figure's size or position between\n"
-        "frames at different times is real movement, not framing. You do\n"
-        "NOT set any numbers — those are already measured, and they are given to you below.\n"
-        "THE SETTING IS NOT SHOWN. Every clip is previewed on one shared untextured mannequin, alone on an\n"
-        "empty floor: no costume, no scene, and NO PROPS — a figure holding a bottle or pressing a monitor\n"
-        "is rendered with empty hands against nothing. So the picture tells you the MOVEMENT and nothing\n"
-        "about where it happens or what it touches. This library holds general motion — locomotion, sport,\n"
-        "combat, dance, everyday gesture — alongside nursing tasks. Describe the movement you actually see;\n"
-        "do not reach for a clinical reading the movement does not support, and do not infer an object\n"
-        "from the clip name that the pose does not itself show.\n"
-        "Describe WHAT THE BODY DOES, not what it is for. Do not say which part is the important one, what\n"
-        "another animation could or could not override, or what the hands must stay attached to: those are\n"
-        "not properties of this clip and nothing downstream will read them from you.\n\n"
-        "Frames attached, in order:\n%s\n\n"
-        "Clip name (asset): %s\n"
-        "%s\n\n"
-        "KINEMATIC facts per channel (these are FIXED — your descriptions must agree with them):\n%s\n\n"
-        "Propose exactly these fields:\n"
-        "  action_id    : a short lower_snake_case verb-phrase label for the action (e.g. 'check_pulse').\n"
-        "  action_description : ONE sentence describing what the whole action looks like.\n"
-        "  channels     : for each of the 8 anatomical channels (torso, head, left_arm, right_arm,\n"
-        "                 left_leg, right_leg, left_hand, right_hand) — NOT root — one short\n"
-        "                 plain-language sentence, `motion_description`, saying what that part does.\n"
-        "                 A part measured `static` is still described: say what pose it holds.\n\n"
-        "Return STRICT JSON only, shape:\n"
-        "{\"action_id\":\"...\",\"action_description\":\"...\",\n"
-        " \"channels\":{\"torso\":{\"motion_description\":\"...\"}, ... all 8 anatomical channels ...}}\n"
-        % (frame_lines, clip_name,
-           ("Current action_id (keep unless clearly wrong): %s" % existing_aid) if existing_aid else
-           "No action_id yet — propose one.",
-           _kinematic_summary(doc)))
+    """Returns (frames_in_ring_order, prompt). Sorting happens here so one angle's moments arrive
+    together; the prompt makes no claim about that order, so a caller passing frames in some other
+    order gets a prompt that is still true."""
+    frames = sorted(frames or [], key=frame_sort_key)
+    moments = len({frame_ordinal(f) for f in frames}) or 1
+    return frames, PROMPT % {
+        "nframes": len(frames),
+        "nmoments": moments,
+        "frames": _frame_manifest(frames),
+        "clip_name": clip_name,
+        "state_line": _state_line(doc),
+    }
 
 
-def merge_proposal(doc, proposal, keep_action_id=True):
-    """Overlay the VLM's descriptions onto a copy of the source doc. KINEMATIC, source_clip and
-    controller_* are untouched. Returns (candidate_doc, action_id)."""
+def parse_reply(text):
+    """The labelled lines back into {label: sentence}.
+
+    Tolerates a code fence, blank lines, a leading bullet or hash, and a label written with spaces or
+    capitals instead of the channel key. A label the model never wrote is simply absent, which is the
+    shape the completeness gate already reports on. First occurrence wins, so a model that restates
+    its answer underneath does not overwrite it with a summary.
+    """
+    out = {}
+    for line in (text or "").splitlines():
+        line = line.strip().lstrip("-*#> ").strip().strip("`")
+        label, sep, sentence = line.partition(":")
+        label = label.strip().strip("*_").lower().replace(" ", "_")
+        # A model that bolds the label writes `**action:** ...`, which leaves the closing marker at
+        # the head of the sentence once the colon is partitioned away.
+        sentence = sentence.strip().lstrip("*_ ").strip()
+        if sep and label in REPLY_LABELS and sentence:
+            out.setdefault(label, sentence)
+    return out
+
+
+def merge_proposal(doc, parsed):
+    """Overlay the parsed sentences onto a copy of the source doc. KINEMATIC, source_clip,
+    controller_* and action_id are untouched — naming is acceptance's job, not the describer's."""
     cand = json.loads(json.dumps(doc))  # deep copy
-    pch = proposal.get("channels", {}) or {}
+    if parsed.get("action"):
+        cand["action_description"] = parsed["action"]
     for c in C.ANATOMICAL_CHANNELS:
-        src = pch.get(c) or {}
-        dst = cand["channels"].setdefault(c, {})
-        for k in SEMANTIC_CH_KEYS:
-            if k in src:
-                dst[k] = src[k]
-    proposed_aid = proposal.get("action_id")
-    if not (keep_action_id and cand.get("action_id")):
-        cand["action_id"] = proposed_aid
-    if proposal.get("action_description") is not None:
-        cand["action_description"] = proposal["action_description"]
+        if parsed.get(c):
+            cand["channels"].setdefault(c, {})["motion_description"] = parsed[c]
     cand["status"] = "candidate"
-    return cand, proposed_aid
+    return cand
 
 
 def _stamp_provenance(cand, frames, gate_ok):
@@ -217,34 +273,36 @@ def _stamp_provenance(cand, frames, gate_ok):
 
 
 def propose_clip(clip_name, source_doc_path, retries=2):
-    """Render-free proposal for one clip: VLM proposes -> completeness gate (with retry) -> the
-    descriptions written back into the record. Returns (record_path, errors, warns, action_id).
+    """Describe one clip: VLM writes the lines -> completeness gate (with retry) -> the sentences
+    written back into the record. Returns (record_path, errors, warns).
 
-    The retry loop stays, but there is one thing left for it to catch: a proposal that did not cover
-    every channel. There is no longer a vocabulary to violate or a cross-field rule to contradict.
+    The retry loop has one thing left to catch: a reply that did not cover every channel. There is no
+    vocabulary to violate and no cross-field rule to contradict, and since the reply is lines rather
+    than JSON there is no parse to fail either — a malformed line is a missing label, which the gate
+    already names.
     """
     doc = json.load(open(source_doc_path, encoding="utf-8"))
     frames_dir = os.path.join(paths.FRAMES_DIR, clip_name)
-    frames = sorted(unity_sampler.frame_paths(frames_dir), key=frame_sort_key)
+    frames = unity_sampler.frame_paths(frames_dir)
     if not frames:
         raise RuntimeError("no frames at %s — run `python extract.py render %s` first"
                            % (frames_dir, clip_name))
     api_key = vlm.load_api_key(REPO_ROOT)
-    base_prompt = build_prompt(doc, clip_name, frames)
+    frames, base_prompt = build_prompt(doc, clip_name, frames)
     feedback = ""
-    cand = errors = warns = proposed_aid = None
+    cand = errors = warns = None
     for attempt in range(retries + 1):
-        proposal, _usage = vlm.propose(api_key, base_prompt + feedback, frames)
-        cand, proposed_aid = merge_proposal(doc, proposal)
+        text, _usage = vlm.describe(api_key, base_prompt + feedback, frames)
+        cand = merge_proposal(doc, parse_reply(text))
         errors, warns = [], []
         V.validate_descriptions(cand, errors, warns)
         if not errors:
             break
-        feedback = ("\n\nYour previous JSON was INCOMPLETE. Return corrected JSON that fixes ALL of "
-                    "these:\n- " + "\n- ".join(errors))
+        feedback = ("\n\nYour previous answer was incomplete. Send the nine lines again with all of "
+                    "these filled in:\n- " + "\n- ".join(errors))
     _stamp_provenance(cand, frames, not errors)
     # Written back over the record it came from. One store (ADR 0016) means proposing fills the
     # semantic half of the record in place; there is no second file to reconcile, and promotion is
     # the rename that follows.
     cand_path = paths.write_json(source_doc_path, cand)
-    return cand_path, errors, warns, proposed_aid
+    return cand_path, errors, warns
