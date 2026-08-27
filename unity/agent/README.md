@@ -42,8 +42,10 @@ Through one configured path — see `paths.py` in the agent repo:
 export MOTIONKB_DIR=/mnt/f/Research/AI_agent/Animation/Animation_agent/Project/Animation/agent/animation_knowledge_base
 ```
 
-The runtime service loads the ~1.4 MB action store into memory at startup (BM25 index included), so
-retrieval never touches the disk; only `frames` PNGs are read on demand as visual evidence. It treats the
+The runtime service loads the ACCEPTED subset into memory at startup, BM25 index included — 8 records and
+78 KB today, selected through `manifest.json` rather than by opening all 2454 (`KBIndex.load` →
+`paths.accepted_files`). So retrieval never touches the disk; only `frames` JPEGs are read on demand as
+visual evidence. It treats the
 KB as **read-only**. The only writer is the offline pipeline.
 
 Everything written here goes through `paths.write_text` / `write_json` / `write_bytes`: UTF-8 without BOM,
@@ -59,7 +61,7 @@ only** — the agent side reaches this tree over DrvFs and must not manage it.
 | `manifest.json` | corpus index; pin the KB by its `kb_version` |
 | `engine_mask_map.json` | engine-neutral channel vocabulary (Unity / UE5 / Blender / SMPL-X) |
 | `raw/<clip>.json` | frozen per-frame pose dumps — the golden regression's input |
-| `frames/<clip>/*.jpg` | render frames, read at retrieval time as open-ended visual evidence (lfs). 24 per clip: the eight-view ring (`front, front_right, right, back_right, back, back_left, left, front_left`, turning toward the figure's own right) at three pose-coverage times |
+| `frames/<clip>/*.jpg` | render frames, read at retrieval time as open-ended visual evidence (lfs). 24 per clip: the eight-view ring (`front, front_right, right, back_right, back, back_left, left, front_left`, turning toward the figure's own right) at three pose-coverage times — 16 for a one-frame Mixamo pose asset, which has only two moments to sample. The eight accepted actions' directories are tracked; the 2446 corpus clips' (57,680 files, 3.5 GB) are gitignored as regenerable derivatives, like their dumps |
 | `motionkb_build/reports/kb_state.md` | last `guid → AnimationClip` resolution result |
 | `retrieval_eval_set.json` | seed eval set (full_match / decompose / no_match) |
 

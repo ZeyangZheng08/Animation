@@ -28,6 +28,7 @@ animation_knowledge_base/          everything a CONSUMER reads
 │                           and kb_pose and the seam tables still read them at runtime
 │                           (the corpus's own dumps, `mx_*.json`, are ~1.4 GB and deliberately untracked)
 ├── frames/                 rendered evidence frames — every description was read off these
+│                           (the corpus's own rings, `mx_*/`, are ~3.5 GB and deliberately untracked)
 ├── derived/                segment and transition tables, derived from raw/
 ├── manifest.json           index of the ACCEPTED records
 ├── engine_mask_map.json    9 channels -> Unity AvatarMask
@@ -218,8 +219,13 @@ for each of the 2446 is nine sentences, not nine sentences plus forty categorica
 agree with each other. It stays deliberately separate from measuring, for the reason the whole
 kinematic / semantic split exists: the numbers come from measuring, the sentences come from looking,
 and running them together is how the two get confused. The eight accepted actions were described by a
-VLM reading rendered frames (ADR 0008); doing the same for 2446 is a scale question that has its own
-answer coming.
+VLM reading rendered frames (ADR 0008); doing the same for 2446 is a scale question.
+
+**The looking has already been done.** As of **2026-08-27** every corpus clip has its eight-view ring on
+disk — 57,680 JPEGs, 3.5 GB, about four hours of engine time, not one failure — so nothing stands between
+the corpus and its descriptions except running a model over the frames. That model is planned as a local
+~27B Qwen on HPC rather than 2446 calls to a hosted API. It has not been run yet, which is why every
+`action_description` in the table above still reads **null**.
 
 Why the corpus is `status: candidate` rather than a store of its own, why a record with a null
 `action_id` is nevertheless valid, and why its pose dumps are not in git:
@@ -258,14 +264,20 @@ numbers, then **describe** the motion. Every step is a plain Python command; the
 
 **Describe — the words (a VLM proposes, kept by default; a human may review):**
 
-4. `python extract.py render <clip>` — renders multi-angle frames of the clip (on a plain
+4. `python extract.py render <clip>` — renders the clip from **all eight sides** (on a plain
    ground plane) to `agent/animation_knowledge_base/frames/<clip>/`. The three times are chosen to COVER the clip's range
    of pose — the frames that leave no part of the motion unrepresented — rather than spread over an
-   interval (ADR 0015); the angles come from the measured channel data and the clip's facing. These frames are **committed** (via git-lfs), not a
+   interval (ADR 0015). The angles are not chosen at all: `view_ring` builds eight camera directions 45°
+   apart around the clip's own facing (`front, front_right, right, back_right, back, back_left, left,
+   front_left`, turning toward the figure's own right), all at one slight look-down, so nothing is left to
+   a guess about which axis an action reads along — whatever one view hides, the opposite view shows.
+   That is 8 × 3 = **24 JPEGs** a clip (16 where the clip is a single-frame pose asset). The eight accepted
+   actions' frames are **committed** (via git-lfs), not a
    throwaway intermediate: besides feeding the proposal step below, the Phase-2 agent reads them at
    retrieval time as open-ended visual evidence, to arbitrate between candidates the descriptions do not
    separate. Regenerating them requires a running Unity editor, so tracking them is
-   what keeps the pure-Python agent side restorable without booting the engine.
+   what keeps the pure-Python agent side restorable without booting the engine. The corpus's rings are
+   gitignored instead — 3.5 GB, and no clip in it is accepted yet.
 5. `python extract.py propose <clip>` — a vision-language model looks at those frames plus the
    measured facts and proposes three things: the `action_id`, the `action_description`, and one
    `motion_description` per anatomical channel. A deterministic gate checks it answered for every
@@ -283,11 +295,13 @@ numbers, then **describe** the motion. Every step is a plain Python command; the
   `extractor_version` / `extracted_at`. It reads no pose dump, so it cannot disturb a measured value.
   Idempotent. This is what took the store from `motionkb/v3` to `motionkb/v4`.
 
-**Or, for a whole corpus at once** — `python ingest_corpus.py index | register | sample | measure`
-runs the measure half over every clip in an asset folder (`Assets/Animations/Mixamo30` by default) and
-stops there, leaving 2446 measured records with their semantic half seeded null. `index` and `sample`
-need Unity; `sample` takes about an hour for the full corpus and resumes if interrupted, so re-running
-it after a failure picks up where it stopped. It never touches `actions/`.
+**Or, for a whole corpus at once** — `python ingest_corpus.py index | register | sample | measure | render`
+runs the measure half and the render step over every clip in an asset folder (`Assets/Animations/Mixamo30`
+by default) and stops there, leaving 2446 measured-and-photographed records with their semantic half
+seeded null (`status` reports where the funnel stands). `index`, `sample` and `render` need Unity;
+`sample` takes about an hour for the full corpus and `render` about four, and both resume if interrupted —
+`sample` on whether the dump exists, `render` on whether the ring is complete — so re-running after a
+failure picks up where it stopped. It never proposes, never promotes, and never touches an accepted record.
 
 Validate any time with `python validate_motionkb.py` (add `-q` to print failures only — at 2454 files a
 PASS line each is not a report; see the next section). The measure half writes

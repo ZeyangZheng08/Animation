@@ -38,8 +38,9 @@ animation-agent/
 ├── metrics.py                the 9-channel KINEMATIC computation — variation and mean pose
 ├── paths.py                  where the KB lives, and the rules for writing to it
 ├── unity_sampler.py          the ONE place that touches Unity — generates C#, never ships it at runtime
-├── extract.py                pipeline: register / resolve-controller / sample / assemble / migrate / render / propose / author
-├── ingest_corpus.py          the same measure half over a WHOLE asset folder, and stopping there (ADR 0014)
+├── extract.py                pipeline: register / resolve-controller / emit-sampler / sample / assemble / migrate / render / propose / author
+├── ingest_corpus.py          the measure half and the render step over a WHOLE asset folder, stopping
+│                            short of any description (ADR 0014); both slow verbs resume
 ├── propose.py                VLM proposes the descriptions: action_description + one per channel
 ├── vlm_openai.py             stdlib VLM client
 ├── build_transitions.py      regenerate the derived seam table (a cache; kb_transition recomputes it)
@@ -66,6 +67,15 @@ imported into that project. It is a derivative of those animation assets, so it 
 adding an action is then one atomic commit containing both the FBX and its KB entry, and a guid can never
 drift out of sync with the store that records it.
 
+What is in that store: 2454 records, of which 8 are accepted nursing actions and 2446 are the Mixamo
+corpus ingest_corpus.py brought in. The corpus is measured (2026-08-21) and, since 2026-08-27, fully
+rendered -- every clip has its eight-view ring on disk, 57,680 JPEGs and 3.5 GB, produced in one resumable
+pass with no failures. Its descriptions are the pass that has not been run: nine sentences per record
+under the v4 contract, planned as a local ~27B Qwen on HPC reading those frames rather than 2446 hosted
+calls. Until then the corpus answers questions about what a clip DOES and not about what it MEANS, which
+is what 
+un_eval.py's baseline still scores against the eight.
+
 A third repository, `~/Research/pub-code`, mirrors both of these to
 [`ZeyangZheng08/Animation`, branch `code`](https://github.com/ZeyangZheng08/Animation/tree/code): source
 only, no 3D assets, no LFS. Neither working repository is pushed anywhere and neither can be — their
@@ -79,7 +89,8 @@ Reach it through `MOTIONKB_DIR` (see `paths.py` for the default):
 export MOTIONKB_DIR=/mnt/f/Research/AI_agent/Animation/Animation_agent/Project/Animation/agent/animation_knowledge_base
 ```
 
-The runtime service loads the KB into memory at startup — the whole action store is ~1.4 MB — so
+The runtime service loads the ACCEPTED subset into memory at startup — 8 records and 78 KB today, taken
+through `manifest.json` rather than by opening all 2454 (`KBIndex.load` → `paths.accepted_files`) — so
 retrieval never touches the disk; only `frames` JPEGs are read on demand when the model asks for visual
 evidence. It treats the KB as **read-only**. The only writer is the offline pipeline here.
 
