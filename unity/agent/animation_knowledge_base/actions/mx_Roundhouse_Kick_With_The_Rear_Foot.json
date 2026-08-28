@@ -14,7 +14,7 @@
   "duration": 1.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a roundhouse kick with the right leg, pivoting on the left foot to swing the extended leg across the body.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14336,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates sharply from facing forward to facing sideways and then back, driving the momentum of the kick.",
       "mean_pose": {
         "Spine Front-Back": -0.04301,
         "Spine Left-Right": 0.06677,
@@ -57,7 +57,7 @@
         "raw_value": 0.20356,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to follow the rotation of the torso, maintaining an upright orientation throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.21333,
         "Neck Tilt Left-Right": -0.07241,
@@ -75,7 +75,7 @@
         "raw_value": 0.23341,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and upward to maintain balance as the body pivots.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.59507,
         "Left Shoulder Front-Back": -0.60239,
@@ -96,7 +96,7 @@
         "raw_value": 0.22777,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm crosses the chest initially before swinging out to the side for counter-balance during the kick.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.58596,
         "Right Shoulder Front-Back": -0.39258,
@@ -117,7 +117,7 @@
         "raw_value": 0.16373,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg serves as the stable pivot point, remaining planted on the ground while supporting the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.17396,
         "Left Upper Leg In-Out": 0.32675,
@@ -137,7 +137,7 @@
         "raw_value": 0.31291,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts, extends fully into a horizontal kick across the body, and then retracts back toward the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.26283,
         "Right Upper Leg In-Out": 0.15742,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the end of the extended arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed as it moves across the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:46:04Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a forward-leaning sprint to an upright standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05505,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward during the running phase and straightens to a vertical posture as it stops.",
       "mean_pose": {
         "Spine Front-Back": -0.23406,
         "Spine Left-Right": -0.06145,
@@ -57,7 +57,7 @@
         "raw_value": 0.10404,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward, tilting down slightly with the torso's lean before leveling out in the final pose.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0422,
         "Neck Tilt Left-Right": 0.00435,
@@ -75,7 +75,7 @@
         "raw_value": 0.13727,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings forward at the hip while bent, then extends outward to the side with the palm open.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.01591,
         "Left Shoulder Front-Back": -1.18322,
@@ -96,7 +96,7 @@
         "raw_value": 0.20259,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent position across the midsection, extending slightly forward as the body stabilizes.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.63475,
         "Right Shoulder Front-Back": -0.87179,
@@ -117,7 +117,7 @@
         "raw_value": 0.20275,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends backward with a bent knee during the run, then plants firmly on the ground to support the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.20094,
         "Left Upper Leg In-Out": 0.03343,
@@ -137,7 +137,7 @@
         "raw_value": 0.2093,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts forward with a high knee during the run, then lowers to stand flat on the foot.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.30068,
         "Right Upper Leg In-Out": 0.13672,
@@ -157,7 +157,7 @@
         "raw_value": 0.10041,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens outward with fingers spread wide as the arm extends away from the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.45144,
         "Left Thumb Spread": -0.23783,
@@ -189,7 +189,7 @@
         "raw_value": 0.32271,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains closed in a fist near the center of the chest throughout the transition.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.62841,
         "Right Thumb Spread": -1.57201,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:36Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

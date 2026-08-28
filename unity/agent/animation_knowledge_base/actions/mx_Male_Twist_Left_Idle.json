@@ -14,7 +14,7 @@
   "duration": 2.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a subtle twisting motion to its left while standing in an idle pose.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00646,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stationary throughout the sequence.",
       "mean_pose": {
         "Spine Front-Back": -0.05792,
         "Spine Left-Right": 0.0264,
@@ -57,7 +57,7 @@
         "raw_value": 0.03029,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns slightly to the left and then returns to a forward-facing position.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05947,
         "Neck Tilt Left-Right": 0.12698,
@@ -75,7 +75,7 @@
         "raw_value": 0.01061,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs relaxed at the side of the body, remaining static.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.36138,
         "Left Shoulder Front-Back": -0.41348,
@@ -96,7 +96,7 @@
         "raw_value": 0.0111,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs relaxed at the side of the body, remaining static.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.09552,
         "Right Shoulder Front-Back": 0.04112,
@@ -117,7 +117,7 @@
         "raw_value": 0.01011,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands straight and still, supporting the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.46071,
         "Left Upper Leg In-Out": 0.24958,
@@ -137,7 +137,7 @@
         "raw_value": 0.00662,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stands straight and still, supporting the body's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.4979,
         "Right Upper Leg In-Out": -0.03734,
@@ -157,7 +157,7 @@
         "raw_value": 0.03762,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the side of the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.78352,
         "Left Thumb Spread": 0.23987,
@@ -189,7 +189,7 @@
         "raw_value": 0.03507,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and relaxed at the side of the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.75478,
         "Right Thumb Spread": -0.05469,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

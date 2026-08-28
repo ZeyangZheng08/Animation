@@ -14,7 +14,7 @@
   "duration": 1.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure flinches backward from a small hit on the left, leaning away with the left arm raised in a defensive gesture before settling back into a stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04485,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans and tilts to the right, moving away from the left side, while bending slightly forward at the waist.",
       "mean_pose": {
         "Spine Front-Back": -0.30521,
         "Spine Left-Right": -0.01857,
@@ -57,7 +57,7 @@
         "raw_value": 0.11289,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and turns sharply to the right, looking away from the impact on the left side.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.39693,
         "Neck Tilt Left-Right": 0.1088,
@@ -75,7 +75,7 @@
         "raw_value": 0.05474,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises upward and outward to the left with the elbow bent, holding a guard position near head height.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.17592,
         "Left Shoulder Front-Back": -0.7879,
@@ -96,7 +96,7 @@
         "raw_value": 0.09018,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends out to the right side and slightly back for balance, remaining mostly straight.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.15447,
         "Right Shoulder Front-Back": -0.78095,
@@ -117,7 +117,7 @@
         "raw_value": 0.03039,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted with a slight bend at the knee, serving as the base of support.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.02253,
         "Left Upper Leg In-Out": 0.38393,
@@ -137,7 +137,7 @@
         "raw_value": 0.04538,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Shifts weight onto it by bending the knee more deeply as the body leans over it.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.00152,
         "Right Upper Leg In-Out": 0.40167,
@@ -157,7 +157,7 @@
         "raw_value": 0.06753,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open palm facing outward at shoulder height with fingers spread.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.05825,
         "Left Thumb Spread": 0.05045,
@@ -189,7 +189,7 @@
         "raw_value": 0.11355,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely with the wrist bent and fingers curled downward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.72215,
         "Right Thumb Spread": 0.02835,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:02Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

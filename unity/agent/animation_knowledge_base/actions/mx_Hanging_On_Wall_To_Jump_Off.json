@@ -14,7 +14,7 @@
   "duration": 1.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jumps off an invisible wall, swinging their arms down and out while tucking their legs to land in a crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11833,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from an upright position, then tilts back slightly as the body rotates during the jump.",
       "mean_pose": {
         "Spine Front-Back": -0.22952,
         "Spine Left-Right": 2e-05,
@@ -57,7 +57,7 @@
         "raw_value": 0.34165,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and turns to the left, following the motion of the body's rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00387,
         "Neck Tilt Left-Right": 0.35844,
@@ -75,7 +75,7 @@
         "raw_value": 0.37516,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings down from a raised overhead position, extending outward to the side for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.45746,
         "Left Shoulder Front-Back": -0.50231,
@@ -96,7 +96,7 @@
         "raw_value": 0.43888,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Drops from a raised overhead position, extending outward to the opposite side for balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.19146,
         "Right Shoulder Front-Back": -0.54898,
@@ -117,7 +117,7 @@
         "raw_value": 0.29169,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Tucks upward into the chest, then extends downward toward the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.49866,
         "Left Upper Leg In-Out": 0.47011,
@@ -137,7 +137,7 @@
         "raw_value": 0.29744,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Tucks upward alongside the other leg, then extends downward toward the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.52679,
         "Right Upper Leg In-Out": 0.43529,
@@ -157,7 +157,7 @@
         "raw_value": 0.48897,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens with fingers spread wide as it swings down and out.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.93638,
         "Left Thumb Spread": 0.3793,
@@ -189,7 +189,7 @@
         "raw_value": 0.27938,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens with fingers spread wide as it swings down and out.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.38699,
         "Right Thumb Spread": -0.27537,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

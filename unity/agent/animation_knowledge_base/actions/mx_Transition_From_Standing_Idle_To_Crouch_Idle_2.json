@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a standing idle pose into a deep crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04385,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers and leans forward, bending at the waist to shift the center of gravity downward as the legs bend.",
       "mean_pose": {
         "Spine Front-Back": -0.25187,
         "Spine Left-Right": -0.02039,
@@ -57,7 +57,7 @@
         "raw_value": 0.14623,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward, following the forward lean of the upper body while maintaining its position relative to the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.22148,
         "Neck Tilt Left-Right": -0.36636,
@@ -75,7 +75,7 @@
         "raw_value": 0.10191,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm remains relatively straight, hanging down by the side with only minor adjustments in angle to maintain balance during the descent.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.37144,
         "Left Shoulder Front-Back": -0.59789,
@@ -96,7 +96,7 @@
         "raw_value": 0.09828,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends forward and outward, moving away from the body to act as a counterbalance against the forward lean of the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.63034,
         "Right Shoulder Front-Back": -0.56275,
@@ -117,7 +117,7 @@
         "raw_value": 0.23069,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and hip, lowering the body toward the ground while keeping the foot planted on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.39881,
         "Left Upper Leg In-Out": 0.33886,
@@ -137,7 +137,7 @@
         "raw_value": 0.23763,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left leg's movement, bending deeply at the knee and hip to lower the body into the final crouched stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.30104,
         "Right Upper Leg In-Out": 0.13502,
@@ -157,7 +157,7 @@
         "raw_value": 0.01069,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, hanging naturally at the end of the extended arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41837,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.09849,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a loose fist or semi-clenched shape at the end of the outstretched arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.23699,
         "Right Thumb Spread": 0.08011,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:50:52Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

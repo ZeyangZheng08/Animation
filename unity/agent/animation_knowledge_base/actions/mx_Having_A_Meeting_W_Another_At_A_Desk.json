@@ -14,7 +14,7 @@
   "duration": 46.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits on an unseen chair, gesturing with both hands in front of them as if engaged in a conversation.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07885,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains seated and upright, leaning slightly forward while rotating gently from side to side.",
       "mean_pose": {
         "Spine Front-Back": -0.55743,
         "Spine Left-Right": -0.09249,
@@ -57,7 +57,7 @@
         "raw_value": 0.21052,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is held mostly straight, turning subtly left and right to follow the hand movements.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0591,
         "Neck Tilt Left-Right": 0.08951,
@@ -75,7 +75,7 @@
         "raw_value": 0.23833,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward from the body, moving up and down in a conversational gesture before drawing back toward the center.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.10206,
         "Left Shoulder Front-Back": -0.42795,
@@ -96,7 +96,7 @@
         "raw_value": 0.22127,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches out to meet the left hand, mirroring its motion and bringing the two hands together in front of the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.76793,
         "Right Shoulder Front-Back": -1.1379,
@@ -117,7 +117,7 @@
         "raw_value": 0.04682,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays bent at the knee in a seated position, with the foot planted firmly on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.38661,
         "Left Upper Leg In-Out": 0.42954,
@@ -137,7 +137,7 @@
         "raw_value": 0.0537,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left, remaining bent and stationary to support the seated posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.35585,
         "Right Upper Leg In-Out": 0.54768,
@@ -157,7 +157,7 @@
         "raw_value": 0.35337,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves expressively through the air, opening and closing its fingers as it gestures outward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.22957,
         "Left Thumb Spread": 0.34179,
@@ -189,7 +189,7 @@
         "raw_value": 0.40786,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand travels alongside the left, coordinating its open-palm shape to complete the gesturing motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.13776,
         "Right Thumb Spread": 0.15781,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a stationary stance while rhythmically pumping both arms forward and back with clenched fists.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02515,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stable, maintaining a consistent vertical alignment throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.09611,
         "Spine Left-Right": 0.07384,
@@ -57,7 +57,7 @@
         "raw_value": 0.11319,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces directly forward without tilting or turning.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.1349,
         "Neck Tilt Left-Right": -0.00081,
@@ -75,7 +75,7 @@
         "raw_value": 0.09168,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm repeatedly drives forward from the shoulder and retracts back to the starting position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.836,
         "Left Shoulder Front-Back": -1.07962,
@@ -96,7 +96,7 @@
         "raw_value": 0.09842,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left by driving forward and pulling back in a synchronized pumping motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.98581,
         "Right Shoulder Front-Back": -0.94206,
@@ -117,7 +117,7 @@
         "raw_value": 0.0679,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg holds a static standing pose with the knee slightly bent.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.33718,
         "Left Upper Leg In-Out": 0.1643,
@@ -137,7 +137,7 @@
         "raw_value": 0.06685,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg maintains a steady stance, supporting the body's weight without shifting.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.49829,
         "Right Upper Leg In-Out": -0.06667,
@@ -157,7 +157,7 @@
         "raw_value": 0.66778,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is clenched into a tight fist as it moves through the pumping arc.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.51825,
         "Left Thumb Spread": -0.30239,
@@ -189,7 +189,7 @@
         "raw_value": 0.52451,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains clamped into a fist while following the forward and backward path.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.29182,
         "Right Thumb Spread": -0.12774,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:31:46Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

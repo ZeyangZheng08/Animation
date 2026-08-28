@@ -14,7 +14,7 @@
   "duration": 2.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a relaxed pose and performs a slow, rhythmic nodding motion with its head.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.00801,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains static and upright throughout the clip, maintaining a neutral standing posture without any forward lean or backward tilt.",
       "mean_pose": {
         "Spine Front-Back": -0.0801,
         "Spine Left-Right": 0.07327,
@@ -57,7 +57,7 @@
         "raw_value": 0.09479,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Moves vertically in a smooth, continuous up-and-down nodding motion, dipping down and returning to an upright position repeatedly.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15535,
         "Neck Tilt Left-Right": 0.04491,
@@ -75,7 +75,7 @@
         "raw_value": 0.07319,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays static, hanging naturally at the side of the body with a slight bend at the elbow.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.81141,
         "Left Shoulder Front-Back": -0.87319,
@@ -96,7 +96,7 @@
         "raw_value": 0.13343,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays static, hanging naturally at the side of the body with a slight bend at the elbow.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.9307,
         "Right Shoulder Front-Back": -0.43982,
@@ -117,7 +117,7 @@
         "raw_value": 0.01623,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static standing pose, straight and planted on the ground to support the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.4429,
         "Left Upper Leg In-Out": 0.16595,
@@ -137,7 +137,7 @@
         "raw_value": 0.03128,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static standing pose, straight and planted on the ground to support the body's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.60939,
         "Right Upper Leg In-Out": -0.05327,
@@ -157,7 +157,7 @@
         "raw_value": 0.04392,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains static and open, resting loosely near the left thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.38574,
         "Left Thumb Spread": -0.0605,
@@ -189,7 +189,7 @@
         "raw_value": 0.04845,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains static and open, resting loosely near the right thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.27093,
         "Right Thumb Spread": -0.06437,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:34Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

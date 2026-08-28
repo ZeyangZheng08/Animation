@@ -14,7 +14,7 @@
   "duration": 4.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure steps back while raising its hands in a cautious, placating gesture before lowering them to settle into a standing pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02076,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly backward as the figure retreats, maintaining an upright but yielding posture throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.0907,
         "Spine Left-Right": 0.07486,
@@ -57,7 +57,7 @@
         "raw_value": 0.19233,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward and slightly forward, keeping a lowered gaze consistent with a hesitant or submissive attitude.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.23167,
         "Neck Tilt Left-Right": 0.03227,
@@ -75,7 +75,7 @@
         "raw_value": 0.17997,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm lifts up and outward from the side of the body with the elbow bent, then lowers down to rest at the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.77154,
         "Left Shoulder Front-Back": -1.12444,
@@ -96,7 +96,7 @@
         "raw_value": 0.1935,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left by raising outward and upward in a defensive or agreeing gesture, then drops back down to the hip level.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.98035,
         "Right Shoulder Front-Back": -0.88967,
@@ -117,7 +117,7 @@
         "raw_value": 0.08766,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg pushes off and steps backward, landing with the heel first to absorb the motion of stepping away.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.46794,
         "Left Upper Leg In-Out": 0.16716,
@@ -137,7 +137,7 @@
         "raw_value": 0.07773,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows behind, taking a small step backward to re-establish a stable, neutral stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.47272,
         "Right Upper Leg In-Out": -0.07529,
@@ -157,7 +157,7 @@
         "raw_value": 0.1432,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens with fingers spread during the raised phase, appearing soft and non-threatening before relaxing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.42871,
         "Left Thumb Spread": -0.22034,
@@ -189,7 +189,7 @@
         "raw_value": 0.14886,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand also extends with open fingers as it rises, completing the two-handed placating gesture before falling back to the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.25599,
         "Right Thumb Spread": -0.08899,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:44Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

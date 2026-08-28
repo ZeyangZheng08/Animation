@@ -14,7 +14,7 @@
   "duration": 3.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure floats horizontally in the air, moving forward with a running-style leg cycle and arms held out for balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02583,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans significantly forward to maintain a horizontal flight posture, keeping its orientation aligned with the direction of movement.",
       "mean_pose": {
         "Spine Front-Back": 0.01593,
         "Spine Left-Right": 0.02298,
@@ -57,7 +57,7 @@
         "raw_value": 0.02487,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down slightly to look toward the ground while staying steady relative to the leaning torso.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.14043,
         "Neck Tilt Left-Right": -0.05777,
@@ -75,7 +75,7 @@
         "raw_value": 0.10696,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and outward from the shoulder, remaining relatively straight to act as a stabilizer.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.24491,
         "Left Shoulder Front-Back": -0.65226,
@@ -96,7 +96,7 @@
         "raw_value": 0.16402,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirrors the left arm by extending forward and outward, holding a fixed position in space.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.00463,
         "Right Shoulder Front-Back": 0.33584,
@@ -117,7 +117,7 @@
         "raw_value": 0.15479,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Cycles through a running motion, alternating between being bent at the knee and extended behind the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.52775,
         "Left Upper Leg In-Out": 0.18977,
@@ -137,7 +137,7 @@
         "raw_value": 0.13826,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Cycles in opposition to the left leg, driving forward and then trailing back to simulate running.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.43191,
         "Right Upper Leg In-Out": 0.19124,
@@ -157,7 +157,7 @@
         "raw_value": 0.10742,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open with fingers spread while attached to the extended forearm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.03627,
         "Left Thumb Spread": -0.13481,
@@ -189,7 +189,7 @@
         "raw_value": 0.10339,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open with fingers spread, matching the pose of the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.94502,
         "Right Thumb Spread": -0.01506,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:09Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

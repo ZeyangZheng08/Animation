@@ -14,7 +14,7 @@
   "duration": 2.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a boxing backhand hook, pivoting on the right foot to swing the left arm in an arc across the body.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06623,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from facing forward to turning toward the left side, then returns to face front.",
       "mean_pose": {
         "Spine Front-Back": -0.38022,
         "Spine Left-Right": 0.00689,
@@ -57,7 +57,7 @@
         "raw_value": 0.16125,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the rotation of the torso, looking toward the left during the pivot before returning to the center.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.16915,
         "Neck Tilt Left-Right": -0.12176,
@@ -75,7 +75,7 @@
         "raw_value": 0.08306,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings in a wide arc from the outside across the front of the body and retracts back to the starting position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.16788,
         "Left Shoulder Front-Back": -0.21703,
@@ -96,7 +96,7 @@
         "raw_value": 0.2083,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent at the elbow, held close to the chest throughout the motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.23209,
         "Right Shoulder Front-Back": -1.13322,
@@ -117,7 +117,7 @@
         "raw_value": 0.13965,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee, acting as the pivot point for the body's rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.00221,
         "Left Upper Leg In-Out": 0.2529,
@@ -137,7 +137,7 @@
         "raw_value": 0.14519,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends backward to provide stability and support during the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.49151,
         "Right Upper Leg In-Out": 0.32326,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is clenched into a fist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.85948,
         "Left Thumb Spread": -0.30796,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is clenched into a fist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.68908,
         "Right Thumb Spread": -1.30436,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

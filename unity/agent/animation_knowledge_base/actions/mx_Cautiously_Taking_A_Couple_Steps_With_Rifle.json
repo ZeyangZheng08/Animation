@@ -14,7 +14,7 @@
   "duration": 7.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure takes a few slow, cautious steps forward while holding a two-handed weapon at chest level.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0394,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward, maintaining a steady posture with minor swaying to accommodate the leg movements.",
       "mean_pose": {
         "Spine Front-Back": -0.09017,
         "Spine Left-Right": 0.00709,
@@ -57,7 +57,7 @@
         "raw_value": 0.02274,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains tilted downwards, keeping a focused gaze fixed on the area directly in front of the hands.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.24662,
         "Neck Tilt Left-Right": 0.13446,
@@ -75,7 +75,7 @@
         "raw_value": 0.04245,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is extended forward and bent at the elbow, holding the lower section of an invisible weapon steadily.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.45093,
         "Left Shoulder Front-Back": -0.41964,
@@ -96,7 +96,7 @@
         "raw_value": 0.03316,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is raised higher than the left, bent at the elbow, and positioned to grip the upper part of the held object.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.32766,
         "Right Shoulder Front-Back": -0.5165,
@@ -117,7 +117,7 @@
         "raw_value": 0.17653,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between being planted on the ground and lifting to take a short, careful step forward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.06678,
         "Left Upper Leg In-Out": 0.12268,
@@ -137,7 +137,7 @@
         "raw_value": 0.16761,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left leg's motion, stepping forward cautiously to advance the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.07363,
         "Right Upper Leg In-Out": 0.08049,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static, open gripping pose as if wrapping around a rifle's foregrip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.28636,
         "Left Thumb Spread": 0.67005,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a static clenched pose, appearing to grip the trigger or stock area of the weapon.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.51902,
         "Right Thumb Spread": -0.91667,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:08Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

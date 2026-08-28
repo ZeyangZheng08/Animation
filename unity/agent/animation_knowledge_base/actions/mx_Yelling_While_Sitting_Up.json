@@ -14,7 +14,7 @@
   "duration": 3.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a seated position to stand upright, raising its hands to its face as if yelling before lowering them to rest on its knees.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05711,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso extends upward from a deep seated bend to an upright standing posture, then lowers back down into the seated position.",
       "mean_pose": {
         "Spine Front-Back": -0.26011,
         "Spine Left-Right": -0.03994,
@@ -57,7 +57,7 @@
         "raw_value": 0.095,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly upward during the rise and yell, returning to a neutral forward-facing orientation in the final seated pose.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.13505,
         "Neck Tilt Left-Right": -0.00904,
@@ -75,7 +75,7 @@
         "raw_value": 0.29004,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm lifts from the lap, bending at the elbow to bring the hand up toward the face, then descends to rest on the knee.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.33285,
         "Left Shoulder Front-Back": -0.88722,
@@ -96,7 +96,7 @@
         "raw_value": 0.28524,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, rising with the elbow bent to bring the hand near the face, then lowering to place the hand on the opposite knee.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.43737,
         "Right Shoulder Front-Back": -0.01336,
@@ -117,7 +117,7 @@
         "raw_value": 0.01792,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains static, planted firmly on the floor with the foot flat.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.59244,
         "Left Upper Leg In-Out": 0.23597,
@@ -137,7 +137,7 @@
         "raw_value": 0.01765,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains static, supporting the body's weight on the floor throughout the clip.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.6045,
         "Right Upper Leg In-Out": 0.17498,
@@ -157,7 +157,7 @@
         "raw_value": 0.21309,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from the thigh up to the chin area and then down to grip the right knee.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.84793,
         "Left Thumb Spread": -0.20096,
@@ -189,7 +189,7 @@
         "raw_value": 0.23893,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand travels from the thigh up to the chin area and then down to grip the left knee.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.79829,
         "Right Thumb Spread": -0.53079,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

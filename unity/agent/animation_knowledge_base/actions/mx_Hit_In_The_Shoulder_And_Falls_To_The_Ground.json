@@ -14,7 +14,7 @@
   "duration": 3.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is struck in the shoulder, staggers backward with flailing arms, and falls heavily onto their back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06234,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward slightly at first, then tilts sharply backward as the impact hits, rotating completely until it lies flat on the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.10632,
         "Spine Left-Right": 0.02274,
@@ -57,7 +57,7 @@
         "raw_value": 0.27522,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Jerks forward with the initial posture, snaps back violently with the torso's recoil, and ends up resting on the floor facing upward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01915,
         "Neck Tilt Left-Right": -0.10409,
@@ -75,7 +75,7 @@
         "raw_value": 0.31774,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Begins raised near the chest, swings outward and upward to balance the fall, and finally drops down to rest beside the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.62317,
         "Left Shoulder Front-Back": -0.4477,
@@ -96,7 +96,7 @@
         "raw_value": 0.3243,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts extended out to the side, pulls inward toward the chest during the stagger, and comes to rest across the midsection.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.55188,
         "Right Shoulder Front-Back": -0.51495,
@@ -117,7 +117,7 @@
         "raw_value": 0.23521,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts high into the air during the fall, rotates over the body, and lands bent on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.14092,
         "Left Upper Leg In-Out": 0.13759,
@@ -137,7 +137,7 @@
         "raw_value": 0.27677,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains relatively low initially, extends outward during the collapse, and settles on the ground with a slight bend.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.13525,
         "Right Upper Leg In-Out": 0.17034,
@@ -157,7 +157,7 @@
         "raw_value": 0.19298,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens and waves through the air as the figure loses balance before coming to rest near the head.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.11643,
         "Left Thumb Spread": -0.38195,
@@ -189,7 +189,7 @@
         "raw_value": 0.19562,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves from an open position to clenching near the torso, ending up resting on the stomach area.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.84619,
         "Right Thumb Spread": 0.00518,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

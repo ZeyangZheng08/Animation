@@ -14,7 +14,7 @@
   "duration": 4.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands and uses its right hand to reach out, pull an unseen cabinet door open, and then retract the arm.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03979,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and faces forward with only a slight shift in posture as the arm extends.",
       "mean_pose": {
         "Spine Front-Back": -0.03457,
         "Spine Left-Right": 0.10229,
@@ -57,7 +57,7 @@
         "raw_value": 0.03976,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and oriented forward throughout the motion.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.26509,
         "Neck Tilt Left-Right": 0.02913,
@@ -75,7 +75,7 @@
         "raw_value": 0.04274,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs relaxed at the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.33419,
         "Left Shoulder Front-Back": -0.10109,
@@ -96,7 +96,7 @@
         "raw_value": 0.31278,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends forward from the side, bends at the elbow to bring the hand back toward the chest, and then returns to the resting position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.226,
         "Right Shoulder Front-Back": -1.1814,
@@ -117,7 +117,7 @@
         "raw_value": 0.01799,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands straight and stationary on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.38618,
         "Left Upper Leg In-Out": 0.09088,
@@ -137,7 +137,7 @@
         "raw_value": 0.0192,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stands straight and stationary on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.41882,
         "Right Upper Leg In-Out": 0.05969,
@@ -157,7 +157,7 @@
         "raw_value": 0.11256,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.58179,
         "Left Thumb Spread": -0.28639,
@@ -189,7 +189,7 @@
         "raw_value": 0.25596,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches forward with fingers extended, pulls inward as if grabbing a handle, and then drops back down.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.14932,
         "Right Thumb Spread": -1.12729,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:43:35Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

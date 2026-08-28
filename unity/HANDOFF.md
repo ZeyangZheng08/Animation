@@ -8,6 +8,30 @@
 
 ## 0. TL;DR — current state
 
+> **✓ THE SEMANTIC PASS IS DONE — THE WHOLE CORPUS IS DESCRIBED (2026-08-27).** All 2446 `mx_` records
+> now carry `action_description` and all eight `channels.*.motion_description`, written by
+> **`qwen3.8-27b`** served locally on the HPC cluster, reading each clip's eight-view frame ring.
+> `extraction.field_origin` moved `semantic_pending → semantic`, and every record gained an
+> `extraction.vlm_proposal` block naming the model, the frame count (24, or 16 for the 128 single-frame
+> pose assets) and the eight ring views. The corpus is now retrievable by meaning, not only by
+> measurement.
+>
+> - **Describing is not accepting.** All 2446 stay `status: candidate` under their `mx_` filenames,
+>   `vlm_proposal.status: awaiting_human_accept`, `action_id` still null on every one. The describer no
+>   longer names; naming happens at acceptance. Nothing was renamed and nothing was promoted.
+> - **No kinematic value moved.** A key tally over the whole 2446-file diff turns up only
+>   `action_description`, `motion_description`, the `field_origin` lists and the new `vlm_proposal`
+>   block. `state_label`, `motion_magnitude`, `raw_measurement`, `mean_pose`, `mean_body_height` and
+>   `mean_body_tilt_deg` never appear on a changed line.
+> - **Getting the results home is a PULL, not a push.** HPC wants a password plus a Duo prompt on every
+>   connection and no key may be installed, so an `rsync` aimed back at the workstation has nothing to
+>   authenticate with. It runs from WSL instead, over a ControlMaster the user opens by hand, filtered
+>   `--include='mx_*.json' --exclude='*'` so the eight accepted nursing records on the Windows side
+>   cannot be clobbered by a corpus that never held them. Written up in the agent repo's
+>   `HPC_HANDOFF.md` §7, along with the arrival checks.
+> - **Gates:** validate **2454/2454**, golden **8/8**, manifest in sync, guid **8 resolved / 0 failed**
+>   (from the last committed report — the bridge was down). `check_kb.sh` green on all four.
+
 > **✓ THE DESCRIBER'S PROMPT IS REWRITTEN FOR THE CORPUS PASS (2026-08-27).** The frames are all on
 > disk, so the next thing 2446 clips meet is the prompt, and the shipped one was written for eight
 > curated nursing actions on a hosted reasoning model. Three changes, in the agent repo
@@ -967,19 +991,15 @@ Build order (by dependency; confirm priority with the user):
    feedback loop; SMPL/SMPL-X unified representation; optional pre-bake full-body coordination refinement;
    **gated KB write-back** of successfully assembled motions (only through the geometric gates; provenance
    kept separate from the verified source assets).
-6. **The semantic pass over the corpus — the immediate next step.** All 2446 Mixamo records are measured
-   and, since 2026-08-27, rendered (§0), so every one of them has its eight-view ring on disk and nothing
-   in the way. What is owed is nine sentences each under the v4 contract — `action_description` plus one
-   `motion_description` per anatomical channel. **The prompt for it is written and landed** (§0): one
-   measurement, nine labelled lines, no naming, and `propose_clip` runs it end to end today against
-   either hosted provider. What is NOT built is the backend and the batch: 2446 clips is not a scale a
-   per-clip hosted-API call suits, and the plan is a **local ~27B Qwen on HPC** reading the rendered
-   frames, which needs a third `vlm_*.py` exposing the same `MODEL` / `load_api_key` / `describe` and a
-   resumable driver alongside `ingest_corpus.py`'s. Worth doing first: run the landed prompt over a
-   handful of clips chosen for shape — a walk, a floor action, a one-handed manipulation, a
-   single-frame pose asset, a lying pose — and read the nine sentences before committing a batch to
-   them. Until it lands the corpus is retrievable by measurement (*"legs dynamic, torso static"*
-   returns every walk in the library) and not by meaning.
+6. **The semantic pass over the corpus — DONE 2026-08-27 (§0).** All 2446 Mixamo records were measured
+   (2026-08-21), rendered (2026-08-27) and then described the same day: `qwen3.8-27b`, served locally on
+   the HPC cluster, read each clip's eight-view ring and wrote the nine v4 sentences —
+   `action_description` plus one `motion_description` per anatomical channel — into every record. The
+   corpus is now retrievable by meaning as well as by measurement. What is still owed is **acceptance**:
+   the 2446 stay `status: candidate` with `vlm_proposal.status: awaiting_human_accept` and a null
+   `action_id`, because the describer no longer names and naming happens at acceptance. Deciding how a
+   library this size gets accepted — by hand, by sampled review, or by a gate — is the open question,
+   not the describing.
 7. **Grow the accepted set**: extract more nursing actions offline via the §8.3 runbook (next targets:
    `button`, `grab`, `call`, `lowerBed`, the patient/bed clip families — see `SCENARIO.md` §6).
 
@@ -1314,14 +1334,16 @@ python3 ingest_corpus.py status     # where the funnel stands
 ```
 
 All six have been run over the 2446-clip Mixamo corpus: measured 2026-08-21, rendered 2026-08-27 (§0).
-What is still owed is the semantic half — see §6 step 6.
+The semantic half followed on 2026-08-27, outside these verbs, on HPC (§0) — what is still owed is
+acceptance; see §6 step 6.
 
 Four things to know before running it:
 
 - **It stops short of the semantic half.** `render` produces the evidence frames; nothing here proposes or
-  promotes. Records stay `status: candidate` with
+  promotes. Records come out of these verbs at `status: candidate` with
   `action_id`, `action_description` and every `motion_description` null — the whole semantic half, since
-  ADR [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md). That is a legal record: the schema makes
+  ADR [0022](docs/adr/0022-the-kb-describes-the-agent-decides.md). (The descriptions in the store today
+  were written afterwards by the HPC pass, not by these verbs.) That is a legal record: the schema makes
   those nullable, they are listed under `field_origin.semantic_pending`, and `validate_descriptions`
   requires them the moment `status` is anything but `candidate` (fail-closed — a record with no `status`
   is held to the full bar).

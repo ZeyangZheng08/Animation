@@ -14,7 +14,7 @@
   "duration": 4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs an overhead bashing swing, raising one arm high and striking downward while balancing on the legs.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13463,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists from a forward lean into a side profile as the swing is initiated, then rotates back to face front while leaning slightly forward during the strike.",
       "mean_pose": {
         "Spine Front-Back": -0.10786,
         "Spine Left-Right": 0.01465,
@@ -57,7 +57,7 @@
         "raw_value": 0.21708,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and turns to the right to follow the arc of the swinging arm, looking toward the point of impact.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.19276,
         "Neck Tilt Left-Right": 0.16765,
@@ -75,7 +75,7 @@
         "raw_value": 0.19308,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward to the side for balance, with the elbow bent and the hand held open near shoulder height throughout the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.87233,
         "Left Shoulder Front-Back": 0.29077,
@@ -96,7 +96,7 @@
         "raw_value": 0.41822,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings in a large overhead arc, starting low at the hip, rising above the head, and driving down forcefully to finish extended downwards.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.31944,
         "Right Shoulder Front-Back": -0.10675,
@@ -117,7 +117,7 @@
         "raw_value": 0.10368,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted firmly on the ground with a slight bend in the knee to support the body's rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.10158,
         "Left Upper Leg In-Out": 0.23082,
@@ -137,7 +137,7 @@
         "raw_value": 0.09428,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts off the ground, bending at the knee and crossing slightly behind the standing leg to provide rotational momentum.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.45135,
         "Right Upper Leg In-Out": 0.19616,
@@ -157,7 +157,7 @@
         "raw_value": 0.08074,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open with fingers relaxed, maintaining a fixed position out to the side to counterbalance the swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.40055,
         "Left Thumb Spread": 0.00928,
@@ -189,7 +189,7 @@
         "raw_value": 0.09753,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves with the arm in a wide circular path, transitioning from a loose grip at the start to a clenched fist upon completion of the downward strike.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.61449,
         "Right Thumb Spread": -0.4718,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

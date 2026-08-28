@@ -14,7 +14,7 @@
   "duration": 8.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a prone position on the floor into a seated pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16369,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from lying flat on its back to sitting upright, lifting off the ground throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.36821,
         "Spine Left-Right": -0.00733,
@@ -57,7 +57,7 @@
         "raw_value": 0.20496,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head lifts off the floor and tilts upward as the body sits up, facing forward in the final pose.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.18213,
         "Neck Tilt Left-Right": -0.06164,
@@ -75,7 +75,7 @@
         "raw_value": 0.21541,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings inward from an extended position on the floor to rest near the knee while supporting the rise.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.11394,
         "Left Shoulder Front-Back": -0.17826,
@@ -96,7 +96,7 @@
         "raw_value": 0.30932,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves from lying alongside the body to extending down toward the floor for balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.23889,
         "Right Shoulder Front-Back": 0.124,
@@ -117,7 +117,7 @@
         "raw_value": 0.35409,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee, drawing the foot in from a stretched position to support the seated posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.05194,
         "Left Upper Leg In-Out": 0.31266,
@@ -137,7 +137,7 @@
         "raw_value": 0.35402,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the hip and knee, swinging from a flat position on the floor to plant under the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.07181,
         "Right Upper Leg In-Out": 0.46388,
@@ -157,7 +157,7 @@
         "raw_value": 0.21909,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand pulls away from the floor and comes to rest near the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.78478,
         "Left Thumb Spread": -0.35931,
@@ -189,7 +189,7 @@
         "raw_value": 0.48721,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from the side of the body to press against the floor beside the hips.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.27845,
         "Right Thumb Spread": -0.35519,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

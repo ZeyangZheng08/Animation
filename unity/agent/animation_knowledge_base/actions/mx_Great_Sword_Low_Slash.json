@@ -14,7 +14,7 @@
   "duration": 1.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low sword slash by crouching deeply and sweeping their arms down and across to the left before rising back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1991,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bends forward significantly into a deep crouch during the swing and then straightens back to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.61718,
         "Spine Left-Right": -0.11453,
@@ -57,7 +57,7 @@
         "raw_value": 0.3412,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward following the torso's descent and looks toward the path of the swing before returning to a neutral forward-facing orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.32287,
         "Neck Tilt Left-Right": 0.03673,
@@ -75,7 +75,7 @@
         "raw_value": 0.49727,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings forcefully from a raised or mid-level position down low to the side, extending fully at the bottom of the arc.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.95214,
         "Left Shoulder Front-Back": -2.61528,
@@ -96,7 +96,7 @@
         "raw_value": 0.44077,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm follows the left in a coordinated downward sweep, crossing over the body to drive the motion to the lower left.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.72918,
         "Right Shoulder Front-Back": -2.14954,
@@ -117,7 +117,7 @@
         "raw_value": 0.18363,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply to support the crouch and extends as the figure rises back to standing height.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.0329,
         "Left Upper Leg In-Out": 0.3239,
@@ -137,7 +137,7 @@
         "raw_value": 0.21377,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends sharply to lower the center of gravity for the attack and straightens out to complete the movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.01558,
         "Right Upper Leg In-Out": 0.08274,
@@ -157,7 +157,7 @@
         "raw_value": 0.10571,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains clenched tightly, maintaining its grip on the invisible weapon throughout the entire sequence.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15206,
         "Left Thumb Spread": -0.37832,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static, closed fist pose near the hip, acting as a stable anchor point while the other arm moves.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

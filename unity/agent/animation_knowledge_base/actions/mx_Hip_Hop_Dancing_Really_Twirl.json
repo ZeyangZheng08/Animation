@@ -14,7 +14,7 @@
   "duration": 15.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a rhythmic hip hop dance, bouncing on the balls of its feet while twisting and swinging its arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16694,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Bounces up and down with a slight forward lean, twisting from side to side in time with the leg movements.",
       "mean_pose": {
         "Spine Front-Back": -0.13385,
         "Spine Left-Right": 0.0317,
@@ -57,7 +57,7 @@
         "raw_value": 0.11007,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Bobs gently up and down with the bounce and tilts slightly to follow the torso's rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.18428,
         "Neck Tilt Left-Right": 0.04525,
@@ -75,7 +75,7 @@
         "raw_value": 0.1762,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings outward to the side and then tucks inward toward the chest during the bounce cycle.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.18968,
         "Left Shoulder Front-Back": 0.00384,
@@ -96,7 +96,7 @@
         "raw_value": 0.17876,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirrors the left arm, swinging out to the side and bringing the hand back toward the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.01565,
         "Right Shoulder Front-Back": 0.15869,
@@ -117,7 +117,7 @@
         "raw_value": 0.1454,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee to lower the body into a squat and straightens to rise onto the toes.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.11109,
         "Left Upper Leg In-Out": -0.07528,
@@ -137,7 +137,7 @@
         "raw_value": 0.15639,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Works in unison with the left leg, bending and extending to drive the vertical bouncing motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.09889,
         "Right Upper Leg In-Out": -0.01994,
@@ -157,7 +157,7 @@
         "raw_value": 0.01891,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open pose with fingers slightly curled as it moves with the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.95053,
         "Left Thumb Spread": 0.00982,
@@ -189,7 +189,7 @@
         "raw_value": 0.02625,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves dynamically with the arm, keeping an open palm and loose fingers throughout the swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.05197,
         "Right Thumb Spread": 0.04159,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:00Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

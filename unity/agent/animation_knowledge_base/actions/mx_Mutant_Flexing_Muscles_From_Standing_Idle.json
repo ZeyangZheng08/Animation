@@ -14,7 +14,7 @@
   "duration": 4.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a two-arm front double biceps flex while swaying side to side in a wide, crouched stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06838,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from the waist into a deep crouch and sways laterally from side to side.",
       "mean_pose": {
         "Spine Front-Back": -0.33049,
         "Spine Left-Right": -0.01902,
@@ -57,7 +57,7 @@
         "raw_value": 0.15642,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the hands and follows the torso's side-to-side sway.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.19975,
         "Neck Tilt Left-Right": -0.05718,
@@ -75,7 +75,7 @@
         "raw_value": 0.28291,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bends at the elbow with the forearm raised upward, holding a static flexed pose throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.12379,
         "Left Shoulder Front-Back": -1.05362,
@@ -96,7 +96,7 @@
         "raw_value": 0.31702,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bends at the elbow with the forearm raised upward, mirroring the left arm in a static flexed pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.18819,
         "Right Shoulder Front-Back": -1.12765,
@@ -117,7 +117,7 @@
         "raw_value": 0.12476,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Planted in a wide, bent-knee stance that shifts weight as the body sways.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.16567,
         "Left Upper Leg In-Out": 0.3226,
@@ -137,7 +137,7 @@
         "raw_value": 0.11192,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Planted in a wide, bent-knee stance opposite the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.13557,
         "Right Upper Leg In-Out": 0.4436,
@@ -157,7 +157,7 @@
         "raw_value": 0.38597,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held open and relaxed near the upper thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.79421,
         "Left Thumb Spread": -1.84074,
@@ -189,7 +189,7 @@
         "raw_value": 0.38658,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held open and relaxed near the upper thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.861,
         "Right Thumb Spread": -1.76423,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:43:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

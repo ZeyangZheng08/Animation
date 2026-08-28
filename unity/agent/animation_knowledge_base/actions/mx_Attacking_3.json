@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static, wide-stance pose with one arm raised in a high guard.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains upright but leans slightly forward, facing diagonally toward the left.",
       "mean_pose": {
         "Spine Front-Back": 0.12299,
         "Spine Left-Right": 0.0236,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady position, tilted slightly downward to look toward the front-left.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07696,
         "Neck Tilt Left-Right": 0.09939,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays extended straight out to the side and slightly upward, maintaining a fixed angle.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.00516,
         "Left Shoulder Front-Back": 0.18808,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow with the forearm angled down and back, holding a relaxed guard position near the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.34491,
         "Right Shoulder Front-Back": 1.75939,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a stable stance, planted firmly on the ground with the knee slightly bent for balance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.73343,
         "Left Upper Leg In-Out": 0.51516,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Maintains a wide lunge position, supporting the body's weight with the foot flat on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.60035,
         "Right Upper Leg In-Out": 0.49467,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeps an open palm facing outward, fingers spread as if ready to block or push.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41852,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains loosely curled into a fist near the lower torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.76288,
         "Right Thumb Spread": 0.10537,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:32:12Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

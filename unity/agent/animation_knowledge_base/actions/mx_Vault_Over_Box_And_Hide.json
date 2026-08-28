@@ -14,7 +14,7 @@
   "duration": 3.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward, crouches down low to vault over an invisible obstacle, and then stands back up into a forward-leaning stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.19578,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward while running, drops deep into a crouch for the vault, and rises back up to a bent-forward posture.",
       "mean_pose": {
         "Spine Front-Back": -0.28434,
         "Spine Left-Right": 0.01589,
@@ -57,7 +57,7 @@
         "raw_value": 0.29132,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Follows the torso's movement, dipping low during the crouch and lifting as the figure straightens.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.14125,
         "Neck Tilt Left-Right": -0.08843,
@@ -75,7 +75,7 @@
         "raw_value": 0.44865,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings back while running, reaches forward and down toward the ground during the vault, and extends outward for balance upon standing.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.63277,
         "Left Shoulder Front-Back": 0.12432,
@@ -96,7 +96,7 @@
         "raw_value": 0.37533,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings forward while running, tucks close to the body during the low crouch, and swings out to the side as the figure rises.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.44254,
         "Right Shoulder Front-Back": -0.52862,
@@ -117,7 +117,7 @@
         "raw_value": 0.31519,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives through the run, bends deeply to lower the center of gravity for the vault, and extends to push the body upright.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.29085,
         "Left Upper Leg In-Out": 0.22676,
@@ -137,7 +137,7 @@
         "raw_value": 0.31131,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trailing in the run, tucks tightly under the body at the lowest point of the crouch, and plants firmly on the floor to support the final pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.23957,
         "Right Upper Leg In-Out": -0.01164,
@@ -157,7 +157,7 @@
         "raw_value": 0.32981,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Swings naturally with the arm, reaches down near the floor during the vault, and opens outward to stabilize the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.19913,
         "Left Thumb Spread": -0.12893,
@@ -189,7 +189,7 @@
         "raw_value": 0.2753,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves with the arm's swing, stays tucked high near the chest during the crouch, and extends away from the body as the torso lifts.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.07801,
         "Right Thumb Spread": -0.15341,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:53Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

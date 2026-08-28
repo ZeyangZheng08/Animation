@@ -14,7 +14,7 @@
   "duration": 2.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a goalkeeper's dive, falling to the left and landing on their side before recovering back to a standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09747,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and drops down to the left to support the fall, lying on the side, then rotates upward to return to an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.4452,
         "Spine Left-Right": 0.11494,
@@ -57,7 +57,7 @@
         "raw_value": 0.23857,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and turns to the left during the dive, keeping the gaze low, before lifting and turning back to face forward upon recovery.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06492,
         "Neck Tilt Left-Right": 0.11991,
@@ -75,7 +75,7 @@
         "raw_value": 0.33336,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward and outward to the left to brace for impact, pressing against the ground while the body is down, then swings up and out to balance as the figure stands.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.09829,
         "Left Shoulder Front-Back": -1.00908,
@@ -96,7 +96,7 @@
         "raw_value": 0.27917,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches across the body toward the left during the initial fall, tucks near the chest while on the ground, and extends outward to the right to help push back up.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.5439,
         "Right Shoulder Front-Back": -1.83756,
@@ -117,7 +117,7 @@
         "raw_value": 0.28644,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee and drags along the floor during the dive, extending slightly while on the ground, then bends again to drive the body back to its feet.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.24355,
         "Left Upper Leg In-Out": 0.23751,
@@ -137,7 +137,7 @@
         "raw_value": 0.25026,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps out to the left to initiate the movement, lands bent on the floor beneath the torso, and straightens to support the weight of the standing figure.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.23625,
         "Right Upper Leg In-Out": 0.26738,
@@ -157,7 +157,7 @@
         "raw_value": 0.27463,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide and presses flat against the floor to cushion the landing, then releases the ground and opens outward for balance.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.00303,
         "Left Thumb Spread": 0.28975,
@@ -189,7 +189,7 @@
         "raw_value": 0.21736,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches slightly near the hip during the fall, remains open near the torso while on the ground, and extends downward to assist in the final stand-up.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.95461,
         "Right Thumb Spread": 0.11003,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

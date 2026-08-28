@@ -14,7 +14,7 @@
   "duration": 0.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs continuously toward the right side of the frame with a steady, rhythmic stride.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08774,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward in a running posture and bobs slightly up and down with each step while rotating subtly with the hips.",
       "mean_pose": {
         "Spine Front-Back": -0.16055,
         "Spine Left-Right": 0.01643,
@@ -57,7 +57,7 @@
         "raw_value": 0.06751,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively stable, facing forward in the direction of movement with minimal nodding or turning.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.09395,
         "Neck Tilt Left-Right": -0.03851,
@@ -75,7 +75,7 @@
         "raw_value": 0.08304,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings rhythmically at the side, bending at the elbow to move the forearm between the front and back of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.46678,
         "Left Shoulder Front-Back": -0.60257,
@@ -96,7 +96,7 @@
         "raw_value": 0.15097,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm pumps in opposition to the left, swinging from a bent position in front of the chest to an extended position behind the back.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.19216,
         "Right Shoulder Front-Back": -1.07343,
@@ -117,7 +117,7 @@
         "raw_value": 0.25353,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the cycle by extending backward for push-off and then lifting forward to swing into the next stride.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.05846,
         "Left Upper Leg In-Out": 0.0769,
@@ -137,7 +137,7 @@
         "raw_value": 0.25144,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, pushing off the ground before folding at the knee to bring the foot forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.09171,
         "Right Upper Leg In-Out": 0.03186,
@@ -157,7 +157,7 @@
         "raw_value": 0.11124,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays loosely curled near waist height as it travels through the arc of the arm swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.98186,
         "Left Thumb Spread": 0.10507,
@@ -189,7 +189,7 @@
         "raw_value": 0.2026,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand mirrors the left with a relaxed grip, moving opposite to the left arm throughout the run.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.78729,
         "Right Thumb Spread": 0.13847,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:44Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

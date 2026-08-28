@@ -14,7 +14,7 @@
   "duration": 1.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a standing position into a deep, seated pistol squat.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0521,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and lowers significantly as the hips drop into a deep squat.",
       "mean_pose": {
         "Spine Front-Back": -0.05727,
         "Spine Left-Right": 0.01908,
@@ -57,7 +57,7 @@
         "raw_value": 0.07816,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward to maintain balance over the feet while descending.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.2768,
         "Neck Tilt Left-Right": 0.14259,
@@ -75,7 +75,7 @@
         "raw_value": 0.27115,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and extends forward to counterbalance the body's descent.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.28987,
         "Left Shoulder Front-Back": -0.8568,
@@ -96,7 +96,7 @@
         "raw_value": 0.25367,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging up and extending forward for stability.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.52108,
         "Right Shoulder Front-Back": -0.8735,
@@ -117,7 +117,7 @@
         "raw_value": 0.28788,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee, sinking down until the thigh is nearly parallel to the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.22238,
         "Left Upper Leg In-Out": 0.04618,
@@ -137,7 +137,7 @@
         "raw_value": 0.26396,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted on the ground with a bent knee, supporting the weight of the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.02924,
         "Right Upper Leg In-Out": 0.14029,
@@ -157,7 +157,7 @@
         "raw_value": 0.11848,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends forward with fingers spread to help stabilize the posture.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.14935,
         "Left Thumb Spread": 0.40283,
@@ -189,7 +189,7 @@
         "raw_value": 0.1218,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches forward alongside the other, maintaining an open grip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.706,
         "Right Thumb Spread": 0.11235,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:14Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

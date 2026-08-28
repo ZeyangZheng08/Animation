@@ -14,7 +14,7 @@
   "duration": 7.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a hip hop body wave, shifting her weight from side to side while undulating her torso and swinging her arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13246,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans laterally in alternating directions, creating a rhythmic wave that travels through the midsection.",
       "mean_pose": {
         "Spine Front-Back": 0.01918,
         "Spine Left-Right": -0.04153,
@@ -57,7 +57,7 @@
         "raw_value": 0.18615,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts gently to follow the lateral sway of the shoulders and neck.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06269,
         "Neck Tilt Left-Right": 0.01261,
@@ -75,7 +75,7 @@
         "raw_value": 0.26179,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward to the side with the elbow slightly bent, moving up and down in time with the body's rhythm.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.29995,
         "Left Shoulder Front-Back": 0.49178,
@@ -96,7 +96,7 @@
         "raw_value": 0.30943,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings across the front of the body, transitioning between an extended position and a bent pose near the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.1126,
         "Right Shoulder Front-Back": 0.38372,
@@ -117,7 +117,7 @@
         "raw_value": 0.20592,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to support the shifting weight, staying planted on the ground throughout the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.2729,
         "Left Upper Leg In-Out": 0.07788,
@@ -137,7 +137,7 @@
         "raw_value": 0.20323,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains relatively straight but adjusts its angle to balance the hips as the weight transfers.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.32174,
         "Right Upper Leg In-Out": 0.06305,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open with fingers relaxed, extending away from the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.00179,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is kept open and loose, guiding the arm's motion across the torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52793,
         "Right Thumb Spread": -0.00457,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:36:18Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

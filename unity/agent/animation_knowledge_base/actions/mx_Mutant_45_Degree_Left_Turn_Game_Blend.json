@@ -14,7 +14,7 @@
   "duration": 1.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a sharp, defensive turn to its left while holding a low combat stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02722,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a hunched posture and rotates sharply to the left, pivoting from facing front to facing right.",
       "mean_pose": {
         "Spine Front-Back": -0.44512,
         "Spine Left-Right": 0.03504,
@@ -57,7 +57,7 @@
         "raw_value": 0.07187,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward throughout the movement and turns left to follow the body's rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09282,
         "Neck Tilt Left-Right": 0.05131,
@@ -75,7 +75,7 @@
         "raw_value": 0.06944,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow with the hand held low near the hip, moving laterally as the torso turns.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.1793,
         "Left Shoulder Front-Back": -1.24181,
@@ -96,7 +96,7 @@
         "raw_value": 0.05911,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow with the forearm angled inward, keeping the hand close to the center of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.29167,
         "Right Shoulder Front-Back": -1.04932,
@@ -117,7 +117,7 @@
         "raw_value": 0.1276,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a wide, bent-knee stance and rotates in place to face the new direction.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.06642,
         "Left Upper Leg In-Out": 0.45859,
@@ -137,7 +137,7 @@
         "raw_value": 0.09194,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Maintains a bent-knee position in a wide stance, turning along with the rest of the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.02565,
         "Right Upper Leg In-Out": 0.35341,
@@ -157,7 +157,7 @@
         "raw_value": 0.03934,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeps fingers loosely curled and positioned low near the left thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.77405,
         "Left Thumb Spread": -1.43867,
@@ -189,7 +189,7 @@
         "raw_value": 0.03463,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a loose, relaxed grip shape near the midsection, slightly ahead of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.5288,
         "Right Thumb Spread": -1.82385,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:08Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

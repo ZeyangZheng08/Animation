@@ -14,7 +14,7 @@
   "duration": 3.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic butterfly kick, swinging both legs upward in a split while leaning the upper body backward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18642,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward significantly from an upright position to counterbalance the rising legs.",
       "mean_pose": {
         "Spine Front-Back": -0.14677,
         "Spine Left-Right": -0.04414,
@@ -57,7 +57,7 @@
         "raw_value": 0.31215,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts back along with the torso and faces toward the ceiling during the peak of the kick.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.14884,
         "Neck Tilt Left-Right": -0.06257,
@@ -75,7 +75,7 @@
         "raw_value": 0.2906,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings outward and upward from the side to help balance the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.20888,
         "Left Shoulder Front-Back": 0.42603,
@@ -96,7 +96,7 @@
         "raw_value": 0.33916,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends out to the side and remains relatively static relative to the torso's rotation.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.04643,
         "Right Shoulder Front-Back": -0.14361,
@@ -117,7 +117,7 @@
         "raw_value": 0.28208,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts high into the air, extending straight up as part of the split kick.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.18941,
         "Left Upper Leg In-Out": 0.428,
@@ -137,7 +137,7 @@
         "raw_value": 0.27036,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts simultaneously with the other leg, mirroring its height in the airborne split.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.00573,
         "Right Upper Leg In-Out": 0.46096,
@@ -157,7 +157,7 @@
         "raw_value": 0.02583,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide and moves fluidly through the air alongside the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.51361,
         "Left Thumb Spread": -0.02533,
@@ -189,7 +189,7 @@
         "raw_value": 0.00689,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a fixed, open-palm pose at the end of the extended right arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52385,
         "Right Thumb Spread": -0.00911,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:42Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

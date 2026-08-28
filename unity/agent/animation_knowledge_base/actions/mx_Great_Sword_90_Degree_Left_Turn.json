@@ -14,7 +14,7 @@
   "duration": 0.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a 90-degree turn to its left while maintaining a low, crouched stance with hands clasped in front.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04723,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains bent forward at the waist throughout the sequence, rotating along with the body as it turns.",
       "mean_pose": {
         "Spine Front-Back": -0.58692,
         "Spine Left-Right": -0.01483,
@@ -57,7 +57,7 @@
         "raw_value": 0.06195,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays tilted downward, looking towards the ground, and rotates with the torso during the turn.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.42934,
         "Neck Tilt Left-Right": -0.0251,
@@ -75,7 +75,7 @@
         "raw_value": 0.0884,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held bent at the elbow with the forearm angled inward, keeping the hand close to the center of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.41345,
         "Left Shoulder Front-Back": -1.31423,
@@ -96,7 +96,7 @@
         "raw_value": 0.0743,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, bent at the elbow and held in front of the lower torso with the hand near the midline.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.646,
         "Right Shoulder Front-Back": -1.83179,
@@ -117,7 +117,7 @@
         "raw_value": 0.16527,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays bent at the knee in a squatting position, acting as a pivot point for the rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.03542,
         "Left Upper Leg In-Out": 0.229,
@@ -137,7 +137,7 @@
         "raw_value": 0.14835,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is also bent at the knee, supporting the crouch as the figure shifts its weight to turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.19426,
         "Right Upper Leg In-Out": 0.13978,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains in a loose fist, held static in position relative to the body near the groin.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15206,
         "Left Thumb Spread": -0.37832,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains in a loose fist, held static in position relative to the body near the groin.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:13Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

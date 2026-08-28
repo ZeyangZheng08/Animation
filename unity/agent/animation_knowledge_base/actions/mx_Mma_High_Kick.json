@@ -14,7 +14,7 @@
   "duration": 2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a high kick, lifting one leg up to head level while balancing on the other.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0915,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward and twists to the left as the right leg is lifted for the kick.",
       "mean_pose": {
         "Spine Front-Back": -0.07569,
         "Spine Left-Right": 0.04564,
@@ -57,7 +57,7 @@
         "raw_value": 0.2274,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts back and turns slightly to the left, following the motion of the torso.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06818,
         "Neck Tilt Left-Right": -0.04955,
@@ -75,7 +75,7 @@
         "raw_value": 0.24211,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises upward and outward to the left to maintain balance during the kick.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.43406,
         "Left Shoulder Front-Back": -0.49184,
@@ -96,7 +96,7 @@
         "raw_value": 0.26495,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and down, then pulls back toward the chest as the kick is executed.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.11792,
         "Right Shoulder Front-Back": -0.61999,
@@ -117,7 +117,7 @@
         "raw_value": 0.19991,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands straight on the ground, serving as the supporting leg for the balance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.22245,
         "Left Upper Leg In-Out": 0.46711,
@@ -137,7 +137,7 @@
         "raw_value": 0.33268,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts high in front of the body with the knee bent, extending into a high kick.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.33561,
         "Right Upper Leg In-Out": 0.38181,
@@ -157,7 +157,7 @@
         "raw_value": 0.37151,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens and extends outward along with the raised arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.5809,
         "Left Thumb Spread": 0.04188,
@@ -189,7 +189,7 @@
         "raw_value": 0.33524,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Forms a fist near the chest before moving downward and back.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.20932,
         "Right Thumb Spread": -0.04939,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:48Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward and then executes a quick, sharp stop.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.20094,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward during the run and then pitches sharply forward before settling into a hunched, braced stance to arrest momentum.",
       "mean_pose": {
         "Spine Front-Back": -0.63144,
         "Spine Left-Right": -0.18137,
@@ -57,7 +57,7 @@
         "raw_value": 0.28783,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts slightly upward while running and then drops forward as the torso bends over during the sudden stop.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.22355,
         "Neck Tilt Left-Right": -0.25527,
@@ -75,7 +75,7 @@
         "raw_value": 0.27562,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps back and forth in opposition to the legs while running, extending backward for balance before dropping down to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.10138,
         "Left Shoulder Front-Back": -0.59404,
@@ -96,7 +96,7 @@
         "raw_value": 0.4575,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings forward and back in rhythm with the left arm, reaching out ahead during the run before lowering to the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.2949,
         "Right Shoulder Front-Back": -0.82588,
@@ -117,7 +117,7 @@
         "raw_value": 0.17987,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward and lifts high in a running stride, then plants firmly on the ground to brake.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.10116,
         "Left Upper Leg In-Out": 0.32375,
@@ -137,7 +137,7 @@
         "raw_value": 0.20627,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Traces the opposite running cycle, stepping forward and pushing off the ground to decelerate.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.06698,
         "Right Upper Leg In-Out": 0.0449,
@@ -157,7 +157,7 @@
         "raw_value": 0.02995,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches into a fist during the running phase and opens slightly as the arm lowers after the stop.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41848,
         "Left Thumb Spread": -1.16638,
@@ -189,7 +189,7 @@
         "raw_value": 0.22167,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains clenched in a fist while pumping during the run and relaxes into an open hand as the motion ceases.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.73809,
         "Right Thumb Spread": -0.10333,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

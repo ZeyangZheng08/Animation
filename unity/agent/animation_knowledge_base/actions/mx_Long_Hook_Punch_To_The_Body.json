@@ -14,7 +14,7 @@
   "duration": 2.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure throws a long, arcing hook punch with the right arm toward the body level while stepping forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09173,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and rotates to the left, driving the momentum of the punch.",
       "mean_pose": {
         "Spine Front-Back": -0.3704,
         "Spine Left-Right": -0.05293,
@@ -57,7 +57,7 @@
         "raw_value": 0.20231,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward and turns to the left, following the rotation of the torso.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11282,
         "Neck Tilt Left-Right": 0.0486,
@@ -75,7 +75,7 @@
         "raw_value": 0.22576,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm remains bent at the elbow, held up in a guard position near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.63526,
         "Left Shoulder Front-Back": 0.0357,
@@ -96,7 +96,7 @@
         "raw_value": 0.14098,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings outward from a guarded position in an upward arc, extending fully into a hook punch before retracting.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.11833,
         "Right Shoulder Front-Back": -1.1029,
@@ -117,7 +117,7 @@
         "raw_value": 0.14146,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward to initiate the movement, then bends at the knee to absorb the weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.08342,
         "Left Upper Leg In-Out": 0.35474,
@@ -137,7 +137,7 @@
         "raw_value": 0.16314,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off the ground to propel the body forward, finishing extended behind the figure.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.23863,
         "Right Upper Leg In-Out": 0.46988,
@@ -157,7 +157,7 @@
         "raw_value": 0.00472,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a static fist, kept close to the upper chest as a guard.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61371,
         "Left Thumb Spread": -0.38168,
@@ -189,7 +189,7 @@
         "raw_value": 0.00611,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a static fist throughout the swinging motion of the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.50076,
         "Right Thumb Spread": -0.37163,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

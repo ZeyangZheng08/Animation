@@ -14,7 +14,7 @@
   "duration": 3.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static plank position on the floor, supporting its weight on straight arms with hands flat and feet extended behind.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00135,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Held rigid and parallel to the ground, forming a straight line from the shoulders to the hips.",
       "mean_pose": {
         "Spine Front-Back": -0.0181,
         "Spine Left-Right": 0.00341,
@@ -57,7 +57,7 @@
         "raw_value": 0.00446,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilted slightly downward to keep the neck in alignment with the spine.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.23419,
         "Neck Tilt Left-Right": 0.08045,
@@ -75,7 +75,7 @@
         "raw_value": 0.00812,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extended straight down to the floor, fully locked at the elbow to support the upper body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.01292,
         "Left Shoulder Front-Back": -0.06884,
@@ -96,7 +96,7 @@
         "raw_value": 0.0084,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extended straight down to the floor, mirroring the left arm in a vertical, load-bearing pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.90439,
         "Right Shoulder Front-Back": -0.18003,
@@ -117,7 +117,7 @@
         "raw_value": 0.00293,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Straight and extended backward, balancing on the toes with the knee locked.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.49186,
         "Left Upper Leg In-Out": 0.05534,
@@ -137,7 +137,7 @@
         "raw_value": 0.00294,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Straight and extended backward, resting on the toes alongside the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.46994,
         "Right Upper Leg In-Out": 0.03548,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Flat on the floor with fingers spread wide for stability.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.55772,
         "Left Thumb Spread": 0.14357,
@@ -189,7 +189,7 @@
         "raw_value": 0.00039,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Flat on the floor with fingers spread wide for stability.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.24742,
         "Right Thumb Spread": -0.01772,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

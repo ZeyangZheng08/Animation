@@ -14,7 +14,7 @@
   "duration": 3.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a neutral standing position into a low, wide athletic stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03252,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and lowers as the figure bends down to enter the stance.",
       "mean_pose": {
         "Spine Front-Back": -0.15188,
         "Spine Left-Right": -0.02024,
@@ -57,7 +57,7 @@
         "raw_value": 0.21769,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward, following the forward lean of the upper body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02712,
         "Neck Tilt Left-Right": -0.03959,
@@ -75,7 +75,7 @@
         "raw_value": 0.07384,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends slightly outward and back away from the body for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.45978,
         "Left Shoulder Front-Back": -0.2112,
@@ -96,7 +96,7 @@
         "raw_value": 0.0903,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends slightly outward and back away from the body for balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.5174,
         "Right Shoulder Front-Back": -0.63858,
@@ -117,7 +117,7 @@
         "raw_value": 0.0802,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg moves laterally to the side and bends at the knee to lower the center of gravity.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.05113,
         "Left Upper Leg In-Out": 0.20285,
@@ -137,7 +137,7 @@
         "raw_value": 0.14552,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg moves laterally to the opposite side and bends at the knee to form a wide base.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.3499,
         "Right Upper Leg In-Out": 0.22253,
@@ -157,7 +157,7 @@
         "raw_value": 0.44376,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs loosely with relaxed fingers near the outer thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.81873,
         "Left Thumb Spread": -0.53133,
@@ -189,7 +189,7 @@
         "raw_value": 0.29633,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs loosely with relaxed fingers near the outer thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.39009,
         "Right Thumb Spread": -0.09987,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:44:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

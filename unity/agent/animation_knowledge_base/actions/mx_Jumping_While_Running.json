@@ -14,7 +14,7 @@
   "duration": 1.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward, taking a large step to launch into a high jump.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1481,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward during the run and then straightens up as it lifts off the ground for the jump.",
       "mean_pose": {
         "Spine Front-Back": -0.3527,
         "Spine Left-Right": -0.18076,
@@ -57,7 +57,7 @@
         "raw_value": 0.15313,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head faces forward throughout the movement, tilting slightly upward at the peak of the jump.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.28791,
         "Neck Tilt Left-Right": 0.0085,
@@ -75,7 +75,7 @@
         "raw_value": 0.30845,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a raised position down to the side during the run, then lifts back up and extends outward in the air.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.30343,
         "Left Shoulder Front-Back": -1.71538,
@@ -96,7 +96,7 @@
         "raw_value": 0.26977,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings backward initially, moves forward and up during the stride, and finishes extended high above the head.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.16656,
         "Right Shoulder Front-Back": -0.18027,
@@ -117,7 +117,7 @@
         "raw_value": 0.28219,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives forward with a bent knee during the run and remains tucked under the body while airborne.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.1953,
         "Left Upper Leg In-Out": 0.22963,
@@ -137,7 +137,7 @@
         "raw_value": 0.27829,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off the ground to initiate the jump and trails behind with a bent knee in mid-air.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.01775,
         "Right Upper Leg In-Out": -0.07754,
@@ -157,7 +157,7 @@
         "raw_value": 0.18931,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and relaxed, moving with the swing of the arm before extending out to the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.98186,
         "Left Thumb Spread": 0.10507,
@@ -189,7 +189,7 @@
         "raw_value": 0.49618,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a loose fist, swinging through the run and ending in a raised position overhead.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.12579,
         "Right Thumb Spread": 0.07955,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:11Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

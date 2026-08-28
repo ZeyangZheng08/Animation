@@ -14,7 +14,7 @@
   "duration": 7.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits on an invisible surface and rubs its left arm with its right hand.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0956,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a seated position, tilting slightly toward the left side.",
       "mean_pose": {
         "Spine Front-Back": -0.17715,
         "Spine Left-Right": 0.02948,
@@ -57,7 +57,7 @@
         "raw_value": 0.29543,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down to look at the arms, turning slightly to the left.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.14873,
         "Neck Tilt Left-Right": -0.22024,
@@ -75,7 +75,7 @@
         "raw_value": 0.18461,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends across the body with the elbow bent, holding the forearm steady.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.22749,
         "Left Shoulder Front-Back": -0.64393,
@@ -96,7 +96,7 @@
         "raw_value": 0.19182,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches across the chest to grasp the left forearm and moves up and down along it.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.33891,
         "Right Shoulder Front-Back": -0.20173,
@@ -117,7 +117,7 @@
         "raw_value": 0.04246,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bent at the knee with the foot planted on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.4774,
         "Left Upper Leg In-Out": 0.29845,
@@ -137,7 +137,7 @@
         "raw_value": 0.03561,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bent at the knee with the foot planted on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.41384,
         "Right Upper Leg In-Out": 0.17667,
@@ -157,7 +157,7 @@
         "raw_value": 0.14168,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Relaxed and open, resting near the waist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.62421,
         "Left Thumb Spread": -0.5603,
@@ -189,7 +189,7 @@
         "raw_value": 0.20077,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips the left forearm to perform the rubbing motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.56633,
         "Right Thumb Spread": -0.11167,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

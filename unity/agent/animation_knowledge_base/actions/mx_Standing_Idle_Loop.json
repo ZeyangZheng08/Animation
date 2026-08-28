@@ -14,7 +14,7 @@
   "duration": 1.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a relaxed, neutral idle pose with subtle shifts in weight and posture.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01704,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady, upright position facing forward without any rotation or tilt.",
       "mean_pose": {
         "Spine Front-Back": -0.20543,
         "Spine Left-Right": 0.02271,
@@ -57,7 +57,7 @@
         "raw_value": 0.05504,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Maintains a straight, level orientation aligned directly with the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05322,
         "Neck Tilt Left-Right": -0.18541,
@@ -75,7 +75,7 @@
         "raw_value": 0.03565,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs naturally at the side of the body with a slight bend at the elbow.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.35819,
         "Left Shoulder Front-Back": 0.06862,
@@ -96,7 +96,7 @@
         "raw_value": 0.04113,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Rests loosely by the side of the body with a gentle curve at the elbow.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.28142,
         "Right Shoulder Front-Back": 0.02798,
@@ -117,7 +117,7 @@
         "raw_value": 0.02347,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands straight down to support the figure's weight on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.32702,
         "Left Upper Leg In-Out": 0.21632,
@@ -137,7 +137,7 @@
         "raw_value": 0.02617,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted firmly on the floor in a static standing position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.42566,
         "Right Upper Leg In-Out": 0.10438,
@@ -157,7 +157,7 @@
         "raw_value": 0.0551,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles open and relaxed near the upper thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15088,
         "Left Thumb Spread": 0.21272,
@@ -189,7 +189,7 @@
         "raw_value": 0.04758,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hovers loosely and open just beside the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.15087,
         "Right Thumb Spread": 0.21271,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

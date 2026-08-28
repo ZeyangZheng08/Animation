@@ -14,7 +14,7 @@
   "duration": 1.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward at a steady pace while holding an imaginary rifle in a firing stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04128,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and bobs rhythmically with the steps, maintaining a stable posture for aiming.",
       "mean_pose": {
         "Spine Front-Back": -0.30282,
         "Spine Left-Right": 0.04521,
@@ -57,7 +57,7 @@
         "raw_value": 0.05283,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains held steady and level, facing directly forward to track the target.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.14591,
         "Neck Tilt Left-Right": -0.1654,
@@ -75,7 +75,7 @@
         "raw_value": 0.06947,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is extended straight out in front of the body, holding the front of the weapon steady.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.77936,
         "Left Shoulder Front-Back": -0.65723,
@@ -96,7 +96,7 @@
         "raw_value": 0.04702,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow with the hand pulled back close to the chest, simulating a trigger grip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.76366,
         "Right Shoulder Front-Back": -0.30425,
@@ -117,7 +117,7 @@
         "raw_value": 0.18092,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg swings forward and backward in a continuous walking cycle.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.41579,
         "Left Upper Leg In-Out": 0.0256,
@@ -137,7 +137,7 @@
         "raw_value": 0.17448,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, driving the body forward in a standard gait.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.26927,
         "Right Upper Leg In-Out": 0.05057,
@@ -157,7 +157,7 @@
         "raw_value": 0.06669,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open with fingers spread, supporting the front of the invisible rifle.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.57751,
         "Left Thumb Spread": -0.22733,
@@ -189,7 +189,7 @@
         "raw_value": 0.16799,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is clenched into a fist, positioned as if pulling the trigger repeatedly.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -0.85237,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:45:08Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

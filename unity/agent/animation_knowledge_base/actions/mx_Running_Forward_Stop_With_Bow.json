@@ -14,7 +14,7 @@
   "duration": 0.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward, decelerates to a stop, and finishes with a deep bow.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09426,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward while running, stays bent over during the final stop, and lowers deeply into a bow at the end.",
       "mean_pose": {
         "Spine Front-Back": -0.55141,
         "Spine Left-Right": -0.39512,
@@ -57,7 +57,7 @@
         "raw_value": 0.12209,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down in line with the torso's forward lean throughout the run and the bow.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.0466,
         "Neck Tilt Left-Right": 0.10345,
@@ -75,7 +75,7 @@
         "raw_value": 0.13772,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings back and forth in rhythm with the legs to maintain balance during the run and stop.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.84679,
         "Left Shoulder Front-Back": -0.41079,
@@ -96,7 +96,7 @@
         "raw_value": 0.13332,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps forward and backward opposite the left arm, swinging freely as the figure slows down.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.44591,
         "Right Shoulder Front-Back": -0.46108,
@@ -117,7 +117,7 @@
         "raw_value": 0.19455,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Takes long strides forward to carry the body, then plants firmly to bring the figure to a halt.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.29351,
         "Left Upper Leg In-Out": 0.39318,
@@ -137,7 +137,7 @@
         "raw_value": 0.20327,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives through the ground to propel the run, finishing with a wide, stable stance for the stop.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.01113,
         "Right Upper Leg In-Out": 0.47153,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hangs relaxed and open near the hip, remaining still relative to the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.28362,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves with the arm swing, staying loose and open as the motion concludes.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.46651,
         "Right Thumb Spread": -0.44371,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:46:23Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

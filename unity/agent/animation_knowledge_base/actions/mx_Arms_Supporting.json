@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits on an unseen surface, holding a steady posture with arms braced behind.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains upright and stable in a seated position throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.6009,
         "Spine Left-Right": 0.14962,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Holds a static orientation, facing forward relative to the body.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02191,
         "Neck Tilt Left-Right": 0.22193,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays fixed in a supporting pose, extending down and back from the shoulder.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.04018,
         "Left Shoulder Front-Back": 0.3555,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays fixed in a supporting pose, extending down and back from the shoulder.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.4346,
         "Right Shoulder Front-Back": 0.00217,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static bent position, supporting the seated weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.48413,
         "Left Upper Leg In-Out": -0.17134,
@@ -137,7 +137,7 @@
         "raw_value": 0.0274,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static bent position, supporting the seated weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.51104,
         "Right Upper Leg In-Out": 0.01577,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and stationary, positioned low near the floor for support.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.24265,
         "Left Thumb Spread": 0.49143,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and stationary, positioned low near the floor for support.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.42421,
         "Right Thumb Spread": -0.14668,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:31:42Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

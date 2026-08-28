@@ -14,7 +14,7 @@
   "duration": 1.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure falls from a standing position, tucking into a forward roll on the floor before rolling back up to their feet.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13506,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Falls forward from an upright stance, arches over the ground during the roll, and returns to a vertical position.",
       "mean_pose": {
         "Spine Front-Back": -0.17041,
         "Spine Left-Right": -0.02803,
@@ -57,7 +57,7 @@
         "raw_value": 0.26115,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Drops forward as the body falls, follows the curve of the roll, and lifts back up at the end.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.32412,
         "Neck Tilt Left-Right": 0.0836,
@@ -75,7 +75,7 @@
         "raw_value": 0.29946,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings down from an extended position to press against the floor, then pulls back up to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.47494,
         "Left Shoulder Front-Back": -0.74129,
@@ -96,7 +96,7 @@
         "raw_value": 0.43578,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down to support the body weight during the fall, then extends outward as the figure rises.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.88128,
         "Right Shoulder Front-Back": -1.05278,
@@ -117,7 +117,7 @@
         "raw_value": 0.22237,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Tucks under the body for the roll and extends downward to plant on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.43263,
         "Left Upper Leg In-Out": 0.25733,
@@ -137,7 +137,7 @@
         "raw_value": 0.29037,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends and rotates with the hip during the roll, then straightens out to complete the landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.24347,
         "Right Upper Leg In-Out": 0.38634,
@@ -157,7 +157,7 @@
         "raw_value": 0.29583,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends toward the ground to cushion the impact and begins the rolling motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.6878,
         "Left Thumb Spread": -0.66074,
@@ -189,7 +189,7 @@
         "raw_value": 0.22101,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Presses firmly into the floor to push off and rotate the body upward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.2103,
         "Right Thumb Spread": -0.13363,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 4.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic, forward-leaning thumbs-up gesture while taking a large step.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07493,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans significantly forward from the waist, pitching down to emphasize the reach of the arm.",
       "mean_pose": {
         "Spine Front-Back": -0.11665,
         "Spine Left-Right": 0.01025,
@@ -57,7 +57,7 @@
         "raw_value": 0.20434,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward and forward, following the trajectory of the torso's lean.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04863,
         "Neck Tilt Left-Right": -0.00104,
@@ -75,7 +75,7 @@
         "raw_value": 0.13636,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward and forward to the side, straightening at the elbow to project the hand away from the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.92886,
         "Left Shoulder Front-Back": -0.53643,
@@ -96,7 +96,7 @@
         "raw_value": 0.4078,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings backward with a bent elbow, acting as a counterbalance to the forward motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.35737,
         "Right Shoulder Front-Back": -0.51725,
@@ -117,7 +117,7 @@
         "raw_value": 0.20744,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and bends at the knee to absorb the weight of the lunge.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.14262,
         "Left Upper Leg In-Out": 0.25138,
@@ -137,7 +137,7 @@
         "raw_value": 0.24081,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trailing behind, extends straight back with the heel lifted off the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.03218,
         "Right Upper Leg In-Out": 0.24923,
@@ -157,7 +157,7 @@
         "raw_value": 0.10119,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Forms a fist with the thumb extended upward in a \"thumbs up\" sign.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.69191,
         "Left Thumb Spread": 0.13215,
@@ -189,7 +189,7 @@
         "raw_value": 0.45862,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open with fingers relaxed and slightly curled, swinging naturally with the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.00935,
         "Right Thumb Spread": 0.5375,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:37:48Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

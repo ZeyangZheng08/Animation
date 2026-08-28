@@ -14,7 +14,7 @@
   "duration": 5.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure reaches out to their right side to grab a rifle, pulls it in towards their center, and then places it back down.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03894,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains largely upright but shifts slightly to the right as the arms extend and leans back toward the center as they return.",
       "mean_pose": {
         "Spine Front-Back": -0.11552,
         "Spine Left-Right": -0.00476,
@@ -57,7 +57,7 @@
         "raw_value": 0.10474,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays mostly still, facing forward with only very minor adjustments to follow the movement of the hands.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.09068,
         "Neck Tilt Left-Right": -0.04927,
@@ -75,7 +75,7 @@
         "raw_value": 0.17431,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs at the side initially, then lifts slightly across the body to assist or stabilize the object being grabbed before returning to its resting position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.45571,
         "Left Shoulder Front-Back": 0.18204,
@@ -96,7 +96,7 @@
         "raw_value": 0.20898,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends out to the side to perform the grab, brings the arm inward toward the torso, and then extends back out to place the item.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.31541,
         "Right Shoulder Front-Back": -0.90075,
@@ -117,7 +117,7 @@
         "raw_value": 0.07391,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted firmly on the ground, acting as a stable base throughout the motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.39193,
         "Left Upper Leg In-Out": 0.12013,
@@ -137,7 +137,7 @@
         "raw_value": 0.08461,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg also stays planted, maintaining a steady stance while the upper body performs the action.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.46852,
         "Right Upper Leg In-Out": 0.04442,
@@ -157,7 +157,7 @@
         "raw_value": 0.17627,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a relaxed state at the hip area up to meet the right hand in the middle to support the grab, then lowers back down.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.57591,
         "Left Thumb Spread": 0.07947,
@@ -189,7 +189,7 @@
         "raw_value": 0.19019,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends outward to grasp the object, retracts it close to the body, and extends again to release it back into its original spot.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.85631,
         "Right Thumb Spread": 0.02572,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

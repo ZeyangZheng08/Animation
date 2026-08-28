@@ -14,7 +14,7 @@
   "duration": 1.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a defensive inward block, drawing both arms from an open stance to cross tightly in front of the chest.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06985,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and rotates slightly with the arm movement, settling into a compact, guarded posture at the center of the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.14149,
         "Spine Left-Right": -0.0263,
@@ -57,7 +57,7 @@
         "raw_value": 0.1597,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and turns to look toward the left side as the hands come together.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.14627,
         "Neck Tilt Left-Right": -0.09565,
@@ -75,7 +75,7 @@
         "raw_value": 0.16136,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm moves from a low position out to the side upward and across the body, ending bent at the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.6782,
         "Left Shoulder Front-Back": -0.84994,
@@ -96,7 +96,7 @@
         "raw_value": 0.12707,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm sweeps from a raised guard position down and across the body to meet the left arm in the center.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.64339,
         "Right Shoulder Front-Back": -0.41142,
@@ -117,7 +117,7 @@
         "raw_value": 0.11487,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted in a stable stance, bending slightly at the knee to support the upper body's shift.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.36364,
         "Left Upper Leg In-Out": 0.42166,
@@ -137,7 +137,7 @@
         "raw_value": 0.08224,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg holds a steady position with a slight bend, providing a solid base for the blocking motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.43836,
         "Right Upper Leg In-Out": 0.25792,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a loose fist throughout the sequence.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.80652,
         "Left Thumb Spread": -0.29941,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a loose fist throughout the sequence.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.77368,
         "Right Thumb Spread": -0.46492,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

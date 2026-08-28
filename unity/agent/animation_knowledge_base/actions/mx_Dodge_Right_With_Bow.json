@@ -14,7 +14,7 @@
   "duration": 0.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a quick, low dodge to the right while bowing forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04688,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans sharply forward and bends sideways to the right, maintaining the hunched posture throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.25912,
         "Spine Left-Right": -0.0579,
@@ -57,7 +57,7 @@
         "raw_value": 0.07767,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down in a deep bow, facing toward the floor as it follows the torso's descent.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.0605,
         "Neck Tilt Left-Right": 0.08876,
@@ -75,7 +75,7 @@
         "raw_value": 0.18288,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely at the side of the body, swinging slightly backward with the momentum of the turn.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.73176,
         "Left Shoulder Front-Back": 0.178,
@@ -96,7 +96,7 @@
         "raw_value": 0.13202,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings across the front of the body and tucks inward near the waist to assist the rightward lean.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.5717,
         "Right Shoulder Front-Back": -0.62381,
@@ -117,7 +117,7 @@
         "raw_value": 0.1908,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and remains relatively straight, acting as the primary support for the weight shift.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.11387,
         "Left Upper Leg In-Out": 0.37409,
@@ -137,7 +137,7 @@
         "raw_value": 0.22397,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply at the knee, dropping the hip low into a wide, crouched stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.3146,
         "Right Upper Leg In-Out": 0.44056,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open position with fingers slightly curled near the left thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.16679,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curls into a loose fist as the arm draws in close to the midsection.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.43652,
         "Right Thumb Spread": -0.44415,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

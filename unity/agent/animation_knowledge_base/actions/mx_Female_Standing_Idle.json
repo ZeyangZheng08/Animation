@@ -14,7 +14,7 @@
   "duration": 10.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a relaxed idle pose, shifting its weight slightly from side to side.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01057,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains upright and stationary throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.1335,
         "Spine Left-Right": 0.06794,
@@ -57,7 +57,7 @@
         "raw_value": 0.11377,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts gently from side to side in a subtle swaying motion.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.11033,
         "Neck Tilt Left-Right": 0.0167,
@@ -75,7 +75,7 @@
         "raw_value": 0.01004,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs straight down at the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.13788,
         "Left Shoulder Front-Back": -0.45157,
@@ -96,7 +96,7 @@
         "raw_value": 0.01776,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs straight down at the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.2187,
         "Right Shoulder Front-Back": 0.07436,
@@ -117,7 +117,7 @@
         "raw_value": 0.01277,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands straight with the foot planted flat on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.51459,
         "Left Upper Leg In-Out": 0.18483,
@@ -137,7 +137,7 @@
         "raw_value": 0.01101,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands straight with the foot planted flat on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.60912,
         "Right Upper Leg In-Out": -0.10897,
@@ -157,7 +157,7 @@
         "raw_value": 0.15303,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely by the hip with fingers relaxed.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.55583,
         "Left Thumb Spread": 0.11018,
@@ -189,7 +189,7 @@
         "raw_value": 0.17302,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely by the hip with fingers relaxed.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.76583,
         "Right Thumb Spread": 0.10718,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

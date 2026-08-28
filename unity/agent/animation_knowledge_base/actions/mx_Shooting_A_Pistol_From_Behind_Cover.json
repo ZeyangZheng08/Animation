@@ -14,7 +14,7 @@
   "duration": 2.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a low, braced stance and repeatedly brings both hands up to the face to simulate firing a pistol from behind cover.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12807,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a crouch, rotating slightly side-to-side with each motion of the arms.",
       "mean_pose": {
         "Spine Front-Back": -0.1965,
         "Spine Left-Right": -0.12495,
@@ -57,7 +57,7 @@
         "raw_value": 0.10941,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the hands and sways laterally as the torso rotates.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.16874,
         "Neck Tilt Left-Right": -0.0092,
@@ -75,7 +75,7 @@
         "raw_value": 0.30281,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from the side to bring the hand up to the center of the face, then lowers it back down.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.49804,
         "Left Shoulder Front-Back": 0.0545,
@@ -96,7 +96,7 @@
         "raw_value": 0.41427,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from the side to bring the hand up to the center of the face, meeting the left hand, then lowers it back down.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.57586,
         "Right Shoulder Front-Back": -1.53596,
@@ -117,7 +117,7 @@
         "raw_value": 0.21447,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the knee in a stable, grounded position to support the crouched weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.00711,
         "Left Upper Leg In-Out": 0.10133,
@@ -137,7 +137,7 @@
         "raw_value": 0.11097,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the knee in a stable, grounded position to support the crouched weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.61249,
         "Right Upper Leg In-Out": 0.3692,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a fixed, open-palm shape while moving up to the face and back down.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.40235,
         "Left Thumb Spread": -1.04089,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a fixed, open-palm shape while moving up to the face and back down.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.09117,
         "Right Thumb Spread": -1.01344,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:13Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure bends forward from a standing position to assume a low, wide athletic stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15732,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward significantly, moving from an upright posture to a near-horizontal position over the legs.",
       "mean_pose": {
         "Spine Front-Back": -0.23979,
         "Spine Left-Right": 0.01265,
@@ -57,7 +57,7 @@
         "raw_value": 0.30234,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head drops down and tilts forward, following the downward trajectory of the torso.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.09241,
         "Neck Tilt Left-Right": -0.01216,
@@ -75,7 +75,7 @@
         "raw_value": 0.25623,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends straight down toward the ground, reaching for the floor as the body lowers.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.52803,
         "Left Shoulder Front-Back": -1.35311,
@@ -96,7 +96,7 @@
         "raw_value": 0.25038,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent at the elbow, with the hand hovering around the hip or upper thigh area.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.54025,
         "Right Shoulder Front-Back": -1.35311,
@@ -117,7 +117,7 @@
         "raw_value": 0.22461,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends outward and bends at the knee to support the lowered body weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.35029,
         "Left Upper Leg In-Out": 0.29743,
@@ -137,7 +137,7 @@
         "raw_value": 0.25218,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg also steps out to the side and bends, mirroring the left leg in a wide stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.30659,
         "Right Upper Leg In-Out": 0.33688,
@@ -157,7 +157,7 @@
         "raw_value": 0.23174,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches down until the fingers are close to touching the ground.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.57134,
         "Left Thumb Spread": -0.10001,
@@ -189,7 +189,7 @@
         "raw_value": 0.51834,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays raised near the hip level, not extending all the way to the floor.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.90121,
         "Right Thumb Spread": -0.45837,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:37:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

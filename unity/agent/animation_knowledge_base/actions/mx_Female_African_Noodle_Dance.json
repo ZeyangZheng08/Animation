@@ -14,7 +14,7 @@
   "duration": 8.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a noodle dance, bending and swaying her body with fluid arm movements.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18178,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins upright, then bends forward and twists to the side before returning to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.18846,
         "Spine Left-Right": -0.04686,
@@ -57,7 +57,7 @@
         "raw_value": 0.30807,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts to the side initially, follows the torso's forward bend, and remains lowered at the end of the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.16726,
         "Neck Tilt Left-Right": -0.04014,
@@ -75,7 +75,7 @@
         "raw_value": 0.34091,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent near the chest, extends upward and outward during the sway, and hangs down toward the leg as the torso bends.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.1658,
         "Left Shoulder Front-Back": -0.05354,
@@ -96,7 +96,7 @@
         "raw_value": 0.35719,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is raised high at the start, sweeps down and across the body during the sway, and hangs down by the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.29147,
         "Right Shoulder Front-Back": -0.0295,
@@ -117,7 +117,7 @@
         "raw_value": 0.14239,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands relatively straight in a wide stance, bearing weight throughout the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.29464,
         "Left Upper Leg In-Out": 0.41191,
@@ -137,7 +137,7 @@
         "raw_value": 0.12644,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted in a wide stance, supporting the body's weight while slightly bent.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.34033,
         "Right Upper Leg In-Out": 0.35243,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds an open palm pose, moving from the chest up to the side and finally hanging low.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains an open, relaxed pose, moving from a high position down to the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:10Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

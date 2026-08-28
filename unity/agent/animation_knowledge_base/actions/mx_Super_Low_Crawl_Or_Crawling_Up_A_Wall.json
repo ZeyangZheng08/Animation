@@ -14,7 +14,7 @@
   "duration": 2.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low crawl on the floor, moving forward by alternating its arms and legs in a quadrupedal gait.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18898,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso is held horizontally close to the ground, tilting slightly up and down as it shifts weight between the limbs during the crawl cycle.",
       "mean_pose": {
         "Spine Front-Back": -0.30874,
         "Spine Left-Right": -0.25822,
@@ -57,7 +57,7 @@
         "raw_value": 0.15448,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains lowered throughout the movement, facing forward and slightly down toward the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.427,
         "Neck Tilt Left-Right": -0.0128,
@@ -75,7 +75,7 @@
         "raw_value": 0.33549,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm alternates between reaching forward with an extended elbow and pushing against the ground with a bent elbow to propel the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.76282,
         "Left Shoulder Front-Back": -0.01108,
@@ -96,7 +96,7 @@
         "raw_value": 0.29691,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves in opposition to the left, extending forward and then bending at the elbow to push off the floor.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.25092,
         "Right Shoulder Front-Back": -1.022,
@@ -117,7 +117,7 @@
         "raw_value": 0.34593,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the lower body forward by tucking the knee under the hip and extending the leg backward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.10417,
         "Left Upper Leg In-Out": 0.5742,
@@ -137,7 +137,7 @@
         "raw_value": 0.43001,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg works in coordination with the opposite arm, pulling the foot forward and then extending back to provide thrust.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.40795,
         "Right Upper Leg In-Out": 0.63213,
@@ -157,7 +157,7 @@
         "raw_value": 0.23176,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends fingers forward to reach for the next position and then presses flat against the floor to support the upper body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.70265,
         "Left Thumb Spread": 0.49529,
@@ -189,7 +189,7 @@
         "raw_value": 0.16745,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand mirrors the left, reaching out ahead and then planting firmly on the ground to stabilize the figure during the stride.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.72796,
         "Right Thumb Spread": 0.58419,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

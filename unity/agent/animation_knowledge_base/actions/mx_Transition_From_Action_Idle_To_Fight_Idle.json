@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a relaxed walking stance into a crouched, defensive fighting posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08644,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and lowers its center of gravity, shifting from an upright position to a bent, braced stance.",
       "mean_pose": {
         "Spine Front-Back": -0.25072,
         "Spine Left-Right": -0.06695,
@@ -57,7 +57,7 @@
         "raw_value": 0.11502,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down slightly and tracks the movement of the arms as they rise into guard position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06848,
         "Neck Tilt Left-Right": 0.04112,
@@ -75,7 +75,7 @@
         "raw_value": 0.23587,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from a low hanging position, bending at the elbow to bring the forearm up in front of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.36413,
         "Left Shoulder Front-Back": -0.20974,
@@ -96,7 +96,7 @@
         "raw_value": 0.2154,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Lifts and bends sharply, drawing the hand up close to the shoulder to form a high guard.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.24542,
         "Right Shoulder Front-Back": -0.96288,
@@ -117,7 +117,7 @@
         "raw_value": 0.09551,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee to lower the body into a stable, athletic squat.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.02452,
         "Left Upper Leg In-Out": 0.26218,
@@ -137,7 +137,7 @@
         "raw_value": 0.13026,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Flexes deeply to support the weight shift and complete the crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.23461,
         "Right Upper Leg In-Out": 0.35495,
@@ -157,7 +157,7 @@
         "raw_value": 0.45157,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curls into a fist while moving upward to protect the midsection.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.32042,
         "Left Thumb Spread": -0.37276,
@@ -189,7 +189,7 @@
         "raw_value": 0.448,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches into a tight fist and positions itself near the chin for defense.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.78532,
         "Right Thumb Spread": -0.02896,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:50:35Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure casts a spell by thrusting both arms forward and then pulling them back toward the chest.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06171,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward to push the arms out, then twists and settles into a slight backward lean as the arms are drawn in.",
       "mean_pose": {
         "Spine Front-Back": -0.47617,
         "Spine Left-Right": -0.02191,
@@ -57,7 +57,7 @@
         "raw_value": 0.28889,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and forward during the outward thrust before rising and turning slightly as the hands return.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15334,
         "Neck Tilt Left-Right": -0.03309,
@@ -75,7 +75,7 @@
         "raw_value": 0.35787,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends fully straight out to the side with the palm facing down, then bends at the elbow to pull the hand up toward the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.10033,
         "Left Shoulder Front-Back": -0.2107,
@@ -96,7 +96,7 @@
         "raw_value": 0.42179,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, extending fully straight out with the palm down before bending to bring the hand back toward the center of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.30241,
         "Right Shoulder Front-Back": -0.57986,
@@ -117,7 +117,7 @@
         "raw_value": 0.21238,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee and positioned slightly behind the body throughout the motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.37204,
         "Left Upper Leg In-Out": 0.29071,
@@ -137,7 +137,7 @@
         "raw_value": 0.14276,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is planted firmly on the ground, acting as the stable base for the upper body movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.35215,
         "Right Upper Leg In-Out": 0.3463,
@@ -157,7 +157,7 @@
         "raw_value": 0.71503,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand starts open and flat with the fingers extended, then curls into a loose fist as it moves inward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.89857,
         "Left Thumb Spread": -0.4634,
@@ -189,7 +189,7 @@
         "raw_value": 0.72383,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand begins open and flat, then closes into a loose fist as it is pulled back toward the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.92715,
         "Right Thumb Spread": -0.49955,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:08Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a two-hit punch combo, driving the right arm forward and then following through with a high left-arm strike while shifting weight.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.19635,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists from facing forward to turning toward the figure's right side as it leans into the strikes.",
       "mean_pose": {
         "Spine Front-Back": -0.32237,
         "Spine Left-Right": 0.00452,
@@ -57,7 +57,7 @@
         "raw_value": 0.36301,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tracks the punching motion, turning to face the right side of the body during the sequence.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.18475,
         "Neck Tilt Left-Right": -0.2722,
@@ -75,7 +75,7 @@
         "raw_value": 0.6237,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings back initially before extending upward in a high punch.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.10926,
         "Left Shoulder Front-Back": -0.74939,
@@ -96,7 +96,7 @@
         "raw_value": 0.41864,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends straight out to the side in a horizontal punch.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.84891,
         "Right Shoulder Front-Back": -0.10905,
@@ -117,7 +117,7 @@
         "raw_value": 0.24857,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward and bends at the knee to support the upper body's rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.09632,
         "Left Upper Leg In-Out": 0.31271,
@@ -137,7 +137,7 @@
         "raw_value": 0.2478,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off the ground and trails behind to generate momentum for the punches.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.16427,
         "Right Upper Leg In-Out": 0.1737,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers relaxed.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41852,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open with the palm facing outward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.76288,
         "Right Thumb Spread": 0.10537,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

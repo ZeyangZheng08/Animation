@@ -14,7 +14,7 @@
   "duration": 6.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a baseball swing, rotating the torso and swinging the arms from a ready stance on the right to a follow-through position on the left.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10044,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates significantly, starting with a slight lean to the right in the first moment, twisting through the center during the swing, and finishing rotated to the left in the final moment.",
       "mean_pose": {
         "Spine Front-Back": -0.112,
         "Spine Left-Right": 0.00069,
@@ -57,7 +57,7 @@
         "raw_value": 0.50246,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to face forward initially, then tracks the swing by turning to the left, ending up facing toward the left side of the frame.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.14927,
         "Neck Tilt Left-Right": 0.01618,
@@ -75,7 +75,7 @@
         "raw_value": 0.31407,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent at the hip, moves across the body during the rotation, and ends extended out to the left side as part of the follow-through.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.80582,
         "Left Shoulder Front-Back": -0.89929,
@@ -96,7 +96,7 @@
         "raw_value": 0.43698,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm begins bent near the waist, swings down and across the body in an arc, and finishes extended out to the left side alongside the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.61462,
         "Right Shoulder Front-Back": -1.04169,
@@ -117,7 +117,7 @@
         "raw_value": 0.17328,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is positioned back with the heel raised in the initial stance, plants firmly on the ground during the middle of the swing, and remains planted in the final pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.09836,
         "Left Upper Leg In-Out": 0.14274,
@@ -137,7 +137,7 @@
         "raw_value": 0.1988,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is forward and bent in the starting position, straightens slightly as the weight shifts during the swing, and ends up behind the body with the toe touching the ground in the follow-through.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.21088,
         "Right Upper Leg In-Out": 0.17722,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a steady, loosely curled position at the side of the body throughout the clip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.1209,
         "Left Thumb Spread": -0.48732,
@@ -189,7 +189,7 @@
         "raw_value": 0.535,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves dynamically, starting near the hip, sweeping down and around the body in a wide arc, and ending open and extended to the left after completing the swing motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.247,
         "Right Thumb Spread": -0.56238,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:42Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

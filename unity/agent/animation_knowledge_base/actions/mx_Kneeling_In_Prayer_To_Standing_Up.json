@@ -14,7 +14,7 @@
   "duration": 6.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a kneeling prayer position to a standing posture, transitioning its arms from a clasped gesture in front of the chest to a relaxed state at its sides.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09578,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lifts vertically from a low, slightly hunched kneeling position to an upright standing height, maintaining a relatively straight spine throughout the ascent.",
       "mean_pose": {
         "Spine Front-Back": -0.03625,
         "Spine Left-Right": -0.05666,
@@ -57,7 +57,7 @@
         "raw_value": 0.108,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains level and faces forward, rising with the torso without significant tilting or rotation during the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02517,
         "Neck Tilt Left-Right": 0.08508,
@@ -75,7 +75,7 @@
         "raw_value": 0.2468,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm begins bent with the hand pressed against the right hand in a prayer position, then lowers and extends outward to hang naturally by the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.11236,
         "Left Shoulder Front-Back": -0.14461,
@@ -96,7 +96,7 @@
         "raw_value": 0.23515,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, starting in a clasped prayer pose at the chest and moving down to rest at the side of the body as the figure stands.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.09391,
         "Right Shoulder Front-Back": -0.55437,
@@ -117,7 +117,7 @@
         "raw_value": 0.20781,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg starts with the knee on the floor and foot flat, extending upward to become fully straight and bear weight in a standing position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.17465,
         "Left Upper Leg In-Out": 0.15789,
@@ -137,7 +137,7 @@
         "raw_value": 0.18733,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg begins in a similar kneeling configuration, lifting off the ground and straightening out to support the body's weight upon standing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.36867,
         "Right Upper Leg In-Out": 0.20379,
@@ -157,7 +157,7 @@
         "raw_value": 0.1479,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from being pressed flat against the right hand in front of the face/chest area down to a relaxed, open position at the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.77609,
         "Left Thumb Spread": 0.27356,
@@ -189,7 +189,7 @@
         "raw_value": 0.19593,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand transitions from the clasped prayer pose in front of the body to hanging loosely and open at the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.47397,
         "Right Thumb Spread": 0.60467,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:42Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

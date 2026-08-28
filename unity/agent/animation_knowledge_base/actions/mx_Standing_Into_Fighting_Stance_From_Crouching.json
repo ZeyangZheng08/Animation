@@ -14,7 +14,7 @@
   "duration": 3.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a deep crouch to stand upright and settles into a wide, staggered fighting stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.25953,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rises from a deeply bent forward position in the crouch to an upright posture, settling with a slight lean toward the right side of the frame.",
       "mean_pose": {
         "Spine Front-Back": -0.24488,
         "Spine Left-Right": -0.01794,
@@ -57,7 +57,7 @@
         "raw_value": 0.18146,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down low during the initial crouch, then lifts upward as the body extends, finishing level and facing slightly toward the left.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.44926,
         "Neck Tilt Left-Right": 0.0008,
@@ -75,7 +75,7 @@
         "raw_value": 0.4305,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward from the shoulder with the hand near the floor in the crouch, then swings up and back as the torso rises, ending bent at the elbow in a guard position by the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.19677,
         "Left Shoulder Front-Back": 0.33079,
@@ -96,7 +96,7 @@
         "raw_value": 0.37061,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays tucked close to the chest in the crouch, then moves outward and slightly forward as the body stands, finishing bent at the elbow in a guard position in front of the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.03833,
         "Right Shoulder Front-Back": 0.23752,
@@ -117,7 +117,7 @@
         "raw_value": 0.28907,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Starts bent with the knee low to the ground in the crouch, then straightens to support the rising weight, finishing extended and planted firmly on the left side.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.02727,
         "Left Upper Leg In-Out": 0.24826,
@@ -137,7 +137,7 @@
         "raw_value": 0.30394,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Begins bent under the body in the crouch, then extends fully as the figure stands, finishing planted and angled behind the body to form the staggered stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.07691,
         "Right Upper Leg In-Out": 0.43642,
@@ -157,7 +157,7 @@
         "raw_value": 0.52765,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles open near the floor during the crouch, then arcs up and back, finishing loosely clenched near the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.23193,
         "Left Thumb Spread": 0.27901,
@@ -189,7 +189,7 @@
         "raw_value": 0.71347,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains held high and close to the chest in the crouch, then moves out and slightly forward, finishing loosely clenched in a guard position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.67223,
         "Right Thumb Spread": -0.40362,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

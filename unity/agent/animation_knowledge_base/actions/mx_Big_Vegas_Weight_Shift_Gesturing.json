@@ -14,7 +14,7 @@
   "duration": 1.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place, shifting its weight from side to side while raising the right arm to point upward and gesturing with the left hand.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07528,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso sways gently from side to side, leaning slightly toward the raised right arm before settling back to a neutral upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.26491,
         "Spine Left-Right": -0.06423,
@@ -57,7 +57,7 @@
         "raw_value": 0.15111,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts up and down to follow the movement of the raised right hand, finishing by facing forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.14645,
         "Neck Tilt Left-Right": 0.03033,
@@ -75,7 +75,7 @@
         "raw_value": 0.12045,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely at the side, bending slightly at the elbow to bring the hand near the hip before straightening out.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.74002,
         "Left Shoulder Front-Back": -0.41723,
@@ -96,7 +96,7 @@
         "raw_value": 0.31555,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm lifts from the side of the body to extend fully overhead, then lowers back down to the resting position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.56958,
         "Right Shoulder Front-Back": -0.18276,
@@ -117,7 +117,7 @@
         "raw_value": 0.14929,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground, supporting the body's weight as it shifts.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.33051,
         "Left Upper Leg In-Out": 0.06389,
@@ -137,7 +137,7 @@
         "raw_value": 0.14827,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays firmly on the floor, acting as the pivot point for the weight shift.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.32304,
         "Right Upper Leg In-Out": 0.21589,
@@ -157,7 +157,7 @@
         "raw_value": 0.18755,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand relaxes at the side of the body, making small, subtle movements near the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.60917,
         "Left Thumb Spread": -0.29205,
@@ -189,7 +189,7 @@
         "raw_value": 0.27134,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends upward with the index finger pointing to the sky, holding the gesture before lowering.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.50425,
         "Right Thumb Spread": -0.42893,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

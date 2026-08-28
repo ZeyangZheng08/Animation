@@ -14,7 +14,7 @@
   "duration": 2.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The character holds a low, ready combat stance while gently swaying side to side.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01159,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward in a stable, upright posture.",
       "mean_pose": {
         "Spine Front-Back": -0.18557,
         "Spine Left-Right": -0.05896,
@@ -57,7 +57,7 @@
         "raw_value": 0.01132,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains level and faces straight ahead.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.05827,
         "Neck Tilt Left-Right": -0.08487,
@@ -75,7 +75,7 @@
         "raw_value": 0.03173,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow, holding a low guard position in front of the body with slight movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.26656,
         "Left Shoulder Front-Back": -0.67965,
@@ -96,7 +96,7 @@
         "raw_value": 0.04481,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow, held close to the torso in a defensive posture.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.42371,
         "Right Shoulder Front-Back": 1.22678,
@@ -117,7 +117,7 @@
         "raw_value": 0.00357,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Planted firmly on the ground with a slight bend at the knee.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.1376,
         "Left Upper Leg In-Out": 0.62813,
@@ -137,7 +137,7 @@
         "raw_value": 0.00859,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Planted firmly on the ground with a slight bend at the knee.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.14921,
         "Right Upper Leg In-Out": 0.53755,
@@ -157,7 +157,7 @@
         "raw_value": 0.00778,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held open near the hip as if gripping an unseen weapon.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21301,
         "Left Thumb Spread": -0.90937,
@@ -189,7 +189,7 @@
         "raw_value": 0.00225,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curled into a fist near the waist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

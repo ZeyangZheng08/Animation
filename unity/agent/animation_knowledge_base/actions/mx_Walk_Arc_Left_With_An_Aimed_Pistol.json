@@ -14,7 +14,7 @@
   "duration": 0.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks in a continuous arc to the left while holding both hands up in a steady two-handed aiming pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.065,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and continuously rotates to the left, following the direction of the walk.",
       "mean_pose": {
         "Spine Front-Back": -0.05449,
         "Spine Left-Right": 0.03543,
@@ -57,7 +57,7 @@
         "raw_value": 0.02536,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays fixed facing forward, aligned with the arms and the direction of travel.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.29769,
         "Neck Tilt Left-Right": -0.13983,
@@ -75,7 +75,7 @@
         "raw_value": 0.04271,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is extended forward at chest height, held straight to support the aim.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.58703,
         "Left Shoulder Front-Back": 0.42771,
@@ -96,7 +96,7 @@
         "raw_value": 0.0577,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow and drawn across the body, with the hand meeting the left hand in front of the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.07859,
         "Right Shoulder Front-Back": -0.15078,
@@ -117,7 +117,7 @@
         "raw_value": 0.20862,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg cycles through a standard walking gait, alternating between lifting forward and pushing off behind.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.11926,
         "Left Upper Leg In-Out": -0.00345,
@@ -137,7 +137,7 @@
         "raw_value": 0.1786,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg cycles through a standard walking gait, alternating between lifting forward and pushing off behind.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.08399,
         "Right Upper Leg In-Out": -0.00482,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static, flat palm-up position in front of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.7799,
         "Left Thumb Spread": 0.38393,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static fist, resting on top of the left hand to complete the aiming grip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -0.85237,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:50Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

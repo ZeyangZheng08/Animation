@@ -14,7 +14,7 @@
   "duration": 1.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lifts the right leg to perform a knee stall, holding the pose before lowering the leg back down.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04304,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward while the right leg is raised and straightens upright as the leg lowers.",
       "mean_pose": {
         "Spine Front-Back": -0.31794,
         "Spine Left-Right": 0.09047,
@@ -57,7 +57,7 @@
         "raw_value": 0.21355,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward to look at the raised right knee and returns to a neutral position as the leg comes down.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05656,
         "Neck Tilt Left-Right": -0.00508,
@@ -75,7 +75,7 @@
         "raw_value": 0.09975,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs relaxed at the side of the body with a slight bend in the elbow throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.81689,
         "Left Shoulder Front-Back": 0.16593,
@@ -96,7 +96,7 @@
         "raw_value": 0.10416,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow with the hand held near the hip for balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.98722,
         "Right Shoulder Front-Back": 0.02588,
@@ -117,7 +117,7 @@
         "raw_value": 0.0973,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands planted on the ground, bending slightly at the knee to absorb the shift in weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.46276,
         "Left Upper Leg In-Out": 0.11458,
@@ -137,7 +137,7 @@
         "raw_value": 0.18517,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts upward and bends at the knee to bring the shin parallel to the floor, then extends downward to return to the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.45128,
         "Right Upper Leg In-Out": 0.00136,
@@ -157,7 +157,7 @@
         "raw_value": 0.22568,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely by the left thigh with fingers relaxed.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.17909,
         "Left Thumb Spread": -0.1379,
@@ -189,7 +189,7 @@
         "raw_value": 0.21581,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a loose fist shape near the right hip area.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.43914,
         "Right Thumb Spread": 0.29679,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:39:50Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

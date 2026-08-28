@@ -14,7 +14,7 @@
   "duration": 2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a cross punch, driving their right arm across their body from a rear guard position to an extended strike while rotating their torso.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07028,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates significantly from facing forward-left to facing forward-right, pivoting around the waist to generate power for the punch.",
       "mean_pose": {
         "Spine Front-Back": -0.12236,
         "Spine Left-Right": -0.00203,
@@ -57,7 +57,7 @@
         "raw_value": 0.19265,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively stable in height but turns slightly to the left at the start before following the rotation of the shoulders toward the right.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07768,
         "Neck Tilt Left-Right": -0.10085,
@@ -75,7 +75,7 @@
         "raw_value": 0.24284,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent with the hand raised near the chin in a guard position and then swings backward across the chest as the body rotates.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.7368,
         "Left Shoulder Front-Back": -0.13882,
@@ -96,7 +96,7 @@
         "raw_value": 0.27835,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm begins pulled back near the hip and extends forcefully outward and upward to complete the punch, ending fully straightened.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.1177,
         "Right Shoulder Front-Back": -0.25388,
@@ -117,7 +117,7 @@
         "raw_value": 0.13081,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg acts as the pivot point, remaining planted with a slight bend in the knee throughout the motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.04558,
         "Left Upper Leg In-Out": 0.3864,
@@ -137,7 +137,7 @@
         "raw_value": 0.16016,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off the ground behind the figure, extending to transfer weight into the punch before settling into a staggered stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.20062,
         "Right Upper Leg In-Out": 0.24774,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand maintains a clenched fist shape held close to the face initially before moving away during the swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.80652,
         "Left Thumb Spread": -0.2994,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays clenched in a fist, transitioning from a retracted position near the ribs to full extension at the end of the punch.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.77368,
         "Right Thumb Spread": -0.46492,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:32:08Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

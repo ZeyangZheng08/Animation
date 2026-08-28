@@ -14,7 +14,7 @@
   "duration": 2.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a relaxed idle stance into an athletic, ready position with bent knees and slightly raised arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02823,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward as it shifts from a neutral upright posture to a more crouched, athletic stance.",
       "mean_pose": {
         "Spine Front-Back": -0.02183,
         "Spine Left-Right": 0.0149,
@@ -57,7 +57,7 @@
         "raw_value": 0.065,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward and rotates slightly inward to align with the new forward-leaning body position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.20248,
         "Neck Tilt Left-Right": 0.0236,
@@ -75,7 +75,7 @@
         "raw_value": 0.07014,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm bends at the elbow, moving the forearm upward and inward toward the front of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.62365,
         "Left Shoulder Front-Back": -0.43547,
@@ -96,7 +96,7 @@
         "raw_value": 0.06402,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, bending at the elbow to bring the forearm up and in towards the center of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.03763,
         "Right Shoulder Front-Back": -0.77821,
@@ -117,7 +117,7 @@
         "raw_value": 0.08262,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee, lowering the hips and bringing the foot closer to a heel-lifted, athletic base.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.27128,
         "Left Upper Leg In-Out": 0.16347,
@@ -137,7 +137,7 @@
         "raw_value": 0.06717,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg also bends at the knee, matching the left leg to create a stable, wide athletic stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.35818,
         "Right Upper Leg In-Out": 0.09818,
@@ -157,7 +157,7 @@
         "raw_value": 0.02475,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand curls slightly into a loose fist as the arm moves into the ready position.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15704,
         "Left Thumb Spread": 0.41728,
@@ -189,7 +189,7 @@
         "raw_value": 0.02767,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand mirrors the left, curling into a loose fist near the waist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.6299,
         "Right Thumb Spread": 0.16607,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:48Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

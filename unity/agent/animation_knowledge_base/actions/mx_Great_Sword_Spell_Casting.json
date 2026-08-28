@@ -14,7 +14,7 @@
   "duration": 4.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a two-stage spellcasting motion, first raising both hands overhead and then dropping into a low crouch with arms reaching down.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17039,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward during the initial raised-hand phase, then bends deeply at the waist to lower the body into a crouch.",
       "mean_pose": {
         "Spine Front-Back": -0.60492,
         "Spine Left-Right": -0.00254,
@@ -57,7 +57,7 @@
         "raw_value": 0.2301,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts upward to follow the raised hands, then drops sharply to look down toward the floor in the final pose.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.36378,
         "Neck Tilt Left-Right": -0.00954,
@@ -75,7 +75,7 @@
         "raw_value": 0.77821,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm lifts from the side to meet the right hand above the head, then swings downward to reach for the ground.",
       "mean_pose": {
         "Left Shoulder Down-Up": 1.33255,
         "Left Shoulder Front-Back": -1.70142,
@@ -96,7 +96,7 @@
         "raw_value": 0.61218,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm raises alongside the left to form an overhead grip, then lowers forward to extend toward the floor.",
       "mean_pose": {
         "Right Shoulder Down-Up": 1.28833,
         "Right Shoulder Front-Back": -1.46836,
@@ -117,7 +117,7 @@
         "raw_value": 0.2823,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and moves backward as the body sinks into the deep squat.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.29005,
         "Left Upper Leg In-Out": 0.31653,
@@ -137,7 +137,7 @@
         "raw_value": 0.30249,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg plants forward and bends to support the weight of the lowered body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.20741,
         "Right Upper Leg In-Out": 0.33458,
@@ -157,7 +157,7 @@
         "raw_value": 0.06269,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand grips the right hand overhead before releasing it to extend open-palmed toward the ground.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15206,
         "Left Thumb Spread": -0.37832,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a static, closed fist position throughout the entire movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:21Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

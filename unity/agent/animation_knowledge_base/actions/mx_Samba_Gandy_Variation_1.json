@@ -14,7 +14,7 @@
   "duration": 18.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a samba dance, stepping side to side with bent knees while swaying the torso and swinging the arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1394,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward slightly at the start, then rocks side to side and twists rhythmically with the steps.",
       "mean_pose": {
         "Spine Front-Back": -0.48908,
         "Spine Left-Right": 0.07161,
@@ -57,7 +57,7 @@
         "raw_value": 0.35549,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down initially, then lifts up and turns slightly from side to side in time with the body's sway.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.14615,
         "Neck Tilt Left-Right": -0.08553,
@@ -75,7 +75,7 @@
         "raw_value": 0.3161,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward to the side, then bends upward toward the chest before returning to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.23066,
         "Left Shoulder Front-Back": -0.59561,
@@ -96,7 +96,7 @@
         "raw_value": 0.27267,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings outward and backward, then bends across the front of the body before extending out again.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.33261,
         "Right Shoulder Front-Back": -0.55787,
@@ -117,7 +117,7 @@
         "raw_value": 0.18531,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps out to the side with a bent knee, then returns to the center as the weight shifts.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.24849,
         "Left Upper Leg In-Out": 0.13317,
@@ -137,7 +137,7 @@
         "raw_value": 0.1918,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps out to the side with a bent knee, alternating with the left leg to maintain the dance rhythm.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.23321,
         "Right Upper Leg In-Out": -0.0261,
@@ -157,7 +157,7 @@
         "raw_value": 0.09447,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a relaxed position at the hip to an open palm raised near shoulder height.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.13832,
         "Left Thumb Spread": 0.27159,
@@ -189,7 +189,7 @@
         "raw_value": 0.12327,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from a relaxed position at the hip to an open palm extended forward and to the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.13675,
         "Right Thumb Spread": 0.38221,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:13Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

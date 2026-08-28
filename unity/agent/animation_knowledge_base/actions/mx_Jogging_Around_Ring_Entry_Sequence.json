@@ -14,7 +14,7 @@
   "duration": 10.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jogs forward while raising their right arm to touch the back of their head before extending it outward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06466,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward in a jogging posture and sways gently with the rhythm of the stride.",
       "mean_pose": {
         "Spine Front-Back": -0.41825,
         "Spine Left-Right": 0.04189,
@@ -57,7 +57,7 @@
         "raw_value": 0.17426,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains mostly level but tilts slightly backward as the right hand reaches up toward the back of the skull.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.10366,
         "Neck Tilt Left-Right": 0.06988,
@@ -75,7 +75,7 @@
         "raw_value": 0.17258,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally at the side, bending at the elbow in opposition to the legs.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.08095,
         "Left Shoulder Front-Back": 0.65842,
@@ -96,7 +96,7 @@
         "raw_value": 0.29324,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm starts at the side, bends upward to place the hand on the back of the head, and then extends straight out to the right.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.09396,
         "Right Shoulder Front-Back": 0.74419,
@@ -117,7 +117,7 @@
         "raw_value": 0.16602,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between lifting forward and pushing off the ground in a continuous running cycle.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.45028,
         "Left Upper Leg In-Out": 0.11195,
@@ -137,7 +137,7 @@
         "raw_value": 0.13442,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg drives the forward motion, stepping through the stride opposite to the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.40884,
         "Right Upper Leg In-Out": 0.04864,
@@ -157,7 +157,7 @@
         "raw_value": 0.03173,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays loosely curled near the hip, moving passively with the swing of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.10526,
         "Left Thumb Spread": 0.01753,
@@ -189,7 +189,7 @@
         "raw_value": 0.32234,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from a relaxed position at the side to touching the back of the head, then opens as the arm extends outward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.74548,
         "Right Thumb Spread": -0.24351,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

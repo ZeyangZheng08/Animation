@@ -14,7 +14,7 @@
   "duration": 2.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A figure walks forward, then reacts to a shove by stumbling backward and extending their arms for balance before recovering.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0766,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward while walking, jerks back sharply in the middle of the clip as if pushed, and then rights itself.",
       "mean_pose": {
         "Spine Front-Back": -0.11445,
         "Spine Left-Right": -0.05066,
@@ -57,7 +57,7 @@
         "raw_value": 0.1205,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down slightly during the walk, snaps upward and back during the stumble, and then levels out again.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.1268,
         "Neck Tilt Left-Right": 0.02494,
@@ -75,7 +75,7 @@
         "raw_value": 0.38433,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally at the side during the walk, flings outward and up for balance during the stumble, and then returns to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.37991,
         "Left Shoulder Front-Back": -0.92057,
@@ -96,7 +96,7 @@
         "raw_value": 0.17904,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings at the side, extends outward and downward during the stumble, and then recovers to a resting position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.69158,
         "Right Shoulder Front-Back": 0.07801,
@@ -117,7 +117,7 @@
         "raw_value": 0.19609,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg takes a step forward, is kicked back or stumbles backward during the impact, and then steps forward again.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.38712,
         "Left Upper Leg In-Out": 0.14285,
@@ -137,7 +137,7 @@
         "raw_value": 0.16324,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg supports the body, bends to absorb the backward momentum of the stumble, and continues the walking cycle.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.22186,
         "Right Upper Leg In-Out": 0.02403,
@@ -157,7 +157,7 @@
         "raw_value": 0.15914,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs loosely, opens its fingers during the stumble, and relaxes back to the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.86,
         "Left Thumb Spread": -0.49683,
@@ -189,7 +189,7 @@
         "raw_value": 0.20409,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs loosely, opens its fingers during the stumble, and relaxes back to the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.72526,
         "Right Thumb Spread": 0.45399,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:37:40Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

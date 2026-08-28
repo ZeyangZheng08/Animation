@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, crouching step forward in a sneaking posture.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds a deeply bent-forward pose with the spine curved to lower the center of gravity.",
       "mean_pose": {
         "Spine Front-Back": -0.59807,
         "Spine Left-Right": -0.31881,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays tilted downward and angled toward the left side of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.56382,
         "Neck Tilt Left-Right": 0.2053,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains extended out to the side and slightly behind the torso for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.02124,
         "Left Shoulder Front-Back": -0.54927,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs down in front of the body with the elbow bent.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.02124,
         "Right Shoulder Front-Back": -0.47857,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Is lifted off the ground with the knee bent, trailing behind the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.51976,
         "Left Upper Leg In-Out": 0.85665,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Planted on the floor with the knee bent to support the crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.06066,
         "Right Upper Leg In-Out": 0.28599,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held open with fingers spread near the hip level.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.68269,
         "Left Thumb Spread": 1.08273,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely below the shoulder with fingers relaxed.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.47251,
         "Right Thumb Spread": -0.21717,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:47:59Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

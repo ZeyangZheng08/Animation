@@ -14,7 +14,7 @@
   "duration": 2.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin is knocked down from a punch, falling backward and landing on the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.23627,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starts upright in a boxing stance, then bends forward before being thrown backward into a fall onto the ground.",
       "mean_pose": {
         "Spine Front-Back": -1.11733,
         "Spine Left-Right": -0.05862,
@@ -57,7 +57,7 @@
         "raw_value": 0.27436,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Initially faces forward in a guard position, then drops down as the body falls backward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.12061,
         "Neck Tilt Left-Right": -0.05728,
@@ -75,7 +75,7 @@
         "raw_value": 0.37699,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Begins bent up in a defensive guard, then flails outward and downward during the fall to the ground.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.30518,
         "Left Shoulder Front-Back": -0.3984,
@@ -96,7 +96,7 @@
         "raw_value": 0.40115,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts raised in a fist guard, then swings out and down as the body loses balance and falls.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.3984,
         "Right Shoulder Front-Back": -0.64089,
@@ -117,7 +117,7 @@
         "raw_value": 0.24821,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Starts planted on the ground, then lifts off and kicks upward as the body goes over backward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.0805,
         "Left Upper Leg In-Out": 0.54628,
@@ -137,7 +137,7 @@
         "raw_value": 0.23252,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Begins with a slight bend for support, then extends and tucks up during the fall.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.03231,
         "Right Upper Leg In-Out": 0.40848,
@@ -157,7 +157,7 @@
         "raw_value": 0.40402,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a clenched fist near the chest, then opens and flails as the figure falls.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.75087,
         "Left Thumb Spread": -0.0025,
@@ -189,7 +189,7 @@
         "raw_value": 0.42074,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Starts as a clenched fist in a guard, then releases and moves through the air during the fall.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.75687,
         "Right Thumb Spread": 0.21129,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:04Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

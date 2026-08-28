@@ -14,7 +14,7 @@
   "duration": 1.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a high side kick with the left leg, balancing on the right foot while extending the arms for stability.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1206,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists to the left and leans slightly backward as the kick extends, then returns to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.23092,
         "Spine Left-Right": 0.04181,
@@ -57,7 +57,7 @@
         "raw_value": 0.32815,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back and turns slightly to the left during the peak of the kick before facing forward again.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04754,
         "Neck Tilt Left-Right": 0.05294,
@@ -75,7 +75,7 @@
         "raw_value": 0.32788,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and upward to the side for balance, ending in a loose fist.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.83386,
         "Left Shoulder Front-Back": -0.50988,
@@ -96,7 +96,7 @@
         "raw_value": 0.36897,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm bends at the elbow and holds a guarded position near the chest throughout the motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.40688,
         "Right Shoulder Front-Back": -0.32494,
@@ -117,7 +117,7 @@
         "raw_value": 0.26308,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts from the ground, bending at the knee to chamber before extending straight out to the side in a high kick.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.2933,
         "Left Upper Leg In-Out": 0.21085,
@@ -137,7 +137,7 @@
         "raw_value": 0.24378,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted on the ground, acting as the supporting pillar for the body's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.08811,
         "Right Upper Leg In-Out": 0.23852,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open with fingers spread while the arm moves.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.48753,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a closed fist near the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.99667,
         "Right Thumb Spread": -0.35179,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

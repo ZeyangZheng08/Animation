@@ -14,7 +14,7 @@
   "duration": 5.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a full archery sequence, drawing an arrow back and then releasing it with a forward follow-through.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09367,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins upright, twists slightly during the draw, and rotates forward to complete the release.",
       "mean_pose": {
         "Spine Front-Back": -0.10454,
         "Spine Left-Right": 0.01572,
@@ -57,7 +57,7 @@
         "raw_value": 0.19235,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head starts facing forward, tilts down toward the chest during the middle of the clip, and lifts up again at the end.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.08842,
         "Neck Tilt Left-Right": -0.1324,
@@ -75,7 +75,7 @@
         "raw_value": 0.35275,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends straight out to the side to hold the bow steady throughout the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.13877,
         "Left Shoulder Front-Back": 0.15436,
@@ -96,7 +96,7 @@
         "raw_value": 0.39145,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm pulls back from an extended position to the face for the draw, then swings forward in a wide arc for the release.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.12289,
         "Right Shoulder Front-Back": -0.16246,
@@ -117,7 +117,7 @@
         "raw_value": 0.08675,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains relatively straight, serving as the front pivot point of the stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.53146,
         "Left Upper Leg In-Out": 0.25048,
@@ -137,7 +137,7 @@
         "raw_value": 0.06916,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee to support the weight shift during the shot.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.45809,
         "Right Upper Leg In-Out": 0.11587,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static, open pose at the end of the extended arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.24042,
         "Left Thumb Spread": -0.92762,
@@ -189,7 +189,7 @@
         "raw_value": 0.44225,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from a drawn position near the face to a fully extended position in front of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.02256,
         "Right Thumb Spread": -0.09779,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

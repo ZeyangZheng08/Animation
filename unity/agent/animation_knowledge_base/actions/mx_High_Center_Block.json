@@ -14,7 +14,7 @@
   "duration": 1.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a high center block, raising both arms to shield the face before dropping them back into a low fighting stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09751,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly backward as the arms rise and then returns to an upright position as the arms lower.",
       "mean_pose": {
         "Spine Front-Back": -0.08551,
         "Spine Left-Right": 0.08331,
@@ -57,7 +57,7 @@
         "raw_value": 0.22842,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back and up along with the torso during the block, then returns to a neutral, forward-facing orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00425,
         "Neck Tilt Left-Right": 0.12336,
@@ -75,7 +75,7 @@
         "raw_value": 0.22771,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm raises from a guard position upward and inward toward the center of the body, then lowers back down to the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.17847,
         "Left Shoulder Front-Back": 0.24788,
@@ -96,7 +96,7 @@
         "raw_value": 0.20175,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, lifting from a guard position upward and inward to meet at the center, then returning to the starting height.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.09822,
         "Right Shoulder Front-Back": -1.14054,
@@ -117,7 +117,7 @@
         "raw_value": 0.15349,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends into a deep lunge as the body shifts weight back, then straightens slightly to settle into a stable stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.19539,
         "Left Upper Leg In-Out": 0.11946,
@@ -137,7 +137,7 @@
         "raw_value": 0.1719,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains relatively planted, bending slightly to support the shift in weight and stabilizing the final pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.36763,
         "Right Upper Leg In-Out": 0.64499,
@@ -157,7 +157,7 @@
         "raw_value": 0.02584,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a fist near the shoulder to a flat palm facing outward above the head, then returns to a fist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.60599,
         "Left Thumb Spread": -0.36226,
@@ -189,7 +189,7 @@
         "raw_value": 0.05375,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from a fist near the shoulder to a flat palm facing outward above the head, then returns to a fist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.50781,
         "Right Thumb Spread": -0.36918,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:38:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

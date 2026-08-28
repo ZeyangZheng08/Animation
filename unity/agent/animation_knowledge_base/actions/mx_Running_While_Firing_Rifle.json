@@ -14,7 +14,7 @@
   "duration": 0.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward while holding both arms extended in a steady, two-handed aiming posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02638,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward with the hips and shoulders rotating subtly to counterbalance the leg cycle.",
       "mean_pose": {
         "Spine Front-Back": -0.18566,
         "Spine Left-Right": 0.02029,
@@ -57,7 +57,7 @@
         "raw_value": 0.02933,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward along the direction of travel, keeping a fixed gaze aligned with the arms.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15633,
         "Neck Tilt Left-Right": 0.05158,
@@ -75,7 +75,7 @@
         "raw_value": 0.23014,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends straight out from the shoulder at chest height, supporting the front end of the aim.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.39567,
         "Left Shoulder Front-Back": -1.69094,
@@ -96,7 +96,7 @@
         "raw_value": 0.04143,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends straight out from the shoulder alongside the left arm, forming the rear support for the aim.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.35976,
         "Right Shoulder Front-Back": -0.35015,
@@ -117,7 +117,7 @@
         "raw_value": 0.24656,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Cycles through a running gait, driving backward and swinging forward to alternate with the right leg.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.14749,
         "Left Upper Leg In-Out": -0.01105,
@@ -137,7 +137,7 @@
         "raw_value": 0.2121,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Cycles through a running gait, alternating its stride with the left leg to propel the body forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.05538,
         "Right Upper Leg In-Out": -0.10691,
@@ -157,7 +157,7 @@
         "raw_value": 0.01324,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady, open grip position at the front of the extended arms.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.86955,
         "Left Thumb Spread": -0.25228,
@@ -189,7 +189,7 @@
         "raw_value": 0.0146,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady, open grip position at the rear of the extended arms.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.59189,
         "Right Thumb Spread": -0.85236,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

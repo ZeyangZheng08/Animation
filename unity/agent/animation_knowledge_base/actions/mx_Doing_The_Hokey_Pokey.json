@@ -14,7 +14,7 @@
   "duration": 11.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dance by stepping side to side and alternating between extending arms forward and bending down to touch the feet.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13777,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso sways from side to side, then bends deeply forward at the waist before returning to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.02681,
         "Spine Left-Right": 0.14379,
@@ -57,7 +57,7 @@
         "raw_value": 0.15931,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward following the forward bend of the torso and returns to face forward as the body straightens up.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05141,
         "Neck Tilt Left-Right": -0.02104,
@@ -75,7 +75,7 @@
         "raw_value": 0.37521,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends out to the side with the elbow bent, then drops down and reaches toward the foot during the forward bend.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.68207,
         "Left Shoulder Front-Back": -0.61172,
@@ -96,7 +96,7 @@
         "raw_value": 0.38574,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves in sync with the left, extending outward and then reaching down toward the opposite foot while bent over.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.58325,
         "Right Shoulder Front-Back": -0.07646,
@@ -117,7 +117,7 @@
         "raw_value": 0.17121,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps to the side, then lifts up with the knee bent while the figure is bent forward, before stepping back down.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.18948,
         "Left Upper Leg In-Out": 0.18136,
@@ -137,7 +137,7 @@
         "raw_value": 0.21313,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted on the ground to support the weight during the forward bend and subsequent step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.09007,
         "Right Upper Leg In-Out": 0.2096,
@@ -157,7 +157,7 @@
         "raw_value": 0.39018,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends outward with fingers spread, then reaches down near the foot during the crouch.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.74606,
         "Left Thumb Spread": -0.72484,
@@ -189,7 +189,7 @@
         "raw_value": 0.3655,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand mirrors the left, extending outwards and then reaching down towards the foot area.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.34514,
         "Right Thumb Spread": -0.78944,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:29Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 4.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static, hunched zombie idle pose with arms outstretched forward.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00564,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains bent slightly forward in a rigid, hunched posture throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.05857,
         "Spine Left-Right": 0.04716,
@@ -57,7 +57,7 @@
         "raw_value": 0.00479,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays tilted downward, maintaining a fixed, lifeless orientation relative to the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.15113,
         "Neck Tilt Left-Right": -0.06545,
@@ -75,7 +75,7 @@
         "raw_value": 0.01269,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs down but is bent at the elbow, holding the forearm extended forward and inward toward the center.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.71616,
         "Left Shoulder Front-Back": 0.33962,
@@ -96,7 +96,7 @@
         "raw_value": 0.01058,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, bent at the elbow with the forearm held extended forward and inward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.71155,
         "Right Shoulder Front-Back": -0.24044,
@@ -117,7 +117,7 @@
         "raw_value": 0.01113,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands straight, supporting the body's weight with the foot flat on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.131,
         "Left Upper Leg In-Out": 0.40364,
@@ -137,7 +137,7 @@
         "raw_value": 0.00927,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is positioned slightly behind the left, bearing weight with the foot flat on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.05751,
         "Right Upper Leg In-Out": 0.26966,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open with fingers curled loosely, suspended in the air in front of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.61734,
         "Left Thumb Spread": -0.18805,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held open with fingers curled loosely, suspended in the air in front of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.23857,
         "Right Thumb Spread": 0.45105,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

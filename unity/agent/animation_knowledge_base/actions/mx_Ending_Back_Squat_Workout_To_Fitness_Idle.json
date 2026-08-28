@@ -14,7 +14,7 @@
   "duration": 5.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a standing pose with arms raised to a deep forward bend.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08632,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso starts upright and rotates forward at the waist, bending down until it is nearly parallel to the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.22267,
         "Spine Left-Right": 0.01579,
@@ -57,7 +57,7 @@
         "raw_value": 0.20283,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head begins facing forward, then tilts down and hangs low as the body bends over.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.46444,
         "Neck Tilt Left-Right": 0.06624,
@@ -75,7 +75,7 @@
         "raw_value": 0.52714,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts raised high in the air and swings downward, extending straight toward the floor.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.29288,
         "Left Shoulder Front-Back": 0.24838,
@@ -96,7 +96,7 @@
         "raw_value": 0.5576,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves from an elevated position down to the side, reaching toward the ground alongside the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.51631,
         "Right Shoulder Front-Back": 0.18384,
@@ -117,7 +117,7 @@
         "raw_value": 0.19749,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground while the knee bends slightly to support the forward lean of the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.06636,
         "Left Upper Leg In-Out": 0.21524,
@@ -137,7 +137,7 @@
         "raw_value": 0.19979,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays grounded with a slight knee flexion to maintain balance during the deep forward bend.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.05893,
         "Right Upper Leg In-Out": 0.16375,
@@ -157,7 +157,7 @@
         "raw_value": 0.41143,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand drops from above the shoulder level to hang open near the ankles.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.4364,
         "Left Thumb Spread": -1.72605,
@@ -189,7 +189,7 @@
         "raw_value": 0.41515,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand lowers from a raised position to dangle freely by the side of the lower leg.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.36694,
         "Right Thumb Spread": -1.47675,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:35:43Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

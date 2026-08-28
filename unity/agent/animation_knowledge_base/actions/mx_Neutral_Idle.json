@@ -14,7 +14,7 @@
   "duration": 8.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a relaxed idle pose, shifting its weight subtly from side to side while swaying gently.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.02663,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright but exhibits a subtle rhythmic sway, leaning slightly to one side and then the other as part of the breathing motion.",
       "mean_pose": {
         "Spine Front-Back": 0.03877,
         "Spine Left-Right": 0.10809,
@@ -57,7 +57,7 @@
         "raw_value": 0.05827,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward, making only very minor adjustments to maintain balance with the torso's sway.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.10886,
         "Neck Tilt Left-Right": -0.07253,
@@ -75,7 +75,7 @@
         "raw_value": 0.07099,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely at the side of the body, moving slightly backward and forward in sync with the body's weight shift.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.55908,
         "Left Shoulder Front-Back": 0.283,
@@ -96,7 +96,7 @@
         "raw_value": 0.08153,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, hanging naturally by the side and swinging minimally opposite to the hip movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.79038,
         "Right Shoulder Front-Back": -0.17942,
@@ -117,7 +117,7 @@
         "raw_value": 0.01239,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted firmly on the ground, acting as a stable base while the upper body shifts over it.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.26981,
         "Left Upper Leg In-Out": 0.26665,
@@ -137,7 +137,7 @@
         "raw_value": 0.01164,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg also stays stationary on the floor, supporting the figure's weight without any stepping or bending motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.53578,
         "Right Upper Leg In-Out": -0.10263,
@@ -157,7 +157,7 @@
         "raw_value": 0.0388,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, dangling freely near the thigh with slight passive movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.04501,
         "Left Thumb Spread": 0.03447,
@@ -189,7 +189,7 @@
         "raw_value": 0.1599,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is similarly open and loose, resting near the thigh and swaying gently with the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.7604,
         "Right Thumb Spread": 0.00189,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:43:22Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 4.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a capoeira spin kick, transitioning from an upright stance to a low ground escape.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.19038,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starts in an upright position, leans forward and down into the ground, then rises back up to a bent-over stance.",
       "mean_pose": {
         "Spine Front-Back": -0.29675,
         "Spine Left-Right": -0.09059,
@@ -57,7 +57,7 @@
         "raw_value": 0.29107,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Follows the torso's rotation, dipping low toward the floor during the ground phase before rising again.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.0082,
         "Neck Tilt Left-Right": -0.05571,
@@ -75,7 +75,7 @@
         "raw_value": 0.44442,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward for balance, drops down to support the body weight on the ground, and then swings upward as the figure rises.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.84981,
         "Left Shoulder Front-Back": -0.03087,
@@ -96,7 +96,7 @@
         "raw_value": 0.43148,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches out initially, lowers to the ground to assist in the transition, and lifts up high behind the back during the final rise.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.731,
         "Right Shoulder Front-Back": -0.81716,
@@ -117,7 +117,7 @@
         "raw_value": 0.37866,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Serves as the initial pivot point, bends deeply under the body during the ground phase, and extends to plant firmly at the end.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.37874,
         "Left Upper Leg In-Out": 0.47065,
@@ -137,7 +137,7 @@
         "raw_value": 0.3486,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts off the ground for the kick, tucks close to the body while low, and extends backward to push off the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.16554,
         "Right Upper Leg In-Out": 0.34504,
@@ -157,7 +157,7 @@
         "raw_value": 0.35834,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves from an open position to pressing flat against the floor for support, then releases and lifts up.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.45189,
         "Left Thumb Spread": 0.12502,
@@ -189,7 +189,7 @@
         "raw_value": 0.40142,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches out, presses down near the left hand to stabilize the body, and then raises high above the head.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.60797,
         "Right Thumb Spread": -0.08252,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:33:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

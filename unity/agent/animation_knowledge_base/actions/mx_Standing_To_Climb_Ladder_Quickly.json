@@ -14,7 +14,7 @@
   "duration": 2.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a quick, rhythmic climbing motion, alternating leg lifts while reaching upward with their arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11876,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains mostly upright but leans slightly forward to accommodate the climbing rhythm.",
       "mean_pose": {
         "Spine Front-Back": -0.13911,
         "Spine Left-Right": 0.00419,
@@ -57,7 +57,7 @@
         "raw_value": 0.31936,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts upward and tracks the reach of the hands.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.13343,
         "Neck Tilt Left-Right": 0.04103,
@@ -75,7 +75,7 @@
         "raw_value": 0.31844,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and forward in an arc, extending toward the upper body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.13477,
         "Left Shoulder Front-Back": -0.33702,
@@ -96,7 +96,7 @@
         "raw_value": 0.32891,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches up high, extending straight overhead as if grabbing a rung.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.5016,
         "Right Shoulder Front-Back": -0.19186,
@@ -117,7 +117,7 @@
         "raw_value": 0.26279,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee, lifting the foot high off the ground in a stepping motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.11731,
         "Left Upper Leg In-Out": 0.20554,
@@ -137,7 +137,7 @@
         "raw_value": 0.19502,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates between supporting weight on the ground and bending to lift the foot for the next step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.07342,
         "Right Upper Leg In-Out": 0.32214,
@@ -157,7 +157,7 @@
         "raw_value": 0.57447,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open and relaxed, moving along with the arm's swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.92243,
         "Left Thumb Spread": -0.33219,
@@ -189,7 +189,7 @@
         "raw_value": 0.49222,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends upward with fingers spread, reaching for a grip above the head.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.92647,
         "Right Thumb Spread": 0.04402,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:49:02Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

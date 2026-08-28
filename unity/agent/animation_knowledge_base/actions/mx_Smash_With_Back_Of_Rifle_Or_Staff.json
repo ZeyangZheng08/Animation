@@ -14,7 +14,7 @@
   "duration": 3.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a forceful overhead smash, swinging both arms from a high position down and forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10439,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward significantly to drive the downward momentum of the swing.",
       "mean_pose": {
         "Spine Front-Back": -0.2487,
         "Spine Left-Right": -0.05021,
@@ -57,7 +57,7 @@
         "raw_value": 0.34465,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward, tracking the path of the arms during the strike.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01151,
         "Neck Tilt Left-Right": 0.13271,
@@ -75,7 +75,7 @@
         "raw_value": 0.16825,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from an extended, raised position down towards the front and center of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.02293,
         "Left Shoulder Front-Back": -0.95797,
@@ -96,7 +96,7 @@
         "raw_value": 0.26521,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves in unison with the left, driving down from a high stance into the smash.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.16619,
         "Right Shoulder Front-Back": -0.93963,
@@ -117,7 +117,7 @@
         "raw_value": 0.12401,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee, acting as a pivot point to support the rotation of the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.28617,
         "Left Upper Leg In-Out": 0.42234,
@@ -137,7 +137,7 @@
         "raw_value": 0.15056,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps forward and extends to stabilize the lunge accompanying the strike.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.10343,
         "Right Upper Leg In-Out": 0.25934,
@@ -157,7 +157,7 @@
         "raw_value": 0.01369,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers spread throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a relaxed, open pose with fingers slightly curled.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

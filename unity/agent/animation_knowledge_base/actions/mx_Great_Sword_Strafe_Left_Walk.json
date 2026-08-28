@@ -14,7 +14,7 @@
   "duration": 1.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The character walks in a steady, side-stepping motion toward their left while holding a low, two-handed weapon grip.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04705,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward into the movement, maintaining a consistent angle and bobbing gently with each step.",
       "mean_pose": {
         "Spine Front-Back": -0.46048,
         "Spine Left-Right": -0.00194,
@@ -57,7 +57,7 @@
         "raw_value": 0.02783,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains fixed, looking straight ahead over the held weapon.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.19842,
         "Neck Tilt Left-Right": -0.12019,
@@ -75,7 +75,7 @@
         "raw_value": 0.07976,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow and held forward across the body to support the lower end of the implied grip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.25949,
         "Left Shoulder Front-Back": -1.07078,
@@ -96,7 +96,7 @@
         "raw_value": 0.04617,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends forward and slightly downward from the shoulder, keeping the upper end of the implied grip steady.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.8503,
         "Right Shoulder Front-Back": -2.6695,
@@ -117,7 +117,7 @@
         "raw_value": 0.16416,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the lateral movement, stepping out to the side and bending at the knee as it lands.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.16289,
         "Left Upper Leg In-Out": 0.18178,
@@ -137,7 +137,7 @@
         "raw_value": 0.17243,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the left, pushing off to propel the body sideways through the walk cycle.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.00493,
         "Right Upper Leg In-Out": 0.21029,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand maintains a static, closed fist position at the bottom of the grip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15206,
         "Left Thumb Spread": -0.37832,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static, closed fist position at the top of the grip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:14Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

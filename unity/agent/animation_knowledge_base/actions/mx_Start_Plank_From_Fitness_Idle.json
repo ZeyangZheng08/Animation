@@ -14,7 +14,7 @@
   "duration": 4.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a standing position into a high plank by bending forward, placing their hands on the floor, and kicking their legs back to align their body in a straight line.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09578,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso tilts forward from an upright stance, lowers toward the ground as the arms extend, and finally flattens out horizontally to form a straight line with the legs.",
       "mean_pose": {
         "Spine Front-Back": -0.18963,
         "Spine Left-Right": 0.01127,
@@ -57,7 +57,7 @@
         "raw_value": 0.10805,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head lowers as the torso bends forward, follows the downward trajectory of the body, and finishes facing down in alignment with the spine.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.42574,
         "Neck Tilt Left-Right": 0.1468,
@@ -75,7 +75,7 @@
         "raw_value": 0.38382,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings slightly forward and then extends downward to plant the hand on the floor, remaining straight to support the front of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.09549,
         "Left Shoulder Front-Back": -1.16331,
@@ -96,7 +96,7 @@
         "raw_value": 0.40644,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves forward and extends downward to place the hand on the floor, supporting the weight of the upper body in a straight line.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.19406,
         "Right Shoulder Front-Back": -0.89642,
@@ -117,7 +117,7 @@
         "raw_value": 0.34618,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps back, extending behind the body until it is straight and resting on the toes.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.41327,
         "Left Upper Leg In-Out": 0.38767,
@@ -137,7 +137,7 @@
         "raw_value": 0.19345,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg kicks backward, straightening out to meet the left leg so that both feet are planted on the toes.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.00296,
         "Right Upper Leg In-Out": 0.05475,
@@ -157,7 +157,7 @@
         "raw_value": 0.59314,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches down to press flat against the floor, providing a stable base for the plank position.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.34405,
         "Left Thumb Spread": 0.28628,
@@ -189,7 +189,7 @@
         "raw_value": 0.32473,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches down to press flat against the floor, mirroring the left hand to support the body's weight.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.3801,
         "Right Thumb Spread": 0.01995,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

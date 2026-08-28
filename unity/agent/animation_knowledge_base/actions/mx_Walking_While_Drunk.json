@@ -14,7 +14,7 @@
   "duration": 2.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stumbles forward in a drunken walk, swaying heavily from side to side and bobbing up and down with an unsteady gait.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17637,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward significantly and rocks laterally, tilting toward the left and then the right in sync with the shifting weight of the legs.",
       "mean_pose": {
         "Spine Front-Back": -0.18583,
         "Spine Left-Right": 0.0096,
@@ -57,7 +57,7 @@
         "raw_value": 0.19382,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head bobs up and down with the steps while tilting sharply to the sides, maintaining a downward angle throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.1302,
         "Neck Tilt Left-Right": 0.07794,
@@ -75,7 +75,7 @@
         "raw_value": 0.25111,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings loosely at the side, moving slightly backward and forward in opposition to the legs without providing clear balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.2552,
         "Left Shoulder Front-Back": 0.58464,
@@ -96,7 +96,7 @@
         "raw_value": 0.25093,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs low and flails gently, swinging back and forth with a loose, uncontrolled rhythm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.76645,
         "Right Shoulder Front-Back": 0.81075,
@@ -117,7 +117,7 @@
         "raw_value": 0.27786,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg takes short, uneven steps, bending deeply at the knee as it lifts and drops through the walking cycle.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.23866,
         "Left Upper Leg In-Out": -0.06235,
@@ -137,7 +137,7 @@
         "raw_value": 0.27291,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows with a similarly bent and unstable stride, pushing off and landing with a heavy, staggering motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.1116,
         "Right Upper Leg In-Out": 0.04081,
@@ -157,7 +157,7 @@
         "raw_value": 0.17509,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, drifting passively along with the swing of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.26686,
         "Left Thumb Spread": -0.05664,
@@ -189,7 +189,7 @@
         "raw_value": 0.26235,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open and limp, moving loosely at the end of the arm's pendulum-like swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.77798,
         "Right Thumb Spread": -0.13369,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:52:23Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

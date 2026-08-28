@@ -14,7 +14,7 @@
   "duration": 12.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a ballet dance variation, executing a series of steps with alternating leg lifts and coordinated arm movements.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11367,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward slightly during the initial step, then straightens and tilts to the left as the right leg is lifted, before returning to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.13543,
         "Spine Left-Right": -0.01826,
@@ -57,7 +57,7 @@
         "raw_value": 0.36848,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and to the left at the start, then turns to face forward and slightly up as the body opens out.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11405,
         "Neck Tilt Left-Right": 0.03532,
@@ -75,7 +75,7 @@
         "raw_value": 0.21947,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward and slightly back from the shoulder, holding a static pose throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.32359,
         "Left Shoulder Front-Back": -0.05736,
@@ -96,7 +96,7 @@
         "raw_value": 0.2426,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves in a fluid arc, starting bent near the chest, extending outward to the side, and then drawing back in towards the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.10466,
         "Right Shoulder Front-Back": -0.05124,
@@ -117,7 +117,7 @@
         "raw_value": 0.35081,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and lifts off the ground, swinging backward before extending forward for a step.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.04818,
         "Left Upper Leg In-Out": 0.41314,
@@ -137,7 +137,7 @@
         "raw_value": 0.34033,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted on the ground initially, then bends at the knee to lift the foot into a high pass position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.14299,
         "Right Upper Leg In-Out": 0.2839,
@@ -157,7 +157,7 @@
         "raw_value": 0.03641,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, following the extension of the left arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.1539,
         "Left Thumb Spread": 0.02271,
@@ -189,7 +189,7 @@
         "raw_value": 0.02295,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand makes expressive gestures, moving from a curled position near the chest to an extended, open palm facing outward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.08339,
         "Right Thumb Spread": 0.38491,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

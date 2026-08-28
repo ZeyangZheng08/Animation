@@ -14,7 +14,7 @@
   "duration": 5.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lowers from a standing position into a seated pose, turning to face forward as it settles.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11925,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and rotates clockwise while lowering into a seated position, then straightens up to face the front.",
       "mean_pose": {
         "Spine Front-Back": -0.46599,
         "Spine Left-Right": -0.03584,
@@ -57,7 +57,7 @@
         "raw_value": 0.26001,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward during the descent and turns to face forward as the figure sits down.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.08389,
         "Neck Tilt Left-Right": -0.01005,
@@ -75,7 +75,7 @@
         "raw_value": 0.2893,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings backward for balance before bending at the elbow to bring the hand up toward the center of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.49947,
         "Left Shoulder Front-Back": -0.43517,
@@ -96,7 +96,7 @@
         "raw_value": 0.17672,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves outward and forward before bending to draw the hand in toward the chest area.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.62655,
         "Right Shoulder Front-Back": -0.38304,
@@ -117,7 +117,7 @@
         "raw_value": 0.21719,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to lower the body and extends forward into a seated posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.15362,
         "Left Upper Leg In-Out": 0.23454,
@@ -137,7 +137,7 @@
         "raw_value": 0.19221,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts and folds underneath the body to complete the sitting motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.19729,
         "Right Upper Leg In-Out": -0.03152,
@@ -157,7 +157,7 @@
         "raw_value": 0.44324,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from the side of the body inward, ending with fingers curled near the waist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.54194,
         "Left Thumb Spread": -0.2258,
@@ -189,7 +189,7 @@
         "raw_value": 0.30997,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand travels from the hip area up and across to meet the other hand in front of the torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.56199,
         "Right Thumb Spread": -0.43419,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:48Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lies on its stomach and frantically crawls backwards, pushing off the ground with alternating arms and legs.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11612,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Pressed low against the floor, the torso arches upward slightly as the arms push to propel the body backward.",
       "mean_pose": {
         "Spine Front-Back": -0.00818,
         "Spine Left-Right": -0.00189,
@@ -57,7 +57,7 @@
         "raw_value": 0.25011,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Kept low near the floor, the head bobs up and down in rhythm with the crawling motion while facing forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.45749,
         "Neck Tilt Left-Right": -0.13764,
@@ -75,7 +75,7 @@
         "raw_value": 0.25723,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extended forward from the shoulder, the arm bends at the elbow to push against the floor before swinging back for the next stroke.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.19838,
         "Left Shoulder Front-Back": 0.20622,
@@ -96,7 +96,7 @@
         "raw_value": 0.26437,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirroring the left arm, it reaches forward, presses into the ground, and pulls back to drive the body in reverse.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.32917,
         "Right Shoulder Front-Back": 0.28866,
@@ -117,7 +117,7 @@
         "raw_value": 0.24889,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bent at the knee, the leg kicks backward in a sculling motion to provide thrust against the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.17104,
         "Left Upper Leg In-Out": 0.34845,
@@ -137,7 +137,7 @@
         "raw_value": 0.26176,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternating with the left leg, it bends and extends backward to push the body further away.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.25097,
         "Right Upper Leg In-Out": 0.66552,
@@ -157,7 +157,7 @@
         "raw_value": 0.10164,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Planted flat on the ground, the hand pushes downward and outward to generate force for the backward movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.13525,
         "Left Thumb Spread": 0.32707,
@@ -189,7 +189,7 @@
         "raw_value": 0.11588,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Pressing firmly against the floor, the hand provides the necessary support to lift and pull the upper body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.83235,
         "Right Thumb Spread": 0.65289,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:27Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

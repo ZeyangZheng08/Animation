@@ -14,7 +14,7 @@
   "duration": 6.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a rhythmic running man dance, hopping on one leg while swinging the other and pumping their arms in alternating motions.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16474,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and bobs up and down with each hop, maintaining an upright but dynamic posture throughout the sequence.",
       "mean_pose": {
         "Spine Front-Back": -0.12941,
         "Spine Left-Right": -0.06132,
@@ -57,7 +57,7 @@
         "raw_value": 0.17719,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces directly forward, bobbing gently in sync with the vertical movement of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03867,
         "Neck Tilt Left-Right": 0.00645,
@@ -75,7 +75,7 @@
         "raw_value": 0.30723,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings back and forth across the chest, bending at the elbow to alternate between a forward pump and a backward extension.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.08248,
         "Left Shoulder Front-Back": -0.3542,
@@ -96,7 +96,7 @@
         "raw_value": 0.36567,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, moving rhythmically opposite to it to create a continuous pumping motion that drives the upper body's energy.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.09593,
         "Right Shoulder Front-Back": -0.03319,
@@ -117,7 +117,7 @@
         "raw_value": 0.2779,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between being bent and lifted high off the ground and extending downward to provide support for the hops.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.22504,
         "Left Upper Leg In-Out": -0.03743,
@@ -137,7 +137,7 @@
         "raw_value": 0.24119,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg takes turns with the left, lifting up to balance the body while the other foot is planted or pushing off the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.09506,
         "Right Upper Leg In-Out": 0.02047,
@@ -157,7 +157,7 @@
         "raw_value": 0.12388,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains loosely clenched as it travels through the arc of the arm swing, ending near the chest or trailing behind the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.06502,
         "Left Thumb Spread": 0.51302,
@@ -189,7 +189,7 @@
         "raw_value": 0.14665,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays in a loose fist, following the pumping trajectory of the right arm to complete the coordinated dance movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.05616,
         "Right Thumb Spread": 0.48975,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:39:00Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

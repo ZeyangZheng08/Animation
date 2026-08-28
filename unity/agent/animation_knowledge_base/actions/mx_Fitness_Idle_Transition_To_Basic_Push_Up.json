@@ -14,7 +14,7 @@
   "duration": 2.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a standing idle position into a low plank or push-up starting pose by bending down, placing its hands on the floor, and extending its legs backward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06834,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins in an upright position, then bends forward at the waist to lower toward the ground, maintaining a straight line as it moves into the horizontal plank position.",
       "mean_pose": {
         "Spine Front-Back": -0.20411,
         "Spine Left-Right": -0.00593,
@@ -57,7 +57,7 @@
         "raw_value": 0.14287,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head starts facing forward, drops downward as the torso bends, and remains aligned with the spine, pointing toward the floor in the final plank pose.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.54476,
         "Neck Tilt Left-Right": 0.13591,
@@ -75,7 +75,7 @@
         "raw_value": 0.35785,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings slightly forward and reaches down to place the hand flat on the floor, extending fully to support the body weight in the plank position.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.08396,
         "Left Shoulder Front-Back": -0.65958,
@@ -96,7 +96,7 @@
         "raw_value": 0.39653,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, reaching down to place the hand flat on the floor and extending fully to support the body in the final pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.02309,
         "Right Shoulder Front-Back": -0.57873,
@@ -117,7 +117,7 @@
         "raw_value": 0.30099,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps back and extends behind the body, transitioning from a standing position to being straight and supported by the toes.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.36558,
         "Left Upper Leg In-Out": 0.17469,
@@ -137,7 +137,7 @@
         "raw_value": 0.20002,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg also steps back and extends behind the body, aligning with the left leg to form a straight line from head to heels.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.00932,
         "Right Upper Leg In-Out": 0.16232,
@@ -157,7 +157,7 @@
         "raw_value": 0.29991,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches down from the side of the body to grip the floor, fingers spread for stability in the final pose.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.46726,
         "Left Thumb Spread": 0.35494,
@@ -189,7 +189,7 @@
         "raw_value": 0.23855,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches down from the side of the body to grip the floor, fingers spread for stability in the final pose.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.49083,
         "Right Thumb Spread": 0.85123,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 4.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs an underwater swimming motion, moving horizontally through the air with alternating arm strokes and a flutter kick.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03993,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Maintains a prone, horizontal orientation throughout the clip, undulating slightly to follow the momentum of the limbs.",
       "mean_pose": {
         "Spine Front-Back": 0.04717,
         "Spine Left-Right": -0.08909,
@@ -57,7 +57,7 @@
         "raw_value": 0.04446,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays extended forward in line with the body, facing down towards the floor while maintaining a steady gaze direction.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.13121,
         "Neck Tilt Left-Right": 0.04075,
@@ -75,7 +75,7 @@
         "raw_value": 0.22003,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Alternates between reaching forward and pulling back in a continuous swimming stroke, keeping the elbow bent during the recovery phase.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.11986,
         "Left Shoulder Front-Back": -0.04077,
@@ -96,7 +96,7 @@
         "raw_value": 0.27562,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves in opposition to the left arm, extending forward and sweeping backward to drive the swimming rhythm.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.29134,
         "Right Shoulder Front-Back": 0.89436,
@@ -117,7 +117,7 @@
         "raw_value": 0.1821,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Performs a rhythmic kicking motion, bending at the knee and extending to propel the body forward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.04322,
         "Left Upper Leg In-Out": 0.4701,
@@ -137,7 +137,7 @@
         "raw_value": 0.1653,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Kicks in sync with the left leg, alternating flexion and extension to maintain forward momentum.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.04348,
         "Right Upper Leg In-Out": 0.46206,
@@ -157,7 +157,7 @@
         "raw_value": 0.2054,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends fingers forward during the reach and trails behind the body during the pull-back phase of the stroke.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.33838,
         "Left Thumb Spread": 0.12907,
@@ -189,7 +189,7 @@
         "raw_value": 0.27198,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches forward with extended fingers and sweeps back, mirroring the opposite arm's swimming cycle.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.93793,
         "Right Thumb Spread": 0.21775,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:49:41Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

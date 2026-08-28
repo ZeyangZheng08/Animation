@@ -14,7 +14,7 @@
   "duration": 21.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a house dance move, starting with an open-armed lunge and finishing in a bent-knee stance with hands clasped at the groin.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10178,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leaning forward from a wide stance, the torso rotates through the hips to face front while bending into a deep crouch.",
       "mean_pose": {
         "Spine Front-Back": -0.5378,
         "Spine Left-Right": -0.01412,
@@ -57,7 +57,7 @@
         "raw_value": 0.3378,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilting down as the body bends, the head stays aligned with the shoulders before settling into a downward gaze.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.27704,
         "Neck Tilt Left-Right": 0.02307,
@@ -75,7 +75,7 @@
         "raw_value": 0.28564,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extending out to the side for balance, the left arm swings across the body to clasp at the center of the hips.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.01396,
         "Left Shoulder Front-Back": -0.33185,
@@ -96,7 +96,7 @@
         "raw_value": 0.28262,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaching down and back, the right arm draws inward to meet the other hand at the groin.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.23495,
         "Right Shoulder Front-Back": -0.0495,
@@ -117,7 +117,7 @@
         "raw_value": 0.25771,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stepping out to create a wide base, the left leg bends deeply to support the lowered body weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.12747,
         "Left Upper Leg In-Out": 0.22069,
@@ -137,7 +137,7 @@
         "raw_value": 0.22856,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Anchoring the initial lunge, the right leg bends to match the height of the final crouched pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.15294,
         "Right Upper Leg In-Out": 0.44458,
@@ -157,7 +157,7 @@
         "raw_value": 0.06967,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opening outward during the lunge, the left hand curls to grip the fingers of the right hand.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.79392,
         "Left Thumb Spread": -0.00351,
@@ -189,7 +189,7 @@
         "raw_value": 0.13067,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Drooping low near the hip, the right hand rises to clasp with the left hand at the center.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.85256,
         "Right Thumb Spread": 0.0251,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

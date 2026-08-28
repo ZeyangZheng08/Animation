@@ -14,7 +14,7 @@
   "duration": 3.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lies prone on the floor and throws an object forward with a sweeping right arm motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08635,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains flat against the ground, rotating slightly to the left during the throw.",
       "mean_pose": {
         "Spine Front-Back": 0.08143,
         "Spine Left-Right": -0.10807,
@@ -57,7 +57,7 @@
         "raw_value": 0.21401,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays low near the floor, turning slightly to track the movement of the right arm.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.52395,
         "Neck Tilt Left-Right": 0.13756,
@@ -75,7 +75,7 @@
         "raw_value": 0.3184,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent and held close to the chest, remaining relatively still throughout the clip.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.91564,
         "Left Shoulder Front-Back": -0.88922,
@@ -96,7 +96,7 @@
         "raw_value": 0.41333,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends fully forward toward the ground before sweeping upward in a high arc to complete the throw.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.89876,
         "Right Shoulder Front-Back": -0.08356,
@@ -117,7 +117,7 @@
         "raw_value": 0.2046,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee and rests flat on the floor behind the hips.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.56948,
         "Left Upper Leg In-Out": -0.00388,
@@ -137,7 +137,7 @@
         "raw_value": 0.20525,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is extended straight back along the floor with the foot pointed away from the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.14649,
         "Right Upper Leg In-Out": 0.54023,
@@ -157,7 +157,7 @@
         "raw_value": 0.00222,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is curled into a loose fist and held static near the upper chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.40582,
         "Left Thumb Spread": -0.21603,
@@ -189,7 +189,7 @@
         "raw_value": 0.60087,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends outward with fingers spread to execute the throwing motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.80436,
         "Right Thumb Spread": -0.34561,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:50:24Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

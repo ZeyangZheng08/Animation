@@ -14,7 +14,7 @@
   "duration": 3.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure bends forward from a crouch to push an object away, then stands back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13812,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers into a deep forward bend at the waist and then rises back to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.20286,
         "Spine Left-Right": -0.01951,
@@ -57,7 +57,7 @@
         "raw_value": 0.27382,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to look at the floor during the push and then lifts to face forward as the body straightens.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.31614,
         "Neck Tilt Left-Right": -0.2616,
@@ -75,7 +75,7 @@
         "raw_value": 0.35323,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward and downward with an open hand to make contact with the object, then retracts upward.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.22704,
         "Left Shoulder Front-Back": -0.94626,
@@ -96,7 +96,7 @@
         "raw_value": 0.33433,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches forward alongside the left arm to assist in the pushing motion before pulling back.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.11443,
         "Right Shoulder Front-Back": -0.84018,
@@ -117,7 +117,7 @@
         "raw_value": 0.26342,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent low in a crouch at the start, straightens out as the push occurs, and remains extended while standing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.51126,
         "Left Upper Leg In-Out": 0.31656,
@@ -137,7 +137,7 @@
         "raw_value": 0.28587,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left leg, bending deeply at the knee initially and then extending fully to support the standing posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.37627,
         "Right Upper Leg In-Out": 0.29029,
@@ -157,7 +157,7 @@
         "raw_value": 0.1639,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open with fingers spread, pressing forward against the object before returning to the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.82036,
         "Left Thumb Spread": -0.45811,
@@ -189,7 +189,7 @@
         "raw_value": 0.18194,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is also open and pushes forward in unison with the left hand, then relaxes back to the hip area.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.91509,
         "Right Thumb Spread": -0.10905,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:24Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

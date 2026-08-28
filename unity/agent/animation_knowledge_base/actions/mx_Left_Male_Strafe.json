@@ -14,7 +14,7 @@
   "duration": 1.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure strides sideways to the left in a low, crouched posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02385,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and tilts to the left throughout the movement, maintaining a low center of gravity.",
       "mean_pose": {
         "Spine Front-Back": -0.02962,
         "Spine Left-Right": 0.09774,
@@ -57,7 +57,7 @@
         "raw_value": 0.0189,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains held in a fixed position facing forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.31789,
         "Neck Tilt Left-Right": -0.13995,
@@ -75,7 +75,7 @@
         "raw_value": 0.02699,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Held bent at the elbow with the hand raised near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.68517,
         "Left Shoulder Front-Back": -0.69153,
@@ -96,7 +96,7 @@
         "raw_value": 0.04315,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Held bent at the elbow with the hand raised near the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.81183,
         "Right Shoulder Front-Back": -2.07358,
@@ -117,7 +117,7 @@
         "raw_value": 0.19278,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives the lateral movement by stepping out to the side and extending under the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.11973,
         "Left Upper Leg In-Out": -0.06682,
@@ -137,7 +137,7 @@
         "raw_value": 0.2315,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trailing behind, bending at the knee as it follows the stride.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.16617,
         "Right Upper Leg In-Out": 0.19126,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held open with fingers extended near the upper chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.64991,
         "Left Thumb Spread": -0.05404,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held open with fingers extended near the upper chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.47563,
         "Right Thumb Spread": -1.06343,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

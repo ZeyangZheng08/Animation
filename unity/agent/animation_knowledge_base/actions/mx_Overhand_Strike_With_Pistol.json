@@ -14,7 +14,7 @@
   "duration": 2.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs an overhand strike, swinging both arms forward and upward from a low stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11867,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates to the left and leans forward as the arms swing up.",
       "mean_pose": {
         "Spine Front-Back": -0.30147,
         "Spine Left-Right": -0.15759,
@@ -57,7 +57,7 @@
         "raw_value": 0.3017,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns slightly to the left, following the motion of the arms.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.19261,
         "Neck Tilt Left-Right": -0.07803,
@@ -75,7 +75,7 @@
         "raw_value": 0.34012,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings forward and upward, extending fully during the strike.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.86627,
         "Left Shoulder Front-Back": -0.78769,
@@ -96,7 +96,7 @@
         "raw_value": 0.23693,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging forward and upward in a synchronized motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.01642,
         "Right Shoulder Front-Back": -0.68574,
@@ -117,7 +117,7 @@
         "raw_value": 0.16521,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee, stepping forward to support the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.30093,
         "Left Upper Leg In-Out": 0.23591,
@@ -137,7 +137,7 @@
         "raw_value": 0.18663,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains relatively straight, providing a stable base for the strike.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.62386,
         "Right Upper Leg In-Out": -0.03005,
@@ -157,7 +157,7 @@
         "raw_value": 0.25346,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends forward, fingers spread wide as part of the strike.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.58186,
         "Left Thumb Spread": 0.64183,
@@ -189,7 +189,7 @@
         "raw_value": 0.02973,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand also extends forward, mirroring the left hand's position and gesture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.51494,
         "Right Thumb Spread": -0.84692,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:31Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

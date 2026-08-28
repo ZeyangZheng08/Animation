@@ -14,7 +14,7 @@
   "duration": 1.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic 90-degree turn to the left, pivoting on its feet while swinging its arms and legs for balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05886,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates sharply from facing forward to facing right, leaning slightly into the turn.",
       "mean_pose": {
         "Spine Front-Back": -0.21714,
         "Spine Left-Right": -0.08591,
@@ -57,7 +57,7 @@
         "raw_value": 0.17183,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to the left, following the rotation of the body throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01035,
         "Neck Tilt Left-Right": -0.00849,
@@ -75,7 +75,7 @@
         "raw_value": 0.07193,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and upward from the side of the body, extending across the chest as the turn progresses.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.0973,
         "Left Shoulder Front-Back": -1.46724,
@@ -96,7 +96,7 @@
         "raw_value": 0.10776,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves from a bent position near the waist to extend outwards and downwards, counterbalancing the turn.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.26089,
         "Right Shoulder Front-Back": -0.4042,
@@ -117,7 +117,7 @@
         "raw_value": 0.14292,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and lifts off the ground, crossing in front of the body during the pivot.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.71525,
         "Left Upper Leg In-Out": 0.5796,
@@ -137,7 +137,7 @@
         "raw_value": 0.17592,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted with a bent knee, serving as the stable base for the rotation.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.54448,
         "Right Upper Leg In-Out": 0.24287,
@@ -157,7 +157,7 @@
         "raw_value": 0.11847,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens and extends along with the arm's outward swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.04191,
         "Left Thumb Spread": -0.02537,
@@ -189,7 +189,7 @@
         "raw_value": 0.18953,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays relatively low and relaxed, moving with the arm's balancing motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.12394,
         "Right Thumb Spread": 0.00046,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

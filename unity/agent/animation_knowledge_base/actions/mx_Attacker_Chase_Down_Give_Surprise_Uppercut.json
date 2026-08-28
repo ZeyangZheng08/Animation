@@ -14,7 +14,7 @@
   "duration": 3.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure steps forward into a wide stance, ducks down low, and then springs up to throw a high overhead punch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12366,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from the waist as it crouches, then straightens upright while extending upward.",
       "mean_pose": {
         "Spine Front-Back": -0.3477,
         "Spine Left-Right": -0.02632,
@@ -57,7 +57,7 @@
         "raw_value": 0.39085,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the floor during the crouch and snaps upward with the body's rise.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01761,
         "Neck Tilt Left-Right": -0.05572,
@@ -75,7 +75,7 @@
         "raw_value": 0.38149,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends out to the side with an open palm, then draws back and tucks close to the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.32869,
         "Left Shoulder Front-Back": -0.39373,
@@ -96,7 +96,7 @@
         "raw_value": 0.30665,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings down and inwards to prepare, then thrusts forcefully upward and over the head to deliver a punch.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.38753,
         "Right Shoulder Front-Back": -0.91211,
@@ -117,7 +117,7 @@
         "raw_value": 0.25224,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and bends deeply to lower the body's center of gravity.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.0334,
         "Left Upper Leg In-Out": 0.4318,
@@ -137,7 +137,7 @@
         "raw_value": 0.27358,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Plants firmly behind the body and extends to push off for the upward movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.23205,
         "Right Upper Leg In-Out": 0.31901,
@@ -157,7 +157,7 @@
         "raw_value": 0.21007,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens its fingers to balance the body before clenching into a fist at the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.72979,
         "Left Thumb Spread": 0.45513,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static clenched fist throughout the entire motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.50016,
         "Right Thumb Spread": -0.01265,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

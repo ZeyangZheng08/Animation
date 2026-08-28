@@ -14,7 +14,7 @@
   "duration": 3.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs an energetic uprock dance, starting with a compact stance and exploding into a wide, lunging pose with arms extended.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08578,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from an upright position, rotating to the right and tilting sideways as it pushes into the final lunge.",
       "mean_pose": {
         "Spine Front-Back": -0.53398,
         "Spine Left-Right": -0.04321,
@@ -57,7 +57,7 @@
         "raw_value": 0.23897,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down initially before lifting and turning to the right to follow the direction of the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01141,
         "Neck Tilt Left-Right": -0.07888,
@@ -75,7 +75,7 @@
         "raw_value": 0.44087,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves from being held across the body to swinging outward and extending straight out to the side for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.56688,
         "Left Shoulder Front-Back": -0.7076,
@@ -96,7 +96,7 @@
         "raw_value": 0.31233,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Transitions from hanging loosely at the side to extending upward and outward in a dynamic gesture.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.4569,
         "Right Shoulder Front-Back": -1.08775,
@@ -117,7 +117,7 @@
         "raw_value": 0.23868,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps back and bends deeply into a low lunge, providing the base for the pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.35144,
         "Left Upper Leg In-Out": 0.01429,
@@ -137,7 +137,7 @@
         "raw_value": 0.22745,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off the ground and extends behind the body, straightening out to anchor the lunge.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.32532,
         "Right Upper Leg In-Out": 0.05611,
@@ -157,7 +157,7 @@
         "raw_value": 0.1562,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens and spreads its fingers as the arm swings out to the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.12579,
         "Left Thumb Spread": -0.01903,
@@ -189,7 +189,7 @@
         "raw_value": 0.16077,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches forward and upward, with fingers spread wide in the final extended pose.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.03346,
         "Right Thumb Spread": -0.01092,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:33:31Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

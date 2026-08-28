@@ -14,7 +14,7 @@
   "duration": 2.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a boxing combination, throwing a right cross and then a left jab from a moving stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08092,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates forward with the punches and shifts its weight between the legs to drive the strikes.",
       "mean_pose": {
         "Spine Front-Back": -0.31844,
         "Spine Left-Right": -0.05228,
@@ -57,7 +57,7 @@
         "raw_value": 0.19948,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays centered over the shoulders, tilting slightly as the body pivots during the punches.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.0485,
         "Neck Tilt Left-Right": 0.06755,
@@ -75,7 +75,7 @@
         "raw_value": 0.11747,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings forward in a straight line to deliver a jab and then retracts back toward the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.52795,
         "Left Shoulder Front-Back": 0.25318,
@@ -96,7 +96,7 @@
         "raw_value": 0.13328,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends fully across the body to throw a cross punch before returning to the guard position.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.1382,
         "Right Shoulder Front-Back": -0.80962,
@@ -117,7 +117,7 @@
         "raw_value": 0.11787,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends and steps forward to advance the body's position for the follow-up punch.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.05924,
         "Left Upper Leg In-Out": 0.3014,
@@ -137,7 +137,7 @@
         "raw_value": 0.19284,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg plants firmly on the ground to provide a stable base while the upper body rotates.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.23067,
         "Right Upper Leg In-Out": 0.5221,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a static, clenched fist shape throughout the sequence.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a static, clenched fist shape throughout the sequence.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:02Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, sweeping capoeira step, lunging forward with one leg while the other trails behind and both arms swing out for balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.19969,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans heavily forward into the lunge, dipping low at its peak before rising slightly as it settles into the final stance.",
       "mean_pose": {
         "Spine Front-Back": -0.43007,
         "Spine Left-Right": 0.06317,
@@ -57,7 +57,7 @@
         "raw_value": 0.1872,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to follow the forward momentum of the body, keeping its gaze directed toward the floor in front of the leading foot.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.077,
         "Neck Tilt Left-Right": 0.0223,
@@ -75,7 +75,7 @@
         "raw_value": 0.45803,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward and downward, reaching out ahead of the body to help maintain balance during the deep lunge.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.5406,
         "Left Shoulder Front-Back": -0.41823,
@@ -96,7 +96,7 @@
         "raw_value": 0.49928,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings backward and outward to counterbalance the forward lean, then tucks closer to the body as the movement concludes.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.48434,
         "Right Shoulder Front-Back": -0.63581,
@@ -117,7 +117,7 @@
         "raw_value": 0.33509,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives forward into a deep lunge, bending at the knee to support the body's weight in a low position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.24117,
         "Left Upper Leg In-Out": 0.30277,
@@ -137,7 +137,7 @@
         "raw_value": 0.39415,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends straight back, trailing behind the body with the toe pointed toward the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.19036,
         "Right Upper Leg In-Out": 0.2824,
@@ -157,7 +157,7 @@
         "raw_value": 0.28669,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches forward with fingers spread, hovering just above the level of the floor.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.07652,
         "Left Thumb Spread": -0.19858,
@@ -189,7 +189,7 @@
         "raw_value": 0.22647,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand trails behind the hip with an open palm, swinging through the arc of the step.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.75534,
         "Right Thumb Spread": -0.16891,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

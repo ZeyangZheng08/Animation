@@ -14,7 +14,7 @@
   "duration": 7.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sways and stumbles in place, hunching forward with a drunken lurch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07899,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans heavily forward from the waist, twisting slightly to the left while maintaining a hunched posture.",
       "mean_pose": {
         "Spine Front-Back": -0.29991,
         "Spine Left-Right": -0.04869,
@@ -57,7 +57,7 @@
         "raw_value": 0.20155,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Drops down toward the chest, tilting sharply to the right as the body bends over.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.01586,
         "Neck Tilt Left-Right": 0.04206,
@@ -75,7 +75,7 @@
         "raw_value": 0.17734,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely at the side, bending slightly at the elbow to dangle near the thigh.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.70832,
         "Left Shoulder Front-Back": -0.72773,
@@ -96,7 +96,7 @@
         "raw_value": 0.19864,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Dangles straight down by the side of the body, swinging gently with the torso's sway.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.9294,
         "Right Shoulder Front-Back": -0.47579,
@@ -117,7 +117,7 @@
         "raw_value": 0.10636,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands planted on the ground, bearing the weight of the leaning upper body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.21036,
         "Left Upper Leg In-Out": 0.06834,
@@ -137,7 +137,7 @@
         "raw_value": 0.11023,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains stationary on the floor, acting as the pivot point for the body's wobble.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.24645,
         "Right Upper Leg In-Out": 0.10429,
@@ -157,7 +157,7 @@
         "raw_value": 0.13119,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles limply with relaxed fingers, hovering just above the knee.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.12558,
         "Left Thumb Spread": -0.2402,
@@ -189,7 +189,7 @@
         "raw_value": 0.11372,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hangs open and loose by the hip, moving passively with the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.89031,
         "Right Thumb Spread": -0.27797,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

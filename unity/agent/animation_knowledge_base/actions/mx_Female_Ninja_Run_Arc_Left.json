@@ -14,7 +14,7 @@
   "duration": 0.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs in a crouched posture along an arc to the left.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05913,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and continuously rotates to the left, following the curve of the run.",
       "mean_pose": {
         "Spine Front-Back": -0.47518,
         "Spine Left-Right": -0.07497,
@@ -57,7 +57,7 @@
         "raw_value": 0.05305,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and turns left, keeping its gaze fixed on the path ahead.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.58113,
         "Neck Tilt Left-Right": -0.12353,
@@ -75,7 +75,7 @@
         "raw_value": 0.05327,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings forward and back in opposition to the legs, bending at the elbow with the hand held low near the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.07902,
         "Left Shoulder Front-Back": 0.54706,
@@ -96,7 +96,7 @@
         "raw_value": 0.0341,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, pumping backward and forward with a bent elbow while running.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.29953,
         "Right Shoulder Front-Back": 0.71881,
@@ -117,7 +117,7 @@
         "raw_value": 0.24782,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives through a deep knee bend, extending forward to land and then pushing off from the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.44857,
         "Left Upper Leg In-Out": -0.05467,
@@ -137,7 +137,7 @@
         "raw_value": 0.25682,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, driving forward with a bent knee and extending back for propulsion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.34663,
         "Right Upper Leg In-Out": 0.01579,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains relaxed and slightly curled as it moves through the air.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.11592,
         "Left Thumb Spread": 0.01879,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays loose and loosely curled throughout the running cycle.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.11601,
         "Right Thumb Spread": 0.01873,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:22Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

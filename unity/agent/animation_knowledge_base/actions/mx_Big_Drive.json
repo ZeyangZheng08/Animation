@@ -14,7 +14,7 @@
   "duration": 3.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a golf swing, driving the arms from an overhead backswing position down and across the body.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.31623,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates significantly, twisting to the right for the backswing before rotating forcefully to the left through impact and follow-through.",
       "mean_pose": {
         "Spine Front-Back": -0.12375,
         "Spine Left-Right": -0.01694,
@@ -57,7 +57,7 @@
         "raw_value": 0.38902,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to look down the target line during the backswing, then follows the rotation of the shoulders toward the finish.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02847,
         "Neck Tilt Left-Right": 0.04001,
@@ -75,7 +75,7 @@
         "raw_value": 0.72052,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm raises high above the head during the backswing and extends fully forward and upward as the swing completes.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.02935,
         "Left Shoulder Front-Back": -1.73727,
@@ -96,7 +96,7 @@
         "raw_value": 0.4881,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm starts with the elbow bent near the chest in the backswing, then swings down and around to join the left arm at the top of the finish.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.16092,
         "Right Shoulder Front-Back": -2.84523,
@@ -117,7 +117,7 @@
         "raw_value": 0.22774,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends slightly to absorb weight during the backswing and straightens firmly to anchor the turn during the downswing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.1366,
         "Left Upper Leg In-Out": -0.10319,
@@ -137,7 +137,7 @@
         "raw_value": 0.23084,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pivots on the ball of the foot, rolling over to the outside edge as the hips rotate into the follow-through.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.22721,
         "Right Upper Leg In-Out": 0.18905,
@@ -157,7 +157,7 @@
         "raw_value": 0.05409,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is clasped tightly with the right, forming a single unit that moves from the low point of the backswing to the high finish.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.94404,
         "Left Thumb Spread": -0.00404,
@@ -189,7 +189,7 @@
         "raw_value": 0.054,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand grips the left hand, leading the motion down from the top of the backswing and finishing high above the shoulder.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.99838,
         "Right Thumb Spread": 0.03877,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

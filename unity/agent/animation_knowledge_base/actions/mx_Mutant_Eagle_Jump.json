@@ -14,7 +14,7 @@
   "duration": 3.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, crouching eagle jump, swinging its arms and bending its knees deeply.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09485,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward significantly into a deep crouch and then straightens back up.",
       "mean_pose": {
         "Spine Front-Back": -0.63276,
         "Spine Left-Right": 0.02544,
@@ -57,7 +57,7 @@
         "raw_value": 0.24477,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to follow the forward lean of the body and lifts as it stands.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.24301,
         "Neck Tilt Left-Right": -0.01802,
@@ -75,7 +75,7 @@
         "raw_value": 0.37709,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and upward before pulling back toward the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.03735,
         "Left Shoulder Front-Back": -0.65012,
@@ -96,7 +96,7 @@
         "raw_value": 0.35186,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings outward and upward in opposition to the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.18795,
         "Right Shoulder Front-Back": -0.25116,
@@ -117,7 +117,7 @@
         "raw_value": 0.20983,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee to lower the body into a squat position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.19617,
         "Left Upper Leg In-Out": 0.5122,
@@ -137,7 +137,7 @@
         "raw_value": 0.19982,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left leg, bending deeply to support the crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.25597,
         "Right Upper Leg In-Out": 0.41799,
@@ -157,7 +157,7 @@
         "raw_value": 0.34395,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers relaxed throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.08853,
         "Left Thumb Spread": -1.60805,
@@ -189,7 +189,7 @@
         "raw_value": 0.33793,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open with fingers slightly curled.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.81051,
         "Right Thumb Spread": -1.89578,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:10Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 6.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward with a pronounced limp, leaning the upper body toward the left side to cradle the right leg.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11995,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans heavily to the figure's left and tilts forward, holding an hunched posture that shifts subtly with each step.",
       "mean_pose": {
         "Spine Front-Back": -0.36479,
         "Spine Left-Right": 0.06867,
@@ -57,7 +57,7 @@
         "raw_value": 0.21382,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Drops downward and tilts to the left, following the torso's lean as if looking at the injured leg.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00158,
         "Neck Tilt Left-Right": -0.10794,
@@ -75,7 +75,7 @@
         "raw_value": 0.20767,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs down by the side of the body with a slight bend in the elbow, swaying gently for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.02308,
         "Left Shoulder Front-Back": -0.91122,
@@ -96,7 +96,7 @@
         "raw_value": 0.34976,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches across the midline to grasp the front of the right thigh, pulling it slightly upward to support the weight.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.47605,
         "Right Shoulder Front-Back": -2.23112,
@@ -117,7 +117,7 @@
         "raw_value": 0.11918,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Acts as the primary supporting limb, bearing most of the body's weight while taking short steps.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.21957,
         "Left Upper Leg In-Out": 0.29639,
@@ -137,7 +137,7 @@
         "raw_value": 0.08681,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lags behind with the knee bent and the foot dragging on the ground, indicating pain or injury.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.18645,
         "Right Upper Leg In-Out": -0.0739,
@@ -157,7 +157,7 @@
         "raw_value": 0.25381,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed at the end of the hanging arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.8812,
         "Left Thumb Spread": -0.04301,
@@ -189,7 +189,7 @@
         "raw_value": 0.37337,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Closes into a loose fist to grip the fabric or skin of the right thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.03978,
         "Right Thumb Spread": -0.19729,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:39:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

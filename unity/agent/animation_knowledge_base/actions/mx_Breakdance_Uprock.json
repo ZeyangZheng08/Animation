@@ -14,7 +14,7 @@
   "duration": 2.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs an energetic uprock, bouncing on the balls of their feet while twisting and swinging their arms in a wide arc.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0686,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bobs rhythmically with each step, leaning forward during the initial bounce before straightening and rotating through the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.37317,
         "Spine Left-Right": 0.00845,
@@ -57,7 +57,7 @@
         "raw_value": 0.19636,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward at first, then lifts and turns to follow the rotation of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.05749,
         "Neck Tilt Left-Right": -0.00815,
@@ -75,7 +75,7 @@
         "raw_value": 0.46921,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent at the hip, swings forward and across the chest, then extends outward to the side as the body opens up.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.89215,
         "Left Shoulder Front-Back": -1.39375,
@@ -96,7 +96,7 @@
         "raw_value": 0.43498,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the motion, starting near the hip, crossing over the body, and extending out to the opposite side for balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.94872,
         "Right Shoulder Front-Back": -1.35328,
@@ -117,7 +117,7 @@
         "raw_value": 0.26752,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the movement, bending deeply to push off the ground and lifting high into a knee raise before extending back down.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.15493,
         "Left Upper Leg In-Out": 0.07087,
@@ -137,7 +137,7 @@
         "raw_value": 0.29453,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg acts as the pivot, staying relatively grounded but shifting its weight and stepping to support the turning motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.048,
         "Right Upper Leg In-Out": 0.14315,
@@ -157,7 +157,7 @@
         "raw_value": 0.16414,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open, leading the swing of the arm from the hip area out to the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21178,
         "Left Thumb Spread": -0.26777,
@@ -189,7 +189,7 @@
         "raw_value": 0.1628,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is also open, mirroring the left hand's path as it crosses the body and extends outward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.91907,
         "Right Thumb Spread": -0.2596,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

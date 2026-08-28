@@ -14,7 +14,7 @@
   "duration": 1.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a deep crouch into a forward-leaning running stance, moving to the right.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10453,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rises and tilts forward from a deeply bent position in a low crouch.",
       "mean_pose": {
         "Spine Front-Back": -1.31601,
         "Spine Left-Right": -0.0432,
@@ -57,7 +57,7 @@
         "raw_value": 0.09893,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and turns to face the direction of movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.17934,
         "Neck Tilt Left-Right": -0.03305,
@@ -75,7 +75,7 @@
         "raw_value": 0.14084,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and upward as the body rises out of the crouch.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.01699,
         "Left Shoulder Front-Back": -0.83775,
@@ -96,7 +96,7 @@
         "raw_value": 0.20066,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings back and bends at the elbow in opposition to the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.50012,
         "Right Shoulder Front-Back": -0.81338,
@@ -117,7 +117,7 @@
         "raw_value": 0.22097,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends from a deep bend to push off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.34184,
         "Left Upper Leg In-Out": 0.12703,
@@ -137,7 +137,7 @@
         "raw_value": 0.32562,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and bends to absorb the impact of the stride.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.31614,
         "Right Upper Leg In-Out": 0.12835,
@@ -157,7 +157,7 @@
         "raw_value": 0.18899,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens with fingers spread while reaching forward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.74489,
         "Left Thumb Spread": -0.71641,
@@ -189,7 +189,7 @@
         "raw_value": 0.00966,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, loosely clenched pose near the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60055,
         "Right Thumb Spread": -0.82831,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

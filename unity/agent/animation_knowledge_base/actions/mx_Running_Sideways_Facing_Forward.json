@@ -14,7 +14,7 @@
   "duration": 0.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs sideways to the left while keeping its body and head facing forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07492,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward with a consistent tilt, bobbing up and down rhythmically with each step of the run.",
       "mean_pose": {
         "Spine Front-Back": -0.15608,
         "Spine Left-Right": -0.05803,
@@ -57,7 +57,7 @@
         "raw_value": 0.06842,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains steady and upright, maintaining a fixed forward orientation throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.05972,
         "Neck Tilt Left-Right": -0.07635,
@@ -75,7 +75,7 @@
         "raw_value": 0.24314,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings in a standard running motion, bending at the elbow to move the hand between the front and back of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.2686,
         "Left Shoulder Front-Back": 0.16943,
@@ -96,7 +96,7 @@
         "raw_value": 0.21483,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm pumps in opposition to the left, flexing at the elbow as it drives backward and swings forward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.43182,
         "Right Shoulder Front-Back": -0.4551,
@@ -117,7 +117,7 @@
         "raw_value": 0.25433,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between driving forward and pushing off the ground, extending the knee fully during the stride.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.06461,
         "Left Upper Leg In-Out": 0.05798,
@@ -137,7 +137,7 @@
         "raw_value": 0.26071,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg cycles through a wide running gait, lifting the knee high before extending the foot to strike the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.14853,
         "Right Upper Leg In-Out": 0.09678,
@@ -157,7 +157,7 @@
         "raw_value": 0.06989,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays loosely clenched as it travels along the arc of the arm swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.01904,
         "Left Thumb Spread": 0.42102,
@@ -189,7 +189,7 @@
         "raw_value": 0.1684,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains relaxed and open, moving naturally with the pumping motion of the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.26485,
         "Right Thumb Spread": 0.40468,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

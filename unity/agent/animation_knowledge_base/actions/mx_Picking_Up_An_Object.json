@@ -14,7 +14,7 @@
   "duration": 9.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure bends forward at the waist and knees to reach down to the floor, then straightens back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.20817,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Hinges forward from an upright stance to a deep bend over the legs, then returns to a fully vertical position.",
       "mean_pose": {
         "Spine Front-Back": -0.6545,
         "Spine Left-Right": 0.3048,
@@ -57,7 +57,7 @@
         "raw_value": 0.1687,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward to look at the floor as the body bends, then lifts back up to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.10024,
         "Neck Tilt Left-Right": 0.02946,
@@ -75,7 +75,7 @@
         "raw_value": 0.15197,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Drops from the side of the body toward the ground, then swings back up to rest by the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.01404,
         "Left Shoulder Front-Back": 0.19721,
@@ -96,7 +96,7 @@
         "raw_value": 0.31855,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward with the elbow bent to reach for the floor, then retracts upward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.51724,
         "Right Shoulder Front-Back": -0.39381,
@@ -117,7 +117,7 @@
         "raw_value": 0.15215,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee to lower the center of gravity, then extends to straighten the leg.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.05318,
         "Left Upper Leg In-Out": 0.03762,
@@ -137,7 +137,7 @@
         "raw_value": 0.1628,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Flexes at the knee in a squatting motion, then straightens out to return to a standing posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.0616,
         "Right Upper Leg In-Out": 0.17418,
@@ -157,7 +157,7 @@
         "raw_value": 0.11154,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches down with fingers open toward the feet, then rises back to the side of the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.69689,
         "Left Thumb Spread": -0.34956,
@@ -189,7 +189,7 @@
         "raw_value": 0.25765,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles low near the shin during the bend, then moves up as the arm is pulled back.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.84094,
         "Right Thumb Spread": -1.20491,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

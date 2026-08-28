@@ -14,7 +14,7 @@
   "duration": 1.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sprints forward, executes a forward roll on the ground, and springs back into a sprint.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16833,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans far forward during the initial sprint, rotates completely over the shoulders in the middle of the clip, and rises back to an upright position at the end.",
       "mean_pose": {
         "Spine Front-Back": -0.12609,
         "Spine Left-Right": 0.06564,
@@ -57,7 +57,7 @@
         "raw_value": 0.25289,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays aligned with the torso, pitching down as the body leans forward, rotating through the roll, and lifting up again for the final sprint.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.08257,
         "Neck Tilt Left-Right": 0.07298,
@@ -75,7 +75,7 @@
         "raw_value": 0.43639,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches forward and down toward the floor to initiate the roll, tucks close to the body while inverted, and extends backward as the figure stands up.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.18966,
         "Left Shoulder Front-Back": -0.4004,
@@ -96,7 +96,7 @@
         "raw_value": 0.40805,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends out to the side for balance, then reaches down to the floor to support the weight during the roll before swinging back.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.57385,
         "Right Shoulder Front-Back": -0.51322,
@@ -117,7 +117,7 @@
         "raw_value": 0.33147,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts high and crosses over the body during the forward roll, then plants firmly on the ground to push off into the final sprint.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.45957,
         "Left Upper Leg In-Out": 0.29215,
@@ -137,7 +137,7 @@
         "raw_value": 0.37981,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Tucks under the body to facilitate the rotation, then extends forward and downward to complete the standing motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.42903,
         "Right Upper Leg In-Out": 0.25029,
@@ -157,7 +157,7 @@
         "raw_value": 0.44339,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches down to touch the floor near the feet to help pivot the body into the roll.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.03357,
         "Left Thumb Spread": -0.18631,
@@ -189,7 +189,7 @@
         "raw_value": 0.38987,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Touches the floor beside the head to support the body's weight during the peak of the roll.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.16151,
         "Right Thumb Spread": -0.40366,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

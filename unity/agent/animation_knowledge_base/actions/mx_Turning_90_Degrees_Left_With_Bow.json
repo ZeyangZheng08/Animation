@@ -14,7 +14,7 @@
   "duration": 1.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure turns 90 degrees to its left while performing a bow.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10793,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates 90 degrees to the left and bends forward at the waist into a bow.",
       "mean_pose": {
         "Spine Front-Back": -0.02233,
         "Spine Left-Right": -0.05584,
@@ -57,7 +57,7 @@
         "raw_value": 0.05164,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the torso's rotation and tilts down as the figure bows.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06486,
         "Neck Tilt Left-Right": -0.62412,
@@ -75,7 +75,7 @@
         "raw_value": 0.1765,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward from the side of the body for balance during the turn.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.00641,
         "Left Shoulder Front-Back": -0.96421,
@@ -96,7 +96,7 @@
         "raw_value": 0.20317,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves downward and inward toward the front of the body during the bow.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.83184,
         "Right Shoulder Front-Back": -0.11469,
@@ -117,7 +117,7 @@
         "raw_value": 0.18771,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg pivots on the ball of the foot to rotate the body 90 degrees to the left.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.77014,
         "Left Upper Leg In-Out": 0.59021,
@@ -137,7 +137,7 @@
         "raw_value": 0.17453,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps around to the new facing direction and bends to support the bowing posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.68238,
         "Right Upper Leg In-Out": 0.5629,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers spread throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.7285,
         "Left Thumb Spread": -1.28332,
@@ -189,7 +189,7 @@
         "raw_value": 0.16831,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends forward and down, reaching toward the floor in the bowing gesture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.05248,
         "Right Thumb Spread": -0.1177,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:51:00Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

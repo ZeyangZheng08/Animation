@@ -14,7 +14,7 @@
   "duration": 7.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure leans forward to help someone into a vehicle, extending their arms and then straightening up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06644,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from the waist during the middle of the clip before returning to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.02904,
         "Spine Left-Right": 0.03524,
@@ -57,7 +57,7 @@
         "raw_value": 0.15835,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down to look at the person being helped, then lifts back up as the torso straightens.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03945,
         "Neck Tilt Left-Right": 0.00939,
@@ -75,7 +75,7 @@
         "raw_value": 0.3298,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and downward with the palm open, then retracts back to the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.08615,
         "Left Shoulder Front-Back": 0.60957,
@@ -96,7 +96,7 @@
         "raw_value": 0.25399,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches forward to guide or support the other person, then pulls back to rest at the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.53799,
         "Right Shoulder Front-Back": -0.04423,
@@ -117,7 +117,7 @@
         "raw_value": 0.11469,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands relatively still, acting as the base for the forward lean.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.17687,
         "Left Upper Leg In-Out": 0.08387,
@@ -137,7 +137,7 @@
         "raw_value": 0.09039,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted on the ground to provide stability throughout the movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.25425,
         "Right Upper Leg In-Out": 0.05194,
@@ -157,7 +157,7 @@
         "raw_value": 0.16693,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens its fingers to reach out towards the person, then closes slightly as it returns to the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.37836,
         "Left Thumb Spread": 0.34967,
@@ -189,7 +189,7 @@
         "raw_value": 0.23392,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends forward with an open palm to assist, then brings itself back to a resting position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.06499,
         "Right Thumb Spread": -0.12236,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:49Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

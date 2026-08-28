@@ -14,7 +14,7 @@
   "duration": 0.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure recoils from a light punch to the head, flinching backward and then recovering to settle into a balanced stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10086,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans back sharply with the impact, twisting slightly to the right before straightening up and settling into a stable posture.",
       "mean_pose": {
         "Spine Front-Back": -0.21325,
         "Spine Left-Right": 0.03306,
@@ -57,7 +57,7 @@
         "raw_value": 0.27209,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Snaps back and down in a sharp flinch, then rises and turns forward as the figure recovers.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05562,
         "Neck Tilt Left-Right": 0.07151,
@@ -75,7 +75,7 @@
         "raw_value": 0.16958,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises quickly to guard the face, bending at the elbow to keep the hand close to the chin throughout the reaction.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.10149,
         "Left Shoulder Front-Back": -0.12948,
@@ -96,7 +96,7 @@
         "raw_value": 0.18973,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pulls inward toward the chest during the recoil, then relaxes slightly outward while maintaining a bent, ready position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.5377,
         "Right Shoulder Front-Back": -1.30532,
@@ -117,7 +117,7 @@
         "raw_value": 0.06966,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee to absorb the backward momentum, keeping the foot planted on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.14884,
         "Left Upper Leg In-Out": 0.21097,
@@ -137,7 +137,7 @@
         "raw_value": 0.0517,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Shifts weight by bending the knee to stabilize the body against the force of the hit.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.2064,
         "Right Upper Leg In-Out": 0.49637,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a fixed fist shape near the chin and jaw area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a closed fist shape held near the midsection.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:59Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

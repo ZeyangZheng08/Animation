@@ -14,7 +14,7 @@
   "duration": 1.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, crouched sneak, moving steadily to its left while keeping its body bent forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06613,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans heavily forward and tilts toward the left side of the movement, maintaining a deep crouch throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.29311,
         "Spine Left-Right": -0.02509,
@@ -57,7 +57,7 @@
         "raw_value": 0.03463,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays tucked down with the chin near the chest, facing forward along the direction of travel.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.24702,
         "Neck Tilt Left-Right": -0.3089,
@@ -75,7 +75,7 @@
         "raw_value": 0.05076,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends out to the side and back for balance, swinging slightly in rhythm with the leg movements.",
       "mean_pose": {
         "Left Shoulder Down-Up": -2.0507,
         "Left Shoulder Front-Back": -0.08003,
@@ -96,7 +96,7 @@
         "raw_value": 0.05631,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs low and reaches forward, swaying gently opposite the left arm to maintain stability.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.4058,
         "Right Shoulder Front-Back": 0.28231,
@@ -117,7 +117,7 @@
         "raw_value": 0.20366,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives the movement by stepping forward and pushing off, bending deeply at the knee to keep the center of gravity low.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.14105,
         "Left Upper Leg In-Out": 0.42874,
@@ -137,7 +137,7 @@
         "raw_value": 0.19141,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Follows through the step cycle, lifting and extending forward before landing to support the crouched weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.35086,
         "Right Upper Leg In-Out": -0.07137,
@@ -157,7 +157,7 @@
         "raw_value": 0.07719,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed at the end of the extended arm, fingers spread for balance.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.30777,
         "Left Thumb Spread": 0.19436,
@@ -189,7 +189,7 @@
         "raw_value": 0.04512,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely near the front knee, staying open and relaxed as the arm swings.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.01167,
         "Right Thumb Spread": -0.19831,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:43Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

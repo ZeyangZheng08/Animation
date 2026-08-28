@@ -14,7 +14,7 @@
   "duration": 5.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a heavy, two-handed overhead swing, driving the arms from a high back position down across the body and finishing in a low forward lunge.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12709,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward to load the swing, rotates sharply through the strike, and bends deeply forward into the final follow-through.",
       "mean_pose": {
         "Spine Front-Back": -0.26086,
         "Spine Left-Right": 0.00171,
@@ -57,7 +57,7 @@
         "raw_value": 0.28536,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts up during the wind-up, tracks the downward arc of the swing, and drops low with the torso at the end.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.29229,
         "Neck Tilt Left-Right": -0.26767,
@@ -75,7 +75,7 @@
         "raw_value": 0.44512,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises high behind the head, swings forcefully down and across the body, and finishes extended low near the ground.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.02255,
         "Left Shoulder Front-Back": -0.42998,
@@ -96,7 +96,7 @@
         "raw_value": 0.54991,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts raised behind the left arm, drives the downward swing across the front of the body, and ends extended low in the follow-through.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.47344,
         "Right Shoulder Front-Back": -1.09346,
@@ -117,7 +117,7 @@
         "raw_value": 0.17934,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward into a deep lunge as the swing is initiated and holds the bent stance through the motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.00546,
         "Left Upper Leg In-Out": 0.2481,
@@ -137,7 +137,7 @@
         "raw_value": 0.16833,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends straight back for balance during the swing and remains planted in the rear during the final pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.08855,
         "Right Upper Leg In-Out": 0.28998,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a clenched fist shape throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.44706,
         "Left Thumb Spread": -1.87772,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a closed fist grip for the entire duration of the swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.9539,
         "Right Thumb Spread": -1.15599,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

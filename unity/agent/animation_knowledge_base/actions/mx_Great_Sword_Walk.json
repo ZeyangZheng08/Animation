@@ -14,7 +14,7 @@
   "duration": 1.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward while holding a two-handed grip in front of the body.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04861,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward and bobs up and down with each step, maintaining a steady orientation.",
       "mean_pose": {
         "Spine Front-Back": -0.52398,
         "Spine Left-Right": 0.1645,
@@ -57,7 +57,7 @@
         "raw_value": 0.02035,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains level and faces straight ahead throughout the walk.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.46467,
         "Neck Tilt Left-Right": -0.19752,
@@ -75,7 +75,7 @@
         "raw_value": 0.04502,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent position at the waist, keeping the hand extended forward to maintain the grip.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.15702,
         "Left Shoulder Front-Back": -1.38422,
@@ -96,7 +96,7 @@
         "raw_value": 0.0286,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent position at the waist, mirroring the left arm to keep the hand extended forward for the grip.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.88056,
         "Right Shoulder Front-Back": -2.24187,
@@ -117,7 +117,7 @@
         "raw_value": 0.17418,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates between lifting the knee to swing forward and extending behind the body to push off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.05377,
         "Left Upper Leg In-Out": 0.15293,
@@ -137,7 +137,7 @@
         "raw_value": 0.16946,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates between lifting the knee to swing forward and extending behind the body to push off the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.03324,
         "Right Upper Leg In-Out": 0.0206,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static, closed fist pose positioned in front of the crotch.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15206,
         "Left Thumb Spread": -0.37832,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static, closed fist pose positioned in front of the crotch.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:38:28Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 5.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A seated figure recoils backward and brings a hand to the head in response to being struck.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04246,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans back sharply away from the impact and then settles into a slight forward hunch.",
       "mean_pose": {
         "Spine Front-Back": -0.19566,
         "Spine Left-Right": -0.05566,
@@ -57,7 +57,7 @@
         "raw_value": 0.20468,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head snaps back with the body's recoil, tilts downward as it recovers, and then lifts up to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.25753,
         "Neck Tilt Left-Right": -0.03249,
@@ -75,7 +75,7 @@
         "raw_value": 0.22366,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is raised high with the elbow bent, keeping the hand positioned near the face throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.21988,
         "Left Shoulder Front-Back": 0.25091,
@@ -96,7 +96,7 @@
         "raw_value": 0.25364,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves outward and down from a resting position on the lap, then returns to the front of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.11508,
         "Right Shoulder Front-Back": 0.04711,
@@ -117,7 +117,7 @@
         "raw_value": 0.0104,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains stationary in a seated position with the knee bent and foot planted on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.53331,
         "Left Upper Leg In-Out": 0.29878,
@@ -137,7 +137,7 @@
         "raw_value": 0.0092,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains stationary in a seated position with the knee bent and foot planted on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.59573,
         "Right Upper Leg In-Out": 0.1288,
@@ -157,7 +157,7 @@
         "raw_value": 0.36457,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open and rests against the side of the head and face.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.84429,
         "Left Thumb Spread": -2.18629,
@@ -189,7 +189,7 @@
         "raw_value": 0.29947,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from the lap out to the side and then back toward the center of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.92935,
         "Right Thumb Spread": -0.62166,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:49:41Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

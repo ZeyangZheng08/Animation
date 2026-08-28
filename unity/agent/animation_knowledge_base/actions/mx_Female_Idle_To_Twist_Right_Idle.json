@@ -14,7 +14,7 @@
   "duration": 2.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a standing idle pose into a twisted stance facing right before returning to the original idle position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03958,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates clockwise (from the viewer's perspective) to face the right side during the middle phase, then rotates counter-clockwise back to the front.",
       "mean_pose": {
         "Spine Front-Back": -0.15812,
         "Spine Left-Right": 0.11899,
@@ -57,7 +57,7 @@
         "raw_value": 0.14796,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the rotation of the torso, turning to look over the right shoulder at the peak of the twist and then returning to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15562,
         "Neck Tilt Left-Right": -0.03401,
@@ -75,7 +75,7 @@
         "raw_value": 0.06452,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings slightly backward and outward as the body twists to the right, keeping the hand relatively close to the hip, before swinging forward to return to the resting position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.09276,
         "Left Shoulder Front-Back": -0.47257,
@@ -96,7 +96,7 @@
         "raw_value": 0.06007,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves slightly forward and inward toward the center of the body during the twist, then returns to hang naturally by the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.00837,
         "Right Shoulder Front-Back": -0.32973,
@@ -117,7 +117,7 @@
         "raw_value": 0.09121,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted with a slight bend in the knee, acting as the pivot point while the hips rotate around it.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.64375,
         "Left Upper Leg In-Out": -0.01244,
@@ -137,7 +137,7 @@
         "raw_value": 0.07933,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg shifts its weight and adjusts its angle slightly to support the body's rotation, bending at the knee to maintain balance during the twist.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.33913,
         "Right Upper Leg In-Out": 0.04741,
@@ -157,7 +157,7 @@
         "raw_value": 0.05878,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains relaxed and open, hanging loosely by the side of the thigh throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.55583,
         "Left Thumb Spread": 0.11018,
@@ -189,7 +189,7 @@
         "raw_value": 0.07954,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed, moving passively with the swing of the upper arm without any gripping motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.89276,
         "Right Thumb Spread": 0.15718,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:36:27Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

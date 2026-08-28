@@ -14,7 +14,7 @@
   "duration": 1.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static kneeling position, leaning forward with both hands extended as if gripping an unseen rifle.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00132,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and tilts slightly to the right in a low, braced stance.",
       "mean_pose": {
         "Spine Front-Back": -0.54174,
         "Spine Left-Right": -0.1736,
@@ -57,7 +57,7 @@
         "raw_value": 0.00239,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward and faces toward the front-right, looking ahead of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.12208,
         "Neck Tilt Left-Right": -0.068,
@@ -75,7 +75,7 @@
         "raw_value": 0.00447,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and bends at the elbow, holding the hand near the center of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.13395,
         "Left Shoulder Front-Back": -0.90831,
@@ -96,7 +96,7 @@
         "raw_value": 0.00376,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches forward across the body with the elbow bent, positioning the hand near the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.05834,
         "Right Shoulder Front-Back": -1.73462,
@@ -117,7 +117,7 @@
         "raw_value": 0.00544,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Kneels on the ground with the knee down and the foot tucked behind the lower leg.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.99788,
         "Left Upper Leg In-Out": 0.39323,
@@ -137,7 +137,7 @@
         "raw_value": 0.00553,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Supports the body weight with the knee bent and the foot planted flat on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.11091,
         "Right Upper Leg In-Out": 0.39717,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open shape positioned in front of the torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21232,
         "Left Thumb Spread": -0.86484,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open shape near the left hand as if supporting a weapon.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.39712,
         "Right Thumb Spread": -1.46676,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:45:27Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

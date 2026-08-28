@@ -14,7 +14,7 @@
   "duration": 4.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure falls backward and to the side, landing on their back before rolling up onto their hands and knees.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15826,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from an upright position into a fall toward the back and left, lying flat on its back before curling forward to rise onto all fours.",
       "mean_pose": {
         "Spine Front-Back": -0.27307,
         "Spine Left-Right": -0.01511,
@@ -57,7 +57,7 @@
         "raw_value": 0.2866,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back during the fall, rests on the floor while the body is supine, and then lowers down as the figure pushes itself up.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00846,
         "Neck Tilt Left-Right": -0.05774,
@@ -75,7 +75,7 @@
         "raw_value": 0.40384,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and outward during the fall, extends beside the body when lying down, and then bends to support the weight of the upper body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.07629,
         "Left Shoulder Front-Back": -0.00426,
@@ -96,7 +96,7 @@
         "raw_value": 0.42447,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm flails upward for balance, lies extended along the ground, and then reaches down to the floor to push the torso up.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.09657,
         "Right Shoulder Front-Back": -0.48075,
@@ -117,7 +117,7 @@
         "raw_value": 0.31927,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg kicks up in the air during the initial fall, stretches out straight on the ground, and then bends at the knee to bring the foot under the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.36182,
         "Left Upper Leg In-Out": 0.18182,
@@ -137,7 +137,7 @@
         "raw_value": 0.33517,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts and tucks during the fall, remains bent on the floor, and then extends slightly to stabilize the kneeling position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.283,
         "Right Upper Leg In-Out": 0.23375,
@@ -157,7 +157,7 @@
         "raw_value": 0.22795,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and raised in the air, touches the ground upon impact, and presses firmly against the floor to assist in standing up.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.92661,
         "Left Thumb Spread": -0.66125,
@@ -189,7 +189,7 @@
         "raw_value": 0.29186,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand waves in the air, rests on the ground beside the torso, and plants on the floor to help lift the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.09083,
         "Right Thumb Spread": 0.53848,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

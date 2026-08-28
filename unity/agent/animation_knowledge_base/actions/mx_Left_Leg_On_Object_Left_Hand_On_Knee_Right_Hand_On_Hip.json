@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static pose with the left leg raised onto an unseen object, resting the left hand on the knee while placing the right hand on the hip.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stationary throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.23564,
         "Spine Left-Right": -0.08069,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward without moving.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03289,
         "Neck Tilt Left-Right": 0.12914,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, holding its position with the forearm angled downward toward the raised leg.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.07184,
         "Left Shoulder Front-Back": -0.36155,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent with the elbow flared outward, keeping the hand positioned against the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.08182,
         "Right Shoulder Front-Back": -1.25588,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is lifted with the thigh raised horizontally and the knee bent, as if resting on a surface.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.62521,
         "Left Upper Leg In-Out": 0.30431,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stands straight and vertical, supporting the full weight of the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.60928,
         "Right Upper Leg In-Out": 0.01581,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand rests flat on top of the left knee.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.98714,
         "Left Thumb Spread": -0.0392,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is placed on the right hip in a static posture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.38412,
         "Right Thumb Spread": -1.15116,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:03Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

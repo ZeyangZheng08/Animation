@@ -14,7 +14,7 @@
   "duration": 2.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure pushes up from a low crouch on the floor to rise into a standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.19995,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rises from a deeply hunched, forward-leaning posture to an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.23893,
         "Spine Left-Right": -0.03303,
@@ -57,7 +57,7 @@
         "raw_value": 0.27803,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head lifts from being tucked down near the knees to a neutral, upright position facing forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.14816,
         "Neck Tilt Left-Right": -0.14102,
@@ -75,7 +75,7 @@
         "raw_value": 0.40387,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends downward toward the ground to support the body's weight before swinging back up to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.55625,
         "Left Shoulder Front-Back": -0.27224,
@@ -96,7 +96,7 @@
         "raw_value": 0.30736,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends downward to brace against the floor and then retracts upward as the body stands.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.12616,
         "Right Shoulder Front-Back": -0.171,
@@ -117,7 +117,7 @@
         "raw_value": 0.25446,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg transitions from a bent, grounded position to straightening out to support the body's full weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.20273,
         "Left Upper Leg In-Out": 0.11573,
@@ -137,7 +137,7 @@
         "raw_value": 0.26688,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg moves from a folded position beneath the body to extending fully and planting firmly on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.0419,
         "Right Upper Leg In-Out": 0.36317,
@@ -157,7 +157,7 @@
         "raw_value": 0.39492,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand presses flat against the floor to provide leverage for the upward motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.09409,
         "Left Thumb Spread": -0.22506,
@@ -189,7 +189,7 @@
         "raw_value": 0.33242,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand places itself on the ground to help push the torso upward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.1236,
         "Right Thumb Spread": -0.54141,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

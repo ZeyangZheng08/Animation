@@ -14,7 +14,7 @@
   "duration": 3.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a crouching jump, springing from the ground and landing back in a low squat.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09463,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward significantly during the initial crouch, straightens up while airborne, and bends forward again to absorb the landing.",
       "mean_pose": {
         "Spine Front-Back": -0.54146,
         "Spine Left-Right": -0.04655,
@@ -57,7 +57,7 @@
         "raw_value": 0.21678,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilted down towards the floor in the crouch, lifts to face forward at the peak of the jump, and drops back down upon landing.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06378,
         "Neck Tilt Left-Right": -0.00521,
@@ -75,7 +75,7 @@
         "raw_value": 0.2454,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends out to the side and slightly forward during the jump, then swings down and tucks inward near the body for the landing.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.10238,
         "Left Shoulder Front-Back": 0.21448,
@@ -96,7 +96,7 @@
         "raw_value": 0.28402,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirrors the left arm by extending outward during the flight phase before swinging down and tucking in as the figure lands.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.36347,
         "Right Shoulder Front-Back": -0.42586,
@@ -117,7 +117,7 @@
         "raw_value": 0.29986,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply to load the jump, extends slightly while in the air, and flexes heavily to cushion the impact on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.32942,
         "Left Upper Leg In-Out": 0.32829,
@@ -137,7 +137,7 @@
         "raw_value": 0.33385,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Crouches low with the knee bent, pushes off into the air, and folds back under the body to stabilize the landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.16319,
         "Right Upper Leg In-Out": 0.32241,
@@ -157,7 +157,7 @@
         "raw_value": 0.01691,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held open with fingers relaxed and extended throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53835,
         "Left Thumb Spread": -0.01876,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Kept open with fingers spread in a loose, static pose.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:35:41Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure falls backward to the left, landing on their back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15435,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans back and rotates to the left, falling until it is flat on the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.28553,
         "Spine Left-Right": -0.12823,
@@ -57,7 +57,7 @@
         "raw_value": 0.41343,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back and turns to the left, following the fall until it rests on the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.08921,
         "Neck Tilt Left-Right": -0.24764,
@@ -75,7 +75,7 @@
         "raw_value": 0.281,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings out to the side and then down, ending extended near the body on the ground.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.81746,
         "Left Shoulder Front-Back": -0.37653,
@@ -96,7 +96,7 @@
         "raw_value": 0.34159,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm drops down toward the floor as the body falls, coming to rest by the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.38574,
         "Right Shoulder Front-Back": 0.34564,
@@ -117,7 +117,7 @@
         "raw_value": 0.1911,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends forward and bends slightly at the knee during the fall, ending bent on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.36136,
         "Left Upper Leg In-Out": 0.14836,
@@ -137,7 +137,7 @@
         "raw_value": 0.25866,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts and tucks under the body before extending out onto the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.24842,
         "Right Upper Leg In-Out": -0.00209,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.35581,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open with fingers slightly curled as it moves down to the ground.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.43626,
         "Right Thumb Spread": -0.17555,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

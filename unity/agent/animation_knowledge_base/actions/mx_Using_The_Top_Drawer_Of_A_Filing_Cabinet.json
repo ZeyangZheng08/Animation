@@ -14,7 +14,7 @@
   "duration": 10.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place, extending both arms forward to pull a drawer open, then retracts them back towards their body.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05321,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains largely upright but leans slightly forward as the arms extend, then returns to a neutral vertical position.",
       "mean_pose": {
         "Spine Front-Back": -0.0414,
         "Spine Left-Right": 0.01135,
@@ -57,7 +57,7 @@
         "raw_value": 0.13804,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays relatively still, facing forward with only minor adjustments to track the movement of the hands.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.19272,
         "Neck Tilt Left-Right": -0.00759,
@@ -75,7 +75,7 @@
         "raw_value": 0.29249,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward from the side of the body with the elbow bent, then pulls back toward the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.35204,
         "Left Shoulder Front-Back": -0.88753,
@@ -96,7 +96,7 @@
         "raw_value": 0.2841,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, reaching out forward to grasp the handle area and drawing back inward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.6359,
         "Right Shoulder Front-Back": -0.76971,
@@ -117,7 +117,7 @@
         "raw_value": 0.07968,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted firmly on the ground, acting as a stable base for the upper body movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.3613,
         "Left Upper Leg In-Out": 0.06917,
@@ -137,7 +137,7 @@
         "raw_value": 0.08437,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays stationary and straight, supporting the weight of the figure throughout the action.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.48138,
         "Right Upper Leg In-Out": -0.09082,
@@ -157,7 +157,7 @@
         "raw_value": 0.3473,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches out flat with fingers extended to simulate gripping a handle, then curls back toward the waist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.48629,
         "Left Thumb Spread": -0.33851,
@@ -189,7 +189,7 @@
         "raw_value": 0.42861,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves forward parallel to the left to grab the imaginary drawer front, then retracts back to the midsection.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.01415,
         "Right Thumb Spread": -0.49581,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:50Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

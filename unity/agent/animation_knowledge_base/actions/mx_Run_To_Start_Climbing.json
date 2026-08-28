@@ -14,7 +14,7 @@
   "duration": 3.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward, then lunges down to assume a low crawling stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.27307,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward while running, then bends sharply downward into a deep crouch as the body lowers toward the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.25232,
         "Spine Left-Right": 0.04571,
@@ -57,7 +57,7 @@
         "raw_value": 0.284,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head faces forward during the run and then drops significantly as the torso bends over for the crawl.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.10479,
         "Neck Tilt Left-Right": 0.03181,
@@ -75,7 +75,7 @@
         "raw_value": 0.3714,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings back during the run, then extends downward and forward to reach for the ground in the final pose.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.38413,
         "Left Shoulder Front-Back": -0.10361,
@@ -96,7 +96,7 @@
         "raw_value": 0.35867,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings forward during the run, then drops down to the side of the body as it transitions into the crouch.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.27825,
         "Right Shoulder Front-Back": -0.23482,
@@ -117,7 +117,7 @@
         "raw_value": 0.31737,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives through the running stride before bending deeply at the knee to lower the body into the squat.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.27242,
         "Left Upper Leg In-Out": 0.55354,
@@ -137,7 +137,7 @@
         "raw_value": 0.29009,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg completes the running cycle and then tucks underneath the body, ending in a bent position near the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.34624,
         "Right Upper Leg In-Out": 0.19531,
@@ -157,7 +157,7 @@
         "raw_value": 0.31529,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and relaxed while running, extending outward as it reaches down to support the crawl.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.7694,
         "Left Thumb Spread": -0.68087,
@@ -189,7 +189,7 @@
         "raw_value": 0.28956,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and relaxed, moving from a swinging position to hanging low by the hip during the descent.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.66269,
         "Right Thumb Spread": -0.31714,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:18Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 4.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is pulled forcefully from a seated position, tumbling backward through the air until landing flat on their back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.24603,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starts in an upright, slightly forward-leaning seated posture, then arches sharply backward as it is pulled, rotating fully to face the sky by the end of the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.32022,
         "Spine Left-Right": -0.01215,
@@ -57,7 +57,7 @@
         "raw_value": 0.33665,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains relatively neutral at first but tilts back significantly, eventually pointing straight up towards the ceiling during the fall.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.16101,
         "Neck Tilt Left-Right": -0.00665,
@@ -75,7 +75,7 @@
         "raw_value": 0.4293,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Begins bent with the hand near the chest or shoulder area, then flails outward and upward as the body loses balance before extending down toward the ground.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.00917,
         "Left Shoulder Front-Back": -0.53519,
@@ -96,7 +96,7 @@
         "raw_value": 0.42815,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts positioned near the lap or side, then swings wildly across the body and outwards to the side during the tumble, ending extended away from the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.00086,
         "Right Shoulder Front-Back": -0.68536,
@@ -117,7 +117,7 @@
         "raw_value": 0.20457,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Initially bent at the knee in a sitting pose, it kicks forward and extends as the figure is yanked backward, ending splayed open on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.3863,
         "Left Upper Leg In-Out": 0.36114,
@@ -137,7 +137,7 @@
         "raw_value": 0.25457,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Starts bent alongside the left leg, then lifts and extends backward in response to the pull, finishing with the leg stretched out flat on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.25547,
         "Right Upper Leg In-Out": 0.31367,
@@ -157,7 +157,7 @@
         "raw_value": 0.31447,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves from a raised position near the upper body to reaching out blindly into the air before dropping toward the floor surface.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.27129,
         "Left Thumb Spread": 0.14086,
@@ -189,7 +189,7 @@
         "raw_value": 0.22558,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Transitions from a lower resting position to flailing upward and outward, fingers spread, as the figure rotates backward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.55907,
         "Right Thumb Spread": 0.60714,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

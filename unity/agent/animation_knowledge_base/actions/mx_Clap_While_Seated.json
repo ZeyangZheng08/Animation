@@ -14,7 +14,7 @@
   "duration": 1.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits on an invisible surface and claps its hands together in front of its chest.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00706,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, upright seated posture with no visible movement or rotation.",
       "mean_pose": {
         "Spine Front-Back": -0.08811,
         "Spine Left-Right": -0.05275,
@@ -57,7 +57,7 @@
         "raw_value": 0.00977,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains still and faces directly forward throughout the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.25158,
         "Neck Tilt Left-Right": 0.04487,
@@ -75,7 +75,7 @@
         "raw_value": 0.06952,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves dynamically, bringing the forearm inward from a slightly open position to strike the right hand at the center of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.71505,
         "Left Shoulder Front-Back": 0.52872,
@@ -96,7 +96,7 @@
         "raw_value": 0.04613,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves dynamically in opposition to the left arm, meeting it in the middle to complete the clap.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.69247,
         "Right Shoulder Front-Back": 0.05019,
@@ -117,7 +117,7 @@
         "raw_value": 0.00274,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays in a static bent position, supporting the seated pose with the foot flat on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.4571,
         "Left Upper Leg In-Out": 0.19023,
@@ -137,7 +137,7 @@
         "raw_value": 0.00342,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static bent position, mirroring the left leg to support the body's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.4649,
         "Right Upper Leg In-Out": 0.1931,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains in a fixed, open-palm shape while traveling toward the center to meet the other hand.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.44481,
         "Left Thumb Spread": -0.37096,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, open-palm orientation as it moves to contact the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.9515,
         "Right Thumb Spread": 0.83049,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:18Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

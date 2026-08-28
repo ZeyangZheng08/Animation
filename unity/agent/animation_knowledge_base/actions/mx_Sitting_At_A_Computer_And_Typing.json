@@ -14,7 +14,7 @@
   "duration": 16.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits and types with both hands, moving its fingers in a rhythmic motion.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.03668,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains seated upright, leaning slightly forward to maintain the typing posture.",
       "mean_pose": {
         "Spine Front-Back": -0.52169,
         "Spine Left-Right": -0.07309,
@@ -57,7 +57,7 @@
         "raw_value": 0.0703,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is held steady and faces forward, looking down at the hands.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.11571,
         "Neck Tilt Left-Right": 0.00511,
@@ -75,7 +75,7 @@
         "raw_value": 0.08589,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, holding the forearm horizontally in front of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.69073,
         "Left Shoulder Front-Back": -0.86074,
@@ -96,7 +96,7 @@
         "raw_value": 0.13213,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow, mirroring the left arm's position for typing.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.81553,
         "Right Shoulder Front-Back": -1.23617,
@@ -117,7 +117,7 @@
         "raw_value": 0.01058,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee, supporting the sitting posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.5774,
         "Left Upper Leg In-Out": 0.23177,
@@ -137,7 +137,7 @@
         "raw_value": 0.01047,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent at the knee, supporting the sitting posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.57987,
         "Right Upper Leg In-Out": 0.17688,
@@ -157,7 +157,7 @@
         "raw_value": 0.17974,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hovers in front of the body, with fingers moving independently as if striking keys.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.61151,
         "Left Thumb Spread": -0.21194,
@@ -189,7 +189,7 @@
         "raw_value": 0.22698,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hovers in front of the body, with fingers moving independently as if striking keys.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.36555,
         "Right Thumb Spread": -0.24178,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:47:27Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a horizontal, mid-air climbing posture to an upright standing position, simulating the motion of jumping down and landing.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12587,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from a flat, horizontal orientation in mid-air to a vertical, upright stance as the body descends.",
       "mean_pose": {
         "Spine Front-Back": -0.10663,
         "Spine Left-Right": -0.01009,
@@ -57,7 +57,7 @@
         "raw_value": 0.16707,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward while the body is horizontal, then lifts upward to face forward as the figure stands up.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.19406,
         "Neck Tilt Left-Right": -0.01603,
@@ -75,7 +75,7 @@
         "raw_value": 0.33465,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward with the hand open during the horizontal phase, then pulls back toward the shoulder area as the body rises.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.48221,
         "Left Shoulder Front-Back": -0.14521,
@@ -96,7 +96,7 @@
         "raw_value": 0.35894,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches out alongside the body in the air, then bends at the elbow and draws inward during the transition to standing.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.08893,
         "Right Shoulder Front-Back": -0.12719,
@@ -117,7 +117,7 @@
         "raw_value": 0.27326,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg trails behind in a bent position during the climb, then extends downward to plant on the ground upon landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.16681,
         "Left Upper Leg In-Out": 0.20886,
@@ -137,7 +137,7 @@
         "raw_value": 0.24137,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the left, moving from a trailing, bent state in the air to a supporting, grounded position in the final pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.14051,
         "Right Upper Leg In-Out": 0.33294,
@@ -157,7 +157,7 @@
         "raw_value": 0.2793,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open and extended forward initially, then retracts slightly as the arm moves closer to the torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.78298,
         "Left Thumb Spread": -0.22261,
@@ -189,7 +189,7 @@
         "raw_value": 0.47004,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and extended near the hip level before moving up and inwards as the figure completes the jump.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.94107,
         "Right Thumb Spread": -0.1542,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:34:13Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

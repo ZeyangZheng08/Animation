@@ -14,7 +14,7 @@
   "duration": 2.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a bent-over stance, executing a short putting stroke by swinging both arms downward and then back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.032,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward at the waist, maintaining a consistent hunched posture throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.19202,
         "Spine Left-Right": 0.0752,
@@ -57,7 +57,7 @@
         "raw_value": 0.03795,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays fixed in a downward tilt, looking toward the floor between the legs.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.11544,
         "Neck Tilt Left-Right": 0.06494,
@@ -75,7 +75,7 @@
         "raw_value": 0.04478,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs down from the shoulder, extending straight to meet the right hand below the hips.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.06209,
         "Left Shoulder Front-Back": -2.00304,
@@ -96,7 +96,7 @@
         "raw_value": 0.04198,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward from the shoulder, joining the left arm in a low position in front of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.37087,
         "Right Shoulder Front-Back": -1.09341,
@@ -117,7 +117,7 @@
         "raw_value": 0.02123,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted with a slight bend at the knee to support the forward-leaning torso.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.09769,
         "Left Upper Leg In-Out": -0.02527,
@@ -137,7 +137,7 @@
         "raw_value": 0.02008,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays stationary on the ground, slightly bent at the knee to balance the stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.10572,
         "Right Upper Leg In-Out": 0.13574,
@@ -157,7 +157,7 @@
         "raw_value": 0.01003,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, relaxed pose with fingers loosely curled together near the knees.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.31877,
         "Left Thumb Spread": -0.22581,
@@ -189,7 +189,7 @@
         "raw_value": 0.01604,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static, open position with fingers spread out next to the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.50589,
         "Right Thumb Spread": 0.67855,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:21Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

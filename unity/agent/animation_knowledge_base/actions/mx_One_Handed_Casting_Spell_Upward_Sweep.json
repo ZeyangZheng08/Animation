@@ -14,7 +14,7 @@
   "duration": 2.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic, one-handed casting motion, sweeping the right arm in a wide upward arc from the side to directly overhead while pivoting on the left foot.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1474,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and bends at the waist during the initial wind-up, then rotates and extends upward as the arm sweeps up.",
       "mean_pose": {
         "Spine Front-Back": -0.25822,
         "Spine Left-Right": -0.00881,
@@ -57,7 +57,7 @@
         "raw_value": 0.25715,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down slightly at the start, then lifts and turns to look up toward the raised hand by the end of the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.29246,
         "Neck Tilt Left-Right": 0.05537,
@@ -75,7 +75,7 @@
         "raw_value": 0.23461,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts bent with the hand near the chest, swings outward and back for balance, and finishes extended out to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.37868,
         "Left Shoulder Front-Back": -0.51791,
@@ -96,7 +96,7 @@
         "raw_value": 0.34541,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Executes the main casting motion, sweeping from a low position on the right side up and across the body to a fully extended overhead finish.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.21911,
         "Right Shoulder Front-Back": -0.72121,
@@ -117,7 +117,7 @@
         "raw_value": 0.18287,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Serves as the pivot point, bending at the knee to absorb the turn and extending straight as the body rises.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.16516,
         "Left Upper Leg In-Out": 0.15762,
@@ -137,7 +137,7 @@
         "raw_value": 0.3093,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward to initiate the movement and plants firmly behind the body to support the final pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.37411,
         "Right Upper Leg In-Out": 0.11557,
@@ -157,7 +157,7 @@
         "raw_value": 0.35207,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open posture throughout the sequence, moving primarily for balance.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.31822,
         "Left Thumb Spread": -0.16286,
@@ -189,7 +189,7 @@
         "raw_value": 0.49357,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open with fingers spread, leading the upward sweep of the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.89305,
         "Right Thumb Spread": -0.01048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:41Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

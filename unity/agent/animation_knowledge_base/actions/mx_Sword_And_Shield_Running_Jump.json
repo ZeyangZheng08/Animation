@@ -14,7 +14,7 @@
   "duration": 0.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a forward running jump, leaping from the ground into a suspended crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11177,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward significantly as it launches off the ground and remains tilted in the air.",
       "mean_pose": {
         "Spine Front-Back": -0.80356,
         "Spine Left-Right": -0.0956,
@@ -57,7 +57,7 @@
         "raw_value": 0.12843,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down to look toward the landing area and stays fixed in that downward angle.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02205,
         "Neck Tilt Left-Right": -0.10186,
@@ -75,7 +75,7 @@
         "raw_value": 0.40151,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings forward from a rear position at the start of the jump and extends out in front while airborne.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.23978,
         "Left Shoulder Front-Back": -0.75998,
@@ -96,7 +96,7 @@
         "raw_value": 0.17684,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts bent near the chest, swings back during the initial leap, then comes forward to balance the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.38032,
         "Right Shoulder Front-Back": -0.84056,
@@ -117,7 +117,7 @@
         "raw_value": 0.21767,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends backward to push off the floor, then bends sharply at the knee to tuck up during the jump.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.56021,
         "Left Upper Leg In-Out": 0.17457,
@@ -137,7 +137,7 @@
         "raw_value": 0.33827,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts high with the knee bent for the takeoff and remains tucked under the body in mid-air.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.18672,
         "Right Upper Leg In-Out": 0.50938,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open pose with fingers slightly curled throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.39567,
         "Left Thumb Spread": 0.22768,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a loosely clenched fist shape near the waist and chest area.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure floats in mid-air, flailing its arms wildly while kicking its legs up and down in a panicked, uncontrolled manner.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03713,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains suspended in the air, tilting slightly forward and back with the momentum of the flailing limbs.",
       "mean_pose": {
         "Spine Front-Back": -0.76679,
         "Spine Left-Right": 0.03522,
@@ -57,7 +57,7 @@
         "raw_value": 0.09006,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head bobs up and down and turns slightly from side to side, reacting to the chaotic movement of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.36984,
         "Neck Tilt Left-Right": -0.09025,
@@ -75,7 +75,7 @@
         "raw_value": 0.198,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings violently from a high position near the head down towards the waist, then back up again.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.44338,
         "Left Shoulder Front-Back": 0.80977,
@@ -96,7 +96,7 @@
         "raw_value": 0.17749,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging broadly from a low position out to the side and upward in a continuous, erratic loop.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.23147,
         "Right Shoulder Front-Back": -0.17822,
@@ -117,7 +117,7 @@
         "raw_value": 0.1984,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg kicks forward and upward, bending at the knee, before dropping back down toward the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.09584,
         "Left Upper Leg In-Out": 0.0558,
@@ -137,7 +137,7 @@
         "raw_value": 0.20594,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends downward and backward, pushing against the empty air, then pulls up to meet the other leg's motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.20041,
         "Right Upper Leg In-Out": -0.03251,
@@ -157,7 +157,7 @@
         "raw_value": 0.08605,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open with fingers spread wide as it whips through the air during the arm's swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.755,
         "Left Thumb Spread": -0.31592,
@@ -189,7 +189,7 @@
         "raw_value": 0.07789,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand also remains open and splayed, emphasizing the frantic nature of the flailing motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.68023,
         "Right Thumb Spread": -0.83898,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

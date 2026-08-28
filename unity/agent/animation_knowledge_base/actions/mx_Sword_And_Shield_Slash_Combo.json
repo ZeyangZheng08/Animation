@@ -14,7 +14,7 @@
   "duration": 3.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a sword and shield slash combo, swinging the right arm in a wide arc while shifting their weight across the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12615,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists sharply to the left during the initial wind-up, then rotates forward through the strike before settling into a slight lean.",
       "mean_pose": {
         "Spine Front-Back": -0.33872,
         "Spine Left-Right": 0.02053,
@@ -57,7 +57,7 @@
         "raw_value": 0.31329,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tracks the movement of the arms, turning to follow the swing from one side to the other.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04977,
         "Neck Tilt Left-Right": 0.06924,
@@ -75,7 +75,7 @@
         "raw_value": 0.46707,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward to the side for balance and swings across the body as the torso rotates.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.15532,
         "Left Shoulder Front-Back": 0.90432,
@@ -96,7 +96,7 @@
         "raw_value": 0.58328,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm raises high overhead in preparation, then drives down and across the body in a powerful slashing motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.03773,
         "Right Shoulder Front-Back": -0.70242,
@@ -117,7 +117,7 @@
         "raw_value": 0.32065,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps out and bends to absorb the momentum of the turn, acting as the pivot point.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.09993,
         "Left Upper Leg In-Out": 0.39856,
@@ -137,7 +137,7 @@
         "raw_value": 0.30416,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind the movement, extending back to counterbalance the forward lunge.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.12739,
         "Right Upper Leg In-Out": 0.63766,
@@ -157,7 +157,7 @@
         "raw_value": 0.50843,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers spread, guiding the arm's extension.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.20625,
         "Left Thumb Spread": -0.43273,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a static, closed fist grip throughout the sequence.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:50:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

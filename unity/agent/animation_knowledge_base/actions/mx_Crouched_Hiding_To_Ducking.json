@@ -14,7 +14,7 @@
   "duration": 1.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a low, crouched position to a slightly higher ducking stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.21509,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and bends at the waist throughout the clip, rising slightly in height as it moves from the initial crouch into the final ducking pose.",
       "mean_pose": {
         "Spine Front-Back": -0.32848,
         "Spine Left-Right": -0.01392,
@@ -57,7 +57,7 @@
         "raw_value": 0.16315,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is tucked down towards the chest and remains bowed throughout the movement, tilting further down as the body shifts.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.25696,
         "Neck Tilt Left-Right": -0.08388,
@@ -75,7 +75,7 @@
         "raw_value": 0.35197,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely at the side with a slight bend in the elbow, staying relatively close to the body during the transition.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.50604,
         "Left Shoulder Front-Back": -0.45183,
@@ -96,7 +96,7 @@
         "raw_value": 0.33205,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings forward and extends outward to the side for balance, reaching out before pulling back toward the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.20612,
         "Right Shoulder Front-Back": 0.08665,
@@ -117,7 +117,7 @@
         "raw_value": 0.15946,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays bent under the body, supporting the weight while shifting slightly forward to stabilize the crouch.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.18005,
         "Left Upper Leg In-Out": 0.2251,
@@ -137,7 +137,7 @@
         "raw_value": 0.18941,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg begins bent and lifts up behind the body, extending backward as the figure settles into the ducking position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.53823,
         "Right Upper Leg In-Out": 0.27721,
@@ -157,7 +157,7 @@
         "raw_value": 0.45082,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed near the thigh, moving minimally with the slight shift of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.97359,
         "Left Thumb Spread": 0.82253,
@@ -189,7 +189,7 @@
         "raw_value": 0.2673,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends outward with fingers spread as the arm reaches forward, then retracts slightly as the arm pulls back.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.9683,
         "Right Thumb Spread": 0.59765,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:44Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

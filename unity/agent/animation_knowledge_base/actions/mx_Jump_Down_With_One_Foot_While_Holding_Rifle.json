@@ -14,7 +14,7 @@
   "duration": 2.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jumps down, landing on one foot and stepping forward to stabilize.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06709,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward in mid-air, then straightens up as the legs extend for the landing.",
       "mean_pose": {
         "Spine Front-Back": -0.09162,
         "Spine Left-Right": -0.00182,
@@ -57,7 +57,7 @@
         "raw_value": 0.11812,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward throughout the jump and remains relatively stable.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.01586,
         "Neck Tilt Left-Right": 0.03473,
@@ -75,7 +75,7 @@
         "raw_value": 0.10377,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, held close to the body near the waist, and moves slightly with the torso's motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.69239,
         "Left Shoulder Front-Back": -0.04963,
@@ -96,7 +96,7 @@
         "raw_value": 0.08754,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward and slightly back from the shoulder to help maintain balance during the jump.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.68585,
         "Right Shoulder Front-Back": -0.2426,
@@ -117,7 +117,7 @@
         "raw_value": 0.17831,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is extended forward with the knee bent, preparing to land first and support the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.00861,
         "Left Upper Leg In-Out": 0.2559,
@@ -137,7 +137,7 @@
         "raw_value": 0.21545,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind, bent at the knee, and swings forward to step down after the initial landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.30743,
         "Right Upper Leg In-Out": 0.19407,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held loosely closed near the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.39671,
         "Left Thumb Spread": -0.87064,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open with fingers spread, extending outwards for balance.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.623,
         "Right Thumb Spread": -1.2899,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

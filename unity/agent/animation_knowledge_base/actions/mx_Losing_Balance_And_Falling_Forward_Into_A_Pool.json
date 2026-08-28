@@ -14,7 +14,7 @@
   "duration": 2.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure loses balance and falls forward into a pool, transitioning from a standing posture to a fully submerged position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12517,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward progressively until it is horizontal in the water.",
       "mean_pose": {
         "Spine Front-Back": -0.20529,
         "Spine Left-Right": 0.03215,
@@ -57,7 +57,7 @@
         "raw_value": 0.2208,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down with the torso as the body pitches forward into the fall.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.20966,
         "Neck Tilt Left-Right": 0.0736,
@@ -75,7 +75,7 @@
         "raw_value": 0.39126,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches out to the side for balance before dropping down towards the water surface.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.25876,
         "Left Shoulder Front-Back": -0.67609,
@@ -96,7 +96,7 @@
         "raw_value": 0.40237,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward to the side initially, then lowers as the body sinks.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.56902,
         "Right Shoulder Front-Back": -0.35202,
@@ -117,7 +117,7 @@
         "raw_value": 0.29711,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts off the ground and extends forward during the fall.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.01095,
         "Left Upper Leg In-Out": -0.01325,
@@ -137,7 +137,7 @@
         "raw_value": 0.3056,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off the ground and follows the left leg into the water.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.0422,
         "Right Upper Leg In-Out": 0.11451,
@@ -157,7 +157,7 @@
         "raw_value": 0.35468,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens and flails slightly while reaching outwards.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.82615,
         "Left Thumb Spread": 0.2293,
@@ -189,7 +189,7 @@
         "raw_value": 0.34201,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves outwards and downwards with the falling motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.77737,
         "Right Thumb Spread": 0.29765,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

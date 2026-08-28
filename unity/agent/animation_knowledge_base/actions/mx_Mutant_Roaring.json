@@ -14,7 +14,7 @@
   "duration": 5.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic, aggressive stance that begins with an energetic pose and transitions into a low, hunched-over crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14056,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso starts in an upright but slightly twisted position, then bends sharply forward and downward to finish in a deeply hunched posture.",
       "mean_pose": {
         "Spine Front-Back": -0.33315,
         "Spine Left-Right": -0.02767,
@@ -57,7 +57,7 @@
         "raw_value": 0.3095,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts upward initially before dropping down significantly as the body crouches, ending with the face pointed toward the ground.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06066,
         "Neck Tilt Left-Right": -0.10343,
@@ -75,7 +75,7 @@
         "raw_value": 0.23109,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a raised, bent position near the chest down to hang loosely by the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.14633,
         "Left Shoulder Front-Back": -0.25959,
@@ -96,7 +96,7 @@
         "raw_value": 0.17176,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves from an extended, outward position at the start to a lowered state, hanging near the thigh in the final pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.08469,
         "Right Shoulder Front-Back": -0.79262,
@@ -117,7 +117,7 @@
         "raw_value": 0.20086,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts high into a kick or step at the beginning, then lowers to become the primary supporting leg in a bent-knee stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.21584,
         "Left Upper Leg In-Out": 0.49414,
@@ -137,7 +137,7 @@
         "raw_value": 0.1886,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg acts as the initial support, stepping forward and bending to settle into a wide, stable lunge position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.06989,
         "Right Upper Leg In-Out": 0.72143,
@@ -157,7 +157,7 @@
         "raw_value": 0.25381,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand transitions from being clenched near the chest to an open, relaxed position hanging by the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.44863,
         "Left Thumb Spread": -1.23156,
@@ -189,7 +189,7 @@
         "raw_value": 0.3132,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from an extended, open grip to a relaxed, slightly curled position resting near the thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.92924,
         "Right Thumb Spread": -0.93469,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

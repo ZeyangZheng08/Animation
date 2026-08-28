@@ -14,7 +14,7 @@
   "duration": 1.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a turning motion to its left while holding an invisible object in front with its right arm.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.00923,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains upright and stable, serving as the anchor for the rotation initiated by the legs.",
       "mean_pose": {
         "Spine Front-Back": -0.29626,
         "Spine Left-Right": -0.04551,
@@ -57,7 +57,7 @@
         "raw_value": 0.01474,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady forward-facing pose relative to the body throughout the turn.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03545,
         "Neck Tilt Left-Right": -0.03859,
@@ -75,7 +75,7 @@
         "raw_value": 0.01536,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays relaxed at the side of the body, hanging loosely with a slight bend at the elbow.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.72457,
         "Left Shoulder Front-Back": -0.99917,
@@ -96,7 +96,7 @@
         "raw_value": 0.02466,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and holds a static carrying posture, simulating the grip on a box.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.97379,
         "Right Shoulder Front-Back": -0.90138,
@@ -117,7 +117,7 @@
         "raw_value": 0.11009,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and rotates inward to pivot the body toward the left.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.67512,
         "Left Upper Leg In-Out": 0.10675,
@@ -137,7 +137,7 @@
         "raw_value": 0.11449,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pivots on the ball of the foot to drive the counter-clockwise rotation of the hips.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.75574,
         "Right Upper Leg In-Out": 0.081,
@@ -157,7 +157,7 @@
         "raw_value": 0.00794,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed near the thigh, moving passively with the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.48719,
         "Left Thumb Spread": 0.74857,
@@ -189,7 +189,7 @@
         "raw_value": 0.00442,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a fixed, grasping shape in front of the chest to represent holding the object.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.5458,
         "Right Thumb Spread": 1.12583,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

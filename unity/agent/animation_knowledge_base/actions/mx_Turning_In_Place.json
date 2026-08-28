@@ -14,7 +14,7 @@
   "duration": 3.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a smooth, continuous 360-degree turn in place, pivoting on its feet.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04258,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rotates fully around the vertical axis to complete a single revolution.",
       "mean_pose": {
         "Spine Front-Back": -0.0658,
         "Spine Left-Right": 0.00453,
@@ -57,7 +57,7 @@
         "raw_value": 0.0352,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns along with the torso, maintaining a consistent forward-facing orientation relative to the body throughout the rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.14197,
         "Neck Tilt Left-Right": -0.02554,
@@ -75,7 +75,7 @@
         "raw_value": 0.02819,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings gently away from the side of the body and then back as the torso rotates.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.53387,
         "Left Shoulder Front-Back": -0.54447,
@@ -96,7 +96,7 @@
         "raw_value": 0.0341,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings gently away from the side of the body and then back as the torso rotates.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.22459,
         "Right Shoulder Front-Back": 0.21117,
@@ -117,7 +117,7 @@
         "raw_value": 0.06234,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pivots on the ball of the foot, rotating the entire leg inwards to drive the turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.35147,
         "Left Upper Leg In-Out": 0.2945,
@@ -137,7 +137,7 @@
         "raw_value": 0.06095,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted as the primary pivot point for the rotation.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.32962,
         "Right Upper Leg In-Out": 0.12997,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open pose at the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.20661,
         "Left Thumb Spread": -0.19789,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open pose at the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.9635,
         "Right Thumb Spread": 0.17302,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:14Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

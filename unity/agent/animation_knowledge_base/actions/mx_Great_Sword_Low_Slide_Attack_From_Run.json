@@ -14,7 +14,7 @@
   "duration": 2.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a low running stride into a forward lunge, swinging their arms down and across in a low sliding attack motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16631,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward significantly during the run, then pitches further forward and dips low to initiate the sliding attack before recovering slightly at the end.",
       "mean_pose": {
         "Spine Front-Back": -0.39014,
         "Spine Left-Right": 0.01928,
@@ -57,7 +57,7 @@
         "raw_value": 0.28813,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward to track the movement, remaining relatively stable and aligned with the torso's forward lean throughout the action.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.18621,
         "Neck Tilt Left-Right": 0.02901,
@@ -75,7 +75,7 @@
         "raw_value": 0.58933,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings backward during the initial run, then drives forcefully forward and down across the body to lead the low slide attack.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.31875,
         "Left Shoulder Front-Back": -1.88709,
@@ -96,7 +96,7 @@
         "raw_value": 0.59097,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves in opposition to the left arm, swinging back during the run and then following through forward and down to complete the two-handed slide motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.24531,
         "Right Shoulder Front-Back": -1.1661,
@@ -117,7 +117,7 @@
         "raw_value": 0.28882,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and bends at the knee to form the front leg of a deep lunge as the figure decelerates into the attack.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.08493,
         "Left Upper Leg In-Out": 0.27744,
@@ -137,7 +137,7 @@
         "raw_value": 0.34583,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trails behind in the run, then plants firmly on the ground and extends straight to support the rear position of the lunge.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.05371,
         "Right Upper Leg In-Out": 0.23683,
@@ -157,7 +157,7 @@
         "raw_value": 0.15702,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and downward, leading the low sliding trajectory of the attack.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.46466,
         "Left Thumb Spread": -1.32413,
@@ -189,7 +189,7 @@
         "raw_value": 0.15028,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Follows closely behind the left hand, completing the downward sweeping motion of the attack.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.481,
         "Right Thumb Spread": -0.31509,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:21Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

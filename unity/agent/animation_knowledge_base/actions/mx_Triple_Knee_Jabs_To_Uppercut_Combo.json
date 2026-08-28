@@ -14,7 +14,7 @@
   "duration": 5.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a martial arts combo, throwing three rapid knee jabs forward before finishing with a high uppercut punch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10414,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward to drive the knees through the sequence and then twists sharply upward as the final punch is thrown.",
       "mean_pose": {
         "Spine Front-Back": -0.34995,
         "Spine Left-Right": -0.00178,
@@ -57,7 +57,7 @@
         "raw_value": 0.26315,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts up slightly during the knee strikes and then rotates further up to follow the trajectory of the final uppercut.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07136,
         "Neck Tilt Left-Right": -0.14668,
@@ -75,7 +75,7 @@
         "raw_value": 0.34716,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent and held close to the body in a guard position throughout the entire movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.11542,
         "Left Shoulder Front-Back": -0.24338,
@@ -96,7 +96,7 @@
         "raw_value": 0.28651,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward for the initial punches and then drives upward into a high uppercut at the end of the clip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.39128,
         "Right Shoulder Front-Back": -0.29438,
@@ -117,7 +117,7 @@
         "raw_value": 0.16438,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground with the knee bent, providing a stable base for the upper body movements.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.04463,
         "Left Upper Leg In-Out": 0.25761,
@@ -137,7 +137,7 @@
         "raw_value": 0.25182,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Repeatedly lifts the knee toward the chest to execute the three consecutive jabs.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.27228,
         "Right Upper Leg In-Out": 0.32267,
@@ -157,7 +157,7 @@
         "raw_value": 0.38976,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a loose fist shape near the chest area while guarding.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.54099,
         "Left Thumb Spread": -0.12344,
@@ -189,7 +189,7 @@
         "raw_value": 0.42062,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Forms a fist that extends forward and then travels upward along with the arm for the uppercut.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.65222,
         "Right Thumb Spread": 0.38236,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

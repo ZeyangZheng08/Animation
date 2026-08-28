@@ -14,7 +14,7 @@
   "duration": 1.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward in a steady gait with arms bent at the elbows.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0366,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bobs slightly up and down and rotates gently from side to side in rhythm with the steps.",
       "mean_pose": {
         "Spine Front-Back": -0.46734,
         "Spine Left-Right": 0.04437,
@@ -57,7 +57,7 @@
         "raw_value": 0.01971,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains held upright and static, facing straight ahead throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.19956,
         "Neck Tilt Left-Right": -0.11405,
@@ -75,7 +75,7 @@
         "raw_value": 0.08034,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings back and forth opposite the legs, maintaining a bent elbow position near the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.04627,
         "Left Shoulder Front-Back": -1.02574,
@@ -96,7 +96,7 @@
         "raw_value": 0.07413,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings back and forth opposite the legs, maintaining a bent elbow position near the waist.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.07123,
         "Right Shoulder Front-Back": 0.16208,
@@ -117,7 +117,7 @@
         "raw_value": 0.16971,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between extending forward and pushing backward to drive the walking motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.29642,
         "Left Upper Leg In-Out": 0.06945,
@@ -137,7 +137,7 @@
         "raw_value": 0.16746,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates between extending forward and pushing backward to drive the walking motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.15224,
         "Right Upper Leg In-Out": 0.04997,
@@ -157,7 +157,7 @@
         "raw_value": 0.0096,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static pose with fingers loosely curled into a fist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21301,
         "Left Thumb Spread": -0.90937,
@@ -189,7 +189,7 @@
         "raw_value": 0.01156,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static pose with fingers loosely curled into a fist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:50:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

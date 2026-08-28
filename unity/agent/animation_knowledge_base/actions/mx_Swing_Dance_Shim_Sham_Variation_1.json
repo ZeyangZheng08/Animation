@@ -14,7 +14,7 @@
   "duration": 24.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a swing dance shim sham, stepping side to side while swaying the torso and swinging the arms in coordination.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07577,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans laterally from side to side with each step, rotating slightly as it shifts weight between the legs.",
       "mean_pose": {
         "Spine Front-Back": -0.31284,
         "Spine Left-Right": 0.01388,
@@ -57,7 +57,7 @@
         "raw_value": 0.24191,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward and turns to follow the direction of the body's lateral movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03305,
         "Neck Tilt Left-Right": -0.00077,
@@ -75,7 +75,7 @@
         "raw_value": 0.32475,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and forward in a loose arc, bending at the elbow as it moves with the rhythm of the steps.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.13711,
         "Left Shoulder Front-Back": 0.2531,
@@ -96,7 +96,7 @@
         "raw_value": 0.29859,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging across the front of the body and extending outward in a fluid motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.10468,
         "Right Shoulder Front-Back": 0.1128,
@@ -117,7 +117,7 @@
         "raw_value": 0.23989,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps out to the side, bending at the knee to absorb the weight before pushing off for the next movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.0814,
         "Left Upper Leg In-Out": 0.11662,
@@ -137,7 +137,7 @@
         "raw_value": 0.21955,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the left, stepping out to the opposite side with a bent-knee stance to maintain balance during the shuffle.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.03348,
         "Right Upper Leg In-Out": 0.23075,
@@ -157,7 +157,7 @@
         "raw_value": 0.02258,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, moving freely with the swing of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.99904,
         "Left Thumb Spread": 0.30798,
@@ -189,7 +189,7 @@
         "raw_value": 0.07138,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed, mirroring the fluid trajectory of the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.20175,
         "Right Thumb Spread": -0.23026,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

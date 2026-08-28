@@ -14,7 +14,7 @@
   "duration": 4.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a Northern Soul dance spin, rotating clockwise while stepping in place with a rhythmic bounce.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06925,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bobs slightly up and down with each step and twists continuously to drive the clockwise spin.",
       "mean_pose": {
         "Spine Front-Back": -0.22805,
         "Spine Left-Right": -0.00383,
@@ -57,7 +57,7 @@
         "raw_value": 0.19051,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively upright but rotates along with the body's spin, keeping its orientation fixed relative to the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01836,
         "Neck Tilt Left-Right": -0.00704,
@@ -75,7 +75,7 @@
         "raw_value": 0.17219,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings across the front of the body during the rotation, bending at the elbow with the hand held loosely.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.64727,
         "Left Shoulder Front-Back": -0.04274,
@@ -96,7 +96,7 @@
         "raw_value": 0.17822,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves in opposition to the left, swinging back and then forward as the body turns, maintaining a relaxed bend.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.65554,
         "Right Shoulder Front-Back": -0.09419,
@@ -117,7 +117,7 @@
         "raw_value": 0.16526,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward and bends at the knee to absorb the weight shift during the spin.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.3091,
         "Left Upper Leg In-Out": 0.00787,
@@ -137,7 +137,7 @@
         "raw_value": 0.16158,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the left, stepping through and bending to maintain the rhythm and balance of the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.15573,
         "Right Upper Leg In-Out": 0.05565,
@@ -157,7 +157,7 @@
         "raw_value": 0.27618,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open and relaxed, moving naturally with the swing of the left arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.23457,
         "Left Thumb Spread": -0.4589,
@@ -189,7 +189,7 @@
         "raw_value": 0.26237,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand mirrors the left, remaining open and loose as it swings with the arm's momentum.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.05895,
         "Right Thumb Spread": -0.46994,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:24Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

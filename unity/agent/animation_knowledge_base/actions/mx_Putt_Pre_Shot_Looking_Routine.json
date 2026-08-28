@@ -14,7 +14,7 @@
   "duration": 12.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a pre-putt routine, starting in an upright stance before bending forward at the waist to look down at the ground while bringing their hands together.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1363,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins in an upright position and then hinges forward from the hips into a deep forward lean, holding the bent-over pose.",
       "mean_pose": {
         "Spine Front-Back": -0.17988,
         "Spine Left-Right": 0.05219,
@@ -57,7 +57,7 @@
         "raw_value": 0.25026,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward, following the movement of the torso to focus its gaze on the floor area in front of the feet.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.08023,
         "Neck Tilt Left-Right": 0.03729,
@@ -75,7 +75,7 @@
         "raw_value": 0.32601,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends slightly forward and down as the body bends, moving from a relaxed position to hang loosely near the knees.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.66034,
         "Left Shoulder Front-Back": -0.68287,
@@ -96,7 +96,7 @@
         "raw_value": 0.34787,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves forward and down alongside the left, coordinating with the torso's descent to bring the hand toward the center of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.78275,
         "Right Shoulder Front-Back": -0.63604,
@@ -117,7 +117,7 @@
         "raw_value": 0.3175,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground, bearing weight with a slight bend at the knee to accommodate the forward lean of the upper body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.22143,
         "Left Upper Leg In-Out": 0.0994,
@@ -137,7 +137,7 @@
         "raw_value": 0.31355,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays firmly on the floor, supporting the lower half of the body while the torso shifts forward over it.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.24806,
         "Right Upper Leg In-Out": 0.14282,
@@ -157,7 +157,7 @@
         "raw_value": 0.30121,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand relaxes and extends downward, ending up positioned near the right hand just above the shins.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.55445,
         "Left Thumb Spread": -0.22901,
@@ -189,7 +189,7 @@
         "raw_value": 0.40284,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches forward and meets the left hand, with both hands hovering close together in front of the legs as if gripping an invisible club.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.74548,
         "Right Thumb Spread": -0.14099,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:36Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

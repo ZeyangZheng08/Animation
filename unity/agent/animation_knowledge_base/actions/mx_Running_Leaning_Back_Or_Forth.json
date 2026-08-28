@@ -14,7 +14,7 @@
   "duration": 0.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs in place while leaning the upper body backward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14019,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward from the waist, tilting away from the direction of travel while bobbing vertically with each stride.",
       "mean_pose": {
         "Spine Front-Back": -0.2021,
         "Spine Left-Right": -0.06247,
@@ -57,7 +57,7 @@
         "raw_value": 0.09129,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts back to align with the arched spine and sways gently side to side with the running rhythm.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03863,
         "Neck Tilt Left-Right": -0.06164,
@@ -75,7 +75,7 @@
         "raw_value": 0.19931,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps forward and back in opposition to the legs, bending at the elbow to keep the hand near chest height.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.30538,
         "Left Shoulder Front-Back": -0.46144,
@@ -96,7 +96,7 @@
         "raw_value": 0.21359,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings opposite to the left arm, driving forward and pulling back through a bent-elbow arc.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.1544,
         "Right Shoulder Front-Back": -0.22906,
@@ -117,7 +117,7 @@
         "raw_value": 0.28603,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward to plant on the ground before kicking backward into a high rear recovery.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.26923,
         "Left Upper Leg In-Out": 0.03988,
@@ -137,7 +137,7 @@
         "raw_value": 0.31527,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates with the left leg, extending forward for foot contact and then lifting up behind the hips.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.20565,
         "Right Upper Leg In-Out": -0.00331,
@@ -157,7 +157,7 @@
         "raw_value": 0.07795,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains loosely clenched as it travels through the pumping arc alongside the torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.66081,
         "Left Thumb Spread": 0.22499,
@@ -189,7 +189,7 @@
         "raw_value": 0.07528,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays loosely closed while swinging in counter-phase with the left hand during the run.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.88726,
         "Right Thumb Spread": 0.14903,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:40Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

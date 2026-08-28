@@ -14,7 +14,7 @@
   "duration": 1.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure moves backward in a low, crouched ninja walk with arms extended forward for balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04628,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans significantly forward over the hips while bobbing up and down with each step.",
       "mean_pose": {
         "Spine Front-Back": -0.53444,
         "Spine Left-Right": -0.03161,
@@ -57,7 +57,7 @@
         "raw_value": 0.05438,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays tucked low, pointing downward toward the ground as it bobs with the torso.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.30427,
         "Neck Tilt Left-Right": 0.01523,
@@ -75,7 +75,7 @@
         "raw_value": 0.03069,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches forward and downward, swinging slightly to counterbalance the leg movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.79725,
         "Left Shoulder Front-Back": -0.34246,
@@ -96,7 +96,7 @@
         "raw_value": 0.0254,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and downward, mirroring the left arm's position to maintain stability.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.77464,
         "Right Shoulder Front-Back": -0.64802,
@@ -117,7 +117,7 @@
         "raw_value": 0.28796,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps backward with bent knees, alternating between supporting weight on the ball of the foot and lifting off.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.75598,
         "Left Upper Leg In-Out": 0.05531,
@@ -137,7 +137,7 @@
         "raw_value": 0.25899,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Moves backward in an alternating rhythm with the left leg, keeping the knees deeply bent.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.71348,
         "Right Upper Leg In-Out": 0.09906,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose with fingers spread wide and curled slightly.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.16921,
         "Left Thumb Spread": -0.36298,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open with fingers spread and curved inward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.14784,
         "Right Thumb Spread": -0.89557,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

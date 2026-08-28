@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lies motionless on its left side on the floor, propping its head up with its left hand.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Held in a static, supine position lying flat on the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.69896,
         "Spine Left-Right": 0.01509,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Rests statically against the left hand, facing upward.",
       "mean_pose": {
         "Neck Nod Down-Up": -1.00429,
         "Neck Tilt Left-Right": 0.54746,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow to support the weight of the head from the ground.",
       "mean_pose": {
         "Left Shoulder Down-Up": 1.44067,
         "Left Shoulder Front-Back": 0.04783,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extended forward along the floor with the hand resting flat.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.82759,
         "Right Shoulder Front-Back": -1.59829,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stretched out straight and flat on the surface.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.15987,
         "Left Upper Leg In-Out": 0.19809,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bent at the knee, resting over the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.13954,
         "Right Upper Leg In-Out": 0.08574,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Placed under the chin to prop up the head.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.80605,
         "Left Thumb Spread": 0.20751,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Resting flat on the floor in front of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.78247,
         "Right Thumb Spread": 0.14633,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:43:13Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

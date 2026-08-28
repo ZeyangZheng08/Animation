@@ -14,7 +14,7 @@
   "duration": 17.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a clean and jerk exercise, transitioning from a deep squat to an overhead press while stepping into a lunge.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10461,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins in a deeply flexed position during the squat, extends upward as the figure stands, and maintains an upright posture during the overhead lift.",
       "mean_pose": {
         "Spine Front-Back": -0.31776,
         "Spine Left-Right": 0.02516,
@@ -57,7 +57,7 @@
         "raw_value": 0.2035,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays tucked near the chest during the initial squat phase and then tilts slightly upward as the arms are raised overhead.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.52087,
         "Neck Tilt Left-Right": 0.06783,
@@ -75,7 +75,7 @@
         "raw_value": 0.4447,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs down in front of the body during the squat and then swings forcefully upward to finish extended straight above the shoulder.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.37173,
         "Left Shoulder Front-Back": -0.45029,
@@ -96,7 +96,7 @@
         "raw_value": 0.47579,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, starting at the side of the body in the squat before driving up to lock out fully overhead.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.7942,
         "Right Shoulder Front-Back": -0.45324,
@@ -117,7 +117,7 @@
         "raw_value": 0.28666,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg starts bent in a low squat position, straightens to support the body's weight, and then steps forward into a wide lunge stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.24189,
         "Left Upper Leg In-Out": 0.20338,
@@ -137,7 +137,7 @@
         "raw_value": 0.31207,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends with the body in the squat, extends to stand tall, and then moves backward into a deep lunge position behind the hips.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.1261,
         "Right Upper Leg In-Out": 0.14398,
@@ -157,7 +157,7 @@
         "raw_value": 0.32929,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the side during the crouch before extending upward with fingers spread high above the head.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.64239,
         "Left Thumb Spread": -0.70087,
@@ -189,7 +189,7 @@
         "raw_value": 0.29955,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open near the thigh during the squat and then reaches up to join the left hand in a locked-out overhead position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": 0.06934,
         "Right Thumb Spread": -1.29057,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:18Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

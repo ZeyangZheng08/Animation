@@ -14,7 +14,7 @@
   "duration": 6.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure maintains a low, crouched stance while swaying its upper body and head to look around.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18812,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a deep squat, twisting slightly from side to side as the figure shifts its weight.",
       "mean_pose": {
         "Spine Front-Back": -0.28307,
         "Spine Left-Right": 0.11592,
@@ -57,7 +57,7 @@
         "raw_value": 0.41428,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns continuously to the left and right, scanning the surroundings from different angles.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.16733,
         "Neck Tilt Left-Right": -0.39153,
@@ -75,7 +75,7 @@
         "raw_value": 0.45511,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow with the hand held near the hip, moving subtly to balance the torso's sway.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.24679,
         "Left Shoulder Front-Back": -0.46244,
@@ -96,7 +96,7 @@
         "raw_value": 0.24814,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward and upward, reaching high above the shoulder before lowering back down.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.75021,
         "Right Shoulder Front-Back": -0.70461,
@@ -117,7 +117,7 @@
         "raw_value": 0.3269,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the knee in a stable squat position, supporting the front of the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.63278,
         "Left Upper Leg In-Out": 0.43271,
@@ -137,7 +137,7 @@
         "raw_value": 0.33506,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Keeps the knee deeply flexed to maintain the low crouch, adjusting slightly to support the shifting center of gravity.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.56804,
         "Right Upper Leg In-Out": 0.05623,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, relaxed pose near the waist with fingers loosely curled.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41852,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.17786,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves dynamically along with the arm, extending outward and upward before returning toward the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.62996,
         "Right Thumb Spread": 0.05702,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:34Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

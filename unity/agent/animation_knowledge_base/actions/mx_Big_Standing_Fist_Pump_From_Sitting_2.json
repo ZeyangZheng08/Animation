@@ -14,7 +14,7 @@
   "duration": 3.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a seated position to a standing one, pumping its right fist upward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10173,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso extends vertically to stand upright, leaning slightly forward during the rise and straightening as it reaches full height.",
       "mean_pose": {
         "Spine Front-Back": -0.12109,
         "Spine Left-Right": -0.04395,
@@ -57,7 +57,7 @@
         "raw_value": 0.11146,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down while seated, lifts up as the body stands, and looks forward once fully upright.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.23588,
         "Neck Tilt Left-Right": -0.00533,
@@ -75,7 +75,7 @@
         "raw_value": 0.32039,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm rests on the knee while seated, then swings back and down to hang loosely at the side of the body when standing.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.25682,
         "Left Shoulder Front-Back": -0.76406,
@@ -96,7 +96,7 @@
         "raw_value": 0.38149,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm starts resting on the knee, then bends and pumps upward into a fist before lowering back to the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.61277,
         "Right Shoulder Front-Back": 0.17068,
@@ -117,7 +117,7 @@
         "raw_value": 0.21432,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends from a bent sitting position to a straight standing posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.10146,
         "Left Upper Leg In-Out": 0.24476,
@@ -137,7 +137,7 @@
         "raw_value": 0.21453,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends from a bent sitting position to a straight standing posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.131,
         "Right Upper Leg In-Out": 0.14609,
@@ -157,7 +157,7 @@
         "raw_value": 0.52714,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and rests on the thigh while seated, then drops down to hang by the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.52192,
         "Left Thumb Spread": -0.13018,
@@ -189,7 +189,7 @@
         "raw_value": 0.5761,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open on the thigh while seated, clenches into a fist for the pump, and opens again at the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.39396,
         "Right Thumb Spread": -0.02349,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

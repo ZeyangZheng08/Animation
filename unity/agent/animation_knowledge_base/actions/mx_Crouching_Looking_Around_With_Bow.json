@@ -14,7 +14,7 @@
   "duration": 5.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure crouches low in a wide stance and looks around by turning its head from side to side.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06239,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso maintains a deep, forward-leaning crouch throughout the clip, staying mostly stable while tilting slightly to follow the direction of the head turns.",
       "mean_pose": {
         "Spine Front-Back": -0.06228,
         "Spine Left-Right": 0.02644,
@@ -57,7 +57,7 @@
         "raw_value": 0.41277,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head swivels significantly to look around, starting facing right, turning toward the front at the midpoint, and ending by looking back to the left.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00215,
         "Neck Tilt Left-Right": -0.20923,
@@ -75,7 +75,7 @@
         "raw_value": 0.07834,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely down and slightly forward from the shoulder, with the elbow bent to keep the hand hovering near the thigh.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.62989,
         "Left Shoulder Front-Back": -0.17204,
@@ -96,7 +96,7 @@
         "raw_value": 0.1105,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is held out to the side and slightly forward with a bent elbow, keeping the hand positioned near the right knee.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.58213,
         "Right Shoulder Front-Back": -0.46179,
@@ -117,7 +117,7 @@
         "raw_value": 0.04472,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent deeply at the knee in a squat position, supporting the body's weight on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.85137,
         "Left Upper Leg In-Out": 0.93082,
@@ -137,7 +137,7 @@
         "raw_value": 0.08231,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left in a deep crouch, with the knee bent outward to form a wide, stable base.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.7661,
         "Right Upper Leg In-Out": 0.82619,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains static, hanging relaxed and open near the left knee.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.7285,
         "Left Thumb Spread": -1.28332,
@@ -189,7 +189,7 @@
         "raw_value": 0.15185,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays relatively still, held open and relaxed just above the right knee.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.37663,
         "Right Thumb Spread": -0.62517,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

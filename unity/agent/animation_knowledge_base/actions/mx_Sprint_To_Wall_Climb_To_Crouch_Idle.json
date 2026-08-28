@@ -14,7 +14,7 @@
   "duration": 1.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sprints forward, launches into a jump with arms extended upward, and lands in a deep crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15082,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans sharply forward during the sprint, extends vertically during the airborne phase, and bends deeply at the waist to settle into the final crouch.",
       "mean_pose": {
         "Spine Front-Back": -0.13927,
         "Spine Left-Right": 0.03337,
@@ -57,7 +57,7 @@
         "raw_value": 0.16765,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts slightly downward while running, lifts up toward the sky during the jump, and drops back down as the body lowers into the crouch.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11396,
         "Neck Tilt Left-Right": -0.09915,
@@ -75,7 +75,7 @@
         "raw_value": 0.44556,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps backward in opposition to the legs while sprinting, swings high above the head during the jump, and reaches forward and down to finish the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.38576,
         "Left Shoulder Front-Back": -0.49858,
@@ -96,7 +96,7 @@
         "raw_value": 0.47028,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Drives forward and then back during the run, extends upward alongside the left arm in mid-air, and reaches out to the side to stabilize the landing.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.2943,
         "Right Shoulder Front-Back": -0.67485,
@@ -117,7 +117,7 @@
         "raw_value": 0.32624,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward and tucks backward in a running stride, bends high beneath the body during the jump, and plants firmly on the ground in a deep bend for the crouch.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.47875,
         "Left Upper Leg In-Out": 0.47449,
@@ -137,7 +137,7 @@
         "raw_value": 0.3526,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off the ground and trails behind during the sprint, follows the left leg into a bent position in the air, and supports the weight of the body in the final squat.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.29433,
         "Right Upper Leg In-Out": 0.19396,
@@ -157,7 +157,7 @@
         "raw_value": 0.4165,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches into a fist while pumping during the sprint, opens and reaches upward during the jump, and extends outward to balance the crouch.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.24985,
         "Left Thumb Spread": 0.03135,
@@ -189,7 +189,7 @@
         "raw_value": 0.43495,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Forms a fist while driving the arm during the run, opens its fingers to reach for the sky in the air, and extends to the side to maintain balance upon landing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.98105,
         "Right Thumb Spread": 0.08479,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

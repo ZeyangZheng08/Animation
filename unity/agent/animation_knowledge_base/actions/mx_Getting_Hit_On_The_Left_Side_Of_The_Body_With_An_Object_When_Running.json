@@ -14,7 +14,7 @@
   "duration": 2.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A figure runs forward, reacts to a hit on the left side by throwing their right arm up and leaning away, then recovers to continue running.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16354,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso maintains an upright running posture, leans sharply to the right at mid-clip in reaction to the impact, and then straightens back out to resume the run.",
       "mean_pose": {
         "Spine Front-Back": -0.27042,
         "Spine Left-Right": -0.03448,
@@ -57,7 +57,7 @@
         "raw_value": 0.26304,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays relatively stable during the initial run, turns slightly to the right and dips as the body recoils from the hit, and then levels out again.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0223,
         "Neck Tilt Left-Right": 0.03323,
@@ -75,7 +75,7 @@
         "raw_value": 0.39491,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally at the side during the run, drops down and back for balance during the recoil, and then resumes its pumping motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.85076,
         "Left Shoulder Front-Back": -0.67725,
@@ -96,7 +96,7 @@
         "raw_value": 0.37582,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow while running, shoots upward with an open hand to brace against the impact, and then lowers back down into the running cycle.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.70355,
         "Right Shoulder Front-Back": -0.95905,
@@ -117,7 +117,7 @@
         "raw_value": 0.2833,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives through the running gait, stepping forward and supporting the weight of the body as it shifts away from the blow.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.18277,
         "Left Upper Leg In-Out": 0.07286,
@@ -137,7 +137,7 @@
         "raw_value": 0.3064,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left in the running stride, lifting the knee high to maintain forward momentum throughout the sequence.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.02245,
         "Right Upper Leg In-Out": -0.09951,
@@ -157,7 +157,7 @@
         "raw_value": 0.47405,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains loosely clenched near the hip while running, moves outward and downward for balance during the hit, and returns to the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.1184,
         "Left Thumb Spread": -0.05438,
@@ -189,7 +189,7 @@
         "raw_value": 0.45249,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a loose fist during the run, opens wide as the arm raises to block or react to the strike, and closes again as it lowers.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.04131,
         "Right Thumb Spread": -0.03124,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:37:59Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

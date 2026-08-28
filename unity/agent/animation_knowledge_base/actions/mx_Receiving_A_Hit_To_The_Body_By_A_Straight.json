@@ -14,7 +14,7 @@
   "duration": 1.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure reels backward in pain, clutching its midsection after taking a hit.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16948,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and hunches down at the waist, then straightens back up to an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.32006,
         "Spine Left-Right": -0.04029,
@@ -57,7 +57,7 @@
         "raw_value": 0.23927,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the chest as the torso bends, then lifts back up to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.21118,
         "Neck Tilt Left-Right": 0.02647,
@@ -75,7 +75,7 @@
         "raw_value": 0.22411,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose with the elbow bent and the hand resting against the stomach area.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.06211,
         "Left Shoulder Front-Back": -0.20379,
@@ -96,7 +96,7 @@
         "raw_value": 0.2133,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose with the elbow bent and the hand held out slightly in front of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.34568,
         "Right Shoulder Front-Back": -1.51309,
@@ -117,7 +117,7 @@
         "raw_value": 0.10466,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground while bending at the knee to lower the body's center of gravity.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.09651,
         "Left Upper Leg In-Out": 0.1912,
@@ -137,7 +137,7 @@
         "raw_value": 0.12542,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee to support the forward lean, then straightens as the torso rises.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.03359,
         "Right Upper Leg In-Out": 0.50196,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains clenched into a fist pressed flat against the abdomen.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, loosely open position at the side of the upper torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

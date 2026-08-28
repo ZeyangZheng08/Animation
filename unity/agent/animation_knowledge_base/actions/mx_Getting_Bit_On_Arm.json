@@ -14,7 +14,7 @@
   "duration": 4.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure crouches down and reaches out to grab a small object from the ground, then lifts it up to inspect.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07385,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a deep crouch at the start, remains bent over while reaching for the object, and straightens up slightly as the item is lifted.",
       "mean_pose": {
         "Spine Front-Back": -0.14473,
         "Spine Left-Right": -0.02188,
@@ -57,7 +57,7 @@
         "raw_value": 0.31399,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down to focus on the ground during the reach, then raises its gaze to look at the object in the hand.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06421,
         "Neck Tilt Left-Right": -0.24282,
@@ -75,7 +75,7 @@
         "raw_value": 0.42897,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely by the side with the elbow slightly bent, remaining mostly still throughout the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.08587,
         "Left Shoulder Front-Back": -0.28983,
@@ -96,7 +96,7 @@
         "raw_value": 0.43185,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down toward the floor to grasp the object, then pulls upward to bring it up to chest level.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.04825,
         "Right Shoulder Front-Back": -1.31479,
@@ -117,7 +117,7 @@
         "raw_value": 0.17282,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground, bending at the knee to support the body's low stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.23493,
         "Left Upper Leg In-Out": -0.04808,
@@ -137,7 +137,7 @@
         "raw_value": 0.21969,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply at the hip and knee to lower the body, then extends to help stand up.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.21565,
         "Right Upper Leg In-Out": 0.39665,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed, hovering near the left thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.87179,
         "Left Thumb Spread": -1.26298,
@@ -189,7 +189,7 @@
         "raw_value": 0.21591,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens its fingers to pick up the object from the floor, closes to secure the grip, and holds it up for viewing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.26018,
         "Right Thumb Spread": -1.46172,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:37:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

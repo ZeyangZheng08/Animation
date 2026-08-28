@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stumbles backward in a flinch, bowing deeply and turning to the right as if reacting to a hit.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09638,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists sharply to the figure's right while leaning forward into a deep bow, then straightens up.",
       "mean_pose": {
         "Spine Front-Back": -0.41134,
         "Spine Left-Right": -0.09399,
@@ -57,7 +57,7 @@
         "raw_value": 0.25377,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns toward the figure's right shoulder and drops down into the bow before lifting back up.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.19507,
         "Neck Tilt Left-Right": -0.12322,
@@ -75,7 +75,7 @@
         "raw_value": 0.17653,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings out to the side for balance during the turn and then lowers back down.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.67794,
         "Left Shoulder Front-Back": -0.14946,
@@ -96,7 +96,7 @@
         "raw_value": 0.21434,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward to the front-right to help steady the body, then pulls back in toward the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.52083,
         "Right Shoulder Front-Back": -0.53695,
@@ -117,7 +117,7 @@
         "raw_value": 0.11289,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps back to catch the weight of the stumble and bends to absorb the impact.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.00492,
         "Left Upper Leg In-Out": 0.50054,
@@ -137,7 +137,7 @@
         "raw_value": 0.16021,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg shifts its weight and bends slightly as the body moves over it.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.3443,
         "Right Upper Leg In-Out": 0.34574,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the end of the swinging arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.08857,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a loose fist as the arm extends and retracts.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.37689,
         "Right Thumb Spread": -0.62523,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:39:00Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

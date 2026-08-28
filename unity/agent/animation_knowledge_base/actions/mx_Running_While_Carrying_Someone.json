@@ -14,7 +14,7 @@
   "duration": 1.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward in a steady pace with both arms bent and held close to the body.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07124,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward, maintaining an upright posture while bouncing vertically with each running stride.",
       "mean_pose": {
         "Spine Front-Back": -0.00551,
         "Spine Left-Right": -0.00101,
@@ -57,7 +57,7 @@
         "raw_value": 0.0496,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces straight ahead, remaining stable above the shoulders throughout the motion.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00261,
         "Neck Tilt Left-Right": 0.10614,
@@ -75,7 +75,7 @@
         "raw_value": 0.06258,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow and held high near the chest, swinging backward as the right leg drives forward.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.26907,
         "Left Shoulder Front-Back": 0.08801,
@@ -96,7 +96,7 @@
         "raw_value": 0.06129,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow and held high near the chest, swinging backward as the left leg drives forward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.22653,
         "Right Shoulder Front-Back": -0.40996,
@@ -117,7 +117,7 @@
         "raw_value": 0.22071,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends backward into a deep lunge, with the heel raised off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.15679,
         "Left Upper Leg In-Out": 0.03794,
@@ -137,7 +137,7 @@
         "raw_value": 0.22827,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward and bends at the knee, lifting the foot high during the swing phase.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.18512,
         "Right Upper Leg In-Out": -0.01676,
@@ -157,7 +157,7 @@
         "raw_value": 0.02468,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenched into a loose fist, held up at chest level.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.51206,
         "Left Thumb Spread": 0.44056,
@@ -189,7 +189,7 @@
         "raw_value": 0.09631,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenched into a loose fist, held up at chest level.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.61709,
         "Right Thumb Spread": -0.38366,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:53Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

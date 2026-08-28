@@ -14,7 +14,7 @@
   "duration": 2.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A figure sits on the ground, leaning back on their hands and swinging both legs forward in a rhythmic motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02168,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans backward at an angle, supported by the arms, with slight vertical shifts as the body balances.",
       "mean_pose": {
         "Spine Front-Back": -0.49248,
         "Spine Left-Right": -0.01824,
@@ -57,7 +57,7 @@
         "raw_value": 0.14396,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains upright and faces forward, following the general orientation of the leaning torso.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.18873,
         "Neck Tilt Left-Right": -0.06382,
@@ -75,7 +75,7 @@
         "raw_value": 0.04415,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends downward and slightly behind to support the upper body, holding a relatively static position.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.4214,
         "Left Shoulder Front-Back": 0.23799,
@@ -96,7 +96,7 @@
         "raw_value": 0.05595,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends downward and slightly behind to support the upper body, mirroring the left arm's stance.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.34101,
         "Right Shoulder Front-Back": -1.70646,
@@ -117,7 +117,7 @@
         "raw_value": 0.23051,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg swings forward and up from a bent position, extending outward as part of the swinging motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.01682,
         "Left Upper Leg In-Out": 0.02874,
@@ -137,7 +137,7 @@
         "raw_value": 0.21515,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg swings forward and up from a bent position, moving in coordination with the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.01099,
         "Right Upper Leg In-Out": 0.03182,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is placed flat on the floor behind the body, providing a stable base of support.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.05068,
         "Left Thumb Spread": 0.39689,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is placed flat on the floor behind the body, providing a stable base of support.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.21828,
         "Right Thumb Spread": 0.53914,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:18Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

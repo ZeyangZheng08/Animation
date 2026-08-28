@@ -14,7 +14,7 @@
   "duration": 1.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure drops from a standing position to the floor, transitioning into a low crouch with hands on the ground.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.23022,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers significantly from an upright stance to a deep crouch, bending forward as it descends toward the floor.",
       "mean_pose": {
         "Spine Front-Back": -1.00544,
         "Spine Left-Right": 0.07973,
@@ -57,7 +57,7 @@
         "raw_value": 0.1669,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward and tucks slightly as the body lowers, maintaining focus on the ground during the transition.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01064,
         "Neck Tilt Left-Right": -0.04024,
@@ -75,7 +75,7 @@
         "raw_value": 0.49976,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings down from a raised position to extend straight out, pressing the hand against the floor for support.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.74162,
         "Left Shoulder Front-Back": -1.42349,
@@ -96,7 +96,7 @@
         "raw_value": 0.40656,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves downward across the body, ending in a bent position held close to the chest or hip area.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.01315,
         "Right Shoulder Front-Back": -1.62001,
@@ -117,7 +117,7 @@
         "raw_value": 0.26832,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee to lower the body, extending outward to form the base of the crouched pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.00984,
         "Left Upper Leg In-Out": 0.20913,
@@ -137,7 +137,7 @@
         "raw_value": 0.29945,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg folds tightly beneath the body, with the foot tucked near the hip to maintain balance in the low position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.41146,
         "Right Upper Leg In-Out": 0.17119,
@@ -157,7 +157,7 @@
         "raw_value": 0.17456,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends downward until the fingers make contact with the floor, supporting the weight of the upper body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.42819,
         "Left Thumb Spread": -0.51139,
@@ -189,7 +189,7 @@
         "raw_value": 0.36544,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains off the ground, held up near the midsection with fingers relaxed and curled.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.05648,
         "Right Thumb Spread": -0.17899,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:42Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

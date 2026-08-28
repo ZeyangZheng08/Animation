@@ -14,7 +14,7 @@
   "duration": 1.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a crouched 45-degree turn to the right, pivoting on its feet while maintaining a low stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02703,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains bent forward at the waist and rotates clockwise from facing front to facing right.",
       "mean_pose": {
         "Spine Front-Back": -0.44457,
         "Spine Left-Right": -0.00953,
@@ -57,7 +57,7 @@
         "raw_value": 0.07183,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays tilted down toward the knees throughout the rotation of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09223,
         "Neck Tilt Left-Right": -0.03714,
@@ -75,7 +75,7 @@
         "raw_value": 0.05848,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely by the side with the elbow slightly bent, moving in sync with the torso's turn.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.26336,
         "Left Shoulder Front-Back": -1.33521,
@@ -96,7 +96,7 @@
         "raw_value": 0.05798,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is held similarly to the left, hanging loosely with a slight bend at the elbow as the body rotates.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.20763,
         "Right Shoulder Front-Back": -0.95627,
@@ -117,7 +117,7 @@
         "raw_value": 0.09172,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg serves as the pivot point, staying planted with the knee bent to maintain the low crouch.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.02143,
         "Left Upper Leg In-Out": 0.42426,
@@ -137,7 +137,7 @@
         "raw_value": 0.12376,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee and shifts position to support the weight during the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.06992,
         "Right Upper Leg In-Out": 0.37999,
@@ -157,7 +157,7 @@
         "raw_value": 0.03424,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed near the thigh, following the body's movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.74724,
         "Left Thumb Spread": -1.46398,
@@ -189,7 +189,7 @@
         "raw_value": 0.04026,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed near the thigh, mirroring the left hand's position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.55724,
         "Right Thumb Spread": -1.80116,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:43:13Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

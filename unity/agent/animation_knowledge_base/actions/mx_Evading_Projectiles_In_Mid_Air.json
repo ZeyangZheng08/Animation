@@ -14,7 +14,7 @@
   "duration": 3.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a high, horizontal mid-air dive to evade an unseen threat, rotating their body sideways before landing on one foot and recovering.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12166,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from the starting crouch, rotates horizontally sideways during the peak of the jump, and tilts down again as it lands and recovers.",
       "mean_pose": {
         "Spine Front-Back": -0.04679,
         "Spine Left-Right": 0.01189,
@@ -57,7 +57,7 @@
         "raw_value": 0.19381,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tucks downward with the initial lean, stays level with the horizontal torso during the mid-air rotation, and drops low again upon landing.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.15508,
         "Neck Tilt Left-Right": -0.16066,
@@ -75,7 +75,7 @@
         "raw_value": 0.37493,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward for balance during the horizontal leap, then swings down toward the ground to assist in the recovery.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.23265,
         "Left Shoulder Front-Back": -0.5939,
@@ -96,7 +96,7 @@
         "raw_value": 0.34286,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches out alongside the body in mid-air, then bends at the elbow and draws back across the chest as the figure stabilizes.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.13571,
         "Right Shoulder Front-Back": -0.54449,
@@ -117,7 +117,7 @@
         "raw_value": 0.29296,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives upward to launch the body into the air, extends straight through the horizontal flip, and lands first to absorb the impact.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.21396,
         "Left Upper Leg In-Out": 0.24939,
@@ -137,7 +137,7 @@
         "raw_value": 0.27429,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trails behind during the ascent, tucks up under the body while airborne, and kicks back for balance after the left leg lands.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.16261,
         "Right Upper Leg In-Out": 0.30608,
@@ -157,7 +157,7 @@
         "raw_value": 0.31005,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide during the leap and reaches down toward the floor to help steady the landing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.24602,
         "Left Thumb Spread": 0.02255,
@@ -189,7 +189,7 @@
         "raw_value": 0.21355,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open and extended during the dive, then curls inward near the waist as the figure stands back up.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.20935,
         "Right Thumb Spread": -0.00125,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

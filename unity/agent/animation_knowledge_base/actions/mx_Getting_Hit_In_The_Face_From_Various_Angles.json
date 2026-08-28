@@ -14,7 +14,7 @@
   "duration": 5.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure reacts to a sudden impact by flinching backward, raising their arms to guard their face, and staggering on bent knees.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0681,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward initially, then recoils sharply backward with a slight twist before settling into a hunched, defensive posture.",
       "mean_pose": {
         "Spine Front-Back": -0.43984,
         "Spine Left-Right": 0.15802,
@@ -57,7 +57,7 @@
         "raw_value": 0.12988,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Starts facing forward, snaps back and down in reaction to the hit, and remains tilted downward throughout the sequence.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.16144,
         "Neck Tilt Left-Right": 0.18146,
@@ -75,7 +75,7 @@
         "raw_value": 0.13197,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from a low position up toward the chest and face, bending at the elbow to form a protective barrier.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.21687,
         "Left Shoulder Front-Back": -0.02382,
@@ -96,7 +96,7 @@
         "raw_value": 0.15372,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Lifts quickly from the side of the body to join the left arm in a high guard near the head.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.07558,
         "Right Shoulder Front-Back": -0.64649,
@@ -117,7 +117,7 @@
         "raw_value": 0.06265,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays relatively planted while bending the knee to absorb the shock of the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.14318,
         "Left Upper Leg In-Out": 0.35686,
@@ -137,7 +137,7 @@
         "raw_value": 0.07095,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Shifts weight backward, extending slightly to maintain balance as the upper body leans away.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.5032,
         "Right Upper Leg In-Out": 0.21928,
@@ -157,7 +157,7 @@
         "raw_value": 0.28072,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches into a fist and moves upward alongside the forearm to protect the jaw area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.94633,
         "Left Thumb Spread": -0.3421,
@@ -189,7 +189,7 @@
         "raw_value": 0.41335,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curls into a fist and rises to meet the other hand in front of the face.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.50982,
         "Right Thumb Spread": -0.22798,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a two-handed power-up, raising their arms from the sides of their body to grip an object in front of them before lowering it back down.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07145,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins upright, leans slightly forward as the arms are raised, and returns to an upright position at the end.",
       "mean_pose": {
         "Spine Front-Back": -0.03332,
         "Spine Left-Right": -0.00725,
@@ -57,7 +57,7 @@
         "raw_value": 0.16231,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts up to look at the hands during the peak of the motion and then returns to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.13202,
         "Neck Tilt Left-Right": -0.10162,
@@ -75,7 +75,7 @@
         "raw_value": 0.34907,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent at the side, raises up and across the body to meet the right hand, and then lowers back to the starting position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.84899,
         "Left Shoulder Front-Back": 0.4133,
@@ -96,7 +96,7 @@
         "raw_value": 0.32637,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves in sync with the left, lifting from the side to join the grip in front of the chest before returning down.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.70381,
         "Right Shoulder Front-Back": 0.4401,
@@ -117,7 +117,7 @@
         "raw_value": 0.14173,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg maintains a wide, stable stance with a slight bend throughout the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.25086,
         "Left Upper Leg In-Out": 0.57561,
@@ -137,7 +137,7 @@
         "raw_value": 0.13487,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg holds a matching wide stance, providing a solid base for the upper body action.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.45804,
         "Right Upper Leg In-Out": 0.51011,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21301,
         "Left Thumb Spread": -0.90937,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and loose, resting near the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

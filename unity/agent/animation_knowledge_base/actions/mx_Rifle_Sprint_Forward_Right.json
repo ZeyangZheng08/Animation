@@ -14,7 +14,7 @@
   "duration": 0.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sprints forward with a rhythmic gait while holding an invisible rifle in a two-handed ready position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14832,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into the sprint, swaying slightly side to side in rhythm with the leg movements.",
       "mean_pose": {
         "Spine Front-Back": -0.35915,
         "Spine Left-Right": -0.05925,
@@ -57,7 +57,7 @@
         "raw_value": 0.12563,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward in the direction of travel, tilting down slightly as if aiming or focusing.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.05904,
         "Neck Tilt Left-Right": -0.02617,
@@ -75,7 +75,7 @@
         "raw_value": 0.22236,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow, extending forward to hold the front of the weapon, moving up and down with the running stride.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.29205,
         "Left Shoulder Front-Back": -0.65293,
@@ -96,7 +96,7 @@
         "raw_value": 0.11121,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extended backward from the shoulder to grip the rear of the weapon, counterbalancing the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.02531,
         "Right Shoulder Front-Back": -0.5756,
@@ -117,7 +117,7 @@
         "raw_value": 0.2395,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates between driving forward and pulling back, lifting high at the knee during the stride.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.07012,
         "Left Upper Leg In-Out": -0.02965,
@@ -137,7 +137,7 @@
         "raw_value": 0.29092,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives the body forward by pushing off the ground and swinging through the stride cycle opposite the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.07865,
         "Right Upper Leg In-Out": 0.05122,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static open-palm grip shape extended forward as if holding the foregrip of a rifle.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.73517,
         "Left Thumb Spread": -0.39517,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static open-palm grip shape positioned near the hip as if gripping the pistol grip of a rifle.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.83767,
         "Right Thumb Spread": -0.32191,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

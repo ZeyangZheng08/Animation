@@ -14,7 +14,7 @@
   "duration": 3.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a zombie-like turn to its right while standing in place, rotating its body and legs from facing forward to facing left.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03823,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates continuously to the right, leaning slightly forward throughout the movement as it turns from facing front to facing left.",
       "mean_pose": {
         "Spine Front-Back": -0.2969,
         "Spine Left-Right": 0.00888,
@@ -57,7 +57,7 @@
         "raw_value": 0.26078,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward and rotates to the right along with the body, maintaining a hunched orientation as it completes the turn.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04821,
         "Neck Tilt Left-Right": -0.02066,
@@ -75,7 +75,7 @@
         "raw_value": 0.09709,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs down at the side of the body, swinging slightly backward during the rotation to counterbalance the turn.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.35207,
         "Left Shoulder Front-Back": 0.18628,
@@ -96,7 +96,7 @@
         "raw_value": 0.06511,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow and held out in front of the body, extending forward relative to the changing orientation of the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.32117,
         "Right Shoulder Front-Back": -0.35518,
@@ -117,7 +117,7 @@
         "raw_value": 0.09493,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and pivots on the foot to drive the rotation, shifting from a forward-facing position to facing left.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.19734,
         "Left Upper Leg In-Out": 0.35654,
@@ -137,7 +137,7 @@
         "raw_value": 0.09144,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left leg's movement, bending at the knee and pivoting to complete the turn in place.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.1648,
         "Right Upper Leg In-Out": 0.30269,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, hanging low near the hip area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held open with fingers extended, positioned in front of the waist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:52:29Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

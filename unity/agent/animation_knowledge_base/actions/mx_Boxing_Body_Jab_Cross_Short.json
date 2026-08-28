@@ -14,7 +14,7 @@
   "duration": 1.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a boxing combination, starting from a guard and throwing a left jab followed by a right cross.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08455,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains in a slight crouch, rotating to the right to drive the punch before returning to a neutral position.",
       "mean_pose": {
         "Spine Front-Back": -0.38997,
         "Spine Left-Right": -0.09683,
@@ -57,7 +57,7 @@
         "raw_value": 0.20212,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays aligned with the shoulders, facing forward while bobbing slightly up and down with the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03746,
         "Neck Tilt Left-Right": -0.05773,
@@ -75,7 +75,7 @@
         "raw_value": 0.13756,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends straight out to throw a jab, then retracts back to the guard position near the chin.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.56447,
         "Left Shoulder Front-Back": 0.27439,
@@ -96,7 +96,7 @@
         "raw_value": 0.13365,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm punches forward in a cross after the left arm extends, then pulls back into the guard.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.1898,
         "Right Shoulder Front-Back": -0.84159,
@@ -117,7 +117,7 @@
         "raw_value": 0.12825,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward to initiate the movement and provides support during the punches.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.12741,
         "Left Upper Leg In-Out": 0.29545,
@@ -137,7 +137,7 @@
         "raw_value": 0.13338,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off the ground to pivot the body and follows through with the rotation.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.25877,
         "Right Upper Leg In-Out": 0.51509,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a tight fist throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is kept clenched in a fist as it moves between the guard and the extended punch.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

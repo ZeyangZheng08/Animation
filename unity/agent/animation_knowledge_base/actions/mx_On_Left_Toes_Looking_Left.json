@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static, leaning pose on its left toes while extending its right leg and looking to the side.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans diagonally to the figure's right, tilting away from the supporting leg.",
       "mean_pose": {
         "Spine Front-Back": -0.44633,
         "Spine Left-Right": -0.08924,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns to the figure's left, facing in the direction of the extended leg.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06804,
         "Neck Tilt Left-Right": -0.17555,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends straight up and slightly back, with the hand open and fingers spread.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.705,
         "Left Shoulder Front-Back": 2.29857,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches out horizontally to the figure's right, parallel to the floor.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.34326,
         "Right Shoulder Front-Back": 0.40553,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Supports the body's weight on the ball of the foot, with the heel raised high.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.06779,
         "Left Upper Leg In-Out": 0.38518,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends out to the side and slightly back, held off the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 1.13934,
         "Right Upper Leg In-Out": 0.11859,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open with fingers spread wide at the end of the raised arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.27231,
         "Left Thumb Spread": -0.5095,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open with fingers relaxed at the end of the extended arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.37689,
         "Right Thumb Spread": -0.62523,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:43:23Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

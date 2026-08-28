@@ -14,7 +14,7 @@
   "duration": 1.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a prone position on the floor to a kneeling stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14539,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates and lifts upward from lying flat on the ground to an upright, forward-leaning position.",
       "mean_pose": {
         "Spine Front-Back": -0.31232,
         "Spine Left-Right": 0.00781,
@@ -57,7 +57,7 @@
         "raw_value": 0.20113,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down while prone, then lifts up to face forward as the body rises.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.24478,
         "Neck Tilt Left-Right": 0.04753,
@@ -75,7 +75,7 @@
         "raw_value": 0.4186,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward to support the weight of the body during the ascent, then bends at the elbow to rest near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.25273,
         "Left Shoulder Front-Back": -0.91227,
@@ -96,7 +96,7 @@
         "raw_value": 0.25837,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm pushes against the floor to lift the torso, then draws back into a bent position near the waist.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.30114,
         "Right Shoulder Front-Back": -1.46348,
@@ -117,7 +117,7 @@
         "raw_value": 0.39872,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg folds underneath the body from a stretched position, ending with the knee on the ground and foot extended behind.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.13525,
         "Left Upper Leg In-Out": 0.34356,
@@ -137,7 +137,7 @@
         "raw_value": 0.35171,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee to drive the body upward, finishing in a lunge position with the foot planted on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.32649,
         "Right Upper Leg In-Out": 0.60436,
@@ -157,7 +157,7 @@
         "raw_value": 0.4601,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand presses flat against the floor to provide leverage before lifting away from the ground.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.84239,
         "Left Thumb Spread": -0.24094,
@@ -189,7 +189,7 @@
         "raw_value": 0.20843,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand grips the floor to push off, then releases and moves up towards the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.48435,
         "Right Thumb Spread": -1.21166,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:45:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

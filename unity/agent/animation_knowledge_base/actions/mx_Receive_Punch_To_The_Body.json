@@ -14,7 +14,7 @@
   "duration": 1.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin is struck in the midsection, causing it to flinch violently and hunch over in pain.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13587,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans sharply forward from a slight initial arch, ending in a deeply hunched posture with shoulders rounded down.",
       "mean_pose": {
         "Spine Front-Back": -0.1959,
         "Spine Left-Right": -0.14675,
@@ -57,7 +57,7 @@
         "raw_value": 0.27428,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Jerks back and up slightly at first, then drops heavily downward as the torso folds over.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.08283,
         "Neck Tilt Left-Right": 0.00689,
@@ -75,7 +75,7 @@
         "raw_value": 0.16711,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pulls inward across the body toward the abdomen, bending at the elbow to clench near the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.08037,
         "Left Shoulder Front-Back": -0.4099,
@@ -96,7 +96,7 @@
         "raw_value": 0.2065,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Retracts sharply toward the chest and stomach area, folding tightly to protect the midsection.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.5012,
         "Right Shoulder Front-Back": -1.49408,
@@ -117,7 +117,7 @@
         "raw_value": 0.1944,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Shifts backward and bends at the knee to absorb the impact of the strike.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.08911,
         "Left Upper Leg In-Out": 0.40175,
@@ -137,7 +137,7 @@
         "raw_value": 0.15542,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Plants forward with a bent knee, acting as a support pillar for the collapsing upper body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.05544,
         "Right Upper Leg In-Out": 0.23981,
@@ -157,7 +157,7 @@
         "raw_value": 0.20114,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curls into a fist and presses firmly against the lower abdomen or hip area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.67427,
         "Left Thumb Spread": 0.15455,
@@ -189,7 +189,7 @@
         "raw_value": 0.22627,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Forms a tight fist held close to the chest, moving in sync with the arm's retraction.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.57914,
         "Right Thumb Spread": 0.56877,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:44Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

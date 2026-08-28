@@ -14,7 +14,7 @@
   "duration": 2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin stands in a static, neutral idle pose with hands clasped in front of the body.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00365,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stationary throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.57336,
         "Spine Left-Right": 0.01527,
@@ -57,7 +57,7 @@
         "raw_value": 0.00309,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward without any movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.31337,
         "Neck Tilt Left-Right": 0.05227,
@@ -75,7 +75,7 @@
         "raw_value": 0.00717,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs down by the side with a slight bend at the elbow, holding its position.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.28948,
         "Left Shoulder Front-Back": -1.45486,
@@ -96,7 +96,7 @@
         "raw_value": 0.00617,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow to bring the hand forward to meet the left.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.67253,
         "Right Shoulder Front-Back": -2.03431,
@@ -117,7 +117,7 @@
         "raw_value": 0.009,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands straight, supporting the figure's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.01913,
         "Left Upper Leg In-Out": 0.16159,
@@ -137,7 +137,7 @@
         "raw_value": 0.00889,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stands straight and parallel to the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.30039,
         "Right Upper Leg In-Out": 0.18575,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open and flat, positioned in front of the crotch.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15206,
         "Left Thumb Spread": -0.37832,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand rests on top of the left hand in a relaxed grip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:38:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

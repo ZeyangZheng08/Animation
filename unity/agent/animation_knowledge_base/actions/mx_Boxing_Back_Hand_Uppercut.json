@@ -14,7 +14,7 @@
   "duration": 2.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure throws a right-handed uppercut from a wide, lunging boxing stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07145,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and rotates to the left, twisting through the punch's arc.",
       "mean_pose": {
         "Spine Front-Back": -0.44685,
         "Spine Left-Right": 0.1212,
@@ -57,7 +57,7 @@
         "raw_value": 0.10214,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and tracks the upward motion of the punching arm.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.12121,
         "Neck Tilt Left-Right": -0.05943,
@@ -75,7 +75,7 @@
         "raw_value": 0.10904,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings across the body toward the center, ending with the hand raised near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.12671,
         "Left Shoulder Front-Back": 0.41177,
@@ -96,7 +96,7 @@
         "raw_value": 0.18541,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm drives in a high, looping arc, finishing with the elbow tucked back at the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.05425,
         "Right Shoulder Front-Back": -0.84871,
@@ -117,7 +117,7 @@
         "raw_value": 0.14937,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends backward, lifting the foot off the ground into a lunge.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.03913,
         "Left Upper Leg In-Out": 0.23915,
@@ -137,7 +137,7 @@
         "raw_value": 0.174,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends deeply to absorb the weight of the forward step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.39489,
         "Right Upper Leg In-Out": 0.38535,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains clenched in a fist throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.77684,
         "Left Thumb Spread": -0.53612,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains clenched in a fist as it executes the strike.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.25729,
         "Right Thumb Spread": -0.96085,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:48Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

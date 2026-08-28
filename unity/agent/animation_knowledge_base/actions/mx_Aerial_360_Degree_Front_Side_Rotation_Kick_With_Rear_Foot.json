@@ -14,7 +14,7 @@
   "duration": 2.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jumps into the air and performs a spinning kick with its right leg while balancing on the left.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.20287,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates in a full 360-degree spin, leaning slightly backward during the jump and twist.",
       "mean_pose": {
         "Spine Front-Back": -0.36043,
         "Spine Left-Right": 0.07792,
@@ -57,7 +57,7 @@
         "raw_value": 0.28968,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the rotation of the body, turning to face away from the camera as the spin progresses.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.08811,
         "Neck Tilt Left-Right": -0.0132,
@@ -75,7 +75,7 @@
         "raw_value": 0.28458,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward to the side and then swings across the chest to help balance the rotation.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.07803,
         "Left Shoulder Front-Back": -0.11396,
@@ -96,7 +96,7 @@
         "raw_value": 0.38412,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is pulled back near the waist initially, then swings outwards to counterbalance the kick.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.1154,
         "Right Shoulder Front-Back": -0.42288,
@@ -117,7 +117,7 @@
         "raw_value": 0.28827,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and tucks up beneath the body to serve as the pivot point for the aerial spin.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.09873,
         "Left Upper Leg In-Out": 0.52529,
@@ -137,7 +137,7 @@
         "raw_value": 0.25162,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts high into the air and sweeps forward in a wide kicking motion during the jump.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.18326,
         "Right Upper Leg In-Out": 0.32137,
@@ -157,7 +157,7 @@
         "raw_value": 0.11466,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, moving fluidly with the swinging arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.02263,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and moves in coordination with the arm's swing for balance.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.51705,
         "Right Thumb Spread": -0.00994,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:31:53Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

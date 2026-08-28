@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward in a steady stride with both hands resting firmly on their hips.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stable, maintaining a consistent vertical orientation throughout the walk.",
       "mean_pose": {
         "Spine Front-Back": 0.05903,
         "Spine Left-Right": -0.02528,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays fixed in a neutral position, facing straight ahead without turning or tilting.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06409,
         "Neck Tilt Left-Right": 0.01654,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held static with the elbow bent at roughly ninety degrees, keeping the hand anchored to the side of the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.09342,
         "Left Shoulder Front-Back": 0.30909,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, holding a static pose with the elbow bent and the hand placed securely on the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.20686,
         "Right Shoulder Front-Back": -0.36844,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg moves in a rhythmic walking cycle, extending forward and then swinging back as it pushes off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.04679,
         "Left Upper Leg In-Out": -0.19911,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, stepping forward and pulling back to drive the body forward in a continuous gait.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.74956,
         "Right Upper Leg In-Out": 0.04256,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand maintains a fixed grip on the hip area, remaining stationary relative to the torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": 0.48965,
         "Left Thumb Spread": 0.68421,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds its position on the hip, staying still against the body while the legs move below.",
       "mean_pose": {
         "Right Thumb 1 Stretched": 0.26527,
         "Right Thumb Spread": 0.20861,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:51:45Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

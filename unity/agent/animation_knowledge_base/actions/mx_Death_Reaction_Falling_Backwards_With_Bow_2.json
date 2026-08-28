@@ -14,7 +14,7 @@
   "duration": 3.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a death reaction, falling backwards from a standing position to lie flat on the ground.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16034,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans back and rotates through the air until it lies flat on its back on the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.19149,
         "Spine Left-Right": -0.00442,
@@ -57,7 +57,7 @@
         "raw_value": 0.29658,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts back as the body falls, then turns to the side while lying on the ground.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.10195,
         "Neck Tilt Left-Right": 0.0738,
@@ -75,7 +75,7 @@
         "raw_value": 0.30921,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings up and outwards during the fall before extending out to the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.25197,
         "Left Shoulder Front-Back": -0.18223,
@@ -96,7 +96,7 @@
         "raw_value": 0.36804,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Flails upward and backward in the air before settling down beside the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.46317,
         "Right Shoulder Front-Back": -0.32343,
@@ -117,7 +117,7 @@
         "raw_value": 0.21372,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Kicks up into the air as the figure loses balance, then extends straight along the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.26854,
         "Left Upper Leg In-Out": 0.21024,
@@ -137,7 +137,7 @@
         "raw_value": 0.31195,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts off the ground and bends slightly during the fall, ending extended on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.21006,
         "Right Upper Leg In-Out": 0.37493,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open, relaxed pose at the side of the body throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.19054,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Flails upward with fingers spread during the fall before resting on the ground.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.20986,
         "Right Thumb Spread": -0.36581,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:02Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure reacts to a hit from the front by flinching backward, bowing deeply at the waist, and then recovering.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10345,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans back slightly at first, then bows forward significantly before straightening up again.",
       "mean_pose": {
         "Spine Front-Back": -0.35556,
         "Spine Left-Right": -0.05482,
@@ -57,7 +57,7 @@
         "raw_value": 0.31532,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back initially, dips down during the bow, and then lifts back to an upright position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06235,
         "Neck Tilt Left-Right": 0.04965,
@@ -75,7 +75,7 @@
         "raw_value": 0.17458,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and upward for balance during the initial flinch, then drops down as the body bows.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.71386,
         "Left Shoulder Front-Back": -0.06892,
@@ -96,7 +96,7 @@
         "raw_value": 0.39552,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves out to the side and then lowers toward the hip area as the figure bends forward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.50013,
         "Right Shoulder Front-Back": -0.44731,
@@ -117,7 +117,7 @@
         "raw_value": 0.17274,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps backward and bends at the knee to absorb the motion of the reaction.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.11878,
         "Left Upper Leg In-Out": 0.29851,
@@ -137,7 +137,7 @@
         "raw_value": 0.1817,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows with a step back, bending at the knee to support the deep forward bow.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.1328,
         "Right Upper Leg In-Out": 0.4577,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains in a relaxed, open pose throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.22617,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from an open position near the chest down toward the thigh as the body bends.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.35143,
         "Right Thumb Spread": -0.18667,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

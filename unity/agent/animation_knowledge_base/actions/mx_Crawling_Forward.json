@@ -14,7 +14,7 @@
   "duration": 2.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure crawls forward on all fours across the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15699,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains low to the ground, tilting slightly forward as it moves between the arms.",
       "mean_pose": {
         "Spine Front-Back": -0.26953,
         "Spine Left-Right": 0.0043,
@@ -57,7 +57,7 @@
         "raw_value": 0.14208,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays down, facing towards the floor in front of the body throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.70508,
         "Neck Tilt Left-Right": -0.02139,
@@ -75,7 +75,7 @@
         "raw_value": 0.29289,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward to support weight, then pulls back under the chest in a cyclic motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.31196,
         "Left Shoulder Front-Back": -0.34667,
@@ -96,7 +96,7 @@
         "raw_value": 0.27542,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches out ahead to plant itself, then retracts backward to drive the body forward.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.43918,
         "Right Shoulder Front-Back": -0.33227,
@@ -117,7 +117,7 @@
         "raw_value": 0.20577,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives backward from a bent position, extending straight behind the hips to push off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.41459,
         "Left Upper Leg In-Out": -0.06273,
@@ -137,7 +137,7 @@
         "raw_value": 0.21069,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg swings forward with the knee bent, reaching ahead to take the next step in the crawl.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.27345,
         "Right Upper Leg In-Out": 0.52959,
@@ -157,7 +157,7 @@
         "raw_value": 0.45422,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand presses flat against the floor to bear the body's weight before lifting to move forward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.09827,
         "Left Thumb Spread": -1.1434,
@@ -189,7 +189,7 @@
         "raw_value": 0.29191,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches out and plants firmly on the ground, supporting the upper body during the push-off phase.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.13965,
         "Right Thumb Spread": -0.73156,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:34:28Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

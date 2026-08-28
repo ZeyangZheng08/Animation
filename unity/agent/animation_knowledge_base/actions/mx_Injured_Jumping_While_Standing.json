@@ -14,7 +14,7 @@
   "duration": 1.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a stiff, hunched jump in place while appearing to be in pain.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09326,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and compresses vertically during the hop, remaining bent over throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.30398,
         "Spine Left-Right": -0.00814,
@@ -57,7 +57,7 @@
         "raw_value": 0.18432,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Drops sharply downward toward the chest as the body jumps and stays lowered for the duration of the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05378,
         "Neck Tilt Left-Right": -0.07001,
@@ -75,7 +75,7 @@
         "raw_value": 0.35826,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely at the side with the elbow slightly bent, swinging slightly backward as the torso drops.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.45843,
         "Left Shoulder Front-Back": -0.14906,
@@ -96,7 +96,7 @@
         "raw_value": 0.29697,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Dangles by the side with a bent elbow, moving minimally as the figure hops.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.46173,
         "Right Shoulder Front-Back": -1.07674,
@@ -117,7 +117,7 @@
         "raw_value": 0.19019,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply at the knee to absorb the landing and pushes off the ground to initiate the hop.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.36104,
         "Left Upper Leg In-Out": 0.22448,
@@ -137,7 +137,7 @@
         "raw_value": 0.17009,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays relatively straight compared to the left leg, supporting the body's weight during the jump.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.24412,
         "Right Upper Leg In-Out": -0.02599,
@@ -157,7 +157,7 @@
         "raw_value": 0.31155,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed at the end of the dangling arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.08393,
         "Left Thumb Spread": -0.21903,
@@ -189,7 +189,7 @@
         "raw_value": 0.39215,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches into a loose fist near the thigh as the figure hunches over.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.34958,
         "Right Thumb Spread": -0.1066,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:29Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

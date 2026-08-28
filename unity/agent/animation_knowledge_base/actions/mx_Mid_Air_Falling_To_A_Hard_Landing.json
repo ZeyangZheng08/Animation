@@ -14,7 +14,7 @@
   "duration": 2.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure falls from mid-air, impacts the floor on its hands and knees, and then rises into a crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13116,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Falls forward and down from an upright position to rest low on the ground, then rises back up into a bent-forward stance.",
       "mean_pose": {
         "Spine Front-Back": -0.15274,
         "Spine Left-Right": -0.01473,
@@ -57,7 +57,7 @@
         "raw_value": 0.19145,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Drops downward with the torso during the fall and remains lowered as the body rises.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.10331,
         "Neck Tilt Left-Right": -0.04102,
@@ -75,7 +75,7 @@
         "raw_value": 0.47742,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward for balance in the air, swings down to brace on the floor, and stays low while rising.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.16139,
         "Left Shoulder Front-Back": -1.19182,
@@ -96,7 +96,7 @@
         "raw_value": 0.48135,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward for balance in the air, swings down to brace on the floor, and stays low while rising.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.22135,
         "Right Shoulder Front-Back": -1.1983,
@@ -117,7 +117,7 @@
         "raw_value": 0.28705,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Dangles below the body in the air, lands bent on the knee, and bends further as the figure rises.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.60862,
         "Left Upper Leg In-Out": 0.57311,
@@ -137,7 +137,7 @@
         "raw_value": 0.35512,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Dangles below the body in the air, lands bent on the knee, and bends further as the figure rises.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.46776,
         "Right Upper Leg In-Out": 0.54831,
@@ -157,7 +157,7 @@
         "raw_value": 0.27604,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches out to the side in the air, extends down to touch the floor, and hovers near the ground.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.36534,
         "Left Thumb Spread": -0.367,
@@ -189,7 +189,7 @@
         "raw_value": 0.35519,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches out to the side in the air, extends down to touch the floor, and hovers near the ground.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.94057,
         "Right Thumb Spread": -0.08984,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:42:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

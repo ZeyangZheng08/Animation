@@ -14,7 +14,7 @@
   "duration": 3.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a prone rolling movement to the right, rotating their body from a face-down position onto their side and back down.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09996,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rolls laterally from a prone position to the right side and returns to prone.",
       "mean_pose": {
         "Spine Front-Back": -0.20116,
         "Spine Left-Right": -0.13764,
@@ -57,7 +57,7 @@
         "raw_value": 0.18327,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to the right in sync with the torso roll, keeping the face oriented away from the ground.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.75061,
         "Neck Tilt Left-Right": 0.19563,
@@ -75,7 +75,7 @@
         "raw_value": 0.2498,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward across the body during the roll and then retracts back toward the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.57096,
         "Left Shoulder Front-Back": -1.07737,
@@ -96,7 +96,7 @@
         "raw_value": 0.29192,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent near the chest throughout the motion, shifting slightly with the body's rotation.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.28131,
         "Right Shoulder Front-Back": -0.70137,
@@ -117,7 +117,7 @@
         "raw_value": 0.3086,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and lifts off the ground as the body rotates to the right.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.39685,
         "Left Upper Leg In-Out": 0.15171,
@@ -137,7 +137,7 @@
         "raw_value": 0.22685,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays relatively straight and low to the ground, acting as the pivot point for the roll.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.40747,
         "Right Upper Leg In-Out": 0.3728,
@@ -157,7 +157,7 @@
         "raw_value": 0.10599,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches out and extends forward along with the arm during the roll.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.11741,
         "Left Thumb Spread": -0.21939,
@@ -189,7 +189,7 @@
         "raw_value": 0.24263,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays tucked close to the upper chest area.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.28318,
         "Right Thumb Spread": -1.1276,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

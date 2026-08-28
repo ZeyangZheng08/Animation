@@ -14,7 +14,7 @@
   "duration": 3.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is knocked forward, stumbling and falling to the ground in a prone position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16263,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward significantly, pitching over as the figure loses balance and descends toward the floor.",
       "mean_pose": {
         "Spine Front-Back": 0.0323,
         "Spine Left-Right": -0.10623,
@@ -57,7 +57,7 @@
         "raw_value": 0.35902,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the forward momentum of the body, dropping down until it rests on the ground.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11249,
         "Neck Tilt Left-Right": 0.04887,
@@ -75,7 +75,7 @@
         "raw_value": 0.44106,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings forward and downward, extending out in front of the body to brace against the fall.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.73728,
         "Left Shoulder Front-Back": -0.44848,
@@ -96,7 +96,7 @@
         "raw_value": 0.57689,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm flails outward initially before dropping down alongside the body as it hits the floor.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.21808,
         "Right Shoulder Front-Back": 0.2573,
@@ -117,7 +117,7 @@
         "raw_value": 0.30539,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts forward in a stumbling motion before extending out straight ahead of the body upon impact.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.06874,
         "Left Upper Leg In-Out": 0.4679,
@@ -137,7 +137,7 @@
         "raw_value": 0.33348,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind the falling body, bending at the knee before stretching out to the side on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.56278,
         "Right Upper Leg In-Out": 0.32712,
@@ -157,7 +157,7 @@
         "raw_value": 0.37982,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches forward, extending out from the shoulder as the arm drops toward the floor.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.26137,
         "Left Thumb Spread": 0.13141,
@@ -189,7 +189,7 @@
         "raw_value": 0.3426,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand dangles loosely by the side during the initial stumble before resting on the ground.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.26748,
         "Right Thumb Spread": 0.279,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:52:31Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

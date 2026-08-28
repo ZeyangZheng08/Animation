@@ -14,7 +14,7 @@
   "duration": 1.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure moves forward in a low, crouched walk while holding an aiming pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06887,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans significantly forward and bobs vertically with each step of the gait.",
       "mean_pose": {
         "Spine Front-Back": -0.36351,
         "Spine Left-Right": 0.09408,
@@ -57,7 +57,7 @@
         "raw_value": 0.01949,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady, forward-facing position aimed down the line of sight.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.1521,
         "Neck Tilt Left-Right": 0.11608,
@@ -75,7 +75,7 @@
         "raw_value": 0.05827,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends straight out from the shoulder to support the front of the held object.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.95388,
         "Left Shoulder Front-Back": -0.11648,
@@ -96,7 +96,7 @@
         "raw_value": 0.04824,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bends at the elbow to bring the hand up against the side of the head, supporting the rear of the object.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.34541,
         "Right Shoulder Front-Back": 0.16181,
@@ -117,7 +117,7 @@
         "raw_value": 0.21085,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Cycles through a deep, bent-knee stride that drives the body forward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.0968,
         "Left Upper Leg In-Out": 0.06366,
@@ -137,7 +137,7 @@
         "raw_value": 0.21418,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Cycles through a deep, bent-knee stride that drives the body forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.13888,
         "Right Upper Leg In-Out": -0.07151,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a fixed, open position extended far forward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.62378,
         "Left Thumb Spread": -0.76501,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a fixed, open position pressed near the face.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.55333,
         "Right Thumb Spread": -1.75974,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

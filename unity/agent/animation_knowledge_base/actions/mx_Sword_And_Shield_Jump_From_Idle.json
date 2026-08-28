@@ -14,7 +14,7 @@
   "duration": 0.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic jump, leaping into the air with knees bent and arms swinging.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08397,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lifts upward off the ground, tilting slightly forward to initiate the jump.",
       "mean_pose": {
         "Spine Front-Back": -0.42017,
         "Spine Left-Right": -0.06971,
@@ -57,7 +57,7 @@
         "raw_value": 0.07733,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head moves up and down with the body's vertical trajectory, keeping a steady orientation relative to the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11068,
         "Neck Tilt Left-Right": -0.10357,
@@ -75,7 +75,7 @@
         "raw_value": 0.24157,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and downward from a raised position to counterbalance the jump.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.13723,
         "Left Shoulder Front-Back": -0.75611,
@@ -96,7 +96,7 @@
         "raw_value": 0.34767,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings across the front of the chest and down in coordination with the leap.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.54381,
         "Right Shoulder Front-Back": -0.37239,
@@ -117,7 +117,7 @@
         "raw_value": 0.20801,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee, tucking the foot up and back as the body rises into the air.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.26644,
         "Left Upper Leg In-Out": 0.56107,
@@ -137,7 +137,7 @@
         "raw_value": 0.30437,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left by bending and lifting off the floor to propel the jump.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.02353,
         "Right Upper Leg In-Out": 0.55568,
@@ -157,7 +157,7 @@
         "raw_value": 0.08705,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, moving freely along with the arm's swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.77936,
         "Left Thumb Spread": -0.68433,
@@ -189,7 +189,7 @@
         "raw_value": 0.16485,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed, following the arc of the right arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.7666,
         "Right Thumb Spread": -0.73308,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:04Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

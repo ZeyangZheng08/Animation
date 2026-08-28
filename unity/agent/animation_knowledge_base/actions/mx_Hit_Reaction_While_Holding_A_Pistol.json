@@ -14,7 +14,7 @@
   "duration": 2.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure flinches backward from a hit to the chest, throwing their head and upper body back before recovering forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06896,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply backward at its peak, tilting away from the viewer, then straightens out as it recovers to an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.05752,
         "Spine Left-Right": 0.05025,
@@ -57,7 +57,7 @@
         "raw_value": 0.17274,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head snaps backward with the torso's recoil, looking up, before returning to a neutral, forward-facing position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.07487,
         "Neck Tilt Left-Right": 0.1432,
@@ -75,7 +75,7 @@
         "raw_value": 0.18454,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and outward in a flailing motion during the recoil, then brings the hand back down toward the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.59946,
         "Left Shoulder Front-Back": -0.09643,
@@ -96,7 +96,7 @@
         "raw_value": 0.17561,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains extended forward throughout the sequence, holding a stable aiming posture despite the body's movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.06472,
         "Right Shoulder Front-Back": 0.19279,
@@ -117,7 +117,7 @@
         "raw_value": 0.0925,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to absorb the backward momentum of the flinch, then straightens again as the figure stabilizes.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.06026,
         "Left Upper Leg In-Out": 0.14054,
@@ -137,7 +137,7 @@
         "raw_value": 0.10998,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays relatively straight, acting as a pivot point while the body shifts weight backward and then forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.08074,
         "Right Upper Leg In-Out": 0.35445,
@@ -157,7 +157,7 @@
         "raw_value": 0.19734,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens and flails upward during the impact reaction, then closes into a loose fist near the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.51529,
         "Left Thumb Spread": -1.00874,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a static, gripping pose at the end of the extended arm, simulating holding a weapon.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.57869,
         "Right Thumb Spread": -2.01419,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

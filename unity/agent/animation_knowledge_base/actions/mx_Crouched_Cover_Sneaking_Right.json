@@ -14,7 +14,7 @@
   "duration": 1.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure moves forward in a low, crouched sneak, taking short steps while keeping the body bent and leaning slightly to the right.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05597,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains deeply bent forward throughout the movement, leaning consistently toward the right side of the body.",
       "mean_pose": {
         "Spine Front-Back": -0.16127,
         "Spine Left-Right": 0.00626,
@@ -57,7 +57,7 @@
         "raw_value": 0.03211,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays lowered and tilted down, looking toward the ground in front of the figure.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.5028,
         "Neck Tilt Left-Right": 0.22966,
@@ -75,7 +75,7 @@
         "raw_value": 0.05184,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely down and forward, swinging gently with the gait.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.83169,
         "Left Shoulder Front-Back": 0.04679,
@@ -96,7 +96,7 @@
         "raw_value": 0.03903,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward to the side for balance, swinging back and forth opposite the legs.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.13275,
         "Right Shoulder Front-Back": -0.52111,
@@ -117,7 +117,7 @@
         "raw_value": 0.18156,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg takes small, alternating steps, bending at the knee to maintain the low posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.63508,
         "Left Upper Leg In-Out": -0.06302,
@@ -137,7 +137,7 @@
         "raw_value": 0.21075,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates stepping forward and pushing off, staying bent to keep the body close to the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.39746,
         "Right Upper Leg In-Out": 0.37278,
@@ -157,7 +157,7 @@
         "raw_value": 0.10714,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs open and relaxed near the left thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.2023,
         "Left Thumb Spread": -0.497,
@@ -189,7 +189,7 @@
         "raw_value": 0.09176,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held out to the side, fingers spread to help steady the crouched motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.8307,
         "Right Thumb Spread": 0.41771,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:28Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

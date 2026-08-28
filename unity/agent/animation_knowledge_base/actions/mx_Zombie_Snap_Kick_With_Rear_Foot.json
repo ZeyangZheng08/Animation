@@ -14,7 +14,7 @@
   "duration": 3.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, crouching zombie-like stance and executes a high snap kick with the right leg.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13423,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a deep crouch and arches backward to extend the kicking leg upward.",
       "mean_pose": {
         "Spine Front-Back": -0.18253,
         "Spine Left-Right": -0.00468,
@@ -57,7 +57,7 @@
         "raw_value": 0.26271,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward in the initial crouch and lifts slightly as the torso extends for the kick.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00033,
         "Neck Tilt Left-Right": -0.09664,
@@ -75,7 +75,7 @@
         "raw_value": 0.18778,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs down near the hip during the crouch and swings outward to maintain balance during the kick.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.17511,
         "Left Shoulder Front-Back": -0.10187,
@@ -96,7 +96,7 @@
         "raw_value": 0.2203,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Rests bent near the waist while crouched and pulls back toward the chest as the leg kicks.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.55719,
         "Right Shoulder Front-Back": -0.03588,
@@ -117,7 +117,7 @@
         "raw_value": 0.20631,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply to support the body's weight in a low stance throughout the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.04298,
         "Left Upper Leg In-Out": 0.40908,
@@ -137,7 +137,7 @@
         "raw_value": 0.1774,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts from the ground and snaps up into a high extension before returning to a planted position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.20678,
         "Right Upper Leg In-Out": 0.25586,
@@ -157,7 +157,7 @@
         "raw_value": 0.13389,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely by the side of the body with fingers relaxed.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.07724,
         "Left Thumb Spread": -0.08335,
@@ -189,7 +189,7 @@
         "raw_value": 0.20483,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a curled fist near the midsection and retracts slightly as the kick is performed.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.07787,
         "Right Thumb Spread": -0.06266,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:52:27Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

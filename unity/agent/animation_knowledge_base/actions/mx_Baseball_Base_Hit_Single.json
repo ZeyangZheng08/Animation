@@ -14,7 +14,7 @@
   "duration": 1.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure swings a baseball bat, completing a full rotation before dropping the arms and transitioning into a forward running stride.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11956,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins in a slight crouch, rotates through a full 360-degree turn during the swing, and then leans forward to initiate the run.",
       "mean_pose": {
         "Spine Front-Back": -0.19013,
         "Spine Left-Right": 0.01214,
@@ -57,7 +57,7 @@
         "raw_value": 0.45381,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level while tracking the swing, rotating with the body before tilting slightly downward as the figure begins to run.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.29434,
         "Neck Tilt Left-Right": -0.19704,
@@ -75,7 +75,7 @@
         "raw_value": 0.4173,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held high near the shoulder for the initial pose, swings across the chest during the rotation, and then extends outward to the side for balance while running.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.43712,
         "Left Shoulder Front-Back": -1.02906,
@@ -96,7 +96,7 @@
         "raw_value": 0.45331,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm starts bent at the elbow near the hip, follows the rotational path of the swing, and finishes by swinging back down toward the thigh.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.42437,
         "Right Shoulder Front-Back": -0.87622,
@@ -117,7 +117,7 @@
         "raw_value": 0.18703,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg plants firmly as the pivot point during the swing, then lifts and steps forward to start the running motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.0067,
         "Left Upper Leg In-Out": 0.35749,
@@ -137,7 +137,7 @@
         "raw_value": 0.1542,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains grounded as the other foot pivots, then pushes off the ground to drive the body forward into the run.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.094,
         "Right Upper Leg In-Out": 0.20848,
@@ -157,7 +157,7 @@
         "raw_value": 0.48829,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand maintains a grip on the top of the imaginary bat until the swing completes, after which it opens and relaxes at the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.10955,
         "Left Thumb Spread": -0.34103,
@@ -189,7 +189,7 @@
         "raw_value": 0.44037,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds the bottom of the imaginary bat, releases the grip at the end of the swing, and drops to hang loosely by the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.04025,
         "Right Thumb Spread": -0.32173,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:32:32Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

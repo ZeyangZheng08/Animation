@@ -14,7 +14,7 @@
   "duration": 1.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward, bends down to grab a low object with both hands, and stands up while pulling it back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15311,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward as the arms reach down, then straightens upright as the figure pulls the object toward itself.",
       "mean_pose": {
         "Spine Front-Back": -0.12391,
         "Spine Left-Right": 0.02132,
@@ -57,7 +57,7 @@
         "raw_value": 0.12909,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward to look at the hands during the reach and pull, then lifts back up to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.05586,
         "Neck Tilt Left-Right": -0.01129,
@@ -75,7 +75,7 @@
         "raw_value": 0.24791,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and down to grasp the object, then retracts upward and backward in a pulling motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.82712,
         "Left Shoulder Front-Back": -0.84819,
@@ -96,7 +96,7 @@
         "raw_value": 0.21032,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and down alongside the left arm to grasp the object, then retracts upward and backward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.73123,
         "Right Shoulder Front-Back": -0.76863,
@@ -117,7 +117,7 @@
         "raw_value": 0.16456,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward to establish a stable base, bending at the knee to lower the body for the pull.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.2185,
         "Left Upper Leg In-Out": 0.21407,
@@ -137,7 +137,7 @@
         "raw_value": 0.20879,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Follows through by stepping forward to complete the stance before rising.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.07378,
         "Right Upper Leg In-Out": 0.00789,
@@ -157,7 +157,7 @@
         "raw_value": 0.21759,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens to grip the object, then closes its fingers tightly to hold it securely.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.08181,
         "Left Thumb Spread": -0.1267,
@@ -189,7 +189,7 @@
         "raw_value": 0.21286,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens to grip the object alongside the other hand, then closes its fingers to secure the hold.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.61958,
         "Right Thumb Spread": -0.18028,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:21Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

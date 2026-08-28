@@ -14,7 +14,7 @@
   "duration": 1.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure reacts to a hit on their left side by flinching, leaning away, and clutching the impact area with their right hand while extending their left arm for balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15139,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward and twists to the right in response to the impact, then slightly straightens out as the motion settles.",
       "mean_pose": {
         "Spine Front-Back": -0.11897,
         "Spine Left-Right": -0.06354,
@@ -57,7 +57,7 @@
         "raw_value": 0.1883,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Jerks sharply to the right and tilts back, following the momentum of the torso's recoil from the hit.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03358,
         "Neck Tilt Left-Right": -0.19577,
@@ -75,7 +75,7 @@
         "raw_value": 0.1699,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward to the left and slightly forward, opening up to counterbalance the body's lean away from the injury.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.19886,
         "Left Shoulder Front-Back": 0.31358,
@@ -96,7 +96,7 @@
         "raw_value": 0.10588,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Crosses over the chest to pull inward, positioning the hand near the left shoulder and upper ribcage to hold the injured area.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.05551,
         "Right Shoulder Front-Back": 0.44021,
@@ -117,7 +117,7 @@
         "raw_value": 0.18587,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee and shifts weight outward to the left to stabilize the body against the force of the hit.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.22997,
         "Left Upper Leg In-Out": 0.48322,
@@ -137,7 +137,7 @@
         "raw_value": 0.15327,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains relatively straight but adjusts its angle to support the torso's shift away from the left side.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.14725,
         "Right Upper Leg In-Out": 0.26733,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open, relaxed pose with fingers spread as the arm extends for balance.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.43844,
         "Left Thumb Spread": 0.5819,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a grasping or clutching shape, curling inward to press against the left side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.54758,
         "Right Thumb Spread": 0.6854,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:42:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

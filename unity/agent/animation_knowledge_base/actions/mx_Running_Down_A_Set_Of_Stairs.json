@@ -14,7 +14,7 @@
   "duration": 0.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs down a set of stairs, leaning forward with bent knees and swinging arms to maintain momentum.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03196,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a hunched posture, descending in height as it moves through the running cycle.",
       "mean_pose": {
         "Spine Front-Back": -0.57789,
         "Spine Left-Right": -0.07406,
@@ -57,7 +57,7 @@
         "raw_value": 0.02883,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward to look at the path ahead, maintaining a steady orientation relative to the tilted torso.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.45018,
         "Neck Tilt Left-Right": -0.01449,
@@ -75,7 +75,7 @@
         "raw_value": 0.0396,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings rhythmically from the shoulder, bending at the elbow to pump the forearm forward and back for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.57005,
         "Left Shoulder Front-Back": -0.49791,
@@ -96,7 +96,7 @@
         "raw_value": 0.05545,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Counter-swings opposite to the left arm, driving backward and forward with a consistent bend at the elbow.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.07066,
         "Right Shoulder Front-Back": -0.51226,
@@ -117,7 +117,7 @@
         "raw_value": 0.23777,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward and lifts high at the knee before extending to push off the step, alternating with the right leg.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.28543,
         "Left Upper Leg In-Out": 0.05986,
@@ -137,7 +137,7 @@
         "raw_value": 0.21862,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps down and extends behind to propel the body forward, then bends to prepare for the next stride.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.36373,
         "Right Upper Leg In-Out": 0.08839,
@@ -157,7 +157,7 @@
         "raw_value": 0.15778,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains loosely curled at the end of the swinging arm, moving up and down with the arm's motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.97,
         "Left Thumb Spread": 0.47795,
@@ -189,7 +189,7 @@
         "raw_value": 0.1296,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays loosely clenched near the waist, pumping backward and forward in opposition to the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.98199,
         "Right Thumb Spread": 0.08693,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:46:29Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

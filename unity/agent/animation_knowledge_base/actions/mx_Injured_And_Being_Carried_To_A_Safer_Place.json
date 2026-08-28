@@ -14,7 +14,7 @@
   "duration": 10.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure falls backward onto the floor and then rolls to its side.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18523,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso tips backward from a leaning position, rotates through the fall, and comes to rest lying on its side.",
       "mean_pose": {
         "Spine Front-Back": -0.27706,
         "Spine Left-Right": -0.01824,
@@ -57,7 +57,7 @@
         "raw_value": 0.40913,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back as the body falls and turns to face upward while resting on the ground.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.08106,
         "Neck Tilt Left-Right": 0.25848,
@@ -75,7 +75,7 @@
         "raw_value": 0.4521,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends out to the side with the hand open, moving down toward the floor to break the fall.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.27219,
         "Left Shoulder Front-Back": -0.61167,
@@ -96,7 +96,7 @@
         "raw_value": 0.32132,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings forward and downward, ending with the hand near the hip in the final seated pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.39384,
         "Right Shoulder Front-Back": 0.09835,
@@ -117,7 +117,7 @@
         "raw_value": 0.19619,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee throughout the fall and ends up extended slightly forward on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.29561,
         "Left Upper Leg In-Out": 0.02735,
@@ -137,7 +137,7 @@
         "raw_value": 0.27875,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent and tucked under the body during the fall, finishing in a folded position against the torso.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.22813,
         "Right Upper Leg In-Out": -0.14675,
@@ -157,7 +157,7 @@
         "raw_value": 0.24672,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open with fingers spread as it reaches for the ground before coming to rest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.45602,
         "Left Thumb Spread": 0.02461,
@@ -189,7 +189,7 @@
         "raw_value": 0.21343,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from an elevated position to the side of the body, ending in a relaxed, open state.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.16405,
         "Right Thumb Spread": -0.41543,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:39:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

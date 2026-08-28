@@ -14,7 +14,7 @@
   "duration": 13.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward and then stops to bend over, clasping their hands together between their legs.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13315,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso moves forward in a walking gait before bending deeply at the waist to lean toward the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.10582,
         "Spine Left-Right": 0.11431,
@@ -57,7 +57,7 @@
         "raw_value": 0.27984,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the body's movement, tilting downward to look at the floor as the figure bends over.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.11737,
         "Neck Tilt Left-Right": 0.07594,
@@ -75,7 +75,7 @@
         "raw_value": 0.35239,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally during the walk before extending forward and down to meet the other hand.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.84952,
         "Left Shoulder Front-Back": -0.75068,
@@ -96,7 +96,7 @@
         "raw_value": 0.32987,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings naturally during the walk before extending forward and down to meet the other hand.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.87973,
         "Right Shoulder Front-Back": -0.40723,
@@ -117,7 +117,7 @@
         "raw_value": 0.1241,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg takes steps forward, planting firmly to support the weight of the bending upper body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.13214,
         "Left Upper Leg In-Out": 0.09563,
@@ -137,7 +137,7 @@
         "raw_value": 0.15327,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg takes steps forward, planting firmly to support the weight of the bending upper body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.27584,
         "Right Upper Leg In-Out": -0.07668,
@@ -157,7 +157,7 @@
         "raw_value": 0.30444,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand swings by the side while walking and then reaches down to clasp with the other hand.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.51606,
         "Left Thumb Spread": -0.17687,
@@ -189,7 +189,7 @@
         "raw_value": 0.47767,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand swings by the side while walking and then reaches down to clasp with the other hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.63673,
         "Right Thumb Spread": -0.189,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:44:18Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

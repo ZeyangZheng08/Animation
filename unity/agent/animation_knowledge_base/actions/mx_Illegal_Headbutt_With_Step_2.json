@@ -14,7 +14,7 @@
   "duration": 2.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a forward lunge combined with a headbutt, driving their head downward and forward while stepping into the motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10228,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply forward and drops low during the lunge, keeping the core aligned with the driving force of the head movement.",
       "mean_pose": {
         "Spine Front-Back": -0.26304,
         "Spine Left-Right": -0.03308,
@@ -57,7 +57,7 @@
         "raw_value": 0.12252,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head drives forcefully downward and forward in a straight line to deliver the headbutt, then retracts slightly as the body stabilizes.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04373,
         "Neck Tilt Left-Right": 0.03042,
@@ -75,7 +75,7 @@
         "raw_value": 0.10072,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm remains bent at the elbow, held tightly against the side of the chest in a defensive or balanced posture throughout the lunge.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.44442,
         "Left Shoulder Front-Back": 0.24696,
@@ -96,7 +96,7 @@
         "raw_value": 0.08048,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm stays bent near the upper chest, mirroring the left arm to maintain balance while the head performs the strike.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.17967,
         "Right Shoulder Front-Back": -0.80056,
@@ -117,7 +117,7 @@
         "raw_value": 0.11389,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends backward and bends at the knee, acting as the trailing leg that pushes off the ground to propel the body forward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.10186,
         "Left Upper Leg In-Out": 0.35925,
@@ -137,7 +137,7 @@
         "raw_value": 0.12403,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps forward and bends deeply at the knee to absorb the impact of the lunge, serving as the primary support leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.21376,
         "Right Upper Leg In-Out": 0.54504,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is clenched into a fist and held stationary at chest level.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is clenched into a fist and held stationary near the shoulder.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

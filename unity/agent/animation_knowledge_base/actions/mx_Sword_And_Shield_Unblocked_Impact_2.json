@@ -14,7 +14,7 @@
   "duration": 0.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, defensive crouch, bending their knees and dropping their center of gravity into a wide stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06837,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from the waist, tilting down to maintain balance over the bent legs.",
       "mean_pose": {
         "Spine Front-Back": -0.50677,
         "Spine Left-Right": -0.28432,
@@ -57,7 +57,7 @@
         "raw_value": 0.30372,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward, following the angle of the torso as the figure drops into the crouch.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.12508,
         "Neck Tilt Left-Right": 0.07353,
@@ -75,7 +75,7 @@
         "raw_value": 0.15938,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward and outward to the side, with the elbow slightly bent for stability.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.09992,
         "Left Shoulder Front-Back": -0.83042,
@@ -96,7 +96,7 @@
         "raw_value": 0.10784,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward and outward to the side, mirroring the left arm in a balanced posture.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.64063,
         "Right Shoulder Front-Back": 0.31877,
@@ -117,7 +117,7 @@
         "raw_value": 0.03198,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply at the knee, lowering the body toward the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.71383,
         "Left Upper Leg In-Out": 1.00005,
@@ -137,7 +137,7 @@
         "raw_value": 0.06891,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee, supporting the weight in a wide, stable stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.68399,
         "Right Upper Leg In-Out": 0.82567,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open, relaxed position at the end of the extended arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21301,
         "Left Thumb Spread": -0.90937,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open, relaxed position at the end of the extended arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:50:13Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 5.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits in a low crouch, shifting their weight and reaching forward to flip a switch on the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06377,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from a seated position, tilting down toward the left side before rising slightly upright.",
       "mean_pose": {
         "Spine Front-Back": -0.18692,
         "Spine Left-Right": 0.04096,
@@ -57,7 +57,7 @@
         "raw_value": 0.16503,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward to look at the hands and feet, maintaining a focused gaze on the lower body throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.19702,
         "Neck Tilt Left-Right": -0.0092,
@@ -75,7 +75,7 @@
         "raw_value": 0.31174,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and downward, with the hand reaching toward the space between the legs as if manipulating a control.",
       "mean_pose": {
         "Left Shoulder Down-Up": -2.12855,
         "Left Shoulder Front-Back": -0.63032,
@@ -96,7 +96,7 @@
         "raw_value": 0.22805,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely by the side, bending slightly at the elbow to keep the hand near the right knee for balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.87988,
         "Right Shoulder Front-Back": -0.64384,
@@ -117,7 +117,7 @@
         "raw_value": 0.02343,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent in a deep squat, serving as the primary support for the seated posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.46184,
         "Left Upper Leg In-Out": 0.13175,
@@ -137,7 +137,7 @@
         "raw_value": 0.03012,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the knee with the foot planted flat on the ground, anchoring the figure's stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.43707,
         "Right Upper Leg In-Out": 0.30683,
@@ -157,7 +157,7 @@
         "raw_value": 0.04543,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches out and presses down into the air between the knees, simulating the action of flipping a switch.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.69731,
         "Left Thumb Spread": 0.34986,
@@ -189,7 +189,7 @@
         "raw_value": 0.44089,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hovers just above the right thigh, fingers relaxed and open to assist with balance.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.13299,
         "Right Thumb Spread": -0.72388,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:48Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

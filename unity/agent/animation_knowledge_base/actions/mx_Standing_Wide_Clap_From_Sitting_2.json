@@ -14,7 +14,7 @@
   "duration": 4.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a seated position to stand, brings their hands together in a clap, and then returns to the seated position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08571,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward during the sitting pose, extends upright as the figure stands up, and lowers back down to finish the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.08559,
         "Spine Left-Right": 0.0044,
@@ -57,7 +57,7 @@
         "raw_value": 0.09902,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward while seated, lifts to face forward when standing, and dips back down at the end of the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.31144,
         "Neck Tilt Left-Right": -0.00195,
@@ -75,7 +75,7 @@
         "raw_value": 0.32818,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm rests on the thigh while seated, swings upward to join the clap in mid-air, and lowers back down to the leg.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.10476,
         "Left Shoulder Front-Back": -0.45295,
@@ -96,7 +96,7 @@
         "raw_value": 0.39483,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm rests on the thigh while seated, raises upward to meet the other hand for the clap, and descends back to the starting position.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.15724,
         "Right Shoulder Front-Back": -0.70766,
@@ -117,7 +117,7 @@
         "raw_value": 0.21169,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent deeply while seated, straightens out to support the body's weight during the standing phase, and bends again to sit down.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.12568,
         "Left Upper Leg In-Out": 0.12896,
@@ -137,7 +137,7 @@
         "raw_value": 0.21181,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent at the knee in the initial pose, extends fully to achieve a standing posture, and flexes once more to return to the seat.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.09178,
         "Right Upper Leg In-Out": 0.19553,
@@ -157,7 +157,7 @@
         "raw_value": 0.19913,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand rests on the thigh, moves upward to clap with the right hand, and returns to the leg at the conclusion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.54462,
         "Left Thumb Spread": 0.42281,
@@ -189,7 +189,7 @@
         "raw_value": 0.231,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand starts on the thigh, travels up to perform the wide clap, and drops back down to rest on the leg.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.24612,
         "Right Thumb Spread": 0.44447,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:49:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

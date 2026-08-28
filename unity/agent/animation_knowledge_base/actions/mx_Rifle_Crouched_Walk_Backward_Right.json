@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks backward in a low crouch while holding both arms extended forward in a rifle grip.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05398,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and bobs up and down with the rhythm of the backward steps, maintaining a consistent crouched height.",
       "mean_pose": {
         "Spine Front-Back": -0.5004,
         "Spine Left-Right": -0.09995,
@@ -57,7 +57,7 @@
         "raw_value": 0.00877,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains still and faces straight ahead, aligned with the direction of the arms.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.32008,
         "Neck Tilt Left-Right": 0.14805,
@@ -75,7 +75,7 @@
         "raw_value": 0.04231,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held bent at the elbow with the forearm angled inward toward the center of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.83841,
         "Left Shoulder Front-Back": -0.43545,
@@ -96,7 +96,7 @@
         "raw_value": 0.0722,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends forward from the shoulder to support the front of the implied weapon.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.55254,
         "Right Shoulder Front-Back": 0.52411,
@@ -117,7 +117,7 @@
         "raw_value": 0.24383,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg cycles through a walking motion, stepping backward and bending at the knee to push off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.09616,
         "Left Upper Leg In-Out": 0.46647,
@@ -137,7 +137,7 @@
         "raw_value": 0.25703,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, swinging backward and flexing to drive the body in reverse.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.17237,
         "Right Upper Leg In-Out": -0.09654,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static curled position near the center of the body, as if gripping a trigger.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.73518,
         "Left Thumb Spread": -0.39517,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and flat, extending straight out in front of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.83767,
         "Right Thumb Spread": -0.32191,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

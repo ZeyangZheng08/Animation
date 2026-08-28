@@ -14,7 +14,7 @@
   "duration": 6.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands and cries, bringing both hands up to rub their eyes before lowering them to their sides.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06584,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains largely upright with a slight forward lean at the chest that is maintained throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.05281,
         "Spine Left-Right": 0.06273,
@@ -57,7 +57,7 @@
         "raw_value": 0.17514,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward and bobs gently in sync with the arm movements, then lifts back to a neutral position at the end.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.10347,
         "Neck Tilt Left-Right": -0.09239,
@@ -75,7 +75,7 @@
         "raw_value": 0.34302,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm bends at the elbow to raise the hand toward the face, holds the pose while rubbing, and then extends downward to rest by the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.74679,
         "Left Shoulder Front-Back": -1.13624,
@@ -96,7 +96,7 @@
         "raw_value": 0.35163,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, bending to bring the hand up to the eye area, holding the position, and then extending down to rest at the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.22283,
         "Right Shoulder Front-Back": -0.38738,
@@ -117,7 +117,7 @@
         "raw_value": 0.04617,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the floor, supporting the body's weight with only minor shifts in stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.22662,
         "Left Upper Leg In-Out": 0.18718,
@@ -137,7 +137,7 @@
         "raw_value": 0.04404,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays firmly on the ground, maintaining a stable base for the upper body movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.52508,
         "Right Upper Leg In-Out": -0.13799,
@@ -157,7 +157,7 @@
         "raw_value": 0.39093,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from the hip level up to cover the eye area, making small rubbing motions before dropping back down to hang loosely.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.66195,
         "Left Thumb Spread": -0.21528,
@@ -189,7 +189,7 @@
         "raw_value": 0.50417,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand travels upward to meet the other hand at the eyes, performs a rubbing motion, and then lowers back down to the side of the thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.64524,
         "Right Thumb Spread": -0.11416,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:58Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

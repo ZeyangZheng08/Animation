@@ -14,7 +14,7 @@
   "duration": 3.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a neutral idle posture, with the arms and hands making subtle, relaxed swaying movements.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01139,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds a straight, upright position facing forward without shifting or rotating.",
       "mean_pose": {
         "Spine Front-Back": -0.08046,
         "Spine Left-Right": 0.07322,
@@ -57,7 +57,7 @@
         "raw_value": 0.01086,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Maintains a fixed, level orientation facing directly ahead throughout the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15503,
         "Neck Tilt Left-Right": 0.01275,
@@ -75,7 +75,7 @@
         "raw_value": 0.04632,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely at the side of the body with a slight bend at the elbow, performing a minor, rhythmic sway.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.6375,
         "Left Shoulder Front-Back": -1.09422,
@@ -96,7 +96,7 @@
         "raw_value": 0.0441,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Dangles naturally by the right hip with a gentle curve in the forearm, moving slightly in tandem with the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.79446,
         "Right Shoulder Front-Back": -0.94175,
@@ -117,7 +117,7 @@
         "raw_value": 0.00767,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands straight and stationary, supporting the weight on the foot which points slightly outward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.43375,
         "Left Upper Leg In-Out": 0.1816,
@@ -137,7 +137,7 @@
         "raw_value": 0.00571,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted firmly on the ground in a static stance, with the foot angled slightly to the right.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.59976,
         "Right Upper Leg In-Out": -0.05654,
@@ -157,7 +157,7 @@
         "raw_value": 0.02646,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hovers just above the thigh with fingers loosely curled, executing small, fluid shifts.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.46332,
         "Left Thumb Spread": -0.09227,
@@ -189,7 +189,7 @@
         "raw_value": 0.02633,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Rests near the right leg with relaxed, slightly bent fingers, mirroring the subtle motion of the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.34885,
         "Right Thumb Spread": -0.095,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:21Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

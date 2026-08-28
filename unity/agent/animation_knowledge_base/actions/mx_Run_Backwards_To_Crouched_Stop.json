@@ -14,7 +14,7 @@
   "duration": 1.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs backward while facing forward, then decelerates and lowers its body into a deep crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11105,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward during the backward run, then pitches further forward as it sinks down into the final crouched pose.",
       "mean_pose": {
         "Spine Front-Back": -1.31924,
         "Spine Left-Right": 0.11469,
@@ -57,7 +57,7 @@
         "raw_value": 0.10193,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains upright and facing forward throughout the sequence, tilting slightly downward as the torso bends in the crouch.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.25419,
         "Neck Tilt Left-Right": -0.01154,
@@ -75,7 +75,7 @@
         "raw_value": 0.34014,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent position with the forearm raised across the chest, maintaining this guard-like posture through the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.02347,
         "Left Shoulder Front-Back": -1.06221,
@@ -96,7 +96,7 @@
         "raw_value": 0.17849,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and outward to the side for balance, keeping the arm relatively straight during the transition from running to crouching.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.47818,
         "Right Shoulder Front-Back": 0.01865,
@@ -117,7 +117,7 @@
         "raw_value": 0.16142,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives upward and backward in a running motion, then bends deeply at the knee to support the weight in the low crouch.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.324,
         "Left Upper Leg In-Out": 0.34278,
@@ -137,7 +137,7 @@
         "raw_value": 0.28646,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off the ground behind the body during the run, then brings the foot forward to bend and settle into the crouched stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.12216,
         "Right Upper Leg In-Out": 0.20721,
@@ -157,7 +157,7 @@
         "raw_value": 0.22084,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips near the center of the chest, staying close to the body as the arms move with the torso's descent.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.34001,
         "Left Thumb Spread": -0.00278,
@@ -189,7 +189,7 @@
         "raw_value": 0.18779,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches out in front with fingers extended, stabilizing the upper body as the figure slows and drops into the crouch.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.45254,
         "Right Thumb Spread": -0.59557,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:46:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

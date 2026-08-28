@@ -14,7 +14,7 @@
   "duration": 1.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a wide, sweeping cross slash with the right arm while stepping forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07852,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and rotates to the left, following the momentum of the arm swing.",
       "mean_pose": {
         "Spine Front-Back": -0.29249,
         "Spine Left-Right": -0.03963,
@@ -57,7 +57,7 @@
         "raw_value": 0.31984,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward and turns to the left, tracking the path of the swinging arm.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.08404,
         "Neck Tilt Left-Right": -0.01511,
@@ -75,7 +75,7 @@
         "raw_value": 0.33545,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward to the side for balance, then pulls back across the chest into a guard position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.15029,
         "Left Shoulder Front-Back": -0.76609,
@@ -96,7 +96,7 @@
         "raw_value": 0.5042,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings in a wide arc from the upper left down across the body to the lower right.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.02473,
         "Right Shoulder Front-Back": -0.23396,
@@ -117,7 +117,7 @@
         "raw_value": 0.18665,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward and bends at the knee to absorb the weight of the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.07194,
         "Left Upper Leg In-Out": 0.36838,
@@ -137,7 +137,7 @@
         "raw_value": 0.23288,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind, extending backward with the heel raised off the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.17561,
         "Right Upper Leg In-Out": 0.36889,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains clenched in a fist throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21301,
         "Left Thumb Spread": -0.90937,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays clenched in a fist as it leads the slashing movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:02Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward, pivots to the right, and settles into a standing idle position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04669,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso moves forward with the stride, then rotates to the right as the figure turns, finishing in a neutral upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.30739,
         "Spine Left-Right": 0.00694,
@@ -57,7 +57,7 @@
         "raw_value": 0.06661,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head faces forward during the walk, follows the torso's rotation to the right, and ends facing front.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.12439,
         "Neck Tilt Left-Right": 0.06207,
@@ -75,7 +75,7 @@
         "raw_value": 0.146,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally at the side during the walk and turn, coming to rest relaxed by the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.13593,
         "Left Shoulder Front-Back": -0.42782,
@@ -96,7 +96,7 @@
         "raw_value": 0.09524,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings opposite the left arm during the movement and finishes hanging straight down.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.42166,
         "Right Shoulder Front-Back": -0.28686,
@@ -117,7 +117,7 @@
         "raw_value": 0.11822,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward and plants on the ground, serving as the pivot point for the body's rotation to the right.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.30478,
         "Left Upper Leg In-Out": 0.07954,
@@ -137,7 +137,7 @@
         "raw_value": 0.16196,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg drives the forward motion, swinging around during the turn to come to a stop beside the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.51225,
         "Right Upper Leg In-Out": 0.07128,
@@ -157,7 +157,7 @@
         "raw_value": 0.20036,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs loosely at the side of the body throughout the entire sequence.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.75083,
         "Left Thumb Spread": 0.27135,
@@ -189,7 +189,7 @@
         "raw_value": 0.12411,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and relaxed at the side, moving only with the natural swing of the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.96087,
         "Right Thumb Spread": -0.07292,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:42:31Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

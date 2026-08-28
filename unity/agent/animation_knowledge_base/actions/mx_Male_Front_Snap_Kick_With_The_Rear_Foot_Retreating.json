@@ -14,7 +14,7 @@
   "duration": 2.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure leaps into the air to perform a high kick with the right leg, then retracts the leg and lands in a crouched position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14488,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso tilts forward as the figure jumps, leans back during the peak of the kick, and returns to an upright stance upon landing.",
       "mean_pose": {
         "Spine Front-Back": -0.1522,
         "Spine Left-Right": -0.02467,
@@ -57,7 +57,7 @@
         "raw_value": 0.22148,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the movement of the torso, tilting forward during the jump and returning to a neutral position.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03881,
         "Neck Tilt Left-Right": -0.04192,
@@ -75,7 +75,7 @@
         "raw_value": 0.23318,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and outward for balance during the jump, then tucks back toward the chest on landing.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.2411,
         "Left Shoulder Front-Back": 0.02829,
@@ -96,7 +96,7 @@
         "raw_value": 0.27125,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is pulled back near the shoulder during the kick and extends slightly backward as the figure descends.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.39108,
         "Right Shoulder Front-Back": -0.04757,
@@ -117,7 +117,7 @@
         "raw_value": 0.23906,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to act as the supporting limb throughout the jump and kick, extending downward to land.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.09692,
         "Left Upper Leg In-Out": 0.39912,
@@ -137,7 +137,7 @@
         "raw_value": 0.3168,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts from the ground, swings up to extend fully for the kick, and then retracts back down to meet the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.18549,
         "Right Upper Leg In-Out": 0.20247,
@@ -157,7 +157,7 @@
         "raw_value": 0.37385,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and moves along with the arm's balancing swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.41421,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays relatively close to the body, moving with the arm's slight recoil.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:49Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

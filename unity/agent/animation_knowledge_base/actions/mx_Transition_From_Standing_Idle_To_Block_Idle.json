@@ -14,7 +14,7 @@
   "duration": 0.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a standing idle pose into a martial arts block stance by raising both arms to the chest.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09298,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and twists subtly to the left as it moves from an upright position into a stable, grounded stance.",
       "mean_pose": {
         "Spine Front-Back": -0.19001,
         "Spine Left-Right": 0.0302,
@@ -57,7 +57,7 @@
         "raw_value": 0.21059,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward and turns toward the figure's right side while maintaining focus on the front.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.41632,
         "Neck Tilt Left-Right": 0.10986,
@@ -75,7 +75,7 @@
         "raw_value": 0.28365,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and inward from a relaxed position at the hip, ending with the elbow bent and the hand raised near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.07459,
         "Left Shoulder Front-Back": -1.33541,
@@ -96,7 +96,7 @@
         "raw_value": 0.3604,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging up and across the body to finish with the elbow bent and the hand held high in front of the shoulder.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.48318,
         "Right Shoulder Front-Back": -1.64905,
@@ -117,7 +117,7 @@
         "raw_value": 0.11023,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to lower the body's center of gravity, shifting weight onto the foot which is planted firmly.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.0258,
         "Left Upper Leg In-Out": 0.15381,
@@ -137,7 +137,7 @@
         "raw_value": 0.21938,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends slightly backward with the knee bent, supporting the rear of the stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.53839,
         "Right Upper Leg In-Out": 0.21277,
@@ -157,7 +157,7 @@
         "raw_value": 0.23167,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand clenches into a loose fist, rotating the palm inward as it rises to guard the upper chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.03708,
         "Left Thumb Spread": 0.52491,
@@ -189,7 +189,7 @@
         "raw_value": 0.21258,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand forms a loose fist, turning the palm down and outward as it reaches its final blocking position near the face.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.84491,
         "Right Thumb Spread": 0.66683,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 19.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a rhythmic samba dance, stepping side to side with bent knees while swaying the torso and moving the arms in fluid, alternating gestures.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17045,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward slightly and rocks from side to side, twisting gently to follow the rhythm of the steps.",
       "mean_pose": {
         "Spine Front-Back": -0.40519,
         "Spine Left-Right": 0.01561,
@@ -57,7 +57,7 @@
         "raw_value": 0.31861,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head bobs up and down with the bounce of the hips and turns slightly to look over the shoulders during the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.17161,
         "Neck Tilt Left-Right": -0.09324,
@@ -75,7 +75,7 @@
         "raw_value": 0.3046,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings loosely at the side, bending at the elbow so the hand moves up toward shoulder height and back down.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.28246,
         "Left Shoulder Front-Back": -0.25691,
@@ -96,7 +96,7 @@
         "raw_value": 0.31114,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging freely by the side with a relaxed bend in the elbow that lifts the forearm periodically.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.23482,
         "Right Shoulder Front-Back": -0.34652,
@@ -117,7 +117,7 @@
         "raw_value": 0.19507,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee, stepping out to the side and returning to center in a continuous bouncing motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.28913,
         "Left Upper Leg In-Out": 0.14822,
@@ -137,7 +137,7 @@
         "raw_value": 0.21625,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, bending at the knee to step outward and push off to drive the body's lateral movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.28831,
         "Right Upper Leg In-Out": 0.04568,
@@ -157,7 +157,7 @@
         "raw_value": 0.05952,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers spread, gesturing outward as it travels along the arc of the arm swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.07469,
         "Left Thumb Spread": 0.01843,
@@ -189,7 +189,7 @@
         "raw_value": 0.19438,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed, mirroring the position and flow of the left hand throughout the sequence.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.07029,
         "Right Thumb Spread": 0.04462,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:07:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

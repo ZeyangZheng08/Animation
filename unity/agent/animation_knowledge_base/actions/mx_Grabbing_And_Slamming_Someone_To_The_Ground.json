@@ -14,7 +14,7 @@
   "duration": 4.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lunges forward to grab and pull an unseen person down, ending in a low crouch with hands raised.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18838,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into the lunge, dips low as it pulls the target down, and remains bent over at the end.",
       "mean_pose": {
         "Spine Front-Back": -0.12378,
         "Spine Left-Right": -0.02761,
@@ -57,7 +57,7 @@
         "raw_value": 0.32685,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and forward to look at the grabbing hands, then lifts slightly as the body lowers.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00887,
         "Neck Tilt Left-Right": -0.05148,
@@ -75,7 +75,7 @@
         "raw_value": 0.52292,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches out and down to grasp the target, then bends upward as the figure crouches.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.15233,
         "Left Shoulder Front-Back": -1.21356,
@@ -96,7 +96,7 @@
         "raw_value": 0.52343,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward to help pull the target down, then raises up alongside the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.1881,
         "Right Shoulder Front-Back": -1.31915,
@@ -117,7 +117,7 @@
         "raw_value": 0.28179,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward into a deep lunge and holds the bent position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.21529,
         "Left Upper Leg In-Out": 0.32838,
@@ -137,7 +137,7 @@
         "raw_value": 0.28536,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trails back behind the body, extending straight during the lunge.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.02637,
         "Right Upper Leg In-Out": 0.50375,
@@ -157,7 +157,7 @@
         "raw_value": 0.67176,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens to reach for the target, closes its grip, and lifts up high.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.4755,
         "Left Thumb Spread": -0.80133,
@@ -189,7 +189,7 @@
         "raw_value": 0.62687,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches out to assist the grab, clenching as it is pulled downward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.30657,
         "Right Thumb Spread": -0.52846,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

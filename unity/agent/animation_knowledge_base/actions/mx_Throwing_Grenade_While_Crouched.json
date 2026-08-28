@@ -14,7 +14,7 @@
   "duration": 3.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A crouching figure throws an object forward with their right hand.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13358,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward from a low, crouched position, twisting to the left as the throw progresses.",
       "mean_pose": {
         "Spine Front-Back": -1.22998,
         "Spine Left-Right": 0.11877,
@@ -57,7 +57,7 @@
         "raw_value": 0.16516,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head faces forward and down initially, then lifts and turns slightly to the left to follow the motion of the throw.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.45626,
         "Neck Tilt Left-Right": 0.01093,
@@ -75,7 +75,7 @@
         "raw_value": 0.16084,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held bent in front of the chest, moving slightly outward for balance before returning inward.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.17776,
         "Left Shoulder Front-Back": -0.48007,
@@ -96,7 +96,7 @@
         "raw_value": 0.41758,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm starts extended forward and downward, swings up behind the body, and then extends fully forward in a throwing motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.32936,
         "Right Shoulder Front-Back": 0.09056,
@@ -117,7 +117,7 @@
         "raw_value": 0.08333,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains bent in a deep squat, providing a stable base throughout the action.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.37997,
         "Left Upper Leg In-Out": 0.40518,
@@ -137,7 +137,7 @@
         "raw_value": 0.10171,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays bent in a low crouch, supporting the weight of the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.05296,
         "Right Upper Leg In-Out": 0.21589,
@@ -157,7 +157,7 @@
         "raw_value": 0.17997,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is kept open and raised near the chest, acting as a counterbalance to the throwing arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.18438,
         "Left Thumb Spread": 0.04949,
@@ -189,7 +189,7 @@
         "raw_value": 0.43457,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from a low starting position to a high extension, releasing the unseen object at the peak of the forward swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.36466,
         "Right Thumb Spread": -0.88096,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

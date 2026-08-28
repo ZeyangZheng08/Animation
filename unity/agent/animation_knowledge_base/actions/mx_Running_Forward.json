@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static mid-stride running pose, facing forward with the right leg extended ahead and the left leg trailing behind.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward in an upright posture, maintaining a stable, fixed position throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.1037,
         "Spine Left-Right": -0.01461,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces straight ahead, aligned with the torso and remaining completely still.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.16174,
         "Neck Tilt Left-Right": 0.21137,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow with the hand held up near the hip, staying fixed in place.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.06573,
         "Left Shoulder Front-Back": -0.22757,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extended downward and slightly back from the body, holding a steady pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.13336,
         "Right Shoulder Front-Back": -0.59913,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trailing behind the body with the knee bent and the foot lifted off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.03787,
         "Left Upper Leg In-Out": -0.15065,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stepping forward with the knee bent and the foot lowered toward the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.75674,
         "Right Upper Leg In-Out": 0.07345,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held loosely near the hip, remaining stationary.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.54076,
         "Left Thumb Spread": -0.1256,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangling relaxed by the side of the thigh, keeping a fixed position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.63662,
         "Right Thumb Spread": 0.01974,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:21Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

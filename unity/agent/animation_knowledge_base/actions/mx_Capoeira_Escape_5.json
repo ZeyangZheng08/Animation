@@ -14,7 +14,7 @@
   "duration": 2.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, sweeping capoeira escape, dropping from a side-plank position to the floor and rolling backward into a crouched stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.20756,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leaning heavily to one side in a side-plank at first, the torso rotates downward as it drops toward the floor, arching over the legs during the roll before straightening back up into a forward-leaning crouch.",
       "mean_pose": {
         "Spine Front-Back": -0.09896,
         "Spine Left-Right": 0.01965,
@@ -57,7 +57,7 @@
         "raw_value": 0.2738,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Starting tucked down near the supporting arm, the head follows the torso's rotation as it sweeps low across the floor during the roll, ending up tilted down and forward in the final crouch.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.12139,
         "Neck Tilt Left-Right": -0.00449,
@@ -75,7 +75,7 @@
         "raw_value": 0.47981,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Initially extended upward to balance the body, the left arm swings down to plant on the floor for support, then pulls back in close to the body as the figure rises out of the roll.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.31776,
         "Left Shoulder Front-Back": -0.82192,
@@ -96,7 +96,7 @@
         "raw_value": 0.64996,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extended down to support the weight in the initial side-plank, the right arm pushes against the ground to initiate the movement, then trails behind the body before reaching forward again in the final pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.99047,
         "Right Shoulder Front-Back": 0.06365,
@@ -117,7 +117,7 @@
         "raw_value": 0.31975,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bent underneath the body to provide a base for the initial side-plank, the left leg extends outward during the sweep and then bends sharply as the figure tucks into the low crouch.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.32116,
         "Left Upper Leg In-Out": 0.39509,
@@ -137,7 +137,7 @@
         "raw_value": 0.3534,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stretched out straight in the starting pose, the right leg folds under the hips during the roll and ends with the knee bent and foot planted in the final crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.28137,
         "Right Upper Leg In-Out": 0.20927,
@@ -157,7 +157,7 @@
         "raw_value": 0.28884,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Raised high with fingers spread for balance, the left hand moves down to touch the floor briefly before pulling back and hovering near the waist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.97517,
         "Left Thumb Spread": -0.01507,
@@ -189,7 +189,7 @@
         "raw_value": 0.26651,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Pressed flat on the ground to hold the side-plank, the right hand slides along the floor during the transition and finishes open and hovering just above the ground.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.46418,
         "Right Thumb Spread": 0.31319,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:50Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

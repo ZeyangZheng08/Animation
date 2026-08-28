@@ -14,7 +14,7 @@
   "duration": 1.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward with a steady, rhythmic gait.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1061,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso maintains an upright posture while bobbing slightly up and down and rotating subtly in sync with the leg movements.",
       "mean_pose": {
         "Spine Front-Back": -0.43878,
         "Spine Left-Right": 0.0707,
@@ -57,7 +57,7 @@
         "raw_value": 0.04142,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward, moving gently up and down with the body's rhythm.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.46396,
         "Neck Tilt Left-Right": -0.0083,
@@ -75,7 +75,7 @@
         "raw_value": 0.1325,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally in opposition to the left leg, bending at the elbow as it moves from front to back.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.80986,
         "Left Shoulder Front-Back": -0.36055,
@@ -96,7 +96,7 @@
         "raw_value": 0.15863,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings naturally in opposition to the right leg, bending at the elbow as it moves from front to back.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.14448,
         "Right Shoulder Front-Back": -0.42761,
@@ -117,7 +117,7 @@
         "raw_value": 0.20357,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between lifting and extending forward for a step and pushing off the ground behind the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.32429,
         "Left Upper Leg In-Out": 0.16852,
@@ -137,7 +137,7 @@
         "raw_value": 0.20316,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates between lifting and extending forward for a step and pushing off the ground behind the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.41173,
         "Right Upper Leg In-Out": -0.05149,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains relaxed and open, hanging loosely by the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.25972,
         "Left Thumb Spread": -0.22268,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains relaxed and open, hanging loosely by the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.1525,
         "Right Thumb Spread": -0.23226,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:36:44Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

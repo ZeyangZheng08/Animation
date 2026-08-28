@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a static, relaxed pose with its legs crossed at the ankles and arms hanging loosely by its sides.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stationary throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.11897,
         "Spine Left-Right": 0.04986,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is held straight up, facing forward without any movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.12289,
         "Neck Tilt Left-Right": -0.0363,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs relaxed at the side of the body, remaining still.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.16507,
         "Left Shoulder Front-Back": -0.36362,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm rests loosely by the side, holding a fixed position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.32586,
         "Right Shoulder Front-Back": -0.48648,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends downward to the floor, standing straight and still.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.23321,
         "Left Upper Leg In-Out": 0.04425,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg crosses over in front of the left leg, resting on the toes while staying motionless.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.33808,
         "Right Upper Leg In-Out": -0.18349,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs open and relaxed near the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.32028,
         "Left Thumb Spread": -0.8284,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand dangles loosely at the side of the thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.00823,
         "Right Thumb Spread": -0.08438,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:02Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

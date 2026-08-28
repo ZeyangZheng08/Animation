@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks backward in a low crouch while holding both arms up in a fixed rifle-ready position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05415,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward over the hips in a deep squat, bobbing slightly with each step as it moves backward.",
       "mean_pose": {
         "Spine Front-Back": -0.80921,
         "Spine Left-Right": -0.09018,
@@ -57,7 +57,7 @@
         "raw_value": 0.00946,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady, upright orientation facing directly forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11484,
         "Neck Tilt Left-Right": 0.11374,
@@ -75,7 +75,7 @@
         "raw_value": 0.04582,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow and raised to chest height, pointing straight ahead.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.03552,
         "Left Shoulder Front-Back": -2.1033,
@@ -96,7 +96,7 @@
         "raw_value": 0.06274,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow and held up near the chin, aligned with the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.03679,
         "Right Shoulder Front-Back": -1.71382,
@@ -117,7 +117,7 @@
         "raw_value": 0.25592,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives backward with a bent knee, stepping alternately to propel the body rearward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.30749,
         "Left Upper Leg In-Out": 0.26578,
@@ -137,7 +137,7 @@
         "raw_value": 0.24234,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps back in an alternating rhythm, bending and extending to support the weight during the retreat.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.1891,
         "Right Upper Leg In-Out": -0.17624,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, open pose with fingers extended forward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.73517,
         "Left Thumb Spread": -0.39517,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a fixed, open shape positioned near the face.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.83767,
         "Right Thumb Spread": -0.32191,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:45:08Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

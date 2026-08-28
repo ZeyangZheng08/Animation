@@ -14,7 +14,7 @@
   "duration": 2.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward and then executes a front roll on the ground.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13947,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward while running, then drops to the floor and arches into a tight tuck as it rolls over its back.",
       "mean_pose": {
         "Spine Front-Back": -0.22401,
         "Spine Left-Right": -0.01663,
@@ -57,7 +57,7 @@
         "raw_value": 0.41767,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is held low during the run, then tucks toward the chest and rotates through the full circle of the roll.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.38666,
         "Neck Tilt Left-Right": -0.4406,
@@ -75,7 +75,7 @@
         "raw_value": 0.45376,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings backward during the run before extending down to the floor to help push the body up from the roll.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.43792,
         "Left Shoulder Front-Back": -0.52336,
@@ -96,7 +96,7 @@
         "raw_value": 0.48128,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings forward during the run and extends out to the side for balance before pushing off the ground at the end of the roll.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.10719,
         "Right Shoulder Front-Back": -0.86349,
@@ -117,7 +117,7 @@
         "raw_value": 0.30634,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the running stride and then tucks tightly against the body to form the rolling ball shape.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.28207,
         "Left Upper Leg In-Out": 0.28875,
@@ -137,7 +137,7 @@
         "raw_value": 0.30561,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates in the running stride and tucks alongside the other leg to complete the compact rolling posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.45261,
         "Right Upper Leg In-Out": 0.14932,
@@ -157,7 +157,7 @@
         "raw_value": 0.34316,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and swings with the arm, then reaches down to press against the floor to aid the upward momentum.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.09451,
         "Left Thumb Spread": -0.30922,
@@ -189,7 +189,7 @@
         "raw_value": 0.39837,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open and swings with the arm, then touches the ground near the hips to help finish the roll.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.28735,
         "Right Thumb Spread": -0.45071,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:07:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

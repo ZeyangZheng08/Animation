@@ -14,7 +14,7 @@
   "duration": 2.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a cross-jump, hopping from foot to foot while rotating its body.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03637,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and rotates continuously around the vertical axis as the figure hops.",
       "mean_pose": {
         "Spine Front-Back": -0.03356,
         "Spine Left-Right": 0.0245,
@@ -57,7 +57,7 @@
         "raw_value": 0.3033,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays upright above the shoulders and turns with the torso's rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.07604,
         "Neck Tilt Left-Right": -0.01094,
@@ -75,7 +75,7 @@
         "raw_value": 0.15778,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, held up in front of the chest, and swings with the body's spin.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.363,
         "Left Shoulder Front-Back": -0.09023,
@@ -96,7 +96,7 @@
         "raw_value": 0.13031,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, bent at the elbow and raised in front of the chest, moving in sync with the rotation.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.54332,
         "Right Shoulder Front-Back": -0.46889,
@@ -117,7 +117,7 @@
         "raw_value": 0.15741,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between being planted on the ground and lifting to cross over the other leg during each hop.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.18403,
         "Left Upper Leg In-Out": 0.28678,
@@ -137,7 +137,7 @@
         "raw_value": 0.14773,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, either supporting the weight or crossing over mid-air.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.16397,
         "Right Upper Leg In-Out": 0.31013,
@@ -157,7 +157,7 @@
         "raw_value": 0.07032,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers spread, held at chest level throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.18885,
         "Left Thumb Spread": -0.02068,
@@ -189,7 +189,7 @@
         "raw_value": 0.07083,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open with fingers extended, positioned near the chest and moving with the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.02382,
         "Right Thumb Spread": 0.5445,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:23Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

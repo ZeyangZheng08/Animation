@@ -14,7 +14,7 @@
   "duration": 1.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a low crouch to an upright standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04711,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rises and straightens, moving from a forward-leaning crouch to an upright posture.",
       "mean_pose": {
         "Spine Front-Back": -0.18542,
         "Spine Left-Right": -0.00733,
@@ -57,7 +57,7 @@
         "raw_value": 0.1401,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head lifts along with the body and remains facing forward throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.19572,
         "Neck Tilt Left-Right": -0.34102,
@@ -75,7 +75,7 @@
         "raw_value": 0.08473,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm stays bent at the elbow with the hand held up in front of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.33939,
         "Left Shoulder Front-Back": -0.61243,
@@ -96,7 +96,7 @@
         "raw_value": 0.10171,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward to the side and then lowers down to rest at the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.45072,
         "Right Shoulder Front-Back": -0.41959,
@@ -117,7 +117,7 @@
         "raw_value": 0.24931,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply in the crouch and then extends to support the full weight of the body while standing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.23214,
         "Left Upper Leg In-Out": 0.31599,
@@ -137,7 +137,7 @@
         "raw_value": 0.25941,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg moves from a bent, forward-planted position to a straight stance alongside the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.10307,
         "Right Upper Leg In-Out": 0.10658,
@@ -157,7 +157,7 @@
         "raw_value": 0.01549,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held relatively still in a loose fist near the upper chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41852,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.05848,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from an extended position out to the side down to hang loosely by the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.76285,
         "Right Thumb Spread": 0.10536,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

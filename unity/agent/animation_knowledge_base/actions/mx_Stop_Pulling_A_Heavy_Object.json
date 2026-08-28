@@ -14,7 +14,7 @@
   "duration": 1.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stops pulling a heavy object by releasing their grip and stepping back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15699,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a low, braced stance before straightening upright as the arms drop to the sides.",
       "mean_pose": {
         "Spine Front-Back": -0.14637,
         "Spine Left-Right": 0.02795,
@@ -57,7 +57,7 @@
         "raw_value": 0.1706,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the hands during the pull, then lifts up as the body returns to a neutral standing position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.17894,
         "Neck Tilt Left-Right": 0.00471,
@@ -75,7 +75,7 @@
         "raw_value": 0.2922,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward with a bent elbow in a gripping posture, then lowers and swings slightly backward to rest at the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.54785,
         "Left Shoulder Front-Back": -0.79557,
@@ -96,7 +96,7 @@
         "raw_value": 0.20939,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches forward to meet the left hand in a two-handed grip, then drops down and away from the body to hang at the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.68026,
         "Right Shoulder Front-Back": -0.74362,
@@ -117,7 +117,7 @@
         "raw_value": 0.16908,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply in a lunge-like stance, then straightens as the figure steps back to a balanced position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.03309,
         "Left Upper Leg In-Out": 0.06044,
@@ -137,7 +137,7 @@
         "raw_value": 0.19016,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains relatively straight behind the left leg during the pull, then shifts weight forward as the figure settles into a standing pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.0838,
         "Right Upper Leg In-Out": 0.06681,
@@ -157,7 +157,7 @@
         "raw_value": 0.25831,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a firm, open-palmed grip extended in front of the chest, then opens and falls to the side of the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.95846,
         "Left Thumb Spread": -0.31046,
@@ -189,7 +189,7 @@
         "raw_value": 0.2648,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Graps the left hand or an unseen object in front of the body, then releases the hold and drops down to the side of the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.27355,
         "Right Thumb Spread": 0.35011,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:41Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure teeters back and forth on the balls of its feet, leaning side to side in an attempt to maintain balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08883,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rocks backward and forward, tilting laterally to one side and then the other as it shifts its weight.",
       "mean_pose": {
         "Spine Front-Back": -0.10851,
         "Spine Left-Right": 0.06538,
@@ -57,7 +57,7 @@
         "raw_value": 0.12886,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the tilt of the torso, dipping down and turning slightly toward the direction of each lean.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05756,
         "Neck Tilt Left-Right": 0.04633,
@@ -75,7 +75,7 @@
         "raw_value": 0.15827,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and downward from the shoulder, extending away from the body to help counterbalance the sway.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.8164,
         "Left Shoulder Front-Back": -0.67384,
@@ -96,7 +96,7 @@
         "raw_value": 0.14783,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the motion, swinging out to the opposite side to stabilize the body's shifting center of gravity.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.51078,
         "Right Shoulder Front-Back": -0.44672,
@@ -117,7 +117,7 @@
         "raw_value": 0.1886,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and rises onto the ball of the foot, swaying inward and outward with the body's roll.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.4535,
         "Left Upper Leg In-Out": 0.01579,
@@ -137,7 +137,7 @@
         "raw_value": 0.20273,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains bent and elevated on the toe, moving in tandem with the left leg to support the rocking motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.43064,
         "Right Upper Leg In-Out": -0.04287,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open with fingers extended and relaxed.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.5267,
         "Left Thumb Spread": 0.41387,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held open with fingers extended and relaxed.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.0658,
         "Right Thumb Spread": 0.07775,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

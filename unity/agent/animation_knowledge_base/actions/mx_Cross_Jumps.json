@@ -14,7 +14,7 @@
   "duration": 2.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a continuous cross jump, hopping on both feet while swinging the legs to cross in front of each other.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02679,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and centered, with slight vertical bobbing that follows the rhythm of the jumps.",
       "mean_pose": {
         "Spine Front-Back": -0.05872,
         "Spine Left-Right": 0.00465,
@@ -57,7 +57,7 @@
         "raw_value": 0.05816,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward, maintaining a steady orientation throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11821,
         "Neck Tilt Left-Right": 0.00064,
@@ -75,7 +75,7 @@
         "raw_value": 0.08426,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow and held up near the chest, moving slightly in coordination with the body's bounce.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.32435,
         "Left Shoulder Front-Back": 0.19084,
@@ -96,7 +96,7 @@
         "raw_value": 0.0748,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left arm, staying bent and raised near the chest with subtle rhythmic motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.41429,
         "Right Shoulder Front-Back": -0.39861,
@@ -117,7 +117,7 @@
         "raw_value": 0.19457,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the jumping motion, extending backward and then swinging across the midline to land on the right side.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.14834,
         "Left Upper Leg In-Out": -0.02737,
@@ -137,7 +137,7 @@
         "raw_value": 0.1674,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, pushing off the ground and crossing over to the left side during each hop.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.15294,
         "Right Upper Leg In-Out": 0.05733,
@@ -157,7 +157,7 @@
         "raw_value": 0.13727,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is kept open and relaxed, positioned near the upper chest area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.18885,
         "Left Thumb Spread": -0.02068,
@@ -189,7 +189,7 @@
         "raw_value": 0.13784,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and relaxed, mirroring the position of the left hand near the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.02382,
         "Right Thumb Spread": 0.5445,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

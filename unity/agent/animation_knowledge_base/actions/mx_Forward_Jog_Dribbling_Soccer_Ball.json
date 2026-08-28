@@ -14,7 +14,7 @@
   "duration": 1.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward in a steady jog, pumping their arms and swinging their legs to maintain momentum.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0866,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and bobs up and down with the rhythm of the running stride.",
       "mean_pose": {
         "Spine Front-Back": -0.28237,
         "Spine Left-Right": -0.04117,
@@ -57,7 +57,7 @@
         "raw_value": 0.12297,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays upright and level, facing straight ahead as it moves through the space.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.18114,
         "Neck Tilt Left-Right": -0.01544,
@@ -75,7 +75,7 @@
         "raw_value": 0.13962,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings alternately from the front to the back of the body, bent at the elbow throughout the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.42265,
         "Left Shoulder Front-Back": -0.00728,
@@ -96,7 +96,7 @@
         "raw_value": 0.09658,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging backward when the left is forward and vice versa in a continuous cycle.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.55842,
         "Right Shoulder Front-Back": 0.04232,
@@ -117,7 +117,7 @@
         "raw_value": 0.23194,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives forward with a bent knee before extending to push off the ground, then trails behind.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.30434,
         "Left Upper Leg In-Out": -0.03215,
@@ -137,7 +137,7 @@
         "raw_value": 0.20988,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg cycles opposite to the left, lifting forward and pushing back to propel the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.28967,
         "Right Upper Leg In-Out": -0.04166,
@@ -157,7 +157,7 @@
         "raw_value": 0.09894,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains loosely clenched near waist height as it travels through the swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.54283,
         "Left Thumb Spread": -0.047,
@@ -189,7 +189,7 @@
         "raw_value": 0.0603,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays closed in a loose fist, moving in sync with the right arm's pendulum motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.99317,
         "Right Thumb Spread": 0.06414,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

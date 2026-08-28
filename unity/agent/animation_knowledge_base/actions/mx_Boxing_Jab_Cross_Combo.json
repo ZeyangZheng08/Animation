@@ -14,7 +14,7 @@
   "duration": 2.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure throws a quick, straight punch with the right arm from a boxing stance before retracting it.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08129,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and twists slightly to the left to generate power for the punch, then returns to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.45673,
         "Spine Left-Right": -0.05663,
@@ -57,7 +57,7 @@
         "raw_value": 0.14198,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays relatively still, facing forward with a slight tilt down toward the target.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.08382,
         "Neck Tilt Left-Right": -0.1141,
@@ -75,7 +75,7 @@
         "raw_value": 0.10812,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow, held up near the chest in a defensive guard position throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.52148,
         "Left Shoulder Front-Back": 0.24594,
@@ -96,7 +96,7 @@
         "raw_value": 0.12478,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends fully straight out in front of the body to deliver a jab, then pulls back into a bent guard position.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.07073,
         "Right Shoulder Front-Back": -0.40026,
@@ -117,7 +117,7 @@
         "raw_value": 0.11542,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground with a bent knee, providing a stable base for the upper body movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.08701,
         "Left Upper Leg In-Out": 0.32161,
@@ -137,7 +137,7 @@
         "raw_value": 0.12981,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Shifts backward and bends further as the torso leans into the punch, then moves forward to return to the starting stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.36678,
         "Right Upper Leg In-Out": 0.31314,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a tight fist shape while resting near the chin in a guard posture.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.22357,
         "Left Thumb Spread": -1.53558,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a tight fist shape as it extends outward to strike and then retracts.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.20254,
         "Right Thumb Spread": -1.04592,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:11Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

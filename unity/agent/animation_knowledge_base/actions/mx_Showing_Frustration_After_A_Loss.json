@@ -14,7 +14,7 @@
   "duration": 6.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place, turning its body from a front-facing stance to face away while hunching forward and bringing its hands together.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06863,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from facing forward to facing backward, bending into a pronounced forward hunch by the end of the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.14522,
         "Spine Left-Right": 0.04519,
@@ -57,7 +57,7 @@
         "raw_value": 0.22091,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and turns with the torso's rotation, finishing in a bowed position as it faces away.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04826,
         "Neck Tilt Left-Right": 0.02917,
@@ -75,7 +75,7 @@
         "raw_value": 0.16239,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from an outward position at the start to hanging down by the side during the turn.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.21163,
         "Left Shoulder Front-Back": 0.4718,
@@ -96,7 +96,7 @@
         "raw_value": 0.17248,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves from an open position on the side toward the center of the body, ending near the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.14591,
         "Right Shoulder Front-Back": 0.20918,
@@ -117,7 +117,7 @@
         "raw_value": 0.07913,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays planted with a slight bend throughout the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.43212,
         "Left Upper Leg In-Out": 0.26287,
@@ -137,7 +137,7 @@
         "raw_value": 0.05631,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains stationary with a bent knee, supporting the weight shift.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.45228,
         "Right Upper Leg In-Out": 0.14088,
@@ -157,7 +157,7 @@
         "raw_value": 0.15012,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs loosely at the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.8834,
         "Left Thumb Spread": -0.008,
@@ -189,7 +189,7 @@
         "raw_value": 0.13469,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves inward from the side to rest near the hip area.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.5532,
         "Right Thumb Spread": 0.18952,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 10.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a samba dance, stepping side to side while swinging their arms in alternating rhythms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.23408,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans gently from side to side, twisting slightly with the rhythm of the steps.",
       "mean_pose": {
         "Spine Front-Back": -0.27064,
         "Spine Left-Right": 0.00303,
@@ -57,7 +57,7 @@
         "raw_value": 0.36722,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains upright and faces forward throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.17311,
         "Neck Tilt Left-Right": -0.08566,
@@ -75,7 +75,7 @@
         "raw_value": 0.34665,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and upward, extending away from the body before returning.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.01667,
         "Left Shoulder Front-Back": -0.25138,
@@ -96,7 +96,7 @@
         "raw_value": 0.32923,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings across the front of the body, moving in opposition to the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.22485,
         "Right Shoulder Front-Back": -0.56833,
@@ -117,7 +117,7 @@
         "raw_value": 0.21999,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee, lifting the foot off the ground as part of a rhythmic step.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.37806,
         "Left Upper Leg In-Out": 0.04723,
@@ -137,7 +137,7 @@
         "raw_value": 0.22363,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates between supporting weight and bending for the next step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.37465,
         "Right Upper Leg In-Out": -0.10624,
@@ -157,7 +157,7 @@
         "raw_value": 0.08159,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open and relaxed, following the arc of the arm's swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.1718,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open, guiding the arm's motion across the torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:02Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

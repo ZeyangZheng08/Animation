@@ -14,7 +14,7 @@
   "duration": 2.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a dynamic, leaping power slash, swinging an arm in a wide arc before landing in a low, stable stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13049,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates sharply from left to right during the jump, then settles into a slight forward lean upon landing.",
       "mean_pose": {
         "Spine Front-Back": -0.34104,
         "Spine Left-Right": 0.05111,
@@ -57,7 +57,7 @@
         "raw_value": 0.27266,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the rotation of the torso, turning with the slash and then facing forward as the body stabilizes.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00622,
         "Neck Tilt Left-Right": 0.0501,
@@ -75,7 +75,7 @@
         "raw_value": 0.46373,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings in a large, powerful arc from behind the body across the front, extending fully at the peak of the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.64086,
         "Left Shoulder Front-Back": 0.43449,
@@ -96,7 +96,7 @@
         "raw_value": 0.49344,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is held bent and tucked close to the chest, remaining relatively static throughout the movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.43598,
         "Right Shoulder Front-Back": -1.2267,
@@ -117,7 +117,7 @@
         "raw_value": 0.34064,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives upward and forward during the leap, then extends out to the side to plant firmly on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.03057,
         "Left Upper Leg In-Out": 0.45942,
@@ -137,7 +137,7 @@
         "raw_value": 0.26679,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind in the air and then bends deeply to absorb the impact of the landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.3036,
         "Right Upper Leg In-Out": 0.73824,
@@ -157,7 +157,7 @@
         "raw_value": 0.4568,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is extended with fingers spread, leading the slashing motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.11651,
         "Left Thumb Spread": -0.6746,
@@ -189,7 +189,7 @@
         "raw_value": 9e-05,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a tight fist, positioned steadily near the center of the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:50:04Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

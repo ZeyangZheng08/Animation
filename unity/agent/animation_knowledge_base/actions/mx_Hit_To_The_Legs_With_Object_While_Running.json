@@ -14,7 +14,7 @@
   "duration": 3.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward, executes a high kick with the right leg while swinging the right arm downward in a striking motion, and then falls backward to sit on the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17579,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward during the run, rotates slightly toward the left as the right leg lifts for the kick, and then drops backward until seated on the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.36798,
         "Spine Left-Right": -0.0494,
@@ -57,7 +57,7 @@
         "raw_value": 0.21955,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and forward during the run, stays aligned with the torso through the kick, and tilts back slightly as the body falls to the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07513,
         "Neck Tilt Left-Right": 0.04421,
@@ -75,7 +75,7 @@
         "raw_value": 0.34748,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps back and forth in a running gait, extends outward to the side for balance during the kick, and rests low at the side of the body while sitting.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.33243,
         "Left Shoulder Front-Back": -0.4702,
@@ -96,7 +96,7 @@
         "raw_value": 0.34296,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings forward and down in a chopping or striking motion concurrent with the right leg kick, then lowers to rest near the lap.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.91772,
         "Right Shoulder Front-Back": -0.5056,
@@ -117,7 +117,7 @@
         "raw_value": 0.29561,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward and back in a running stride, plants to support the body's weight during the kick, and extends forward outstretched while seated.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.01331,
         "Left Upper Leg In-Out": 0.34343,
@@ -137,7 +137,7 @@
         "raw_value": 0.30464,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts high into a front kick with the knee bent, then lowers and extends forward to rest on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.1206,
         "Right Upper Leg In-Out": 0.0339,
@@ -157,7 +157,7 @@
         "raw_value": 0.57183,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves with the pumping arm, opens slightly for balance during the kick, and rests open near the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.39292,
         "Left Thumb Spread": -0.43798,
@@ -189,7 +189,7 @@
         "raw_value": 0.57743,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Closes into a fist as it swings down for the strike, then relaxes and comes to rest near the lap.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.34549,
         "Right Thumb Spread": -0.40307,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:39:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 0.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure drops into a low crouch and raises both hands to the side of its head in a defensive block.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03868,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bends forward and down from an upright position into a deep crouch, then rises back up.",
       "mean_pose": {
         "Spine Front-Back": -0.39053,
         "Spine Left-Right": -0.28657,
@@ -57,7 +57,7 @@
         "raw_value": 0.08388,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down with the crouch and turns slightly to the right before lifting back up.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.3939,
         "Neck Tilt Left-Right": 0.33233,
@@ -75,7 +75,7 @@
         "raw_value": 0.15497,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and outward to the side of the head, ending in a raised guard position.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.88502,
         "Left Shoulder Front-Back": -2.94642,
@@ -96,7 +96,7 @@
         "raw_value": 0.24632,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging up and out to the other side of the head to form a two-handed block.",
       "mean_pose": {
         "Right Shoulder Down-Up": 1.04796,
         "Right Shoulder Front-Back": -2.61809,
@@ -117,7 +117,7 @@
         "raw_value": 0.12207,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee as the body lowers, then straightens to stand.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.70093,
         "Left Upper Leg In-Out": 0.96179,
@@ -137,7 +137,7 @@
         "raw_value": 0.07766,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends deeply at the knee to support the crouch, then straightens to stand.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.57024,
         "Right Upper Leg In-Out": 0.58484,
@@ -157,7 +157,7 @@
         "raw_value": 0.12329,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is clenched and raised high to the left side of the head.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.2881,
         "Left Thumb Spread": -0.87866,
@@ -189,7 +189,7 @@
         "raw_value": 0.03149,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is clenched and raised high to the right side of the head.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.34292,
         "Right Thumb Spread": -0.16891,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

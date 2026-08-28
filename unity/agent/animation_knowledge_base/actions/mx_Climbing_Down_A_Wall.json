@@ -14,7 +14,7 @@
   "duration": 2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure descends in a controlled, floating climb, lowering its body while keeping one arm raised high and the other hand near its chest.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13313,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward with a slight twist, descending steadily from an elevated position to a lower stance.",
       "mean_pose": {
         "Spine Front-Back": -0.19441,
         "Spine Left-Right": 0.05805,
@@ -57,7 +57,7 @@
         "raw_value": 0.22777,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts upward, tracking the movement of the raised right arm throughout the descent.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.31292,
         "Neck Tilt Left-Right": -0.16712,
@@ -75,7 +75,7 @@
         "raw_value": 0.46987,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, held relatively low and close to the body for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.12946,
         "Left Shoulder Front-Back": -1.69354,
@@ -96,7 +96,7 @@
         "raw_value": 0.55844,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends straight up overhead, reaching high as if gripping an unseen ledge above.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.39058,
         "Right Shoulder Front-Back": -1.23462,
@@ -117,7 +117,7 @@
         "raw_value": 0.40681,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee, lifted slightly off the ground to aid in the downward motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.01507,
         "Left Upper Leg In-Out": 0.40138,
@@ -137,7 +137,7 @@
         "raw_value": 0.39975,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is extended downwards, acting as the primary support leg during the descent.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.05158,
         "Right Upper Leg In-Out": 0.12795,
@@ -157,7 +157,7 @@
         "raw_value": 0.25109,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, positioned near the midsection.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.87052,
         "Left Thumb Spread": 0.82798,
@@ -189,7 +189,7 @@
         "raw_value": 0.42423,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open with fingers spread, reaching high above the head to maintain grip on the imaginary wall.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.23677,
         "Right Thumb Spread": 0.56942,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

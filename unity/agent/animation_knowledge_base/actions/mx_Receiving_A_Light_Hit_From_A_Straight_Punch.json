@@ -14,7 +14,7 @@
   "duration": 0.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure absorbs a light hit to the chest, leaning back slightly before recovering to a standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07584,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans backward and twists slightly to the left in reaction to the impact, then straightens out to return to an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.1887,
         "Spine Left-Right": 0.01217,
@@ -57,7 +57,7 @@
         "raw_value": 0.12867,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts backward and turns to the left as the body reacts, then returns to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02749,
         "Neck Tilt Left-Right": 0.00838,
@@ -75,7 +75,7 @@
         "raw_value": 0.13621,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow with the hand held up near the chest, remaining relatively stationary throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.09349,
         "Left Shoulder Front-Back": -0.11077,
@@ -96,7 +96,7 @@
         "raw_value": 0.14968,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent with the hand raised in a guard position, moving slightly outward and down as the torso leans back before returning.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.23287,
         "Right Shoulder Front-Back": -1.31722,
@@ -117,7 +117,7 @@
         "raw_value": 0.04789,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to absorb the weight shift as the body leans back, then straightens again.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.17295,
         "Left Upper Leg In-Out": 0.207,
@@ -137,7 +137,7 @@
         "raw_value": 0.03274,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted with a slight bend, providing a stable base for the upper body's recoil.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.27673,
         "Right Upper Leg In-Out": 0.49985,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a loose fist near the collarbone area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a loose fist near the shoulder in a defensive posture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:45:00Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

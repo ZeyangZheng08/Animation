@@ -14,7 +14,7 @@
   "duration": 17.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rolls restlessly from a prone position onto its side and back to simulate sleeping.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16549,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists continuously, starting flat on the stomach, rotating up to a side-lying position, and then rolling further toward the back.",
       "mean_pose": {
         "Spine Front-Back": -0.5819,
         "Spine Left-Right": -0.28278,
@@ -57,7 +57,7 @@
         "raw_value": 0.28601,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns along with the body's rotation, moving from facing down into the floor at the start to resting on the side by the end of the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06009,
         "Neck Tilt Left-Right": 0.06093,
@@ -75,7 +75,7 @@
         "raw_value": 0.4362,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm begins extended forward near the ground, lifts slightly during the roll, and ends bent with the hand resting near the face.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.60836,
         "Left Shoulder Front-Back": -1.24206,
@@ -96,7 +96,7 @@
         "raw_value": 0.55052,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm starts under the chest, moves outward as the body rotates, and finishes tucked close to the side of the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.61691,
         "Right Shoulder Front-Back": -0.28661,
@@ -117,7 +117,7 @@
         "raw_value": 0.20835,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends straight out initially, bends upward at the knee during the transition, and settles in a relaxed, slightly bent position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.0613,
         "Left Upper Leg In-Out": 0.12665,
@@ -137,7 +137,7 @@
         "raw_value": 0.1702,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains relatively low to the ground, shifting from an extended pose to a bent position that supports the side-lying posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.19653,
         "Right Upper Leg In-Out": -0.1443,
@@ -157,7 +157,7 @@
         "raw_value": 0.6109,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand rests flat on the floor in the beginning, then rises off the ground to curl gently near the head.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.80214,
         "Left Thumb Spread": 0.3587,
@@ -189,7 +189,7 @@
         "raw_value": 0.53611,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays low, moving from a supporting position under the body to lying flat against the floor or hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.51061,
         "Right Thumb Spread": -0.42054,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:14Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

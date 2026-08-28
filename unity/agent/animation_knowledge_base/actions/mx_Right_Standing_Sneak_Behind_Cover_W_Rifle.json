@@ -14,7 +14,7 @@
   "duration": 1.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a quick, crouching sidestep to their right, pivoting their body while keeping their hands raised in a ready stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02727,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bends forward into a deep crouch at the start, twists sharply to the right during the movement, and remains angled forward as it settles into the new position.",
       "mean_pose": {
         "Spine Front-Back": 0.03581,
         "Spine Left-Right": -0.00398,
@@ -57,7 +57,7 @@
         "raw_value": 0.03231,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays aligned with the shoulders, turning to look over the left shoulder throughout the turn.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07047,
         "Neck Tilt Left-Right": 0.10572,
@@ -75,7 +75,7 @@
         "raw_value": 0.0458,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward and slightly outward from the chest, holding a steady position relative to the body's rotation.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.50549,
         "Left Shoulder Front-Back": 0.28994,
@@ -96,7 +96,7 @@
         "raw_value": 0.06345,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow with the hand held up near chest level, moving in sync with the torso's twist.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.00967,
         "Right Shoulder Front-Back": -1.12152,
@@ -117,7 +117,7 @@
         "raw_value": 0.19831,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the pivot by pushing off the ground and swinging around to become the trailing support leg behind the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.16161,
         "Left Upper Leg In-Out": -0.23024,
@@ -137,7 +137,7 @@
         "raw_value": 0.2452,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps out to the side and bends deeply at the knee to absorb the weight of the crouched position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.04494,
         "Right Upper Leg In-Out": 0.46361,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static, open-fingered pose pointing forward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.52991,
         "Left Thumb Spread": -0.54397,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a static, relaxed grip shape near the upper chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.71772,
         "Right Thumb Spread": -1.2109,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:46:08Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 0.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a deep crouch to a standing position, holding its hands together in front of the body.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09215,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward while bent low in the crouch and extends upward until it is upright.",
       "mean_pose": {
         "Spine Front-Back": -0.43413,
         "Spine Left-Right": -0.09086,
@@ -57,7 +57,7 @@
         "raw_value": 0.25578,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down with the crouch and lifts up as the body stands.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.07257,
         "Neck Tilt Left-Right": 0.26659,
@@ -75,7 +75,7 @@
         "raw_value": 0.2526,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm stays bent at the elbow, held in front of the chest with the hand near the center of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.28764,
         "Left Shoulder Front-Back": -1.79382,
@@ -96,7 +96,7 @@
         "raw_value": 0.16118,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent and positioned close to the left arm throughout the movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.47001,
         "Right Shoulder Front-Back": -2.40534,
@@ -117,7 +117,7 @@
         "raw_value": 0.18982,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg starts bent in a wide stance and straightens out to support the standing pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.41795,
         "Left Upper Leg In-Out": 0.64225,
@@ -137,7 +137,7 @@
         "raw_value": 0.23361,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg begins bent in a deep crouch and extends fully as the figure rises.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.16964,
         "Right Upper Leg In-Out": 0.53809,
@@ -157,7 +157,7 @@
         "raw_value": 0.16128,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is kept open and positioned near the right hand in front of the lower torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.66454,
         "Left Thumb Spread": -0.58421,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a closed fist shape near the left hand for the entire clip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:38:09Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

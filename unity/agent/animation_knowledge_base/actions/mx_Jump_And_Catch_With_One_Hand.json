@@ -14,7 +14,7 @@
   "duration": 4.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jumps upward with arms raised, then falls backward onto the floor and rolls to a stop on its side.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13461,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso extends vertically during the jump and then pitches backward as the body falls until it is lying flat on the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.657,
         "Spine Left-Right": 0.01975,
@@ -57,7 +57,7 @@
         "raw_value": 0.26537,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back to look up at the sky during the peak of the jump before falling with the rest of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.12884,
         "Neck Tilt Left-Right": 0.08011,
@@ -75,7 +75,7 @@
         "raw_value": 0.30868,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a low position up over the shoulder and down toward the floor during the fall.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.0199,
         "Left Shoulder Front-Back": -0.50604,
@@ -96,7 +96,7 @@
         "raw_value": 0.30563,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends straight up into the air during the jump and remains elevated while the body rotates.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.05184,
         "Right Shoulder Front-Back": 0.03163,
@@ -117,7 +117,7 @@
         "raw_value": 0.30521,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg tucks slightly in mid-air and then extends outward as the figure lands on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.31719,
         "Left Upper Leg In-Out": 0.2372,
@@ -137,7 +137,7 @@
         "raw_value": 0.31879,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee during the ascent and straightens out as the body hits the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.07092,
         "Right Upper Leg In-Out": 0.17428,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds an open palm pose throughout the sequence.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.68857,
         "Left Thumb Spread": 0.0599,
@@ -189,7 +189,7 @@
         "raw_value": 0.25219,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches upward with fingers extended to catch an object.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.70857,
         "Right Thumb Spread": -0.03707,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:59Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

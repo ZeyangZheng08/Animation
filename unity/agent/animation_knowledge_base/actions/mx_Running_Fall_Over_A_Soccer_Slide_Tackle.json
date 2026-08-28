@@ -14,7 +14,7 @@
   "duration": 2.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward, loses balance, and falls backward through the air.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12407,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward during the run, then tips sharply backward as the figure is thrown off balance into a fall.",
       "mean_pose": {
         "Spine Front-Back": -0.49265,
         "Spine Left-Right": -0.06251,
@@ -57,7 +57,7 @@
         "raw_value": 0.32148,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward while running, then tilts back and rotates as the body goes over in the fall.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09309,
         "Neck Tilt Left-Right": 0.00926,
@@ -75,7 +75,7 @@
         "raw_value": 0.45234,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps at the side during the run before swinging up and outward to flail for balance as the figure falls.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.52779,
         "Left Shoulder Front-Back": -0.77859,
@@ -96,7 +96,7 @@
         "raw_value": 0.43001,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings at the side while running, then reaches down and forward toward the leg before extending upward during the fall.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.31277,
         "Right Shoulder Front-Back": -1.18012,
@@ -117,7 +117,7 @@
         "raw_value": 0.24297,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends forward in a running stride, then lifts and tucks as the body pitches backward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.21847,
         "Left Upper Leg In-Out": 0.23268,
@@ -137,7 +137,7 @@
         "raw_value": 0.32881,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Plants on the ground and bends during the run, then kicks up high into the air as the figure falls.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.45149,
         "Right Upper Leg In-Out": 0.21338,
@@ -157,7 +157,7 @@
         "raw_value": 0.24418,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches into a fist while pumping, then opens and extends upward as the body rotates in the air.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.4592,
         "Left Thumb Spread": -0.32381,
@@ -189,7 +189,7 @@
         "raw_value": 0.46191,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves with the arm, reaching toward the knee area before opening and extending outward during the fall.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.17057,
         "Right Thumb Spread": 0.24158,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:46:23Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

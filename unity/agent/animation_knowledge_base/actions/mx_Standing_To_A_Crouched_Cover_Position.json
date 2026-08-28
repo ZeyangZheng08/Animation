@@ -14,7 +14,7 @@
   "duration": 1.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a standing position into a low crouched cover stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05245,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and lowers continuously as the body drops from an upright posture to a deep crouch.",
       "mean_pose": {
         "Spine Front-Back": -0.12291,
         "Spine Left-Right": 0.00013,
@@ -57,7 +57,7 @@
         "raw_value": 0.17022,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and tracks forward, maintaining a low line of sight throughout the descent.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.18577,
         "Neck Tilt Left-Right": 0.09205,
@@ -75,7 +75,7 @@
         "raw_value": 0.17158,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward and slightly outward, keeping the elbow bent to maintain balance while lowering the center of gravity.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.5528,
         "Left Shoulder Front-Back": -0.62385,
@@ -96,7 +96,7 @@
         "raw_value": 0.20935,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Drops straight down with the elbow slightly bent, mirroring the left arm's movement to stabilize the crouch.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.56947,
         "Right Shoulder Front-Back": 0.14364,
@@ -117,7 +117,7 @@
         "raw_value": 0.20153,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee and hip, driving the foot back and down to form the rear leg of the crouched position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.36971,
         "Left Upper Leg In-Out": 0.35302,
@@ -137,7 +137,7 @@
         "raw_value": 0.23784,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Flexes deeply at the knee, bringing the thigh close to horizontal to support the front of the low stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.17506,
         "Right Upper Leg In-Out": 0.35206,
@@ -157,7 +157,7 @@
         "raw_value": 0.26348,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely near the left thigh, fingers relaxed and pointing toward the floor.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.31826,
         "Left Thumb Spread": -0.50638,
@@ -189,7 +189,7 @@
         "raw_value": 0.25341,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles freely by the right side, remaining open and unclenched as the body settles into the pose.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.90641,
         "Right Thumb Spread": 0.0783,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:49:01Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

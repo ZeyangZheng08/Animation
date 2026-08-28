@@ -14,7 +14,7 @@
   "duration": 2.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a forward run into a full backward roll on the ground, then springs back up to resume running.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18718,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a running posture, pitches sharply backward to initiate a floor roll, and rotates fully around its horizontal axis before rising back to an upright running lean.",
       "mean_pose": {
         "Spine Front-Back": -0.39651,
         "Spine Left-Right": -0.14814,
@@ -57,7 +57,7 @@
         "raw_value": 0.40895,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Bobs slightly with the running stride, tucks down toward the chest as the body tips over, and stays tucked against the torso throughout the rotation before lifting back up at the end of the roll.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06695,
         "Neck Tilt Left-Right": -0.19378,
@@ -75,7 +75,7 @@
         "raw_value": 0.54664,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps forward and back in a running motion, then bends at the elbow to pull the hand close to the shoulder as the body lowers into the roll.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.33248,
         "Left Shoulder Front-Back": -0.7158,
@@ -96,7 +96,7 @@
         "raw_value": 0.52763,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps opposite the left arm during the run, then curls inward toward the face to protect the head while rolling on the back.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.30602,
         "Right Shoulder Front-Back": -1.07881,
@@ -117,7 +117,7 @@
         "raw_value": 0.35829,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives through the running cycle, then lifts high into the air with the knee bent as the torso falls away from the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.5288,
         "Left Upper Leg In-Out": 0.55906,
@@ -137,7 +137,7 @@
         "raw_value": 0.36513,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends behind during the run, then tucks upward alongside the other leg to complete the compact ball shape for the roll.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.3746,
         "Right Upper Leg In-Out": 0.03034,
@@ -157,7 +157,7 @@
         "raw_value": 0.50384,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curls into a loose fist during the run and stays drawn close to the upper body to shield the head during the roll.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.0251,
         "Left Thumb Spread": 0.15059,
@@ -189,7 +189,7 @@
         "raw_value": 0.6539,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches near the chin during the run and remains curled tightly against the face to protect it during the inversion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.90513,
         "Right Thumb Spread": -0.1429,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:32Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

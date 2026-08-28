@@ -14,7 +14,7 @@
   "duration": 2.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic acrobatic slide, moving from an inverted position into a crouch and then rising to run forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.29142,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates through the air during the flip, dips low into a deep forward bend at the midpoint, and extends upward as the figure transitions into a running posture.",
       "mean_pose": {
         "Spine Front-Back": -0.19491,
         "Spine Left-Right": -0.00463,
@@ -57,7 +57,7 @@
         "raw_value": 0.32713,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head moves with the body's rotation during the inversion, drops down as the torso bends forward, and lifts up to face ahead in the final running pose.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.75179,
         "Neck Tilt Left-Right": 0.09527,
@@ -75,7 +75,7 @@
         "raw_value": 0.63338,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings high overhead during the initial movement, reaches down toward the ground during the crouch, and pumps backward while running.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.71148,
         "Left Shoulder Front-Back": 0.07602,
@@ -96,7 +96,7 @@
         "raw_value": 0.57518,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm follows a similar path, swinging from an elevated position down toward the floor before extending forward in a running motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.13302,
         "Right Shoulder Front-Back": 0.16167,
@@ -117,7 +117,7 @@
         "raw_value": 0.39763,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is extended upward during the aerial phase, bends sharply at the knee during the low crouch, and drives back as part of the running stride.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.21165,
         "Left Upper Leg In-Out": 0.19027,
@@ -137,7 +137,7 @@
         "raw_value": 0.39942,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left leg's motion, moving from an extended position to a bent stance on the ground and finally kicking back in the run.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.14776,
         "Right Upper Leg In-Out": 0.34506,
@@ -157,7 +157,7 @@
         "raw_value": 0.42151,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and raised during the flip, hovers near the floor during the crouch, and clenches into a fist for the run.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.24996,
         "Left Thumb Spread": 0.33266,
@@ -189,7 +189,7 @@
         "raw_value": 0.47588,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open and raised during the flip, hovers near the floor during the crouch, and clenches into a fist for the run.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.97953,
         "Right Thumb Spread": 0.21921,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:42:29Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

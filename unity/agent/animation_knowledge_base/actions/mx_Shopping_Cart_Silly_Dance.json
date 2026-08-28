@@ -14,7 +14,7 @@
   "duration": 15.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a playful, rhythmic dance in place, stepping side-to-side while waving and gesturing with both arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10828,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bobs up and down and sways from side to side in a loose, rhythmic manner.",
       "mean_pose": {
         "Spine Front-Back": -0.02867,
         "Spine Left-Right": -0.07165,
@@ -57,7 +57,7 @@
         "raw_value": 0.19786,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts and turns slightly, following the rhythm of the body's sway.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.10535,
         "Neck Tilt Left-Right": 0.08057,
@@ -75,7 +75,7 @@
         "raw_value": 0.21521,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is raised high with the elbow bent, moving up and down in a waving motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.34933,
         "Left Shoulder Front-Back": -0.14993,
@@ -96,7 +96,7 @@
         "raw_value": 0.23866,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings across the front of the body, extending outward and then bending back toward the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.08105,
         "Right Shoulder Front-Back": -0.14452,
@@ -117,7 +117,7 @@
         "raw_value": 0.15664,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between being planted on the ground and lifting off to step or kick forward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.03893,
         "Left Upper Leg In-Out": -0.02182,
@@ -137,7 +137,7 @@
         "raw_value": 0.15049,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps out to the side and bends at the knee to support the shifting weight of the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.03257,
         "Right Upper Leg In-Out": -0.06074,
@@ -157,7 +157,7 @@
         "raw_value": 0.35556,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open and raised near head level, waving through the air.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.59892,
         "Left Thumb Spread": -0.55735,
@@ -189,7 +189,7 @@
         "raw_value": 0.33837,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves fluidly, extending away from the body and then curling inward toward the torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.96111,
         "Right Thumb Spread": -0.4571,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:22Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 8.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a low, wide stance, holding an invisible object at waist level with both hands while rhythmically shaking its legs.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03758,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward slightly and maintains a low, crouched posture throughout the sequence, swaying gently to accommodate the leg movements.",
       "mean_pose": {
         "Spine Front-Back": -0.32654,
         "Spine Left-Right": 0.0765,
@@ -57,7 +57,7 @@
         "raw_value": 0.055,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively still, facing forward with only minor adjustments to maintain balance over the shifting hips.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.24965,
         "Neck Tilt Left-Right": 0.01851,
@@ -75,7 +75,7 @@
         "raw_value": 0.10611,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow and held across the midsection, keeping the hand fixed near the center of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.23455,
         "Left Shoulder Front-Back": -0.26849,
@@ -96,7 +96,7 @@
         "raw_value": 0.1028,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is similarly bent and held close to the torso, mirroring the left arm to support the imaginary grip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.06837,
         "Right Shoulder Front-Back": -0.08304,
@@ -117,7 +117,7 @@
         "raw_value": 0.09288,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and shakes rapidly back and forth, alternating its position relative to the planted right foot.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.20769,
         "Left Upper Leg In-Out": 0.24724,
@@ -137,7 +137,7 @@
         "raw_value": 0.08401,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg also bends and shakes, moving in a coordinated but distinct pattern from the left leg to create a continuous jittering motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.18724,
         "Right Upper Leg In-Out": 0.19399,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static, closed-fist pose as if gripping a handle, positioned centrally in front of the lower abdomen.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains static in a matching closed-fist pose, clasped together with the left hand to simulate holding a pistol.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:29Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

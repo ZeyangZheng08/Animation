@@ -14,7 +14,7 @@
   "duration": 0.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a lateral strafe to the right while holding a two-handed aim.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02226,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward and to the left, maintaining a stable, braced posture throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.023,
         "Spine Left-Right": 0.15458,
@@ -57,7 +57,7 @@
         "raw_value": 0.02971,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains turned toward the left side of the screen, keeping a steady line of sight in the direction of the aim.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.29671,
         "Neck Tilt Left-Right": -0.11784,
@@ -75,7 +75,7 @@
         "raw_value": 0.03307,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Held steadily extended forward and to the left, supporting the aiming position without significant movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.63752,
         "Left Shoulder Front-Back": 0.35636,
@@ -96,7 +96,7 @@
         "raw_value": 0.15624,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Held steadily extended forward and to the left, mirroring the left arm in a fixed aiming pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.13788,
         "Right Shoulder Front-Back": -0.84128,
@@ -117,7 +117,7 @@
         "raw_value": 0.16598,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps laterally to the right, crossing over or behind the right leg to drive the body's sideways movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.30548,
         "Left Upper Leg In-Out": 0.34531,
@@ -137,7 +137,7 @@
         "raw_value": 0.14455,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off from the starting position to propel the body to the right, then lands to support the weight during the strafe.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.1507,
         "Right Upper Leg In-Out": 0.30285,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, open grip consistent with holding an unseen object at arm's length.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.7799,
         "Left Thumb Spread": 0.38393,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static, open grip at the end of the extended arm, aligned with the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -0.85237,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:44Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

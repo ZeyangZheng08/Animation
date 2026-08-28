@@ -14,7 +14,7 @@
   "duration": 2.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure climbs a vertical rope, pulling its body upward with alternating arm movements and kicking its legs up to grip.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09662,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans backward in a slight arch, extending vertically as the figure pulls itself up the rope.",
       "mean_pose": {
         "Spine Front-Back": -0.12415,
         "Spine Left-Right": -0.14944,
@@ -57,7 +57,7 @@
         "raw_value": 0.32355,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts upward to look at the hands above, maintaining a steady orientation throughout the climb.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.19671,
         "Neck Tilt Left-Right": 0.18453,
@@ -75,7 +75,7 @@
         "raw_value": 0.23011,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm reaches high overhead, then pulls down towards the chest to execute a climbing motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.1305,
         "Left Shoulder Front-Back": -0.81563,
@@ -96,7 +96,7 @@
         "raw_value": 0.32564,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm alternates with the left, reaching up to grab a higher position while the other hand holds.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.37437,
         "Right Shoulder Front-Back": -0.80492,
@@ -117,7 +117,7 @@
         "raw_value": 0.21564,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee, lifting the foot upward to simulate hooking the rope.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.27055,
         "Left Upper Leg In-Out": -0.02119,
@@ -137,7 +137,7 @@
         "raw_value": 0.2575,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left, bending and rising to assist in pulling the body weight upward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.03694,
         "Right Upper Leg In-Out": 0.08718,
@@ -157,7 +157,7 @@
         "raw_value": 0.4588,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open with fingers spread, moving from an extended overhead reach down to a lower grip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.72175,
         "Left Thumb Spread": 0.24791,
@@ -189,7 +189,7 @@
         "raw_value": 0.38815,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and active, reaching upward to secure the next hold on the rope.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.90645,
         "Right Thumb Spread": -0.8845,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

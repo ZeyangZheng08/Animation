@@ -14,7 +14,7 @@
   "duration": 0.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward while leaping into the air, holding both arms extended in a shooting stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09577,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward during the run and lifts upward with the jump, maintaining a stable core.",
       "mean_pose": {
         "Spine Front-Back": -0.54472,
         "Spine Left-Right": 0.01239,
@@ -57,7 +57,7 @@
         "raw_value": 0.10561,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces straight ahead in line with the direction of movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06046,
         "Neck Tilt Left-Right": 0.01139,
@@ -75,7 +75,7 @@
         "raw_value": 0.08129,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow with the hand held near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.59337,
         "Left Shoulder Front-Back": -0.8607,
@@ -96,7 +96,7 @@
         "raw_value": 0.09096,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends fully forward to point in the direction of travel.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.06276,
         "Right Shoulder Front-Back": -0.09785,
@@ -117,7 +117,7 @@
         "raw_value": 0.25323,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward and tucks under the body during the leap.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.05421,
         "Left Upper Leg In-Out": 0.09494,
@@ -137,7 +137,7 @@
         "raw_value": 0.30708,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off the ground and trails behind during the jump.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.0201,
         "Right Upper Leg In-Out": -0.05062,
@@ -157,7 +157,7 @@
         "raw_value": 0.10524,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains curled in a fist shape close to the torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.397,
         "Left Thumb Spread": -0.21579,
@@ -189,7 +189,7 @@
         "raw_value": 0.03781,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open, flat pose at the end of the extended arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60665,
         "Right Thumb Spread": -0.85595,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

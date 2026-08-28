@@ -14,7 +14,7 @@
   "duration": 20.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands and argues, using animated hand gestures to emphasize a point before settling into a shrug.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09117,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright but sways gently side-to-side in rhythm with the arm movements.",
       "mean_pose": {
         "Spine Front-Back": -0.13223,
         "Spine Left-Right": -0.17602,
@@ -57,7 +57,7 @@
         "raw_value": 0.15465,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly to the left and then nods forward as the gesture progresses.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0539,
         "Neck Tilt Left-Right": 0.0099,
@@ -75,7 +75,7 @@
         "raw_value": 0.28695,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is raised high with an open palm, swings down across the body, and finishes extended out to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.65691,
         "Left Shoulder Front-Back": -0.44577,
@@ -96,7 +96,7 @@
         "raw_value": 0.34742,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is held lower at the start, lifts up to join the left arm in the middle, and ends extended outward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.24718,
         "Right Shoulder Front-Back": -0.51113,
@@ -117,7 +117,7 @@
         "raw_value": 0.09095,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays planted on the ground with a slight bend in the knee.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.32805,
         "Left Upper Leg In-Out": -0.09077,
@@ -137,7 +137,7 @@
         "raw_value": 0.07211,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains stationary, supporting the figure's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.1262,
         "Right Upper Leg In-Out": 0.20552,
@@ -157,7 +157,7 @@
         "raw_value": 0.49389,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand starts open and raised, moves down through the air, and ends in an open, outward-facing position.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.26731,
         "Left Thumb Spread": -0.13972,
@@ -189,7 +189,7 @@
         "raw_value": 0.44714,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand begins near the waist, rises to meet the other hand, and finishes open and facing outward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.96229,
         "Right Thumb Spread": -0.10241,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:21Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

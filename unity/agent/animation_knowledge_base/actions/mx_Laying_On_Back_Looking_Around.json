@@ -14,7 +14,7 @@
   "duration": 12.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lies on its back and turns its head from side to side while looking up.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0057,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains flat against the floor in a supine position.",
       "mean_pose": {
         "Spine Front-Back": -0.00989,
         "Spine Left-Right": -0.02393,
@@ -57,7 +57,7 @@
         "raw_value": 0.29467,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head rotates horizontally, turning from one side to the other to look around.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.11162,
         "Neck Tilt Left-Right": 0.0135,
@@ -75,7 +75,7 @@
         "raw_value": 0.04537,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm rests bent at the elbow with the forearm lying across the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.10048,
         "Left Shoulder Front-Back": -0.90854,
@@ -96,7 +96,7 @@
         "raw_value": 0.02426,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm rests bent at the elbow with the forearm held near the upper chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.0009,
         "Right Shoulder Front-Back": -0.44286,
@@ -117,7 +117,7 @@
         "raw_value": 0.00501,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is extended straight out along the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.10881,
         "Left Upper Leg In-Out": -0.09956,
@@ -137,7 +137,7 @@
         "raw_value": 0.00936,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent at the knee with the foot resting on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.4014,
         "Right Upper Leg In-Out": -0.02694,
@@ -157,7 +157,7 @@
         "raw_value": 0.10457,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and relaxed near the center of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.5304,
         "Left Thumb Spread": 0.36873,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays still near the upper chest area.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.8119,
         "Right Thumb Spread": 0.82066,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

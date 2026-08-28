@@ -14,7 +14,7 @@
   "duration": 1.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a wide stance and throws a short, upward punch with the left arm while the right arm stays tucked at the side.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13768,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins upright and leans slightly to the right as the left arm extends for the punch, then returns to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.12501,
         "Spine Left-Right": -0.01624,
@@ -57,7 +57,7 @@
         "raw_value": 0.32237,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head starts facing forward, turns slightly toward the punching side during the strike, and faces forward again by the end.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.08673,
         "Neck Tilt Left-Right": -0.00049,
@@ -75,7 +75,7 @@
         "raw_value": 0.36529,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent near the waist, swings upward and outward to extend the uppercut, then retracts back down toward the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.27095,
         "Left Shoulder Front-Back": -0.34854,
@@ -96,7 +96,7 @@
         "raw_value": 0.18981,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs loosely at the side of the body throughout the motion, staying mostly static.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.58094,
         "Right Shoulder Front-Back": -0.80169,
@@ -117,7 +117,7 @@
         "raw_value": 0.24822,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground with a slight bend in the knee, providing a stable base.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.40453,
         "Left Upper Leg In-Out": 0.24802,
@@ -137,7 +137,7 @@
         "raw_value": 0.20917,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is also planted and relatively straight, supporting the standing posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.54058,
         "Right Upper Leg In-Out": 0.22629,
@@ -157,7 +157,7 @@
         "raw_value": 0.67249,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a relaxed state near the hip up into a clenched fist during the punch, then opens slightly as it lowers.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.49416,
         "Left Thumb Spread": -1.05201,
@@ -189,7 +189,7 @@
         "raw_value": 0.26458,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed, hanging naturally at the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.36754,
         "Right Thumb Spread": -0.09532,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:06Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

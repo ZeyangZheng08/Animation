@@ -14,7 +14,7 @@
   "duration": 1.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure takes a punch to the head, recoiling sharply backward and to the side before recovering into a stable stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15597,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists violently to the left and leans back upon impact, then rights itself and shifts forward again.",
       "mean_pose": {
         "Spine Front-Back": -0.08127,
         "Spine Left-Right": -0.04441,
@@ -57,7 +57,7 @@
         "raw_value": 0.22128,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head snaps sharply to the right and tilts upward from the strike, then rotates back toward the front as it recovers.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06634,
         "Neck Tilt Left-Right": -0.05039,
@@ -75,7 +75,7 @@
         "raw_value": 0.23397,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is raised in a guard position near the chest, pulling slightly inward during the recoil and extending outward again during recovery.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.05898,
         "Left Shoulder Front-Back": 0.23501,
@@ -96,7 +96,7 @@
         "raw_value": 0.2072,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm stays raised in a guard posture near the face, bending further at the elbow to absorb the shock of the hit.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.44041,
         "Right Shoulder Front-Back": -1.43415,
@@ -117,7 +117,7 @@
         "raw_value": 0.11808,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply to absorb the impact, pushing the body backward before straightening out to regain balance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.07562,
         "Left Upper Leg In-Out": 0.0979,
@@ -137,7 +137,7 @@
         "raw_value": 0.2281,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps back and bends to stabilize the body's fall, then plants firmly as the figure re-establishes its stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.64357,
         "Right Upper Leg In-Out": 0.49935,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains clenched in a fist throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a tight fist shape for the entire duration of the clip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:06Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

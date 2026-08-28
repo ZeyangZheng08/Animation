@@ -14,7 +14,7 @@
   "duration": 1.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jumps into the air and performs a twisting shimmy, rotating its body to the right while keeping its arms raised.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02904,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward at the start, then twists continuously to the right through the jump before returning to an upright position.",
       "mean_pose": {
         "Spine Front-Back": 0.06724,
         "Spine Left-Right": -0.00922,
@@ -57,7 +57,7 @@
         "raw_value": 0.08575,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts upward throughout the movement, following the rotation of the torso as it turns to the right.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.77018,
         "Neck Tilt Left-Right": -0.02416,
@@ -75,7 +75,7 @@
         "raw_value": 0.19353,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays raised high above the head with the elbow bent, moving in sync with the upper body's twist.",
       "mean_pose": {
         "Left Shoulder Down-Up": 1.18514,
         "Left Shoulder Front-Back": 0.72963,
@@ -96,7 +96,7 @@
         "raw_value": 0.17376,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains lifted overhead with a bent elbow, mirroring the left arm's elevated position during the turn.",
       "mean_pose": {
         "Right Shoulder Down-Up": 1.15621,
         "Right Shoulder Front-Back": 0.90758,
@@ -117,7 +117,7 @@
         "raw_value": 0.16557,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee and lifts off the ground, crossing behind the right leg as the body rotates.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.13948,
         "Left Upper Leg In-Out": 0.08262,
@@ -137,7 +137,7 @@
         "raw_value": 0.16977,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends downward and slightly back to push off, leading the motion as the figure leaves the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.2984,
         "Right Upper Leg In-Out": 0.15025,
@@ -157,7 +157,7 @@
         "raw_value": 0.29557,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open, relaxed shape high in the air, maintaining its position relative to the raised arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.28213,
         "Left Thumb Spread": 0.1789,
@@ -189,7 +189,7 @@
         "raw_value": 0.35462,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeps an open palm facing outward near the top of the frame, staying consistent with the arm's elevation.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.99557,
         "Right Thumb Spread": 0.98714,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

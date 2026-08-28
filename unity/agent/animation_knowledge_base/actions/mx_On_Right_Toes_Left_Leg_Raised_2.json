@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static pose, balancing on the right toes with the left leg extended out to the side and the arms held in a wide, open position.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright with a slight lean to the right, supporting the raised left leg.",
       "mean_pose": {
         "Spine Front-Back": 0.02024,
         "Spine Left-Right": 0.05876,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is held steady, facing forward and aligned with the direction of the body's orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.40041,
         "Neck Tilt Left-Right": 0.34942,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward to the side and slightly backward, with the elbow bent at roughly a right angle.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.85439,
         "Left Shoulder Front-Back": 0.64159,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches upward and forward, extending high above the shoulder line.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.44369,
         "Right Shoulder Front-Back": 0.7509,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is lifted off the ground, extended horizontally to the left side with the knee slightly bent.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 1.48769,
         "Left Upper Leg In-Out": 0.16236,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg supports the entire body weight, standing straight and balanced on the ball of the foot with the heel raised.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.07731,
         "Right Upper Leg In-Out": -0.08066,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs loosely from the wrist, fingers relaxed and pointing downward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.6107,
         "Left Thumb Spread": -0.67776,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand points upward toward the ceiling, with the fingers extended.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.329,
         "Right Thumb Spread": -0.28534,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:23Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

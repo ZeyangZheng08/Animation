@@ -14,7 +14,7 @@
   "duration": 6.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure drops from a standing position to the floor and transitions into an inverted freeze, balancing on its hands with its legs extended upward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18801,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and downward to lower the body toward the floor, then inverts completely so the back is facing up while supported by the arms.",
       "mean_pose": {
         "Spine Front-Back": -0.31425,
         "Spine Left-Right": 0.02046,
@@ -57,7 +57,7 @@
         "raw_value": 0.24753,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilted down and tucked close to the chest as the body lowers, remaining low near the ground during the inverted pose.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04014,
         "Neck Tilt Left-Right": 0.00302,
@@ -75,7 +75,7 @@
         "raw_value": 0.44923,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down and extends straight to support the body's weight on the floor, holding the inverted balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.56195,
         "Left Shoulder Front-Back": -1.70061,
@@ -96,7 +96,7 @@
         "raw_value": 0.48591,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Drops from the side of the body to plant on the floor, acting as a secondary point of contact for the freeze.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.57438,
         "Right Shoulder Front-Back": -0.87913,
@@ -117,7 +117,7 @@
         "raw_value": 0.37187,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts off the ground and kicks upward to become fully extended in the air during the inversion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.22846,
         "Left Upper Leg In-Out": 0.04367,
@@ -137,7 +137,7 @@
         "raw_value": 0.32415,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Follows the left leg upward, extending into the air to complete the inverted handstand-like posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.32962,
         "Right Upper Leg In-Out": 0.29753,
@@ -157,7 +157,7 @@
         "raw_value": 0.33126,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves from the side of the body to press flat against the floor to bear the upper body's weight.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.04754,
         "Left Thumb Spread": 0.25219,
@@ -189,7 +189,7 @@
         "raw_value": 0.32102,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Lowers to the floor next to the other hand to stabilize the inverted position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.43044,
         "Right Thumb Spread": 0.23056,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

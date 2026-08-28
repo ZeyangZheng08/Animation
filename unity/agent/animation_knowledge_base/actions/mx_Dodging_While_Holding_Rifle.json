@@ -14,7 +14,7 @@
   "duration": 1.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a side-to-side dodge, leaning their upper body and legs to one side and then the other while holding an imaginary rifle.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12922,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans laterally from left to right, bending at the waist in sync with the leg movements to maintain balance during the dodge.",
       "mean_pose": {
         "Spine Front-Back": -0.11561,
         "Spine Left-Right": 0.01702,
@@ -57,7 +57,7 @@
         "raw_value": 0.09022,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and follows the lateral sway of the torso, dipping toward the left and then toward the right.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.15016,
         "Neck Tilt Left-Right": -0.20683,
@@ -75,7 +75,7 @@
         "raw_value": 0.15741,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds its position bent across the midsection, moving passively with the torso's lean.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.52451,
         "Left Shoulder Front-Back": 0.41685,
@@ -96,7 +96,7 @@
         "raw_value": 0.15178,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and outward, shifting slightly with the body's movement as if aiming an unseen weapon.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.06793,
         "Right Shoulder Front-Back": -0.30068,
@@ -117,7 +117,7 @@
         "raw_value": 0.12716,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply to support the weight of the body as it leans to the left, then straightens as the figure shifts back.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.19438,
         "Left Upper Leg In-Out": 0.31636,
@@ -137,7 +137,7 @@
         "raw_value": 0.18427,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays relatively straight to provide a stable base, adjusting its stance as the center of gravity moves.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.19363,
         "Right Upper Leg In-Out": 0.36714,
@@ -157,7 +157,7 @@
         "raw_value": 0.04025,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains clenched in a static fist near the chest throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53725,
         "Left Thumb Spread": -0.49893,
@@ -189,7 +189,7 @@
         "raw_value": 0.04759,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady grip extended forward, mirroring the arm's subtle shifts.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.80972,
         "Right Thumb Spread": -1.23718,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:35:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

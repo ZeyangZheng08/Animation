@@ -14,7 +14,7 @@
   "duration": 2.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a standing inward slash, swinging the right arm from an extended position across the body to the left side.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.22366,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists from facing slightly right to rotating toward the left as the arm swings across.",
       "mean_pose": {
         "Spine Front-Back": -0.12723,
         "Spine Left-Right": 0.03239,
@@ -57,7 +57,7 @@
         "raw_value": 0.43708,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns from facing forward-right to looking down and toward the left, following the direction of the swing.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15406,
         "Neck Tilt Left-Right": 0.01718,
@@ -75,7 +75,7 @@
         "raw_value": 0.18635,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent at the elbow with the hand near the chest, then extends outward to the left for balance as the torso rotates.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.25349,
         "Left Shoulder Front-Back": -0.7205,
@@ -96,7 +96,7 @@
         "raw_value": 0.31652,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm begins extended out to the right, then swings sharply inward across the front of the body to finish on the left side.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.20551,
         "Right Shoulder Front-Back": -0.95038,
@@ -117,7 +117,7 @@
         "raw_value": 0.18179,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground, bending slightly at the knee to maintain a stable stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.2403,
         "Left Upper Leg In-Out": 0.35535,
@@ -137,7 +137,7 @@
         "raw_value": 0.21141,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays grounded with a slight bend, providing a solid base for the rotational movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.09981,
         "Right Upper Leg In-Out": 0.15863,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a loose fist shape, moving from the chest area outward to the left.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.91237,
         "Left Thumb Spread": -0.0675,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a clenched fist pose throughout the entire sweeping motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.54842,
         "Right Thumb Spread": -1.303,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:50Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

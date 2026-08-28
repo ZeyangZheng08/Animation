@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static reclined pose, leaning back on the right leg with the left leg crossed over it and both hands clasped behind the head.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward in a stable diagonal line from the hips to the shoulders.",
       "mean_pose": {
         "Spine Front-Back": -0.3747,
         "Spine Left-Right": 0.10521,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts slightly upward and back, resting against the arms held behind the neck.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.60389,
         "Neck Tilt Left-Right": 0.05134,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow with the upper arm raised, holding the forearm and hand up behind the head.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.74485,
         "Left Shoulder Front-Back": 0.17375,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow with the upper arm raised, mirroring the left arm to hold the hand behind the head.",
       "mean_pose": {
         "Right Shoulder Down-Up": 1.15261,
         "Right Shoulder Front-Back": -0.38004,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifted off the ground with the knee bent, crossing over the top of the right thigh.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.46557,
         "Left Upper Leg In-Out": 0.40527,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bent at the knee to support the body's weight, with the foot planted on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.13133,
         "Right Upper Leg In-Out": -0.06842,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenched into a fist positioned behind the head, interlocking with the right hand.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.52221,
         "Left Thumb Spread": 0.40377,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenched into a fist positioned behind the head, interlocking with the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.47688,
         "Right Thumb Spread": 0.56887,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:59Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

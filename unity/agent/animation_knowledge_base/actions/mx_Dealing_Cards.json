@@ -14,7 +14,7 @@
   "duration": 9.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands and performs a card-dealing motion, transferring an object from the left hand to the right.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02088,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward throughout the clip, tilting toward the hands at waist level.",
       "mean_pose": {
         "Spine Front-Back": -0.18674,
         "Spine Left-Right": -0.00832,
@@ -57,7 +57,7 @@
         "raw_value": 0.1015,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is bent downward, keeping its gaze fixed on the hands in front of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15947,
         "Neck Tilt Left-Right": 0.00353,
@@ -75,7 +75,7 @@
         "raw_value": 0.17012,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward and forward with a slight bend in the elbow, holding a stable position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.53371,
         "Left Shoulder Front-Back": -0.12908,
@@ -96,7 +96,7 @@
         "raw_value": 0.19542,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches across the body to meet the left arm, then pulls back to hold the transferred object.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.9675,
         "Right Shoulder Front-Back": -0.29294,
@@ -117,7 +117,7 @@
         "raw_value": 0.0631,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains straight, supporting the figure's weight without moving.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.48512,
         "Left Upper Leg In-Out": 0.05712,
@@ -137,7 +137,7 @@
         "raw_value": 0.06713,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays planted on the floor, providing a stable base for the upper body movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.509,
         "Right Upper Leg In-Out": 0.02563,
@@ -157,7 +157,7 @@
         "raw_value": 0.2266,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds open, palm up, as if presenting a card to be taken.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21111,
         "Left Thumb Spread": -0.1192,
@@ -189,7 +189,7 @@
         "raw_value": 0.31698,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches out to grasp the item from the left hand, then retracts it away from the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.31637,
         "Right Thumb Spread": -0.06886,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:09Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A seated figure is jostled, swaying side to side while leaning back and bracing with their arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06882,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans backward from an upright sitting position and rocks from side to side, shifting its weight as if reacting to a sudden movement.",
       "mean_pose": {
         "Spine Front-Back": -0.19147,
         "Spine Left-Right": -0.01724,
@@ -57,7 +57,7 @@
         "raw_value": 0.16052,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back in response to the lean and turns slightly to the left and right, following the momentum of the upper body.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.25383,
         "Neck Tilt Left-Right": -0.00979,
@@ -75,7 +75,7 @@
         "raw_value": 0.12441,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and outward across the chest, moving from a resting position on the lap to a raised, balancing posture.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.30594,
         "Left Shoulder Front-Back": 0.02232,
@@ -96,7 +96,7 @@
         "raw_value": 0.23089,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm drops down and extends backward behind the hip, pushing away from the body to brace against the implied seat.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.35844,
         "Right Shoulder Front-Back": -0.38611,
@@ -117,7 +117,7 @@
         "raw_value": 0.07545,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains bent at the knee in a seated position, with the lower leg shifting forward and back along with the body's sway.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.27642,
         "Left Upper Leg In-Out": 0.22391,
@@ -137,7 +137,7 @@
         "raw_value": 0.091,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays bent with the foot planted, adjusting its angle slightly to maintain balance during the jostling motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.28069,
         "Right Upper Leg In-Out": 0.33686,
@@ -157,7 +157,7 @@
         "raw_value": 0.05635,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves up and out from the lap, extending forward with fingers spread to help stabilize the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.38749,
         "Left Thumb Spread": 0.60397,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs low and extended behind the body, holding a static, open-palm pose near the rear of the hips.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52857,
         "Right Thumb Spread": 0.18753,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:43:44Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

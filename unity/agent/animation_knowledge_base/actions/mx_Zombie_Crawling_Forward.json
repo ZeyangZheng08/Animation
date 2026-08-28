@@ -14,7 +14,7 @@
   "duration": 5.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, shuffling zombie crawl forward across the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10937,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains low to the ground, undulating and twisting as it pushes the body forward between arm reaches.",
       "mean_pose": {
         "Spine Front-Back": 0.23058,
         "Spine Left-Right": 0.0455,
@@ -57,7 +57,7 @@
         "raw_value": 0.24546,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays down and moves in sync with the torso's forward motion, bobbing slightly as the figure advances.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.68471,
         "Neck Tilt Left-Right": -0.08746,
@@ -75,7 +75,7 @@
         "raw_value": 0.58985,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward toward the floor, supporting the weight of the upper body during the crawl cycle.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.02127,
         "Left Shoulder Front-Back": -0.69179,
@@ -96,7 +96,7 @@
         "raw_value": 0.50426,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches out ahead of the body, mirroring the left arm's movement to drive the figure forward.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.05194,
         "Right Shoulder Front-Back": 0.14443,
@@ -117,7 +117,7 @@
         "raw_value": 0.16538,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee, dragging along the ground to pull the lower body forward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.36528,
         "Left Upper Leg In-Out": 0.3279,
@@ -137,7 +137,7 @@
         "raw_value": 0.218,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind, bending and dragging to complete the crawling stride.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.41176,
         "Right Upper Leg In-Out": 0.10515,
@@ -157,7 +157,7 @@
         "raw_value": 0.55576,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand rests on the floor, fingers spread to grip the surface while supporting the torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.95664,
         "Left Thumb Spread": 0.39635,
@@ -189,7 +189,7 @@
         "raw_value": 0.53257,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is placed on the ground, bracing the body as it moves through the crawling cycle.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.57539,
         "Right Thumb Spread": 0.24657,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:32Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

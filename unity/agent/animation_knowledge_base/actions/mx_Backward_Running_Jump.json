@@ -14,7 +14,7 @@
   "duration": 0.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a backward running jump, starting with a forward step, pushing off into the air, and landing in a crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.194,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward at the start, extends back during the airborne phase, and bends forward to absorb the impact of the landing.",
       "mean_pose": {
         "Spine Front-Back": -0.36064,
         "Spine Left-Right": 0.009,
@@ -57,7 +57,7 @@
         "raw_value": 0.15122,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down slightly, following the line of sight as the body moves backward through the jump.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.10709,
         "Neck Tilt Left-Right": -0.0385,
@@ -75,7 +75,7 @@
         "raw_value": 0.29896,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings back from a neutral position to extend behind the body mid-air, then swings forward to help balance the landing.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.44431,
         "Left Shoulder Front-Back": -0.46587,
@@ -96,7 +96,7 @@
         "raw_value": 0.25232,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging backward for momentum during the jump and then forward upon landing.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.62105,
         "Right Shoulder Front-Back": -0.11143,
@@ -117,7 +117,7 @@
         "raw_value": 0.28106,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward initially, pushes off the ground to launch the body backward, tucks up in the air, and extends to bend at the knee on landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.32204,
         "Left Upper Leg In-Out": 0.28277,
@@ -137,7 +137,7 @@
         "raw_value": 0.27161,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the left in a staggered motion, pushing off, tucking during the flight, and bending to cushion the final impact.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.24016,
         "Right Upper Leg In-Out": 0.21946,
@@ -157,7 +157,7 @@
         "raw_value": 0.40922,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, moving with the swing of the arm throughout the sequence.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.23489,
         "Left Thumb Spread": 0.24816,
@@ -189,7 +189,7 @@
         "raw_value": 0.33015,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and loose, coordinating its movement with the right arm's swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.90121,
         "Right Thumb Spread": 0.04002,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

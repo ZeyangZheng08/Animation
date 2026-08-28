@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static seated pose with the right leg crossed over the left knee and the right arm resting across the raised right leg.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stationary throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.75234,
         "Spine Left-Right": 0.03474,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward without any movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.32295,
         "Neck Tilt Left-Right": 0.02123,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely down by the side of the body in a relaxed position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.41916,
         "Left Shoulder Front-Back": 0.29219,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow and rests statically across the top of the right thigh.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.0,
         "Right Shoulder Front-Back": -1.48528,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends downward to support the body's weight, keeping the foot planted on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.50524,
         "Left Upper Leg In-Out": -0.39303,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is held elevated with the ankle crossed over the left knee.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.68831,
         "Right Upper Leg In-Out": -0.27851,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs open and relaxed near the left thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.76587,
         "Left Thumb Spread": 0.107,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand rests gently on the lower part of the right leg near the shin.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.2825,
         "Right Thumb Spread": -0.56575,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:06Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

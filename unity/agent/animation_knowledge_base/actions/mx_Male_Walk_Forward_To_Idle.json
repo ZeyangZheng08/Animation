@@ -14,7 +14,7 @@
   "duration": 1.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward and decelerates to a complete stop.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04737,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Moves forward with the gait, bobs slightly with each step, and settles into an upright standing position.",
       "mean_pose": {
         "Spine Front-Back": -0.21024,
         "Spine Left-Right": 0.02657,
@@ -57,7 +57,7 @@
         "raw_value": 0.04999,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward throughout the movement, bobbing gently with the torso's rhythm before stabilizing at the end.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15824,
         "Neck Tilt Left-Right": 0.06506,
@@ -75,7 +75,7 @@
         "raw_value": 0.13535,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings naturally in opposition to the left leg during the walk, then lowers to rest straight down by the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.09149,
         "Left Shoulder Front-Back": -0.20667,
@@ -96,7 +96,7 @@
         "raw_value": 0.15063,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings naturally in opposition to the right leg during the walk, then lowers to rest straight down by the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.28669,
         "Right Shoulder Front-Back": -0.30825,
@@ -117,7 +117,7 @@
         "raw_value": 0.10949,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives the forward motion through a standard walking cycle, stepping out and planting before returning to a neutral stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.30645,
         "Left Upper Leg In-Out": 0.1354,
@@ -137,7 +137,7 @@
         "raw_value": 0.14367,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates with the left leg in the walking cycle, completing the stride as the figure comes to a halt.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.55322,
         "Right Upper Leg In-Out": 0.00545,
@@ -157,7 +157,7 @@
         "raw_value": 0.20511,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely at the side of the body, moving with the arm swing until it comes to rest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.69659,
         "Left Thumb Spread": 0.14473,
@@ -189,7 +189,7 @@
         "raw_value": 0.18527,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely at the side of the body, moving with the arm swing until it comes to rest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.04264,
         "Right Thumb Spread": -0.08976,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

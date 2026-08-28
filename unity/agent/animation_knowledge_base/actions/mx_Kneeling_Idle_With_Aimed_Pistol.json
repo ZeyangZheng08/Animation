@@ -14,7 +14,7 @@
   "duration": 3.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a stable kneeling stance with both arms raised in an aiming position while the head makes small, subtle movements.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00513,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains upright and steady throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.066,
         "Spine Left-Right": 0.01141,
@@ -57,7 +57,7 @@
         "raw_value": 0.02659,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Performs slight, subtle shifts in orientation while maintaining a forward-facing direction.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.2829,
         "Neck Tilt Left-Right": -0.12582,
@@ -75,7 +75,7 @@
         "raw_value": 0.00947,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose, bent at the elbow and extended forward to support the aiming posture.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.79878,
         "Left Shoulder Front-Back": 0.44215,
@@ -96,7 +96,7 @@
         "raw_value": 0.00663,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static position, held forward and slightly elevated as part of the aim.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.05674,
         "Right Shoulder Front-Back": -0.18767,
@@ -117,7 +117,7 @@
         "raw_value": 0.00459,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays in a static kneeling position with the knee bent and foot flat on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.71117,
         "Left Upper Leg In-Out": 0.17023,
@@ -137,7 +137,7 @@
         "raw_value": 0.00471,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose with the leg bent and positioned behind the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.37401,
         "Right Upper Leg In-Out": 0.14733,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeps a static grip shape, positioned forward as if holding a weapon.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.7799,
         "Left Thumb Spread": 0.38393,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains in a fixed position, supporting the left hand in the aim.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -0.85237,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:40:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

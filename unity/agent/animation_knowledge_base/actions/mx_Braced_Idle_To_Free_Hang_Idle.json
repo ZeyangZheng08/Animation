@@ -14,7 +14,7 @@
   "duration": 0.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jumps from a deep crouch and rises into a high, suspended hang with arms raised overhead.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15287,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins in a deeply flexed position during the initial crouch, then straightens vertically as the body extends upward to reach its highest point.",
       "mean_pose": {
         "Spine Front-Back": 0.00102,
         "Spine Left-Right": -0.01616,
@@ -57,7 +57,7 @@
         "raw_value": 0.15023,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward while braced in the low crouch, then lifts forward and up to face ahead as the body ascends into the hang.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.27244,
         "Neck Tilt Left-Right": -0.10463,
@@ -75,7 +75,7 @@
         "raw_value": 0.24376,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent and raised beside the head in a braced position, then swings fully upward to extend straight overhead.",
       "mean_pose": {
         "Left Shoulder Down-Up": 1.13292,
         "Left Shoulder Front-Back": 0.15313,
@@ -96,7 +96,7 @@
         "raw_value": 0.37607,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, moving from a bent, braced pose next to the head to a fully extended position pointing straight up.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.99959,
         "Right Shoulder Front-Back": -0.52933,
@@ -117,7 +117,7 @@
         "raw_value": 0.29518,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is tightly folded and tucked under the body at the start, then extends backward and downward to straighten out as the figure rises.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.04763,
         "Left Upper Leg In-Out": 0.37581,
@@ -137,7 +137,7 @@
         "raw_value": 0.38554,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg moves from a deeply bent, tucked position to extending behind the body, straightening out as the jump reaches its peak.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.18982,
         "Right Upper Leg In-Out": 0.41183,
@@ -157,7 +157,7 @@
         "raw_value": 0.19843,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers spread, transitioning from a position near shoulder height to being held high above the head.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.18735,
         "Left Thumb Spread": 0.53463,
@@ -189,7 +189,7 @@
         "raw_value": 0.24878,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open with fingers spread, rising alongside the arm from near the shoulder to a position directly above the head.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.12122,
         "Right Thumb Spread": 0.51426,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

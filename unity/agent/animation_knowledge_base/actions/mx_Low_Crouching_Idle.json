@@ -14,7 +14,7 @@
   "duration": 2.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a low, crouching idle stance with its head bowed and hands reaching toward the floor.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00153,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a deep hunch, keeping the spine curved and the chest tucked low near the knees.",
       "mean_pose": {
         "Spine Front-Back": -0.17942,
         "Spine Left-Right": -0.04629,
@@ -57,7 +57,7 @@
         "raw_value": 0.00809,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down sharply so the face points toward the ground between the legs.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.27253,
         "Neck Tilt Left-Right": -0.0288,
@@ -75,7 +75,7 @@
         "raw_value": 0.00417,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends straight down from the shoulder with the elbow slightly bent to keep the hand hovering just above the floor.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.59328,
         "Left Shoulder Front-Back": -0.063,
@@ -96,7 +96,7 @@
         "raw_value": 0.0069,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down and across the front of the body, bending at the elbow to position the hand near the center line.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.39358,
         "Right Shoulder Front-Back": -1.53511,
@@ -117,7 +117,7 @@
         "raw_value": 0.0036,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted in a deep squat with the knee heavily bent and the foot flat on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.72491,
         "Left Upper Leg In-Out": 0.81145,
@@ -137,7 +137,7 @@
         "raw_value": 0.00255,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a similar deep bend with the knee tucked inward and the foot angled slightly outward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.84431,
         "Right Upper Leg In-Out": 0.31066,
@@ -157,7 +157,7 @@
         "raw_value": 0.07732,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hovers open and relaxed just above the floor, swaying gently side to side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.22685,
         "Left Thumb Spread": -0.1821,
@@ -189,7 +189,7 @@
         "raw_value": 0.00247,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and stationary near the midline, resting close to the right knee.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.23848,
         "Right Thumb Spread": 0.85852,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:41:32Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

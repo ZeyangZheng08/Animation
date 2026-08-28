@@ -14,7 +14,7 @@
   "duration": 1.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure crouch-walks forward while repeatedly firing a rifle.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04595,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a deep crouch, bouncing slightly with each step to maintain balance.",
       "mean_pose": {
         "Spine Front-Back": -1.41764,
         "Spine Left-Right": 0.09782,
@@ -57,7 +57,7 @@
         "raw_value": 0.02674,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and forward, keeping the line of sight fixed on the target ahead.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.40366,
         "Neck Tilt Left-Right": -0.09475,
@@ -75,7 +75,7 @@
         "raw_value": 0.05793,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward to grip the front of the rifle, holding it steady against the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.62561,
         "Left Shoulder Front-Back": -1.77095,
@@ -96,7 +96,7 @@
         "raw_value": 0.03246,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bends at the elbow to hold the rear of the rifle, jerking back slightly with each shot.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.73025,
         "Right Shoulder Front-Back": -1.83924,
@@ -117,7 +117,7 @@
         "raw_value": 0.18255,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates between supporting the body's weight and swinging forward to take the next low step.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.25324,
         "Left Upper Leg In-Out": 0.12331,
@@ -137,7 +137,7 @@
         "raw_value": 0.16052,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off the ground to propel the body forward before bending to land in a crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.30336,
         "Right Upper Leg In-Out": -0.13181,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, open pose extended forward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.88584,
         "Left Thumb Spread": -0.24759,
@@ -189,7 +189,7 @@
         "raw_value": 0.09863,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips the trigger area, pulling back repeatedly to simulate firing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -0.85237,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:10Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

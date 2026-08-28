@@ -14,7 +14,7 @@
   "duration": 1.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a high jump, rising from the ground with arms raised overhead and legs tucked, then descending back toward the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14371,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso extends upward to launch the body into the air, arches slightly at the peak of the jump, and then lowers as it descends.",
       "mean_pose": {
         "Spine Front-Back": -0.20167,
         "Spine Left-Right": -0.00615,
@@ -57,7 +57,7 @@
         "raw_value": 0.1618,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly upward during the ascent and remains level throughout the jump.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.39503,
         "Neck Tilt Left-Right": -0.0313,
@@ -75,7 +75,7 @@
         "raw_value": 0.32735,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward from the side to raise the hand above the head before lowering it again on the descent.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.83481,
         "Left Shoulder Front-Back": -0.40609,
@@ -96,7 +96,7 @@
         "raw_value": 0.35836,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left by swinging up to position the hand above the head and then coming down.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.80037,
         "Right Shoulder Front-Back": -1.37096,
@@ -117,7 +117,7 @@
         "raw_value": 0.36519,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to lift the foot off the ground, tucks upward during the jump, and extends downward for landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.35163,
         "Left Upper Leg In-Out": 0.42778,
@@ -137,7 +137,7 @@
         "raw_value": 0.32282,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends to push off the ground, tucks alongside the left leg in mid-air, and extends for the landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.51249,
         "Right Upper Leg In-Out": 0.47834,
@@ -157,7 +157,7 @@
         "raw_value": 0.28102,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open with fingers spread, raised high above the head, and then lowered as the body comes down.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.90688,
         "Left Thumb Spread": 0.71981,
@@ -189,7 +189,7 @@
         "raw_value": 0.26716,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open with fingers spread, raised high above the head, and then lowered as the body comes down.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.47783,
         "Right Thumb Spread": -0.33111,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:11Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

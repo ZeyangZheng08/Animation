@@ -14,7 +14,7 @@
   "duration": 2.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place and pulls a weapon out from the right side of their body, bringing it across to the left.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02686,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates slightly to the right as the figure begins the motion, then twists back to the left to follow the pull.",
       "mean_pose": {
         "Spine Front-Back": -0.18133,
         "Spine Left-Right": -0.06304,
@@ -57,7 +57,7 @@
         "raw_value": 0.10364,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to look toward the right hip where the weapon is drawn, then follows the movement to the left.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0356,
         "Neck Tilt Left-Right": -0.01408,
@@ -75,7 +75,7 @@
         "raw_value": 0.26584,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward to the left and bends at the elbow to reach across the body for the handle.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.17334,
         "Left Shoulder Front-Back": -0.8656,
@@ -96,7 +96,7 @@
         "raw_value": 0.22821,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down to the right hip, grasps the object, and pulls it up and across the front of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.55352,
         "Right Shoulder Front-Back": -1.13695,
@@ -117,7 +117,7 @@
         "raw_value": 0.0243,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains relatively straight, providing a stable base for the upper body rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.40226,
         "Left Upper Leg In-Out": 0.06222,
@@ -137,7 +137,7 @@
         "raw_value": 0.03423,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays planted with a slight bend in the knee to accommodate the shift in weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.64046,
         "Right Upper Leg In-Out": 0.11938,
@@ -157,7 +157,7 @@
         "raw_value": 0.18867,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens to grasp the end of the weapon as it is pulled across the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.80597,
         "Left Thumb Spread": 0.0668,
@@ -189,7 +189,7 @@
         "raw_value": 0.26823,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand grips the weapon near the hip and executes the pulling motion across the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52641,
         "Right Thumb Spread": -0.77967,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

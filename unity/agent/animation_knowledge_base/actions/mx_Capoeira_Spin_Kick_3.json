@@ -14,7 +14,7 @@
   "duration": 3.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a spinning kick, starting from a low stance, swinging a leg up into a handstand-like position, and landing back on the feet.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1502,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins in a bent-forward posture, rotates fully upside down during the spin, and then returns to an upright, slightly forward-leaning position.",
       "mean_pose": {
         "Spine Front-Back": -0.12511,
         "Spine Left-Right": 0.00445,
@@ -57,7 +57,7 @@
         "raw_value": 0.16898,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward initially, moves to point toward the floor as the body inverts, and finally returns to face forward above the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.13544,
         "Neck Tilt Left-Right": 0.01828,
@@ -75,7 +75,7 @@
         "raw_value": 0.44472,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts extended upward and outward, lowers to press against the floor for support while inverted, and then extends back out to the side as the figure stands.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.93972,
         "Left Shoulder Front-Back": -0.17979,
@@ -96,7 +96,7 @@
         "raw_value": 0.51515,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down toward the ground at the start, presses firmly on the floor to balance the inverted body, and then swings upward to finish the movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.55827,
         "Right Shoulder Front-Back": -0.7572,
@@ -117,7 +117,7 @@
         "raw_value": 0.36626,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg begins planted on the ground, kicks high into the air to become the supporting leg of the inversion, and then lands back on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.43395,
         "Left Upper Leg In-Out": 0.62412,
@@ -137,7 +137,7 @@
         "raw_value": 0.29591,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg starts in a bent, grounded position, lifts off the ground to swing through the center of the spin, and then plants itself to complete the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.38704,
         "Right Upper Leg In-Out": 0.25931,
@@ -157,7 +157,7 @@
         "raw_value": 0.40523,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is raised in the air, then extends down to place its fingers flat on the floor, and finally lifts back up away from the ground.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.02471,
         "Left Thumb Spread": -0.08993,
@@ -189,7 +189,7 @@
         "raw_value": 0.38046,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches down to touch the floor, holds the weight of the body during the spin, and then releases and raises back up.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.84026,
         "Right Thumb Spread": -0.10601,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:34:06Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

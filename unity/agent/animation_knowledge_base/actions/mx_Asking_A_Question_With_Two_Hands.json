@@ -14,7 +14,7 @@
   "duration": 3.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place, raising both hands from its sides to a chest height with open palms in an inquiring gesture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04137,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stable, facing forward throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.05195,
         "Spine Left-Right": -0.0508,
@@ -57,7 +57,7 @@
         "raw_value": 0.07497,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces directly forward without any significant tilt or rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.01065,
         "Neck Tilt Left-Right": -0.07299,
@@ -75,7 +75,7 @@
         "raw_value": 0.23416,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm lifts upward and outward from the side of the body, bending at the elbow so the hand ends up in front of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.31419,
         "Left Shoulder Front-Back": 0.0808,
@@ -96,7 +96,7 @@
         "raw_value": 0.21988,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, lifting and bending at the elbow to bring the hand up to the front of the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.14998,
         "Right Shoulder Front-Back": 0.01835,
@@ -117,7 +117,7 @@
         "raw_value": 0.04397,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains straight and stationary, supporting the body's weight on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.39053,
         "Left Upper Leg In-Out": 0.10463,
@@ -137,7 +137,7 @@
         "raw_value": 0.03513,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays planted and motionless, holding the figure steady.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.39891,
         "Right Upper Leg In-Out": 0.0434,
@@ -157,7 +157,7 @@
         "raw_value": 0.08441,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens with the palm facing inward as it rises, ending in a relaxed, cupped position.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.05598,
         "Left Thumb Spread": 0.00338,
@@ -189,7 +189,7 @@
         "raw_value": 0.10779,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand opens with the palm facing inward, moving symmetrically with the left hand to finish in a cupped shape.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.83249,
         "Right Thumb Spread": 0.0248,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:07:42Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

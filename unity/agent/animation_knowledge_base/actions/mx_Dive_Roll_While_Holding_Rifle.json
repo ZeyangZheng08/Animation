@@ -14,7 +14,7 @@
   "duration": 2.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a front dive roll, launching from a crouch into an aerial somersault and landing on their feet in a low stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0853,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso pitches forward to initiate the dive, rotates fully through the somersault while inverted, and returns to an upright position as it lands.",
       "mean_pose": {
         "Spine Front-Back": -0.27454,
         "Spine Left-Right": -0.01974,
@@ -57,7 +57,7 @@
         "raw_value": 0.24,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head leads the forward motion during the launch, follows the rotation of the body through the flip, and finishes by facing forward over the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06716,
         "Neck Tilt Left-Right": -0.04876,
@@ -75,7 +75,7 @@
         "raw_value": 0.294,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward and downward to lead the dive, tucks toward the chest during the rotation, and swings outward to help balance the landing.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.05119,
         "Left Shoulder Front-Back": -0.75211,
@@ -96,7 +96,7 @@
         "raw_value": 0.3713,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left arm's movement, extending down to start the roll, pulling in close to the body mid-air, and swinging out upon impact.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.00384,
         "Right Shoulder Front-Back": -0.21461,
@@ -117,7 +117,7 @@
         "raw_value": 0.28279,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives upward and forward to propel the dive, stays tucked near the torso during the somersault, and bends at the knee to absorb the landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.24024,
         "Left Upper Leg In-Out": 0.35882,
@@ -137,7 +137,7 @@
         "raw_value": 0.30263,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg moves in tandem with the left for the initial push-off, remains folded during the aerial rotation, and straightens slightly to support the final stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.15071,
         "Right Upper Leg In-Out": 0.03249,
@@ -157,7 +157,7 @@
         "raw_value": 0.2113,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches down and forward to begin the roll, curls inward toward the face during the spin, and opens up as the figure stands.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.37699,
         "Left Thumb Spread": -0.60411,
@@ -189,7 +189,7 @@
         "raw_value": 0.00936,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a fixed, open-palm pose at chest height throughout the entire sequence.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.58212,
         "Right Thumb Spread": -0.82611,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:22Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

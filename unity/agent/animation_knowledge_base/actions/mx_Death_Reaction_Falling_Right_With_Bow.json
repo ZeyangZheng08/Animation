@@ -14,7 +14,7 @@
   "duration": 2.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure bows forward, then falls to the floor on their right side.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.125,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward from a standing position, rotates toward the right, and descends until it is flat against the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.12839,
         "Spine Left-Right": 0.02536,
@@ -57,7 +57,7 @@
         "raw_value": 0.35224,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down with the bow, drops forward as the body falls, and comes to rest on the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.59848,
         "Neck Tilt Left-Right": 0.51343,
@@ -75,7 +75,7 @@
         "raw_value": 0.3862,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings back for balance during the fall, then extends out to the side, ending with the hand resting on the floor.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.7727,
         "Left Shoulder Front-Back": -0.3859,
@@ -96,7 +96,7 @@
         "raw_value": 0.4736,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down and forward to break the fall, extending fully as the body hits the ground.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.19381,
         "Right Shoulder Front-Back": 0.53105,
@@ -117,7 +117,7 @@
         "raw_value": 0.2465,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts and tucks slightly during the fall, then straightens out along the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.61161,
         "Left Upper Leg In-Out": 0.22323,
@@ -137,7 +137,7 @@
         "raw_value": 0.27037,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends and drags across the floor, coming to a stop extended behind the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.1579,
         "Right Upper Leg In-Out": 0.22675,
@@ -157,7 +157,7 @@
         "raw_value": 0.01985,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed throughout the motion, finishing flat on the ground.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.74462,
         "Left Thumb Spread": -1.24235,
@@ -189,7 +189,7 @@
         "raw_value": 0.26216,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand presses down against the floor to absorb the impact of the fall.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.30384,
         "Right Thumb Spread": -0.15775,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:35:09Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

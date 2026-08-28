@@ -14,7 +14,7 @@
   "duration": 2.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a high, tucked running jump into a forward run.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14331,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply forward during the aerial phase of the jump and then straightens as it enters the running stride.",
       "mean_pose": {
         "Spine Front-Back": -0.68338,
         "Spine Left-Right": -0.16795,
@@ -57,7 +57,7 @@
         "raw_value": 0.23716,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to look at the ground while in the air, then lifts up to face forward as the figure begins to run.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02977,
         "Neck Tilt Left-Right": -0.11325,
@@ -75,7 +75,7 @@
         "raw_value": 0.30289,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from an extended position back towards the body during the jump, then moves into a standard pumping motion for the run.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.56629,
         "Left Shoulder Front-Back": -0.47509,
@@ -96,7 +96,7 @@
         "raw_value": 0.30667,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging from an extended position back to the side before engaging in the rhythmic motion of the run.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.80276,
         "Right Shoulder Front-Back": -0.54434,
@@ -117,7 +117,7 @@
         "raw_value": 0.29945,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent tightly under the body during the jump, extends forward to make contact with the ground, and then continues the running cycle.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.04648,
         "Left Upper Leg In-Out": 0.22632,
@@ -137,7 +137,7 @@
         "raw_value": 0.26738,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the same pattern as the left, tucking underneath during the jump and extending to land before driving the running motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.172,
         "Right Upper Leg In-Out": -0.05127,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains in a static, open pose with fingers slightly curled throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.39484,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays in a static, open pose with fingers slightly curled throughout the entire sequence.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.49632,
         "Right Thumb Spread": -0.38365,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

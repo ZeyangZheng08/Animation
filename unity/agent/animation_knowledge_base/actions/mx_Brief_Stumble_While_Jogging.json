@@ -14,7 +14,7 @@
   "duration": 1.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin stumbles forward while jogging, extending its arms to regain balance before continuing.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18599,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward during the jog, tilts and twists sideways during the stumble, then straightens back up.",
       "mean_pose": {
         "Spine Front-Back": -0.1761,
         "Spine Left-Right": -0.00367,
@@ -57,7 +57,7 @@
         "raw_value": 0.13417,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and shifts left and right in reaction to the stumble, then levels out as the figure recovers.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03236,
         "Neck Tilt Left-Right": -0.02048,
@@ -75,7 +75,7 @@
         "raw_value": 0.21334,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps forward in a running motion, extends outward to the side during the stumble, and returns to a bent position at the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.30223,
         "Left Shoulder Front-Back": -0.51173,
@@ -96,7 +96,7 @@
         "raw_value": 0.29713,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings backward during the run, flails out to the opposite side to counterbalance the stumble, and settles back into a pumping rhythm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.50672,
         "Right Shoulder Front-Back": -0.17372,
@@ -117,7 +117,7 @@
         "raw_value": 0.26542,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward with a high knee lift, extends out during the stumble, and lands on the ball of the foot.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.01406,
         "Left Upper Leg In-Out": 0.15741,
@@ -137,7 +137,7 @@
         "raw_value": 0.24284,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trails behind with a bent knee, kicks forward during the stumble, and plants firmly on the ground to catch the fall.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.13058,
         "Right Upper Leg In-Out": 0.09564,
@@ -157,7 +157,7 @@
         "raw_value": 0.40838,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches into a fist during the run, opens and spreads fingers during the stumble, and relaxes back into a loose fist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.82649,
         "Left Thumb Spread": 0.04554,
@@ -189,7 +189,7 @@
         "raw_value": 0.31966,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a loose fist, opens wide with fingers spread for balance during the stumble, and closes back into a fist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.24119,
         "Right Thumb Spread": -0.03196,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:29Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

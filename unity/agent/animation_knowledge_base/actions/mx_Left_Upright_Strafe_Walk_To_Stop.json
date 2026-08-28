@@ -14,7 +14,7 @@
   "duration": 1.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs an upright strafe walk to the left, moving sideways with a steady pace before coming to a complete stop.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06894,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and maintains a consistent leftward tilt throughout the walking cycle, settling into an upright stance at the end.",
       "mean_pose": {
         "Spine Front-Back": -0.30595,
         "Spine Left-Right": 0.02145,
@@ -57,7 +57,7 @@
         "raw_value": 0.05804,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward, facing toward the left side of the body, and remains in this lowered orientation for the entire duration of the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04869,
         "Neck Tilt Left-Right": 0.01408,
@@ -75,7 +75,7 @@
         "raw_value": 0.02584,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held bent at the elbow across the chest, with the hand positioned near the center of the torso while swaying gently with the stride.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.18866,
         "Left Shoulder Front-Back": -0.48715,
@@ -96,7 +96,7 @@
         "raw_value": 0.04343,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward to the side with the elbow bent, holding the forearm parallel to the ground as it moves through the gait cycle.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.33573,
         "Right Shoulder Front-Back": 0.58654,
@@ -117,7 +117,7 @@
         "raw_value": 0.10139,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the lateral movement, stepping out to the side and pushing off the ground in a rhythmic strafe pattern until it plants firmly to stop.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.52334,
         "Left Upper Leg In-Out": 0.31673,
@@ -137,7 +137,7 @@
         "raw_value": 0.14631,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the left, sliding laterally to maintain balance and support the weight of the body during the sideways motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.55365,
         "Right Upper Leg In-Out": 0.21716,
@@ -157,7 +157,7 @@
         "raw_value": 0.07191,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays curled loosely near the chest, keeping a compact shape close to the upper body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.73316,
         "Left Thumb Spread": -0.28044,
@@ -189,7 +189,7 @@
         "raw_value": 0.02249,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held open and extended outward to the side, acting as a counterbalance during the lateral movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -0.85237,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:11Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 4.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is suspended in mid-air, executing a slow, horizontal rotation while maintaining a spread-eagle posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03081,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Hovers horizontally in the air, rotating steadily around its central axis to show all sides.",
       "mean_pose": {
         "Spine Front-Back": -0.0056,
         "Spine Left-Right": 0.00948,
@@ -57,7 +57,7 @@
         "raw_value": 0.03896,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains aligned with the torso, turning smoothly as the body rotates without any independent movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.31531,
         "Neck Tilt Left-Right": -0.13095,
@@ -75,7 +75,7 @@
         "raw_value": 0.16529,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward and slightly upward, sweeping through the air as the body turns.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.02704,
         "Left Shoulder Front-Back": -0.32414,
@@ -96,7 +96,7 @@
         "raw_value": 0.20509,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches out to the side in opposition to the left arm, tracking the rotation of the shoulders.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.00371,
         "Right Shoulder Front-Back": 0.98987,
@@ -117,7 +117,7 @@
         "raw_value": 0.14785,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Hangs below the body with a slight bend at the knee, swinging gently with the momentum of the spin.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.19252,
         "Left Upper Leg In-Out": 0.49023,
@@ -137,7 +137,7 @@
         "raw_value": 0.12578,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stretches outwards and downwards, mirroring the relaxed dangle of the other leg during the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.06854,
         "Right Upper Leg In-Out": 0.78735,
@@ -157,7 +157,7 @@
         "raw_value": 0.03876,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeps fingers loosely curled and open, floating freely at the end of the extended arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.89854,
         "Left Thumb Spread": -0.10816,
@@ -189,7 +189,7 @@
         "raw_value": 0.03181,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open, relaxed position with fingers spread, trailing behind the rotation.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.8021,
         "Right Thumb Spread": -0.10146,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:58Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static, dynamic pose of an exaggerated right-handed punch, balancing on the left leg with the right leg kicked back.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose, leaning slightly forward and rotating toward the punching side.",
       "mean_pose": {
         "Spine Front-Back": 0.02127,
         "Spine Left-Right": 0.32094,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose, turned to look in the direction of the extended right arm.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.34559,
         "Neck Tilt Left-Right": 0.00713,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose, bent at the elbow and held close to the chest in a guard position.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.17024,
         "Left Shoulder Front-Back": -0.75096,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose, fully extended outward and upward to the side in a punching motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.48197,
         "Right Shoulder Front-Back": 0.65167,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose, straight and planted on the ground to support the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.33462,
         "Left Upper Leg In-Out": 0.26112,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose, lifted off the ground and bent backward behind the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.60046,
         "Right Upper Leg In-Out": 0.28488,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose, formed into a fist near the torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.63927,
         "Left Thumb Spread": -0.26617,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose, clenched tightly into a fist at the end of the extended arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.96362,
         "Right Thumb Spread": -0.32106,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:35:57Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

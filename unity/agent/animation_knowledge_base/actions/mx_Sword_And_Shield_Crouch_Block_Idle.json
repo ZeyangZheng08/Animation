@@ -14,7 +14,7 @@
   "duration": 0.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static, low defensive crouch with its right arm raised in a guard position.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00048,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains bent forward at the waist throughout the clip, maintaining a low center of gravity.",
       "mean_pose": {
         "Spine Front-Back": -0.87179,
         "Spine Left-Right": -0.12264,
@@ -57,7 +57,7 @@
         "raw_value": 0.00148,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays tilted downward, keeping the gaze fixed toward the ground or a low target.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04481,
         "Neck Tilt Left-Right": -0.14357,
@@ -75,7 +75,7 @@
         "raw_value": 0.00205,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs down and slightly back from the body, with the elbow relaxed and extended.",
       "mean_pose": {
         "Left Shoulder Down-Up": 1.22789,
         "Left Shoulder Front-Back": -1.75234,
@@ -96,7 +96,7 @@
         "raw_value": 0.00145,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is held up in front of the chest with the elbow sharply bent, positioning the forearm to block.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.45924,
         "Right Shoulder Front-Back": 0.22113,
@@ -117,7 +117,7 @@
         "raw_value": 0.00047,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is planted firmly on the ground, bent at the knee to support the crouching stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.59308,
         "Left Upper Leg In-Out": 0.83572,
@@ -137,7 +137,7 @@
         "raw_value": 0.00087,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is also bent at the knee, positioned slightly behind the left leg to balance the squat.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.22493,
         "Right Upper Leg In-Out": 1.05741,
@@ -157,7 +157,7 @@
         "raw_value": 0.00277,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, hanging loosely near the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21301,
         "Left Thumb Spread": -0.90937,
@@ -189,7 +189,7 @@
         "raw_value": 0.00147,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is clenched into a fist, held high in front of the face as part of the blocking posture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

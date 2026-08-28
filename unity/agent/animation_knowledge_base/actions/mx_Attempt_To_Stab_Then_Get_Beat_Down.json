@@ -14,7 +14,7 @@
   "duration": 5.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure attempts a stabbing attack with the right arm but is immediately struck, causing them to collapse onto the floor and crawl away.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09033,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward aggressively during the initial stab before collapsing downward toward the ground as the figure is beaten down.",
       "mean_pose": {
         "Spine Front-Back": -0.18736,
         "Spine Left-Right": -0.08397,
@@ -57,7 +57,7 @@
         "raw_value": 0.40218,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward during the attack, then drops sharply downward as the body falls to the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.05187,
         "Neck Tilt Left-Right": 0.08348,
@@ -75,7 +75,7 @@
         "raw_value": 0.41766,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts bent at the side for balance, then extends outward and reaches down to brace against the floor during the fall.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.02686,
         "Left Shoulder Front-Back": 0.47014,
@@ -96,7 +96,7 @@
         "raw_value": 0.35045,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Thrusts forward in a stabbing motion, then flails upward and backward as the figure loses balance and falls.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.11224,
         "Right Shoulder Front-Back": 0.74314,
@@ -117,7 +117,7 @@
         "raw_value": 0.32885,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward to support the lunge, then bends and drags along the ground as the figure collapses.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.24846,
         "Left Upper Leg In-Out": 0.60286,
@@ -137,7 +137,7 @@
         "raw_value": 0.28398,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Provides the rear stance for the attack, then kicks out and trails behind as the body hits the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.2733,
         "Right Upper Leg In-Out": 0.15325,
@@ -157,7 +157,7 @@
         "raw_value": 0.80464,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains loosely clenched near the waist, then presses flat against the floor to support the falling body weight.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.54776,
         "Left Thumb Spread": 0.37481,
@@ -189,7 +189,7 @@
         "raw_value": 0.75881,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Forms a tight fist for the stab, then opens and waves chaotically in the air as the figure is knocked down.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.55746,
         "Right Thumb Spread": 0.26519,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:32:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a two-hit punch combo, starting with a crouched stance and finishing in an upright position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1838,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a deep crouch during the initial strike before rising to an upright stance by the end of the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.3472,
         "Spine Left-Right": 0.11722,
@@ -57,7 +57,7 @@
         "raw_value": 0.30464,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and forward in alignment with the torso's crouch, then lifts up as the body straightens.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01794,
         "Neck Tilt Left-Right": -0.26379,
@@ -75,7 +75,7 @@
         "raw_value": 0.56665,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow, held relatively close to the chest throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.19848,
         "Left Shoulder Front-Back": -0.3941,
@@ -96,7 +96,7 @@
         "raw_value": 0.31094,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward from a low position to deliver a punch, then retracts back toward the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.16596,
         "Right Shoulder Front-Back": -0.39552,
@@ -117,7 +117,7 @@
         "raw_value": 0.25664,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the knee to support the crouched posture, straightening out as the figure rises.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.05473,
         "Left Upper Leg In-Out": 0.28284,
@@ -137,7 +137,7 @@
         "raw_value": 0.2479,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Begins in a bent position behind the body and extends forward to help stand the figure up.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.08803,
         "Right Upper Leg In-Out": 0.1645,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, loosely clenched pose near the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41852,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.08753,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Punches forward with a closed fist and then pulls back to rest near the shoulder.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.67358,
         "Right Thumb Spread": 0.07281,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:27Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

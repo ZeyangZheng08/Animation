@@ -14,7 +14,7 @@
   "duration": 1.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure crouches low and then leaps upward into a high jump, tucking its knees toward its chest in mid-air.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13444,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starting from a deep forward lean while crouching, the torso straightens vertically as it pushes off the ground and tilts slightly backward at the peak of the jump.",
       "mean_pose": {
         "Spine Front-Back": -0.21218,
         "Spine Left-Right": -0.01733,
@@ -57,7 +57,7 @@
         "raw_value": 0.19629,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head looks down during the initial crouch, lifts to face forward as the body extends, and tilts back slightly at the apex of the jump.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.15362,
         "Neck Tilt Left-Right": -0.03304,
@@ -75,7 +75,7 @@
         "raw_value": 0.33294,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Beginning bent near the hip, the left arm swings outward and upward to extend fully to the side, helping balance the body in the air.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.50459,
         "Left Shoulder Front-Back": 0.03228,
@@ -96,7 +96,7 @@
         "raw_value": 0.30767,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirroring the opposite limb, the right arm swings out from the side and up to extend fully, keeping the body balanced during the leap.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.6087,
         "Right Shoulder Front-Back": 0.00018,
@@ -117,7 +117,7 @@
         "raw_value": 0.2273,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg starts bent in a squat position, drives upward to launch the body, and then bends further to tuck the knee toward the chest in mid-air.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.26677,
         "Left Upper Leg In-Out": 0.17362,
@@ -137,7 +137,7 @@
         "raw_value": 0.31713,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left, extending to push off the floor and then drawing the knee up tightly into the tucked jumping pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.07477,
         "Right Upper Leg In-Out": 0.43314,
@@ -157,7 +157,7 @@
         "raw_value": 0.25304,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, swinging with the arm to maintain momentum and balance.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.09478,
         "Left Thumb Spread": -0.62282,
@@ -189,7 +189,7 @@
         "raw_value": 0.2009,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed, moving symmetrically with the arm to stabilize the figure's rotation.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.97333,
         "Right Thumb Spread": -0.25375,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

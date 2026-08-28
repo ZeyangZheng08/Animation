@@ -14,7 +14,7 @@
   "duration": 4.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, acrobatic cartwheel-like movement, dropping from a standing position to the floor and rolling over onto their hands before kicking back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.28567,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward sharply to initiate the drop, inverts completely during the handstand phase, and rotates back upright as the legs kick up.",
       "mean_pose": {
         "Spine Front-Back": -0.74315,
         "Spine Left-Right": 0.01597,
@@ -57,7 +57,7 @@
         "raw_value": 0.23883,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the floor as the body drops, tucks close to the chest during the inverted rotation, and lifts up as the figure returns to a standing posture.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.16878,
         "Neck Tilt Left-Right": -0.06913,
@@ -75,7 +75,7 @@
         "raw_value": 0.35441,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down and extends to support the body's weight on the floor, then pushes off to help rotate the torso upward.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.69809,
         "Left Shoulder Front-Back": 0.48645,
@@ -96,7 +96,7 @@
         "raw_value": 0.405,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward to plant on the ground for support, working with the left arm to pivot the body before swinging up.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.6718,
         "Right Shoulder Front-Back": 0.37993,
@@ -117,7 +117,7 @@
         "raw_value": 0.34933,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and swings through the air as the body inverts, then kicks up high to complete the rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.22064,
         "Left Upper Leg In-Out": 0.13,
@@ -137,7 +137,7 @@
         "raw_value": 0.25978,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trails behind initially, sweeps around during the inversion, and follows the left leg upward to return the body to its feet.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.36806,
         "Right Upper Leg In-Out": 0.20742,
@@ -157,7 +157,7 @@
         "raw_value": 0.30864,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens and reaches down to make contact with the floor, bearing the full weight of the inverted body before releasing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.7012,
         "Left Thumb Spread": 0.09964,
@@ -189,7 +189,7 @@
         "raw_value": 0.2526,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches down to touch the floor beside the left hand, supporting the handstand position before pushing off to exit the move.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.97961,
         "Right Thumb Spread": 0.13991,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:43Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

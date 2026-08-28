@@ -14,7 +14,7 @@
   "duration": 4.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure reacts to a groin kick by clenching, hunching over in pain, and collapsing onto the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09955,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starts upright, then bends sharply forward at the waist as it drops toward the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.6902,
         "Spine Left-Right": 0.08478,
@@ -57,7 +57,7 @@
         "raw_value": 0.29157,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilted slightly downward initially, then drops further with the torso's forward bend before lying flat on the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.05276,
         "Neck Tilt Left-Right": -0.10012,
@@ -75,7 +75,7 @@
         "raw_value": 0.26957,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs down from the shoulder, then bends at the elbow to bring the hand up to clutch the front of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.8892,
         "Left Shoulder Front-Back": -1.08503,
@@ -96,7 +96,7 @@
         "raw_value": 0.18438,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirrors the left arm, bending inward to pull the hand against the midsection during the fall.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.01311,
         "Right Shoulder Front-Back": -0.94314,
@@ -117,7 +117,7 @@
         "raw_value": 0.27467,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Begins straight and planted, then bends deeply at the knee as the figure buckles and falls.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.27907,
         "Left Upper Leg In-Out": 0.10135,
@@ -137,7 +137,7 @@
         "raw_value": 0.30295,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Follows the left leg, bending at the knee to collapse and fold under the body on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.23443,
         "Right Upper Leg In-Out": -0.00205,
@@ -157,7 +157,7 @@
         "raw_value": 0.14742,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves from a relaxed position at the side to curl into a fist pressed tightly against the groin area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.14553,
         "Left Thumb Spread": 0.36001,
@@ -189,7 +189,7 @@
         "raw_value": 0.20523,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curls into a fist and presses against the front of the body alongside the other hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42348,
         "Right Thumb Spread": 0.3826,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:44:41Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

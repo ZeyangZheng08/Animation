@@ -14,7 +14,7 @@
   "duration": 2.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin is knocked backward, performing a full backflip through the air before landing on its hands and feet.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13738,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates completely backward in mid-air, transitioning from an upright position to inverted and then returning to a horizontal, bent-over stance as it lands.",
       "mean_pose": {
         "Spine Front-Back": -0.04048,
         "Spine Left-Right": 0.05594,
@@ -57,7 +57,7 @@
         "raw_value": 0.30785,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tucks forward during the aerial rotation and remains lowered toward the floor throughout the landing process.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.25069,
         "Neck Tilt Left-Right": 0.20864,
@@ -75,7 +75,7 @@
         "raw_value": 0.42066,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward during the flip and extends downward to brace against the ground upon impact.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.27859,
         "Left Shoulder Front-Back": 0.09168,
@@ -96,7 +96,7 @@
         "raw_value": 0.37913,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm follows the body's rotation, swinging up and then reaching down to support the weight of the landing.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.85464,
         "Right Shoulder Front-Back": -0.23585,
@@ -117,7 +117,7 @@
         "raw_value": 0.35671,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee while airborne and plants firmly on the floor to help stabilize the figure after the flip.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.19681,
         "Left Upper Leg In-Out": 0.45813,
@@ -137,7 +137,7 @@
         "raw_value": 0.31403,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends backward during the flip and then steps forward onto the ground to complete the crouched landing pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.17529,
         "Right Upper Leg In-Out": 0.39763,
@@ -157,7 +157,7 @@
         "raw_value": 0.26248,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches out to touch the floor and supports the upper body weight during the final crouch.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.84376,
         "Left Thumb Spread": 0.65634,
@@ -189,7 +189,7 @@
         "raw_value": 0.24469,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends toward the ground to catch the body's momentum and maintain balance in the final pose.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.54261,
         "Right Thumb Spread": 0.4802,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:40Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

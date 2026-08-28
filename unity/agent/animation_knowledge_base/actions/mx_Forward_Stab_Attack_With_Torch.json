@@ -14,7 +14,7 @@
   "duration": 2.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a forward stabbing attack, lunging with the right arm extended while balancing on a bent left leg.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11194,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply forward to drive momentum into the stab and then straightens as the figure recovers.",
       "mean_pose": {
         "Spine Front-Back": -0.29875,
         "Spine Left-Right": -0.04373,
@@ -57,7 +57,7 @@
         "raw_value": 0.25331,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and forward to follow the direction of the attack, maintaining focus on the target.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01176,
         "Neck Tilt Left-Right": -0.05622,
@@ -75,7 +75,7 @@
         "raw_value": 0.43212,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings backward from a raised position to counterbalance the forward thrust of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.00745,
         "Left Shoulder Front-Back": -0.52321,
@@ -96,7 +96,7 @@
         "raw_value": 0.50033,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends fully forward in a straight line to execute the stab and then pulls back toward the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.58246,
         "Right Shoulder Front-Back": 0.18669,
@@ -117,7 +117,7 @@
         "raw_value": 0.15614,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee to absorb the impact of the lunge and support the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.17537,
         "Left Upper Leg In-Out": 0.11153,
@@ -137,7 +137,7 @@
         "raw_value": 0.2124,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind, extending backward for balance during the initial lunge before stepping forward to recover.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.03317,
         "Right Upper Leg In-Out": 0.32909,
@@ -157,7 +157,7 @@
         "raw_value": 0.07522,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, swinging freely to maintain balance throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41852,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.11551,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand forms a fist to grip the imaginary torch, extending forward to deliver the strike.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.5424,
         "Right Thumb Spread": 0.01026,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:29Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 6.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a subtle twisting motion, turning their upper body slightly to the right before returning to a neutral standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02217,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright but rotates gently to the right and then back to center.",
       "mean_pose": {
         "Spine Front-Back": -0.01433,
         "Spine Left-Right": 0.0663,
@@ -57,7 +57,7 @@
         "raw_value": 0.03149,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays aligned with the shoulders, facing forward throughout the slight rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.28628,
         "Neck Tilt Left-Right": 0.01658,
@@ -75,7 +75,7 @@
         "raw_value": 0.03539,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm moves from a bent position near the waist outward to the side, extending almost fully by the end of the sequence.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.36453,
         "Left Shoulder Front-Back": -0.06891,
@@ -96,7 +96,7 @@
         "raw_value": 0.31737,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs relaxed at the side of the body, remaining mostly stationary.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.21994,
         "Right Shoulder Front-Back": -1.12587,
@@ -117,7 +117,7 @@
         "raw_value": 0.01406,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands straight and still, supporting the figure's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.38806,
         "Left Upper Leg In-Out": 0.0905,
@@ -137,7 +137,7 @@
         "raw_value": 0.01663,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stands straight and still, planted firmly on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.41605,
         "Right Upper Leg In-Out": 0.05669,
@@ -157,7 +157,7 @@
         "raw_value": 0.13369,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends outward with fingers spread, moving away from the body as the arm reaches out.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.62456,
         "Left Thumb Spread": -0.41973,
@@ -189,7 +189,7 @@
         "raw_value": 0.20985,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs loosely at the side, keeping a natural, relaxed posture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.42098,
         "Right Thumb Spread": -1.13306,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin performs a high step, lifting one leg forward while swinging the arms to maintain balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16062,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and shifts vertically as it drives the upward stepping motion.",
       "mean_pose": {
         "Spine Front-Back": -0.08648,
         "Spine Left-Right": 0.08196,
@@ -57,7 +57,7 @@
         "raw_value": 0.16111,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to look at the raised foot and follows the body's forward momentum.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00288,
         "Neck Tilt Left-Right": 0.0239,
@@ -75,7 +75,7 @@
         "raw_value": 0.32316,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings backward with a bent elbow to counterbalance the right leg's lift.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.07874,
         "Left Shoulder Front-Back": 0.11695,
@@ -96,7 +96,7 @@
         "raw_value": 0.245,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings forward and upward in coordination with the left leg's movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.33942,
         "Right Shoulder Front-Back": -0.12896,
@@ -117,7 +117,7 @@
         "raw_value": 0.21778,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends sharply at the knee, lifting the foot high off the ground in front of the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.12533,
         "Left Upper Leg In-Out": 0.26316,
@@ -137,7 +137,7 @@
         "raw_value": 0.2542,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends downward to support the figure's weight during the step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.10335,
         "Right Upper Leg In-Out": 0.03533,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs loosely near the hip with fingers relaxed.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.03645,
         "Left Thumb Spread": 0.01569,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held open near chest level with the palm facing inward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.77278,
         "Right Thumb Spread": 0.1212,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:42:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

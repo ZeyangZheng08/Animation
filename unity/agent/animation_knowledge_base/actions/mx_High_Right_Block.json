@@ -14,7 +14,7 @@
   "duration": 1.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a high right block, raising the right arm to shield the head while leaning back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09102,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward and twists slightly to the left as the right arm rises.",
       "mean_pose": {
         "Spine Front-Back": -0.01591,
         "Spine Left-Right": -0.09109,
@@ -57,7 +57,7 @@
         "raw_value": 0.14037,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts backward and turns to the left, following the defensive motion of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.08958,
         "Neck Tilt Left-Right": -0.02761,
@@ -75,7 +75,7 @@
         "raw_value": 0.21632,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow with the hand held up near the chest in a guard position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.91377,
         "Left Shoulder Front-Back": 0.09065,
@@ -96,7 +96,7 @@
         "raw_value": 0.18453,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from the side to a high position, bending at the elbow to bring the forearm across the face.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.11423,
         "Right Shoulder Front-Back": -0.83556,
@@ -117,7 +117,7 @@
         "raw_value": 0.17049,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted on the ground with the knee slightly bent for stability.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.15669,
         "Left Upper Leg In-Out": 0.35531,
@@ -137,7 +137,7 @@
         "raw_value": 0.16316,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee and lifts slightly off the floor to support the backward lean.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.46315,
         "Right Upper Leg In-Out": 0.37578,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, open fist shape near the center of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, open fist shape raised high next to the head.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

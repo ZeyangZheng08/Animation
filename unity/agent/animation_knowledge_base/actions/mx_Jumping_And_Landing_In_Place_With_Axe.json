@@ -14,7 +14,7 @@
   "duration": 1.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jumps straight up from a standing position and lands back on the ground in the same spot.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12601,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright throughout the motion, rising vertically with the jump and descending for the landing.",
       "mean_pose": {
         "Spine Front-Back": -0.33886,
         "Spine Left-Right": -0.06247,
@@ -57,7 +57,7 @@
         "raw_value": 0.16823,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward, moving only vertically along with the body's ascent and descent.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04327,
         "Neck Tilt Left-Right": -0.09912,
@@ -75,7 +75,7 @@
         "raw_value": 0.34983,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward to the side during the jump and then returns toward the body as the figure lands.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.50279,
         "Left Shoulder Front-Back": -0.31441,
@@ -96,7 +96,7 @@
         "raw_value": 0.3154,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left arm, swinging out to the side at the peak of the jump before coming back down.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.0342,
         "Right Shoulder Front-Back": -0.87044,
@@ -117,7 +117,7 @@
         "raw_value": 0.1985,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends downward to push off the floor and then bends slightly to absorb the impact of the landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.32914,
         "Left Upper Leg In-Out": 0.68613,
@@ -137,7 +137,7 @@
         "raw_value": 0.22154,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off the ground alongside the left and flexes upon returning to the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.27512,
         "Right Upper Leg In-Out": 0.49971,
@@ -157,7 +157,7 @@
         "raw_value": 0.23766,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves outward in an open position to help balance the body while airborne.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.69557,
         "Left Thumb Spread": -0.24005,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a static, relaxed pose at the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.33667,
         "Right Thumb Spread": -0.67535,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

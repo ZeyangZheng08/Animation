@@ -14,7 +14,7 @@
   "duration": 1.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure reacts to a heavy blow by stumbling and staggering in pain, hunching over before recovering their stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14848,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and twists sharply to the left side upon impact, then hunches down deeply into a crouch before straightening back up.",
       "mean_pose": {
         "Spine Front-Back": -0.30901,
         "Spine Left-Right": 0.02879,
@@ -57,7 +57,7 @@
         "raw_value": 0.21741,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Snaps back and tilts away from the hit, drops low toward the knees during the stagger, and lifts back up at the end of the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07809,
         "Neck Tilt Left-Right": -0.06511,
@@ -75,7 +75,7 @@
         "raw_value": 0.19858,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings outward for balance, then bends at the elbow to bring the hand up across the chest while protecting the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.08393,
         "Left Shoulder Front-Back": -0.19562,
@@ -96,7 +96,7 @@
         "raw_value": 0.21218,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches out and back initially, then pulls inward with the elbow bent as the figure braces against the pain.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.29467,
         "Right Shoulder Front-Back": -1.55128,
@@ -117,7 +117,7 @@
         "raw_value": 0.15838,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and bends at the knee to absorb the shock of the hit, maintaining a wide, unstable stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.20741,
         "Left Upper Leg In-Out": 0.13767,
@@ -137,7 +137,7 @@
         "raw_value": 0.15591,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply at the knee to support the hunched posture, then straightens out as the figure recovers.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.11157,
         "Right Upper Leg In-Out": 0.56705,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a loosely curled fist shape near the upper chest and shoulder area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains in a loose fist, held close to the midsection and waist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:43Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

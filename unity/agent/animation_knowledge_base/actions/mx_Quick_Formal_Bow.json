@@ -14,7 +14,7 @@
   "duration": 2.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a quick, formal bow by bending forward at the waist and then returning to an upright stance.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.03992,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Hinged at the waist, the torso bends forward from a neutral standing position into a deep bow before straightening back up.",
       "mean_pose": {
         "Spine Front-Back": -0.06559,
         "Spine Left-Right": -0.02978,
@@ -57,7 +57,7 @@
         "raw_value": 0.11179,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down along with the torso during the bow and lifts back to a level orientation as the figure stands upright.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.24272,
         "Neck Tilt Left-Right": 0.11635,
@@ -75,7 +75,7 @@
         "raw_value": 0.03253,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hanging relaxed at the side of the body, the arm moves forward slightly as the torso bows and returns to its resting position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.78263,
         "Left Shoulder Front-Back": -0.80011,
@@ -96,7 +96,7 @@
         "raw_value": 0.02546,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirroring the left side, the arm hangs naturally at the hip, swinging gently with the forward and backward motion of the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.76164,
         "Right Shoulder Front-Back": -0.0848,
@@ -117,7 +117,7 @@
         "raw_value": 0.02893,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Standing straight and bearing weight, the leg remains planted on the floor throughout the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.43567,
         "Left Upper Leg In-Out": 0.02711,
@@ -137,7 +137,7 @@
         "raw_value": 0.03226,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Planted firmly beside the other leg, it stays vertical and stationary while the upper body moves.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.46095,
         "Right Upper Leg In-Out": -0.01873,
@@ -157,7 +157,7 @@
         "raw_value": 0.08964,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The hand remains open and relaxed at the side of the thigh, following the subtle shift of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.54153,
         "Left Thumb Spread": 0.15693,
@@ -189,7 +189,7 @@
         "raw_value": 0.10528,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeping a loose grip, the hand hangs freely by the side, moving in tandem with the right arm's slight forward swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.40826,
         "Right Thumb Spread": 0.52726,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:28Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

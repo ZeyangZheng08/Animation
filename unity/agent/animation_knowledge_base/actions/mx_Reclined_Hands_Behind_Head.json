@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure leans backward into a deep recline while holding both hands clasped behind the head.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso tilts significantly backward, leaning away from the vertical axis.",
       "mean_pose": {
         "Spine Front-Back": -0.30086,
         "Spine Left-Right": 0.07909,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is tilted back to align with the reclined spine and faces upward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.60386,
         "Neck Tilt Left-Right": 0.05134,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow with the upper section raised, keeping the forearm positioned behind the head.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.74485,
         "Left Shoulder Front-Back": 0.17375,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, bent at the elbow with the forearm held behind the head.",
       "mean_pose": {
         "Right Shoulder Down-Up": 1.15261,
         "Right Shoulder Front-Back": -0.38004,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is extended downward with the foot resting on the floor to support the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.12748,
         "Left Upper Leg In-Out": 0.36142,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent at the knee with the foot planted flat on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.06392,
         "Right Upper Leg In-Out": 0.24296,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is clasped together with the other hand, resting securely behind the head.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.52221,
         "Left Thumb Spread": 0.40377,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is clasped together with the other hand, resting securely behind the head.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.47688,
         "Right Thumb Spread": 0.56888,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:04Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

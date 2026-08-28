@@ -14,7 +14,7 @@
   "duration": 2.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a quick, aggressive stabbing motion with the left arm while stepping forward and extending the right arm for balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12428,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into the step and twists to the left to drive the stabbing arm through.",
       "mean_pose": {
         "Spine Front-Back": -0.04224,
         "Spine Left-Right": 0.02887,
@@ -57,7 +57,7 @@
         "raw_value": 0.25969,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns to face the direction of the stab and tilts slightly forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.28568,
         "Neck Tilt Left-Right": 0.0217,
@@ -75,7 +75,7 @@
         "raw_value": 0.18883,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Executes the primary stabbing motion, driving from a bent guard position near the chest out to full extension in front of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.27194,
         "Left Shoulder Front-Back": 0.05741,
@@ -96,7 +96,7 @@
         "raw_value": 0.15223,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward and backward opposite the stab to maintain balance, then retracts as the body settles.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.40188,
         "Right Shoulder Front-Back": -0.10424,
@@ -117,7 +117,7 @@
         "raw_value": 0.14211,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and bends at the knee to absorb the weight of the lunge.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.12364,
         "Left Upper Leg In-Out": 0.38151,
@@ -137,7 +137,7 @@
         "raw_value": 0.13756,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trails behind the movement, pushing off the ground to propel the body forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.45595,
         "Right Upper Leg In-Out": 0.21862,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, closed fist pose throughout the action.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.30555,
         "Left Thumb Spread": -0.12041,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static, open-palm pose extended away from the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.00142,
         "Right Thumb Spread": -0.62449,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:07Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

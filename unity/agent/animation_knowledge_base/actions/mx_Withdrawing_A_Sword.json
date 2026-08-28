@@ -14,7 +14,7 @@
   "duration": 1.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a sword draw, pulling an imaginary weapon from their right hip to a ready position in front of their chest.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10759,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and rotates to the right as the arm extends, then straightens up while turning back toward the front.",
       "mean_pose": {
         "Spine Front-Back": 0.00656,
         "Spine Left-Right": 0.01354,
@@ -57,7 +57,7 @@
         "raw_value": 0.2118,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns to look down at the hands during the draw, then lifts up to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.17687,
         "Neck Tilt Left-Right": -0.13636,
@@ -75,7 +75,7 @@
         "raw_value": 0.1734,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts bent with the hand near the left waist, moves slightly forward across the body, and ends extended out to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.3192,
         "Left Shoulder Front-Back": -0.82979,
@@ -96,7 +96,7 @@
         "raw_value": 0.32924,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down to the right hip, pulls upward and across the body to the front center, and finishes extended out to the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.46161,
         "Right Shoulder Front-Back": -0.80285,
@@ -117,7 +117,7 @@
         "raw_value": 0.07357,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays relatively straight and acts as the pivot point for the torso rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.11195,
         "Left Upper Leg In-Out": 0.36959,
@@ -137,7 +137,7 @@
         "raw_value": 0.11369,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted with a slight bend throughout the motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.4539,
         "Right Upper Leg In-Out": 0.39888,
@@ -157,7 +157,7 @@
         "raw_value": 0.33486,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady position near the waist before moving forward to balance the draw.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.87414,
         "Left Thumb Spread": -0.38652,
@@ -189,7 +189,7 @@
         "raw_value": 0.46656,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips the hilt at the hip, draws it upward and across the body, and releases the grip into a relaxed state.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.04192,
         "Right Thumb Spread": -0.89182,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:31Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

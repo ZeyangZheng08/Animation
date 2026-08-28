@@ -14,7 +14,7 @@
   "duration": 0.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure floats in mid-air, holding a crouched pose with knees bent and arms spread out to the sides for balance.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00834,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds a stable, slightly forward-leaning posture consistent with being suspended in mid-air.",
       "mean_pose": {
         "Spine Front-Back": -0.36972,
         "Spine Left-Right": -0.07167,
@@ -57,7 +57,7 @@
         "raw_value": 0.01251,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Maintains a steady position, facing forward relative to the torso's orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03579,
         "Neck Tilt Left-Right": -0.17112,
@@ -75,7 +75,7 @@
         "raw_value": 0.0212,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains extended out to the side and slightly upward, held rigidly to maintain balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.01122,
         "Left Shoulder Front-Back": 0.07698,
@@ -96,7 +96,7 @@
         "raw_value": 0.03048,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays extended horizontally to the opposite side, keeping the body level in the air.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.02329,
         "Right Shoulder Front-Back": 0.84702,
@@ -117,7 +117,7 @@
         "raw_value": 0.02126,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Keeps the knee deeply bent, tucking the lower leg back underneath the thigh.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.45628,
         "Left Upper Leg In-Out": 0.33246,
@@ -137,7 +137,7 @@
         "raw_value": 0.05879,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a similar deep bend at the knee, mirroring the left leg in a crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.42136,
         "Right Upper Leg In-Out": 0.45108,
@@ -157,7 +157,7 @@
         "raw_value": 0.05017,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open with fingers relaxed and spread apart at the end of the extended arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.75788,
         "Left Thumb Spread": -0.66682,
@@ -189,7 +189,7 @@
         "raw_value": 0.05203,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open with fingers relaxed and spread apart at the end of the extended arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.40482,
         "Right Thumb Spread": -0.18665,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

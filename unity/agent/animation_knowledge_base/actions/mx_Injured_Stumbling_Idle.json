@@ -14,7 +14,7 @@
   "duration": 5.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stumbles forward with a hunched, injured gait before coming to a stop.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14215,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans significantly forward throughout the movement, bending at the waist to create a hunched posture that shifts slightly with each step.",
       "mean_pose": {
         "Spine Front-Back": -0.28392,
         "Spine Left-Right": 0.00633,
@@ -57,7 +57,7 @@
         "raw_value": 0.16941,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is dropped low and tilts downward, maintaining a bowed position relative to the bent spine.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.05307,
         "Neck Tilt Left-Right": -0.09557,
@@ -75,7 +75,7 @@
         "raw_value": 0.21089,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely by the side of the body, swinging gently backward and forward in sync with the steps.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.66393,
         "Left Shoulder Front-Back": -0.50081,
@@ -96,7 +96,7 @@
         "raw_value": 0.25928,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent at the elbow, held close to the midsection, and moves subtly with the body's sway.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.5051,
         "Right Shoulder Front-Back": -0.91164,
@@ -117,7 +117,7 @@
         "raw_value": 0.18605,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg takes short, uneven steps, lifting the foot slightly off the ground as it moves through the walking cycle.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.19995,
         "Left Upper Leg In-Out": 0.24175,
@@ -137,7 +137,7 @@
         "raw_value": 0.16269,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows with similar short, unsteady steps, supporting the weight of the leaning upper body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.0919,
         "Right Upper Leg In-Out": -0.02314,
@@ -157,7 +157,7 @@
         "raw_value": 0.30174,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand dangles open near the hip, fingers relaxed as the arm swings.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.99194,
         "Left Thumb Spread": 0.01747,
@@ -189,7 +189,7 @@
         "raw_value": 0.36725,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a loose, curled shape near the waist, moving minimally with the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.43185,
         "Right Thumb Spread": 0.03436,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:34Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

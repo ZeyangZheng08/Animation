@@ -14,7 +14,7 @@
   "duration": 2.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic kick push motion, swinging one leg forward to simulate pushing off an object while balancing on the other.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04472,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward significantly throughout the sequence, maintaining a bent posture that suggests momentum and weight shift.",
       "mean_pose": {
         "Spine Front-Back": -0.45027,
         "Spine Left-Right": -0.07177,
@@ -57,7 +57,7 @@
         "raw_value": 0.10632,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward, keeping the gaze focused near the feet or the point of the imaginary push.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.14417,
         "Neck Tilt Left-Right": 0.12795,
@@ -75,7 +75,7 @@
         "raw_value": 0.18773,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings backward and then forward in a pendulum motion opposite to the right leg's movement to maintain balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.00715,
         "Left Shoulder Front-Back": -0.30424,
@@ -96,7 +96,7 @@
         "raw_value": 0.1771,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm bends at the elbow and stays relatively close to the body, moving slightly to counterbalance the torso's lean.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.48103,
         "Right Shoulder Front-Back": -0.41008,
@@ -117,7 +117,7 @@
         "raw_value": 0.15293,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted as the primary support, bending at the knee to absorb the body's weight during the action.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.04658,
         "Left Upper Leg In-Out": -0.00808,
@@ -137,7 +137,7 @@
         "raw_value": 0.22093,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts from the ground, swinging forward with the knee raised high before extending outward to complete the kicking motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.18283,
         "Right Upper Leg In-Out": 0.06195,
@@ -157,7 +157,7 @@
         "raw_value": 0.04579,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends outward with fingers spread, acting as a counterweight to the swinging leg.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.6126,
         "Left Thumb Spread": -0.26697,
@@ -189,7 +189,7 @@
         "raw_value": 0.03943,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held closer to the midsection, curving inward to help stabilize the core during the lunge.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.57265,
         "Right Thumb Spread": -0.23221,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:07Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

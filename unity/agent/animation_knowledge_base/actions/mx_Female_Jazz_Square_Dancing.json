@@ -14,7 +14,7 @@
   "duration": 2.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a jazz square dance, stepping side to side and back while extending their arms in graceful arcs.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08317,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso sways from side to side and leans slightly backward to follow the rhythm of the footwork.",
       "mean_pose": {
         "Spine Front-Back": -0.00726,
         "Spine Left-Right": -0.07427,
@@ -57,7 +57,7 @@
         "raw_value": 0.08551,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns gently to look over the shoulders, alternating direction with each step.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00762,
         "Neck Tilt Left-Right": 0.04914,
@@ -75,7 +75,7 @@
         "raw_value": 0.23508,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward to the side, then sweeps down and across the body toward the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.28923,
         "Left Shoulder Front-Back": 0.05213,
@@ -96,7 +96,7 @@
         "raw_value": 0.26213,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward to the side, then sweeps down and across the body toward the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.50726,
         "Right Shoulder Front-Back": 0.26458,
@@ -117,7 +117,7 @@
         "raw_value": 0.21056,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps out to the side, bends at the knee, and pushes off to drive the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.15483,
         "Left Upper Leg In-Out": 0.09784,
@@ -137,7 +137,7 @@
         "raw_value": 0.2266,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps out to the side, bends at the knee, and pushes off to drive the movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.39662,
         "Right Upper Leg In-Out": 0.06588,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, holding a consistent pose throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.01751,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and relaxed, holding a consistent pose throughout the motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.49442,
         "Right Thumb Spread": 0.00635,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:36:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

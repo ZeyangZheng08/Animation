@@ -14,7 +14,7 @@
   "duration": 4.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a long, slow teetering motion, leaning deeply forward and backward while balancing on the balls of its feet.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15577,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward significantly from the waist at the start, rises to an upright position in the middle, and then leans far back with the chest tilted upward by the end.",
       "mean_pose": {
         "Spine Front-Back": -0.43014,
         "Spine Left-Right": 0.04864,
@@ -57,7 +57,7 @@
         "raw_value": 0.14111,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down to follow the forward lean, levels out as the torso straightens, and tilts up and back during the final backward lean.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06643,
         "Neck Tilt Left-Right": 0.05912,
@@ -75,7 +75,7 @@
         "raw_value": 0.19128,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely down and slightly forward at the start, extends outward to the side for balance in the middle, and swings back behind the body during the final lean.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.45018,
         "Left Shoulder Front-Back": -0.96556,
@@ -96,7 +96,7 @@
         "raw_value": 0.18056,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Drops low and forward initially, lifts out to the side for stability in the center, and reaches back behind the hip during the backward lean.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.04283,
         "Right Shoulder Front-Back": -1.00641,
@@ -117,7 +117,7 @@
         "raw_value": 0.15013,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Balances on the ball of the foot with the ankle flexed throughout the entire sequence.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.14302,
         "Left Upper Leg In-Out": -0.03916,
@@ -137,7 +137,7 @@
         "raw_value": 0.16646,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains balanced on the ball of the foot with a flexed ankle for the duration of the clip.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.1651,
         "Right Upper Leg In-Out": 0.03342,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open pose with fingers slightly curled.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.52671,
         "Left Thumb Spread": 0.41387,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a loose, open shape with the fingers hanging naturally.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.0658,
         "Right Thumb Spread": 0.07775,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:41:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

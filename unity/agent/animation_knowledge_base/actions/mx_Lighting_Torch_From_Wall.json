@@ -14,7 +14,7 @@
   "duration": 4.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward while extending the right arm to reach for and light a torch on the wall.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0602,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and rotates subtly with the walking motion, maintaining an upright posture throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.18871,
         "Spine Left-Right": -0.0584,
@@ -57,7 +57,7 @@
         "raw_value": 0.0936,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively stable, facing forward with minor adjustments to follow the movement of the arms.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.36595,
         "Neck Tilt Left-Right": -0.15681,
@@ -75,7 +75,7 @@
         "raw_value": 0.219,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely at the side of the body, swinging gently in opposition to the legs during the walk.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.46862,
         "Left Shoulder Front-Back": -0.95015,
@@ -96,7 +96,7 @@
         "raw_value": 0.11437,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward and upward from the side of the body toward the front-left, holding a steady reaching pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.33576,
         "Right Shoulder Front-Back": -0.46492,
@@ -117,7 +117,7 @@
         "raw_value": 0.16448,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg cycles through a walking gait, stepping forward and pushing off the ground to propel the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.42122,
         "Left Upper Leg In-Out": 0.10855,
@@ -137,7 +137,7 @@
         "raw_value": 0.12551,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left in a walking cycle, alternating steps to maintain forward momentum.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.11151,
         "Right Upper Leg In-Out": 0.0677,
@@ -157,7 +157,7 @@
         "raw_value": 0.07639,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the side, moving passively with the arm's swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41852,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.09681,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a loose fist or grip shape, positioned as if holding a small object like a lighter or match.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.76288,
         "Right Thumb Spread": 0.10537,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

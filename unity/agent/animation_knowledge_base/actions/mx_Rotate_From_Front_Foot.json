@@ -14,7 +14,7 @@
   "duration": 4.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin rotates its body from facing forward to facing left, pivoting on its feet while maintaining a fighting stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03964,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso turns approximately 90 degrees from facing front to facing the figure's left side.",
       "mean_pose": {
         "Spine Front-Back": -0.20207,
         "Spine Left-Right": 0.07917,
@@ -57,7 +57,7 @@
         "raw_value": 0.0511,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains aligned with the shoulders throughout the rotation, turning from front to left.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.1353,
         "Neck Tilt Left-Right": -0.11951,
@@ -75,7 +75,7 @@
         "raw_value": 0.07829,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm stays bent at the elbow with the hand held up in a guard position near the face.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.55521,
         "Left Shoulder Front-Back": 0.06671,
@@ -96,7 +96,7 @@
         "raw_value": 0.05685,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent and raised in a guard position near the face.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.06421,
         "Right Shoulder Front-Back": -0.90607,
@@ -117,7 +117,7 @@
         "raw_value": 0.12503,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is planted firmly on the ground as the axis of rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.04731,
         "Left Upper Leg In-Out": 0.34127,
@@ -137,7 +137,7 @@
         "raw_value": 0.13672,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pivots on the ball of the foot, dragging the heel around to complete the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.48669,
         "Right Upper Leg In-Out": 0.34153,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a loose fist near the chin.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.47595,
         "Left Thumb Spread": 0.24745,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a loose fist near the chin.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60548,
         "Right Thumb Spread": 0.6073,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:09Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

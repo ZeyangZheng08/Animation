@@ -14,7 +14,7 @@
   "duration": 1.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low center block, transitioning from an open guard stance into a crouched defensive posture with forearms crossed in front of the midsection.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08982,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers and leans slightly forward as it transitions from an upright position into a deep crouch, maintaining a stable core.",
       "mean_pose": {
         "Spine Front-Back": -0.21602,
         "Spine Left-Right": 0.05424,
@@ -57,7 +57,7 @@
         "raw_value": 0.14286,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head dips downward, following the descent of the torso to look toward the ground or the blocked area.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.1724,
         "Neck Tilt Left-Right": 0.01436,
@@ -75,7 +75,7 @@
         "raw_value": 0.17542,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm bends at the elbow and moves inward across the body to cross under the right forearm near the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.54316,
         "Left Shoulder Front-Back": -0.51397,
@@ -96,7 +96,7 @@
         "raw_value": 0.19484,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm bends at the elbow and crosses over the left forearm, forming the upper part of the block in front of the stomach.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.11657,
         "Right Shoulder Front-Back": -0.30371,
@@ -117,7 +117,7 @@
         "raw_value": 0.10068,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee to lower the body's center of gravity into a wide, stable squat.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.24887,
         "Left Upper Leg In-Out": 0.2831,
@@ -137,7 +137,7 @@
         "raw_value": 0.12374,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left by bending deeply at the knee to support the crouched stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.58164,
         "Right Upper Leg In-Out": 0.44167,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains clenched in a fist, tucked securely behind the right forearm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains clenched in a fist, positioned in front of the chest above the left forearm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:41:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

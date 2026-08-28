@@ -14,7 +14,7 @@
   "duration": 1.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a 90-degree turn to the right, rotating from facing forward to facing left while taking small balancing steps.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01335,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains upright and stable in position while rotating 90 degrees clockwise to face left.",
       "mean_pose": {
         "Spine Front-Back": -0.14977,
         "Spine Left-Right": -0.04807,
@@ -57,7 +57,7 @@
         "raw_value": 0.12749,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays aligned with the shoulders, turning 90 degrees to the right along with the body.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.01025,
         "Neck Tilt Left-Right": 0.02993,
@@ -75,7 +75,7 @@
         "raw_value": 0.04377,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent pose at waist level, swinging slightly backward during the rotation to maintain balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.1551,
         "Left Shoulder Front-Back": -0.77671,
@@ -96,7 +96,7 @@
         "raw_value": 0.03413,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent pose at waist level, swinging slightly forward during the rotation to maintain balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.73987,
         "Right Shoulder Front-Back": -1.17029,
@@ -117,7 +117,7 @@
         "raw_value": 0.12875,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps slightly forward and rotates inward to pivot the body toward the left.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.47602,
         "Left Upper Leg In-Out": 0.20926,
@@ -137,7 +137,7 @@
         "raw_value": 0.07907,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps slightly forward and rotates inward to pivot the body toward the left.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.5031,
         "Right Upper Leg In-Out": 0.06528,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains loosely clenched at the waist throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.36639,
         "Left Thumb Spread": 0.18456,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains loosely clenched at the waist throughout the movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.39712,
         "Right Thumb Spread": -1.46676,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:07:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

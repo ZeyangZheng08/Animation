@@ -14,7 +14,7 @@
   "duration": 1.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a wide stance, holding one hand to their lower back and raising the other high to gesture a sudden pain.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07873,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and twists slightly to the right, bending at the waist as if reacting to a sharp pain.",
       "mean_pose": {
         "Spine Front-Back": -0.46456,
         "Spine Left-Right": 0.04019,
@@ -57,7 +57,7 @@
         "raw_value": 0.14452,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts upward and to the left, following the raised arm while looking away from the injured area.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.41203,
         "Neck Tilt Left-Right": 0.00489,
@@ -75,7 +75,7 @@
         "raw_value": 0.2282,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow with the hand held steady against the lower back throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.00262,
         "Left Shoulder Front-Back": -0.91326,
@@ -96,7 +96,7 @@
         "raw_value": 0.4067,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from a resting position at the side up to above shoulder height, extending outward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.6983,
         "Right Shoulder Front-Back": 0.43228,
@@ -117,7 +117,7 @@
         "raw_value": 0.08384,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted firmly on the ground with a slight bend in the knee to support the torso's shift.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.41247,
         "Left Upper Leg In-Out": 0.17846,
@@ -137,7 +137,7 @@
         "raw_value": 0.09008,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a stable, straightened stance to balance the weight of the leaning body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.52522,
         "Right Upper Leg In-Out": 0.32626,
@@ -157,7 +157,7 @@
         "raw_value": 0.14171,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips the lower back near the hip, pressing inward to support the spine.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.5849,
         "Left Thumb Spread": -0.10931,
@@ -189,7 +189,7 @@
         "raw_value": 0.28971,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens its fingers and extends upward, gesturing toward the sky to emphasize the discomfort.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60207,
         "Right Thumb Spread": -0.20741,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

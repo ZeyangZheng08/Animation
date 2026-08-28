@@ -14,7 +14,7 @@
   "duration": 1.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure bends forward at the waist to stomp their right foot on the ground before straightening up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11901,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and down from an upright position, then returns to a more vertical stance.",
       "mean_pose": {
         "Spine Front-Back": -0.46729,
         "Spine Left-Right": -0.0626,
@@ -57,7 +57,7 @@
         "raw_value": 0.19236,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward in coordination with the forward lean of the torso, then lifts back up.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.10908,
         "Neck Tilt Left-Right": -0.00359,
@@ -75,7 +75,7 @@
         "raw_value": 0.21786,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings slightly outward and backward for balance while the body is bent over.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.63013,
         "Left Shoulder Front-Back": -0.88993,
@@ -96,7 +96,7 @@
         "raw_value": 0.15957,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs loosely by the side of the body throughout the movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.00324,
         "Right Shoulder Front-Back": -0.95091,
@@ -117,7 +117,7 @@
         "raw_value": 0.15994,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains relatively straight, acting as the primary support pillar for the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.14297,
         "Left Upper Leg In-Out": 0.12099,
@@ -137,7 +137,7 @@
         "raw_value": 0.19561,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee, lifting the foot off the ground to perform a stomp motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.13142,
         "Right Upper Leg In-Out": 0.0973,
@@ -157,7 +157,7 @@
         "raw_value": 0.49485,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the end of the swinging arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.46779,
         "Left Thumb Spread": -0.44287,
@@ -189,7 +189,7 @@
         "raw_value": 0.1796,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed, hanging near the thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.37228,
         "Right Thumb Spread": -0.30747,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:34Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

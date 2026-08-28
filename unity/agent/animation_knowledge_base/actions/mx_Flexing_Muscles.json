@@ -14,7 +14,7 @@
   "duration": 3.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a wide stance, alternating between flexing its biceps and extending its arms out to the sides.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0299,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward slightly while twisting side to side, shifting weight with each arm movement.",
       "mean_pose": {
         "Spine Front-Back": -0.12171,
         "Spine Left-Right": -0.00729,
@@ -57,7 +57,7 @@
         "raw_value": 0.09315,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and turns to follow the direction of the arms, dipping lower during the flexes.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.41639,
         "Neck Tilt Left-Right": -0.11626,
@@ -75,7 +75,7 @@
         "raw_value": 0.22775,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm alternates between bending at the elbow to bring the fist near the shoulder and extending outward to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.07548,
         "Left Shoulder Front-Back": -0.03806,
@@ -96,7 +96,7 @@
         "raw_value": 0.32289,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left arm, moving between a bent flexing pose and an extended position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.06266,
         "Right Shoulder Front-Back": -1.23263,
@@ -117,7 +117,7 @@
         "raw_value": 0.10713,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted in a wide, slightly bent stance throughout the clip.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.15754,
         "Left Upper Leg In-Out": 0.3571,
@@ -137,7 +137,7 @@
         "raw_value": 0.09948,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg holds a wide, slightly bent stance to support the body's movements.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.17056,
         "Right Upper Leg In-Out": 0.23199,
@@ -157,7 +157,7 @@
         "raw_value": 0.37026,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand forms a fist during the flexing motion and opens with fingers spread when the arm extends.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.55068,
         "Left Thumb Spread": -0.33561,
@@ -189,7 +189,7 @@
         "raw_value": 0.43351,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand clenches into a fist for the flex and opens up as the arm reaches outward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.04241,
         "Right Thumb Spread": 0.16969,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:37:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

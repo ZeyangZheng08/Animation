@@ -14,7 +14,7 @@
   "duration": 1.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A figure lying on their back coughs violently, clutching their chest with both hands and jerking their upper body before collapsing flat.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13922,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains supine throughout the clip, arching upward off the floor during the coughing spasms before relaxing completely flat at the end.",
       "mean_pose": {
         "Spine Front-Back": -0.14715,
         "Spine Left-Right": 0.03075,
@@ -57,7 +57,7 @@
         "raw_value": 0.12467,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts backward in a pronounced extension during the severe coughing fits, then drops forward to rest flat on the ground as the motion ceases.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.22626,
         "Neck Tilt Left-Right": -0.17654,
@@ -75,7 +75,7 @@
         "raw_value": 0.21977,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm stays bent with the elbow raised, holding the hand pressed firmly against the upper chest area.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.98307,
         "Left Shoulder Front-Back": -0.02518,
@@ -96,7 +96,7 @@
         "raw_value": 0.17943,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, keeping the forearm elevated and the hand clutched tightly over the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.84954,
         "Right Shoulder Front-Back": 0.40872,
@@ -117,7 +117,7 @@
         "raw_value": 0.18288,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee with the foot lifted slightly off the floor, straightening out to lie flat alongside the other leg.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.12378,
         "Left Upper Leg In-Out": 0.36683,
@@ -137,7 +137,7 @@
         "raw_value": 0.22873,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the left's movement, extending from a bent position to lie fully straight on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.12526,
         "Right Upper Leg In-Out": 0.24797,
@@ -157,7 +157,7 @@
         "raw_value": 0.26963,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is curled into a loose fist, pressing against the sternum and remaining there for the entire sequence.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.94579,
         "Left Thumb Spread": 0.18539,
@@ -189,7 +189,7 @@
         "raw_value": 0.26326,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is also clenched, overlapping the left hand on the chest in a tight, protective grip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.67221,
         "Right Thumb Spread": -0.15242,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

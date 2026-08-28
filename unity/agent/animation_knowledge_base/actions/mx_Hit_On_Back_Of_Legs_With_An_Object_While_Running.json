@@ -14,7 +14,7 @@
   "duration": 4.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward, stumbles violently to the ground, and rolls onto their back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13532,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward during the run, pitches down hard into a fall, and rotates through the impact to settle on its back.",
       "mean_pose": {
         "Spine Front-Back": -0.18045,
         "Spine Left-Right": 0.02718,
@@ -57,7 +57,7 @@
         "raw_value": 0.16325,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward while running, drops sharply with the body's momentum, and ends up facing upward after the roll.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15499,
         "Neck Tilt Left-Right": 0.00256,
@@ -75,7 +75,7 @@
         "raw_value": 0.39634,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings naturally at the side during the run, flails outward for balance as the stumble occurs, and lands extended beside the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.69502,
         "Left Shoulder Front-Back": -0.37792,
@@ -96,7 +96,7 @@
         "raw_value": 0.29001,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps in rhythm with the legs while running, reaches out toward the floor during the fall, and comes to rest near the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.95664,
         "Right Shoulder Front-Back": -0.51944,
@@ -117,7 +117,7 @@
         "raw_value": 0.31942,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives the running gait, catches the weight of the body during the trip, and kicks out before settling flat on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.22629,
         "Left Upper Leg In-Out": 0.41554,
@@ -137,7 +137,7 @@
         "raw_value": 0.22802,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates with the other leg in the stride, tucks under the body during the initial collapse, and extends outwards as the torso settles.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.07235,
         "Right Upper Leg In-Out": 0.15185,
@@ -157,7 +157,7 @@
         "raw_value": 0.5117,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches slightly during the run, opens wide to break the fall, and presses against the floor to support the upper body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.11068,
         "Left Thumb Spread": -0.13232,
@@ -189,7 +189,7 @@
         "raw_value": 0.42953,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves with the arm swing while running, curls inward during the tumble, and rests loosely on the abdomen.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.18213,
         "Right Thumb Spread": -0.37372,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

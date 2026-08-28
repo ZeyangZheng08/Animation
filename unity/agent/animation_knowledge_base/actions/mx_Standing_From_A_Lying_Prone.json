@@ -14,7 +14,7 @@
   "duration": 7.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands up from a lying prone position on the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15584,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rises from a horizontal, low position to an upright vertical stance.",
       "mean_pose": {
         "Spine Front-Back": -0.12653,
         "Spine Left-Right": -0.00307,
@@ -57,7 +57,7 @@
         "raw_value": 0.22972,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Lifts from the ground and turns to face forward as the body rises.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.1951,
         "Neck Tilt Left-Right": 0.06604,
@@ -75,7 +75,7 @@
         "raw_value": 0.43864,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward to support the body's weight before straightening at the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.24052,
         "Left Shoulder Front-Back": -0.77083,
@@ -96,7 +96,7 @@
         "raw_value": 0.44878,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down to brace on the floor before lifting away from the ground.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.24777,
         "Right Shoulder Front-Back": -0.68303,
@@ -117,7 +117,7 @@
         "raw_value": 0.35006,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off the ground to lift the hips and extend into a standing position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.11792,
         "Left Upper Leg In-Out": 0.28828,
@@ -137,7 +137,7 @@
         "raw_value": 0.38816,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends from a bent position to fully straighten beneath the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.12991,
         "Right Upper Leg In-Out": 0.27835,
@@ -157,7 +157,7 @@
         "raw_value": 0.42482,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Presses against the floor for support before releasing and lowering to the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.20811,
         "Left Thumb Spread": 0.0811,
@@ -189,7 +189,7 @@
         "raw_value": 0.40257,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Braces on the floor to push up before letting go and dropping by the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.03268,
         "Right Thumb Spread": 0.03466,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:48:23Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

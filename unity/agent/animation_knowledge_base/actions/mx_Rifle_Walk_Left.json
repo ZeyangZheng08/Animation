@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks to the left while holding a rifle in front of their chest.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04146,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward slightly and sways up and down with the rhythm of the walking stride.",
       "mean_pose": {
         "Spine Front-Back": -0.01343,
         "Spine Left-Right": -0.10769,
@@ -57,7 +57,7 @@
         "raw_value": 0.01743,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains held still, tilted downward toward the hands.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.19801,
         "Neck Tilt Left-Right": 0.05156,
@@ -75,7 +75,7 @@
         "raw_value": 0.15066,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent position at the elbow, extending forward from the shoulder to support the front of the weapon.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.23055,
         "Left Shoulder Front-Back": -2.19834,
@@ -96,7 +96,7 @@
         "raw_value": 0.11179,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bends at the elbow to bring the hand back to the side of the torso, supporting the rear of the weapon.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.03955,
         "Right Shoulder Front-Back": 0.42174,
@@ -117,7 +117,7 @@
         "raw_value": 0.20997,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates between lifting forward and pushing back as it cycles through a walking gait.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.06107,
         "Left Upper Leg In-Out": 0.13187,
@@ -137,7 +137,7 @@
         "raw_value": 0.22237,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Cycles through a walking gait, swinging forward and trailing behind the other leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.0239,
         "Right Upper Leg In-Out": 0.26034,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady, open pose extended out in front of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.73518,
         "Left Thumb Spread": -0.39517,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a fixed, open pose positioned near the right hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.83766,
         "Right Thumb Spread": -0.32191,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:53Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

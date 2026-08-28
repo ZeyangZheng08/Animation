@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward while holding a rifle in a two-handed firing stance, repeatedly pulling the trigger.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05518,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward with a rhythmic bobbing motion to support the walking gait and weapon recoil.",
       "mean_pose": {
         "Spine Front-Back": -0.62801,
         "Spine Left-Right": 0.01324,
@@ -57,7 +57,7 @@
         "raw_value": 0.05724,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays level and faces forward, keeping its gaze fixed on the target direction throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.24572,
         "Neck Tilt Left-Right": 0.26459,
@@ -75,7 +75,7 @@
         "raw_value": 0.06505,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward to grip the front of the rifle, moving in a steady line with minor vertical adjustments for stability.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.43746,
         "Left Shoulder Front-Back": -0.9853,
@@ -96,7 +96,7 @@
         "raw_value": 0.03827,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds the rear of the rifle against the shoulder and performs a small, rapid flexing motion at the elbow to simulate repeated firing.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.06816,
         "Right Shoulder Front-Back": -0.52999,
@@ -117,7 +117,7 @@
         "raw_value": 0.20142,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates between lifting and stepping forward in a continuous, low-impact walking cycle.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.25584,
         "Left Upper Leg In-Out": 0.1405,
@@ -137,7 +137,7 @@
         "raw_value": 0.19993,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Moves in opposition to the left leg, driving the body forward with each stride.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.17727,
         "Right Upper Leg In-Out": -0.08146,
@@ -157,7 +157,7 @@
         "raw_value": 0.15206,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips the front of the weapon firmly, maintaining a static hold relative to the arm's movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.91816,
         "Left Thumb Spread": -0.24427,
@@ -189,7 +189,7 @@
         "raw_value": 0.13283,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches around the trigger area and pulses slightly inward with each simulated shot.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -0.85237,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:10Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

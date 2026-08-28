@@ -14,7 +14,7 @@
   "duration": 5.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a snatch workout movement, dropping from a standing position into a deep squat while raising both arms overhead, then extending back up to a standing pose with arms still raised.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09995,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers significantly as the figure drops into a deep squat at the midpoint of the clip before rising back to an upright standing position.",
       "mean_pose": {
         "Spine Front-Back": -0.39121,
         "Spine Left-Right": 0.05884,
@@ -57,7 +57,7 @@
         "raw_value": 0.18474,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly forward during the descent into the squat and returns to a neutral, forward-facing orientation when the figure stands back up.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.62402,
         "Neck Tilt Left-Right": 0.0877,
@@ -75,7 +75,7 @@
         "raw_value": 0.60223,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward from the side of the body, reaching a fully extended overhead position during the squat and holding it there as the figure rises.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.12976,
         "Left Shoulder Front-Back": 0.34703,
@@ -96,7 +96,7 @@
         "raw_value": 0.66872,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging upward from the side to reach full extension overhead during the squat and remaining raised upon standing.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.21289,
         "Right Shoulder Front-Back": 0.368,
@@ -117,7 +117,7 @@
         "raw_value": 0.31378,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee to lower the body into a squat and then extends to straighten the figure back to a standing height.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.30558,
         "Left Upper Leg In-Out": 0.31239,
@@ -137,7 +137,7 @@
         "raw_value": 0.31463,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends in coordination with the left to form the deep squat and then extends to return the figure to a standing posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.28479,
         "Right Upper Leg In-Out": 0.1839,
@@ -157,7 +157,7 @@
         "raw_value": 0.001,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains in a closed fist shape throughout the entire motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.75954,
         "Left Thumb Spread": -1.9313,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a closed fist shape for the duration of the clip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.97966,
         "Right Thumb Spread": -1.33572,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:11Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

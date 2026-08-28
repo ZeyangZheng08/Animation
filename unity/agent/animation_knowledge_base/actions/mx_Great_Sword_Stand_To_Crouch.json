@@ -14,7 +14,7 @@
   "duration": 0.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a standing position into a low, wide crouch while holding an imaginary sword in front of the chest.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07338,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bends forward and lowers significantly as the figure drops into a deep squat.",
       "mean_pose": {
         "Spine Front-Back": -0.49497,
         "Spine Left-Right": -0.12717,
@@ -57,7 +57,7 @@
         "raw_value": 0.20547,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward to follow the descent of the body and maintain focus on the hands.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02657,
         "Neck Tilt Left-Right": 0.36285,
@@ -75,7 +75,7 @@
         "raw_value": 0.2902,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward and slightly down, keeping the elbow bent to hold the weapon steady.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.81177,
         "Left Shoulder Front-Back": -2.91034,
@@ -96,7 +96,7 @@
         "raw_value": 0.33054,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, extending forward with a bent elbow to support the weapon grip.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.93514,
         "Right Shoulder Front-Back": -3.09073,
@@ -117,7 +117,7 @@
         "raw_value": 0.18149,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and hip, driving the body down into a stable, grounded stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.50871,
         "Left Upper Leg In-Out": 0.65706,
@@ -137,7 +137,7 @@
         "raw_value": 0.22594,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends deeply, mirroring the left leg to complete the wide, low crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.17749,
         "Right Upper Leg In-Out": 0.57474,
@@ -157,7 +157,7 @@
         "raw_value": 0.16167,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains clenched in a fist, maintaining its grip position relative to the right hand.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.66457,
         "Left Thumb Spread": -0.5842,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a static fist, positioned close to the left hand throughout the movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:38:29Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

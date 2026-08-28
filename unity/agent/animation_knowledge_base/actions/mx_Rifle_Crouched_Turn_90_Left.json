@@ -14,7 +14,7 @@
   "duration": 1.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure turns 90 degrees to the left while holding a low, crouched stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12011,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from facing forward to facing the left side of the frame, maintaining a consistent downward lean throughout the turn.",
       "mean_pose": {
         "Spine Front-Back": -0.35205,
         "Spine Left-Right": 0.06721,
@@ -57,7 +57,7 @@
         "raw_value": 0.12231,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tracks the rotation of the body, turning from front-facing to face the left.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02917,
         "Neck Tilt Left-Right": 0.07009,
@@ -75,7 +75,7 @@
         "raw_value": 0.13087,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm remains bent and held across the chest in a fixed position relative to the body as the torso turns.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.01183,
         "Left Shoulder Front-Back": -0.42603,
@@ -96,7 +96,7 @@
         "raw_value": 0.09728,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is extended slightly forward with the elbow bent, moving along with the torso's rotation.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.02261,
         "Right Shoulder Front-Back": 0.31946,
@@ -117,7 +117,7 @@
         "raw_value": 0.15281,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg acts as the primary pivot point, staying relatively planted with a slight bend in the knee to support the weight during the turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.68996,
         "Left Upper Leg In-Out": 0.68068,
@@ -137,7 +137,7 @@
         "raw_value": 0.21828,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays behind the left leg in a bent, trailing position, adjusting its angle to complete the 90-degree turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.17088,
         "Right Upper Leg In-Out": 0.251,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static, loosely closed fist shape near the center of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.73518,
         "Left Thumb Spread": -0.39517,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains an open, flat palm orientation pointing forward relative to the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.83767,
         "Right Thumb Spread": -0.32191,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:18Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

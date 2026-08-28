@@ -14,7 +14,7 @@
   "duration": 2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a 45-degree turn to the right while holding a static aiming pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02231,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rotates clockwise (to the right) by approximately 45 degrees, maintaining an upright posture.",
       "mean_pose": {
         "Spine Front-Back": -0.23957,
         "Spine Left-Right": -0.00049,
@@ -57,7 +57,7 @@
         "raw_value": 0.04278,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns to the right in sync with the torso rotation, keeping its orientation relative to the body constant.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.01111,
         "Neck Tilt Left-Right": -0.01937,
@@ -75,7 +75,7 @@
         "raw_value": 0.03252,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow and held forward across the chest, rotating with the torso.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.15185,
         "Left Shoulder Front-Back": -0.52893,
@@ -96,7 +96,7 @@
         "raw_value": 0.01973,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays extended straight out in front of the body, pivoting with the upper body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.34185,
         "Right Shoulder Front-Back": 0.54335,
@@ -117,7 +117,7 @@
         "raw_value": 0.06117,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Shifts slightly to adjust balance during the turn, ending in a stable stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.50599,
         "Left Upper Leg In-Out": 0.33529,
@@ -137,7 +137,7 @@
         "raw_value": 0.07816,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pivots on the foot to drive the rotation, stepping into the new position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.60124,
         "Right Upper Leg In-Out": 0.10233,
@@ -157,7 +157,7 @@
         "raw_value": 0.00758,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady, open grip near the center of the chest throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.88584,
         "Left Thumb Spread": -0.24759,
@@ -189,7 +189,7 @@
         "raw_value": 0.00863,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a fixed, open pointing shape at the end of the extended arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.61089,
         "Right Thumb Spread": -0.85365,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:07:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

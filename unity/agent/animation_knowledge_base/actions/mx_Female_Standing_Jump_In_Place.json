@@ -14,7 +14,7 @@
   "duration": 2.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a standing jump, crouching low before leaping into the air with arms raised overhead.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06936,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers and tilts forward during the initial crouch, then rises vertically to an upright position as the figure jumps.",
       "mean_pose": {
         "Spine Front-Back": -0.22769,
         "Spine Left-Right": -0.04156,
@@ -57,7 +57,7 @@
         "raw_value": 0.24146,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head dips down with the crouch and lifts upward to face forward while airborne.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11934,
         "Neck Tilt Left-Right": -0.00779,
@@ -75,7 +75,7 @@
         "raw_value": 0.25852,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs at the side during the crouch, then swings up and forward to finish bent above the head.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.27025,
         "Left Shoulder Front-Back": -0.15482,
@@ -96,7 +96,7 @@
         "raw_value": 0.26709,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging from the side to a bent position above the head during the jump.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.25399,
         "Right Shoulder Front-Back": -0.3711,
@@ -117,7 +117,7 @@
         "raw_value": 0.2741,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply for the crouch and extends straight in the air, with the foot pointed down.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.21139,
         "Left Upper Leg In-Out": 0.04235,
@@ -137,7 +137,7 @@
         "raw_value": 0.26631,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends deeply for the crouch and extends straight in the air, with the foot pointed down.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.28819,
         "Right Upper Leg In-Out": 0.05549,
@@ -157,7 +157,7 @@
         "raw_value": 0.28511,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open near the thigh in the crouch and moves to a curled position near the top of the head.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.6447,
         "Left Thumb Spread": -0.14197,
@@ -189,7 +189,7 @@
         "raw_value": 0.28123,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open near the thigh in the crouch and moves to a curled position near the top of the head.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.67166,
         "Right Thumb Spread": -0.2627,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:44Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

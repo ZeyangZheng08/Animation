@@ -14,7 +14,7 @@
   "duration": 3.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic dual-weapon combo attack, executing a rapid sequence of alternating overhead and horizontal strikes from a wide, shifting combat stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15994,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into the attacks, rotating its core to drive the arm movements while maintaining a low center of gravity.",
       "mean_pose": {
         "Spine Front-Back": -0.06313,
         "Spine Left-Right": -0.00601,
@@ -57,7 +57,7 @@
         "raw_value": 0.35399,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward slightly and tracks the direction of the strikes as the body rotates.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05702,
         "Neck Tilt Left-Right": 0.15736,
@@ -75,7 +75,7 @@
         "raw_value": 0.5497,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings forcefully in an arc, moving from a raised guard position to deliver both high overhead and mid-level horizontal blows.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.3899,
         "Left Shoulder Front-Back": 0.0896,
@@ -96,7 +96,7 @@
         "raw_value": 0.56711,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Executes alternating strikes that mirror the left arm, crossing the body to complete the continuous combo sequence.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.27392,
         "Right Shoulder Front-Back": -0.04364,
@@ -117,7 +117,7 @@
         "raw_value": 0.28267,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Plants firmly to provide a stable base for the upper body's rotation and shifts its position to support the changing stances.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.00657,
         "Left Upper Leg In-Out": 0.53658,
@@ -137,7 +137,7 @@
         "raw_value": 0.2496,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Moves dynamically between a bent, braced position and a straighter stance to adjust the figure's weight and balance during the attacks.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.10298,
         "Right Upper Leg In-Out": 0.4619,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a clenched fist pose throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.9618,
         "Left Thumb Spread": -1.37207,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a clenched fist shape for the duration of the clip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.50303,
         "Right Thumb Spread": -1.65252,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:28Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

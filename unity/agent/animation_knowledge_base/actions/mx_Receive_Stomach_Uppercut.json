@@ -14,7 +14,7 @@
   "duration": 1.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure reacts to a blow to the stomach by violently recoiling, bending forward at the waist, and clutching its midsection in pain.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10468,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso starts upright, then snaps backward slightly before folding deeply forward at the waist as the figure doubles over.",
       "mean_pose": {
         "Spine Front-Back": -0.29882,
         "Spine Left-Right": -0.06273,
@@ -57,7 +57,7 @@
         "raw_value": 0.24942,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back sharply at first, then drops down and tucks toward the knees as the body bends forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.18409,
         "Neck Tilt Left-Right": -0.01243,
@@ -75,7 +75,7 @@
         "raw_value": 0.19056,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is initially held up in a guard position, then swings down to press against the front of the abdomen.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.27447,
         "Left Shoulder Front-Back": -0.43711,
@@ -96,7 +96,7 @@
         "raw_value": 0.11378,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves from a raised guard position downward to clutch the side of the torso near the ribs.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.59888,
         "Right Shoulder Front-Back": -1.74305,
@@ -117,7 +117,7 @@
         "raw_value": 0.13285,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground with the knee bent to support the bending motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.06727,
         "Left Upper Leg In-Out": 0.21936,
@@ -137,7 +137,7 @@
         "raw_value": 0.13393,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays on the floor, slightly bent, providing a stable base while the upper body collapses forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.06419,
         "Right Upper Leg In-Out": 0.40241,
@@ -157,7 +157,7 @@
         "raw_value": 0.27713,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand forms a fist that moves from chest height down to grip the lower stomach area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.42174,
         "Left Thumb Spread": 0.40792,
@@ -189,7 +189,7 @@
         "raw_value": 0.25781,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand clenches into a fist and presses firmly against the right flank.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.33466,
         "Right Thumb Spread": 0.51689,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:43Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

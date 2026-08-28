@@ -14,7 +14,7 @@
   "duration": 2.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure takes a step backward while rotating its body 180 degrees to the left, ending in a forward-facing walking stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04921,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates smoothly from facing away from the camera to facing directly toward it, maintaining an upright posture with a slight lean into the turn.",
       "mean_pose": {
         "Spine Front-Back": -0.2048,
         "Spine Left-Right": 0.05425,
@@ -57,7 +57,7 @@
         "raw_value": 0.15199,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns continuously to the left, following the rotation of the shoulders until it faces forward at the end of the motion.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00822,
         "Neck Tilt Left-Right": 0.044,
@@ -75,7 +75,7 @@
         "raw_value": 0.15817,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally from the side of the body, moving slightly forward as the figure pivots, and finishes hanging relaxed by the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.27957,
         "Left Shoulder Front-Back": -0.08343,
@@ -96,7 +96,7 @@
         "raw_value": 0.13703,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings gently opposite the legs, starting near the hip and moving slightly back during the initial pivot before settling at the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.07498,
         "Right Shoulder Front-Back": -0.40596,
@@ -117,7 +117,7 @@
         "raw_value": 0.18876,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps backward and slightly to the left to initiate the turn, then plants firmly to support the weight as the body completes the rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.41155,
         "Left Upper Leg In-Out": 0.16972,
@@ -137,7 +137,7 @@
         "raw_value": 0.15476,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg serves as the pivot point initially, bending slightly to facilitate the turn, and then steps forward to establish the final walking position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.27803,
         "Right Upper Leg In-Out": 0.07977,
@@ -157,7 +157,7 @@
         "raw_value": 0.21883,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, swinging loosely in time with the left arm's movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.82431,
         "Left Thumb Spread": 0.3463,
@@ -189,7 +189,7 @@
         "raw_value": 0.2359,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed, mirroring the subtle swing of the right arm without gripping anything.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.75517,
         "Right Thumb Spread": -0.08922,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:46Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

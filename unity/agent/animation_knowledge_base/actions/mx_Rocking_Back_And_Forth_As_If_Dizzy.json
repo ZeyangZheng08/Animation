@@ -14,7 +14,7 @@
   "duration": 4.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sways its upper body backward and forward in a rocking motion to simulate dizziness.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02648,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rocks back and forth from the waist, leaning into a backward arch before returning to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.03243,
         "Spine Left-Right": -0.05451,
@@ -57,7 +57,7 @@
         "raw_value": 0.09056,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts slightly downward and follows the forward and backward momentum of the torso.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.10807,
         "Neck Tilt Left-Right": 0.10313,
@@ -75,7 +75,7 @@
         "raw_value": 0.0461,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely by the side with a slight bend at the elbow, swinging gently with the body's movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.51334,
         "Left Shoulder Front-Back": 0.16114,
@@ -96,7 +96,7 @@
         "raw_value": 0.03975,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Dangles straight down at the side of the body, mirroring the subtle sway of the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.54877,
         "Right Shoulder Front-Back": -0.66111,
@@ -117,7 +117,7 @@
         "raw_value": 0.0363,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted on the floor with a slight bend in the knee to absorb the weight shift.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.30355,
         "Left Upper Leg In-Out": 0.05938,
@@ -137,7 +137,7 @@
         "raw_value": 0.04284,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays firmly on the ground, acting as a stable base for the rocking motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.47435,
         "Right Upper Leg In-Out": 0.12241,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open pose near the thigh throughout the clip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.20727,
         "Left Thumb Spread": 0.04153,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains static and open, resting naturally against the outer side of the right leg.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.41599,
         "Right Thumb Spread": 0.30977,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:01Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

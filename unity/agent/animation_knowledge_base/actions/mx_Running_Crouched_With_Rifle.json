@@ -14,7 +14,7 @@
   "duration": 0.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward in a low, crouched stance while holding an imaginary rifle extended horizontally in front of them.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05309,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans heavily forward into a deep crouch, maintaining a low profile throughout the running cycle.",
       "mean_pose": {
         "Spine Front-Back": -0.79288,
         "Spine Left-Right": 0.17937,
@@ -57,7 +57,7 @@
         "raw_value": 0.02448,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is tucked down and held steady, facing directly forward along the line of the arms.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.32848,
         "Neck Tilt Left-Right": 0.11847,
@@ -75,7 +75,7 @@
         "raw_value": 0.0891,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends straight out in front, bent slightly at the elbow to hold the imaginary weapon at chest height.",
       "mean_pose": {
         "Left Shoulder Down-Up": 1.00748,
         "Left Shoulder Front-Back": -2.39594,
@@ -96,7 +96,7 @@
         "raw_value": 0.05399,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches forward across the body to support the other end of the imaginary rifle.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.37133,
         "Right Shoulder Front-Back": 0.50356,
@@ -117,7 +117,7 @@
         "raw_value": 0.23546,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives through a standard running stride, alternating between extending behind and bending forward for the next step.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.07141,
         "Left Upper Leg In-Out": 0.18227,
@@ -137,7 +137,7 @@
         "raw_value": 0.20591,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg cycles in opposition to the left, pushing off the ground and swinging forward to maintain the run.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.01693,
         "Right Upper Leg In-Out": -0.04704,
@@ -157,7 +157,7 @@
         "raw_value": 0.02284,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand grips the front of the invisible rifle, keeping the fingers curled around the empty space.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.88008,
         "Left Thumb Spread": -0.24463,
@@ -189,7 +189,7 @@
         "raw_value": 0.03898,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds the back of the imaginary rifle, positioned near the center of the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -0.85237,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:32Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

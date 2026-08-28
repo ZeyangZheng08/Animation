@@ -14,7 +14,7 @@
   "duration": 1.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jumps continuously while walking backwards, with both feet leaving the ground in a hopping motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04922,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward throughout the clip, bobbing up and down with each jump to maintain balance.",
       "mean_pose": {
         "Spine Front-Back": -0.18975,
         "Spine Left-Right": -0.09083,
@@ -57,7 +57,7 @@
         "raw_value": 0.12921,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward, facing toward the hands in front of the chest.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.16972,
         "Neck Tilt Left-Right": 0.07499,
@@ -75,7 +75,7 @@
         "raw_value": 0.09814,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Held bent at the elbow with the forearm raised horizontally in front of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.11938,
         "Left Shoulder Front-Back": -0.37031,
@@ -96,7 +96,7 @@
         "raw_value": 0.10695,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Held bent at the elbow with the forearm raised horizontally in front of the body, mirroring the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.38599,
         "Right Shoulder Front-Back": 0.46868,
@@ -117,7 +117,7 @@
         "raw_value": 0.21254,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts high with the knee bent during the airborne phase of each jump, extending backward before landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.17497,
         "Left Upper Leg In-Out": 0.17494,
@@ -137,7 +137,7 @@
         "raw_value": 0.28127,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates with the left leg, lifting high with the knee bent during the jump cycle.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.27287,
         "Right Upper Leg In-Out": -0.07364,
@@ -157,7 +157,7 @@
         "raw_value": 0.00051,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held open and stationary near the center of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.93989,
         "Left Thumb Spread": -0.17219,
@@ -189,7 +189,7 @@
         "raw_value": 4e-05,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held open and stationary near the center of the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.62694,
         "Right Thumb Spread": -0.86274,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

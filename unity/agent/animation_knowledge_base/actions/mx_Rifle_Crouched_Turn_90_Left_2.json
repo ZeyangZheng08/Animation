@@ -14,7 +14,7 @@
   "duration": 1.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a crouched turn to its left, pivoting from facing forward to facing right (its left) while holding a rifle grip.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15785,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains in a deep crouch throughout the movement, rotating 90 degrees to the left to align with the new direction of travel.",
       "mean_pose": {
         "Spine Front-Back": -0.45214,
         "Spine Left-Right": -0.08338,
@@ -57,7 +57,7 @@
         "raw_value": 0.16122,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to the left, leading the rotation of the body and maintaining focus in the new direction.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.05337,
         "Neck Tilt Left-Right": -0.01624,
@@ -75,7 +75,7 @@
         "raw_value": 0.13259,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm stays extended forward in a fixed aiming posture relative to the body, moving through space as the torso rotates.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.07282,
         "Left Shoulder Front-Back": -0.72089,
@@ -96,7 +96,7 @@
         "raw_value": 0.05211,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent at the elbow, positioned close to the chest to simulate gripping a weapon's stock or support, rotating with the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.02872,
         "Right Shoulder Front-Back": 0.36397,
@@ -117,7 +117,7 @@
         "raw_value": 0.16173,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg acts as the pivot point for the turn, staying relatively planted with the knee bent deeply.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.55253,
         "Left Upper Leg In-Out": 0.7226,
@@ -137,7 +137,7 @@
         "raw_value": 0.15063,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent behind the body, driving the rotational momentum of the crouched turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.38259,
         "Right Upper Leg In-Out": 0.29568,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static open-palm pose, simulating a grip on a foregrip or barrel.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.73518,
         "Left Thumb Spread": -0.39517,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a static curled fist pose near the chest, simulating a grip on a trigger guard or stock.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.83767,
         "Right Thumb Spread": -0.32191,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:45:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

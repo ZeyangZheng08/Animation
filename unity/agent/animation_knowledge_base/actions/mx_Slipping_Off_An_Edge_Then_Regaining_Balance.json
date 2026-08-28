@@ -14,7 +14,7 @@
   "duration": 2.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure loses balance, lurches forward and down as if slipping off an edge, then catches themselves by straightening up into a standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11229,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso tilts sharply forward and downward in a slump during the slip, then rights itself to return to an upright posture.",
       "mean_pose": {
         "Spine Front-Back": -0.49952,
         "Spine Left-Right": 0.03219,
@@ -57,7 +57,7 @@
         "raw_value": 0.10594,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head drops low with the chest during the fall, then lifts back up to face forward as the figure stabilizes.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.1068,
         "Neck Tilt Left-Right": -0.01777,
@@ -75,7 +75,7 @@
         "raw_value": 0.3576,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and upward for balance initially, then drops down toward the ground before swinging back up to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.46129,
         "Left Shoulder Front-Back": -1.14436,
@@ -96,7 +96,7 @@
         "raw_value": 0.31222,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down and forward as if trying to catch a ledge, then pulls back up to rest at the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.48329,
         "Right Shoulder Front-Back": -0.63843,
@@ -117,7 +117,7 @@
         "raw_value": 0.20951,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee to absorb the impact of the slip, then extends to support the standing weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.24342,
         "Left Upper Leg In-Out": 0.12626,
@@ -137,7 +137,7 @@
         "raw_value": 0.22301,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps slightly forward and bends to stabilize the center of gravity, then straightens out.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.1626,
         "Right Upper Leg In-Out": -0.04196,
@@ -157,7 +157,7 @@
         "raw_value": 0.26163,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens and flails outward to counterbalance the fall, then relaxes down by the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21705,
         "Left Thumb Spread": -0.11602,
@@ -189,7 +189,7 @@
         "raw_value": 0.3082,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches forward with fingers spread to brace against the unseen edge, then retracts to the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.15301,
         "Right Thumb Spread": 0.06302,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

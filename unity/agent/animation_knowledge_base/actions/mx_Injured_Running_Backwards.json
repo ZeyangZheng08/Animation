@@ -14,7 +14,7 @@
   "duration": 0.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs backward with a hunched, injured posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05388,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a constant hunch, rotating slightly side to side with the running cycle.",
       "mean_pose": {
         "Spine Front-Back": -0.22779,
         "Spine Left-Right": 0.10875,
@@ -57,7 +57,7 @@
         "raw_value": 0.11639,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Bows down and tilts forward, maintaining a low position relative to the shoulders throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.17758,
         "Neck Tilt Left-Right": -0.01782,
@@ -75,7 +75,7 @@
         "raw_value": 0.1885,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings alternately from a bent position near the hip to an extended reach out to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.31184,
         "Left Shoulder Front-Back": -0.47189,
@@ -96,7 +96,7 @@
         "raw_value": 0.16766,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps in opposition to the left arm, swinging between a bent position at the side and an outward extension.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.27716,
         "Right Shoulder Front-Back": -0.64119,
@@ -117,7 +117,7 @@
         "raw_value": 0.10713,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives backward in a running stride, alternating between a bent knee lift and an extended push-off.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.13541,
         "Left Upper Leg In-Out": 0.28849,
@@ -137,7 +137,7 @@
         "raw_value": 0.17259,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates with the left leg in the backward running motion, bending and extending to propel the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.11288,
         "Right Upper Leg In-Out": -0.02444,
@@ -157,7 +157,7 @@
         "raw_value": 0.33469,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely with relaxed fingers as the arm swings through its range of motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.29002,
         "Left Thumb Spread": -0.38835,
@@ -189,7 +189,7 @@
         "raw_value": 0.33765,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed, moving passively with the pumping motion of the right arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.49834,
         "Right Thumb Spread": -0.19864,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:21Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

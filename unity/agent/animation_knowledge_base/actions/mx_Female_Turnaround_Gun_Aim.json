@@ -14,7 +14,7 @@
   "duration": 2.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a quick, crouching turn while raising both arms into a two-handed aiming pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.19199,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and bends low at the waist before rotating to the right and straightening up into an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.09882,
         "Spine Left-Right": -0.05609,
@@ -57,7 +57,7 @@
         "raw_value": 0.17023,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and rotates to the right, following the body's turn to face the new direction.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04542,
         "Neck Tilt Left-Right": -0.02582,
@@ -75,7 +75,7 @@
         "raw_value": 0.21078,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings upward from a low position in front of the body to extend forward across the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.00222,
         "Left Shoulder Front-Back": -0.60089,
@@ -96,7 +96,7 @@
         "raw_value": 0.23252,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from a bent position near the hip to extend forward, meeting the left arm in a two-handed grip.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.08129,
         "Right Shoulder Front-Back": -0.6541,
@@ -117,7 +117,7 @@
         "raw_value": 0.27401,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward with the knee bent, then plants firmly on the ground to support the final standing pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.10572,
         "Left Upper Leg In-Out": -0.19905,
@@ -137,7 +137,7 @@
         "raw_value": 0.29421,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off from behind with the foot raised, then lands and straightens to complete the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.22718,
         "Right Upper Leg In-Out": 0.22961,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, slightly curled shape as it moves forward with the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.84178,
         "Left Thumb Spread": -0.1333,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, slightly curled shape as it moves forward to meet the other hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -3.1608,
         "Right Thumb Spread": -1.2268,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:36:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

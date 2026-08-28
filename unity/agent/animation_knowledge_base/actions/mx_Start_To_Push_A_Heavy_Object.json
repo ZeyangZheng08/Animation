@@ -14,7 +14,7 @@
   "duration": 4.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward, then stops to lean their upper body heavily forward while extending both arms straight out to push an invisible heavy object.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17577,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starting upright and facing forward, the torso bends significantly at the waist to lean far forward, holding a steep angle with the chest pitched down toward the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.0681,
         "Spine Left-Right": -0.00178,
@@ -57,7 +57,7 @@
         "raw_value": 0.11749,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Initially facing forward in line with the spine, the head tilts downward as the torso leans, keeping the gaze directed toward the space where the hands are pushing.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.13794,
         "Neck Tilt Left-Right": -0.02338,
@@ -75,7 +75,7 @@
         "raw_value": 0.28671,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moving from a relaxed position at the side of the body, the arm swings forward and extends fully outward, straightening completely to form a rigid, horizontal pushing posture.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.17111,
         "Left Shoulder Front-Back": -1.21875,
@@ -96,7 +96,7 @@
         "raw_value": 0.27698,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirroring the left arm's movement, it moves from the side of the body to extend fully forward, straightening into a horizontal line to create a dual-arm pushing stance.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.17109,
         "Right Shoulder Front-Back": -0.66032,
@@ -117,7 +117,7 @@
         "raw_value": 0.23747,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Beginning in a walking stride, the leg plants firmly on the ground and bends at the knee, acting as a bent support pillar beneath the leaning upper body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.16181,
         "Left Upper Leg In-Out": 0.04299,
@@ -137,7 +137,7 @@
         "raw_value": 0.24155,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Transitioning from the walk, the leg steps forward and extends backward behind the body, straightening to brace against the floor and provide leverage for the push.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.35791,
         "Right Upper Leg In-Out": 0.13409,
@@ -157,7 +157,7 @@
         "raw_value": 0.27651,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extending forward with the arm, the hand reaches out to hover in the air, maintaining an open shape with fingers spread slightly apart.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.59472,
         "Left Thumb Spread": 0.15542,
@@ -189,7 +189,7 @@
         "raw_value": 0.30416,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moving forward in unison with the other arm, the hand extends into the space ahead, keeping the fingers open and relaxed in a flat orientation.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.75014,
         "Right Thumb Spread": 0.79514,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

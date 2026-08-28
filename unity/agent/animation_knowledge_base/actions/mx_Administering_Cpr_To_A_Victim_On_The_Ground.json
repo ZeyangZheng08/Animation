@@ -14,7 +14,7 @@
   "duration": 8.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure kneels on the floor and performs a rhythmic, up-and-down chest compression motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09109,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Hinged forward at the waist to lean over the ground, it bobs vertically with each compression cycle.",
       "mean_pose": {
         "Spine Front-Back": -1.14226,
         "Spine Left-Right": -0.07518,
@@ -57,7 +57,7 @@
         "raw_value": 0.13513,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Bent downward in front of the shoulders, it moves up and down with the torso's vertical rhythm.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.18315,
         "Neck Tilt Left-Right": -0.03908,
@@ -75,7 +75,7 @@
         "raw_value": 0.29019,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extended straight down from the shoulder toward the floor, it travels vertically as the body compresses.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.55282,
         "Left Shoulder Front-Back": -1.48235,
@@ -96,7 +96,7 @@
         "raw_value": 0.31643,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Held straight down alongside the left arm, it moves in unison with the vertical pumping motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.71156,
         "Right Shoulder Front-Back": -1.43217,
@@ -117,7 +117,7 @@
         "raw_value": 0.08184,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bent at the knee with the lower leg resting flat on the floor, it shifts slightly backward to support the leaning posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.28416,
         "Left Upper Leg In-Out": 0.25717,
@@ -137,7 +137,7 @@
         "raw_value": 0.24068,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Folded under the body with the foot flat on the ground, it acts as a stable base for the movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.43765,
         "Right Upper Leg In-Out": 0.17736,
@@ -157,7 +157,7 @@
         "raw_value": 0.26442,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Pressed flat against the floor, it remains in contact while moving up and down with the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.48893,
         "Left Thumb Spread": 0.03722,
@@ -189,7 +189,7 @@
         "raw_value": 0.23457,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Placed flat on the floor next to the other hand, it follows the same vertical path during the motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.55826,
         "Right Thumb Spread": 0.27485,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:07:59Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

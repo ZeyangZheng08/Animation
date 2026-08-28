@@ -14,7 +14,7 @@
   "duration": 1.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure drops from a falling posture into a deep crouch and pushes up to recover to a standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07868,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward during the descent, bends deeply at the waist in the lowest point of the fall, and straightens upright as it recovers.",
       "mean_pose": {
         "Spine Front-Back": -0.62371,
         "Spine Left-Right": -0.12785,
@@ -57,7 +57,7 @@
         "raw_value": 0.17802,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down to look at the ground during the landing and lifts back to a neutral position when standing.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.24543,
         "Neck Tilt Left-Right": -0.31515,
@@ -75,7 +75,7 @@
         "raw_value": 0.21818,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches out to the side for balance, lowers down toward the legs during the crouch, and swings slightly outward before settling.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.58262,
         "Left Shoulder Front-Back": -0.38235,
@@ -96,7 +96,7 @@
         "raw_value": 0.22179,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and down to stabilize the fall, pulls back near the body in the crouch, and relaxes to the side while standing.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.83972,
         "Right Shoulder Front-Back": -0.87154,
@@ -117,7 +117,7 @@
         "raw_value": 0.243,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drops down with the knee bent to absorb the impact, tucks tightly in the crouch, and extends to straighten the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.16526,
         "Left Upper Leg In-Out": 0.49275,
@@ -137,7 +137,7 @@
         "raw_value": 0.26393,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lands on the foot with the knee bent, folds under the body in the crouch, and extends fully to support the standing pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.35652,
         "Right Upper Leg In-Out": 0.21152,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open, relaxed shape with fingers spread throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.21724,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and extended during the fall, then pulls inward and settles by the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.19734,
         "Right Thumb Spread": -0.22927,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:36Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

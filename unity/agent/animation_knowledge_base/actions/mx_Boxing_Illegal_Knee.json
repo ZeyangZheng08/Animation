@@ -14,7 +14,7 @@
   "duration": 2.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a high, forward knee strike while maintaining a boxing guard.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10362,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly backward to balance the rising leg and rotates subtly with the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.27883,
         "Spine Left-Right": 0.08769,
@@ -57,7 +57,7 @@
         "raw_value": 0.16827,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back slightly and turns to the left, tracking the motion of the strike.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02145,
         "Neck Tilt Left-Right": -0.15969,
@@ -75,7 +75,7 @@
         "raw_value": 0.13692,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held up in a bent position, keeping the hand near the chin as part of a defensive guard.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.49095,
         "Left Shoulder Front-Back": -0.25335,
@@ -96,7 +96,7 @@
         "raw_value": 0.13866,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent at the elbow, holding the fist up near the chest in a static guard pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.13558,
         "Right Shoulder Front-Back": -0.02841,
@@ -117,7 +117,7 @@
         "raw_value": 0.14443,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts high from the ground, bending sharply at the knee to execute a forward knee strike.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.02524,
         "Left Upper Leg In-Out": 0.26362,
@@ -137,7 +137,7 @@
         "raw_value": 0.23368,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays planted on the floor, bending at the knee to support the body's weight during the lift.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.38866,
         "Right Upper Leg In-Out": 0.36904,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a closed fist pose near the face throughout the clip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.02149,
         "Left Thumb Spread": -0.48714,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a closed fist shape near the chest for the duration of the action.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.07539,
         "Right Thumb Spread": -0.49128,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

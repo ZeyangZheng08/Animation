@@ -14,7 +14,7 @@
   "duration": 0.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs in a steady stride toward the right side of the screen.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09484,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into the run and rotates slightly with each step to maintain balance.",
       "mean_pose": {
         "Spine Front-Back": -0.299,
         "Spine Left-Right": -0.1134,
@@ -57,7 +57,7 @@
         "raw_value": 0.10043,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down slightly and remains fixed, facing the direction of travel.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03919,
         "Neck Tilt Left-Right": -0.18181,
@@ -75,7 +75,7 @@
         "raw_value": 0.07192,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings freely from front to back in opposition to the legs, with the elbow bent at roughly ninety degrees.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.01923,
         "Left Shoulder Front-Back": -0.18152,
@@ -96,7 +96,7 @@
         "raw_value": 0.18894,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose extended forward and up, as if gripping an object, while the shoulder moves with the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.58257,
         "Right Shoulder Front-Back": -0.05382,
@@ -117,7 +117,7 @@
         "raw_value": 0.22179,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives through a full running cycle, alternating between a high knee lift and a push-off from the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.08768,
         "Left Upper Leg In-Out": 0.10559,
@@ -137,7 +137,7 @@
         "raw_value": 0.25006,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Cycles in opposition to the left leg, extending behind for propulsion and swinging forward to prepare for the next step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.0255,
         "Right Upper Leg In-Out": 0.05791,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed, hanging naturally at the end of the swinging arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41852,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.32519,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, closed fist shape elevated in front of the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.56327,
         "Right Thumb Spread": -0.34464,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:46:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

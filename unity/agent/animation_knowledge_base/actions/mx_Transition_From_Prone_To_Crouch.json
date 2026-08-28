@@ -14,7 +14,7 @@
   "duration": 1.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from lying face down on the floor to a low crouching position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.21498,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from a prone, flat position onto its side and then lifts upward into an upright, bent posture.",
       "mean_pose": {
         "Spine Front-Back": -1.08214,
         "Spine Left-Right": 0.25572,
@@ -57,7 +57,7 @@
         "raw_value": 0.20758,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains tucked forward throughout the motion, following the upward rotation of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.6316,
         "Neck Tilt Left-Right": -0.07012,
@@ -75,7 +75,7 @@
         "raw_value": 0.31218,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm moves from being extended flat on the ground to bending at the elbow and lifting up in front of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.39013,
         "Left Shoulder Front-Back": -1.08495,
@@ -96,7 +96,7 @@
         "raw_value": 0.34489,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm pushes off the floor to support the weight and then bends, bringing the hand up near the shoulder.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.52435,
         "Right Shoulder Front-Back": -0.57204,
@@ -117,7 +117,7 @@
         "raw_value": 0.31999,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee, drawing the foot underneath the body to form the base of the crouch.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.22189,
         "Left Upper Leg In-Out": 0.34321,
@@ -137,7 +137,7 @@
         "raw_value": 0.48005,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg swings from an extended position behind the body to a bent position under the hips.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.00843,
         "Right Upper Leg In-Out": 0.36757,
@@ -157,7 +157,7 @@
         "raw_value": 0.27089,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open, moving from a flat position on the floor to a raised position near the waist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.07428,
         "Left Thumb Spread": 0.12716,
@@ -189,7 +189,7 @@
         "raw_value": 0.11978,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand presses against the floor to push the body up before lifting and curling slightly inward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.74447,
         "Right Thumb Spread": -0.74568,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:48Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

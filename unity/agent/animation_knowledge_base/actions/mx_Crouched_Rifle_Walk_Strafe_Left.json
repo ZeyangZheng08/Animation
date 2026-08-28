@@ -14,7 +14,7 @@
   "duration": 1.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low crouch while striding sideways to the left, holding both arms forward in a fixed aiming posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03089,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a deep crouch and tilts to the left to maintain balance during the lateral movement.",
       "mean_pose": {
         "Spine Front-Back": -0.56595,
         "Spine Left-Right": -0.12191,
@@ -57,7 +57,7 @@
         "raw_value": 0.02305,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays aligned with the shoulders and looks forward through the extended arms.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.48509,
         "Neck Tilt Left-Right": 0.07687,
@@ -75,7 +75,7 @@
         "raw_value": 0.02038,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static position extended straight forward at chest height with the elbow slightly bent.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.2899,
         "Left Shoulder Front-Back": -0.41906,
@@ -96,7 +96,7 @@
         "raw_value": 0.02048,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains fixed in a similar forward-extended position, mirroring the left arm to support the aim.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.79352,
         "Right Shoulder Front-Back": -1.90676,
@@ -117,7 +117,7 @@
         "raw_value": 0.19471,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps laterally to the left, bending at the knee to absorb the motion and support the crouched weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.46666,
         "Left Upper Leg In-Out": 0.38854,
@@ -137,7 +137,7 @@
         "raw_value": 0.24299,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off from the right side and follows through, keeping the knee bent to sustain the low stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.30496,
         "Right Upper Leg In-Out": -0.04116,
@@ -157,7 +157,7 @@
         "raw_value": 0.01925,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady grip shape as if clutching an unseen weapon.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.38554,
         "Left Thumb Spread": -0.21405,
@@ -189,7 +189,7 @@
         "raw_value": 0.00985,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static gripping pose that matches the left hand's orientation.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.55195,
         "Right Thumb Spread": -0.84198,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:34:48Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

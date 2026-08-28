@@ -14,7 +14,7 @@
   "duration": 0.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward and then leaps into the air, spreading their limbs to hold a suspended pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16918,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward during the run before arching backward as it lifts off the ground into the jump.",
       "mean_pose": {
         "Spine Front-Back": -0.13889,
         "Spine Left-Right": 0.03246,
@@ -57,7 +57,7 @@
         "raw_value": 0.16532,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts upward and back, following the momentum of the body's ascent into the air.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.086,
         "Neck Tilt Left-Right": -0.10989,
@@ -75,7 +75,7 @@
         "raw_value": 0.33513,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps forward in a running motion, then swings out to the side and up to extend fully horizontally in the final pose.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.18144,
         "Left Shoulder Front-Back": 0.2521,
@@ -96,7 +96,7 @@
         "raw_value": 0.27851,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings back during the run, then mirrors the left arm by swinging out to the side and up to extend fully horizontally.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.44093,
         "Right Shoulder Front-Back": 0.08135,
@@ -117,7 +117,7 @@
         "raw_value": 0.27196,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives through the running stride before tucking the knee up high and bending at the ankle in mid-air.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.23832,
         "Left Upper Leg In-Out": 0.37472,
@@ -137,7 +137,7 @@
         "raw_value": 0.28436,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends backward for propulsion, then bends at the knee and hip to bring the foot up toward the left leg in the jump.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.00751,
         "Right Upper Leg In-Out": -0.03338,
@@ -157,7 +157,7 @@
         "raw_value": 0.356,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curls inward near the waist while running, then opens and extends outward with the arm to maintain balance.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.25323,
         "Left Thumb Spread": 0.00891,
@@ -189,7 +189,7 @@
         "raw_value": 0.29938,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curls inward near the waist while running, then opens and extends outward with the arm to maintain balance.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.29153,
         "Right Thumb Spread": 0.0298,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:52:24Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

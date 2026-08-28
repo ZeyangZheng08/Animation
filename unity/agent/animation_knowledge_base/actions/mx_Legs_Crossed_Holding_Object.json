@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits on the floor in a static cross-legged position with its hands held up in front of it.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stationary, facing forward without any movement.",
       "mean_pose": {
         "Spine Front-Back": -0.38591,
         "Spine Left-Right": 0.09464,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and still, looking straight ahead.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.39577,
         "Neck Tilt Left-Right": 0.1108,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, holding the forearm up in front of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.10504,
         "Left Shoulder Front-Back": -1.09338,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow, mirroring the left arm's position in front of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.47533,
         "Right Shoulder Front-Back": -1.03412,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is folded across the lap with the foot resting near the right knee.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.85279,
         "Left Upper Leg In-Out": 0.87998,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is folded underneath the left leg to support the sitting posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.73177,
         "Right Upper Leg In-Out": 0.65185,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and held still in front of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.80014,
         "Left Thumb Spread": -0.40268,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open and held still in front of the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.83854,
         "Right Thumb Spread": -0.11945,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:59Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

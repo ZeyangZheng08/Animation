@@ -14,7 +14,7 @@
   "duration": 2.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a shotgun firing sequence, bringing the weapon to their shoulder, firing, and then lowering it.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05094,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates slightly from side to side in sync with the arm movements, leaning forward during the firing motion at 59%.",
       "mean_pose": {
         "Spine Front-Back": -0.01004,
         "Spine Left-Right": 0.02616,
@@ -57,7 +57,7 @@
         "raw_value": 0.11378,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tracks the aim, turning left to right as the figure brings the weapon up and fires, looking down into the stock.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.10416,
         "Neck Tilt Left-Right": -0.06744,
@@ -75,7 +75,7 @@
         "raw_value": 0.16304,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward to support the front of the weapon, moving from a raised position down to chest level and back up.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.35848,
         "Left Shoulder Front-Back": -0.06746,
@@ -96,7 +96,7 @@
         "raw_value": 0.28317,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm pulls the weapon back to the shoulder for aiming and firing, then lowers it after the shot.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.46352,
         "Right Shoulder Front-Back": -0.0169,
@@ -117,7 +117,7 @@
         "raw_value": 0.09181,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted with a slight bend, providing a stable base while shifting weight slightly.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.54142,
         "Left Upper Leg In-Out": 0.44988,
@@ -137,7 +137,7 @@
         "raw_value": 0.14555,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends and shifts backward to absorb the recoil of the simulated shot before returning to a standing position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.49683,
         "Right Upper Leg In-Out": 0.32116,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand maintains a fixed grip pose, simulating holding the fore-end of the gun.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.31307,
         "Left Thumb Spread": 0.65226,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static trigger-grip pose throughout the movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.13119,
         "Right Thumb Spread": -1.91338,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:35Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

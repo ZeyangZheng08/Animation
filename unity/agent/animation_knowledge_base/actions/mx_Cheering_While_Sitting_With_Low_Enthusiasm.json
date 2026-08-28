@@ -14,7 +14,7 @@
   "duration": 2.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin sits in a low crouch and performs a small, repetitive pump with one arm to cheer.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0332,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward while maintaining a seated position on the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.23863,
         "Spine Left-Right": -0.0503,
@@ -57,7 +57,7 @@
         "raw_value": 0.06371,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts up and down slightly in time with the arm movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0218,
         "Neck Tilt Left-Right": 0.03839,
@@ -75,7 +75,7 @@
         "raw_value": 0.12859,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises upward with the elbow bent, pumping up and down in a small cheering motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.21318,
         "Left Shoulder Front-Back": -1.12101,
@@ -96,7 +96,7 @@
         "raw_value": 0.31261,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow with the hand resting on the right knee.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.08608,
         "Right Shoulder Front-Back": -0.05768,
@@ -117,7 +117,7 @@
         "raw_value": 0.0212,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bent at the knee in a low squatting position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.62735,
         "Left Upper Leg In-Out": 0.24116,
@@ -137,7 +137,7 @@
         "raw_value": 0.01915,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose, bent at the knee to support the body in a crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.6326,
         "Right Upper Leg In-Out": 0.16577,
@@ -157,7 +157,7 @@
         "raw_value": 0.0341,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Forms a fist as it moves up and down.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.57866,
         "Left Thumb Spread": 0.46559,
@@ -189,7 +189,7 @@
         "raw_value": 0.55047,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Rests flat on the right knee.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.2538,
         "Right Thumb Spread": -0.14056,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:58Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

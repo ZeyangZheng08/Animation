@@ -14,7 +14,7 @@
   "duration": 1.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is struck in the torso, causing it to bend sharply forward and then slowly straighten back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16302,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bends deeply forward at the waist upon impact and then gradually returns to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.32062,
         "Spine Left-Right": -0.04424,
@@ -57,7 +57,7 @@
         "raw_value": 0.25002,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head drops down with the forward bend of the body and lifts back up as the torso straightens.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15809,
         "Neck Tilt Left-Right": 0.01195,
@@ -75,7 +75,7 @@
         "raw_value": 0.22974,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and outward during the initial recoil before returning to a bent position near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.07515,
         "Left Shoulder Front-Back": -0.22583,
@@ -96,7 +96,7 @@
         "raw_value": 0.19616,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm pulls inward toward the midsection, clutching the area where the hit was received.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.37646,
         "Right Shoulder Front-Back": -1.47776,
@@ -117,7 +117,7 @@
         "raw_value": 0.11635,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground, bending slightly at the knee to absorb the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.12784,
         "Left Upper Leg In-Out": 0.13545,
@@ -137,7 +137,7 @@
         "raw_value": 0.14121,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays relatively stable with a slight bend, supporting the weight of the leaning torso.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.00501,
         "Right Upper Leg In-Out": 0.5328,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains loosely clenched throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays tightly clenched against the torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:44Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

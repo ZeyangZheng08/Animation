@@ -14,7 +14,7 @@
   "duration": 1.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a lateral strafe to their right while maintaining a rifle-ready stance with arms extended forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02636,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly to the left to counterbalance the movement, shifting its position laterally across the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.48508,
         "Spine Left-Right": 0.0209,
@@ -57,7 +57,7 @@
         "raw_value": 0.01035,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains in a static pose, held steady and facing forward relative to the body's orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00581,
         "Neck Tilt Left-Right": -0.02564,
@@ -75,7 +75,7 @@
         "raw_value": 0.01786,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm holds a static pose, extended straight out in front of the chest with the elbow slightly bent.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.14396,
         "Left Shoulder Front-Back": -0.44137,
@@ -96,7 +96,7 @@
         "raw_value": 0.01395,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm maintains a static position, bent at the elbow and raised to shoulder height, pointing forward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.33708,
         "Right Shoulder Front-Back": 0.52905,
@@ -117,7 +117,7 @@
         "raw_value": 0.15959,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the movement, stepping out to the side and bending the knee to support the weight during the strafe.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.33422,
         "Left Upper Leg In-Out": 0.02275,
@@ -137,7 +137,7 @@
         "raw_value": 0.14093,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows in a walking motion, pushing off from behind and swinging forward to maintain balance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.44327,
         "Right Upper Leg In-Out": 0.27992,
@@ -157,7 +157,7 @@
         "raw_value": 0.01129,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static gripping shape, positioned as if holding the foregrip of a weapon.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.90095,
         "Left Thumb Spread": -0.23236,
@@ -189,7 +189,7 @@
         "raw_value": 0.0035,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays in a fixed, open-fingered pose near the face, mimicking a trigger grip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.5955,
         "Right Thumb Spread": -0.85007,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:46:02Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

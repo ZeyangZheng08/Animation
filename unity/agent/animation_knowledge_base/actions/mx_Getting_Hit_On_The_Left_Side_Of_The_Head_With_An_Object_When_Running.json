@@ -14,7 +14,7 @@
   "duration": 3.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A figure runs forward, is struck in the head causing them to lurch sideways and stumble, then recovers into a standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12712,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward while running, then tilts sharply to the left side during the impact before straightening back up to a vertical stance.",
       "mean_pose": {
         "Spine Front-Back": -0.22602,
         "Spine Left-Right": 0.03273,
@@ -57,7 +57,7 @@
         "raw_value": 0.18552,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head faces forward during the run, snaps violently to the right side upon being hit, and then returns to a neutral, upright orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09564,
         "Neck Tilt Left-Right": 0.10237,
@@ -75,7 +75,7 @@
         "raw_value": 0.33399,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally at the side during the run, flings outward and upward for balance when the body lurches, and then lowers back down to the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.44939,
         "Left Shoulder Front-Back": -0.83028,
@@ -96,7 +96,7 @@
         "raw_value": 0.38062,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm pumps at the side while running, drops downward toward the ground as the figure stumbles, and then rises back to the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.90413,
         "Right Shoulder Front-Back": -1.00023,
@@ -117,7 +117,7 @@
         "raw_value": 0.27958,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives through the running cycle, steps out wide to the left to catch the fall, and then brings the foot forward to stand parallel with the other leg.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.07638,
         "Left Upper Leg In-Out": -0.01158,
@@ -137,7 +137,7 @@
         "raw_value": 0.28828,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg cycles through the run, bends slightly under the weight of the body's shift, and straightens to support the final standing pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.06716,
         "Right Upper Leg In-Out": 0.11094,
@@ -157,7 +157,7 @@
         "raw_value": 0.44132,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves in a fist during the run, opens its fingers as it extends outward for balance, and relaxes at the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.36192,
         "Left Thumb Spread": -0.12379,
@@ -189,7 +189,7 @@
         "raw_value": 0.46348,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand pumps in a fist while running, reaches down with an open palm near the feet, and settles loosely at the side of the thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.00026,
         "Right Thumb Spread": -0.35881,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:53Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

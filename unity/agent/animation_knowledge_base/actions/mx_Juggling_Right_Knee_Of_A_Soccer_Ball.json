@@ -14,7 +14,7 @@
   "duration": 0.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a soccer trick by lifting their right leg to juggle an invisible ball with the knee.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03541,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains mostly upright but leans slightly backward as the right leg lifts for balance.",
       "mean_pose": {
         "Spine Front-Back": -0.26457,
         "Spine Left-Right": -0.02323,
@@ -57,7 +57,7 @@
         "raw_value": 0.04456,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays relatively still, facing forward throughout the motion.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02352,
         "Neck Tilt Left-Right": -0.00776,
@@ -75,7 +75,7 @@
         "raw_value": 0.09185,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs down at the side, making slight adjustments to maintain balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.82861,
         "Left Shoulder Front-Back": 0.96899,
@@ -96,7 +96,7 @@
         "raw_value": 0.05778,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs relaxed at the side, moving minimally.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.76024,
         "Right Shoulder Front-Back": 0.57216,
@@ -117,7 +117,7 @@
         "raw_value": 0.04392,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg acts as the stable support leg, remaining planted on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.37512,
         "Left Upper Leg In-Out": 0.0821,
@@ -137,7 +137,7 @@
         "raw_value": 0.20882,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg swings up from the floor, bending at the knee to strike the air in a juggling motion before returning down.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.28941,
         "Right Upper Leg In-Out": 0.08242,
@@ -157,7 +157,7 @@
         "raw_value": 0.17917,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.27317,
         "Left Thumb Spread": 0.29057,
@@ -189,7 +189,7 @@
         "raw_value": 0.09985,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and relaxed at the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.99361,
         "Right Thumb Spread": 0.12012,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:39:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

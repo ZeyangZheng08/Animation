@@ -14,7 +14,7 @@
   "duration": 1.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a short hip shot by bending forward at the waist and swinging both arms downward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1252,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans significantly forward from a standing position, then returns to upright.",
       "mean_pose": {
         "Spine Front-Back": -0.14589,
         "Spine Left-Right": 0.07851,
@@ -57,7 +57,7 @@
         "raw_value": 0.09293,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to look at the hands while bent over, then lifts back up.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.11441,
         "Neck Tilt Left-Right": 0.04767,
@@ -75,7 +75,7 @@
         "raw_value": 0.18615,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings forward and down as the body bends, then swings back up.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.33216,
         "Left Shoulder Front-Back": -1.49059,
@@ -96,7 +96,7 @@
         "raw_value": 0.18326,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings forward and down alongside the left arm, then returns upward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.93574,
         "Right Shoulder Front-Back": -1.13728,
@@ -117,7 +117,7 @@
         "raw_value": 0.07216,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains relatively straight, serving as a stable support for the upper body movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.07114,
         "Left Upper Leg In-Out": -0.12201,
@@ -137,7 +137,7 @@
         "raw_value": 0.08363,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays planted and straight, balancing the forward lean of the torso.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.02696,
         "Right Upper Leg In-Out": 0.25245,
@@ -157,7 +157,7 @@
         "raw_value": 0.16903,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves in an arc downward and forward, ending near the knee level.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.3616,
         "Left Thumb Spread": 0.22501,
@@ -189,7 +189,7 @@
         "raw_value": 0.05591,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand mirrors the left, moving downward and forward toward the knee area.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.8156,
         "Right Thumb Spread": 0.27822,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:08Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

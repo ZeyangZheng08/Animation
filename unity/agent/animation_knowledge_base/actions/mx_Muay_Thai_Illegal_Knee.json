@@ -14,7 +14,7 @@
   "duration": 2.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a Muay Thai knee strike, driving the right leg upward into a high chamber before extending it forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18412,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly backward to generate power for the knee strike, then returns to an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.16034,
         "Spine Left-Right": -0.06409,
@@ -57,7 +57,7 @@
         "raw_value": 0.11887,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts back in sync with the torso's movement during the strike and returns to a neutral position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00188,
         "Neck Tilt Left-Right": 0.11223,
@@ -75,7 +75,7 @@
         "raw_value": 0.17042,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow in a guard position near the chest throughout the action.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.4564,
         "Left Shoulder Front-Back": 0.20599,
@@ -96,7 +96,7 @@
         "raw_value": 0.22787,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent and held close to the body, moving slightly with the torso rotation.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.09003,
         "Right Shoulder Front-Back": -0.63748,
@@ -117,7 +117,7 @@
         "raw_value": 0.25235,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Planted on the ground, bending at the knee to absorb the weight of the striking motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.31764,
         "Left Upper Leg In-Out": 0.24519,
@@ -137,7 +137,7 @@
         "raw_value": 0.26514,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts from the floor, chambers high at the hip, and extends forward to execute the knee strike.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.25395,
         "Right Upper Leg In-Out": 0.40644,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held in a loose fist as part of the static guard pose.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held in a loose fist near the waist as part of the static guard pose.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:02Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

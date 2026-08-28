@@ -14,7 +14,7 @@
   "duration": 1.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward with a low, crouched posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04401,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains bent significantly forward at the waist throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.22234,
         "Spine Left-Right": -0.00493,
@@ -57,7 +57,7 @@
         "raw_value": 0.02443,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is tilted down and held steady in front of the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04345,
         "Neck Tilt Left-Right": 0.05715,
@@ -75,7 +75,7 @@
         "raw_value": 0.04776,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs down from the shoulder with a slight bend at the elbow, swinging gently to maintain balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.25428,
         "Left Shoulder Front-Back": -0.09942,
@@ -96,7 +96,7 @@
         "raw_value": 0.0509,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs down from the shoulder with a slight bend at the elbow, swinging gently to maintain balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.68087,
         "Right Shoulder Front-Back": 0.20387,
@@ -117,7 +117,7 @@
         "raw_value": 0.18904,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between being planted on the ground and lifting forward in a short, bent-knee stride.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.36267,
         "Left Upper Leg In-Out": 0.14057,
@@ -137,7 +137,7 @@
         "raw_value": 0.18396,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates between being planted on the ground and lifting forward in a short, bent-knee stride.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.34124,
         "Right Upper Leg In-Out": -0.06221,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the end of the forearm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.90449,
         "Left Thumb Spread": 0.31695,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and relaxed at the end of the forearm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.6506,
         "Right Thumb Spread": 0.45413,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:34:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

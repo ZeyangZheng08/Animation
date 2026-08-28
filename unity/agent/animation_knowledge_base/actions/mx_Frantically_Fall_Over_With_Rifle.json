@@ -14,7 +14,7 @@
   "duration": 2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure falls backward from a standing position, tumbling onto the floor and landing on their back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11213,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso tilts sharply backward from an upright stance, rotates as it hits the ground, and comes to rest flat on its back.",
       "mean_pose": {
         "Spine Front-Back": -0.1497,
         "Spine Left-Right": -0.00878,
@@ -57,7 +57,7 @@
         "raw_value": 0.27642,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back following the upper body's fall and rotates slightly with the torso before coming to rest on the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.13148,
         "Neck Tilt Left-Right": 0.17417,
@@ -75,7 +75,7 @@
         "raw_value": 0.54142,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and outward during the fall, extending into the air before dropping down toward the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.05949,
         "Left Shoulder Front-Back": -0.0063,
@@ -96,7 +96,7 @@
         "raw_value": 0.24657,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm raises high in front of the chest at the start of the fall, flails outward as the body descends, and lands near the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.09168,
         "Right Shoulder Front-Back": 0.19161,
@@ -117,7 +117,7 @@
         "raw_value": 0.23885,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts off the ground and bends at the knee as the body tips over, swinging out to the side before settling on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.04963,
         "Left Upper Leg In-Out": 0.38166,
@@ -137,7 +137,7 @@
         "raw_value": 0.25852,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg kicks up and extends forward during the fall, then folds back and rests bent on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.18291,
         "Right Upper Leg In-Out": 0.42799,
@@ -157,7 +157,7 @@
         "raw_value": 0.17925,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens and waves through the air as the figure loses balance, ending in a relaxed position near the shoulder.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.29751,
         "Left Thumb Spread": 0.24812,
@@ -189,7 +189,7 @@
         "raw_value": 0.1551,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is raised initially, flails wildly during the tumble, and comes to rest open near the waist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.00797,
         "Right Thumb Spread": -1.15489,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:37:28Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

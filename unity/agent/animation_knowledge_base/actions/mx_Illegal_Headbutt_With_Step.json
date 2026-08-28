@@ -14,7 +14,7 @@
   "duration": 2.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure takes a step forward with their left leg while simultaneously thrusting their head forward in a headbutt motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09411,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward aggressively during the lunge and then straightens back up to an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.17273,
         "Spine Left-Right": -0.00473,
@@ -57,7 +57,7 @@
         "raw_value": 0.15241,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Juts sharply forward and down to execute the headbutt, then retracts back to a neutral position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11822,
         "Neck Tilt Left-Right": -0.18368,
@@ -75,7 +75,7 @@
         "raw_value": 0.08729,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow and held close to the chest in a guard position throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.4864,
         "Left Shoulder Front-Back": -0.01484,
@@ -96,7 +96,7 @@
         "raw_value": 0.06856,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays tucked near the body, mirroring the left arm's defensive posture.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.15461,
         "Right Shoulder Front-Back": -0.69311,
@@ -117,7 +117,7 @@
         "raw_value": 0.11868,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward into a deep lunge, bending the knee significantly before extending to return to a standing position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.11406,
         "Left Upper Leg In-Out": 0.39632,
@@ -137,7 +137,7 @@
         "raw_value": 0.15016,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends backward for balance during the lunge and then steps forward to meet the left foot.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.44953,
         "Right Upper Leg In-Out": 0.39233,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose with fingers curled loosely near the upper chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.94117,
         "Left Thumb Spread": -0.96595,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static pose with fingers curled loosely near the upper chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.94865,
         "Right Thumb Spread": -0.37473,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a forward throwing motion, swinging the right arm from a cocked position back to an extended release.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04734,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates significantly to the right during the wind-up and then swings back toward the front as the throw is completed.",
       "mean_pose": {
         "Spine Front-Back": -0.23257,
         "Spine Left-Right": 0.00906,
@@ -57,7 +57,7 @@
         "raw_value": 0.46813,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to look over the right shoulder during the preparation phase and then faces forward at the moment of release.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.16608,
         "Neck Tilt Left-Right": 0.17587,
@@ -75,7 +75,7 @@
         "raw_value": 0.23686,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward to the side for balance during the wind-up and then draws inward across the body to finish the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.41736,
         "Left Shoulder Front-Back": 0.08329,
@@ -96,7 +96,7 @@
         "raw_value": 0.26732,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm begins in a high, cocked position behind the body, sweeps forward through the center, and finishes extended out to the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.44419,
         "Right Shoulder Front-Back": -0.21385,
@@ -117,7 +117,7 @@
         "raw_value": 0.17891,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg serves as a stable pivot point, remaining planted with a slight bend throughout the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.12398,
         "Left Upper Leg In-Out": 0.32913,
@@ -137,7 +137,7 @@
         "raw_value": 0.14828,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps forward into the stance and bends to absorb the momentum of the upper body rotation.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.17267,
         "Right Upper Leg In-Out": 0.38002,
@@ -157,7 +157,7 @@
         "raw_value": 0.61501,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, moving with the arm's balancing swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.90861,
         "Left Thumb Spread": -0.765,
@@ -189,7 +189,7 @@
         "raw_value": 0.38778,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand starts in a loose grip near the chest, follows the arm's arc, and opens fully upon completing the forward extension.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.20461,
         "Right Thumb Spread": -0.23538,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:50:31Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

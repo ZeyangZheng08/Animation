@@ -14,7 +14,7 @@
   "duration": 0.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a lateral dodge to the left, stepping out of bounds and returning to center.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07131,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply to the right side during the initial dodge, then swings back through upright to a slight lean on the return step.",
       "mean_pose": {
         "Spine Front-Back": -0.4254,
         "Spine Left-Right": -0.04819,
@@ -57,7 +57,7 @@
         "raw_value": 0.08091,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and turns toward the direction of movement, keeping its gaze low throughout the sequence.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11747,
         "Neck Tilt Left-Right": 0.08481,
@@ -75,7 +75,7 @@
         "raw_value": 0.16457,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held relatively close to the body, bending at the elbow with the hand tucked near the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.53001,
         "Left Shoulder Front-Back": -0.15441,
@@ -96,7 +96,7 @@
         "raw_value": 0.06425,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward and back to the right for balance, swinging forward as the figure returns to center.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.56246,
         "Right Shoulder Front-Back": -0.45993,
@@ -117,7 +117,7 @@
         "raw_value": 0.19281,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives forward into the dodge, bending at the knee to absorb the movement before extending again.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.16304,
         "Left Upper Leg In-Out": 0.34625,
@@ -137,7 +137,7 @@
         "raw_value": 0.17057,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off from behind to propel the body laterally, then plants firmly to stabilize the final position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.22797,
         "Right Upper Leg In-Out": 0.36805,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains relaxed and open, hanging naturally near the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.21554,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open with fingers spread, moving in coordination with the arm's balancing swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.39372,
         "Right Thumb Spread": -0.56256,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

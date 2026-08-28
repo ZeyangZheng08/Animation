@@ -14,7 +14,7 @@
   "duration": 3.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure drops from a standing crouch to the ground on their hands and knees before rising back up into a low fighting stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08268,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward significantly to lower the body to the floor, then straightens upward to return to an upright posture.",
       "mean_pose": {
         "Spine Front-Back": -0.2918,
         "Spine Left-Right": -0.02294,
@@ -57,7 +57,7 @@
         "raw_value": 0.25107,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the ground during the descent, then lifts to face forward as the figure stands.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.12701,
         "Neck Tilt Left-Right": 0.19352,
@@ -75,7 +75,7 @@
         "raw_value": 0.38936,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down to place the hand flat on the floor for support, then pulls back up and bends at the elbow into a guard position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.61633,
         "Left Shoulder Front-Back": -0.6326,
@@ -96,7 +96,7 @@
         "raw_value": 0.31598,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward to touch the floor alongside the other arm, then raises back up to join the defensive guard.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.34984,
         "Right Shoulder Front-Back": -1.0561,
@@ -117,7 +117,7 @@
         "raw_value": 0.28779,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Kneels down to support the weight of the body, then extends and pushes off to lift the torso.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.58818,
         "Left Upper Leg In-Out": 0.382,
@@ -137,7 +137,7 @@
         "raw_value": 0.30193,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drops into a kneeling position beneath the hips, then straightens to help rise from the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.01077,
         "Right Upper Leg In-Out": 0.42633,
@@ -157,7 +157,7 @@
         "raw_value": 0.55446,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves from a raised position down to press firmly against the floor, then lifts back into the air.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.98502,
         "Left Thumb Spread": 0.09802,
@@ -189,7 +189,7 @@
         "raw_value": 0.62267,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches down to make contact with the ground, then rises back up to complete the stance.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.81454,
         "Right Thumb Spread": 0.08427,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:02Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

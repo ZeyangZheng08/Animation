@@ -14,7 +14,7 @@
   "duration": 6.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure drops from a standing position to its knees and brings its hands together in front of its chest.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02747,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward as it lowers, then straightens up into an upright kneeling posture.",
       "mean_pose": {
         "Spine Front-Back": 0.00237,
         "Spine Left-Right": -0.01139,
@@ -57,7 +57,7 @@
         "raw_value": 0.06467,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts slightly downward with the descent and remains facing forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03333,
         "Neck Tilt Left-Right": 0.09236,
@@ -75,7 +75,7 @@
         "raw_value": 0.25183,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves from hanging at the side to bending at the elbow and raising upward toward the center of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.22873,
         "Left Shoulder Front-Back": -0.12818,
@@ -96,7 +96,7 @@
         "raw_value": 0.23106,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from the side and bends at the elbow to meet the other hand in front of the upper chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.43467,
         "Right Shoulder Front-Back": -0.55007,
@@ -117,7 +117,7 @@
         "raw_value": 0.17604,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee to lower the body until the shin rests on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.34123,
         "Left Upper Leg In-Out": 0.15114,
@@ -137,7 +137,7 @@
         "raw_value": 0.17921,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee simultaneously to bring the body down into a full kneel.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.44003,
         "Right Upper Leg In-Out": 0.1799,
@@ -157,7 +157,7 @@
         "raw_value": 0.15577,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Lifts from the hip level and presses flat against the right hand in a prayer position.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.68793,
         "Left Thumb Spread": 0.24046,
@@ -189,7 +189,7 @@
         "raw_value": 0.20549,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Raises from the hip level and meets the left hand with palms pressed together.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.37092,
         "Right Thumb Spread": 0.68582,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:36:06Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

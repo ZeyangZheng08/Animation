@@ -14,7 +14,7 @@
   "duration": 0.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a crouching turn to its right while holding both hands up in a defensive or ready posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03779,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso maintains a deep crouch throughout the sequence, rotating significantly to the right as the figure pivots on its feet.",
       "mean_pose": {
         "Spine Front-Back": -1.38185,
         "Spine Left-Right": -0.00684,
@@ -57,7 +57,7 @@
         "raw_value": 0.0174,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains in a static, forward-leaning position relative to the body, facing down and slightly to the left from the viewer's perspective.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.25848,
         "Neck Tilt Left-Right": 0.02336,
@@ -75,7 +75,7 @@
         "raw_value": 0.0432,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held bent at the elbow with the hand raised near chest height, moving across the body as the torso turns.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.17866,
         "Left Shoulder Front-Back": -0.57156,
@@ -96,7 +96,7 @@
         "raw_value": 0.03073,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward to the side with the elbow slightly bent, acting as a counterbalance during the rotation.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.48236,
         "Right Shoulder Front-Back": 0.54396,
@@ -117,7 +117,7 @@
         "raw_value": 0.1552,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays deeply bent, serving as the primary pivot point for the turning motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.40711,
         "Left Upper Leg In-Out": 0.60447,
@@ -137,7 +137,7 @@
         "raw_value": 0.11281,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent and positioned slightly behind the left, adjusting its stance to facilitate the rightward turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.06634,
         "Right Upper Leg In-Out": 0.02936,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a static, open-palm pose with fingers extended, kept elevated near the shoulder.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.88584,
         "Left Thumb Spread": -0.24759,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static, open-palm pose with fingers spread, extending outward away from the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -0.85237,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

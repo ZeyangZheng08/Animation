@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a short forward boxing step, advancing while maintaining a guard stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03132,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward to drive the movement and bobs subtly with each footfall.",
       "mean_pose": {
         "Spine Front-Back": -0.28746,
         "Spine Left-Right": -0.05162,
@@ -57,7 +57,7 @@
         "raw_value": 0.03186,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down slightly and tracks forward as the body advances.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02132,
         "Neck Tilt Left-Right": 0.01191,
@@ -75,7 +75,7 @@
         "raw_value": 0.06133,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm remains bent at the elbow, holding a high guard position in front of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.56879,
         "Left Shoulder Front-Back": 0.38442,
@@ -96,7 +96,7 @@
         "raw_value": 0.03799,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm stays bent and raised, keeping the fist up near the chin for protection.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.13599,
         "Right Shoulder Front-Back": -0.93184,
@@ -117,7 +117,7 @@
         "raw_value": 0.10616,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg pushes off from the back position and swings forward to land in front.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.04223,
         "Left Upper Leg In-Out": 0.33073,
@@ -137,7 +137,7 @@
         "raw_value": 0.13437,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg moves forward from the front position to become the new rear leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.50988,
         "Right Upper Leg In-Out": 0.6635,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a tight fist throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is clenched into a fist and kept stationary relative to the face.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:10Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

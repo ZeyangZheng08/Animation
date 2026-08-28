@@ -14,7 +14,7 @@
   "duration": 1.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward while extending the right arm to pick up an item and tuck it into their pack.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17434,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans significantly forward throughout the clip, maintaining a hunched running posture with a slight twist to accommodate the arm movement.",
       "mean_pose": {
         "Spine Front-Back": -0.16343,
         "Spine Left-Right": 0.01675,
@@ -57,7 +57,7 @@
         "raw_value": 0.20197,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains tilted down and tucked toward the chest, following the forward lean of the upper body.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.33412,
         "Neck Tilt Left-Right": 0.06765,
@@ -75,7 +75,7 @@
         "raw_value": 0.37986,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally in opposition to the legs, pumping back and forth to maintain balance during the run.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.07015,
         "Left Shoulder Front-Back": 0.33289,
@@ -96,7 +96,7 @@
         "raw_value": 0.51491,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches forward and downward from a bent position, then pulls upward and inward across the chest to secure the object.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.08261,
         "Right Shoulder Front-Back": 0.08925,
@@ -117,7 +117,7 @@
         "raw_value": 0.30409,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the forward motion, alternating between being extended behind the body and lifting forward with the knee bent.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.13365,
         "Left Upper Leg In-Out": 0.07547,
@@ -137,7 +137,7 @@
         "raw_value": 0.25524,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg cycles through the running stride, pushing off the ground and swinging forward to land beneath the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.11113,
         "Right Upper Leg In-Out": -0.02488,
@@ -157,7 +157,7 @@
         "raw_value": 0.34804,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays loosely open and relaxed as it moves with the arm's pumping swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.39231,
         "Left Thumb Spread": 0.13277,
@@ -189,7 +189,7 @@
         "raw_value": 0.33004,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends with fingers spread to grasp, then clenches into a fist as it retracts toward the torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.50653,
         "Right Thumb Spread": 0.02706,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:09Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

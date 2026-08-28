@@ -14,7 +14,7 @@
   "duration": 4.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stumbles forward and to the right, loses its balance, and collapses onto the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18785,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans sharply to the right in a stumbling motion, then drops downward until it is lying flat on the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.75234,
         "Spine Left-Right": 0.05794,
@@ -57,7 +57,7 @@
         "raw_value": 0.29668,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts upward as the body leans back, then tilts down and turns to the side as the figure falls to the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.25733,
         "Neck Tilt Left-Right": -0.00409,
@@ -75,7 +75,7 @@
         "raw_value": 0.29469,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts extended out to the side for balance, then swings up and outward before dropping down toward the floor.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.01591,
         "Left Shoulder Front-Back": -0.77617,
@@ -96,7 +96,7 @@
         "raw_value": 0.32842,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Begins raised high with the palm open, then lowers and extends out to the side during the fall.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.72179,
         "Right Shoulder Front-Back": -0.79877,
@@ -117,7 +117,7 @@
         "raw_value": 0.20178,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays relatively straight while supporting the stumble, then lifts and bends as the body hits the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.07525,
         "Left Upper Leg In-Out": 0.04416,
@@ -137,7 +137,7 @@
         "raw_value": 0.27604,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Is bent at the knee during the initial stumble, then extends out as the figure falls over.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.20742,
         "Right Upper Leg In-Out": -0.01621,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open-palm pose throughout the entire sequence.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains an open, spread-fingered pose from start to finish.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:36Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

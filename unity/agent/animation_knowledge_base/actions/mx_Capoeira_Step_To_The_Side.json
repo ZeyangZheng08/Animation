@@ -14,7 +14,7 @@
   "duration": 1.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, sweeping capoeira step to the side, crouching deep and then rising back to an upright stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16491,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a deep crouch, tilting to the left, before rotating and straightening back up to a standing position.",
       "mean_pose": {
         "Spine Front-Back": -0.40981,
         "Spine Left-Right": -0.06208,
@@ -57,7 +57,7 @@
         "raw_value": 0.15776,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and to the left in the crouch, then lifts and turns slightly right as the body rises.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.07252,
         "Neck Tilt Left-Right": 0.02961,
@@ -75,7 +75,7 @@
         "raw_value": 0.33306,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends out to the side for balance during the crouch, then swings across the chest and pulls back.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.92701,
         "Left Shoulder Front-Back": -0.60728,
@@ -96,7 +96,7 @@
         "raw_value": 0.34593,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down toward the floor near the knee in the crouch, then sweeps up and outward as the body stands.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.75218,
         "Right Shoulder Front-Back": -0.73149,
@@ -117,7 +117,7 @@
         "raw_value": 0.37735,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps out wide to the left with a bent knee to form the base of the crouch, then pushes off to return to center.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.19254,
         "Left Upper Leg In-Out": 0.28288,
@@ -137,7 +137,7 @@
         "raw_value": 0.28215,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains relatively central and bent, supporting the weight during the lateral shift before straightening.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.23924,
         "Right Upper Leg In-Out": 0.25361,
@@ -157,7 +157,7 @@
         "raw_value": 0.25916,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open and extended to the side, tracking the arm's movement for balance.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.31849,
         "Left Thumb Spread": -0.0926,
@@ -189,7 +189,7 @@
         "raw_value": 0.25972,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dips low near the leg during the crouch, then moves upward and outward with the rising torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.79088,
         "Right Thumb Spread": -0.1002,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:34:02Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

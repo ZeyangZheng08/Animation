@@ -14,7 +14,7 @@
   "duration": 0.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward in a steady stride, leaning into the motion with arms bent and swinging naturally at their sides.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09764,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward significantly to drive the run, rotating slightly from side to side as the legs alternate steps.",
       "mean_pose": {
         "Spine Front-Back": -0.32145,
         "Spine Left-Right": -0.07719,
@@ -57,7 +57,7 @@
         "raw_value": 0.13476,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the ground while facing forward, maintaining a fixed gaze on the path ahead.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03603,
         "Neck Tilt Left-Right": 0.00274,
@@ -75,7 +75,7 @@
         "raw_value": 0.0934,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow, pumping rhythmically with the hand held near waist height throughout the cycle.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.93432,
         "Left Shoulder Front-Back": -1.30462,
@@ -96,7 +96,7 @@
         "raw_value": 0.05647,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow, swinging in opposition to the left arm with the hand hovering around hip level.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.0619,
         "Right Shoulder Front-Back": -0.66747,
@@ -117,7 +117,7 @@
         "raw_value": 0.22658,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives the running gait by extending backward for push-off and lifting forward to prepare for the next step.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.03865,
         "Left Upper Leg In-Out": -0.02706,
@@ -137,7 +137,7 @@
         "raw_value": 0.22767,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates with the left leg, pushing off the ground behind and driving forward through the stride.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.0124,
         "Right Upper Leg In-Out": -0.04645,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed, held low in front of the body near the waist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.53213,
         "Left Thumb Spread": -0.66141,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open and relaxed, positioned low near the hip as it swings with the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.40164,
         "Right Thumb Spread": -1.97224,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:58Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

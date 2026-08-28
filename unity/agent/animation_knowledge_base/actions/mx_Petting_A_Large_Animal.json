@@ -14,7 +14,7 @@
   "duration": 5.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place and extends the right arm forward to pet an unseen large animal before retracting it back to the side.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12222,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward during the reach and rotates gently to the right, returning to a neutral upright position by the end of the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.07245,
         "Spine Left-Right": 0.06681,
@@ -57,7 +57,7 @@
         "raw_value": 0.20679,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward and turns toward the right shoulder to look at the hand's movement, then lifts and returns to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07544,
         "Neck Tilt Left-Right": 0.04293,
@@ -75,7 +75,7 @@
         "raw_value": 0.27354,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm remains relaxed and hangs straight down at the side of the body throughout the entire motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.98371,
         "Left Shoulder Front-Back": -0.85784,
@@ -96,7 +96,7 @@
         "raw_value": 0.13454,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches forward with a bent elbow to make a petting gesture, then pulls back down to rest at the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.38034,
         "Right Shoulder Front-Back": -0.72951,
@@ -117,7 +117,7 @@
         "raw_value": 0.10329,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays planted firmly on the ground as a stable base while the upper body moves.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.16287,
         "Left Upper Leg In-Out": 0.00656,
@@ -137,7 +137,7 @@
         "raw_value": 0.12195,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains stationary on the floor, supporting the figure's weight without shifting.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.059,
         "Right Upper Leg In-Out": 0.01303,
@@ -157,7 +157,7 @@
         "raw_value": 0.10315,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs loosely by the hip, keeping its fingers relaxed and open.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.75392,
         "Left Thumb Spread": 0.25452,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static pose with the fingers spread out flat, maintaining that shape while moving through the air.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.00092,
         "Right Thumb Spread": -0.13146,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

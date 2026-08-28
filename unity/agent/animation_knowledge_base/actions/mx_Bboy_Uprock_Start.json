@@ -14,7 +14,7 @@
   "duration": 1.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic Uprock dance start, moving from a static standing pose with clasped hands into a rhythmic step and twist sequence.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09546,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins in an upright position, then leans forward and rotates slightly to the right as the dancer steps out, maintaining a low center of gravity throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.35131,
         "Spine Left-Right": -0.0413,
@@ -57,7 +57,7 @@
         "raw_value": 0.15684,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head starts facing forward, tilts down slightly during the initial transition, and then turns to look over the left shoulder while the body twists.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.32324,
         "Neck Tilt Left-Right": 0.04091,
@@ -75,7 +75,7 @@
         "raw_value": 0.27356,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm moves from a position with the hand clasped at the groin up and across the chest, ending in a bent position near the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.93906,
         "Left Shoulder Front-Back": -1.03264,
@@ -96,7 +96,7 @@
         "raw_value": 0.2629,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm transitions from being clasped at the groin to swinging back behind the hip before coming forward again to cross the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.27865,
         "Right Shoulder Front-Back": -0.52073,
@@ -117,7 +117,7 @@
         "raw_value": 0.15345,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg starts planted, then lifts the knee high in a marching motion before stepping down to support the weight shift.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.38867,
         "Left Upper Leg In-Out": 0.06157,
@@ -137,7 +137,7 @@
         "raw_value": 0.18451,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg acts as the pivot point initially, then pushes off to step forward and cross in front of the left leg to complete the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.30652,
         "Right Upper Leg In-Out": 0.01452,
@@ -157,7 +157,7 @@
         "raw_value": 0.29192,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand unclasps from the right hand, moves upward and inward toward the chest, and ends hovering near the abdomen.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.50336,
         "Left Thumb Spread": 0.03408,
@@ -189,7 +189,7 @@
         "raw_value": 0.22238,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand releases the clasp, sweeps backward past the hip, and then brings itself forward to meet the left hand near the waist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.93194,
         "Right Thumb Spread": 0.43898,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, sweeping spin, bending deeply at the waist to execute a kick while one hand reaches toward the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17296,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and rotates continuously through the spin, dropping into a deep bend as the movement progresses.",
       "mean_pose": {
         "Spine Front-Back": -0.11249,
         "Spine Left-Right": 0.07572,
@@ -57,7 +57,7 @@
         "raw_value": 0.18535,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Follows the torso's rotation, tilting down and away from the direction of the turn during the lowest part of the sweep.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02473,
         "Neck Tilt Left-Right": -0.08612,
@@ -75,7 +75,7 @@
         "raw_value": 0.41135,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward for balance initially, then sweeps down and across the body to reach toward the ground.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.79139,
         "Left Shoulder Front-Back": -0.20656,
@@ -96,7 +96,7 @@
         "raw_value": 0.60537,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches out to the side to counterbalance the spin before swinging upward and back over the shoulder.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.941,
         "Right Shoulder Front-Back": -0.28702,
@@ -117,7 +117,7 @@
         "raw_value": 0.351,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Acts as the primary support leg, stepping and pivoting on the ball of the foot to drive the rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.28807,
         "Left Upper Leg In-Out": 0.32701,
@@ -137,7 +137,7 @@
         "raw_value": 0.30795,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts off the ground to swing through in a wide, low arc, completing the kicking motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.67125,
         "Right Upper Leg In-Out": 0.26297,
@@ -157,7 +157,7 @@
         "raw_value": 0.37058,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens and extends downward, tracking close to the floor to guide the turning motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.96263,
         "Left Thumb Spread": -0.00952,
@@ -189,7 +189,7 @@
         "raw_value": 0.25002,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open and extended outward, tracing a high arc above the head as the body rotates.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.78185,
         "Right Thumb Spread": -0.02257,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:33:49Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

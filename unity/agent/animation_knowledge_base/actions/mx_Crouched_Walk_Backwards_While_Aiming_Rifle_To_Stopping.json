@@ -14,7 +14,7 @@
   "duration": 1.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks backwards in a low crouch while holding an aiming pose with both arms extended forward, finally coming to a stop.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08934,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains bent forward in a deep crouch, bobbing slightly up and down with the rhythm of the backward steps before settling into a stable position.",
       "mean_pose": {
         "Spine Front-Back": -1.32396,
         "Spine Left-Right": 0.19996,
@@ -57,7 +57,7 @@
         "raw_value": 0.06533,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is tilted downward, keeping a fixed gaze on the hands or the area immediately in front of the chest throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.34493,
         "Neck Tilt Left-Right": -0.02841,
@@ -75,7 +75,7 @@
         "raw_value": 0.07124,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward from the shoulder with the elbow bent, holding a steady aiming posture relative to the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.13779,
         "Left Shoulder Front-Back": -0.50587,
@@ -96,7 +96,7 @@
         "raw_value": 0.05278,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, extending forward and bending at the elbow to maintain the two-handed aiming stance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.41637,
         "Right Shoulder Front-Back": 0.54723,
@@ -117,7 +117,7 @@
         "raw_value": 0.21279,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg performs the walking motion, stepping backward and lifting the knee high in a shuffling gait until it plants firmly for the final stop.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.11825,
         "Left Upper Leg In-Out": 0.20148,
@@ -137,7 +137,7 @@
         "raw_value": 0.29881,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, pushing off and stepping backward in a crouched stride before grounding to support the stopped pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.11379,
         "Right Upper Leg In-Out": 0.05248,
@@ -157,7 +157,7 @@
         "raw_value": 0.01461,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a static, open shape with fingers spread, positioned as if gripping the fore-end of a weapon.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.40132,
         "Left Thumb Spread": -0.18245,
@@ -189,7 +189,7 @@
         "raw_value": 0.01302,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains static and curled near the chest, maintaining a firm grip shape consistent with holding a trigger guard.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60256,
         "Right Thumb Spread": -0.87305,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:34:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

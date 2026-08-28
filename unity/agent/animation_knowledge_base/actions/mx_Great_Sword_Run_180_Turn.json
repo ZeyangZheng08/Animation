@@ -14,7 +14,7 @@
   "duration": 0.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward while executing a full 180-degree turn to face the opposite direction.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09716,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a running posture, rotating horizontally a half-turn to change facing direction from front to back.",
       "mean_pose": {
         "Spine Front-Back": -0.72753,
         "Spine Left-Right": 0.18113,
@@ -57,7 +57,7 @@
         "raw_value": 0.23667,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts slightly downward and turns with the body, completing a 180-degree rotation to look in the new direction of travel.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.48304,
         "Neck Tilt Left-Right": -0.07678,
@@ -75,7 +75,7 @@
         "raw_value": 0.22453,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent, forward-reaching position at waist level, swinging naturally as part of the run cycle.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.28744,
         "Left Shoulder Front-Back": -1.84454,
@@ -96,7 +96,7 @@
         "raw_value": 0.36304,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow near the hip, moving in opposition to the left arm during the stride.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.29288,
         "Right Shoulder Front-Back": -1.1859,
@@ -117,7 +117,7 @@
         "raw_value": 0.25149,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives through a running gait, alternating between lifting forward and pushing off the ground to propel the turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.13266,
         "Left Upper Leg In-Out": 0.19924,
@@ -137,7 +137,7 @@
         "raw_value": 0.21143,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Works in sync with the left leg in a running cycle, stepping across the body to facilitate the pivot.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.29318,
         "Right Upper Leg In-Out": 0.24682,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a fixed, loosely clenched fist shape throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.58434,
         "Left Thumb Spread": -1.41032,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static, loosely clenched fist pose at the end of the forearm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.48686,
         "Right Thumb Spread": -0.33843,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:14Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

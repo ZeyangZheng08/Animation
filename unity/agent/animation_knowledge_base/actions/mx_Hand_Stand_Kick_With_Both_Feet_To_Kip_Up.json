@@ -14,7 +14,7 @@
   "duration": 3.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure kicks up from a crouch into an inverted handstand, extends its legs overhead, and flips forward to land on its feet.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.26634,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso starts in a low, forward-leaning crouch, arches upward as the body inverts over the hands, and rotates down through a horizontal position to end upright.",
       "mean_pose": {
         "Spine Front-Back": -0.24664,
         "Spine Left-Right": 0.01012,
@@ -57,7 +57,7 @@
         "raw_value": 0.24091,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the torso's arc, moving from a downward tilt at the start, through an inverted position with the face pointing toward the floor, to a final upright orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00084,
         "Neck Tilt Left-Right": 0.04492,
@@ -75,7 +75,7 @@
         "raw_value": 0.58764,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends straight down to press against the floor for support during the inversion, then bends and swings back out to the side as the body lands.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.18117,
         "Left Shoulder Front-Back": -0.78865,
@@ -96,7 +96,7 @@
         "raw_value": 0.48669,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, extending to the ground to support the weight of the handstand before bending and swinging outward for balance upon landing.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.20884,
         "Right Shoulder Front-Back": -0.24336,
@@ -117,7 +117,7 @@
         "raw_value": 0.33998,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives upward from the starting crouch, extends fully overhead while inverted, and swings down to plant firmly on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.15545,
         "Left Upper Leg In-Out": 0.1495,
@@ -137,7 +137,7 @@
         "raw_value": 0.37146,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts and extends alongside the other to complete the kick-up, holds the inverted position, and retracts to meet the floor for the landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.3013,
         "Right Upper Leg In-Out": 0.27337,
@@ -157,7 +157,7 @@
         "raw_value": 0.44608,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand presses flat on the floor to bear the body's weight during the handstand, then releases and opens as the figure returns to its feet.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.8324,
         "Left Thumb Spread": 0.56514,
@@ -189,7 +189,7 @@
         "raw_value": 0.63145,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand supports the inverted body on the ground, then lifts away from the floor and relaxes into an open position as the kip completes.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.13328,
         "Right Thumb Spread": 0.08756,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

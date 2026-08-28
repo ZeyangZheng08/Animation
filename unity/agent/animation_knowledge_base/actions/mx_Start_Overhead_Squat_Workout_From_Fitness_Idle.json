@@ -14,7 +14,7 @@
   "duration": 5.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a deep forward bend to stand upright with arms extended horizontally.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11604,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Hinges forward at the waist until nearly parallel to the floor, then straightens up to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.48567,
         "Spine Left-Right": 0.04757,
@@ -57,7 +57,7 @@
         "raw_value": 0.29464,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Drops down toward the knees along with the torso and lifts back up to face forward as the body stands.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.37485,
         "Neck Tilt Left-Right": 0.15748,
@@ -75,7 +75,7 @@
         "raw_value": 0.47555,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs down by the side during the bend and swings upward to extend horizontally out to the left.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.20352,
         "Left Shoulder Front-Back": -0.68671,
@@ -96,7 +96,7 @@
         "raw_value": 0.53256,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs down by the side during the bend and swings upward to extend horizontally out to the right.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.76878,
         "Right Shoulder Front-Back": -0.93784,
@@ -117,7 +117,7 @@
         "raw_value": 0.25409,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground with a slight knee bend to support the bending motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.41264,
         "Left Upper Leg In-Out": 0.23416,
@@ -137,7 +137,7 @@
         "raw_value": 0.25763,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground with a slight knee bend to support the bending motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.40053,
         "Right Upper Leg In-Out": 0.20239,
@@ -157,7 +157,7 @@
         "raw_value": 0.45431,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely near the feet while bent and moves outward as the arm raises.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.74823,
         "Left Thumb Spread": -0.97643,
@@ -189,7 +189,7 @@
         "raw_value": 0.53481,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely near the feet while bent and moves outward as the arm raises.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.60217,
         "Right Thumb Spread": -0.67768,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:49:07Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

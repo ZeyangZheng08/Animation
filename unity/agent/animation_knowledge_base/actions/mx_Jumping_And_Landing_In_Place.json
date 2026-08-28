@@ -14,7 +14,7 @@
   "duration": 2.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a jump in place, crouching to gather force, leaping into the air with knees tucked, and landing in a deep squat.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09091,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso dips forward as it bends down to prepare for the jump, rises upright during the flight phase, and leans forward again to absorb the impact of the landing.",
       "mean_pose": {
         "Spine Front-Back": -0.26495,
         "Spine Left-Right": 0.00298,
@@ -57,7 +57,7 @@
         "raw_value": 0.1525,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward during the initial crouch, lifts up while airborne, and drops back down as the body settles into the final landing pose.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06207,
         "Neck Tilt Left-Right": -0.00489,
@@ -75,7 +75,7 @@
         "raw_value": 0.31373,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a position at the side upward and forward toward the chest during the ascent, then extends outward to help balance the body upon landing.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.31214,
         "Left Shoulder Front-Back": -0.5143,
@@ -96,7 +96,7 @@
         "raw_value": 0.28318,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging from the side up and forward during the jump and extending out to the side to stabilize the figure on impact.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.38532,
         "Right Shoulder Front-Back": -0.6968,
@@ -117,7 +117,7 @@
         "raw_value": 0.24096,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee during the crouch, tucks upward under the body while airborne, and remains bent to cushion the landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.15618,
         "Left Upper Leg In-Out": 0.27359,
@@ -137,7 +137,7 @@
         "raw_value": 0.24393,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the same path as the left, bending for the takeoff, tucking up during the jump, and staying flexed to support the weight upon landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.12247,
         "Right Upper Leg In-Out": 0.17197,
@@ -157,7 +157,7 @@
         "raw_value": 0.21627,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from hanging loosely by the side to being raised near the waist during the jump, then opens outward to assist with balance on the ground.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.92954,
         "Left Thumb Spread": 0.16868,
@@ -189,7 +189,7 @@
         "raw_value": 0.22647,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand travels from the side of the body up to the waist area mid-air, then extends away from the torso to maintain equilibrium during the landing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.87179,
         "Right Thumb Spread": 0.17555,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:09Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

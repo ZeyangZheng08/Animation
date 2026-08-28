@@ -14,7 +14,7 @@
   "duration": 6.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a seated position on the floor to a standing posture, using its hands for support.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.19757,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and lowers while seated, then straightens upward as it stands.",
       "mean_pose": {
         "Spine Front-Back": -0.12884,
         "Spine Left-Right": 0.00684,
@@ -57,7 +57,7 @@
         "raw_value": 0.12841,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the legs during the rise, then lifts up as the torso becomes vertical.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.28261,
         "Neck Tilt Left-Right": 0.01862,
@@ -75,7 +75,7 @@
         "raw_value": 0.28423,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down to press against the floor for support, then swings back to the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.39708,
         "Left Shoulder Front-Back": -0.43481,
@@ -96,7 +96,7 @@
         "raw_value": 0.27266,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down to press against the floor for support, then swings back to the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.12287,
         "Right Shoulder Front-Back": -0.74446,
@@ -117,7 +117,7 @@
         "raw_value": 0.3765,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends from a bent seated position to a straight, weight-bearing stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.12661,
         "Left Upper Leg In-Out": 0.13815,
@@ -137,7 +137,7 @@
         "raw_value": 0.33378,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends from a bent seated position to a straight, weight-bearing stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.16463,
         "Right Upper Leg In-Out": 0.0428,
@@ -157,7 +157,7 @@
         "raw_value": 0.17122,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Presses flat against the floor to push the body up, then opens at the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.38535,
         "Left Thumb Spread": 0.0814,
@@ -189,7 +189,7 @@
         "raw_value": 0.4102,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Presses flat against the floor to push the body up, then opens at the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.38247,
         "Right Thumb Spread": 0.31353,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:41Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure collapses from a standing position, falling backward and rolling onto their back on the ground.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16705,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starts upright and leans progressively backward until it is flat against the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.10715,
         "Spine Left-Right": -0.09337,
@@ -57,7 +57,7 @@
         "raw_value": 0.20013,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts slightly forward initially, then falls back with the torso to rest on the ground.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.23306,
         "Neck Tilt Left-Right": 0.0637,
@@ -75,7 +75,7 @@
         "raw_value": 0.42461,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Begins bent near the chest, swings outward as the body falls, and ends resting open by the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.138,
         "Left Shoulder Front-Back": -1.419,
@@ -96,7 +96,7 @@
         "raw_value": 0.37857,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts extended at the side, moves across the body during the fall, and finishes curled near the waist.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.36058,
         "Right Shoulder Front-Back": -0.74272,
@@ -117,7 +117,7 @@
         "raw_value": 0.19989,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Transitions from a straight standing position to being bent in mid-air before extending out on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.1232,
         "Left Upper Leg In-Out": 0.25563,
@@ -137,7 +137,7 @@
         "raw_value": 0.24241,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Moves from a standing stance to bending at the knee during the collapse, ending up extended alongside the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.18198,
         "Right Upper Leg In-Out": 0.28088,
@@ -157,7 +157,7 @@
         "raw_value": 0.35945,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Starts relaxed at the hip, opens outward during the fall, and lands flat on the ground beside the head.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.34338,
         "Left Thumb Spread": 0.10544,
@@ -189,7 +189,7 @@
         "raw_value": 0.28351,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Begins open at the side, curls inward toward the abdomen as the body rolls, and rests near the stomach.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.62792,
         "Right Thumb Spread": -1.44407,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:45:22Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

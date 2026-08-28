@@ -14,7 +14,7 @@
   "duration": 4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands still with a slumped posture, head bowed down, while its arms hang limply at its sides.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01402,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains in a static, slightly hunched forward position throughout the entire clip.",
       "mean_pose": {
         "Spine Front-Back": -0.15355,
         "Spine Left-Right": 0.04692,
@@ -57,7 +57,7 @@
         "raw_value": 0.00985,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is held in a fixed, deeply bowed position, facing downward toward the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06173,
         "Neck Tilt Left-Right": 0.00157,
@@ -75,7 +75,7 @@
         "raw_value": 0.05006,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely by the side of the body, maintaining a relaxed, straight posture.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.31496,
         "Left Shoulder Front-Back": -0.73147,
@@ -96,7 +96,7 @@
         "raw_value": 0.04233,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs loosely by the side of the body, mirroring the relaxed posture of the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.51428,
         "Right Shoulder Front-Back": -0.69559,
@@ -117,7 +117,7 @@
         "raw_value": 0.01557,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands straight and stationary, supporting the weight of the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.53939,
         "Left Upper Leg In-Out": 0.12723,
@@ -137,7 +137,7 @@
         "raw_value": 0.01323,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stands straight and stationary next to the left leg, keeping the figure balanced.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.50974,
         "Right Upper Leg In-Out": 0.02995,
@@ -157,7 +157,7 @@
         "raw_value": 0.02687,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand rests loosely near the hip, fingers slightly curled and relaxed.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.6289,
         "Left Thumb Spread": 0.12675,
@@ -189,7 +189,7 @@
         "raw_value": 0.02707,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand rests loosely near the hip, fingers slightly curled and relaxed.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.27796,
         "Right Thumb Spread": 0.37535,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:46Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is seated in a wheelchair, propelling forward by pushing with their arms while turning to look over their right shoulder.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01318,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains upright and stable in a seated position throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.13527,
         "Spine Left-Right": -0.04374,
@@ -57,7 +57,7 @@
         "raw_value": 0.01979,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady pose turned approximately 90 degrees to the figure's right, looking backward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04279,
         "Neck Tilt Left-Right": -0.00792,
@@ -75,7 +75,7 @@
         "raw_value": 0.24746,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward and back from the shoulder to simulate a push on an invisible wheel, then returns forward.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.22519,
         "Left Shoulder Front-Back": 0.65493,
@@ -96,7 +96,7 @@
         "raw_value": 0.25324,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves in a synchronized alternating cycle with the left arm, extending back to push and returning forward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.19729,
         "Right Shoulder Front-Back": -0.12074,
@@ -117,7 +117,7 @@
         "raw_value": 0.0212,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the knee in a fixed seated posture, hovering above the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.50908,
         "Left Upper Leg In-Out": 0.32517,
@@ -137,7 +137,7 @@
         "raw_value": 0.01104,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static seated position with the knee bent, remaining parallel to the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.55421,
         "Right Upper Leg In-Out": 0.28218,
@@ -157,7 +157,7 @@
         "raw_value": 0.15558,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens and extends backward to complete the pushing motion before returning to the front.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.93821,
         "Left Thumb Spread": -0.26394,
@@ -189,7 +189,7 @@
         "raw_value": 0.19897,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Performs the same alternating open-handed pushing motion as the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.67297,
         "Right Thumb Spread": -0.52809,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:58Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

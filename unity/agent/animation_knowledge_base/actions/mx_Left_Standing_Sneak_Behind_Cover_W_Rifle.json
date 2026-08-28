@@ -14,7 +14,7 @@
   "duration": 1.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a crouched, stealthy movement to the left while holding an empty-handed rifle stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02758,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a deep squat and twists slightly to the left to maintain balance during the movement.",
       "mean_pose": {
         "Spine Front-Back": 0.03563,
         "Spine Left-Right": 0.00435,
@@ -57,7 +57,7 @@
         "raw_value": 0.03249,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays low and tilted down, turning slightly to look over the right shoulder toward the back.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0732,
         "Neck Tilt Left-Right": -0.10415,
@@ -75,7 +75,7 @@
         "raw_value": 0.04666,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static position bent at the elbow with the hand resting on the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.52117,
         "Left Shoulder Front-Back": 0.37661,
@@ -96,7 +96,7 @@
         "raw_value": 0.04627,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and bends at the elbow to hold a steady, raised aiming posture.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.06949,
         "Right Shoulder Front-Back": -1.10518,
@@ -117,7 +117,7 @@
         "raw_value": 0.24816,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives the crouching motion by bending deeply and swinging backward as the body shifts weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.0321,
         "Left Upper Leg In-Out": 0.46152,
@@ -137,7 +137,7 @@
         "raw_value": 0.19739,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Plants firmly on the ground with a bent knee to support the low center of gravity.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.16054,
         "Right Upper Leg In-Out": -0.22695,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains fixed in a loose fist against the hip throughout the clip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.52991,
         "Left Thumb Spread": -0.54397,
@@ -189,7 +189,7 @@
         "raw_value": 0.11112,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static open shape in front of the chest, simulating a grip on an unseen weapon.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.71772,
         "Right Thumb Spread": -1.2109,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:41:03Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

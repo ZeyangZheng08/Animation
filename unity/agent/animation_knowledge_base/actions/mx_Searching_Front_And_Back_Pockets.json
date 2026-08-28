@@ -14,7 +14,7 @@
   "duration": 5.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands and reaches into its front pockets, then turns to reach into its back pockets.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08825,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward slightly at the hips while reaching for the front pockets, then rotates a full 180 degrees to face backward for the back pockets.",
       "mean_pose": {
         "Spine Front-Back": -0.06754,
         "Spine Left-Right": -0.02254,
@@ -57,7 +57,7 @@
         "raw_value": 0.28264,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to look at the hands during both pocket searches and follows the torso's rotation from front to back.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.31339,
         "Neck Tilt Left-Right": 0.11032,
@@ -75,7 +75,7 @@
         "raw_value": 0.21955,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm bends at the elbow to bring the hand to the front left hip, then swings across the body to reach the back right pocket.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.76765,
         "Left Shoulder Front-Back": 0.53304,
@@ -96,7 +96,7 @@
         "raw_value": 0.22308,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm bends at the elbow to bring the hand to the front right hip, then swings across the body to reach the back left pocket.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.83133,
         "Right Shoulder Front-Back": 0.29768,
@@ -117,7 +117,7 @@
         "raw_value": 0.11275,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground with a slight bend in the knee to support the turning motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.32879,
         "Left Upper Leg In-Out": 0.07631,
@@ -137,7 +137,7 @@
         "raw_value": 0.10064,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted on the ground with a slight bend in the knee to support the turning motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.25701,
         "Right Upper Leg In-Out": -0.03051,
@@ -157,7 +157,7 @@
         "raw_value": 0.2394,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends toward the front left pocket area before moving to the opposite side of the lower back.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.35918,
         "Left Thumb Spread": 0.02102,
@@ -189,7 +189,7 @@
         "raw_value": 0.37892,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends toward the front right pocket area before moving to the opposite side of the lower back.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.58402,
         "Right Thumb Spread": 0.52435,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:13Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a low, sweeping step across the floor while extending their arms outward for balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13711,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward significantly and tilts to the side, maintaining a low center of gravity throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.33472,
         "Spine Left-Right": 0.05672,
@@ -57,7 +57,7 @@
         "raw_value": 0.12565,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays aligned with the spine, tilting down and turning slightly to look toward the direction of the step.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01174,
         "Neck Tilt Left-Right": 0.02505,
@@ -75,7 +75,7 @@
         "raw_value": 0.4518,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends out to the side with a slight bend in the elbow, keeping the hand open and away from the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.3003,
         "Left Shoulder Front-Back": -0.8137,
@@ -96,7 +96,7 @@
         "raw_value": 0.40445,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches forward and downward, swinging in coordination with the leg movement to maintain momentum.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.59229,
         "Right Shoulder Front-Back": -0.56882,
@@ -117,7 +117,7 @@
         "raw_value": 0.29958,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Acts as the trailing support, bending at the knee to keep the foot close to the ground behind the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.18989,
         "Left Upper Leg In-Out": 0.1786,
@@ -137,7 +137,7 @@
         "raw_value": 0.2862,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and outward, extending to plant the foot in front while the left leg trails.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.18323,
         "Right Upper Leg In-Out": 0.24279,
@@ -157,7 +157,7 @@
         "raw_value": 0.2255,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open with fingers relaxed, positioned near the hip level to help balance the upper body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.96036,
         "Left Thumb Spread": -0.04548,
@@ -189,7 +189,7 @@
         "raw_value": 0.21956,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends forward with an open palm, guiding the motion as the arm reaches out over the stepping leg.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.71338,
         "Right Thumb Spread": -0.0435,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

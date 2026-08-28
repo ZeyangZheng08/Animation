@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static standing pose with its legs crossed and arms folded in front of it.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds an upright, vertical orientation facing forward.",
       "mean_pose": {
         "Spine Front-Back": -0.6832,
         "Spine Left-Right": -0.10133,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Maintains a steady, level position directly above the torso.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11332,
         "Neck Tilt Left-Right": 0.04063,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow with the forearm held horizontally across the midsection.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.14614,
         "Left Shoulder Front-Back": -1.06036,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow, crossing over the left arm to complete the folded position.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.0792,
         "Right Shoulder Front-Back": -0.52956,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Supports the body's weight by extending straight down to the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.50425,
         "Left Upper Leg In-Out": -0.34133,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a crossed position by resting the foot against the front of the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.70585,
         "Right Upper Leg In-Out": -0.27404,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeps a relaxed grip around the right upper arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.76588,
         "Left Thumb Spread": 0.107,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a closed position near the left elbow.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.2825,
         "Right Thumb Spread": -0.56575,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:01Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

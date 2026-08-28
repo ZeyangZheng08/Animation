@@ -14,7 +14,7 @@
   "duration": 9.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a relaxed, stationary pose while performing subtle breathing movements that cause slight shifts in the torso and head.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02122,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The chest expands slightly outward and upward during an inhale, then contracts gently back to a resting position for an exhale.",
       "mean_pose": {
         "Spine Front-Back": -0.02217,
         "Spine Left-Right": 0.00393,
@@ -57,7 +57,7 @@
         "raw_value": 0.03287,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head bobs very slightly up and down in sync with the breathing cycle of the torso, maintaining a forward-facing orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03207,
         "Neck Tilt Left-Right": -0.05149,
@@ -75,7 +75,7 @@
         "raw_value": 0.09909,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely by the side, swaying minutely with the rise and fall of the shoulders.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.07362,
         "Left Shoulder Front-Back": 0.41403,
@@ -96,7 +96,7 @@
         "raw_value": 0.10272,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains relaxed at the side, mirroring the subtle movement of the left arm as the body breathes.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.10836,
         "Right Shoulder Front-Back": -0.22168,
@@ -117,7 +117,7 @@
         "raw_value": 0.05019,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands straight and still, supporting the weight of the body without shifting.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.40231,
         "Left Upper Leg In-Out": 0.08325,
@@ -137,7 +137,7 @@
         "raw_value": 0.04634,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted firmly on the ground, holding a static stance throughout the idle motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.37267,
         "Right Upper Leg In-Out": 0.08489,
@@ -157,7 +157,7 @@
         "raw_value": 0.0485,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open and relaxed, moving only as a passive extension of the arm's slight sway.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.82703,
         "Left Thumb Spread": 0.14937,
@@ -189,7 +189,7 @@
         "raw_value": 0.05763,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs naturally with fingers loosely curled, exhibiting tiny movements driven by the arm's motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.53443,
         "Right Thumb Spread": -0.13303,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:31Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

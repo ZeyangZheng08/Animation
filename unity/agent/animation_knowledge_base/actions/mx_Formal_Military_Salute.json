@@ -14,7 +14,7 @@
   "duration": 2.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a formal military salute by raising their right hand to their brow before lowering it back down.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01063,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains upright and stationary throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.05599,
         "Spine Left-Right": -0.01702,
@@ -57,7 +57,7 @@
         "raw_value": 0.06707,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays level and faces forward without turning.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02713,
         "Neck Tilt Left-Right": 0.05429,
@@ -75,7 +75,7 @@
         "raw_value": 0.0261,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs straight down at the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.79529,
         "Left Shoulder Front-Back": 0.18992,
@@ -96,7 +96,7 @@
         "raw_value": 0.22523,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from the side up to the head and then lowers back down.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.73133,
         "Right Shoulder Front-Back": -0.13576,
@@ -117,7 +117,7 @@
         "raw_value": 0.00983,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands straight and still on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.59371,
         "Left Upper Leg In-Out": -0.03011,
@@ -137,7 +137,7 @@
         "raw_value": 0.01416,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands straight and still on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.58836,
         "Right Upper Leg In-Out": -0.04218,
@@ -157,7 +157,7 @@
         "raw_value": 0.01133,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed at the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.98965,
         "Left Thumb Spread": -0.05336,
@@ -189,7 +189,7 @@
         "raw_value": 0.45728,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves upward to touch the forehead area in a salute gesture before returning to the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.54973,
         "Right Thumb Spread": -0.44012,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

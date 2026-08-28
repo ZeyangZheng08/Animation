@@ -14,7 +14,7 @@
   "duration": 1.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a goalkeeper's catch, stepping forward to bring both hands up to chest height to secure the ball.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03588,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and down from an upright stance to meet the incoming ball, then returns to an upright position as the catch is completed.",
       "mean_pose": {
         "Spine Front-Back": -0.12032,
         "Spine Left-Right": 0.04524,
@@ -57,7 +57,7 @@
         "raw_value": 0.09911,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward to track the trajectory of the ball, then lifts back to a neutral, forward-facing position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.27062,
         "Neck Tilt Left-Right": 0.02545,
@@ -75,7 +75,7 @@
         "raw_value": 0.2103,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from a low, bent position at the side up to the center of the chest, keeping the elbow bent throughout the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.21651,
         "Left Shoulder Front-Back": -0.28548,
@@ -96,7 +96,7 @@
         "raw_value": 0.21199,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Lifts from a low position at the side up to the center of the chest, mirroring the left arm to form a catching posture.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.07061,
         "Right Shoulder Front-Back": -1.21984,
@@ -117,7 +117,7 @@
         "raw_value": 0.13415,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward with the knee bent to absorb the movement, ending in a stable, planted position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.05961,
         "Left Upper Leg In-Out": 0.39848,
@@ -137,7 +137,7 @@
         "raw_value": 0.08749,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Moves backward and slightly outward to balance the body during the step, finishing with the foot on its toes.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.13731,
         "Right Upper Leg In-Out": 0.18723,
@@ -157,7 +157,7 @@
         "raw_value": 0.20552,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide with fingers spread to prepare for the catch, then closes to grip the object at the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.95894,
         "Left Thumb Spread": -0.58879,
@@ -189,7 +189,7 @@
         "raw_value": 0.24347,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide with fingers spread to prepare for the catch, then closes to grip the object at the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.34801,
         "Right Thumb Spread": -0.52161,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:50Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 5.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure bends forward from a standing position to reach down and then stands back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05307,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Hinges forward at the waist until nearly parallel to the floor, then returns to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.08241,
         "Spine Left-Right": 0.00578,
@@ -57,7 +57,7 @@
         "raw_value": 0.15835,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down following the torso's descent and lifts back up to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.42903,
         "Neck Tilt Left-Right": 0.14838,
@@ -75,7 +75,7 @@
         "raw_value": 0.26196,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs straight down toward the feet as the body bends, then swings back to rest at the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.6079,
         "Left Shoulder Front-Back": -0.89141,
@@ -96,7 +96,7 @@
         "raw_value": 0.24769,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Drops downward to meet the left hand in front of the thighs before returning to the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.07413,
         "Right Shoulder Front-Back": -0.9935,
@@ -117,7 +117,7 @@
         "raw_value": 0.19713,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted on the ground with a slight bend in the knee during the descent.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.42284,
         "Left Upper Leg In-Out": 0.20287,
@@ -137,7 +137,7 @@
         "raw_value": 0.20036,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays stationary on the floor with a slight knee flexion to support the bending motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.40594,
         "Right Upper Leg In-Out": 0.26775,
@@ -157,7 +157,7 @@
         "raw_value": 0.49537,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches down to clasp the right hand in front of the knees.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.60288,
         "Left Thumb Spread": -1.4465,
@@ -189,7 +189,7 @@
         "raw_value": 0.3854,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves downward to join the left hand near the shins.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.92768,
         "Right Thumb Spread": -1.74264,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:13Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lunges forward to headbutt an invisible opponent while simultaneously grabbing them with both hands.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07053,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans sharply forward and downward into the lunge, then straightens up as it pulls back.",
       "mean_pose": {
         "Spine Front-Back": -0.17501,
         "Spine Left-Right": -0.00266,
@@ -57,7 +57,7 @@
         "raw_value": 0.23323,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Juts forcefully forward and down toward the target, then retracts backward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.12212,
         "Neck Tilt Left-Right": -0.07265,
@@ -75,7 +75,7 @@
         "raw_value": 0.2125,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches out and up to grab the target's face, pulling it close during the strike.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.34166,
         "Left Shoulder Front-Back": -0.11201,
@@ -96,7 +96,7 @@
         "raw_value": 0.24105,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward in a low guard, then raises to meet the other hand on the target's head.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.08288,
         "Right Shoulder Front-Back": -0.58123,
@@ -117,7 +117,7 @@
         "raw_value": 0.11323,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and bends deeply to absorb the force of the lunge.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.05127,
         "Left Upper Leg In-Out": 0.40915,
@@ -137,7 +137,7 @@
         "raw_value": 0.12831,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays behind as a pivot, bending at the knee to support the body's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.0199,
         "Right Upper Leg In-Out": 0.32925,
@@ -157,7 +157,7 @@
         "raw_value": 0.33475,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens to cup the side of the target's head and pull it into the strike.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.25933,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Closes into a fist to push against the target's face and stabilize the grab.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:32Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sprints forward and transitions into a backslide, throwing their body backward to slide across the floor on their back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16734,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans sharply forward during the sprint before tilting backward to initiate the fall, ending up inverted in mid-air with the back facing the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.67121,
         "Spine Left-Right": 0.13029,
@@ -57,7 +57,7 @@
         "raw_value": 0.26069,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Looks down toward the ground while leaning forward, then tilts back as the body rotates upside down for the slide.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02705,
         "Neck Tilt Left-Right": -0.13187,
@@ -75,7 +75,7 @@
         "raw_value": 0.56452,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches low toward the floor in front of the body during the sprint, then swings upward and outward as the torso falls backward.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.55633,
         "Left Shoulder Front-Back": 0.57424,
@@ -96,7 +96,7 @@
         "raw_value": 0.48599,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward near the legs during the initial crouch, then flares out to the side to help balance the rotation into the back position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.42981,
         "Right Shoulder Front-Back": -0.84915,
@@ -117,7 +117,7 @@
         "raw_value": 0.33267,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward with a bent knee during the sprint, then extends upward into the air as the body goes over.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.2887,
         "Left Upper Leg In-Out": 0.19859,
@@ -137,7 +137,7 @@
         "raw_value": 0.34758,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off the ground to propel the body, then kicks up high above the head during the transition to the backslide.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.2453,
         "Right Upper Leg In-Out": 0.36689,
@@ -157,7 +157,7 @@
         "raw_value": 0.32763,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles low near the feet during the forward lean, then opens and reaches away from the body as it becomes inverted.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.0381,
         "Left Thumb Spread": 0.36306,
@@ -189,7 +189,7 @@
         "raw_value": 0.35751,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays low and close to the thigh initially, then extends outward and away from the body during the backward flip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.60053,
         "Right Thumb Spread": 0.34453,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:24Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

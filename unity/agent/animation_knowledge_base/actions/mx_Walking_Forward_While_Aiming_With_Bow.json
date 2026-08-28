@@ -14,7 +14,7 @@
   "duration": 1.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward in a steady gait while holding a static, extended bow-aiming pose with both arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03067,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and bobs rhythmically up and down with the steps of the walk.",
       "mean_pose": {
         "Spine Front-Back": -0.3399,
         "Spine Left-Right": 0.03809,
@@ -57,7 +57,7 @@
         "raw_value": 0.03475,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains fixed in a forward-facing position aligned with the aiming arms, moving only with the general bobbing of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.4613,
         "Neck Tilt Left-Right": -0.27796,
@@ -75,7 +75,7 @@
         "raw_value": 0.02943,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow and held close to the chest, simulating the hand drawing back a bowstring.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.35095,
         "Left Shoulder Front-Back": -0.09494,
@@ -96,7 +96,7 @@
         "raw_value": 0.06585,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is fully extended straight out to the side, pointing forward as if holding the shaft of a bow.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.56018,
         "Right Shoulder Front-Back": -0.157,
@@ -117,7 +117,7 @@
         "raw_value": 0.2018,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between being planted and swinging forward in a standard walking cycle.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.00116,
         "Left Upper Leg In-Out": 0.18388,
@@ -137,7 +137,7 @@
         "raw_value": 0.199,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates between being planted and swinging forward in a standard walking cycle, opposite to the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.09872,
         "Right Upper Leg In-Out": -0.03233,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a tight fist shape near the chin, representing the grip on the drawn string.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a loose fist or gripping shape at the end of the extended arm, representing the hold on the bow.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.41906,
         "Right Thumb Spread": -0.23216,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

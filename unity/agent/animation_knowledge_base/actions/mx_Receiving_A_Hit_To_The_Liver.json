@@ -14,7 +14,7 @@
   "duration": 2.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stumbles forward and drops to the ground in a deep crouch before recovering to a hunched standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.23375,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a deep crouch at the midpoint of the clip, then straightens back up to a slightly bent stance.",
       "mean_pose": {
         "Spine Front-Back": -1.17411,
         "Spine Left-Right": 0.10895,
@@ -57,7 +57,7 @@
         "raw_value": 0.2097,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Dips down with the body's forward lean during the drop, then lifts as the torso recovers.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00595,
         "Neck Tilt Left-Right": -0.0005,
@@ -75,7 +75,7 @@
         "raw_value": 0.15499,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Drops downward from a guard position to hang near the thigh during the crouch, then raises back up.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.63954,
         "Left Shoulder Front-Back": 0.52757,
@@ -96,7 +96,7 @@
         "raw_value": 0.29542,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings downward toward the floor during the fall, then pulls back in toward the midsection.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.03601,
         "Right Shoulder Front-Back": -1.52922,
@@ -117,7 +117,7 @@
         "raw_value": 0.22707,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Kneels low on the ground during the central moment, then extends to support the standing posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.48727,
         "Left Upper Leg In-Out": 0.26569,
@@ -137,7 +137,7 @@
         "raw_value": 0.29839,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply beneath the body during the crouch, then straightens to return to a stable stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.10755,
         "Right Upper Leg In-Out": 0.48813,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open pose near the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a loose fist shape near the front of the torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

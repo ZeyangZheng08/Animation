@@ -14,7 +14,7 @@
   "duration": 1.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs jumping jacks, leaping between a standing position with limbs together and an airborne position with arms raised and legs spread.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01228,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stable throughout the movement, holding a neutral vertical alignment as it bobs slightly with the jump.",
       "mean_pose": {
         "Spine Front-Back": -0.02399,
         "Spine Left-Right": -0.00346,
@@ -57,7 +57,7 @@
         "raw_value": 0.04754,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays fixed in a forward-facing orientation, maintaining a steady gaze while moving vertically with the body's leap.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.14399,
         "Neck Tilt Left-Right": 0.10696,
@@ -75,7 +75,7 @@
         "raw_value": 0.37239,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from hanging straight down at the side of the body to being fully extended upward overhead during the jump.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.19907,
         "Left Shoulder Front-Back": 0.42754,
@@ -96,7 +96,7 @@
         "raw_value": 0.46051,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left by swinging from a resting position at the hip to a fully extended overhead position above the head.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.20437,
         "Right Shoulder Front-Back": 0.25415,
@@ -117,7 +117,7 @@
         "raw_value": 0.1417,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg moves from a grounded stance with feet together to an open position where it is bent slightly outward in mid-air.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.20654,
         "Left Upper Leg In-Out": 0.24861,
@@ -137,7 +137,7 @@
         "raw_value": 0.14435,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg transitions from standing close to the left leg to spreading wide into a split stance while suspended in the air.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.15078,
         "Right Upper Leg In-Out": 0.14995,
@@ -157,7 +157,7 @@
         "raw_value": 0.19169,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand travels from the side of the thigh up past the shoulder to a peak position high above the head.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.11185,
         "Left Thumb Spread": 0.09053,
@@ -189,7 +189,7 @@
         "raw_value": 0.2316,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand follows the same path as the left, rising from the side of the body to a point directly over the head.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.13235,
         "Right Thumb Spread": 0.30344,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:32Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

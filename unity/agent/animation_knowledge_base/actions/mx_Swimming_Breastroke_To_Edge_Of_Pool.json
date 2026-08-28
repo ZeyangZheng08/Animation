@@ -14,7 +14,7 @@
   "duration": 5.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a breaststroke swimming motion, transitioning from a horizontal glide to an upright standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0255,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins in a prone, horizontal orientation, arches upward during the stroke, and rotates to a fully vertical, upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.28605,
         "Spine Left-Right": -0.09239,
@@ -57,7 +57,7 @@
         "raw_value": 0.08213,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is tucked down towards the chest in the initial horizontal pose, lifts slightly during the movement, and finishes facing forward while standing.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.43096,
         "Neck Tilt Left-Right": -0.20835,
@@ -75,7 +75,7 @@
         "raw_value": 0.31624,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward with the body, sweeps outward and back in a wide arc, and returns to a bent position near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.5156,
         "Left Shoulder Front-Back": -0.07056,
@@ -96,7 +96,7 @@
         "raw_value": 0.29571,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left arm, reaching forward, pulling through the water in a circular motion, and finishing bent at the elbow.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.51166,
         "Right Shoulder Front-Back": -0.19565,
@@ -117,7 +117,7 @@
         "raw_value": 0.16751,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg starts extended behind the body, bends sharply at the knee for a whip kick, and straightens out to support the standing posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.16405,
         "Left Upper Leg In-Out": 0.25532,
@@ -137,7 +137,7 @@
         "raw_value": 0.14574,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the same pattern as the left, extending backward, bending for the kick, and straightening to stand on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.14167,
         "Right Upper Leg In-Out": 0.34725,
@@ -157,7 +157,7 @@
         "raw_value": 0.07006,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand points forward initially, opens its fingers during the pull-back phase, and curls into a relaxed fist by the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.56854,
         "Left Thumb Spread": 0.10076,
@@ -189,7 +189,7 @@
         "raw_value": 0.05198,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches forward, flares the fingers during the recovery sweep, and ends in a loose fist near the waist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.26808,
         "Right Thumb Spread": -0.27751,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:50:02Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure leans forward in a hunched posture, holding their hands up near the face as if absorbing a blow to the stomach.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1147,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains bent deeply forward throughout the clip, with the upper back rounded and the abdomen tucked in.",
       "mean_pose": {
         "Spine Front-Back": -0.33192,
         "Spine Left-Right": 0.01277,
@@ -57,7 +57,7 @@
         "raw_value": 0.14457,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is kept low, tucked down toward the chest, and faces slightly downward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07393,
         "Neck Tilt Left-Right": -0.01534,
@@ -75,7 +75,7 @@
         "raw_value": 0.16346,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held tightly against the body, bent at the elbow with the hand positioned high near the chin or jawline.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.40183,
         "Left Shoulder Front-Back": -0.57244,
@@ -96,7 +96,7 @@
         "raw_value": 0.1506,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is similarly held close to the torso, bent at the elbow with the hand raised to guard the midsection.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.30815,
         "Right Shoulder Front-Back": -1.34852,
@@ -117,7 +117,7 @@
         "raw_value": 0.09569,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee, supporting the hunched weight of the body while remaining relatively stationary.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.12213,
         "Left Upper Leg In-Out": 0.31261,
@@ -137,7 +137,7 @@
         "raw_value": 0.1012,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is also bent at the knee, mirroring the left leg's stance to maintain balance in the crouched position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.00173,
         "Right Upper Leg In-Out": 0.37573,
@@ -157,7 +157,7 @@
         "raw_value": 0.13027,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is clenched into a fist and held vertically near the face.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.17504,
         "Left Thumb Spread": 0.29898,
@@ -189,7 +189,7 @@
         "raw_value": 0.03025,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is clenched into a fist and held horizontally across the mid-torso area.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.48105,
         "Right Thumb Spread": 0.66857,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:43Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

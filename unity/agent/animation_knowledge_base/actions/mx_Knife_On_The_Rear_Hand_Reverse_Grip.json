@@ -14,7 +14,7 @@
   "duration": 4.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a small, rhythmic stepping motion, shifting its weight side to side.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01501,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains upright and centered with no significant movement or rotation.",
       "mean_pose": {
         "Spine Front-Back": -0.07036,
         "Spine Left-Right": 0.00709,
@@ -57,7 +57,7 @@
         "raw_value": 0.01244,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays level and faces directly forward throughout the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.32899,
         "Neck Tilt Left-Right": -0.0566,
@@ -75,7 +75,7 @@
         "raw_value": 0.03079,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings gently back and forth at the side of the body in time with the steps.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.18262,
         "Left Shoulder Front-Back": -0.40452,
@@ -96,7 +96,7 @@
         "raw_value": 0.0316,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings gently back and forth at the side of the body, opposite to the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.72635,
         "Right Shoulder Front-Back": -0.42858,
@@ -117,7 +117,7 @@
         "raw_value": 0.0263,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps slightly outwards to the left and then returns to the center position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.01549,
         "Left Upper Leg In-Out": 0.43424,
@@ -137,7 +137,7 @@
         "raw_value": 0.02607,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps slightly outwards to the right and then returns to the center position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.02072,
         "Right Upper Leg In-Out": 0.32562,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open-palm pose near the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.87062,
         "Left Thumb Spread": -0.39954,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open-palm pose near the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:27Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

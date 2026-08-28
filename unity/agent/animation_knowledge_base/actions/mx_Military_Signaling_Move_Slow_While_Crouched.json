@@ -14,7 +14,7 @@
   "duration": 6.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure maintains a low crouching stance while performing a slow, deliberate military hand signal.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03763,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains in a steady, forward-leaning crouch throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.08353,
         "Spine Left-Right": -0.10282,
@@ -57,7 +57,7 @@
         "raw_value": 0.07241,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward with minimal rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04592,
         "Neck Tilt Left-Right": 0.01988,
@@ -75,7 +75,7 @@
         "raw_value": 0.12903,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held extended out to the side with a straight posture.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.15308,
         "Left Shoulder Front-Back": 0.11526,
@@ -96,7 +96,7 @@
         "raw_value": 0.2348,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow, holding the hand up near the chest to gesture.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.32317,
         "Right Shoulder Front-Back": -1.08184,
@@ -117,7 +117,7 @@
         "raw_value": 0.03492,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent deeply, supporting the front of the crouched body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.47242,
         "Left Upper Leg In-Out": 0.87091,
@@ -137,7 +137,7 @@
         "raw_value": 0.03891,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent behind the body with the knee lowered toward the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.284,
         "Right Upper Leg In-Out": 0.2663,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open with fingers extended in a fixed position.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.14113,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves slightly as it executes the signaling motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:42:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

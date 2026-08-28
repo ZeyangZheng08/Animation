@@ -14,7 +14,7 @@
   "duration": 2.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A seated figure leans back and brings both hands up to block an incoming strike before settling into a relaxed posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16577,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins in an upright seated position, leans backward during the blocking motion, and then returns to a more upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.1925,
         "Spine Left-Right": 0.0049,
@@ -57,7 +57,7 @@
         "raw_value": 0.23163,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly upward as the torso leans back, then returns to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.14908,
         "Neck Tilt Left-Right": -0.08087,
@@ -75,7 +75,7 @@
         "raw_value": 0.32816,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts raised high with the elbow bent, lowers down toward the chest during the block, and ends resting on the lap.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.28846,
         "Left Shoulder Front-Back": -0.45408,
@@ -96,7 +96,7 @@
         "raw_value": 0.37401,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm starts raised high, moves inward to join the block near the center of the body, and finishes resting on the lap.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.07247,
         "Right Shoulder Front-Back": -0.74913,
@@ -117,7 +117,7 @@
         "raw_value": 0.10822,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains bent at the knee throughout the sequence, maintaining a stable seated base.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.30891,
         "Left Upper Leg In-Out": 0.16653,
@@ -137,7 +137,7 @@
         "raw_value": 0.1597,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays bent at the knee, supporting the figure's weight on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.28518,
         "Right Upper Leg In-Out": 0.39348,
@@ -157,7 +157,7 @@
         "raw_value": 0.20351,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and raised initially, moves to meet the other hand in front of the chest, and comes to rest on the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.79244,
         "Left Thumb Spread": -1.35084,
@@ -189,7 +189,7 @@
         "raw_value": 0.3017,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open and raised initially, moves to meet the other hand in front of the chest, and comes to rest on the thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.15115,
         "Right Thumb Spread": -0.62924,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

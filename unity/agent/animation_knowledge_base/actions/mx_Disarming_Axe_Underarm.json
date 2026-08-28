@@ -14,7 +14,7 @@
   "duration": 1.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a disarming maneuver, twisting its body to the right while reaching under the left arm with the right hand.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06233,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from a forward-facing position to a profile view facing right, leaning slightly backward during the turn.",
       "mean_pose": {
         "Spine Front-Back": -0.28162,
         "Spine Left-Right": -0.01045,
@@ -57,7 +57,7 @@
         "raw_value": 0.1264,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to follow the rotation of the torso, looking over the right shoulder and then down toward the waist area.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03793,
         "Neck Tilt Left-Right": -0.04146,
@@ -75,7 +75,7 @@
         "raw_value": 0.1579,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held bent at the elbow across the front of the chest, with the forearm angled downward and inward.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.14474,
         "Left Shoulder Front-Back": -0.43875,
@@ -96,7 +96,7 @@
         "raw_value": 0.4138,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends downward and crosses behind the back, moving the hand up toward the left hip area.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.15158,
         "Right Shoulder Front-Back": 0.06778,
@@ -117,7 +117,7 @@
         "raw_value": 0.13187,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains relatively straight and planted, acting as a pivot point for the body's rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.01862,
         "Left Upper Leg In-Out": 0.31106,
@@ -137,7 +137,7 @@
         "raw_value": 0.13847,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee and lifts off the ground, stepping forward and to the right to facilitate the twist.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.19327,
         "Right Upper Leg In-Out": 0.22907,
@@ -157,7 +157,7 @@
         "raw_value": 0.24495,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and positioned near the center of the chest, remaining mostly stationary relative to the torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15436,
         "Left Thumb Spread": 0.03718,
@@ -189,7 +189,7 @@
         "raw_value": 0.33608,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches under the left armpit, fingers extended as if grasping or deflecting an object.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.14499,
         "Right Thumb Spread": -0.25805,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:35:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure quickly walks forward while holding a rifle in a ready position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03714,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into the stride, rotating slightly with each step to drive the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.17547,
         "Spine Left-Right": 0.01412,
@@ -57,7 +57,7 @@
         "raw_value": 0.04028,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays level and faces forward, maintaining a steady gaze ahead.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.1009,
         "Neck Tilt Left-Right": -0.08263,
@@ -75,7 +75,7 @@
         "raw_value": 0.07921,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds the front of the rifle extended straight out from the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.67395,
         "Left Shoulder Front-Back": -1.78415,
@@ -96,7 +96,7 @@
         "raw_value": 0.04101,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Keeps the elbow bent to support the rear of the weapon near the shoulder.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.69543,
         "Right Shoulder Front-Back": -1.74251,
@@ -117,7 +117,7 @@
         "raw_value": 0.18793,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates between driving forward and pushing off behind to power the walk.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.04475,
         "Left Upper Leg In-Out": 0.23726,
@@ -137,7 +137,7 @@
         "raw_value": 0.18192,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps through in opposition to the left leg, alternating its stride cycle.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.03391,
         "Right Upper Leg In-Out": -0.1233,
@@ -157,7 +157,7 @@
         "raw_value": 0.02105,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips the front barrel of the rifle firmly.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.49708,
         "Left Thumb Spread": -0.53174,
@@ -189,7 +189,7 @@
         "raw_value": 0.08672,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches around the pistol grip at the back of the weapon.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.71772,
         "Right Thumb Spread": -1.2109,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:18Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

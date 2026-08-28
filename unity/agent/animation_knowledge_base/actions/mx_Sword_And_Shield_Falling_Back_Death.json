@@ -14,7 +14,7 @@
   "duration": 2.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure falls backward from a standing combat stance, tumbling through the air until landing flat on their back on the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09964,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso tilts sharply backward from an upright position, rotating continuously until it lies completely flat against the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.26023,
         "Spine Left-Right": 0.06539,
@@ -57,7 +57,7 @@
         "raw_value": 0.25906,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head moves backward and downward with the fall, ending up resting on the floor behind the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04942,
         "Neck Tilt Left-Right": 0.08288,
@@ -75,7 +75,7 @@
         "raw_value": 0.33759,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm begins raised high in front of the chest and swings outward and upward during the fall, finishing extended to the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.49404,
         "Left Shoulder Front-Back": 0.29564,
@@ -96,7 +96,7 @@
         "raw_value": 0.68221,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm starts down by the side and flails slightly outward as the body rotates, settling on the floor next to the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.76863,
         "Right Shoulder Front-Back": -0.79763,
@@ -117,7 +117,7 @@
         "raw_value": 0.22088,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee initially, then extends fully straight out as the body hits the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.40264,
         "Left Upper Leg In-Out": 0.20721,
@@ -137,7 +137,7 @@
         "raw_value": 0.33528,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts off the ground and straightens out during the backward tumble, lying flat on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.13061,
         "Right Upper Leg In-Out": 0.58652,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains clenched in a fist throughout the entire movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21301,
         "Left Thumb Spread": -0.90937,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed near the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:04Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

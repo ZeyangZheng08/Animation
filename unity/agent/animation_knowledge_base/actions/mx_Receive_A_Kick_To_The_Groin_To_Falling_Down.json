@@ -14,7 +14,7 @@
   "duration": 3.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure collapses from a standing position to the ground, clutching its groin in pain.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11906,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bends sharply forward at the waist and then rotates sideways as it falls completely onto the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.09028,
         "Spine Left-Right": -0.02515,
@@ -57,7 +57,7 @@
         "raw_value": 0.32138,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down toward the chest during the initial bend and continues to lower until it rests on the ground.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.40438,
         "Neck Tilt Left-Right": -0.00899,
@@ -75,7 +75,7 @@
         "raw_value": 0.31349,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings inward from the side of the body to cover the groin area, keeping that position while lying down.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.67141,
         "Left Shoulder Front-Back": -0.85799,
@@ -96,7 +96,7 @@
         "raw_value": 0.227,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves from the side of the body to join the left hand in covering the groin, holding the pose on the floor.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.69393,
         "Right Shoulder Front-Back": -0.61641,
@@ -117,7 +117,7 @@
         "raw_value": 0.29462,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts off the ground with the knee bent and extends outward as the body drops to the side.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.2307,
         "Left Upper Leg In-Out": 0.25973,
@@ -137,7 +137,7 @@
         "raw_value": 0.31917,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts with the knee bent and extends out to the side, ending up flat on the ground next to the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.18925,
         "Right Upper Leg In-Out": -0.09666,
@@ -157,7 +157,7 @@
         "raw_value": 0.10479,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from the side of the hip to clasp over the groin area and remains there on the floor.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.23732,
         "Left Thumb Spread": -0.42531,
@@ -189,7 +189,7 @@
         "raw_value": 0.08228,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand brings itself from the side of the hip to meet the left hand at the groin, staying clasped on the floor.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.54867,
         "Right Thumb Spread": 0.75489,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:43Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure reacts to a kick by clenching its hands at the groin, hunching forward in pain, and then slowly recovering to an upright stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09748,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Hunched deeply forward at the waist, the torso gradually straightens up as the clip progresses.",
       "mean_pose": {
         "Spine Front-Back": -0.15266,
         "Spine Left-Right": -0.02982,
@@ -57,7 +57,7 @@
         "raw_value": 0.28454,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilted sharply downward toward the legs, the head lifts to face forward as the body recovers.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09846,
         "Neck Tilt Left-Right": -0.13066,
@@ -75,7 +75,7 @@
         "raw_value": 0.23621,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow with the hand drawn tightly against the lower abdomen, the arm relaxes and lowers to the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.0828,
         "Left Shoulder Front-Back": -0.63828,
@@ -96,7 +96,7 @@
         "raw_value": 0.21993,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow with the hand held close to the groin area, the arm extends slightly outward before dropping down.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.90714,
         "Right Shoulder Front-Back": -0.97423,
@@ -117,7 +117,7 @@
         "raw_value": 0.15743,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bending at the knee to support the hunched posture, the leg straightens out into a standing position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.3092,
         "Left Upper Leg In-Out": 0.208,
@@ -137,7 +137,7 @@
         "raw_value": 0.2261,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bent under the weight of the forward-leaning body, the leg extends fully as the figure stands tall.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.19344,
         "Right Upper Leg In-Out": 0.13661,
@@ -157,7 +157,7 @@
         "raw_value": 0.2266,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenched in a fist pressed against the crotch, the hand opens and moves away from the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.71078,
         "Left Thumb Spread": -0.27966,
@@ -189,7 +189,7 @@
         "raw_value": 0.21004,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenched near the groin, the hand unclenches and drops down to hang loosely by the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.40517,
         "Right Thumb Spread": 0.412,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:44:35Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

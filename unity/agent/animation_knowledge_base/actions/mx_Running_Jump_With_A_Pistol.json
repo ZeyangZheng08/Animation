@@ -14,7 +14,7 @@
   "duration": 0.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a running jump while holding a two-handed pistol grip.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0877,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward during the initial run-up, arches slightly backward at the peak of the jump, and then leans forward again to prepare for landing.",
       "mean_pose": {
         "Spine Front-Back": -0.11249,
         "Spine Left-Right": 0.07902,
@@ -57,7 +57,7 @@
         "raw_value": 0.10486,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward in line with the direction of movement, tilting slightly down and up to follow the trajectory of the jump.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.14708,
         "Neck Tilt Left-Right": -0.15587,
@@ -75,7 +75,7 @@
         "raw_value": 0.18819,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and remains locked in a shooting stance, supporting the bottom of the imaginary weapon throughout the sequence.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.82059,
         "Left Shoulder Front-Back": 0.22883,
@@ -96,7 +96,7 @@
         "raw_value": 0.25004,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward parallel to the left arm, holding the top of the imaginary weapon in a steady aiming posture.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.39919,
         "Right Shoulder Front-Back": -1.21548,
@@ -117,7 +117,7 @@
         "raw_value": 0.27479,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives upward to initiate the jump, tucks under the body mid-air, and extends downward to absorb the impact upon landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.37868,
         "Left Upper Leg In-Out": 0.06562,
@@ -137,7 +137,7 @@
         "raw_value": 0.28595,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Follows the left leg into the air, extending behind the body during the leap before swinging forward to meet the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.30389,
         "Right Upper Leg In-Out": -0.06399,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static clenched fist pose, positioned low as if gripping the base of a pistol.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.7799,
         "Left Thumb Spread": 0.38393,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static clenched fist pose, positioned high above the left hand as if gripping the slide or barrel of a pistol.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -0.85237,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

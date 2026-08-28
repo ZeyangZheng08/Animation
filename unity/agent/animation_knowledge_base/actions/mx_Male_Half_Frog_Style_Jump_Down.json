@@ -14,7 +14,7 @@
   "duration": 2.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin descends from a crouched position into a deep, wide frog-style squat before rising back to an upright stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17848,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward significantly during the descent and holds the low squat, then straightens vertically as it rises.",
       "mean_pose": {
         "Spine Front-Back": -0.25399,
         "Spine Left-Right": 0.0082,
@@ -57,7 +57,7 @@
         "raw_value": 0.19055,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward while in the crouch and lifts to face forward when standing up.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.36447,
         "Neck Tilt Left-Right": -0.01213,
@@ -75,7 +75,7 @@
         "raw_value": 0.36749,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down and slightly forward with the elbow bent, then swings upward to bend at the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.37235,
         "Left Shoulder Front-Back": -0.18164,
@@ -96,7 +96,7 @@
         "raw_value": 0.3187,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward and forward in parallel with the left arm, then lifts and bends at the hip level.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.0381,
         "Right Shoulder Front-Back": -0.16505,
@@ -117,7 +117,7 @@
         "raw_value": 0.29482,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drops deeply into a wide, outward-angled squat position before extending to stand.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.18693,
         "Left Upper Leg In-Out": 0.46406,
@@ -137,7 +137,7 @@
         "raw_value": 0.28578,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Sinks into a matching deep, wide squat alongside the left leg and extends to return to a standing posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.16776,
         "Right Upper Leg In-Out": 0.27314,
@@ -157,7 +157,7 @@
         "raw_value": 0.16749,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely near the knee during the drop and moves to hover near the hip on the ascent.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.27877,
         "Left Thumb Spread": -0.53962,
@@ -189,7 +189,7 @@
         "raw_value": 0.25066,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hangs freely by the thigh while descending and shifts to rest near the waist as the figure stands.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.53603,
         "Right Thumb Spread": -0.61691,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:41:58Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

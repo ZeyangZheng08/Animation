@@ -14,7 +14,7 @@
   "duration": 1.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a capoeira spin kick, pivoting on the left leg to swing the right leg in a wide arc while extending the arms for balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16353,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates rapidly around its vertical axis as it leans slightly backward during the spin and forward at the end of the kick.",
       "mean_pose": {
         "Spine Front-Back": -0.25744,
         "Spine Left-Right": -0.06381,
@@ -57,7 +57,7 @@
         "raw_value": 0.31955,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays aligned with the spine, turning through the full rotation of the body and tilting back slightly to follow the motion.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.12071,
         "Neck Tilt Left-Right": -0.10822,
@@ -75,7 +75,7 @@
         "raw_value": 0.39885,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward from a low position near the hip to extend fully overhead, then drops down across the front of the body as the spin completes.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.70119,
         "Left Shoulder Front-Back": -0.55905,
@@ -96,7 +96,7 @@
         "raw_value": 0.38855,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends out to the side to counterbalance the kick, tucks briefly toward the chest, and finishes extended horizontally to the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.8118,
         "Right Shoulder Front-Back": -0.44464,
@@ -117,7 +117,7 @@
         "raw_value": 0.38849,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains bent at the knee as the pivot point, supporting the body's weight throughout the turn and landing in a stable stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.11943,
         "Left Upper Leg In-Out": 0.36013,
@@ -137,7 +137,7 @@
         "raw_value": 0.30263,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts high into a kicking position, sweeps in a wide horizontal arc to complete the spin, and then lowers to finish behind the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.24104,
         "Right Upper Leg In-Out": 0.17856,
@@ -157,7 +157,7 @@
         "raw_value": 0.22874,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves in a large sweeping circle from low to high, finishing open and relaxed near the waist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.11947,
         "Left Thumb Spread": 0.01864,
@@ -189,7 +189,7 @@
         "raw_value": 0.32761,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends outward to maintain balance, curls slightly inward, and ends open and extended to the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.60722,
         "Right Thumb Spread": -0.42575,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:00Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

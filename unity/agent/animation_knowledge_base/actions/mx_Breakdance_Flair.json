@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a breakdance flair, spinning on their hands with legs extended in the air.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13258,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso is inverted and rotates continuously, moving from an upright handstand position to a horizontal spin as the body circles.",
       "mean_pose": {
         "Spine Front-Back": -1.27649,
         "Spine Left-Right": -0.01816,
@@ -57,7 +57,7 @@
         "raw_value": 0.3923,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains tucked close to the chest throughout the rotation, facing toward the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07083,
         "Neck Tilt Left-Right": -0.05651,
@@ -75,7 +75,7 @@
         "raw_value": 0.64464,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends straight down to support the weight of the body, rotating around the contact point on the floor.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.94703,
         "Left Shoulder Front-Back": -0.01712,
@@ -96,7 +96,7 @@
         "raw_value": 0.60513,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches out to the side and slightly behind to maintain balance during the spin.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.31405,
         "Right Shoulder Front-Back": -1.80351,
@@ -117,7 +117,7 @@
         "raw_value": 0.2542,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is kicked high into the air, extending upward and outward to counterbalance the rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.30568,
         "Left Upper Leg In-Out": 0.61324,
@@ -137,7 +137,7 @@
         "raw_value": 0.27791,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends horizontally to the side, sweeping through the air as part of the circular motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.17912,
         "Right Upper Leg In-Out": 0.57911,
@@ -157,7 +157,7 @@
         "raw_value": 0.31273,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand presses flat against the ground, serving as the central pivot for the spin.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.6368,
         "Left Thumb Spread": 0.79493,
@@ -189,7 +189,7 @@
         "raw_value": 0.34331,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hovers near the ground, reaching out to assist with stability and momentum.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.10715,
         "Right Thumb Spread": 0.75355,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:21Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

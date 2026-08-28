@@ -14,7 +14,7 @@
   "duration": 4.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a hunched posture, performing small, jerky twitching movements with its head, arms, and right leg.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01785,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains static in a slightly forward-leaning, hunched position throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": 0.01611,
         "Spine Left-Right": 0.02092,
@@ -57,7 +57,7 @@
         "raw_value": 0.02733,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Twitches by rotating slightly side to side and tilting, moving through small, abrupt angles from a base of facing forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06338,
         "Neck Tilt Left-Right": -0.05552,
@@ -75,7 +75,7 @@
         "raw_value": 0.05397,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Jerks slightly at the elbow and shoulder, twitching between hanging straight down and bending inward toward the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.6115,
         "Left Shoulder Front-Back": -0.35926,
@@ -96,7 +96,7 @@
         "raw_value": 0.03569,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Twitches with short, sharp movements, shifting its angle slightly away from and back toward the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.5879,
         "Right Shoulder Front-Back": -0.09712,
@@ -117,7 +117,7 @@
         "raw_value": 0.01448,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static standing pose, planted firmly on the ground without movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.27876,
         "Left Upper Leg In-Out": 0.18882,
@@ -137,7 +137,7 @@
         "raw_value": 0.02329,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Twitches by lifting the foot slightly off the floor and bending the knee before returning to the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.264,
         "Right Upper Leg In-Out": 0.053,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static, relaxed pose with fingers loosely curled at the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.23945,
         "Left Thumb Spread": 0.32373,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, relaxed pose with fingers loosely curled near the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.63401,
         "Right Thumb Spread": -0.24451,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

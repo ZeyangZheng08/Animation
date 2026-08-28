@@ -14,7 +14,7 @@
   "duration": 7.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs in place, gradually accelerating from a slow jog to a faster sprint with increased stride and arm swing.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10418,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward throughout the clip, bobbing vertically with each stride as the running intensity increases.",
       "mean_pose": {
         "Spine Front-Back": -0.05476,
         "Spine Left-Right": 0.04685,
@@ -57,7 +57,7 @@
         "raw_value": 0.13126,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains steady and upright, facing directly forward with minimal movement relative to the body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06265,
         "Neck Tilt Left-Right": -0.08236,
@@ -75,7 +75,7 @@
         "raw_value": 0.16491,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings rhythmically at the side of the body, bending at the elbow, with the amplitude of the swing increasing as the pace quickens.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.78622,
         "Left Shoulder Front-Back": -0.30871,
@@ -96,7 +96,7 @@
         "raw_value": 0.14623,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings opposite to the left arm, maintaining a bent elbow position while driving forward and backward in sync with the legs.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.52211,
         "Right Shoulder Front-Back": -1.01716,
@@ -117,7 +117,7 @@
         "raw_value": 0.26653,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives forward and pulls back in a continuous cycle, lifting the knee higher and extending the foot further back as the speed increases.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.24005,
         "Left Upper Leg In-Out": -0.02325,
@@ -137,7 +137,7 @@
         "raw_value": 0.26593,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, pushing off the ground and swinging through the air to complete the running gait.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.2866,
         "Right Upper Leg In-Out": -0.06907,
@@ -157,7 +157,7 @@
         "raw_value": 0.49316,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is loosely clenched or relaxed, moving naturally with the swing of the arm near chest level.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.28008,
         "Left Thumb Spread": 0.03248,
@@ -189,7 +189,7 @@
         "raw_value": 0.4856,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand mirrors the left, staying relaxed and positioned around waist-to-chest height as the arm cycles.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.16736,
         "Right Thumb Spread": 0.02978,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

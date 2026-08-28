@@ -14,7 +14,7 @@
   "duration": 1.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure kneels on both knees with hands clasped together in a prayer position.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00177,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stationary throughout the entire clip.",
       "mean_pose": {
         "Spine Front-Back": 0.01154,
         "Spine Left-Right": -0.00222,
@@ -57,7 +57,7 @@
         "raw_value": 0.00735,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays still, facing forward relative to the body's orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.13938,
         "Neck Tilt Left-Right": 0.08383,
@@ -75,7 +75,7 @@
         "raw_value": 0.01778,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow and held static, supporting the clasped hand gesture in front of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.24572,
         "Left Shoulder Front-Back": -0.52994,
@@ -96,7 +96,7 @@
         "raw_value": 0.01364,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, remaining bent and stationary to maintain the prayer pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.61884,
         "Right Shoulder Front-Back": -0.58454,
@@ -117,7 +117,7 @@
         "raw_value": 0.00386,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is folded underneath the body, kneeling on the floor with the knee and shin resting on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.33255,
         "Left Upper Leg In-Out": 0.17397,
@@ -137,7 +137,7 @@
         "raw_value": 0.00426,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is also folded under the body in a kneeling position, supporting the lower half of the frame.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.46162,
         "Right Upper Leg In-Out": 0.19617,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is pressed flat against the right hand, fingers pointing upward in a fixed prayer shape.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.99197,
         "Left Thumb Spread": 1.25469,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is pressed flat against the left hand, holding the symmetrical prayer pose without movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.34437,
         "Right Thumb Spread": 1.29461,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:40:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

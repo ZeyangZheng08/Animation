@@ -14,7 +14,7 @@
   "duration": 1.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks to the right while maintaining a deep crouch, with arms extended for balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05916,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso is bent forward into a low squat position and sways gently side-to-side with the gait.",
       "mean_pose": {
         "Spine Front-Back": -0.57866,
         "Spine Left-Right": -0.14713,
@@ -57,7 +57,7 @@
         "raw_value": 0.03326,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to look at the ground ahead, bobbing slightly in rhythm with the steps.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.29643,
         "Neck Tilt Left-Right": -0.06199,
@@ -75,7 +75,7 @@
         "raw_value": 0.05686,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings back and forth in opposition to the legs, held out to the side with the elbow bent.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.63149,
         "Left Shoulder Front-Back": -1.56308,
@@ -96,7 +96,7 @@
         "raw_value": 0.06646,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings opposite to the left arm, extending outward with a bent elbow to maintain balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.17839,
         "Right Shoulder Front-Back": -0.22391,
@@ -117,7 +117,7 @@
         "raw_value": 0.22095,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg performs a walking cycle from a deep knee bend, driving forward and pushing off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.5176,
         "Left Upper Leg In-Out": 0.23417,
@@ -137,7 +137,7 @@
         "raw_value": 0.26253,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg cycles in opposition to the left, stepping forward and extending beneath the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.33836,
         "Right Upper Leg In-Out": -0.11998,
@@ -157,7 +157,7 @@
         "raw_value": 0.07005,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers spread, moving along with the swinging arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.94808,
         "Left Thumb Spread": 0.0952,
@@ -189,7 +189,7 @@
         "raw_value": 0.07712,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed, mirroring the motion of the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.93321,
         "Right Thumb Spread": 0.1585,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

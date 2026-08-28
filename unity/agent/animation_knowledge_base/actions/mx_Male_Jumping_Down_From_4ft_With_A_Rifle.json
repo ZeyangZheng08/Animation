@@ -14,7 +14,7 @@
   "duration": 2.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure descends from a high jump, bending the knees and hips to absorb the impact in a deep crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14041,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward as it lowers during the descent, then straightens slightly while settling into the final crouch.",
       "mean_pose": {
         "Spine Front-Back": -0.12621,
         "Spine Left-Right": -0.11317,
@@ -57,7 +57,7 @@
         "raw_value": 0.18746,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward, keeping its gaze fixed on the ground throughout the landing sequence.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.0076,
         "Neck Tilt Left-Right": 0.05698,
@@ -75,7 +75,7 @@
         "raw_value": 0.28264,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm remains bent at the elbow, held close to the body with the hand positioned near the midsection.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.16939,
         "Left Shoulder Front-Back": -0.24426,
@@ -96,7 +96,7 @@
         "raw_value": 0.1983,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm stays bent and tucked in front of the chest, maintaining a stable posture relative to the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.06051,
         "Right Shoulder Front-Back": -0.14994,
@@ -117,7 +117,7 @@
         "raw_value": 0.21281,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends slightly during the fall before bending deeply at the knee and hip to lower the body into a squat.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.00061,
         "Left Upper Leg In-Out": 0.16243,
@@ -137,7 +137,7 @@
         "raw_value": 0.2717,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left, extending briefly and then folding under the body to cushion the landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.00092,
         "Right Upper Leg In-Out": 0.27712,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open and relaxed, hovering near the waist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.50513,
         "Left Thumb Spread": -0.12648,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and still, kept in front of the upper torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.03978,
         "Right Thumb Spread": -0.11249,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:11Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

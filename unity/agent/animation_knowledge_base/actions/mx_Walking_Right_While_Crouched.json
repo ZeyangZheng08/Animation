@@ -14,7 +14,7 @@
   "duration": 1.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks to the right while maintaining a low, crouched stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06464,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and bobs up and down with the rhythm of the steps.",
       "mean_pose": {
         "Spine Front-Back": -0.37572,
         "Spine Left-Right": -0.24012,
@@ -57,7 +57,7 @@
         "raw_value": 0.06548,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down to look toward the ground while facing forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11049,
         "Neck Tilt Left-Right": -0.49292,
@@ -75,7 +75,7 @@
         "raw_value": 0.05123,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs down by the side, swinging slightly backward as it moves.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.41345,
         "Left Shoulder Front-Back": -0.38937,
@@ -96,7 +96,7 @@
         "raw_value": 0.18177,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and outward to help balance the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.0067,
         "Right Shoulder Front-Back": -0.9078,
@@ -117,7 +117,7 @@
         "raw_value": 0.25032,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and bends at the knee to support the weight of the crouch.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.55347,
         "Left Upper Leg In-Out": 0.17443,
@@ -137,7 +137,7 @@
         "raw_value": 0.27804,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drags behind with the heel raised off the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.45247,
         "Right Upper Leg In-Out": 0.18734,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed at the end of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41852,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.07627,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a loose fist shape at the end of the extended arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.50152,
         "Right Thumb Spread": -0.28364,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:51:59Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

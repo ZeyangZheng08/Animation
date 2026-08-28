@@ -14,7 +14,7 @@
   "duration": 4.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a rapid, spinning three-hit axe combo, starting with a low swing and finishing with a high overhead strike.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17466,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists sharply from side to side with each swing, rotating clockwise through the sequence of hits.",
       "mean_pose": {
         "Spine Front-Back": -0.29249,
         "Spine Left-Right": 0.05255,
@@ -57,7 +57,7 @@
         "raw_value": 0.41975,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the rotation of the torso, turning to face the direction of each successive strike.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.2137,
         "Neck Tilt Left-Right": 0.03576,
@@ -75,7 +75,7 @@
         "raw_value": 0.35796,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings in a wide arc, moving from a low position on the left, across the body, and finally extending high up to the right.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.26571,
         "Left Shoulder Front-Back": -0.4027,
@@ -96,7 +96,7 @@
         "raw_value": 0.52459,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is held relatively static, bent at the elbow and kept close to the chest throughout the motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.09392,
         "Right Shoulder Front-Back": -0.56475,
@@ -117,7 +117,7 @@
         "raw_value": 0.24527,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends and shifts its weight to support the rotational force of the upper body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.09599,
         "Left Upper Leg In-Out": 0.43274,
@@ -137,7 +137,7 @@
         "raw_value": 0.2775,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pivots and adjusts its stance, providing a stable base for the twisting torso.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.02869,
         "Right Upper Leg In-Out": 0.40474,
@@ -157,7 +157,7 @@
         "raw_value": 0.43626,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and extended, leading the sweeping path of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.03352,
         "Left Thumb Spread": -0.20348,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a fixed, loosely clenched pose near the midsection.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.33667,
         "Right Thumb Spread": -0.67535,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

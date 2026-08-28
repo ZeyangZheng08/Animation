@@ -14,7 +14,7 @@
   "duration": 3.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a zombie-style thrust kick, lunging forward and extending the right leg to strike before returning to a crouched stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13713,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward in a hunched posture, rotating slightly with the momentum of the kick and settling into a low lunge.",
       "mean_pose": {
         "Spine Front-Back": -0.17982,
         "Spine Left-Right": -0.00223,
@@ -57,7 +57,7 @@
         "raw_value": 0.2959,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains tucked down and forward, maintaining a consistent orientation relative to the tilted spine throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02187,
         "Neck Tilt Left-Right": -0.03696,
@@ -75,7 +75,7 @@
         "raw_value": 0.22134,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely by the side, swinging slightly backward for balance as the body shifts weight onto the supporting leg.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.20729,
         "Left Shoulder Front-Back": -0.27503,
@@ -96,7 +96,7 @@
         "raw_value": 0.30727,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings forward across the chest during the kick and then lowers back toward the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.23538,
         "Right Shoulder Front-Back": 0.0697,
@@ -117,7 +117,7 @@
         "raw_value": 0.21795,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg serves as the primary support, bending at the knee to absorb the weight of the body during the forward lunge.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.08168,
         "Left Upper Leg In-Out": 0.37927,
@@ -137,7 +137,7 @@
         "raw_value": 0.25283,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends forward and upward in a straight line to execute the thrust kick, then retracts back toward the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.25396,
         "Right Upper Leg In-Out": 0.25473,
@@ -157,7 +157,7 @@
         "raw_value": 0.18924,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, trailing behind the body to counterbalance the forward motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.73481,
         "Left Thumb Spread": -0.14643,
@@ -189,7 +189,7 @@
         "raw_value": 0.2029,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and moves in sync with the right arm's swing across the front of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.30396,
         "Right Thumb Spread": -0.03307,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

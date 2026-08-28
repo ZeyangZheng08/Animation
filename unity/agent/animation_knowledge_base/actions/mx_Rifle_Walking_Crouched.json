@@ -14,7 +14,7 @@
   "duration": 1.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward in a low, crouched stance while holding an empty-handed rifle grip at the waist.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02579,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a deep crouch, swaying gently side to side with each step.",
       "mean_pose": {
         "Spine Front-Back": -0.49495,
         "Spine Left-Right": -0.14025,
@@ -57,7 +57,7 @@
         "raw_value": 0.0187,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains tilted downward and facing straight ahead throughout the walk.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05809,
         "Neck Tilt Left-Right": 0.03637,
@@ -75,7 +75,7 @@
         "raw_value": 0.01615,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose bent at the elbow, gripping the front of the imaginary weapon near the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.70417,
         "Left Shoulder Front-Back": -0.77755,
@@ -96,7 +96,7 @@
         "raw_value": 0.018,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays extended slightly back and down from the shoulder, hand positioned as if on the rear grip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.27567,
         "Right Shoulder Front-Back": -1.2387,
@@ -117,7 +117,7 @@
         "raw_value": 0.1394,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward and backward in a wide, low-striding walking cycle.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.10649,
         "Left Upper Leg In-Out": 0.02789,
@@ -137,7 +137,7 @@
         "raw_value": 0.1614,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps through the opposite phase of the left leg, maintaining the low crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.15936,
         "Right Upper Leg In-Out": -0.07921,
@@ -157,7 +157,7 @@
         "raw_value": 0.00689,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeps a fixed grip position at the front of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.39835,
         "Left Thumb Spread": -0.25786,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static grip posture behind and below the torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.93897,
         "Right Thumb Spread": -1.01,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

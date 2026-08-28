@@ -14,7 +14,7 @@
   "duration": 10.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a post-swing stance, bending forward at the waist with arms hanging down and legs braced in a wide, staggered position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18011,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward significantly from an upright posture, rotating slightly to the left as it bends over.",
       "mean_pose": {
         "Spine Front-Back": -0.08794,
         "Spine Left-Right": -0.0199,
@@ -57,7 +57,7 @@
         "raw_value": 0.26249,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Drops downward following the forward lean of the torso, keeping the gaze directed toward the ground.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00428,
         "Neck Tilt Left-Right": 0.00781,
@@ -75,7 +75,7 @@
         "raw_value": 0.23743,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely by the side, extending straight down toward the floor as the body bends.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.85701,
         "Left Shoulder Front-Back": -0.11124,
@@ -96,7 +96,7 @@
         "raw_value": 0.25045,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Dangles at the side, remaining relatively still and pointing downward throughout the movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.98708,
         "Right Shoulder Front-Back": -0.47014,
@@ -117,7 +117,7 @@
         "raw_value": 0.20508,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands firmly on the ground with a slight bend in the knee to support the leaning weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.18176,
         "Left Upper Leg In-Out": -0.1242,
@@ -137,7 +137,7 @@
         "raw_value": 0.19334,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends backward behind the body with the heel lifted, providing a counterbalance to the forward lean.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.25235,
         "Right Upper Leg In-Out": 0.16557,
@@ -157,7 +157,7 @@
         "raw_value": 0.43745,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed, hanging low near the shin area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.05307,
         "Left Thumb Spread": -0.00956,
@@ -189,7 +189,7 @@
         "raw_value": 0.2629,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely at the end of the arm, positioned near the back leg.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.53776,
         "Right Thumb Spread": -0.60131,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:44:01Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

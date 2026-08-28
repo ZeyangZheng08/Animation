@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a forward running jump, leaping through the air with alternating limbs before landing in a crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18195,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward during the airborne phase of the jump and remains bent over while absorbing the impact of the landing.",
       "mean_pose": {
         "Spine Front-Back": -0.36346,
         "Spine Left-Right": -0.04925,
@@ -57,7 +57,7 @@
         "raw_value": 0.22612,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward to look at the ground throughout the entire motion.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.0212,
         "Neck Tilt Left-Right": -0.09827,
@@ -75,7 +75,7 @@
         "raw_value": 0.31358,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings from a raised position near the chest down and back behind the body as the figure lands.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.48952,
         "Left Shoulder Front-Back": -0.14618,
@@ -96,7 +96,7 @@
         "raw_value": 0.26704,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves from a low, extended position up toward the chest and then swings outward for balance upon landing.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.35051,
         "Right Shoulder Front-Back": 0.073,
@@ -117,7 +117,7 @@
         "raw_value": 0.36266,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends backward in the air and then bends to land on the ball of the foot, acting as the front leg of the crouch.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.13311,
         "Left Upper Leg In-Out": 0.00155,
@@ -137,7 +137,7 @@
         "raw_value": 0.29672,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Tucks forward during the jump and extends backward to land on the heel, serving as the rear leg of the crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.2681,
         "Right Upper Leg In-Out": 0.12936,
@@ -157,7 +157,7 @@
         "raw_value": 0.4605,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a loose fist that opens slightly as the arm swings down during the landing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.09452,
         "Left Thumb Spread": -0.09312,
@@ -189,7 +189,7 @@
         "raw_value": 0.4458,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens from a loose fist and extends outward with fingers spread to maintain balance.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.77745,
         "Right Thumb Spread": 0.39164,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

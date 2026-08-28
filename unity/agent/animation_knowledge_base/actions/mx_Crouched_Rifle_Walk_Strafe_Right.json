@@ -14,7 +14,7 @@
   "duration": 1.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure crouches low while holding a rifle, striding sideways to the right in a continuous walking motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04483,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and tilts slightly to the left, maintaining a low crouch while bobbing rhythmically with the stride.",
       "mean_pose": {
         "Spine Front-Back": -1.45439,
         "Spine Left-Right": -0.0256,
@@ -57,7 +57,7 @@
         "raw_value": 0.01657,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady position facing forward and slightly downward, aligned with the aim of the arms.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.35002,
         "Neck Tilt Left-Right": -0.13651,
@@ -75,7 +75,7 @@
         "raw_value": 0.02605,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward from the shoulder, bent at the elbow, with the forearm held horizontally to support the front of the weapon.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.54216,
         "Left Shoulder Front-Back": -1.41909,
@@ -96,7 +96,7 @@
         "raw_value": 0.02067,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches across the body toward the left side, extending the hand to grip the rear of the weapon near the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.33245,
         "Right Shoulder Front-Back": 0.08932,
@@ -117,7 +117,7 @@
         "raw_value": 0.19366,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates between supporting the weight on a bent knee and swinging forward in a short step to drive the lateral movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.29862,
         "Left Upper Leg In-Out": 0.05843,
@@ -137,7 +137,7 @@
         "raw_value": 0.18128,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off from behind and swings around to the front, mirroring the left leg's motion to maintain the crouched gait.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.26683,
         "Right Upper Leg In-Out": 0.42121,
@@ -157,7 +157,7 @@
         "raw_value": 0.01305,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a fixed grip on the front barrel area, fingers curled tightly around an invisible object.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.36012,
         "Left Thumb Spread": -0.22719,
@@ -189,7 +189,7 @@
         "raw_value": 0.00415,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static hold on the rear stock, keeping the weapon steady against the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.61015,
         "Right Thumb Spread": -0.85227,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

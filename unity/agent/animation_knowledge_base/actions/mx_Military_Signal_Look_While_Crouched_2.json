@@ -14,7 +14,7 @@
   "duration": 5.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a military-style signal while holding a low crouch, raising the right hand to eye level and looking in that direction.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02156,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a deep crouch, rotating slightly to the left throughout the sequence.",
       "mean_pose": {
         "Spine Front-Back": -0.10845,
         "Spine Left-Right": -0.18336,
@@ -57,7 +57,7 @@
         "raw_value": 0.05374,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns to look over the right shoulder toward the raised right hand, maintaining this gaze for the duration of the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02978,
         "Neck Tilt Left-Right": 0.16766,
@@ -75,7 +75,7 @@
         "raw_value": 0.0592,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow with the forearm held horizontally across the front of the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.11376,
         "Left Shoulder Front-Back": -0.09775,
@@ -96,7 +96,7 @@
         "raw_value": 0.20316,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from a resting position near the hip up to head height, keeping the elbow bent at approximately ninety degrees.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.08648,
         "Right Shoulder Front-Back": -1.11314,
@@ -117,7 +117,7 @@
         "raw_value": 0.01545,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground with the knee deeply bent, supporting the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.50739,
         "Left Upper Leg In-Out": 0.8866,
@@ -137,7 +137,7 @@
         "raw_value": 0.0213,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static lunge position with the knee bent and foot flat on the floor behind the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.41716,
         "Right Upper Leg In-Out": 0.21735,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeps an open, relaxed posture positioned near the center of the torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.25452,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Forms a fist with the thumb extended outward and holds it steady at eye level.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

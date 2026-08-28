@@ -14,7 +14,7 @@
   "duration": 2.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a shambling, aggressive zombie walk forward with arms held out and head bowed.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17276,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans significantly forward in a hunched posture, swaying slightly side to side as it moves.",
       "mean_pose": {
         "Spine Front-Back": -0.51627,
         "Spine Left-Right": -0.00205,
@@ -57,7 +57,7 @@
         "raw_value": 0.30198,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head hangs low with the chin tucked toward the chest, bobbing gently with the rhythm of the steps.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03121,
         "Neck Tilt Left-Right": -0.04805,
@@ -75,7 +75,7 @@
         "raw_value": 0.3439,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held bent at the elbow with the forearm angled forward and slightly inward.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.83126,
         "Left Shoulder Front-Back": -0.2312,
@@ -96,7 +96,7 @@
         "raw_value": 0.34378,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, held bent at the elbow with the forearm extended forward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.70663,
         "Right Shoulder Front-Back": -0.95759,
@@ -117,7 +117,7 @@
         "raw_value": 0.14642,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives forward in a slow, dragging stride, keeping the knee slightly bent throughout the motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.35312,
         "Left Upper Leg In-Out": 0.4425,
@@ -137,7 +137,7 @@
         "raw_value": 0.17866,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off from behind, lifting the foot slightly before extending forward into the next step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.19684,
         "Right Upper Leg In-Out": 0.3749,
@@ -157,7 +157,7 @@
         "raw_value": 0.59445,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers spread wide, dangling loosely at the end of the bent arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.16816,
         "Left Thumb Spread": -0.26418,
@@ -189,7 +189,7 @@
         "raw_value": 0.45748,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open with fingers splayed, mirroring the loose position of the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.18713,
         "Right Thumb Spread": -0.27281,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:52:31Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

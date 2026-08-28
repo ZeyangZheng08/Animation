@@ -14,7 +14,7 @@
   "duration": 0.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a quick, pivoting turn to its right while maintaining a wide, low combat stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0329,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rotates fully from facing forward to facing the left side of the screen as it turns 90 degrees to the right.",
       "mean_pose": {
         "Spine Front-Back": -0.19424,
         "Spine Left-Right": -0.06786,
@@ -57,7 +57,7 @@
         "raw_value": 0.09859,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns in sync with the torso's rotation, keeping its gaze directed forward relative to the body's new orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.10379,
         "Neck Tilt Left-Right": -0.01683,
@@ -75,7 +75,7 @@
         "raw_value": 0.05281,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings across the front of the body to follow the turn, ending extended outward to the figure's right.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.29705,
         "Left Shoulder Front-Back": -0.69262,
@@ -96,7 +96,7 @@
         "raw_value": 0.11793,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings back and around to maintain balance, finishing tucked close to the waist on the figure's left side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.29043,
         "Right Shoulder Front-Back": 1.29166,
@@ -117,7 +117,7 @@
         "raw_value": 0.13346,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pivots on the ball of the foot to drive the rotation, shifting from a forward position to a trailing rear leg.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.16278,
         "Left Upper Leg In-Out": 0.57986,
@@ -137,7 +137,7 @@
         "raw_value": 0.15656,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Acts as the stable anchor for the pivot, remaining planted with a bent knee throughout the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.12574,
         "Right Upper Leg In-Out": 0.51854,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, loosely clenched fist shape at the end of the swinging arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21301,
         "Left Thumb Spread": -0.90937,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a fixed, open-palm guard pose near the chest during the movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

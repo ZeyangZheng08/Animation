@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure pivots on the balls of its feet to change direction while maintaining a low, crouched stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0573,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a deep squat and rotates horizontally to turn the body around.",
       "mean_pose": {
         "Spine Front-Back": -0.10537,
         "Spine Left-Right": -0.00468,
@@ -57,7 +57,7 @@
         "raw_value": 0.45391,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the floor and turns to follow the rotation of the torso.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.08333,
         "Neck Tilt Left-Right": 0.00801,
@@ -75,7 +75,7 @@
         "raw_value": 0.16661,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely by the side with the elbow bent, swinging slightly backward during the pivot.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.47693,
         "Left Shoulder Front-Back": -0.19571,
@@ -96,7 +96,7 @@
         "raw_value": 0.15724,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Drops down and back with the elbow bent, moving in opposition to the left arm for balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.55025,
         "Right Shoulder Front-Back": -0.26037,
@@ -117,7 +117,7 @@
         "raw_value": 0.12891,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted on the ball of the foot with the knee deeply bent throughout the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.03069,
         "Left Upper Leg In-Out": 0.27482,
@@ -137,7 +137,7 @@
         "raw_value": 0.12296,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays grounded on the ball of the foot with the knee bent, supporting the weight during the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.00307,
         "Right Upper Leg In-Out": 0.31842,
@@ -157,7 +157,7 @@
         "raw_value": 0.11529,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles open near the thigh with fingers relaxed.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.33182,
         "Left Thumb Spread": -0.03205,
@@ -189,7 +189,7 @@
         "raw_value": 0.15841,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles open near the thigh with fingers relaxed.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.35867,
         "Right Thumb Spread": 0.06005,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

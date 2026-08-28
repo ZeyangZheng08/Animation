@@ -14,7 +14,7 @@
   "duration": 2.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a running stride to a standing position while raising both arms into a rifle-aiming pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11257,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward during the initial run, then straightens and settles into an upright stance as the movement stops.",
       "mean_pose": {
         "Spine Front-Back": -0.2073,
         "Spine Left-Right": -0.01805,
@@ -57,7 +57,7 @@
         "raw_value": 0.16279,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward initially and then levels out, maintaining a forward-facing orientation throughout the sequence.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.01133,
         "Neck Tilt Left-Right": -0.02297,
@@ -75,7 +75,7 @@
         "raw_value": 0.17328,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally at the side during the run before extending forward and upward to join the aiming posture.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.1005,
         "Left Shoulder Front-Back": -0.31307,
@@ -96,7 +96,7 @@
         "raw_value": 0.16208,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent and held close to the chest while running, then extends forward and upward to complete the aim.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.29507,
         "Right Shoulder Front-Back": 0.19932,
@@ -117,7 +117,7 @@
         "raw_value": 0.21779,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives through a running cycle, stepping forward to plant firmly on the ground as the body stops.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.18485,
         "Left Upper Leg In-Out": 0.27123,
@@ -137,7 +137,7 @@
         "raw_value": 0.20812,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off from behind in the run and steps forward to meet the other foot, establishing a stable base.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.32578,
         "Right Upper Leg In-Out": 0.00367,
@@ -157,7 +157,7 @@
         "raw_value": 0.06916,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a relaxed swing to a raised, open-palm position as part of the aiming motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.70134,
         "Left Thumb Spread": -0.19633,
@@ -189,7 +189,7 @@
         "raw_value": 0.02119,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand transitions from a bent, close-to-body position to being extended forward with fingers positioned for aiming.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -0.85237,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:49Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

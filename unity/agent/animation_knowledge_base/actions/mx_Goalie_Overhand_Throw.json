@@ -14,7 +14,7 @@
   "duration": 3.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic overhand throw, twisting from a standing start into a lunge and finishing with a follow-through walk.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09781,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists sharply to the right during the throw and then rotates back to face forward as the figure settles into a walking stance.",
       "mean_pose": {
         "Spine Front-Back": -0.07201,
         "Spine Left-Right": 0.04405,
@@ -57,7 +57,7 @@
         "raw_value": 0.32749,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tracks the motion of the arms, turning to look over the throwing shoulder before returning to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06707,
         "Neck Tilt Left-Right": 0.08446,
@@ -75,7 +75,7 @@
         "raw_value": 0.32975,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings across the chest for balance during the throw and extends outward to stabilize the body in the follow-through.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.68554,
         "Left Shoulder Front-Back": 0.23208,
@@ -96,7 +96,7 @@
         "raw_value": 0.37279,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm drives the movement, swinging high overhead and extending fully to execute the overhand throw.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.08527,
         "Right Shoulder Front-Back": -0.23702,
@@ -117,7 +117,7 @@
         "raw_value": 0.18706,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward into a wide lunge to support the weight of the throw and remains planted during the follow-through.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.06737,
         "Left Upper Leg In-Out": 0.09307,
@@ -137,7 +137,7 @@
         "raw_value": 0.18461,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind during the throw and steps forward to begin the recovery walk.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.28903,
         "Right Upper Leg In-Out": 0.05367,
@@ -157,7 +157,7 @@
         "raw_value": 0.21731,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from the waist to extend outward for counter-balance and finishes open at the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.56393,
         "Left Thumb Spread": -0.07574,
@@ -189,7 +189,7 @@
         "raw_value": 0.31,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand starts near the waist, arcs high above the head to complete the throw, and finishes relaxed at the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.74858,
         "Right Thumb Spread": -0.16161,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:37:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

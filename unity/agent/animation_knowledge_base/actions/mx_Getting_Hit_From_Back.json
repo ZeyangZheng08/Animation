@@ -14,7 +14,7 @@
   "duration": 4.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure reacts to a blow from behind by staggering backward and hunching forward, then straightening back up to stand.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08088,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply forward and drops at the midsection before rising back to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.28749,
         "Spine Left-Right": 0.04033,
@@ -57,7 +57,7 @@
         "raw_value": 0.07782,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down with the forward lean of the body and lifts back up to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04043,
         "Neck Tilt Left-Right": -0.00531,
@@ -75,7 +75,7 @@
         "raw_value": 0.18881,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings slightly backward as the figure staggers, then returns to hang at the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.35224,
         "Left Shoulder Front-Back": -0.86515,
@@ -96,7 +96,7 @@
         "raw_value": 0.20441,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm drops downward in front of the body during the stumble and raises back up to the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.43994,
         "Right Shoulder Front-Back": -0.5762,
@@ -117,7 +117,7 @@
         "raw_value": 0.14148,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps backward to catch the balance while the knee bends, then plants firmly on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.26199,
         "Left Upper Leg In-Out": 0.16248,
@@ -137,7 +137,7 @@
         "raw_value": 0.14398,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg shifts backward to stabilize the stance, bending at the knee before straightening out.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.25526,
         "Right Upper Leg In-Out": 0.05269,
@@ -157,7 +157,7 @@
         "raw_value": 0.01512,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, hanging loosely at the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.56735,
         "Left Thumb Spread": -0.01034,
@@ -189,7 +189,7 @@
         "raw_value": 0.03015,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves down and back with the arm's swing before returning to a relaxed position at the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.39414,
         "Right Thumb Spread": -0.14083,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

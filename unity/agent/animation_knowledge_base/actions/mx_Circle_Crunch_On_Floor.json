@@ -14,7 +14,7 @@
   "duration": 2.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a sit-up on the floor, rising from a lying position to a seated one and then lowering back down.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07322,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso flexes forward from a flat supine position on the floor to an upright seated posture, then extends backward to return to the starting position.",
       "mean_pose": {
         "Spine Front-Back": -0.36253,
         "Spine Left-Right": -0.03076,
@@ -57,7 +57,7 @@
         "raw_value": 0.12322,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head lifts off the ground in alignment with the upper torso during the crunch and lowers back down as the body lies flat.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.22988,
         "Neck Tilt Left-Right": 0.0084,
@@ -75,7 +75,7 @@
         "raw_value": 0.14701,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm remains bent at the elbow with the forearm held horizontally across the chest throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.19523,
         "Left Shoulder Front-Back": -1.49955,
@@ -96,7 +96,7 @@
         "raw_value": 0.11862,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, staying bent with the forearm held horizontally across the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.31405,
         "Right Shoulder Front-Back": -1.71343,
@@ -117,7 +117,7 @@
         "raw_value": 0.11109,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee with the foot planted on the floor, remaining stable while the upper body moves.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.19628,
         "Left Upper Leg In-Out": 0.07135,
@@ -137,7 +137,7 @@
         "raw_value": 0.11175,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent at the knee with the foot planted on the floor, serving as a base for the torso's movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.17605,
         "Right Upper Leg In-Out": 0.17263,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open with fingers extended, resting against the right hand near the center of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.46324,
         "Left Thumb Spread": -0.09203,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held open with fingers extended, meeting the left hand near the center of the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.34859,
         "Right Thumb Spread": -0.09509,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:13Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

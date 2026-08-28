@@ -14,7 +14,7 @@
   "duration": 4.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a seated position to stand and claps its hands together in front of its chest.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05973,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rises vertically from a bent, forward-leaning seated posture to an upright standing position.",
       "mean_pose": {
         "Spine Front-Back": -0.10404,
         "Spine Left-Right": -0.00653,
@@ -57,7 +57,7 @@
         "raw_value": 0.08915,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Lifts upward as the body stands, maintaining a neutral orientation facing forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.22324,
         "Neck Tilt Left-Right": 0.02498,
@@ -75,7 +75,7 @@
         "raw_value": 0.24573,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves from resting on the knee to extending forward and inward toward the center of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.22814,
         "Left Shoulder Front-Back": -0.82939,
@@ -96,7 +96,7 @@
         "raw_value": 0.37058,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves from resting on the knee to extending forward and inward to meet the left hand.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.26304,
         "Right Shoulder Front-Back": -0.63432,
@@ -117,7 +117,7 @@
         "raw_value": 0.18615,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends at the hip and knee to straighten the leg and support the body's weight while rising.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.01867,
         "Left Upper Leg In-Out": 0.14175,
@@ -137,7 +137,7 @@
         "raw_value": 0.16824,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends at the hip and knee to straighten the leg and support the body's weight while rising.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.08788,
         "Right Upper Leg In-Out": 0.17152,
@@ -157,7 +157,7 @@
         "raw_value": 0.28453,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Transitions from resting flat on the thigh to raising up and opening to clap against the right hand.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.83795,
         "Left Thumb Spread": -0.05553,
@@ -189,7 +189,7 @@
         "raw_value": 0.27459,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Transitions from resting flat on the thigh to raising up and opening to clap against the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.83754,
         "Right Thumb Spread": 0.74655,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:18Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

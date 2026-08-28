@@ -14,7 +14,7 @@
   "duration": 4.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a backflip while moving backward, rotating from an upright position through a full inversion and landing on their feet.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12509,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso initiates the rotation by arching backward, completing a full 360-degree flip in mid-air, and straightens out vertically for the landing.",
       "mean_pose": {
         "Spine Front-Back": -0.0765,
         "Spine Left-Right": -0.01698,
@@ -57,7 +57,7 @@
         "raw_value": 0.13144,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back to lead the rotation, travels upside down during the peak of the flip, and returns to a forward-facing orientation as the body levels out.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.23872,
         "Neck Tilt Left-Right": 0.07644,
@@ -75,7 +75,7 @@
         "raw_value": 0.30255,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and outward from the side to generate momentum, remains extended during the inverted phase, and drops back down toward the hip upon landing.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.40803,
         "Left Shoulder Front-Back": -0.73296,
@@ -96,7 +96,7 @@
         "raw_value": 0.33735,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left by swinging up and outward, holding an extended pose while the body is inverted, and lowers back to the side at the end of the motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.29595,
         "Right Shoulder Front-Back": 0.07362,
@@ -117,7 +117,7 @@
         "raw_value": 0.2959,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts off the ground with the knee bent, extends straight up during the aerial rotation, and bends slightly to absorb the impact of the landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.14845,
         "Left Upper Leg In-Out": -0.05852,
@@ -137,7 +137,7 @@
         "raw_value": 0.31383,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off the floor, follows the left leg into extension while inverted, and flexes at the knee to stabilize the final standing position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.12986,
         "Right Upper Leg In-Out": -0.02929,
@@ -157,7 +157,7 @@
         "raw_value": 0.17866,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves up and away from the body, stays open and relaxed throughout the rotation, and returns to a resting position near the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.31804,
         "Left Thumb Spread": 0.12597,
@@ -189,7 +189,7 @@
         "raw_value": 0.15027,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand follows a similar path upward, remains open during the flip, and settles back down alongside the body after landing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.54699,
         "Right Thumb Spread": 0.42576,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:32:35Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

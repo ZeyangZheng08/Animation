@@ -14,7 +14,7 @@
   "duration": 1.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure breaks into a sprint while holding both arms extended forward in an aiming stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0442,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward progressively as the run begins, maintaining a slight tilt to support the extended arms.",
       "mean_pose": {
         "Spine Front-Back": -0.16427,
         "Spine Left-Right": 0.0218,
@@ -57,7 +57,7 @@
         "raw_value": 0.11305,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward and slightly downward, tracking the direction of movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.13985,
         "Neck Tilt Left-Right": -0.11089,
@@ -75,7 +75,7 @@
         "raw_value": 0.3192,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends straight forward from the shoulder, held steady at chest height to maintain aim.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.33296,
         "Left Shoulder Front-Back": -1.47033,
@@ -96,7 +96,7 @@
         "raw_value": 0.12872,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches forward to meet the left hand, forming a two-handed grip position.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.44906,
         "Right Shoulder Front-Back": -1.13394,
@@ -117,7 +117,7 @@
         "raw_value": 0.24579,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives through a full running cycle, alternating between lifting forward and pushing off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.30556,
         "Left Upper Leg In-Out": 0.27779,
@@ -137,7 +137,7 @@
         "raw_value": 0.27197,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Works in opposition to the left leg, extending back for propulsion and swinging forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.22057,
         "Right Upper Leg In-Out": -0.05343,
@@ -157,7 +157,7 @@
         "raw_value": 0.11174,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady, open pose with fingers extended to represent gripping the front of a weapon.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.57509,
         "Left Thumb Spread": -0.5254,
@@ -189,7 +189,7 @@
         "raw_value": 0.09126,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static grip shape positioned near the left hand to complete the aiming posture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.65422,
         "Right Thumb Spread": -1.22106,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:49:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

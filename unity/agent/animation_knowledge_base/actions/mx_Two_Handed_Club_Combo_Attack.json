@@ -14,7 +14,7 @@
   "duration": 5.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a two-handed overhead club swing, rotating the torso and stepping to drive the strike.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13211,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists from a slight lean to the right into a full rotation to the left, driving the momentum of the swing.",
       "mean_pose": {
         "Spine Front-Back": -0.05495,
         "Spine Left-Right": -0.01016,
@@ -57,7 +57,7 @@
         "raw_value": 0.28807,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back slightly at the start and then follows the rotation of the torso, facing forward as the arms come down.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.14396,
         "Neck Tilt Left-Right": -0.00095,
@@ -75,7 +75,7 @@
         "raw_value": 0.55336,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm begins raised high with the elbow bent, then swings forcefully downward and across the body in a chopping motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.65325,
         "Left Shoulder Front-Back": -0.67839,
@@ -96,7 +96,7 @@
         "raw_value": 0.4772,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, starting high and swinging down in coordination to complete the double-handed strike.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.75578,
         "Right Shoulder Front-Back": -0.54875,
@@ -117,7 +117,7 @@
         "raw_value": 0.20362,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward and bends at the knee to anchor the turn during the swing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.12021,
         "Left Upper Leg In-Out": 0.34262,
@@ -137,7 +137,7 @@
         "raw_value": 0.244,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pivots on the ball of the foot, pushing off to rotate the hips and support the weight shift.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.25619,
         "Right Upper Leg In-Out": 0.27088,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains clenched in a fist, gripping the imaginary weapon throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.29723,
         "Left Thumb Spread": -0.56686,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a tight fist, maintaining its grip position relative to the left hand for the combined attack.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:31Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

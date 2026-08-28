@@ -14,7 +14,7 @@
   "duration": 7.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure leans forward to kiss an unseen shorter person, holding the position with slight shifts in posture and arm movement.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04782,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bends forward at the waist from a standing position, then holds the lean with minor adjustments in balance and rotation.",
       "mean_pose": {
         "Spine Front-Back": -0.03832,
         "Spine Left-Right": 0.02082,
@@ -57,7 +57,7 @@
         "raw_value": 0.14078,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and extends forward toward the lower target, maintaining a downward angle throughout the sequence.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.37972,
         "Neck Tilt Left-Right": -7e-05,
@@ -75,7 +75,7 @@
         "raw_value": 0.17536,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm reaches forward and downward, extending the elbow to position the hand in front of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.11089,
         "Left Shoulder Front-Back": -0.15809,
@@ -96,7 +96,7 @@
         "raw_value": 0.28566,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves inward across the body, bending at the elbow to bring the hand toward the center of the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.40684,
         "Right Shoulder Front-Back": -0.21257,
@@ -117,7 +117,7 @@
         "raw_value": 0.05258,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground, acting as a stable base while supporting the forward lean of the upper body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.28892,
         "Left Upper Leg In-Out": 0.12663,
@@ -137,7 +137,7 @@
         "raw_value": 0.05064,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays grounded with a slight bend at the knee, adjusting slightly to maintain balance during the lean.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.4669,
         "Right Upper Leg In-Out": 0.00264,
@@ -157,7 +157,7 @@
         "raw_value": 0.23588,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends forward with fingers relaxed, reaching out toward the space where the other person would be.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.88044,
         "Left Thumb Spread": 0.68961,
@@ -189,7 +189,7 @@
         "raw_value": 0.10964,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand curves upward and inward, positioning itself near the midsection or chest area of the implied partner.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.97735,
         "Right Thumb Spread": 0.40198,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:40:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

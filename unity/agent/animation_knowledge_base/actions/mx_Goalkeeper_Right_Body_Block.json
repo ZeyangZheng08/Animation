@@ -14,7 +14,7 @@
   "duration": 2.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a right-side diving block, starting from a low crouch, lunging and falling to the right with arms outstretched, and rolling onto their back on the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10278,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Begins in a forward-leaning crouch, rotates sharply to the right as it dives, and ends lying flat on its back on the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.27235,
         "Spine Left-Right": -0.0629,
@@ -57,7 +57,7 @@
         "raw_value": 0.25091,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Starts facing forward, turns to look down toward the right during the dive, and finishes oriented upward while lying on the back.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.08907,
         "Neck Tilt Left-Right": -0.17512,
@@ -75,7 +75,7 @@
         "raw_value": 0.43031,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward and downward to the left for balance during the fall, then comes to rest extended to the side on the floor.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.41416,
         "Left Shoulder Front-Back": -0.94233,
@@ -96,7 +96,7 @@
         "raw_value": 0.39119,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches forward and to the right to initiate the block, extends fully through the air during the dive, and lands open beside the head.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.14662,
         "Right Shoulder Front-Back": -0.36103,
@@ -117,7 +117,7 @@
         "raw_value": 0.20321,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Starts bent in the crouch, trails behind with the knee bent during the dive, and ends bent with the foot near the hip on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.26421,
         "Left Upper Leg In-Out": 0.39933,
@@ -137,7 +137,7 @@
         "raw_value": 0.39479,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off from the crouch, extends straight up into the air during the dive, and lands extended and slightly bent on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.22986,
         "Right Upper Leg In-Out": 0.10502,
@@ -157,7 +157,7 @@
         "raw_value": 0.22527,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide to brace for impact, remains open during the fall, and presses flat against the floor.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.26993,
         "Left Thumb Spread": -0.28201,
@@ -189,7 +189,7 @@
         "raw_value": 0.28706,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens to lead the block, stays open during the dive, and lands palm-up near the shoulder.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.04643,
         "Right Thumb Spread": -0.07332,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:06Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

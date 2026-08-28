@@ -14,7 +14,7 @@
   "duration": 1.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin sits on the floor and extends one leg forward in a kicking motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04825,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward to support the body while seated, then rotates slightly to the side during the kick.",
       "mean_pose": {
         "Spine Front-Back": -0.28414,
         "Spine Left-Right": -0.01157,
@@ -57,7 +57,7 @@
         "raw_value": 0.08355,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts back to follow the torso's movement and turns slightly away from the kicking leg.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.5469,
         "Neck Tilt Left-Right": 0.13324,
@@ -75,7 +75,7 @@
         "raw_value": 0.05129,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends down and back with the hand placed on the floor to maintain balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.40515,
         "Left Shoulder Front-Back": -0.83958,
@@ -96,7 +96,7 @@
         "raw_value": 0.08272,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends down and back with the hand placed on the floor to support the upper body.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.42424,
         "Right Shoulder Front-Back": -0.13075,
@@ -117,7 +117,7 @@
         "raw_value": 0.14795,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent with the foot planted on the ground as the base of the sitting position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.40546,
         "Left Upper Leg In-Out": 0.07474,
@@ -137,7 +137,7 @@
         "raw_value": 0.06538,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and upward from a bent position to perform the kick.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.23788,
         "Right Upper Leg In-Out": 0.17714,
@@ -157,7 +157,7 @@
         "raw_value": 0.06551,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Presses flat against the floor behind the hip to provide stability.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.16732,
         "Left Thumb Spread": -0.09426,
@@ -189,7 +189,7 @@
         "raw_value": 0.04734,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Presses flat against the floor behind the hip to support the leaning torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.48882,
         "Right Thumb Spread": -0.1564,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:03Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

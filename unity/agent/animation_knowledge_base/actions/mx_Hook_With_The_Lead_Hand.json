@@ -14,7 +14,7 @@
   "duration": 1.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic hooking motion with their left arm while stepping forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05297,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from facing forward to turning towards the right, leaning slightly into the movement.",
       "mean_pose": {
         "Spine Front-Back": 0.08082,
         "Spine Left-Right": 0.06245,
@@ -57,7 +57,7 @@
         "raw_value": 0.09453,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the rotation of the torso, looking forward initially and then turning to face the right side.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.29321,
         "Neck Tilt Left-Right": -0.09625,
@@ -75,7 +75,7 @@
         "raw_value": 0.31465,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings down and across the body in a hooking motion, extending outward to the right at the end of the clip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.4612,
         "Left Shoulder Front-Back": 0.42845,
@@ -96,7 +96,7 @@
         "raw_value": 0.08841,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent and held close to the chest, acting as a guard throughout the sequence.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.85027,
         "Right Shoulder Front-Back": -2.30706,
@@ -117,7 +117,7 @@
         "raw_value": 0.14605,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward, bending at the knee to drive the body's momentum.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.01673,
         "Left Upper Leg In-Out": 0.22624,
@@ -137,7 +137,7 @@
         "raw_value": 0.11147,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind, pushing off the ground to support the forward step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.11281,
         "Right Upper Leg In-Out": 0.24983,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand maintains a loose fist shape as it travels through the arc of the hook.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.91264,
         "Left Thumb Spread": -1.03404,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays clenched in a tight fist near the chin area.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.74253,
         "Right Thumb Spread": -1.10139,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

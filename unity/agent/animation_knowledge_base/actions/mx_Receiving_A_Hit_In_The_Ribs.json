@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin flinches backward and to its left as if taking a blow to the right side of its body, clutching its midsection in pain.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09776,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply away from the impact, tilting to the figure's left and bending slightly forward before straightening out into a hunched posture.",
       "mean_pose": {
         "Spine Front-Back": -0.18325,
         "Spine Left-Right": -0.13852,
@@ -57,7 +57,7 @@
         "raw_value": 0.18698,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head snaps back and down with the initial jolt of the hit, then remains tilted downward as the figure recoils.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07375,
         "Neck Tilt Left-Right": -0.0076,
@@ -75,7 +75,7 @@
         "raw_value": 0.17828,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm bends at the elbow and pulls inward, bringing the hand up to press against the left side of the chest or upper abdomen.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.06392,
         "Left Shoulder Front-Back": -0.14968,
@@ -96,7 +96,7 @@
         "raw_value": 0.14776,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm crosses over the body, reaching around to the left side to support or cover the injured area near the ribs.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.19288,
         "Right Shoulder Front-Back": -1.35587,
@@ -117,7 +117,7 @@
         "raw_value": 0.1087,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays relatively planted but shifts weight, bending slightly to absorb the shock of the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.16364,
         "Left Upper Leg In-Out": 0.35451,
@@ -137,7 +137,7 @@
         "raw_value": 0.09188,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps back and outward, creating a wide, unstable stance that supports the leaning torso.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.18596,
         "Right Upper Leg In-Out": 0.32615,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static, loosely clenched pose pressed firmly against the upper torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a static, open-fingered grip holding the left side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:44:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

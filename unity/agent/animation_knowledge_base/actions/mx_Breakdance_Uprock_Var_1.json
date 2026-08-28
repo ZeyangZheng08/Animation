@@ -14,7 +14,7 @@
   "duration": 2.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs an energetic uprock, moving backward in a rhythmic step while pumping their arms and finishing with a wide, balanced pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11157,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward during the initial steps, then rotates and shifts weight from side to side before straightening out at the end of the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.38242,
         "Spine Left-Right": -0.02415,
@@ -57,7 +57,7 @@
         "raw_value": 0.1116,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the torso's rotation, turning to look over the shoulder during the footwork and facing forward again as the figure settles into the final pose.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00339,
         "Neck Tilt Left-Right": -0.0105,
@@ -75,7 +75,7 @@
         "raw_value": 0.41221,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings down and back initially, pumps upward near the chest during the middle of the move, and extends outward to the side for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.54876,
         "Left Shoulder Front-Back": -0.76523,
@@ -96,7 +96,7 @@
         "raw_value": 0.36726,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging down, pumping up toward the face, and finally extending out to the opposite side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.32084,
         "Right Shoulder Front-Back": -0.12653,
@@ -117,7 +117,7 @@
         "raw_value": 0.27648,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives backward in a stepping motion, bending at the knee to absorb weight before extending straight in the final stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.11554,
         "Left Upper Leg In-Out": 0.0301,
@@ -137,7 +137,7 @@
         "raw_value": 0.30062,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps back alternately with the left, maintaining a bent-knee posture through the footwork until it plants firmly on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.10049,
         "Right Upper Leg In-Out": 0.10215,
@@ -157,7 +157,7 @@
         "raw_value": 0.19961,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, moving passively with the arm's swing and pump.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.01237,
         "Left Thumb Spread": 0.33664,
@@ -189,7 +189,7 @@
         "raw_value": 0.20474,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open, mirroring the left hand's trajectory as the arm moves through its arc.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.01227,
         "Right Thumb Spread": 0.34747,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:41Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

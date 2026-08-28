@@ -14,7 +14,7 @@
   "duration": 0.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure changes direction while moving in a low crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10645,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso stays bent forward and low to the ground, rotating its facing from left to right as it pivots.",
       "mean_pose": {
         "Spine Front-Back": -0.1049,
         "Spine Left-Right": 0.02035,
@@ -57,7 +57,7 @@
         "raw_value": 0.41893,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains tilted downward and turns to follow the body's change of direction.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04311,
         "Neck Tilt Left-Right": 0.18687,
@@ -75,7 +75,7 @@
         "raw_value": 0.26488,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held out to the side with the elbow bent, swinging back and forth to counterbalance the turn.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.57207,
         "Left Shoulder Front-Back": 0.01179,
@@ -96,7 +96,7 @@
         "raw_value": 0.28132,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward with a bent elbow, mirroring the left arm's motion for balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.50953,
         "Right Shoulder Front-Back": 0.00061,
@@ -117,7 +117,7 @@
         "raw_value": 0.11159,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to maintain a deep squat, shifting its position to pivot the hips.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.4482,
         "Left Upper Leg In-Out": 0.3316,
@@ -137,7 +137,7 @@
         "raw_value": 0.11607,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is also deeply bent, working with the left leg to lower the center of gravity during the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.44289,
         "Right Upper Leg In-Out": 0.31653,
@@ -157,7 +157,7 @@
         "raw_value": 0.09298,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs loosely with fingers slightly curled near the side of the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.04627,
         "Left Thumb Spread": 0.17754,
@@ -189,7 +189,7 @@
         "raw_value": 0.13359,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand dangles relaxed with fingers loose near the outside of the right leg.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.93658,
         "Right Thumb Spread": 0.20103,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:04Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

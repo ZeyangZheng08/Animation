@@ -14,7 +14,7 @@
   "duration": 4.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure throws a right punch, then stumbles forward and falls to the ground.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17409,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starts upright, leans slightly into the punch, then bends forward and down as it stumbles.",
       "mean_pose": {
         "Spine Front-Back": -0.25358,
         "Spine Left-Right": -0.04654,
@@ -57,7 +57,7 @@
         "raw_value": 0.32982,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward, turns slightly with the torso during the punch, then drops sharply as the body falls.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.0862,
         "Neck Tilt Left-Right": -0.02311,
@@ -75,7 +75,7 @@
         "raw_value": 0.31738,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Held up in a guard position initially, then swings backward for balance before dropping downward.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.27869,
         "Left Shoulder Front-Back": -0.61382,
@@ -96,7 +96,7 @@
         "raw_value": 0.28601,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward in a straight punch, then retracts and drops to the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.23372,
         "Right Shoulder Front-Back": -0.85555,
@@ -117,7 +117,7 @@
         "raw_value": 0.18886,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground to support the body weight throughout the motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.02626,
         "Left Upper Leg In-Out": 0.43324,
@@ -137,7 +137,7 @@
         "raw_value": 0.22187,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts off the ground and kicks forward before lowering as the figure collapses.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.21184,
         "Right Upper Leg In-Out": 0.37831,
@@ -157,7 +157,7 @@
         "raw_value": 0.45903,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Forms a fist near the chest, then opens and extends outward to the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.49923,
         "Left Thumb Spread": -0.55062,
@@ -189,7 +189,7 @@
         "raw_value": 0.66279,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Forms a fist for the punch, then opens and relaxes as the arm drops.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.15228,
         "Right Thumb Spread": -0.62338,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

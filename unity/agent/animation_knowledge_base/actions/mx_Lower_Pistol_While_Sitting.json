@@ -14,7 +14,7 @@
   "duration": 5.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A seated figure performs a two-handed lower draw, pulling an object from the right hip down between their legs and then raising it forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05092,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward while maintaining a seated posture, rotating subtly to follow the movement of the arms.",
       "mean_pose": {
         "Spine Front-Back": -0.1664,
         "Spine Left-Right": -0.00033,
@@ -57,7 +57,7 @@
         "raw_value": 0.04896,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively stable, tilting downward to track the hands as they move through the lower body area.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.22144,
         "Neck Tilt Left-Right": -0.09679,
@@ -75,7 +75,7 @@
         "raw_value": 0.30208,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends down and across the midline to meet the right hand at the crotch before lifting both arms up and forward.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.36844,
         "Left Shoulder Front-Back": -0.72603,
@@ -96,7 +96,7 @@
         "raw_value": 0.11811,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down to the right hip, pulls inward toward the center, and then extends upward and forward in a drawing motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.94576,
         "Right Shoulder Front-Back": 0.09134,
@@ -117,7 +117,7 @@
         "raw_value": 0.02744,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee with the foot planted on the ground, remaining stationary throughout the action.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.7802,
         "Left Upper Leg In-Out": 0.28517,
@@ -137,7 +137,7 @@
         "raw_value": 0.02809,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent at the knee with the foot flat on the floor, providing a stable base for the torso.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.73962,
         "Right Upper Leg In-Out": 0.42538,
@@ -157,7 +157,7 @@
         "raw_value": 0.11333,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves diagonally from the left side to the center to assist in the draw, ending extended forward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.27848,
         "Left Thumb Spread": -0.9076,
@@ -189,7 +189,7 @@
         "raw_value": 0.15306,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand starts at the right hip, moves down and left to the center, and then leads the motion upward and forward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.0043,
         "Right Thumb Spread": 0.14575,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:41:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

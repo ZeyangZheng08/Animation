@@ -14,7 +14,7 @@
   "duration": 7.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a rhythmic dance, bending forward and swaying before rising to kick a leg up while raising an arm.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14185,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans sharply forward at the waist in the first pose, straightens upright in the middle, and tilts back slightly during the final kick.",
       "mean_pose": {
         "Spine Front-Back": -0.03124,
         "Spine Left-Right": -0.06976,
@@ -57,7 +57,7 @@
         "raw_value": 0.27656,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Nods down with the forward lean, lifts to face forward, and then tilts upward toward the raised arm.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00485,
         "Neck Tilt Left-Right": -0.0332,
@@ -75,7 +75,7 @@
         "raw_value": 0.32049,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs low and bent near the hip initially, swings out to the side for balance, and finally extends high into the air.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.13624,
         "Left Shoulder Front-Back": -0.09262,
@@ -96,7 +96,7 @@
         "raw_value": 0.29695,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Drops down and forward near the knees, rises to extend outward to the side, and finishes bent at the elbow near the waist.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.33244,
         "Right Shoulder Front-Back": 0.12922,
@@ -117,7 +117,7 @@
         "raw_value": 0.19613,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward with a slight bend, plants firmly as the center of gravity, and then kicks up high into the air.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.22238,
         "Left Upper Leg In-Out": 0.18228,
@@ -137,7 +137,7 @@
         "raw_value": 0.27088,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trails behind with the heel lifted, stands straight as the supporting limb, and bends to lift the foot off the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.05951,
         "Right Upper Leg In-Out": 0.06255,
@@ -157,7 +157,7 @@
         "raw_value": 0.02039,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely by the side, opens outward to the side, and reaches fully extended overhead.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.54423,
         "Left Thumb Spread": 0.57363,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, relaxed position hanging down by the side throughout the movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.91749,
         "Right Thumb Spread": 0.70185,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:10Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks slowly forward while holding both arms in a rifle-firing stance, with the hands moving slightly to simulate recoil.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03736,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and bobs gently up and down with each step of the walk.",
       "mean_pose": {
         "Spine Front-Back": -0.29898,
         "Spine Left-Right": 0.08307,
@@ -57,7 +57,7 @@
         "raw_value": 0.03315,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively steady, facing forward in line with the body's movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.29975,
         "Neck Tilt Left-Right": -0.24962,
@@ -75,7 +75,7 @@
         "raw_value": 0.04816,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is extended forward and bent at the elbow, holding a fixed position as if supporting an object.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.8933,
         "Left Shoulder Front-Back": -0.71868,
@@ -96,7 +96,7 @@
         "raw_value": 0.0243,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is held close to the chest with the elbow bent, maintaining a stable grip posture.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.77437,
         "Right Shoulder Front-Back": -0.32723,
@@ -117,7 +117,7 @@
         "raw_value": 0.18023,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between lifting forward and pushing back, driving the slow walking motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.41191,
         "Left Upper Leg In-Out": -0.02845,
@@ -137,7 +137,7 @@
         "raw_value": 0.16244,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps through in opposition to the left, completing the slow gait cycle.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.23782,
         "Right Upper Leg In-Out": 0.07433,
@@ -157,7 +157,7 @@
         "raw_value": 0.045,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and positioned forward, appearing to hold the front of a weapon.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.40582,
         "Left Thumb Spread": -0.21603,
@@ -189,7 +189,7 @@
         "raw_value": 0.15611,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is clenched near the chest, simulating a trigger or rear grip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -0.85237,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:07Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

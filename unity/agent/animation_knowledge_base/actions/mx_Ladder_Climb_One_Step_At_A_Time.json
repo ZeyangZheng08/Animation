@@ -14,7 +14,7 @@
   "duration": 1.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure climbs upward in a steady rhythm, lifting one leg at a time while reaching up with alternating arms to grip an unseen ladder.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05385,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward slightly and bobs vertically with each step, maintaining a centered position over the hips.",
       "mean_pose": {
         "Spine Front-Back": -0.53675,
         "Spine Left-Right": 0.01292,
@@ -57,7 +57,7 @@
         "raw_value": 0.09992,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts upward consistently throughout the motion, looking towards the top of the climb.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.30799,
         "Neck Tilt Left-Right": -0.06869,
@@ -75,7 +75,7 @@
         "raw_value": 0.14347,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm reaches forward and upward, extending to grasp a rung before pulling back down as the body rises.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.64535,
         "Left Shoulder Front-Back": -0.82856,
@@ -96,7 +96,7 @@
         "raw_value": 0.23623,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the opposite cycle, reaching up high to grab a hold while the other arm rests lower.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.6629,
         "Right Shoulder Front-Back": -0.20803,
@@ -117,7 +117,7 @@
         "raw_value": 0.23478,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to lift the foot onto a step, then extends downward to support the weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.01673,
         "Left Upper Leg In-Out": 0.08743,
@@ -137,7 +137,7 @@
         "raw_value": 0.20884,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, bending to elevate the foot and then straightening to push off.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.0217,
         "Right Upper Leg In-Out": 0.10573,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers extended, poised to wrap around a vertical or horizontal bar.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a similar open pose, ready to secure a grip on the climbing structure.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:40:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

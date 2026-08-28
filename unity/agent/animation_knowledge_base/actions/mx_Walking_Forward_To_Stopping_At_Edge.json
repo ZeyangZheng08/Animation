@@ -14,7 +14,7 @@
   "duration": 2.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward and then stops at an edge, bending over to look down.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12063,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward significantly as it approaches the edge and maintains a hunched posture.",
       "mean_pose": {
         "Spine Front-Back": -0.32905,
         "Spine Left-Right": -0.02779,
@@ -57,7 +57,7 @@
         "raw_value": 0.14365,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward to look at the ground or the edge in front of it.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.0157,
         "Neck Tilt Left-Right": -0.29648,
@@ -75,7 +75,7 @@
         "raw_value": 0.20293,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely by the side with slight movement consistent with walking.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.25433,
         "Left Shoulder Front-Back": -0.75132,
@@ -96,7 +96,7 @@
         "raw_value": 0.21863,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings naturally while walking and extends slightly forward during the stop.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.82525,
         "Right Shoulder Front-Back": -0.63285,
@@ -117,7 +117,7 @@
         "raw_value": 0.17934,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward in a walking gait and bends to support the leaning body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.09625,
         "Left Upper Leg In-Out": 0.15568,
@@ -137,7 +137,7 @@
         "raw_value": 0.17299,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward in a walking gait and bends to support the leaning body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.02993,
         "Right Upper Leg In-Out": 0.03255,
@@ -157,7 +157,7 @@
         "raw_value": 0.00639,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed near the hip throughout the sequence.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41852,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.14823,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves from a relaxed position to extend forward as the figure leans over the edge.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.71543,
         "Right Thumb Spread": 0.11587,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

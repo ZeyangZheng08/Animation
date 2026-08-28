@@ -14,7 +14,7 @@
   "duration": 2.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a ballet dance variation, transitioning from an open-armed walking stride into a running motion with arms bent and hands brought toward the center.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11095,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward slightly as it shifts from an upright walking posture to a more dynamic, forward-leaning running stance.",
       "mean_pose": {
         "Spine Front-Back": 0.06803,
         "Spine Left-Right": -0.12369,
@@ -57,7 +57,7 @@
         "raw_value": 0.09349,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively stable in orientation, facing forward with only minor adjustments corresponding to the body's movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.1308,
         "Neck Tilt Left-Right": 0.0201,
@@ -75,7 +75,7 @@
         "raw_value": 0.27625,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm begins extended outward to the side and then bends at the elbow, bringing the hand up towards the chest area.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.36645,
         "Left Shoulder Front-Back": -0.20716,
@@ -96,7 +96,7 @@
         "raw_value": 0.2924,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, starting with an outward extension before bending inward to bring the hand toward the midsection.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.08973,
         "Right Shoulder Front-Back": -0.07171,
@@ -117,7 +117,7 @@
         "raw_value": 0.28239,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg moves through a striding cycle, extending backward during the initial walk and then driving forward in a running step.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.35609,
         "Left Upper Leg In-Out": -0.04227,
@@ -137,7 +137,7 @@
         "raw_value": 0.296,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, pushing off the ground during the stride and then swinging forward to prepare for the next step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.07611,
         "Right Upper Leg In-Out": 0.09255,
@@ -157,7 +157,7 @@
         "raw_value": 0.10411,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand transitions from an open, relaxed position extended outwards to a more closed shape held near the waist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.11942,
         "Left Thumb Spread": 0.02077,
@@ -189,7 +189,7 @@
         "raw_value": 0.11471,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from an extended, open pose to a gathered position near the abdomen, mirroring the left hand's inward movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.20605,
         "Right Thumb Spread": 0.05101,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a high spinning attack, transitioning from a running stance into a full 360-degree rotation with arms extended overhead.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16272,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso initiates a forward lean while running, then rotates fully clockwise (from above) to drive the spin, maintaining an upright but slightly angled posture throughout the turn.",
       "mean_pose": {
         "Spine Front-Back": -0.35197,
         "Spine Left-Right": -0.01413,
@@ -57,7 +57,7 @@
         "raw_value": 0.29167,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays relatively level but turns slightly to follow the direction of the spin, looking ahead during the initial run-up and tracking the rotation as the body turns.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.36703,
         "Neck Tilt Left-Right": 0.07306,
@@ -75,7 +75,7 @@
         "raw_value": 0.52,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a forward running position up and around in a wide arc, staying extended at shoulder height or higher to generate momentum for the spin.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.49655,
         "Left Shoulder Front-Back": -3.16809,
@@ -96,7 +96,7 @@
         "raw_value": 0.54243,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging outward and upward in a synchronized circular motion, keeping both hands close together as if gripping a large weapon handle.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.43296,
         "Right Shoulder Front-Back": -2.84015,
@@ -117,7 +117,7 @@
         "raw_value": 0.19637,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg pushes off the ground to initiate the pivot, bending at the knee to support the body's weight as it rotates, then extends to complete the step.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.05118,
         "Left Upper Leg In-Out": 0.05839,
@@ -137,7 +137,7 @@
         "raw_value": 0.22634,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg plants firmly to act as the pivot point for the spin, rotating on its toe before extending to catch the figure's balance at the end of the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.38349,
         "Right Upper Leg In-Out": 0.07793,
@@ -157,7 +157,7 @@
         "raw_value": 0.23943,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains clenched in a fist, moving in a continuous circular path that matches the arm's sweeping motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.85425,
         "Left Thumb Spread": -0.88273,
@@ -189,7 +189,7 @@
         "raw_value": 0.20062,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand also holds a tight fist, mirroring the left hand's trajectory to simulate a two-handed grip during the overhead swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.45463,
         "Right Thumb Spread": -0.19711,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:41Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

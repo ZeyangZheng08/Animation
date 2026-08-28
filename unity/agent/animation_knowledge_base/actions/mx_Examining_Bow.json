@@ -14,7 +14,7 @@
   "duration": 5.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a wide stance, holding their right arm out to inspect an invisible object before lowering both arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05326,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward while maintaining a stable, upright posture throughout the sequence.",
       "mean_pose": {
         "Spine Front-Back": -0.0983,
         "Spine Left-Right": -0.0713,
@@ -57,7 +57,7 @@
         "raw_value": 0.1416,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and turns toward the right hand to focus on the area being examined.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06151,
         "Neck Tilt Left-Right": 0.05008,
@@ -75,7 +75,7 @@
         "raw_value": 0.24233,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely at the side of the body with a slight bend at the elbow.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.72576,
         "Left Shoulder Front-Back": 0.06546,
@@ -96,7 +96,7 @@
         "raw_value": 0.09782,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward to the side with the elbow bent, holding a position as if gripping an object for inspection.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.42644,
         "Right Shoulder Front-Back": -0.36074,
@@ -117,7 +117,7 @@
         "raw_value": 0.0341,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted firmly on the ground, providing a stable base for the stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.17197,
         "Left Upper Leg In-Out": 0.33832,
@@ -137,7 +137,7 @@
         "raw_value": 0.03527,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays rooted in place, mirroring the static support of the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.36324,
         "Right Upper Leg In-Out": 0.45149,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a relaxed, open pose near the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.26723,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a steady grip shape at the end of the extended arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.37689,
         "Right Thumb Spread": -0.62523,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

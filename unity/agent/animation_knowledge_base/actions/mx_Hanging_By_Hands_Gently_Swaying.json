@@ -14,7 +14,7 @@
   "duration": 2.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure hangs suspended in the air with both arms raised, gently swaying its body side to side.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00054,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds a vertical posture, tilting slightly left and right as it swings back and forth.",
       "mean_pose": {
         "Spine Front-Back": 0.07013,
         "Spine Left-Right": 0.00031,
@@ -57,7 +57,7 @@
         "raw_value": 0.01504,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays upright and centered, following the gentle sway of the torso.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.6683,
         "Neck Tilt Left-Right": -0.07561,
@@ -75,7 +75,7 @@
         "raw_value": 0.01715,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains fully extended straight up overhead throughout the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": 1.15156,
         "Left Shoulder Front-Back": 0.30248,
@@ -96,7 +96,7 @@
         "raw_value": 0.01737,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady, straight position raised high above the head.",
       "mean_pose": {
         "Right Shoulder Down-Up": 1.21668,
         "Right Shoulder Front-Back": 0.50053,
@@ -117,7 +117,7 @@
         "raw_value": 0.00582,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Hangs down from the hip, swinging slightly backward and forward with the body's momentum.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.18297,
         "Left Upper Leg In-Out": 0.03298,
@@ -137,7 +137,7 @@
         "raw_value": 0.00494,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Dangles vertically below the torso, moving in tandem with the overall sway.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.48533,
         "Right Upper Leg In-Out": 0.03082,
@@ -157,7 +157,7 @@
         "raw_value": 0.01241,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeps an open, relaxed pose at the top of the extended arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.49219,
         "Left Thumb Spread": 0.30804,
@@ -189,7 +189,7 @@
         "raw_value": 0.03899,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains an open, relaxed shape at the end of the raised arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.08588,
         "Right Thumb Spread": 0.92315,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:38:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

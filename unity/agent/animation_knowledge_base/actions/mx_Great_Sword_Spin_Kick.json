@@ -14,7 +14,7 @@
   "duration": 1.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic spin, rotating their body while executing a high kick with the left leg.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15142,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates continuously to the right, leaning slightly forward during the kick and then straightening out as the rotation completes.",
       "mean_pose": {
         "Spine Front-Back": -0.51108,
         "Spine Left-Right": 0.13584,
@@ -57,7 +57,7 @@
         "raw_value": 0.20999,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to the right in sync with the torso's rotation, maintaining a steady orientation relative to the shoulders throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.2208,
         "Neck Tilt Left-Right": 0.11227,
@@ -75,7 +75,7 @@
         "raw_value": 0.76878,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a bent position near the chest outward to the side for balance, then pulls back in toward the body as the spin finishes.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.43325,
         "Left Shoulder Front-Back": -3.5876,
@@ -96,7 +96,7 @@
         "raw_value": 0.28217,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves in a counter-motion, swinging across the front of the body and then extending backward to stabilize the rotation.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.57829,
         "Right Shoulder Front-Back": -1.9102,
@@ -117,7 +117,7 @@
         "raw_value": 0.1904,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts high into a front kick, extends fully at the peak of the motion, and then retracts downward to return to a standing position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.09316,
         "Left Upper Leg In-Out": 0.16075,
@@ -137,7 +137,7 @@
         "raw_value": 0.25842,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted on the ground, acting as a pivot point that supports the weight of the body during the spin and kick.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.29031,
         "Right Upper Leg In-Out": 0.38517,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a loose fist shape throughout the clip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15206,
         "Left Thumb Spread": -0.37832,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a closed fist pose.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:34Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

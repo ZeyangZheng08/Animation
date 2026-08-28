@@ -14,7 +14,7 @@
   "duration": 5.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure drops to a one‑knee stance, brings the left hand up to the mouth, and then throws an object forward with both arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.22291,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans down as it kneels, hunches forward while pulling at the mouth, and rotates slightly toward the right during the throw.",
       "mean_pose": {
         "Spine Front-Back": -1.05182,
         "Spine Left-Right": -0.21488,
@@ -57,7 +57,7 @@
         "raw_value": 0.22598,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and turns slightly to the right, holding that orientation through the kneeling and throwing motion.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02067,
         "Neck Tilt Left-Right": 0.17965,
@@ -75,7 +75,7 @@
         "raw_value": 0.28956,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from a low position to the face, then swings down and across the body into a double‑handed throw.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.20824,
         "Left Shoulder Front-Back": -0.83831,
@@ -96,7 +96,7 @@
         "raw_value": 0.30102,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Drops to the side of the body while the figure kneels, then lifts and extends fully forward to execute the throw.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.01941,
         "Right Shoulder Front-Back": -1.11446,
@@ -117,7 +117,7 @@
         "raw_value": 0.13545,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Kneels on the floor first, then straightens to support the body in a lunge during the throw.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.64885,
         "Left Upper Leg In-Out": 0.4661,
@@ -137,7 +137,7 @@
         "raw_value": 0.23374,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward to bear weight, then bends into a deep lunge for stability during the throw.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.01398,
         "Right Upper Leg In-Out": 0.34538,
@@ -157,7 +157,7 @@
         "raw_value": 0.11054,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves up to the mouth to pull, then releases and follows through extended forward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.60331,
         "Left Thumb Spread": -0.02105,
@@ -189,7 +189,7 @@
         "raw_value": 0.41592,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hangs at the side, then grips and extends forcefully forward in the throwing motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.882,
         "Right Thumb Spread": -0.73055,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

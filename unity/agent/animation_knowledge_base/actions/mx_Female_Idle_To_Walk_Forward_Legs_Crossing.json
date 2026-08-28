@@ -14,7 +14,7 @@
   "duration": 1.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a stationary idle stance into a forward walking motion characterized by crossing legs.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04454,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso maintains an upright posture, shifting slightly forward and swaying gently with the rhythm of the steps as the walk begins.",
       "mean_pose": {
         "Spine Front-Back": -0.02182,
         "Spine Left-Right": -0.00898,
@@ -57,7 +57,7 @@
         "raw_value": 0.04711,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward, moving in sync with the upper body's subtle forward momentum.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.01358,
         "Neck Tilt Left-Right": 0.11781,
@@ -75,7 +75,7 @@
         "raw_value": 0.07887,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally backward and then forward at the side of the body to balance the stride.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.26366,
         "Left Shoulder Front-Back": -0.22481,
@@ -96,7 +96,7 @@
         "raw_value": 0.11656,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the opposite motion, swinging forward and back counter to the left leg during the walk.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.48948,
         "Right Shoulder Front-Back": 0.16868,
@@ -117,7 +117,7 @@
         "raw_value": 0.13268,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg pushes off from the ground, lifts through a bent knee, and extends forward to cross over the path of the right leg.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.48253,
         "Left Upper Leg In-Out": 0.03447,
@@ -137,7 +137,7 @@
         "raw_value": 0.13118,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg serves as the pivot point initially before stepping forward, crossing behind or beside the left leg in a scissoring motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.21345,
         "Right Upper Leg In-Out": -0.04284,
@@ -157,7 +157,7 @@
         "raw_value": 0.06934,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains relaxed and open, swinging freely with the arm's pendulum motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.56901,
         "Left Thumb Spread": 0.31696,
@@ -189,7 +189,7 @@
         "raw_value": 0.06214,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs loosely by the side, moving in a natural arc opposite to the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.69368,
         "Right Thumb Spread": 0.03391,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

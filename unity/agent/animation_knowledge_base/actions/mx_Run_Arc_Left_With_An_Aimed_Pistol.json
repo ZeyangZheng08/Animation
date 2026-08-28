@@ -14,7 +14,7 @@
   "duration": 0.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs in a continuous arc to the left while holding both hands up in a steady aiming pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02418,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward into the run and continuously rotates to the left to follow the curve of the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.06057,
         "Spine Left-Right": 0.13798,
@@ -57,7 +57,7 @@
         "raw_value": 0.0477,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level with the shoulders, turning to the left to look along the path of the run.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.16262,
         "Neck Tilt Left-Right": -0.12533,
@@ -75,7 +75,7 @@
         "raw_value": 0.06323,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm remains extended forward and bent at the elbow, holding a stable position relative to the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.87856,
         "Left Shoulder Front-Back": 0.43165,
@@ -96,7 +96,7 @@
         "raw_value": 0.19444,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is held parallel to the left, extending forward in a fixed aiming posture without swinging.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.10892,
         "Right Shoulder Front-Back": -0.99855,
@@ -117,7 +117,7 @@
         "raw_value": 0.20651,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the running cycle, alternating between pushing off the ground and swinging forward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.02079,
         "Left Upper Leg In-Out": -0.12494,
@@ -137,7 +137,7 @@
         "raw_value": 0.17662,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg cycles in opposition to the left, providing the stride for the curved run.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.03007,
         "Right Upper Leg In-Out": 0.06344,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static, clenched fist shape in front of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.7799,
         "Left Thumb Spread": 0.38393,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a fixed, clenched fist shape near the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -0.85237,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:14Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

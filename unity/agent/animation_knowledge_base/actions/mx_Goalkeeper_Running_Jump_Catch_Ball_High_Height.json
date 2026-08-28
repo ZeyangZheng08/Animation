@@ -14,7 +14,7 @@
   "duration": 2.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward, leaps high into the air, and extends both arms upward to catch a ball.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08552,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward during the run, then arches backward in mid-air as it jumps.",
       "mean_pose": {
         "Spine Front-Back": -0.17984,
         "Spine Left-Right": 0.0704,
@@ -57,7 +57,7 @@
         "raw_value": 0.18284,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down while running, then tilts up to track the ball's path.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.35246,
         "Neck Tilt Left-Right": -0.01917,
@@ -75,7 +75,7 @@
         "raw_value": 0.33808,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings back during the run, then raises straight up overhead with an open hand at the peak of the jump.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.25658,
         "Left Shoulder Front-Back": -0.33263,
@@ -96,7 +96,7 @@
         "raw_value": 0.32898,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings forward during the run, then raises straight up overhead with an open hand at the peak of the jump.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.10683,
         "Right Shoulder Front-Back": -0.97897,
@@ -117,7 +117,7 @@
         "raw_value": 0.28019,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward in a running stride, then bends at the knee and tucks behind the body in the air.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.10511,
         "Left Upper Leg In-Out": 0.14044,
@@ -137,7 +137,7 @@
         "raw_value": 0.23816,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off the ground to initiate the jump, then trails behind and below the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.18659,
         "Right Upper Leg In-Out": 0.04308,
@@ -157,7 +157,7 @@
         "raw_value": 0.25607,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide with fingers spread to prepare for the catch.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.92111,
         "Left Thumb Spread": -0.38572,
@@ -189,7 +189,7 @@
         "raw_value": 0.22886,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide with fingers spread to prepare for the catch.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.52614,
         "Right Thumb Spread": -0.39415,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

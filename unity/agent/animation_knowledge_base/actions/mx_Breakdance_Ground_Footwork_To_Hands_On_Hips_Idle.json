@@ -14,7 +14,7 @@
   "duration": 9.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a breakdance move, dropping from a crouch to the floor and spinning on one hand before rising back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.20363,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a low crouch, rotates horizontally while supported by an arm, and returns to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -1.39025,
         "Spine Left-Right": 0.01068,
@@ -57,7 +57,7 @@
         "raw_value": 0.27114,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tucks down toward the chest during the spin and lifts to face forward as the figure rises.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00657,
         "Neck Tilt Left-Right": -0.04214,
@@ -75,7 +75,7 @@
         "raw_value": 0.55299,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward to support the body's weight during the floor rotation and then swings upward to rest on the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.18258,
         "Left Shoulder Front-Back": -1.2361,
@@ -96,7 +96,7 @@
         "raw_value": 0.40391,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent near the body during the drop, extends outward for balance during the spin, and moves to the hip at the end.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.93625,
         "Right Shoulder Front-Back": -1.52056,
@@ -117,7 +117,7 @@
         "raw_value": 0.31991,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends in a deep squat, kicks out for momentum during the spin, and straightens to stand.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.09722,
         "Left Upper Leg In-Out": 0.1487,
@@ -137,7 +137,7 @@
         "raw_value": 0.30404,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains tucked and bent near the ground during the floor work and extends to meet the left leg in a standing pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.1348,
         "Right Upper Leg In-Out": 0.08656,
@@ -157,7 +157,7 @@
         "raw_value": 0.41441,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Presses firmly against the floor to act as a pivot point for the rotation and then releases to the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.39573,
         "Left Thumb Spread": -0.50143,
@@ -189,7 +189,7 @@
         "raw_value": 0.46542,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely near the torso, extends outward to maintain balance during the spin, and settles onto the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.40618,
         "Right Thumb Spread": -0.12546,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:34Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

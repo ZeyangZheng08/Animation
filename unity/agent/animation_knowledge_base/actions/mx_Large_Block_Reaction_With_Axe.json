@@ -14,7 +14,7 @@
   "duration": 1.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a defensive reaction, raising its right hand to shield its face while holding its left arm across its chest and shifting into a crouched stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08177,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and bends at the waist, settling into a low, crouched position throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.32416,
         "Spine Left-Right": 0.02139,
@@ -57,7 +57,7 @@
         "raw_value": 0.17539,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and tucks toward the chest, turning slightly to the figure's left.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09805,
         "Neck Tilt Left-Right": -0.29671,
@@ -75,7 +75,7 @@
         "raw_value": 0.11129,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent position with the forearm tucked horizontally across the midsection of the torso.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.01706,
         "Left Shoulder Front-Back": 0.10023,
@@ -96,7 +96,7 @@
         "raw_value": 0.10709,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Lifts upward from the shoulder, bending at the elbow to bring the hand up in front of the head.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.00772,
         "Right Shoulder Front-Back": -1.74895,
@@ -117,7 +117,7 @@
         "raw_value": 0.05735,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee, dropping the foot down to form the front of a wide, staggered stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.29821,
         "Left Upper Leg In-Out": 0.87482,
@@ -137,7 +137,7 @@
         "raw_value": 0.07911,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains relatively straight behind the body, supporting the rear of the stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.3272,
         "Right Upper Leg In-Out": 0.3412,
@@ -157,7 +157,7 @@
         "raw_value": 0.26794,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays clenched in a fist near the stomach area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.42764,
         "Left Thumb Spread": -0.83816,
@@ -189,7 +189,7 @@
         "raw_value": 0.26761,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens with fingers spread wide, pressing the palm against the upper face as if blocking a blow.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.48443,
         "Right Thumb Spread": -0.85578,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:36Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

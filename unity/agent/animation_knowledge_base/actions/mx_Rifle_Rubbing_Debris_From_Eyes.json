@@ -14,7 +14,7 @@
   "duration": 1.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure kneels on the floor and uses their right hand to rub debris from their eyes.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05181,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a kneeling posture, hunching slightly over the legs throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.66759,
         "Spine Left-Right": -0.20491,
@@ -57,7 +57,7 @@
         "raw_value": 0.11878,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and forward toward the knees, dipping lower during the rubbing motion before lifting slightly at the end.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.13938,
         "Neck Tilt Left-Right": -0.02794,
@@ -75,7 +75,7 @@
         "raw_value": 0.25023,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Rests across the body with the forearm draped over the left thigh, holding a steady position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.39832,
         "Left Shoulder Front-Back": -1.36441,
@@ -96,7 +96,7 @@
         "raw_value": 0.07374,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from the lap up to the face to perform the rubbing motion, then lowers back down toward the center of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.03402,
         "Right Shoulder Front-Back": -1.7232,
@@ -117,7 +117,7 @@
         "raw_value": 0.09211,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent with the knee on the ground, serving as the base for the kneeling stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.78886,
         "Left Upper Leg In-Out": 0.51225,
@@ -137,7 +137,7 @@
         "raw_value": 0.06474,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Is positioned with the foot flat on the floor and the knee bent, supporting the front of the kneeling pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.02587,
         "Right Upper Leg In-Out": 0.38701,
@@ -157,7 +157,7 @@
         "raw_value": 0.49495,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips the top of the left shin or ankle area while resting against the leg.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.20732,
         "Left Thumb Spread": -0.2901,
@@ -189,7 +189,7 @@
         "raw_value": 0.13772,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves up to the eye area to make contact, then pulls away and opens outward as it lowers back down.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.50841,
         "Right Thumb Spread": -1.57564,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

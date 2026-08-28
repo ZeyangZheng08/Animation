@@ -14,7 +14,7 @@
   "duration": 3.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin executes a martial arts combination, beginning with an uppercut, followed by a straight jab, and finishing with an open-palm strike to the side.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11267,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates dynamically, twisting sharply to the left for the uppercut, snapping forward for the jab, and turning right into the final palm strike.",
       "mean_pose": {
         "Spine Front-Back": -0.12226,
         "Spine Left-Right": -0.00497,
@@ -57,7 +57,7 @@
         "raw_value": 0.25664,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the rotation of the torso, looking up during the upward punch, facing forward during the jab, and turning to the right for the final strike.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.08872,
         "Neck Tilt Left-Right": 0.023,
@@ -75,7 +75,7 @@
         "raw_value": 0.28713,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts low, drives upward in a vertical arc for the uppercut, retracts briefly, and then extends horizontally to the side for the open-palm strike.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.00638,
         "Left Shoulder Front-Back": -0.03469,
@@ -96,7 +96,7 @@
         "raw_value": 0.23455,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains tucked near the chest initially, punches straight out in front for the jab, and then pulls back toward the waist as the left arm strikes.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.1682,
         "Right Shoulder Front-Back": -0.31669,
@@ -117,7 +117,7 @@
         "raw_value": 0.18115,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg acts as a pivot point, bending and shifting weight to support the rotational power of the upper body's movements.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.09381,
         "Left Upper Leg In-Out": 0.20877,
@@ -137,7 +137,7 @@
         "raw_value": 0.20226,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps forward and plants firmly to drive the momentum for the uppercut and jab, then shifts back slightly to balance the final strike.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.5667,
         "Right Upper Leg In-Out": 0.22574,
@@ -157,7 +157,7 @@
         "raw_value": 0.41108,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand forms a fist for the uppercut, transitions to a flat, open position with fingers extended for the final side strike.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.60815,
         "Left Thumb Spread": -0.14072,
@@ -189,7 +189,7 @@
         "raw_value": 0.40666,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a tight fist throughout the sequence, punching forward and then retracting to guard the midsection.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.46327,
         "Right Thumb Spread": -0.25161,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

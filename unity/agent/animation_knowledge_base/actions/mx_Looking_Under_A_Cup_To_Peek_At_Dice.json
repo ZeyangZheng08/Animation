@@ -14,7 +14,7 @@
   "duration": 7.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure crouches low and leans forward, holding their hands out in front of them as if looking under a cup to peek at dice.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04915,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bends forward from the waist into a deep crouch, tilting down toward the legs and then rising slightly while remaining hunched.",
       "mean_pose": {
         "Spine Front-Back": -0.69324,
         "Spine Left-Right": 0.2319,
@@ -57,7 +57,7 @@
         "raw_value": 0.19769,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head drops significantly, facing downward and forward toward the hands, maintaining a focused gaze on the area below.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.39258,
         "Neck Tilt Left-Right": 0.27077,
@@ -75,7 +75,7 @@
         "raw_value": 0.1129,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward and downward, with the elbow bent, keeping the hand positioned just above the knee level.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.59815,
         "Left Shoulder Front-Back": -0.31553,
@@ -96,7 +96,7 @@
         "raw_value": 0.14456,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, extending forward and downward with a bent elbow to hold the hand near the other one.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.94846,
         "Right Shoulder Front-Back": 0.04492,
@@ -117,7 +117,7 @@
         "raw_value": 0.03998,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee in a squat position, supporting the lowered body weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.27999,
         "Left Upper Leg In-Out": 0.20148,
@@ -137,7 +137,7 @@
         "raw_value": 0.03724,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is similarly bent at the knee, forming a stable base for the crouching posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.25661,
         "Right Upper Leg In-Out": 0.02042,
@@ -157,7 +157,7 @@
         "raw_value": 0.25691,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open and flat, hovering in the air in front of the body as if holding an object.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.5578,
         "Left Thumb Spread": -0.58684,
@@ -189,7 +189,7 @@
         "raw_value": 0.24023,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is also held open and flat, positioned close to the left hand to complete the gesture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.94119,
         "Right Thumb Spread": 0.49868,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:44Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

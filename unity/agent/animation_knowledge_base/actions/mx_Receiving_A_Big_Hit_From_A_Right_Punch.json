@@ -14,7 +14,7 @@
   "duration": 1.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is struck by a heavy right punch, causing them to reel backward and hunch over in pain before slowly straightening up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18534,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists sharply to the left and leans back from the initial impact, then bends deeply forward at the waist before rising back toward an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.53894,
         "Spine Left-Right": 0.14695,
@@ -57,7 +57,7 @@
         "raw_value": 0.2345,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head snaps backward and to the left from the hit, drops down low with the torso during the mid-clip slump, and finally lifts up to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07183,
         "Neck Tilt Left-Right": 0.01871,
@@ -75,7 +75,7 @@
         "raw_value": 0.20572,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and outward to absorb the blow, drops down and forward as the body bends, and returns to a raised guard position near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.15669,
         "Left Shoulder Front-Back": -0.3396,
@@ -96,7 +96,7 @@
         "raw_value": 0.20175,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is pulled tightly across the chest for protection, hangs loosely downward during the bend, and rises back up into a defensive stance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.03543,
         "Right Shoulder Front-Back": -1.10724,
@@ -117,7 +117,7 @@
         "raw_value": 0.09857,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps backward and bends deeply at the knee to support the collapsing weight of the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.12795,
         "Left Upper Leg In-Out": 0.32261,
@@ -137,7 +137,7 @@
         "raw_value": 0.15076,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg shifts its weight and bends slightly to maintain balance as the figure stumbles backward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.19188,
         "Right Upper Leg In-Out": 0.36161,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains held in a loose fist shape throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a closed fist pose near the upper body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:44:35Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

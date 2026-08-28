@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a 45-degree turn to the right while maintaining a static aiming pose with both arms extended forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01349,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates approximately 45 degrees to the right in sync with the leg movement, keeping the upper body aligned with the new direction.",
       "mean_pose": {
         "Spine Front-Back": -0.22003,
         "Spine Left-Right": 0.03444,
@@ -57,7 +57,7 @@
         "raw_value": 0.0096,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively stable in space or moves slightly less than the torso, maintaining its focus on the target area during the turn.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00676,
         "Neck Tilt Left-Right": -0.01231,
@@ -75,7 +75,7 @@
         "raw_value": 0.03027,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm stays rigidly extended forward at shoulder height, holding a fixed position relative to the body as it turns.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.27425,
         "Left Shoulder Front-Back": -0.54334,
@@ -96,7 +96,7 @@
         "raw_value": 0.02394,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, held steadily extended forward to support the imaginary weapon throughout the rotation.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.35343,
         "Right Shoulder Front-Back": 0.55278,
@@ -117,7 +117,7 @@
         "raw_value": 0.13485,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg acts as the pivot point, remaining planted on the ground while supporting the weight of the turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.54045,
         "Left Upper Leg In-Out": 0.24677,
@@ -137,7 +137,7 @@
         "raw_value": 0.15175,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts and swings forward to the right, stepping into the new position to complete the 45-degree turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.77324,
         "Right Upper Leg In-Out": 0.09351,
@@ -157,7 +157,7 @@
         "raw_value": 0.00486,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a steady gripping shape, pointing straight ahead without changing its orientation.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.85976,
         "Left Thumb Spread": -0.25095,
@@ -189,7 +189,7 @@
         "raw_value": 0.00397,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a static, open-palm or trigger-holding posture, extending directly forward from the elbow.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.61541,
         "Right Thumb Spread": -0.85711,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:07:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

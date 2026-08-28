@@ -14,7 +14,7 @@
   "duration": 4.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward while extending their right arm to push an unseen door open, then continues walking past it.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.19812,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward in a walking posture, rotating subtly with the steps and shifting its weight from side to side.",
       "mean_pose": {
         "Spine Front-Back": -0.20076,
         "Spine Left-Right": 0.08234,
@@ -57,7 +57,7 @@
         "raw_value": 0.2444,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head faces forward in the direction of travel, looking slightly down as if checking the path or the door.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02162,
         "Neck Tilt Left-Right": 0.01708,
@@ -75,7 +75,7 @@
         "raw_value": 0.25804,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally back and forth at the side of the body to balance the walking motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.48394,
         "Left Shoulder Front-Back": -1.36118,
@@ -96,7 +96,7 @@
         "raw_value": 0.56753,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches out to the side to push the invisible door, then retracts and begins to swing forward as the figure passes through.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.00035,
         "Right Shoulder Front-Back": 0.64589,
@@ -117,7 +117,7 @@
         "raw_value": 0.21087,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between stepping forward and trailing behind, driving the forward locomotion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.3506,
         "Left Upper Leg In-Out": 0.22251,
@@ -137,7 +137,7 @@
         "raw_value": 0.1882,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates between stepping forward and pushing off the ground to propel the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.26232,
         "Right Upper Leg In-Out": 0.04549,
@@ -157,7 +157,7 @@
         "raw_value": 0.17354,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains relatively relaxed, swinging loosely with the arm's momentum.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.43908,
         "Left Thumb Spread": 0.04283,
@@ -189,7 +189,7 @@
         "raw_value": 0.45259,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends forward with the palm flat to make contact with the door, then pulls back into a neutral walking position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52977,
         "Right Thumb Spread": -0.41849,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:42Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

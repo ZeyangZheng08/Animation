@@ -14,7 +14,7 @@
   "duration": 9.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jumps to catch a fly ball, landing in a crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.20668,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward as it drops into the catch and remains bent over the ground upon landing.",
       "mean_pose": {
         "Spine Front-Back": -0.17061,
         "Spine Left-Right": 0.00757,
@@ -57,7 +57,7 @@
         "raw_value": 0.22293,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts up to track the ball in the air before dropping down to look at the hands after the catch.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.20571,
         "Neck Tilt Left-Right": 0.10079,
@@ -75,7 +75,7 @@
         "raw_value": 0.29912,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises high overhead with an open palm to make the catch, then lowers to hang by the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.09647,
         "Left Shoulder Front-Back": -0.36267,
@@ -96,7 +96,7 @@
         "raw_value": 0.26646,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Lifts upward for balance during the jump and brings its hand in toward the chest on landing.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.04749,
         "Right Shoulder Front-Back": -0.03134,
@@ -117,7 +117,7 @@
         "raw_value": 0.32963,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends to propel the jump and bends sharply to absorb the impact of the landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.2073,
         "Left Upper Leg In-Out": 0.446,
@@ -137,7 +137,7 @@
         "raw_value": 0.37689,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends during the jump and flexes to cushion the descent onto the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.11695,
         "Right Upper Leg In-Out": 0.35127,
@@ -157,7 +157,7 @@
         "raw_value": 0.09869,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide above the head to secure the catch and relaxes downward after the play.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.54896,
         "Left Thumb Spread": -0.27821,
@@ -189,7 +189,7 @@
         "raw_value": 0.28812,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Raises near the face for balance and moves in close to the left hand at the waist level.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.86487,
         "Right Thumb Spread": -0.74737,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

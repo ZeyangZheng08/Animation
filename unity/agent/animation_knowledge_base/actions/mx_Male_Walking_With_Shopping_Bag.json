@@ -14,7 +14,7 @@
   "duration": 1.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward in a steady, rhythmic gait.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04334,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso maintains an upright posture with a slight natural sway and rotation to balance the stride.",
       "mean_pose": {
         "Spine Front-Back": -0.01574,
         "Spine Left-Right": -0.0137,
@@ -57,7 +57,7 @@
         "raw_value": 0.01792,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains static, facing straight ahead without any tilting or turning.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01428,
         "Neck Tilt Left-Right": -0.01181,
@@ -75,7 +75,7 @@
         "raw_value": 0.08083,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally back and forth at the side of the body in opposition to the legs.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.71308,
         "Left Shoulder Front-Back": -0.3812,
@@ -96,7 +96,7 @@
         "raw_value": 0.02822,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings naturally back and forth at the side of the body in opposition to the legs.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.67227,
         "Right Shoulder Front-Back": -0.44642,
@@ -117,7 +117,7 @@
         "raw_value": 0.17761,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between lifting forward and pushing off the ground as part of the walking cycle.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.37527,
         "Left Upper Leg In-Out": -0.10846,
@@ -137,7 +137,7 @@
         "raw_value": 0.16677,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates between lifting forward and pushing off the ground as part of the walking cycle.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.32581,
         "Right Upper Leg In-Out": 0.05528,
@@ -157,7 +157,7 @@
         "raw_value": 0.03601,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves with the arm swing, keeping a loose, relaxed shape throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.95555,
         "Left Thumb Spread": 0.30509,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a relaxed, open pose at the end of the swinging arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.21076,
         "Right Thumb Spread": -0.95048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:43Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

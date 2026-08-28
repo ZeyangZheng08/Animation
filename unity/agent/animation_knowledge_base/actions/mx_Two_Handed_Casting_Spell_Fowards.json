@@ -14,7 +14,7 @@
   "duration": 2.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a two-handed spell casting gesture, sweeping their arms forward and outward from a gathered position in front of the chest.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13365,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward while twisting gently to follow the arc of the arm movement.",
       "mean_pose": {
         "Spine Front-Back": -0.24904,
         "Spine Left-Right": 0.00332,
@@ -57,7 +57,7 @@
         "raw_value": 0.21737,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward and rotates to track the path of the hands as they move.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.47855,
         "Neck Tilt Left-Right": 0.28483,
@@ -75,7 +75,7 @@
         "raw_value": 0.4643,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Begins bent with the hand near the center of the chest, then extends forward and outward into a wide casting pose.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.45546,
         "Left Shoulder Front-Back": -2.17041,
@@ -96,7 +96,7 @@
         "raw_value": 0.43011,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts in a mirrored position close to the body and sweeps forward and outward alongside the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.19598,
         "Right Shoulder Front-Back": -0.94063,
@@ -117,7 +117,7 @@
         "raw_value": 0.2372,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted in a stable, slightly bent stance that shifts weight subtly to support the upper body's motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.00238,
         "Left Upper Leg In-Out": 0.23654,
@@ -137,7 +137,7 @@
         "raw_value": 0.2015,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains grounded in a wide, athletic stance, providing a solid base for the torso's rotation.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.04643,
         "Right Upper Leg In-Out": 0.27193,
@@ -157,7 +157,7 @@
         "raw_value": 0.35973,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens its fingers and pushes away from the chest to lead the forward casting motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.24819,
         "Left Thumb Spread": -0.01022,
@@ -189,7 +189,7 @@
         "raw_value": 0.446,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves in tandem with the left hand, extending forward with an open palm to complete the gesture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.09374,
         "Right Thumb Spread": 0.15962,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:28Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

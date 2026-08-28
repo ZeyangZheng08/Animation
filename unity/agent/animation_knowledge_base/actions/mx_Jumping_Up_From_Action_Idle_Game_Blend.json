@@ -14,7 +14,7 @@
   "duration": 0.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jumps upward from a standing position, tucking its legs while spreading its arms for balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13925,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward during the initial crouch and extends vertically as it lifts into the air.",
       "mean_pose": {
         "Spine Front-Back": -0.23225,
         "Spine Left-Right": -0.06977,
@@ -57,7 +57,7 @@
         "raw_value": 0.09972,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward at the start before lifting to look forward in mid-air.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.14836,
         "Neck Tilt Left-Right": -0.08293,
@@ -75,7 +75,7 @@
         "raw_value": 0.22825,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward to the side and slightly upward to maintain balance during the jump.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.14904,
         "Left Shoulder Front-Back": 0.64831,
@@ -96,7 +96,7 @@
         "raw_value": 0.23382,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left by swinging out to the side and up, extending fully in the air.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.18875,
         "Right Shoulder Front-Back": 0.43679,
@@ -117,7 +117,7 @@
         "raw_value": 0.16792,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to load the jump and then tucks upward toward the chest in mid-flight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.2474,
         "Left Upper Leg In-Out": 0.21769,
@@ -137,7 +137,7 @@
         "raw_value": 0.24589,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg also bends to generate force and pulls up alongside the left leg in the air.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.03431,
         "Right Upper Leg In-Out": 0.49186,
@@ -157,7 +157,7 @@
         "raw_value": 0.11142,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers relaxed as the arm extends outward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.5552,
         "Left Thumb Spread": -0.5113,
@@ -189,7 +189,7 @@
         "raw_value": 0.06032,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open and relaxed, mirroring the movement of the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.38516,
         "Right Thumb Spread": -0.30945,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:11Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

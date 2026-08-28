@@ -14,7 +14,7 @@
   "duration": 1.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a downward slash, bringing an arm from a high overhead position down to the side while stepping into a wide stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12887,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and twists slightly to the right, driving the body's momentum into the downward motion of the arms.",
       "mean_pose": {
         "Spine Front-Back": -0.24621,
         "Spine Left-Right": -0.20031,
@@ -57,7 +57,7 @@
         "raw_value": 0.27418,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward and turns to the right, following the trajectory of the slashing arm.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.15528,
         "Neck Tilt Left-Right": 0.01359,
@@ -75,7 +75,7 @@
         "raw_value": 0.31621,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends upward and outward to the left, raising the hand high above the head before swinging it down forcefully across the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.37271,
         "Left Shoulder Front-Back": -0.12372,
@@ -96,7 +96,7 @@
         "raw_value": 0.54201,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches forward and then bends at the elbow, drawing the hand back toward the waist as the left arm completes its slash.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.05616,
         "Right Shoulder Front-Back": -0.68065,
@@ -117,7 +117,7 @@
         "raw_value": 0.21199,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps out to the left with the knee bent, anchoring the front of the new wide stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.39055,
         "Left Upper Leg In-Out": 0.48303,
@@ -137,7 +137,7 @@
         "raw_value": 0.25092,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Plants behind the body with the knee bent, providing support for the lunge.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.39884,
         "Right Upper Leg In-Out": 0.45916,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a fixed, open-palm pose throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21301,
         "Left Thumb Spread": -0.90937,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static, loosely curled grip near the torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:49:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

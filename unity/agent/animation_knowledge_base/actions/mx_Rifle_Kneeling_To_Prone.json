@@ -14,7 +14,7 @@
   "duration": 1.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure drops from a kneeling stance to the floor, ending in a prone position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14621,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins upright and leaning slightly forward, then bends down sharply as the body lowers until it is flat against the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.43101,
         "Spine Left-Right": 0.11398,
@@ -57,7 +57,7 @@
         "raw_value": 0.24058,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head starts facing forward and tilts downward with the torso's descent, finally resting low on the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.51326,
         "Neck Tilt Left-Right": 0.19534,
@@ -75,7 +75,7 @@
         "raw_value": 0.40739,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward and downward to place the hand on the ground, supporting the body as it transitions to a prone position.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.2499,
         "Left Shoulder Front-Back": -1.4043,
@@ -96,7 +96,7 @@
         "raw_value": 0.2851,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves forward and down alongside the left, extending out to support the upper body before settling into the final pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.99262,
         "Right Shoulder Front-Back": -2.36892,
@@ -117,7 +117,7 @@
         "raw_value": 0.30256,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg transitions from being bent beneath the body to lying flat on the floor, extended behind the hips.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.42299,
         "Left Upper Leg In-Out": 0.33018,
@@ -137,7 +137,7 @@
         "raw_value": 0.34742,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the same motion, moving from a bent knee position to lying flat and extended on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.14044,
         "Right Upper Leg In-Out": 0.75614,
@@ -157,7 +157,7 @@
         "raw_value": 0.49212,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches down to plant firmly on the floor, bearing weight during the drop and holding steady at the end.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.74536,
         "Left Thumb Spread": -0.24164,
@@ -189,7 +189,7 @@
         "raw_value": 0.21863,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends forward to touch the ground, assisting in lowering the body before coming to rest in the final pose.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.53083,
         "Right Thumb Spread": -1.08566,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:41Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

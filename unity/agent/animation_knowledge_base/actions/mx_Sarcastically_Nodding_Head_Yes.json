@@ -14,7 +14,7 @@
   "duration": 2.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place and performs a slow, sarcastic nodding motion with its head.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01191,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains upright and stationary throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.07516,
         "Spine Left-Right": 0.0739,
@@ -57,7 +57,7 @@
         "raw_value": 0.07875,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts forward and downward to begin the nod, then lifts back up to an upright position.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.11555,
         "Neck Tilt Left-Right": 0.07116,
@@ -75,7 +75,7 @@
         "raw_value": 0.07233,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs straight down at the side of the body with a slight bend at the elbow.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.54462,
         "Left Shoulder Front-Back": -1.06427,
@@ -96,7 +96,7 @@
         "raw_value": 0.05736,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs straight down at the side of the body with a slight bend at the elbow.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.77176,
         "Right Shoulder Front-Back": -0.93832,
@@ -117,7 +117,7 @@
         "raw_value": 0.01665,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands straight and planted on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.45203,
         "Left Upper Leg In-Out": 0.18366,
@@ -137,7 +137,7 @@
         "raw_value": 0.01566,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands straight and planted on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.62144,
         "Right Upper Leg In-Out": -0.05477,
@@ -157,7 +157,7 @@
         "raw_value": 0.04721,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely by the hip with fingers slightly curled.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.52122,
         "Left Thumb Spread": -0.09847,
@@ -189,7 +189,7 @@
         "raw_value": 0.0467,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely by the hip with fingers slightly curled.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.34459,
         "Right Thumb Spread": -0.06319,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:46:49Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

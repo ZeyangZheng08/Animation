@@ -14,7 +14,7 @@
   "duration": 3.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a wide, braced stance and rotates its upper body to the left, pulling an imaginary bowstring back to charge a shot.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.05357,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins facing forward, then twists sharply to the left, holding the rotated pose at the end of the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.19556,
         "Spine Left-Right": -0.17671,
@@ -57,7 +57,7 @@
         "raw_value": 0.06428,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to the left to follow the direction of the draw, ending in profile.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.27369,
         "Neck Tilt Left-Right": 0.14087,
@@ -75,7 +75,7 @@
         "raw_value": 0.03748,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends straight out to the side, remaining rigid as the body rotates around it.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.47522,
         "Left Shoulder Front-Back": 0.04489,
@@ -96,7 +96,7 @@
         "raw_value": 0.0988,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is drawn back across the chest, with the elbow bent and hand pulled close to the face.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.58034,
         "Right Shoulder Front-Back": -0.19555,
@@ -117,7 +117,7 @@
         "raw_value": 0.02276,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays planted on the ground, bending slightly at the knee to brace the weight shift.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.38378,
         "Left Upper Leg In-Out": 0.39761,
@@ -137,7 +137,7 @@
         "raw_value": 0.03761,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted with a slight bend, anchoring the stance throughout the motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.22101,
         "Right Upper Leg In-Out": 0.38007,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a fixed, open pose extended outwards.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a closed fist pose near the chin.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.41906,
         "Right Thumb Spread": -0.23216,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:10Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

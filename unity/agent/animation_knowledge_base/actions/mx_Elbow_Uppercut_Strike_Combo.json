@@ -14,7 +14,7 @@
   "duration": 2.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure throws a right elbow uppercut while twisting the torso and lifting the left leg.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06935,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from facing forward to facing left, leaning slightly backward as the punch is thrown.",
       "mean_pose": {
         "Spine Front-Back": -0.07715,
         "Spine Left-Right": 0.02711,
@@ -57,7 +57,7 @@
         "raw_value": 0.29299,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back and turns to face the viewer's left, following the motion of the arm.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00747,
         "Neck Tilt Left-Right": -0.05502,
@@ -75,7 +75,7 @@
         "raw_value": 0.24741,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm bends at the elbow with the hand held in a loose fist near the chest, moving up slightly with the body rotation.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.04773,
         "Left Shoulder Front-Back": -0.10813,
@@ -96,7 +96,7 @@
         "raw_value": 0.26092,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm starts bent across the chest, then swings upward in an arc to throw an uppercut, ending with the fist raised high.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.43689,
         "Right Shoulder Front-Back": -0.34718,
@@ -117,7 +117,7 @@
         "raw_value": 0.20294,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts off the ground and bends at the knee, drawing the foot up behind the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.0215,
         "Left Upper Leg In-Out": 0.11712,
@@ -137,7 +137,7 @@
         "raw_value": 0.22983,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted on the ground, acting as the stable base for the movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.46025,
         "Right Upper Leg In-Out": 0.28326,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains in a loose fist shape, held steady relative to the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.36908,
         "Left Thumb Spread": -0.76587,
@@ -189,7 +189,7 @@
         "raw_value": 0.44511,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand clenches into a fist and drives upward through the air during the strike.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.49535,
         "Right Thumb Spread": -0.65669,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

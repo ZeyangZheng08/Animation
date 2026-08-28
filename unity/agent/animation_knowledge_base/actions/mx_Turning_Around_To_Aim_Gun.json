@@ -14,7 +14,7 @@
   "duration": 2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure pivots on its feet to turn around while extending both arms forward into a two-handed aiming stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07523,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from facing forward to facing backward, twisting continuously throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.12722,
         "Spine Left-Right": -0.01012,
@@ -57,7 +57,7 @@
         "raw_value": 0.15338,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns in sync with the body's rotation, keeping its gaze aligned with the direction of the arms.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.10602,
         "Neck Tilt Left-Right": 0.08297,
@@ -75,7 +75,7 @@
         "raw_value": 0.34453,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm moves from a bent position at the side to being extended straight out in front of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.84803,
         "Left Shoulder Front-Back": -0.72891,
@@ -96,7 +96,7 @@
         "raw_value": 0.52734,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings across the body and extends forward to meet the left arm in an aiming pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.56753,
         "Right Shoulder Front-Back": -0.39158,
@@ -117,7 +117,7 @@
         "raw_value": 0.15651,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends slightly at the knee as the figure shifts its weight during the turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.1236,
         "Left Upper Leg In-Out": 0.20695,
@@ -137,7 +137,7 @@
         "raw_value": 0.14434,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted and relatively straight, serving as the pivot point for the rotation.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.19885,
         "Right Upper Leg In-Out": 0.27227,
@@ -157,7 +157,7 @@
         "raw_value": 0.22806,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends forward, holding a steady grip shape consistent with supporting a weapon.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.95608,
         "Left Thumb Spread": -0.08942,
@@ -189,7 +189,7 @@
         "raw_value": 0.03261,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches out to meet the left, completing the two-handed hold at the end of the motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.56335,
         "Right Thumb Spread": -0.36057,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

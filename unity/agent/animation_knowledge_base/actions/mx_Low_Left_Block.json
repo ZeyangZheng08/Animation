@@ -14,7 +14,7 @@
   "duration": 1.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low left block, dropping into a deep stance while sweeping the left arm down and across to meet the right hand.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09568,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers significantly into a deep squat, leaning forward slightly and tilting to the left as the weight shifts.",
       "mean_pose": {
         "Spine Front-Back": -0.22692,
         "Spine Left-Right": 0.03761,
@@ -57,7 +57,7 @@
         "raw_value": 0.18753,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head moves downward with the torso and turns toward the figure's left side, tracking the movement of the arms.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.19385,
         "Neck Tilt Left-Right": 0.04968,
@@ -75,7 +75,7 @@
         "raw_value": 0.17913,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm sweeps in a wide arc from a high position on the left side down and across the body toward the center.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.49272,
         "Left Shoulder Front-Back": -0.31688,
@@ -96,7 +96,7 @@
         "raw_value": 0.17623,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends forward and downward to meet the left arm at a low position in front of the hips.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.19621,
         "Right Shoulder Front-Back": -0.52178,
@@ -117,7 +117,7 @@
         "raw_value": 0.09557,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply to support the drop, acting as the primary supporting pillar for the low stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.01322,
         "Left Upper Leg In-Out": 0.12246,
@@ -137,7 +137,7 @@
         "raw_value": 0.11487,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains bent and trails behind the left leg, providing balance in the staggered stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.25447,
         "Right Upper Leg In-Out": 0.54981,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand maintains a loose fist shape throughout the sweep.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static loose fist pose as it meets the left arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

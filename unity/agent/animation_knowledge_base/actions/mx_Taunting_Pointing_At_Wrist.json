@@ -14,7 +14,7 @@
   "duration": 2.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a taunting gesture by extending the right hand to point at the bent left wrist.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03139,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright with a slight forward lean and sways gently side-to-side throughout the motion.",
       "mean_pose": {
         "Spine Front-Back": -0.40492,
         "Spine Left-Right": 0.0391,
@@ -57,7 +57,7 @@
         "raw_value": 0.09863,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward, keeping its gaze fixed on the hands in front of the chest.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.25633,
         "Neck Tilt Left-Right": -0.11244,
@@ -75,7 +75,7 @@
         "raw_value": 0.20576,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, holding the forearm up horizontally across the midsection.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.27402,
         "Left Shoulder Front-Back": -0.21192,
@@ -96,7 +96,7 @@
         "raw_value": 0.1792,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends forward from the shoulder to reach the left wrist, then retracts back toward the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.25756,
         "Right Shoulder Front-Back": -1.25009,
@@ -117,7 +117,7 @@
         "raw_value": 0.02944,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays planted on the ground with the knee slightly bent to support the weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.07094,
         "Left Upper Leg In-Out": 0.40392,
@@ -137,7 +137,7 @@
         "raw_value": 0.03292,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left, standing firmly with a slight bend in the knee.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.4079,
         "Right Upper Leg In-Out": 0.27731,
@@ -157,7 +157,7 @@
         "raw_value": 0.03909,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs loosely near the end of the raised forearm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15523,
         "Left Thumb Spread": 0.1045,
@@ -189,7 +189,7 @@
         "raw_value": 0.29767,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand points its index finger directly at the left wrist before pulling back into a loose fist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.11818,
         "Right Thumb Spread": -0.00527,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

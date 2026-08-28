@@ -14,7 +14,7 @@
   "duration": 2.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A seated figure performs an agitated gesture, raising one arm in a frustrated motion before lowering it to rest on their lap.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04789,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and rotates subtly with the arm movements while maintaining a seated posture.",
       "mean_pose": {
         "Spine Front-Back": -0.24911,
         "Spine Left-Right": -0.03688,
@@ -57,7 +57,7 @@
         "raw_value": 0.06846,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts upward during the peak of the gesture and then lowers back down toward the lap at the end.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02161,
         "Neck Tilt Left-Right": 0.00958,
@@ -75,7 +75,7 @@
         "raw_value": 0.4488,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward from the body and swings upward into a high position before returning to rest on the knee.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.05961,
         "Left Shoulder Front-Back": 0.36748,
@@ -96,7 +96,7 @@
         "raw_value": 0.36129,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent with the hand placed near the hip or lower torso throughout the clip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.04351,
         "Right Shoulder Front-Back": -0.1407,
@@ -117,7 +117,7 @@
         "raw_value": 0.02393,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee, supporting the seated posture on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.61234,
         "Left Upper Leg In-Out": 0.23639,
@@ -137,7 +137,7 @@
         "raw_value": 0.02373,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent at the knee, mirroring the left leg in the sitting position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.60969,
         "Right Upper Leg In-Out": 0.17202,
@@ -157,7 +157,7 @@
         "raw_value": 0.29266,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a relaxed position to an open, raised state above the shoulder, then descends to the knee.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.26394,
         "Left Thumb Spread": -0.00286,
@@ -189,7 +189,7 @@
         "raw_value": 0.46712,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays relatively stationary, resting near the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.14597,
         "Right Thumb Spread": 0.33865,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:49Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

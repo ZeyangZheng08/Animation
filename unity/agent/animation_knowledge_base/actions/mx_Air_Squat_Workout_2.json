@@ -14,7 +14,7 @@
   "duration": 1.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a standard air squat, lowering from a standing position into a deep crouch and then rising back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02422,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward as the figure descends into the squat, keeping the chest relatively upright, before returning to an erect vertical position on the ascent.",
       "mean_pose": {
         "Spine Front-Back": -0.03505,
         "Spine Left-Right": 0.01593,
@@ -57,7 +57,7 @@
         "raw_value": 0.04041,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward with the forward lean of the upper body during the descent and returns to a neutral, forward-facing orientation when standing.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.4425,
         "Neck Tilt Left-Right": 0.06771,
@@ -75,7 +75,7 @@
         "raw_value": 0.19852,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings forward from the side, bending at the elbow to extend the forearm horizontally in front of the chest at the bottom of the squat, then retracts back down.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.33713,
         "Left Shoulder Front-Back": -0.64132,
@@ -96,7 +96,7 @@
         "raw_value": 0.23166,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging forward and extending the forearm horizontally in front of the body at the lowest point of the squat before returning to the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.26075,
         "Right Shoulder Front-Back": -0.81027,
@@ -117,7 +117,7 @@
         "raw_value": 0.29336,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the hip and knee to lower the body into the squat, maintaining a stable base, and extends to straighten the leg as the figure stands back up.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.17525,
         "Left Upper Leg In-Out": 0.36837,
@@ -137,7 +137,7 @@
         "raw_value": 0.28681,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg works in tandem with the left, flexing at the knee and hip to achieve depth in the squat and then extending fully to return to a standing posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.1797,
         "Right Upper Leg In-Out": 0.24579,
@@ -157,7 +157,7 @@
         "raw_value": 0.0913,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers relaxed, moving along with the forward swing of the arm during the squatting motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.14935,
         "Left Thumb Spread": 0.40283,
@@ -189,7 +189,7 @@
         "raw_value": 0.09901,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed, following the path of the right arm as it extends forward and pulls back.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.706,
         "Right Thumb Spread": 0.11235,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

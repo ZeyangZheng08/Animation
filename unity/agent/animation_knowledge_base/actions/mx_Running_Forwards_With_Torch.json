@@ -14,7 +14,7 @@
   "duration": 0.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin runs forward with a steady stride, pumping its arms in opposition to its legs.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08914,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into the run and bobs vertically with each footfall while rotating slightly side-to-side.",
       "mean_pose": {
         "Spine Front-Back": -0.08679,
         "Spine Left-Right": 0.06152,
@@ -57,7 +57,7 @@
         "raw_value": 0.09921,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward in line with the direction of travel and tilts up and down rhythmically with the torso's motion.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03174,
         "Neck Tilt Left-Right": -0.24964,
@@ -75,7 +75,7 @@
         "raw_value": 0.08954,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings back and forth across the front of the body, bent at the elbow, moving in opposition to the right leg.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.56974,
         "Left Shoulder Front-Back": -0.26973,
@@ -96,7 +96,7 @@
         "raw_value": 0.23546,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings back and forth across the front of the body, bent at the elbow, moving in opposition to the left leg.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.2964,
         "Right Shoulder Front-Back": -0.43323,
@@ -117,7 +117,7 @@
         "raw_value": 0.2257,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward and lifts high before extending downward to strike the ground, then trails behind for push-off.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.19927,
         "Left Upper Leg In-Out": 0.20108,
@@ -137,7 +137,7 @@
         "raw_value": 0.19937,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward and lifts high before extending downward to strike the ground, then trails behind for push-off.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.23761,
         "Right Upper Leg In-Out": -0.10945,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains held in a relaxed, open position near the hip as the arm swings.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41852,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.20086,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, curled fist shape throughout the swinging motion of the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.73119,
         "Right Thumb Spread": -0.33527,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:46:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 4.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A seated figure rhythmically taps the fingers of their left hand against the palm of their right hand.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0018,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stable in a seated posture, leaning slightly forward.",
       "mean_pose": {
         "Spine Front-Back": -0.64329,
         "Spine Left-Right": 0.10042,
@@ -57,7 +57,7 @@
         "raw_value": 0.00952,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays still, facing directly forward throughout the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04338,
         "Neck Tilt Left-Right": 0.05358,
@@ -75,7 +75,7 @@
         "raw_value": 0.00513,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow with the forearm held horizontally across the body to support the tapping motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.80154,
         "Left Shoulder Front-Back": -0.65575,
@@ -96,7 +96,7 @@
         "raw_value": 0.00339,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs relaxed at the side of the body, remaining stationary.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.14099,
         "Right Shoulder Front-Back": 0.24756,
@@ -117,7 +117,7 @@
         "raw_value": 0.00122,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee in a sitting position, supporting the weight of the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.67608,
         "Left Upper Leg In-Out": 0.19605,
@@ -137,7 +137,7 @@
         "raw_value": 0.00127,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent at the knee in a sitting position, mirroring the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.68297,
         "Right Upper Leg In-Out": 0.28437,
@@ -157,7 +157,7 @@
         "raw_value": 0.13777,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves in a continuous up-and-down motion, tapping its fingers against the other hand.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.70851,
         "Left Thumb Spread": -0.70048,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a steady, open-palm pose in front of the body to serve as a surface for the tapping.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.59174,
         "Right Thumb Spread": -0.08593,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:50:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

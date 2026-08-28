@@ -14,7 +14,7 @@
   "duration": 1.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin stands in place, rhythmically bouncing on its feet while shaking its head and swinging its arms up and down.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05059,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Bobs vertically with the bounce, leaning slightly forward at times.",
       "mean_pose": {
         "Spine Front-Back": -0.09725,
         "Spine Left-Right": 0.02296,
@@ -57,7 +57,7 @@
         "raw_value": 0.28878,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Shakes side to side in a continuous motion.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.17809,
         "Neck Tilt Left-Right": -0.05266,
@@ -75,7 +75,7 @@
         "raw_value": 0.09773,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings back and forth, bending at the elbow to bring the hand toward the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.53656,
         "Left Shoulder Front-Back": -0.0987,
@@ -96,7 +96,7 @@
         "raw_value": 0.20186,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings back and forth, moving away from the body and then returning.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.34145,
         "Right Shoulder Front-Back": -0.66402,
@@ -117,7 +117,7 @@
         "raw_value": 0.03616,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground, bending at the knee to absorb the bounce.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.04539,
         "Left Upper Leg In-Out": 0.13858,
@@ -137,7 +137,7 @@
         "raw_value": 0.03663,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground, bending at the knee to absorb the bounce.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.09778,
         "Right Upper Leg In-Out": 0.22281,
@@ -157,7 +157,7 @@
         "raw_value": 0.11646,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves up and down with the arm, fingers relaxed and open.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.13245,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves up and down with the arm, fingers relaxed and open.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

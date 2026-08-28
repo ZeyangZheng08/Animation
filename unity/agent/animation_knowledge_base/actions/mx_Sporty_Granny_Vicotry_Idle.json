@@ -14,7 +14,7 @@
   "duration": 1.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a rhythmic dance move, starting in a crouch, raising one arm to point upward while leaning back, then lowering the arm and swaying.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11731,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward into a deep crouch at the start, arches backward as the arm rises, and then straightens up while swaying side-to-side.",
       "mean_pose": {
         "Spine Front-Back": -0.455,
         "Spine Left-Right": 0.01306,
@@ -57,7 +57,7 @@
         "raw_value": 0.1845,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down following the crouch, looks upward toward the raised hand, and then turns slightly to the side during the final sway.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.29773,
         "Neck Tilt Left-Right": 0.01516,
@@ -75,7 +75,7 @@
         "raw_value": 0.26233,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs low near the thigh in the first pose, swings up across the chest with the index finger pointing to the sky in the second, and finishes extended out to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.03425,
         "Left Shoulder Front-Back": -0.91764,
@@ -96,7 +96,7 @@
         "raw_value": 0.45028,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent with the hand resting on the hip throughout the sequence, moving only slightly with the rotation of the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.15631,
         "Right Shoulder Front-Back": 0.02339,
@@ -117,7 +117,7 @@
         "raw_value": 0.09718,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply in the initial squat, straightens slightly as the body leans back, and remains bent in a dance stance at the end.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.24025,
         "Left Upper Leg In-Out": 0.22555,
@@ -137,7 +137,7 @@
         "raw_value": 0.12272,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left by bending in the crouch, extending as the figure leans back, and finishing in a stable, slightly bent position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.4778,
         "Right Upper Leg In-Out": 0.32785,
@@ -157,7 +157,7 @@
         "raw_value": 0.24205,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is relaxed and open in the first pose, extends the index finger to point directly upward in the middle pose, and opens fully in the final frame.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.8678,
         "Left Thumb Spread": -0.3335,
@@ -189,7 +189,7 @@
         "raw_value": 0.2964,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays fixed in a fist or grip shape, resting firmly on the hip for the duration of the movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.89775,
         "Right Thumb Spread": -0.09218,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:40Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

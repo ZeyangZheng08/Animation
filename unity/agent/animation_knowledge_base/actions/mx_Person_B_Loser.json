@@ -14,7 +14,7 @@
   "duration": 8.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stumbles forward, loses balance, and falls to the ground, ending in a seated position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14738,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward while walking, pitches sharply downward during the fall, and settles into an upright but bent posture on the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.39309,
         "Spine Left-Right": -0.00879,
@@ -57,7 +57,7 @@
         "raw_value": 0.37074,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Bobs with the gait, tilts down as the body drops, and remains lowered toward the ground in the final pose.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.15385,
         "Neck Tilt Left-Right": 0.00759,
@@ -75,7 +75,7 @@
         "raw_value": 0.27437,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches out and down to break the fall, then rests on the ground to support the torso.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.31135,
         "Left Shoulder Front-Back": 0.14102,
@@ -96,7 +96,7 @@
         "raw_value": 0.33781,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings slightly for balance before extending outward to brace against the floor.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.30544,
         "Right Shoulder Front-Back": -0.11341,
@@ -117,7 +117,7 @@
         "raw_value": 0.28408,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and bends at the knee, then folds underneath the body as it hits the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.23051,
         "Left Upper Leg In-Out": 0.12787,
@@ -137,7 +137,7 @@
         "raw_value": 0.27367,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trails behind initially, kicks out to the side during the fall, and ends extended straight away from the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.26288,
         "Right Upper Leg In-Out": 0.17126,
@@ -157,7 +157,7 @@
         "raw_value": 0.60364,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens to push against the floor, stabilizing the upper body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.54931,
         "Left Thumb Spread": -0.42562,
@@ -189,7 +189,7 @@
         "raw_value": 0.61002,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends to touch the ground, assisting in stopping the fall.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.40418,
         "Right Thumb Spread": -0.35934,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:40Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

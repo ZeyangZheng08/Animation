@@ -14,7 +14,7 @@
   "duration": 3.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure releases a hostage by stepping back and dropping their arms from a raised position to their sides.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03242,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward slightly at the start, then rotates and shifts backward into an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.1104,
         "Spine Left-Right": 0.06154,
@@ -57,7 +57,7 @@
         "raw_value": 0.10079,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down toward the chest initially, then lifts up and turns slightly to look over the shoulder.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.07648,
         "Neck Tilt Left-Right": 0.13447,
@@ -75,7 +75,7 @@
         "raw_value": 0.34078,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent with the hand near the center of the chest, then lowers and extends outward to the side before settling at the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.13574,
         "Left Shoulder Front-Back": 0.21194,
@@ -96,7 +96,7 @@
         "raw_value": 0.30876,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm begins held high and bent across the body, then drops straight down to hang by the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.40598,
         "Right Shoulder Front-Back": -0.26857,
@@ -117,7 +117,7 @@
         "raw_value": 0.11789,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is planted firmly on the ground throughout the entire sequence.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.26372,
         "Left Upper Leg In-Out": 0.16028,
@@ -137,7 +137,7 @@
         "raw_value": 0.15663,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains stationary in a standing position next to the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.48878,
         "Right Upper Leg In-Out": 0.08847,
@@ -157,7 +157,7 @@
         "raw_value": 0.43348,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a gripping pose near the chest to an open palm facing outward, ending in a relaxed state.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.26689,
         "Left Thumb Spread": -0.22457,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs loosely at the side of the body, holding a static, relaxed pose.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.6214,
         "Right Thumb Spread": -1.72284,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:07:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

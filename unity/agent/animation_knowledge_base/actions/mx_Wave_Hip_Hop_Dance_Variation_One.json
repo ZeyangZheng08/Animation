@@ -14,7 +14,7 @@
   "duration": 16.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a rhythmic dance, bouncing on their heels while swaying their hips and swinging their arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12365,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bounces up and down with each step, leaning slightly forward at times and twisting to the right during the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.27831,
         "Spine Left-Right": 0.14628,
@@ -57,7 +57,7 @@
         "raw_value": 0.24589,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts to the left and then straightens out as the body moves through the sequence.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0815,
         "Neck Tilt Left-Right": 0.03159,
@@ -75,7 +75,7 @@
         "raw_value": 0.31078,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward from the side of the body and then pulls back toward the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.09667,
         "Left Shoulder Front-Back": 0.06423,
@@ -96,7 +96,7 @@
         "raw_value": 0.3742,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends out to the side in a wave-like motion before returning to the hip area.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.03562,
         "Right Shoulder Front-Back": -0.92495,
@@ -117,7 +117,7 @@
         "raw_value": 0.22508,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee, lifting the heel off the ground to create a bounce.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.38842,
         "Left Upper Leg In-Out": 0.26404,
@@ -137,7 +137,7 @@
         "raw_value": 0.20034,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains relatively stable, acting as the primary support while the other leg bounces.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.35904,
         "Right Upper Leg In-Out": 0.1159,
@@ -157,7 +157,7 @@
         "raw_value": 0.12185,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves fluidly with the arm, extending outward and then curling back near the waist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.13832,
         "Left Thumb Spread": -0.13962,
@@ -189,7 +189,7 @@
         "raw_value": 0.12775,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand gestures outward in a loose wave, following the arc of the extended arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.45582,
         "Right Thumb Spread": 0.1598,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:34Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

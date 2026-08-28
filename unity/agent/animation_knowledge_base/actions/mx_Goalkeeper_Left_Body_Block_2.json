@@ -14,7 +14,7 @@
   "duration": 3.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a goalkeeper's diving save to their left side, falling to the ground and then recovering back into a crouched stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13977,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply to the left during the dive, tilts forward as it hits the ground, and then rotates back upright while rising from the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.55682,
         "Spine Left-Right": 0.13346,
@@ -57,7 +57,7 @@
         "raw_value": 0.23955,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head looks forward initially, turns slightly left during the dive, points upward while on the ground, and returns to face forward as the figure stands up.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06011,
         "Neck Tilt Left-Right": 0.01316,
@@ -75,7 +75,7 @@
         "raw_value": 0.50126,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward and downward to initiate the dive, follows the body to the ground with the hand open, and then pulls in toward the chest during recovery.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.03226,
         "Left Shoulder Front-Back": -0.47902,
@@ -96,7 +96,7 @@
         "raw_value": 0.40021,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings across the body to lead the dive, extends overhead while sliding on the ground, and bends at the elbow to help pull the torso up.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.25225,
         "Right Shoulder Front-Back": -0.44102,
@@ -117,7 +117,7 @@
         "raw_value": 0.31081,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg pushes off the ground to start the dive, tucks underneath the body during the fall, and then straightens out to plant the foot for the recovery.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.33784,
         "Left Upper Leg In-Out": 0.52029,
@@ -137,7 +137,7 @@
         "raw_value": 0.23539,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind during the dive, slides along the floor, and then bends to support the body as it gets back to its feet.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.28536,
         "Right Upper Leg In-Out": 0.3722,
@@ -157,7 +157,7 @@
         "raw_value": 0.1569,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and extended during the dive, touches the ground during the slide, and curls inward near the waist upon standing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.01761,
         "Left Thumb Spread": 0.39236,
@@ -189,7 +189,7 @@
         "raw_value": 0.17527,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches out during the dive, stays open above the ground during the slide, and brings the fingers together near the chest during the recovery.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.88389,
         "Right Thumb Spread": 0.69663,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

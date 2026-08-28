@@ -14,7 +14,7 @@
   "duration": 1.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a lateral strafe, walking steadily to the right while facing forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06852,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso maintains an upright posture, swaying gently from side to side with the rhythm of the steps.",
       "mean_pose": {
         "Spine Front-Back": -0.13663,
         "Spine Left-Right": -0.01253,
@@ -57,7 +57,7 @@
         "raw_value": 0.0229,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains level and faces directly forward throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.10615,
         "Neck Tilt Left-Right": 0.00169,
@@ -75,7 +75,7 @@
         "raw_value": 0.13009,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally in opposition to the legs, bending at the elbow as it moves through the cycle.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.55439,
         "Left Shoulder Front-Back": 0.08119,
@@ -96,7 +96,7 @@
         "raw_value": 0.09144,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings opposite to the left arm, maintaining a relaxed bend at the elbow.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.64516,
         "Right Shoulder Front-Back": -0.45126,
@@ -117,7 +117,7 @@
         "raw_value": 0.17567,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the movement by stepping out to the side and pushing off to propel the body laterally.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.13594,
         "Left Upper Leg In-Out": 0.07265,
@@ -137,7 +137,7 @@
         "raw_value": 0.21358,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the gait pattern, stepping to the side to maintain balance and continue the strafe.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.21617,
         "Right Upper Leg In-Out": 0.07523,
@@ -157,7 +157,7 @@
         "raw_value": 0.02837,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open and relaxed, moving freely with the swing of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41154,
         "Left Thumb Spread": -0.34504,
@@ -189,7 +189,7 @@
         "raw_value": 0.03638,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and relaxed, mirroring the natural motion of the arm swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.28438,
         "Right Thumb Spread": -0.29509,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:49:35Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

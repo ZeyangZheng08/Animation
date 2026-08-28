@@ -14,7 +14,7 @@
   "duration": 2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks backward in a low crouch while holding an invisible rifle in a ready position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0171,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a deep crouch, maintaining a steady posture with slight rhythmic swaying to balance the backward movement.",
       "mean_pose": {
         "Spine Front-Back": -0.51544,
         "Spine Left-Right": -0.16768,
@@ -57,7 +57,7 @@
         "raw_value": 0.00472,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains relatively stable and level, facing forward over the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05657,
         "Neck Tilt Left-Right": 0.03653,
@@ -75,7 +75,7 @@
         "raw_value": 0.01843,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent pose at the waist, simulating a grip on the weapon's stock.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.68518,
         "Left Shoulder Front-Back": -0.80243,
@@ -96,7 +96,7 @@
         "raw_value": 0.01766,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward from the shoulder, simulating a grip on the weapon's front handguard.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.24737,
         "Right Shoulder Front-Back": -1.18976,
@@ -117,7 +117,7 @@
         "raw_value": 0.12031,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Moves in a continuous cycle, stepping backward and pushing off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.14972,
         "Left Upper Leg In-Out": 0.10082,
@@ -137,7 +137,7 @@
         "raw_value": 0.11637,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates with the left leg, taking steps backward to drive the retreat.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.07866,
         "Right Upper Leg In-Out": -0.03258,
@@ -157,7 +157,7 @@
         "raw_value": 0.00419,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a fixed clenched shape near the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.42767,
         "Left Thumb Spread": -0.25976,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a fixed open shape extended in front of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.93897,
         "Right Thumb Spread": -1.01,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:45:49Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

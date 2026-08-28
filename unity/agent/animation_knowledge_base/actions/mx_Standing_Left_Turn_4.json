@@ -14,7 +14,7 @@
   "duration": 1.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place and rotates its entire body to the left, completing a full turn.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0093,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stationary throughout the clip, serving as the fixed axis for the rest of the body's rotation.",
       "mean_pose": {
         "Spine Front-Back": -0.14882,
         "Spine Left-Right": -0.01624,
@@ -57,7 +57,7 @@
         "raw_value": 0.13079,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and aligned with the shoulders, turning continuously to the left along with the body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11277,
         "Neck Tilt Left-Right": 0.02901,
@@ -75,7 +75,7 @@
         "raw_value": 0.03517,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely at the side of the body, swinging gently forward and back in rhythm with the leg movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.50482,
         "Left Shoulder Front-Back": -0.14564,
@@ -96,7 +96,7 @@
         "raw_value": 0.02616,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs loosely at the side of the body, swinging gently forward and back in rhythm with the leg movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.59265,
         "Right Shoulder Front-Back": -0.55198,
@@ -117,7 +117,7 @@
         "raw_value": 0.09394,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg performs small pivot steps, lifting slightly and rotating to drive the body's leftward turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.02686,
         "Left Upper Leg In-Out": 0.18169,
@@ -137,7 +137,7 @@
         "raw_value": 0.1339,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg performs small pivot steps, lifting slightly and rotating to drive the body's leftward turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.27679,
         "Right Upper Leg In-Out": 0.12934,
@@ -157,7 +157,7 @@
         "raw_value": 0.1047,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains relaxed and open, hanging naturally at the end of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.68902,
         "Left Thumb Spread": -0.66081,
@@ -189,7 +189,7 @@
         "raw_value": 0.05912,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains relaxed and open, hanging naturally at the end of the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.39009,
         "Right Thumb Spread": -0.09987,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

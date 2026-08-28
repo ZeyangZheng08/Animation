@@ -14,7 +14,7 @@
   "duration": 0.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin strafes to the left in a low, athletic stance while holding an aimed pistol.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04004,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and tilts to the right side, maintaining a low profile throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.00852,
         "Spine Left-Right": -0.03813,
@@ -57,7 +57,7 @@
         "raw_value": 0.04403,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns to face the left, tracking the direction of movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.30027,
         "Neck Tilt Left-Right": -0.10392,
@@ -75,7 +75,7 @@
         "raw_value": 0.07054,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward across the body to support the aiming hand.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.62284,
         "Left Shoulder Front-Back": 0.37014,
@@ -96,7 +96,7 @@
         "raw_value": 0.06292,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward from the shoulder to aim the weapon.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.00293,
         "Right Shoulder Front-Back": -0.13802,
@@ -117,7 +117,7 @@
         "raw_value": 0.137,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps out wide to the left to initiate the strafe.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.26484,
         "Left Upper Leg In-Out": 0.30313,
@@ -137,7 +137,7 @@
         "raw_value": 0.16484,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trailing behind, it bends and pushes off to propel the body leftward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.20242,
         "Right Upper Leg In-Out": 0.32786,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, open position near the center of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.7799,
         "Left Thumb Spread": 0.38393,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, open position extended forward at shoulder height.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -0.85237,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:28Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

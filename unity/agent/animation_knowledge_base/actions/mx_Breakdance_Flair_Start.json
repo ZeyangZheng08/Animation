@@ -14,7 +14,7 @@
   "duration": 1.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward, then drops down to the floor to begin a breakdance flair move.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17138,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso moves from an upright running posture, leaning slightly forward, into a deep crouch as it descends toward the floor, and finally rotates into a horizontal position supported by the arms.",
       "mean_pose": {
         "Spine Front-Back": -1.02941,
         "Spine Left-Right": 0.26413,
@@ -57,7 +57,7 @@
         "raw_value": 0.24786,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head faces forward during the run, looks down as the body lowers to the ground, and then turns away from the camera while the figure is in the flare position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01885,
         "Neck Tilt Left-Right": -0.0429,
@@ -75,7 +75,7 @@
         "raw_value": 0.51965,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings backward during the run, then extends downward to plant the hand on the floor, where it remains bent to support the upper body weight.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.04155,
         "Left Shoulder Front-Back": -1.57786,
@@ -96,7 +96,7 @@
         "raw_value": 0.42012,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings forward during the run, then reaches down to place the hand on the floor next to the left, supporting the body's rotation.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.31279,
         "Right Shoulder Front-Back": -1.16427,
@@ -117,7 +117,7 @@
         "raw_value": 0.29969,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives forward in the running stride, then lifts up and extends outward to the side as the body enters the spinning flare motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.2816,
         "Left Upper Leg In-Out": 0.44451,
@@ -137,7 +137,7 @@
         "raw_value": 0.28286,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the running gait, then kicks up and out to the opposite side, crossing over the left leg in mid-air as part of the flair.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.08965,
         "Right Upper Leg In-Out": 0.40567,
@@ -157,7 +157,7 @@
         "raw_value": 0.41605,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and relaxed during the run before pressing flat against the floor to bear weight.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.04557,
         "Left Thumb Spread": 0.22232,
@@ -189,7 +189,7 @@
         "raw_value": 0.20989,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open and swinging during the run before also planting firmly on the floor to support the spin.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.14144,
         "Right Thumb Spread": -0.26019,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

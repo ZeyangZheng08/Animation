@@ -14,7 +14,7 @@
   "duration": 3.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a low crouch, sweeping their hands upward to clap together before dropping them back down.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13344,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward in a deep crouch, then straightens and lifts vertically as the figure stands up, finishing with a slight forward lean.",
       "mean_pose": {
         "Spine Front-Back": -0.21022,
         "Spine Left-Right": -0.02268,
@@ -57,7 +57,7 @@
         "raw_value": 0.23131,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward in the initial crouch, lifts to look forward during the rise, and remains facing forward as the arms come down.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.22904,
         "Neck Tilt Left-Right": 0.09153,
@@ -75,7 +75,7 @@
         "raw_value": 0.41514,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent at the side of the body, swings up and outward with the elbow raised, moves inward to meet the right hand for a clap, and drops back down to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.10466,
         "Left Shoulder Front-Back": -1.11568,
@@ -96,7 +96,7 @@
         "raw_value": 0.49778,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm follows a mirrored path, rising from a low position, extending upward and outward, bringing the hand in to clap against the left, and lowering back to the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.01301,
         "Right Shoulder Front-Back": -1.39797,
@@ -117,7 +117,7 @@
         "raw_value": 0.19373,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg begins bent in a wide stance, extends to push the body upright, and ends in a stable, slightly bent standing position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.14382,
         "Left Upper Leg In-Out": 0.25076,
@@ -137,7 +137,7 @@
         "raw_value": 0.28692,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is initially bent deeply in a lunge, straightens as the torso rises, and settles into a planted, weight-bearing stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.4182,
         "Right Upper Leg In-Out": 0.23492,
@@ -157,7 +157,7 @@
         "raw_value": 0.36583,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a low, open position near the knee, sweeps up through the air, presses flat against the right hand to clap, and relaxes back down.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15287,
         "Left Thumb Spread": 0.09624,
@@ -189,7 +189,7 @@
         "raw_value": 0.40422,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand travels from a low position, arcs upward and across the body to meet the left hand in a clap, and lowers back toward the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.22044,
         "Right Thumb Spread": 0.00083,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:32Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure leans forward from a standing position to push an invisible heavy object, then straightens back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05871,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans significantly forward at the waist into a deep push posture, then returns to an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.31391,
         "Spine Left-Right": 0.03404,
@@ -57,7 +57,7 @@
         "raw_value": 0.20135,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward to follow the forward lean of the torso and rises as the body straightens.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.07088,
         "Neck Tilt Left-Right": 0.05169,
@@ -75,7 +75,7 @@
         "raw_value": 0.41378,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward with a bent elbow to maintain a pushing posture, then retracts back toward the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.17939,
         "Left Shoulder Front-Back": 0.63497,
@@ -96,7 +96,7 @@
         "raw_value": 0.3926,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward in parallel with the left arm to brace against the imaginary weight, then pulls back.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.03649,
         "Right Shoulder Front-Back": 0.32738,
@@ -117,7 +117,7 @@
         "raw_value": 0.19278,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee to lower the center of gravity during the push, then extends to return to a standing position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.1899,
         "Left Upper Leg In-Out": 0.06273,
@@ -137,7 +137,7 @@
         "raw_value": 0.20325,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Flexes alongside the left leg to support the forward lean, then straightens out as the push concludes.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.14334,
         "Right Upper Leg In-Out": 0.04226,
@@ -157,7 +157,7 @@
         "raw_value": 0.13022,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open, flat palm shape extended forward for the duration of the push before drawing back.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.30477,
         "Left Thumb Spread": -0.03314,
@@ -189,7 +189,7 @@
         "raw_value": 0.25372,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains an open, flat palm extended forward to assist in the push, then retracts with the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.3175,
         "Right Thumb Spread": 0.12302,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure maintains a static crawling pose on all fours with its right leg extended forward.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward, supporting the body weight in a low, horizontal position between the arms and legs.",
       "mean_pose": {
         "Spine Front-Back": -0.13304,
         "Spine Left-Right": 0.26025,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains lowered, facing directly toward the floor in front of the chest.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.43067,
         "Neck Tilt Left-Right": 0.33724,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is extended straight down to the ground, fully bearing the weight of the upper body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.49075,
         "Left Shoulder Front-Back": -1.9242,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is also extended straight down, pressing firmly into the floor to maintain balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.94091,
         "Right Shoulder Front-Back": -0.23859,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee and tucked underneath the hips, resting on the balls of the feet.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.06377,
         "Left Upper Leg In-Out": 0.08291,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is extended forward from the hip, with the foot flat on the ground ahead of the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.50226,
         "Right Upper Leg In-Out": 0.35125,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is pressed flat against the floor, fingers spread out for stability.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.63977,
         "Left Thumb Spread": 0.28625,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is placed flat on the ground in front of the shoulders, supporting the crawl.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.26903,
         "Right Thumb Spread": 0.60513,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:25Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

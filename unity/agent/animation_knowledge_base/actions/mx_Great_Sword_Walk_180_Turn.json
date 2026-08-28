@@ -14,7 +14,7 @@
   "duration": 0.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward while executing a full 180-degree turn to face the opposite direction, holding a two-handed sword grip.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05965,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward throughout the walk and rotates continuously from facing right to facing left to complete the 180-degree turn.",
       "mean_pose": {
         "Spine Front-Back": -0.6006,
         "Spine Left-Right": 0.18842,
@@ -57,7 +57,7 @@
         "raw_value": 0.19786,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns in sync with the torso rotation to keep facing the direction of travel, remaining relatively stable over the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.49095,
         "Neck Tilt Left-Right": -0.23229,
@@ -75,7 +75,7 @@
         "raw_value": 0.23934,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow and held close to the front of the body, maintaining a steady posture as if gripping an unseen weapon handle.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.14596,
         "Left Shoulder Front-Back": -1.41322,
@@ -96,7 +96,7 @@
         "raw_value": 0.2494,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent and positioned low near the waist, mirroring the left arm's static hold for a two-handed grip.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.716,
         "Right Shoulder Front-Back": -1.72111,
@@ -117,7 +117,7 @@
         "raw_value": 0.16906,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives the locomotion by alternating between lifting forward to take a step and extending backward for support during the turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.01896,
         "Left Upper Leg In-Out": 0.11546,
@@ -137,7 +137,7 @@
         "raw_value": 0.16373,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Works in opposition to the left leg, stepping forward and pushing off the ground to maintain momentum through the rotation.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.2109,
         "Right Upper Leg In-Out": 0.06519,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, closed fist pose in front of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15206,
         "Left Thumb Spread": -0.37832,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, closed fist pose lower down near the waist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:38:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

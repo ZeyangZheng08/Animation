@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static seated pose facing forward with its hands clasped together in front of its lap.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains upright and centered, leaning slightly forward to support the seated posture.",
       "mean_pose": {
         "Spine Front-Back": -0.23848,
         "Spine Left-Right": 0.07788,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays level and faces directly forward without turning or tilting.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.29938,
         "Neck Tilt Left-Right": 0.00756,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady position bent at the elbow, extending inward toward the center of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.04603,
         "Left Shoulder Front-Back": -1.35698,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirrors the left arm by bending at the elbow and reaching inward to meet the other hand.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.28225,
         "Right Shoulder Front-Back": -1.09034,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the knee with the foot planted on the floor, maintaining a stable base.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.42218,
         "Left Upper Leg In-Out": 0.71596,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the knee with the foot flat on the ground, supporting the weight of the figure.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.3347,
         "Right Upper Leg In-Out": 0.7263,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static grasp with fingers curled and interlaced near the right hand.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.90019,
         "Left Thumb Spread": -1.12447,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a fixed grip with fingers curled and interlaced near the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.45714,
         "Right Thumb Spread": -0.12541,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:38Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

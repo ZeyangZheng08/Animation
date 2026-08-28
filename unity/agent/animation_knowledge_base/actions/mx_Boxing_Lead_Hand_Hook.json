@@ -14,7 +14,7 @@
   "duration": 2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a boxing lead hand hook, swinging the left arm in a circular motion while twisting the torso and shifting weight on the legs.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03382,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists to the left during the punch and then returns to a neutral, upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.28264,
         "Spine Left-Right": 0.11832,
@@ -57,7 +57,7 @@
         "raw_value": 0.09483,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively still, facing forward with slight adjustments to maintain balance.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.12467,
         "Neck Tilt Left-Right": -0.08363,
@@ -75,7 +75,7 @@
         "raw_value": 0.20444,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a guard position outwards in a wide arc to execute the hook, then retracts back towards the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.43557,
         "Left Shoulder Front-Back": -0.73907,
@@ -96,7 +96,7 @@
         "raw_value": 0.09124,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm stays tucked close to the chest, maintaining a defensive guard posture throughout the movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.02934,
         "Right Shoulder Front-Back": -1.26715,
@@ -117,7 +117,7 @@
         "raw_value": 0.13676,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends and shifts slightly to provide a stable base and pivot for the upper body's rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.08811,
         "Left Upper Leg In-Out": 0.3389,
@@ -137,7 +137,7 @@
         "raw_value": 0.12414,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg acts as a counterbalance, adjusting its position and bend to support the weight shift during the punch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.29872,
         "Right Upper Leg In-Out": 0.48467,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a closed fist shape while executing the hook.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.75947,
         "Left Thumb Spread": 0.25857,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a static, clenched fist position near the chin.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.642,
         "Right Thumb Spread": -0.30717,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:33:02Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

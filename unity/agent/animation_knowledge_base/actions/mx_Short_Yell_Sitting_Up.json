@@ -14,7 +14,7 @@
   "duration": 2.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits up from a seated position and brings their hands to their mouth in a short yell.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05704,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rises from a forward-leaning seated posture to an upright, vertical orientation.",
       "mean_pose": {
         "Spine Front-Back": -0.20811,
         "Spine Left-Right": -0.03695,
@@ -57,7 +57,7 @@
         "raw_value": 0.06859,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts upward as the torso rises, then returns to a neutral, forward-facing position.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04229,
         "Neck Tilt Left-Right": 0.06706,
@@ -75,7 +75,7 @@
         "raw_value": 0.23591,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves upward from a resting position on the lap to be raised in front of the chest with the elbow bent.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.28819,
         "Left Shoulder Front-Back": -0.7094,
@@ -96,7 +96,7 @@
         "raw_value": 0.23272,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves upward from a resting position on the lap to be raised in front of the chest with the elbow bent.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.08726,
         "Right Shoulder Front-Back": -0.14782,
@@ -117,7 +117,7 @@
         "raw_value": 0.0279,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains in a static seated position with the knee bent at approximately ninety degrees.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.53793,
         "Left Upper Leg In-Out": 0.23859,
@@ -137,7 +137,7 @@
         "raw_value": 0.02717,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains in a static seated position with the knee bent at approximately ninety degrees.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.54872,
         "Right Upper Leg In-Out": 0.18137,
@@ -157,7 +157,7 @@
         "raw_value": 0.22318,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves from the lap to be positioned near the chin, forming a cupped shape around the mouth.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.61201,
         "Left Thumb Spread": -0.28609,
@@ -189,7 +189,7 @@
         "raw_value": 0.20926,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves from the lap to be positioned near the chin, forming a cupped shape around the mouth.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.01526,
         "Right Thumb Spread": -0.18783,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:22Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

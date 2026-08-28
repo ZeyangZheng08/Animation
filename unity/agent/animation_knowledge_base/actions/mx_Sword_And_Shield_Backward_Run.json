@@ -14,7 +14,7 @@
   "duration": 0.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs backward in a steady, rhythmic gait with arms swinging naturally at the sides.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08017,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward and bobs up and down rhythmically to maintain balance while moving backward.",
       "mean_pose": {
         "Spine Front-Back": -0.45759,
         "Spine Left-Right": 0.01951,
@@ -57,7 +57,7 @@
         "raw_value": 0.07508,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays upright and faces directly forward, looking ahead as the body moves away from that direction.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.07042,
         "Neck Tilt Left-Right": -0.11119,
@@ -75,7 +75,7 @@
         "raw_value": 0.09124,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings back and forth in opposition to the legs, bending at the elbow to drive the arm through the running cycle.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.25178,
         "Left Shoulder Front-Back": -0.80334,
@@ -96,7 +96,7 @@
         "raw_value": 0.11728,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings back and forth in opposition to the left arm, maintaining a bent-elbow position throughout the movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.1618,
         "Right Shoulder Front-Back": 0.04427,
@@ -117,7 +117,7 @@
         "raw_value": 0.2154,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends backward to push off the ground and then swings forward, lifting the knee high before extending again.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.2129,
         "Left Upper Leg In-Out": -0.04913,
@@ -137,7 +137,7 @@
         "raw_value": 0.2473,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates with the left leg, pushing off behind and swinging forward with a high knee lift during each stride.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.20207,
         "Right Upper Leg In-Out": 0.20319,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains loosely clenched in a fist near the hip level while swinging.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21301,
         "Left Thumb Spread": -0.90937,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a loose fist shape at the side of the torso, mirroring the left hand's motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

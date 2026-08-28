@@ -14,7 +14,7 @@
   "duration": 28.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a salsa dance variation, executing a turning step with fluid arm movements.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09667,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from facing forward to the right and then back to the front, maintaining an upright posture throughout the turn.",
       "mean_pose": {
         "Spine Front-Back": -0.19582,
         "Spine Left-Right": 0.00416,
@@ -57,7 +57,7 @@
         "raw_value": 0.23817,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the rotation of the torso, turning to look over the right shoulder before returning to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00639,
         "Neck Tilt Left-Right": 0.00178,
@@ -75,7 +75,7 @@
         "raw_value": 0.29456,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow and held across the body, moving slightly outward during the turn.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.58556,
         "Left Shoulder Front-Back": 0.15401,
@@ -96,7 +96,7 @@
         "raw_value": 0.26746,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings from a position near the hip out to the side and then extends forward as the turn completes.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.39452,
         "Right Shoulder Front-Back": 0.1421,
@@ -117,7 +117,7 @@
         "raw_value": 0.18894,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward and then crosses behind the right leg as part of the turning motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.2271,
         "Left Upper Leg In-Out": -0.01227,
@@ -137,7 +137,7 @@
         "raw_value": 0.1752,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg acts as the pivot point for the turn, remaining relatively planted while the body rotates around it.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.26572,
         "Right Upper Leg In-Out": 0.02996,
@@ -157,7 +157,7 @@
         "raw_value": 0.10557,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays close to the waist area, mirroring the subtle movements of the left arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.51352,
         "Left Thumb Spread": 0.0784,
@@ -189,7 +189,7 @@
         "raw_value": 0.12214,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves in coordination with the arm, extending outward and then forward to complete the gesture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.51367,
         "Right Thumb Spread": -0.01226,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

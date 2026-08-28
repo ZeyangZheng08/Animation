@@ -14,7 +14,7 @@
   "duration": 1.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is hit in the back, causing them to flinch violently and stagger forward with arms raised before stumbling into a deep crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14214,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans sharply backward from the impact, then pitches forward while rotating slightly as it stumbles.",
       "mean_pose": {
         "Spine Front-Back": -0.34021,
         "Spine Left-Right": -0.06494,
@@ -57,7 +57,7 @@
         "raw_value": 0.23981,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Snaps back abruptly at the start of the clip, then drops down low as the body folds forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.56643,
         "Neck Tilt Left-Right": -0.0002,
@@ -75,7 +75,7 @@
         "raw_value": 0.26609,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Flails upward and outward in a reflexive motion, then drops down toward the knee.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.20708,
         "Left Shoulder Front-Back": -1.11747,
@@ -96,7 +96,7 @@
         "raw_value": 0.22557,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises up near the head initially, then extends downward and forward to help balance the fall.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.09068,
         "Right Shoulder Front-Back": -1.17637,
@@ -117,7 +117,7 @@
         "raw_value": 0.17329,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply to absorb the stumble, moving into a low, braced position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.0771,
         "Left Upper Leg In-Out": 0.33851,
@@ -137,7 +137,7 @@
         "raw_value": 0.18181,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Shifts weight forward and bends to support the collapsing torso.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.06457,
         "Right Upper Leg In-Out": 0.27013,
@@ -157,7 +157,7 @@
         "raw_value": 0.2348,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide as the arm flails up, then points down toward the ground.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.1058,
         "Left Thumb Spread": 0.2737,
@@ -189,7 +189,7 @@
         "raw_value": 0.23524,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curls near the face during the initial flinch, then reaches out and down.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.09813,
         "Right Thumb Spread": 0.13533,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 23.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a Charleston dance step, kicking the legs alternately forward while swinging the arms and finishing with a turn.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08513,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and twists side to side in rhythm with the leg kicks, then rotates clockwise to face away from the camera.",
       "mean_pose": {
         "Spine Front-Back": -0.28315,
         "Spine Left-Right": 0.05695,
@@ -57,7 +57,7 @@
         "raw_value": 0.26909,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head bobs slightly with the upper body's movement and turns along with the final rotation of the torso.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00957,
         "Neck Tilt Left-Right": -0.00026,
@@ -75,7 +75,7 @@
         "raw_value": 0.52167,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and outward to the side, then lowers down toward the hip as the motion concludes.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.51446,
         "Left Shoulder Front-Back": -0.22442,
@@ -96,7 +96,7 @@
         "raw_value": 0.51315,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends out to the side and pumps downward, mirroring the opposite swing of the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.43537,
         "Right Shoulder Front-Back": 0.41813,
@@ -117,7 +117,7 @@
         "raw_value": 0.26835,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg kicks forward with the knee bent, then brings the foot back down to plant on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.21192,
         "Left Upper Leg In-Out": 0.08983,
@@ -137,7 +137,7 @@
         "raw_value": 0.24965,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg kicks forward as the left retracts, stepping through to complete the turning motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.0323,
         "Right Upper Leg In-Out": 0.13056,
@@ -157,7 +157,7 @@
         "raw_value": 0.10154,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves up and out with the arm swing, then drops down to rest near the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.70481,
         "Left Thumb Spread": -0.05593,
@@ -189,7 +189,7 @@
         "raw_value": 0.13509,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends outward and pumps down, following the arc of the right arm's swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.6217,
         "Right Thumb Spread": 0.48351,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:58Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

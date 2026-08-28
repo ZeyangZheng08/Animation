@@ -14,7 +14,7 @@
   "duration": 6.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a breakdance finishing combo, dropping from a standing balance into a handstand freeze and recovering to a kneeling pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.23391,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso transitions from an upright position in a one-legged stand, rotates horizontally while inverted on the hands, and finally crouches low over the bent legs.",
       "mean_pose": {
         "Spine Front-Back": -0.50443,
         "Spine Left-Right": -0.19045,
@@ -57,7 +57,7 @@
         "raw_value": 0.20056,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tracks the body's rotation, moving from facing forward to pointing downward during the handstand, then tilting up as the figure recovers.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01265,
         "Neck Tilt Left-Right": -0.01185,
@@ -75,7 +75,7 @@
         "raw_value": 0.3853,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends straight down to support the body weight during the handstand phase before bending to pull the upper body back up.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.5358,
         "Left Shoulder Front-Back": -0.38783,
@@ -96,7 +96,7 @@
         "raw_value": 0.43594,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings upward for balance during the initial drop, then extends overhead while inverted before lowering toward the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.06692,
         "Right Shoulder Front-Back": -0.92165,
@@ -117,7 +117,7 @@
         "raw_value": 0.27075,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg starts extended horizontally in the air, drops down to bring the feet to the floor, and finishes bent with the knee resting on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.24184,
         "Left Upper Leg In-Out": 0.14878,
@@ -137,7 +137,7 @@
         "raw_value": 0.36434,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg begins planted on the floor, lifts to extend backward during the handstand, and ends bent with the foot flat on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.09179,
         "Right Upper Leg In-Out": 0.25357,
@@ -157,7 +157,7 @@
         "raw_value": 0.34901,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand presses firmly against the floor to bear the body's weight during the freeze, then releases as the figure stands up.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.6926,
         "Left Thumb Spread": 0.27036,
@@ -189,7 +189,7 @@
         "raw_value": 0.4472,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand arcs high above the head during the transition and brings its fingers together near the face in the final pose.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.80129,
         "Right Thumb Spread": 0.44783,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

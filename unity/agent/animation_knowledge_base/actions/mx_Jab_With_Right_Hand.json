@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static boxing stance, extending the right arm forward in a straight punch while keeping the left arm bent in a guard position.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds an upright posture with a slight lean forward to support the extended arm.",
       "mean_pose": {
         "Spine Front-Back": -0.21399,
         "Spine Left-Right": -0.15687,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Maintains a steady, level orientation facing directly ahead.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.61968,
         "Neck Tilt Left-Right": 0.02356,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow with the forearm raised, holding a guard position near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.08118,
         "Left Shoulder Front-Back": -0.42618,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends fully straight out from the shoulder in a horizontal line, projecting forward.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.11205,
         "Right Shoulder Front-Back": -0.75415,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground with a slight bend at the knee to provide stability.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.29518,
         "Left Upper Leg In-Out": -0.09296,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a stable stance with the foot flat on the floor and the leg slightly angled back.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.72546,
         "Right Upper Leg In-Out": 0.16791,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeps a clenched fist held close to the body in a defensive posture.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.87963,
         "Left Thumb Spread": -0.28666,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Forms a tight fist at the end of the fully extended arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.96362,
         "Right Thumb Spread": -0.32106,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:36Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

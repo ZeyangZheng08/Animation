@@ -14,7 +14,7 @@
   "duration": 2.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a large, sweeping outward slash with the right arm while maintaining a stable, slightly crouched stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.25437,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and to the left, twisting through the motion from a side-facing angle toward the front and then back.",
       "mean_pose": {
         "Spine Front-Back": -0.20084,
         "Spine Left-Right": 0.09345,
@@ -57,7 +57,7 @@
         "raw_value": 0.4468,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward and turns to follow the trajectory of the right arm across the body.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09101,
         "Neck Tilt Left-Right": -0.00992,
@@ -75,7 +75,7 @@
         "raw_value": 0.21812,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow and held close to the torso, acting as a counterbalance to the swinging right arm.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.2747,
         "Left Shoulder Front-Back": -0.42006,
@@ -96,7 +96,7 @@
         "raw_value": 0.3874,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Executes a wide, horizontal arc, swinging outward from the right side of the body across the front and ending in an extended position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.02407,
         "Right Shoulder Front-Back": -0.5145,
@@ -117,7 +117,7 @@
         "raw_value": 0.19796,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground with the knee slightly bent to anchor the stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.28137,
         "Left Upper Leg In-Out": 0.40126,
@@ -137,7 +137,7 @@
         "raw_value": 0.18366,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains grounded with a slight bend in the knee, providing a stable base for the rotational movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.00645,
         "Right Upper Leg In-Out": 0.14841,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open pose near the waist throughout the clip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.91237,
         "Left Thumb Spread": -0.0675,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a clenched fist shape, simulating a grip on a weapon handle.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.54842,
         "Right Thumb Spread": -1.303,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

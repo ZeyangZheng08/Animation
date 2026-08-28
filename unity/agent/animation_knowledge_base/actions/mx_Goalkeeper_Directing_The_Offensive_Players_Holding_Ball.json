@@ -14,7 +14,7 @@
   "duration": 7.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands and gestures with the right arm to direct players while holding a ball in the left hand.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05184,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains mostly upright, shifting its weight slightly from side to side as it rotates subtly to follow the arm movements.",
       "mean_pose": {
         "Spine Front-Back": -0.05287,
         "Spine Left-Right": 0.03889,
@@ -57,7 +57,7 @@
         "raw_value": 0.18306,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to look in the direction of the pointing gesture, then returns toward the center.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.10121,
         "Neck Tilt Left-Right": 0.09522,
@@ -75,7 +75,7 @@
         "raw_value": 0.27369,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held bent at the elbow across the lower abdomen, maintaining a steady cradling position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.54691,
         "Left Shoulder Front-Back": 0.28319,
@@ -96,7 +96,7 @@
         "raw_value": 0.21198,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward to the side, sweeping back and forth in a directing motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.30633,
         "Right Shoulder Front-Back": -0.76257,
@@ -117,7 +117,7 @@
         "raw_value": 0.18122,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays relatively straight, providing a stable base for the upper body movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.20609,
         "Left Upper Leg In-Out": 0.16649,
@@ -137,7 +137,7 @@
         "raw_value": 0.19831,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends slightly at the knee, mirroring the subtle weight shifts of the torso.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.04865,
         "Right Upper Leg In-Out": 0.11158,
@@ -157,7 +157,7 @@
         "raw_value": 0.24686,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is cupped and closed, gripping an object against the midsection.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.90045,
         "Left Thumb Spread": -0.25578,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open with fingers extended, moving actively to point and signal directions.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.20334,
         "Right Thumb Spread": -0.56798,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

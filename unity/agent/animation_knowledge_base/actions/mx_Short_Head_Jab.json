@@ -14,7 +14,7 @@
   "duration": 1.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a short, quick jab with the right arm while shifting its weight and stepping forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07619,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward and rotates to the left as the right arm extends in a punch.",
       "mean_pose": {
         "Spine Front-Back": -0.22182,
         "Spine Left-Right": -0.02728,
@@ -57,7 +57,7 @@
         "raw_value": 0.11166,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and turns to the left, following the motion of the torso.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.01794,
         "Neck Tilt Left-Right": 0.0738,
@@ -75,7 +75,7 @@
         "raw_value": 0.16638,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow with the hand held up near the chest throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.40959,
         "Left Shoulder Front-Back": 0.31458,
@@ -96,7 +96,7 @@
         "raw_value": 0.0751,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Punches straight out to the side before retracting back toward the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.17459,
         "Right Shoulder Front-Back": -0.61829,
@@ -117,7 +117,7 @@
         "raw_value": 0.08749,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and bends at the knee to absorb the shift in weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.09942,
         "Left Upper Leg In-Out": 0.33514,
@@ -137,7 +137,7 @@
         "raw_value": 0.14858,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off from behind and steps forward to complete the lunge.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.18171,
         "Right Upper Leg In-Out": 0.48861,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, loosely clenched fist position near the upper chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains a static, loosely clenched fist as it travels out and back during the punch.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:18Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

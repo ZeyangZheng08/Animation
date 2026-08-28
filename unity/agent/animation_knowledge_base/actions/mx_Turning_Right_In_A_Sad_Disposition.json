@@ -14,7 +14,7 @@
   "duration": 1.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure turns to its right while standing with a slumped, sad posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01038,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains in a hunched forward position throughout the turn.",
       "mean_pose": {
         "Spine Front-Back": -0.19364,
         "Spine Left-Right": 0.09928,
@@ -57,7 +57,7 @@
         "raw_value": 0.00585,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Holds a consistently bowed posture, facing down and slightly to the left.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.10043,
         "Neck Tilt Left-Right": 0.05695,
@@ -75,7 +75,7 @@
         "raw_value": 0.02743,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely at the side of the body with a slight bend at the elbow.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.59385,
         "Left Shoulder Front-Back": -0.72757,
@@ -96,7 +96,7 @@
         "raw_value": 0.02303,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Dangles straight down by the side, remaining relatively still.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.60367,
         "Right Shoulder Front-Back": -0.41356,
@@ -117,7 +117,7 @@
         "raw_value": 0.07751,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground to support the body's weight during the rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.34609,
         "Left Upper Leg In-Out": 0.10917,
@@ -137,7 +137,7 @@
         "raw_value": 0.09511,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps around to pivot the body toward the right.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.371,
         "Right Upper Leg In-Out": -0.06641,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Relaxes and hangs open near the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.6289,
         "Left Thumb Spread": 0.12675,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles limply by the side with fingers relaxed.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.27796,
         "Right Thumb Spread": 0.37535,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:51:08Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward before being struck, causing them to tumble violently backward and fall to the ground.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.20095,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward during the run, then arches sharply backward as the body is thrown into a mid-air somersault.",
       "mean_pose": {
         "Spine Front-Back": -0.36282,
         "Spine Left-Right": -0.01547,
@@ -57,7 +57,7 @@
         "raw_value": 0.23516,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward while running, then tilts back significantly as the torso rotates through the fall.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.13261,
         "Neck Tilt Left-Right": 0.05912,
@@ -75,7 +75,7 @@
         "raw_value": 0.4188,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings in a standard running motion before flinging outward and upward to help balance the fall.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.04856,
         "Left Shoulder Front-Back": -0.73735,
@@ -96,7 +96,7 @@
         "raw_value": 0.52686,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps alongside the body while running, then extends out to the side with an open hand as the figure loses control.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.49428,
         "Right Shoulder Front-Back": -0.53139,
@@ -117,7 +117,7 @@
         "raw_value": 0.29749,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward in a running stride, then tucks up and swings around during the backward rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.27722,
         "Left Upper Leg In-Out": 0.08797,
@@ -137,7 +137,7 @@
         "raw_value": 0.2649,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trailing behind in the run, it kicks upward and over as the body flips onto its back.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.10687,
         "Right Upper Leg In-Out": 0.13461,
@@ -157,7 +157,7 @@
         "raw_value": 0.58951,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Cycles through a loose fist during the run, opening wide as the arm flails in the air.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.4121,
         "Left Thumb Spread": -0.2104,
@@ -189,7 +189,7 @@
         "raw_value": 0.43351,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves with the running arm, then opens fully as the arm reaches out during the fall.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.21147,
         "Right Thumb Spread": -0.04879,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:03Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

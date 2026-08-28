@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits statically on the floor in a relaxed posture with the right leg extended forward and both hands resting on the ground for support.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright but leans slightly backward to balance against the supporting arms.",
       "mean_pose": {
         "Spine Front-Back": -0.94077,
         "Spine Left-Right": 0.17273,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays neutral, facing directly forward without any rotation or tilting.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.60093,
         "Neck Tilt Left-Right": 0.05942,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends downward and outward from the shoulder, holding a static position to prop up the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.02588,
         "Left Shoulder Front-Back": 0.11375,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down toward the floor, keeping the elbow bent to act as a brace.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.15418,
         "Right Shoulder Front-Back": -1.63002,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is folded underneath the body, with the knee tucked inward and the foot resting near the hips.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.51427,
         "Left Upper Leg In-Out": 0.43665,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is stretched out straight in front of the figure, resting flat on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.58085,
         "Right Upper Leg In-Out": 0.60391,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is planted firmly on the floor with fingers spread to provide stability.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.43663,
         "Left Thumb Spread": -0.12638,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand rests on the ground beside the thigh, maintaining an open and supportive grip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.77913,
         "Right Thumb Spread": 0.56844,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:45:58Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

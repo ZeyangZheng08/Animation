@@ -14,7 +14,7 @@
   "duration": 21.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a salsa dance variation, executing a series of turns and steps with rhythmic arm movements.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12436,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists from side to side, leading the body's rotation through the dance steps.",
       "mean_pose": {
         "Spine Front-Back": -0.27137,
         "Spine Left-Right": -0.01733,
@@ -57,7 +57,7 @@
         "raw_value": 0.25885,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns in sync with the torso, looking over the shoulder during the pivots.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.21541,
         "Neck Tilt Left-Right": -0.02117,
@@ -75,7 +75,7 @@
         "raw_value": 0.26299,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm bends at the elbow, moving up and down in a rhythmic pumping motion near the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.45879,
         "Left Shoulder Front-Back": -0.05237,
@@ -96,7 +96,7 @@
         "raw_value": 0.25498,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging forward and back across the body as it moves.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.52477,
         "Right Shoulder Front-Back": -0.18204,
@@ -117,7 +117,7 @@
         "raw_value": 0.22485,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the movement, stepping forward and bending at the knee to pivot the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.08076,
         "Left Upper Leg In-Out": -0.00703,
@@ -137,7 +137,7 @@
         "raw_value": 0.2204,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows, crossing behind or stepping out to maintain balance during the turns.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.12675,
         "Right Upper Leg In-Out": 0.09201,
@@ -157,7 +157,7 @@
         "raw_value": 0.04235,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains loosely clenched, following the arc of the arm's swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02719,
@@ -189,7 +189,7 @@
         "raw_value": 0.04948,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays relaxed, mirroring the trajectory of the left hand throughout the sequence.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

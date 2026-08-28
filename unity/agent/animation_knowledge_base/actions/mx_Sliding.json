@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a low, wide sliding stance with the right leg extended and the left knee bent.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and to the right in a low, crouched position.",
       "mean_pose": {
         "Spine Front-Back": -0.58215,
         "Spine Left-Right": -0.13626,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilted down and facing toward the front-right.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06701,
         "Neck Tilt Left-Right": -0.14978,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extended downward and outward to the side with the elbow slightly bent.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.15627,
         "Left Shoulder Front-Back": -1.11167,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow with the forearm held up across the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.09731,
         "Right Shoulder Front-Back": -0.48497,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bent deeply at the knee, supporting the body's weight on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.09871,
         "Left Upper Leg In-Out": 0.53123,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extended straight out to the side with the foot resting flat on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.27775,
         "Right Upper Leg In-Out": 0.63465,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held open near the floor with fingers spread.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.27231,
         "Left Thumb Spread": -0.5095,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held open in front of the chest with fingers curled.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.3769,
         "Right Thumb Spread": -0.62523,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:56Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

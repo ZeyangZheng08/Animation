@@ -14,7 +14,7 @@
   "duration": 2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a shoulder shrug, lifting their shoulders and arms upward before dropping them back down.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01602,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains in a static, upright standing position throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.0657,
         "Spine Left-Right": 0.01568,
@@ -57,7 +57,7 @@
         "raw_value": 0.04767,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts slightly downward as the shoulders rise, then returns to a neutral forward-facing position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.26412,
         "Neck Tilt Left-Right": -0.03146,
@@ -75,7 +75,7 @@
         "raw_value": 0.23979,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises upward from the side of the body with the elbow bent, then lowers back down.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.25213,
         "Left Shoulder Front-Back": 0.8525,
@@ -96,7 +96,7 @@
         "raw_value": 0.25829,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises upward from the side of the body with the elbow bent, mirroring the left arm's movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.11159,
         "Right Shoulder Front-Back": -0.287,
@@ -117,7 +117,7 @@
         "raw_value": 0.01876,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground in a straight, stationary stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.45435,
         "Left Upper Leg In-Out": 0.14491,
@@ -137,7 +137,7 @@
         "raw_value": 0.02212,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Shifts slightly backward while maintaining its weight-bearing position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.47722,
         "Right Upper Leg In-Out": 0.13917,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open pose near the waist while moving up and down with the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.86052,
         "Left Thumb Spread": -0.39572,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open pose near the waist while moving up and down with the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.27843,
         "Right Thumb Spread": -0.44937,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:08Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

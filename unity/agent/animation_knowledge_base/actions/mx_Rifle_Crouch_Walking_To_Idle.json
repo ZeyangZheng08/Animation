@@ -14,7 +14,7 @@
   "duration": 2.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward in a deep crouch holding an unseen rifle, then stops and straightens up into a standing idle stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07196,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply forward at the waist during the walk, then rises to an upright position as it comes to a stop.",
       "mean_pose": {
         "Spine Front-Back": -0.40062,
         "Spine Left-Right": -0.08532,
@@ -57,7 +57,7 @@
         "raw_value": 0.1941,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the chest while crouching, then lifts to face forward when standing.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03752,
         "Neck Tilt Left-Right": 0.02533,
@@ -75,7 +75,7 @@
         "raw_value": 0.17481,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds bent at the elbow with the hand positioned near the center of the body throughout the clip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.08604,
         "Left Shoulder Front-Back": -1.18336,
@@ -96,7 +96,7 @@
         "raw_value": 0.13504,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward from the shoulder to hold the weapon, then pulls back slightly as the torso straightens.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.15503,
         "Right Shoulder Front-Back": -1.57807,
@@ -117,7 +117,7 @@
         "raw_value": 0.15822,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Moves in a low, shuffling step cycle before settling into a planted position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.10563,
         "Left Upper Leg In-Out": 0.07786,
@@ -137,7 +137,7 @@
         "raw_value": 0.18017,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps through the crouched walk cycle before coming to rest on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.04765,
         "Right Upper Leg In-Out": 0.1196,
@@ -157,7 +157,7 @@
         "raw_value": 0.07892,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips tightly near the waist area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.37648,
         "Left Thumb Spread": 0.11356,
@@ -189,7 +189,7 @@
         "raw_value": 0.18444,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends forward in a gripping shape to hold the weapon.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.27771,
         "Right Thumb Spread": -1.33499,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:09Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

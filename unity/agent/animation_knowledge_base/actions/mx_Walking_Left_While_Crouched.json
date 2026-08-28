@@ -14,7 +14,7 @@
   "duration": 1.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward in a low crouch, moving to the left with its arms held out for balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07242,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains bent deeply forward at the waist, leaning over the legs while rotating slightly with the gait.",
       "mean_pose": {
         "Spine Front-Back": -0.64188,
         "Spine Left-Right": -0.1625,
@@ -57,7 +57,7 @@
         "raw_value": 0.03624,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is tilted downward, maintaining a steady gaze toward the ground ahead.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.21909,
         "Neck Tilt Left-Right": -0.08796,
@@ -75,7 +75,7 @@
         "raw_value": 0.03273,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings forward and back, extending outward from the body to help maintain balance during the walk.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.70807,
         "Left Shoulder Front-Back": -1.55328,
@@ -96,7 +96,7 @@
         "raw_value": 0.04395,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings opposite to the left arm, also held out to the side for stability.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.29993,
         "Right Shoulder Front-Back": -0.17348,
@@ -117,7 +117,7 @@
         "raw_value": 0.30637,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg cycles through a walking motion, bending at the knee to lift the foot and then extending to push off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.32001,
         "Left Upper Leg In-Out": 0.49436,
@@ -137,7 +137,7 @@
         "raw_value": 0.27243,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, stepping forward and bending at the knee to continue the crouched stride.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.29709,
         "Right Upper Leg In-Out": 0.02253,
@@ -157,7 +157,7 @@
         "raw_value": 0.07509,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open with fingers spread as it moves with the arm's swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.1722,
         "Left Thumb Spread": 0.15102,
@@ -189,7 +189,7 @@
         "raw_value": 0.06459,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and relaxed, mirroring the movement of the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.01311,
         "Right Thumb Spread": 0.19951,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:52:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

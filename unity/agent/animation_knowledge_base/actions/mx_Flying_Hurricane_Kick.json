@@ -14,7 +14,7 @@
   "duration": 1.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure leaps into the air to execute a flying hurricane kick, swinging the left leg in a high circular arc while balancing on the right foot.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and rotates through the turn, holding a steady airborne posture.",
       "mean_pose": {
         "Spine Front-Back": -0.20247,
         "Spine Left-Right": -0.26123,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts slightly downward and turns to follow the direction of the kick.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.30898,
         "Neck Tilt Left-Right": -0.19069,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bends at the elbow and holds the forearm up near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.20084,
         "Left Shoulder Front-Back": 0.00111,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bends at the elbow and extends outward to the side for balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.28601,
         "Right Shoulder Front-Back": -0.40421,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Swings upward and across the body in a wide, extended kicking arc.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.57088,
         "Left Upper Leg In-Out": 0.52765,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays bent underneath the body as the supporting limb during the jump.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.39797,
         "Right Upper Leg In-Out": 0.5702,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a loose fist position in front of the torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends away from the body with fingers held open.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.73126,
         "Right Thumb Spread": 0.0886,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

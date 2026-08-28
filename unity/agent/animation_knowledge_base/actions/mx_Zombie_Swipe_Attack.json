@@ -14,7 +14,7 @@
   "duration": 2.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a wide, sweeping attack with the right arm across the body while lunging forward and bending low.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14521,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply forward and twists to the left, dipping down into a low crouch by the end of the sequence.",
       "mean_pose": {
         "Spine Front-Back": 0.00932,
         "Spine Left-Right": 0.09374,
@@ -57,7 +57,7 @@
         "raw_value": 0.29419,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward, following the forward lean of the upper body throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.05787,
         "Neck Tilt Left-Right": -0.16191,
@@ -75,7 +75,7 @@
         "raw_value": 0.24339,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a position extended behind the back around to the side, ending bent at the elbow near the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.49856,
         "Left Shoulder Front-Back": 0.06575,
@@ -96,7 +96,7 @@
         "raw_value": 0.3758,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm sweeps in a wide horizontal arc from the right side across the front of the body toward the left.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.19871,
         "Right Shoulder Front-Back": -0.72776,
@@ -117,7 +117,7 @@
         "raw_value": 0.148,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends backward and bends slightly to provide balance as the body shifts forward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.0194,
         "Left Upper Leg In-Out": 0.29965,
@@ -137,7 +137,7 @@
         "raw_value": 0.12497,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps forward and bends deeply at the knee to support the lunge.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.03159,
         "Right Upper Leg In-Out": 0.31927,
@@ -157,7 +157,7 @@
         "raw_value": 0.15261,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers spread, trailing the motion of the swinging arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.61734,
         "Left Thumb Spread": -0.18805,
@@ -189,7 +189,7 @@
         "raw_value": 0.28635,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held open with fingers splayed out to lead the sweeping strike.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.3774,
         "Right Thumb Spread": 0.24885,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

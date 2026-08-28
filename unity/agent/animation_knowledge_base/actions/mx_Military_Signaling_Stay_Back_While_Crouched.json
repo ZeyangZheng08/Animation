@@ -14,7 +14,7 @@
   "duration": 6.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure crouches on one knee and repeatedly waves its right hand in a \"stay back\" gesture.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01548,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds a stable, forward-leaning posture with the chest slightly raised throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.10801,
         "Spine Left-Right": -0.19973,
@@ -57,7 +57,7 @@
         "raw_value": 0.05322,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains steady, facing directly forward toward the viewer.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03558,
         "Neck Tilt Left-Right": 0.12037,
@@ -75,7 +75,7 @@
         "raw_value": 0.08503,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow with the forearm resting horizontally across the midsection.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.04008,
         "Left Shoulder Front-Back": -0.08244,
@@ -96,7 +96,7 @@
         "raw_value": 0.18402,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves from a position near the waist out to the side of the body and then back again.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.47602,
         "Right Shoulder Front-Back": -1.36592,
@@ -117,7 +117,7 @@
         "raw_value": 0.01471,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted on the floor with the knee bent, supporting the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.49752,
         "Left Upper Leg In-Out": 0.88613,
@@ -137,7 +137,7 @@
         "raw_value": 0.01722,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a kneeling position with the lower leg extended flat behind the torso.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.45177,
         "Right Upper Leg In-Out": 0.21943,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeps a relaxed grip near the left hip while the arm stays still.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.14135,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens the palm outward as it moves away from the body to signal stopping.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:42:49Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

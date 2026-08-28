@@ -14,7 +14,7 @@
   "duration": 7.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits in place, raising its hands to clap high above its head before lowering them to rest on its knees.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02285,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stationary throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.22088,
         "Spine Left-Right": -0.04284,
@@ -57,7 +57,7 @@
         "raw_value": 0.08167,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays straight and still, facing forward without any movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.05982,
         "Neck Tilt Left-Right": 0.05004,
@@ -75,7 +75,7 @@
         "raw_value": 0.36901,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm lifts from the lap up high beside the head and then lowers back down to rest on the thigh.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.40084,
         "Left Shoulder Front-Back": -1.51326,
@@ -96,7 +96,7 @@
         "raw_value": 0.44667,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left by lifting up high beside the head and then lowering back down to the thigh.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.40056,
         "Right Shoulder Front-Back": -1.34389,
@@ -117,7 +117,7 @@
         "raw_value": 0.00286,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg holds a static seated position with the knee bent and foot flat on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.61841,
         "Left Upper Leg In-Out": 0.23444,
@@ -137,7 +137,7 @@
         "raw_value": 0.00263,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg maintains a static seated position with the knee bent and foot flat on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.62804,
         "Right Upper Leg In-Out": 0.16375,
@@ -157,7 +157,7 @@
         "raw_value": 0.25694,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand travels upward to meet the other hand for a clap and then returns to rest on the knee.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.97087,
         "Left Thumb Spread": 0.40591,
@@ -189,7 +189,7 @@
         "raw_value": 0.25959,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves upward to join the left hand in a clap and then comes back down to the knee.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.12464,
         "Right Thumb Spread": 1.01969,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

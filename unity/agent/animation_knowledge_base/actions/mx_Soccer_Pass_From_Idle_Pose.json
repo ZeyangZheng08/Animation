@@ -14,7 +14,7 @@
   "duration": 1.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure steps forward from a standing position and swings their right leg out to the side in a passing motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.22692,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and rotates to the left, shifting its weight onto the left leg as the pass is executed.",
       "mean_pose": {
         "Spine Front-Back": -0.11671,
         "Spine Left-Right": -0.00402,
@@ -57,7 +57,7 @@
         "raw_value": 0.18486,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and turns to the right, tracking the movement of the kicking leg.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04164,
         "Neck Tilt Left-Right": -0.00513,
@@ -75,7 +75,7 @@
         "raw_value": 0.23758,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings backward from the hip and then forward across the chest to maintain balance during the kick.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.52941,
         "Left Shoulder Front-Back": -0.2847,
@@ -96,7 +96,7 @@
         "raw_value": 0.17945,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward to the side and back, counterbalancing the swing of the right leg.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.53218,
         "Right Shoulder Front-Back": 0.10594,
@@ -117,7 +117,7 @@
         "raw_value": 0.14592,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground, bending at the knee to support the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.34179,
         "Left Upper Leg In-Out": 0.13148,
@@ -137,7 +137,7 @@
         "raw_value": 0.20969,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts from the ground, swinging up and out to the right in a wide arc to complete the pass.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.26634,
         "Right Upper Leg In-Out": 0.16016,
@@ -157,7 +157,7 @@
         "raw_value": 0.18718,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves with the arm, staying open and relaxed throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.99569,
         "Left Thumb Spread": -0.13465,
@@ -189,7 +189,7 @@
         "raw_value": 0.22339,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends outward with the arm, remaining open to help stabilize the upper body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.61102,
         "Right Thumb Spread": -0.20763,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:04Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

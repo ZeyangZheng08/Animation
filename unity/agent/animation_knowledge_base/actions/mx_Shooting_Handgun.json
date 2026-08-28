@@ -14,7 +14,7 @@
   "duration": 5.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a one-handed handgun shooting motion, raising the right arm to shoulder height and then lowering it.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07759,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains mostly upright, tilting slightly forward as the right arm is raised and straightening back up as it lowers.",
       "mean_pose": {
         "Spine Front-Back": -0.08913,
         "Spine Left-Right": -0.04755,
@@ -57,7 +57,7 @@
         "raw_value": 0.36225,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15582,
         "Neck Tilt Left-Right": -0.06813,
@@ -75,7 +75,7 @@
         "raw_value": 0.30773,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely at the side of the body, swinging gently for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.45786,
         "Left Shoulder Front-Back": -0.37065,
@@ -96,7 +96,7 @@
         "raw_value": 0.07476,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm lifts from the waist up to shoulder height in a straight line before returning to the starting position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.22587,
         "Right Shoulder Front-Back": 0.00517,
@@ -117,7 +117,7 @@
         "raw_value": 0.02492,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands planted with a slight bend at the knee.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.41671,
         "Left Upper Leg In-Out": 0.22772,
@@ -137,7 +137,7 @@
         "raw_value": 0.03068,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains stationary, supporting the body's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.62016,
         "Right Upper Leg In-Out": 0.30996,
@@ -157,7 +157,7 @@
         "raw_value": 0.34414,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand dangles naturally by the hip with fingers relaxed.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.56759,
         "Left Thumb Spread": -1.06322,
@@ -189,7 +189,7 @@
         "raw_value": 0.00814,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a steady, clenched pose at the end of the extended arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.65116,
         "Right Thumb Spread": -0.47731,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:13Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

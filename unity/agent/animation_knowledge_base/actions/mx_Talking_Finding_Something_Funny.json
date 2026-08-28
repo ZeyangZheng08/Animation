@@ -14,7 +14,7 @@
   "duration": 5.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin stands in place, shifting its weight and swaying its torso while gesturing with both arms as if telling a story.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06721,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The upper body leans forward slightly and rocks side to side, twisting gently at the waist to follow the arm movements.",
       "mean_pose": {
         "Spine Front-Back": 0.09423,
         "Spine Left-Right": -0.10466,
@@ -57,7 +57,7 @@
         "raw_value": 0.14664,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and nods rhythmically, turning slightly from side to side in sync with the body's sway.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07944,
         "Neck Tilt Left-Right": 0.03731,
@@ -75,7 +75,7 @@
         "raw_value": 0.29502,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and downward, bending at the elbow to gesture away from the body before returning toward the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.43456,
         "Left Shoulder Front-Back": -0.5896,
@@ -96,7 +96,7 @@
         "raw_value": 0.23301,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the motion, extending out to the side with the elbow bent and then drawing back toward the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.97649,
         "Right Shoulder Front-Back": -0.49114,
@@ -117,7 +117,7 @@
         "raw_value": 0.04181,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted with a slight bend at the knee, supporting the body's lateral shifts.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.40215,
         "Left Upper Leg In-Out": -0.16405,
@@ -137,7 +137,7 @@
         "raw_value": 0.03933,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays relatively straight, acting as the primary pivot point for the figure's weight transfer.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.16137,
         "Right Upper Leg In-Out": 0.20814,
@@ -157,7 +157,7 @@
         "raw_value": 0.2825,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves with an open palm, fingers relaxed and spread, emphasizing the outward swing of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.2158,
         "Left Thumb Spread": -0.11899,
@@ -189,7 +189,7 @@
         "raw_value": 0.63345,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand gestures with an open palm, mirroring the left hand's expressive movement near the hip and mid-torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.76545,
         "Right Thumb Spread": -0.72056,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:50:27Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

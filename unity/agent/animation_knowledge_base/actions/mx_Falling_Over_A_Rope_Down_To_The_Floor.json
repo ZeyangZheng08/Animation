@@ -14,7 +14,7 @@
   "duration": 11.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure falls forward to the floor, lands on its hands and feet in a crouch, and then rises back to a standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.27304,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso tilts forward from an upright stance, drops low into a deep crouch on the floor, and then straightens back up to stand.",
       "mean_pose": {
         "Spine Front-Back": -0.17758,
         "Spine Left-Right": -0.02117,
@@ -57,7 +57,7 @@
         "raw_value": 0.18238,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the torso's descent, dipping down toward the ground during the fall and crouch before lifting back up as the figure stands.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06499,
         "Neck Tilt Left-Right": -0.01663,
@@ -75,7 +75,7 @@
         "raw_value": 0.30633,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends out to the side for balance, swings down to press against the floor during the crouch, and then lifts back up to the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.27768,
         "Left Shoulder Front-Back": -0.01367,
@@ -96,7 +96,7 @@
         "raw_value": 0.34156,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches forward and upward, drops down to brace on the floor next to the other hand, and then rises again as the figure stands.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.12236,
         "Right Shoulder Front-Back": -0.0964,
@@ -117,7 +117,7 @@
         "raw_value": 0.26987,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and lowers to the floor to form a crouching base, then extends to support the figure's weight as it stands.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.08782,
         "Left Upper Leg In-Out": 0.05881,
@@ -137,7 +137,7 @@
         "raw_value": 0.26165,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg tucks beneath the body during the fall, plants on the floor for the crouch, and straightens out to complete the standing pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.23513,
         "Right Upper Leg In-Out": 0.13063,
@@ -157,7 +157,7 @@
         "raw_value": 0.32646,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens wide for balance, presses flat against the floor to catch the fall, and then relaxes by the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.24171,
         "Left Thumb Spread": 0.19691,
@@ -189,7 +189,7 @@
         "raw_value": 0.34714,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches out, makes contact with the floor to support the weight during the crouch, and then returns to a relaxed position at the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.28208,
         "Right Thumb Spread": 0.24759,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:36:18Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

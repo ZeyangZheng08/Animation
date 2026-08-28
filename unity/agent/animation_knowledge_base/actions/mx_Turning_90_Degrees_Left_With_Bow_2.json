@@ -14,7 +14,7 @@
   "duration": 1.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a left turn while executing a bow.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.035,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates 90 degrees to the left, leaning forward in a bowing motion before returning upright.",
       "mean_pose": {
         "Spine Front-Back": -0.34537,
         "Spine Left-Right": -0.17182,
@@ -57,7 +57,7 @@
         "raw_value": 0.06622,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to follow the bow, turning left with the body as it completes the rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11004,
         "Neck Tilt Left-Right": -0.01763,
@@ -75,7 +75,7 @@
         "raw_value": 0.05204,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward to the side for balance during the turn and then lowers back to the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.80394,
         "Left Shoulder Front-Back": -0.04492,
@@ -96,7 +96,7 @@
         "raw_value": 0.07266,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging outwards for balance and settling back down by the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.58,
         "Right Shoulder Front-Back": -0.44262,
@@ -117,7 +117,7 @@
         "raw_value": 0.13,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg pivots and steps forward to initiate the leftward turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.02103,
         "Left Upper Leg In-Out": 0.35391,
@@ -137,7 +137,7 @@
         "raw_value": 0.17572,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the pivot, stepping through to complete the 90-degree rotation.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.11878,
         "Right Upper Leg In-Out": 0.43538,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains relatively still, held low near the hip throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.14021,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves slightly outward and downward along with the arm's balancing swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.28716,
         "Right Thumb Spread": -0.63221,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:04Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

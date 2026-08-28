@@ -14,7 +14,7 @@
   "duration": 4.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a low seated position to stand fully upright.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10158,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso tilts forward and leans back as it elevates from the deep crouch into an erect standing posture.",
       "mean_pose": {
         "Spine Front-Back": -0.2033,
         "Spine Left-Right": 0.06736,
@@ -57,7 +57,7 @@
         "raw_value": 0.11058,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head lifts upward, following the rising motion of the body until it is level in the final standing pose.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09966,
         "Neck Tilt Left-Right": -0.01236,
@@ -75,7 +75,7 @@
         "raw_value": 0.06141,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs straight down at the side of the body throughout the entire movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.5671,
         "Left Shoulder Front-Back": -0.63351,
@@ -96,7 +96,7 @@
         "raw_value": 0.05285,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains relaxed and hanging by the side, mirroring the left arm's static position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.60461,
         "Right Shoulder Front-Back": -0.1618,
@@ -117,7 +117,7 @@
         "raw_value": 0.15649,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends from a bent, braced position to support the full weight of the standing body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.22657,
         "Left Upper Leg In-Out": 0.1623,
@@ -137,7 +137,7 @@
         "raw_value": 0.16136,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg straightens from a deep bend to become vertical, completing the transition to a standing stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.26685,
         "Right Upper Leg In-Out": 0.09661,
@@ -157,7 +157,7 @@
         "raw_value": 0.08459,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the end of the hanging arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.58459,
         "Left Thumb Spread": 0.05884,
@@ -189,7 +189,7 @@
         "raw_value": 0.1454,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and loose, positioned near the thigh without making contact with the floor.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.61419,
         "Right Thumb Spread": 0.32875,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

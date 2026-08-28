@@ -14,7 +14,7 @@
   "duration": 2.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a forward leap, launching into the air with arms outstretched before landing in a deep crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.19721,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward significantly during the initial launch and final landing, while extending upright to its full height at the peak of the jump.",
       "mean_pose": {
         "Spine Front-Back": -0.30839,
         "Spine Left-Right": -0.01848,
@@ -57,7 +57,7 @@
         "raw_value": 0.2011,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tucks down toward the knees during the crouching phases and lifts up to face forward while airborne.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.13008,
         "Neck Tilt Left-Right": -0.06073,
@@ -75,7 +75,7 @@
         "raw_value": 0.35755,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs low and bent near the body during the start and end, then swings upward and outward to the side to balance the jump.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.49943,
         "Left Shoulder Front-Back": -0.2145,
@@ -96,7 +96,7 @@
         "raw_value": 0.34527,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirrors the left arm's motion, swinging from a low, bent position up and out to the side during the flight phase.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.45381,
         "Right Shoulder Front-Back": -0.4006,
@@ -117,7 +117,7 @@
         "raw_value": 0.28653,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply to absorb the impact at the beginning and end, and extends straight back while mid-air.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.35735,
         "Left Upper Leg In-Out": 0.27059,
@@ -137,7 +137,7 @@
         "raw_value": 0.32617,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Crouches low to prepare for the jump, stretches out behind the body in flight, and bends again to stabilize the landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.15173,
         "Right Upper Leg In-Out": 0.1662,
@@ -157,7 +157,7 @@
         "raw_value": 0.00453,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed, hanging loosely by the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.52905,
         "Left Thumb Spread": -0.02712,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open and relaxed, mirroring the loose position of the other hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:41:41Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a blocking motion, pushing the left arm outward to the side while turning the torso and head to face that direction.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06192,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from facing forward to facing the left, holding the turned position through the end of the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.03299,
         "Spine Left-Right": -0.01262,
@@ -57,7 +57,7 @@
         "raw_value": 0.1174,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to look over the left shoulder, tracking the movement of the left arm.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.16813,
         "Neck Tilt Left-Right": 0.11504,
@@ -75,7 +75,7 @@
         "raw_value": 0.06186,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward to the side, moving from a bent position near the waist to a fully extended horizontal position with the palm open.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.70556,
         "Left Shoulder Front-Back": -0.99814,
@@ -96,7 +96,7 @@
         "raw_value": 0.44325,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent at the elbow, held close to the body in front of the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.03344,
         "Right Shoulder Front-Back": -0.48055,
@@ -117,7 +117,7 @@
         "raw_value": 0.05302,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is planted firmly on the ground with a slight bend in the knee to support the weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.07061,
         "Left Upper Leg In-Out": 0.24692,
@@ -137,7 +137,7 @@
         "raw_value": 0.06005,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stands slightly behind the left, providing a stable base for the rotation.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.2518,
         "Right Upper Leg In-Out": 0.23997,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open with the fingers spread as it extends outward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.6696,
         "Left Thumb Spread": -0.99843,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a loose fist near the center of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.56143,
         "Right Thumb Spread": -1.39636,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:58Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward, dives low to the ground in a sliding tackle with one leg extended, and then pushes back up to a running stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16635,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from an upright running posture, drops down to slide horizontally along the floor, and rises back up to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.61763,
         "Spine Left-Right": 0.00236,
@@ -57,7 +57,7 @@
         "raw_value": 0.23713,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward as the body lowers for the dive, stays angled toward the floor during the slide, and lifts back up as the figure stands.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02001,
         "Neck Tilt Left-Right": 0.02373,
@@ -75,7 +75,7 @@
         "raw_value": 0.38839,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings backward while running, extends forward to brace on the ground during the slide, and returns to a bent position at the side while rising.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.62123,
         "Left Shoulder Front-Back": -0.16289,
@@ -96,7 +96,7 @@
         "raw_value": 0.62269,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings forward while running, reaches out alongside the body during the slide, and swings back to a neutral position as the figure recovers.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.25172,
         "Right Shoulder Front-Back": -0.96118,
@@ -117,7 +117,7 @@
         "raw_value": 0.30293,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends straight forward to lead the slide on the ground, then bends at the knee to help push the body back up into a run.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.25267,
         "Left Upper Leg In-Out": 0.19154,
@@ -137,7 +137,7 @@
         "raw_value": 0.30079,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trails behind the body during the initial dive, tucks underneath the torso during the slide, and plants on the ground to complete the recovery.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.34246,
         "Right Upper Leg In-Out": 0.24151,
@@ -157,7 +157,7 @@
         "raw_value": 0.44301,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens and presses against the floor to support the weight of the body during the slide before lifting away.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.0222,
         "Left Thumb Spread": 0.30899,
@@ -189,7 +189,7 @@
         "raw_value": 0.33644,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches out toward the ground during the dive and remains open throughout the movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.92611,
         "Right Thumb Spread": 0.33497,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:48:23Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

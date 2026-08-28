@@ -14,7 +14,7 @@
   "duration": 3.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a spinning back kick, rotating their body while extending one leg high into the air.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08702,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates clockwise from a front-facing stance to a rear-facing position, leaning slightly backward during the peak of the kick.",
       "mean_pose": {
         "Spine Front-Back": -0.15823,
         "Spine Left-Right": 0.00869,
@@ -57,7 +57,7 @@
         "raw_value": 0.19358,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to follow the rotation of the torso, maintaining alignment with the shoulders throughout the spin.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.18739,
         "Neck Tilt Left-Right": 0.06215,
@@ -75,7 +75,7 @@
         "raw_value": 0.31272,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and upward to maintain balance as the body rotates away from the initial facing direction.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.0969,
         "Left Shoulder Front-Back": -0.07734,
@@ -96,7 +96,7 @@
         "raw_value": 0.1803,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm pulls inward toward the chest initially, then extends outward to the side as the spin completes.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.37715,
         "Right Shoulder Front-Back": -0.03519,
@@ -117,7 +117,7 @@
         "raw_value": 0.25929,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg serves as the pivot point on the ground, bending at the knee to support the weight of the spinning body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.08322,
         "Left Upper Leg In-Out": 0.75309,
@@ -137,7 +137,7 @@
         "raw_value": 0.25297,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts off the ground, chambering at the hip before extending fully straight out in a high horizontal kick behind the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.05564,
         "Right Upper Leg In-Out": 0.4132,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open with fingers relaxed, moving with the swing of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53829,
         "Left Thumb Spread": 0.57819,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and loose, counterbalancing the motion of the kicking leg.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:14Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

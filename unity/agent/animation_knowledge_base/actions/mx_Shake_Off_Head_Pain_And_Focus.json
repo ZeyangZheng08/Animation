@@ -14,7 +14,7 @@
   "duration": 5.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure shakes its head with hands on its temples, then drops its arms to shake off the pain and focus.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08821,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward while holding its head, then straightens up and tilts slightly as it recovers.",
       "mean_pose": {
         "Spine Front-Back": -0.12085,
         "Spine Left-Right": 0.01599,
@@ -57,7 +57,7 @@
         "raw_value": 0.25647,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down with a shaking motion while being held by the hands, then lifts up and turns to look forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.0169,
         "Neck Tilt Left-Right": -0.01712,
@@ -75,7 +75,7 @@
         "raw_value": 0.34511,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises the arm to place the hand on the side of the head, then lowers it to swing back and forth at the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.01266,
         "Left Shoulder Front-Back": -0.64232,
@@ -96,7 +96,7 @@
         "raw_value": 0.42774,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises the arm to place the hand on the side of the head, then lowers it to hang loosely at the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.06826,
         "Right Shoulder Front-Back": -0.58465,
@@ -117,7 +117,7 @@
         "raw_value": 0.12929,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends slightly to support the forward lean, then straightens out as the body recovers.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.24718,
         "Left Upper Leg In-Out": 0.10124,
@@ -137,7 +137,7 @@
         "raw_value": 0.09221,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends slightly to support the forward lean, then straightens out as the body recovers.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.01868,
         "Right Upper Leg In-Out": 0.14434,
@@ -157,7 +157,7 @@
         "raw_value": 0.46198,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Presses against the side of the head, then opens and swings backward away from the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.24911,
         "Left Thumb Spread": 0.4079,
@@ -189,7 +189,7 @@
         "raw_value": 0.49682,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Presses against the side of the head, then opens and hangs down at the side of the leg.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.43049,
         "Right Thumb Spread": 0.1457,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:01Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

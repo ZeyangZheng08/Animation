@@ -14,7 +14,7 @@
   "duration": 2.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a rhythmic jump rope motion, bouncing vertically on the balls of their feet while swinging their arms in a continuous circular path.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03142,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bobs up and down in time with the jumping motion, maintaining an upright posture with slight forward lean during the lowest points of the bounce.",
       "mean_pose": {
         "Spine Front-Back": -0.26142,
         "Spine Left-Right": -0.01231,
@@ -57,7 +57,7 @@
         "raw_value": 0.03927,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively stable and upright, moving slightly up and down to follow the vertical rhythm of the body's bounce.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.22846,
         "Neck Tilt Left-Right": -0.09682,
@@ -75,7 +75,7 @@
         "raw_value": 0.11145,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings in a large circular arc, rotating from a raised position near the shoulder down past the hips and back up again.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.64867,
         "Left Shoulder Front-Back": 1.07139,
@@ -96,7 +96,7 @@
         "raw_value": 0.15536,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging in a synchronized circular arc from the shoulders down past the hips and back up.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.23374,
         "Right Shoulder Front-Back": -0.08714,
@@ -117,7 +117,7 @@
         "raw_value": 0.12746,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to absorb the landing and extends to push off the ground, keeping the foot on the ball of the foot throughout the jump.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.29436,
         "Left Upper Leg In-Out": -0.00103,
@@ -137,7 +137,7 @@
         "raw_value": 0.11484,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left, bending and extending in sync to provide the vertical propulsion for the jumps.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.35265,
         "Right Upper Leg In-Out": 0.0231,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a steady, loosely clenched fist pose as it travels through the circular swinging motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a matching loose fist pose, consistent with gripping the handle of a rope, while moving in its circular path.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.92373,
         "Right Thumb Spread": -1.07138,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:40:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

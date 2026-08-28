@@ -14,7 +14,7 @@
   "duration": 2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a side step and executes a front kick with the left leg.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15261,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward during the initial step, rotates to the right through the middle of the movement, and returns to an upright, forward-leaning position by the end.",
       "mean_pose": {
         "Spine Front-Back": -0.08623,
         "Spine Left-Right": 0.01632,
@@ -57,7 +57,7 @@
         "raw_value": 0.29898,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns to look over the right shoulder as the body rotates, then turns back to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09711,
         "Neck Tilt Left-Right": -0.06368,
@@ -75,7 +75,7 @@
         "raw_value": 0.40116,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts bent across the chest, swings down and back for balance during the step, and ends in a low guard position near the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.1373,
         "Left Shoulder Front-Back": -0.2221,
@@ -96,7 +96,7 @@
         "raw_value": 0.37288,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Begins extended out to the side, retracts toward the body as the torso turns, and finishes pulled back close to the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.58961,
         "Right Shoulder Front-Back": -0.72946,
@@ -117,7 +117,7 @@
         "raw_value": 0.30246,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward to plant on the ground, lifts high into a front kick at the midpoint, and lowers back down to a standing position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.29797,
         "Left Upper Leg In-Out": 0.41604,
@@ -137,7 +137,7 @@
         "raw_value": 0.30132,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Acts as the pivot leg, bending to support the weight during the step and kick before straightening at the end.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.27833,
         "Right Upper Leg In-Out": 0.27107,
@@ -157,7 +157,7 @@
         "raw_value": 0.23318,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves from a guarded position near the chest down and outward to assist with balance, ending in a loose fist at the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.39489,
         "Left Thumb Spread": 0.1364,
@@ -189,7 +189,7 @@
         "raw_value": 0.24931,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends away from the body, pulls inward as the torso twists, and finishes tucked in near the waist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.27488,
         "Right Thumb Spread": 0.13101,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:50Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

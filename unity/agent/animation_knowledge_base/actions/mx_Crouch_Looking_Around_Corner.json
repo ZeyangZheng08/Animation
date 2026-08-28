@@ -14,7 +14,7 @@
   "duration": 3.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure maintains a low, wide crouch while swaying its upper body and turning its head to look around.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02209,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a deep crouch and sways side-to-side, shifting the hips left and right throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.10133,
         "Spine Left-Right": -0.01527,
@@ -57,7 +57,7 @@
         "raw_value": 0.10262,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns from facing forward to the figure's right, then back toward the center, and finally to the figure's left.",
       "mean_pose": {
         "Neck Nod Down-Up": -4e-05,
         "Neck Tilt Left-Right": 0.03171,
@@ -75,7 +75,7 @@
         "raw_value": 0.17734,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs down and slightly back with a bent elbow, swinging gently to match the torso's sway.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.80526,
         "Left Shoulder Front-Back": -0.60926,
@@ -96,7 +96,7 @@
         "raw_value": 0.05995,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends down and forward with a bent elbow, moving in sync with the lateral shifts of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.69098,
         "Right Shoulder Front-Back": 1.20743,
@@ -117,7 +117,7 @@
         "raw_value": 0.0578,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted in a bent-knee stance, bending deeper as the weight shifts onto it during the sway.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.58235,
         "Left Upper Leg In-Out": 0.24336,
@@ -137,7 +137,7 @@
         "raw_value": 0.06457,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains in a bent position, adjusting its bend and angle to support the shifting center of gravity.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.31116,
         "Right Upper Leg In-Out": 0.42565,
@@ -157,7 +157,7 @@
         "raw_value": 0.16356,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely near the knee, fingers relaxed, following the small movements of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.77686,
         "Left Thumb Spread": 0.24102,
@@ -189,7 +189,7 @@
         "raw_value": 0.08798,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches down and forward with fingers spread, tracking the subtle swings of the right arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.07699,
         "Right Thumb Spread": 0.24199,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:34:43Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

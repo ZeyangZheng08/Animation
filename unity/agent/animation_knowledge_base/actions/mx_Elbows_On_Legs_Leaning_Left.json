@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits in a stationary, forward-leaning posture with its elbows resting on its legs.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and tilts to the left in a static seated position.",
       "mean_pose": {
         "Spine Front-Back": -0.94394,
         "Spine Left-Right": -0.04134,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward and faces toward the left side of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.08049,
         "Neck Tilt Left-Right": 0.06041,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Rests with the elbow bent and positioned over the left knee.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.44825,
         "Left Shoulder Front-Back": -2.14812,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Rests with the elbow bent and positioned over the right knee.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.79065,
         "Right Shoulder Front-Back": -0.64925,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the knee in a stable, seated stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.78986,
         "Left Upper Leg In-Out": 0.47164,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the knee in a stable, seated stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.63747,
         "Right Upper Leg In-Out": 0.54574,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely from the wrist below the left elbow.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.69583,
         "Left Thumb Spread": -0.28634,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely from the wrist below the right elbow.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.47688,
         "Right Thumb Spread": 0.56888,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:39Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

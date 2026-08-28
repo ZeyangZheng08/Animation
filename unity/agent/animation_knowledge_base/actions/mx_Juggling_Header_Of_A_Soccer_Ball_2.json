@@ -14,7 +14,7 @@
   "duration": 4.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a soccer header, leaning back to strike an imaginary ball with the head before recovering to a standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03153,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans backward significantly during the header motion and then returns to an upright, neutral stance.",
       "mean_pose": {
         "Spine Front-Back": -0.19835,
         "Spine Left-Right": -0.02642,
@@ -57,7 +57,7 @@
         "raw_value": 0.10515,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back sharply to meet the imaginary ball at the peak of the movement, then returns to a forward-facing orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.0649,
         "Neck Tilt Left-Right": 0.00944,
@@ -75,7 +75,7 @@
         "raw_value": 0.10365,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and outward for balance during the lean, then lowers down to the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.82739,
         "Left Shoulder Front-Back": 0.2599,
@@ -96,7 +96,7 @@
         "raw_value": 0.13179,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left by swinging up and out to counterbalance the head movement, then descends to rest at the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.15622,
         "Right Shoulder Front-Back": -0.16176,
@@ -117,7 +117,7 @@
         "raw_value": 0.14705,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends slightly to absorb the shift in weight and maintains a stable base throughout the action.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.31112,
         "Left Upper Leg In-Out": 0.08165,
@@ -137,7 +137,7 @@
         "raw_value": 0.12968,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains relatively straight, acting as the primary support pillar while the upper body moves.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.34191,
         "Right Upper Leg In-Out": 0.24955,
@@ -157,7 +157,7 @@
         "raw_value": 0.16296,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open and relaxed, moving passively with the swing of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.10348,
         "Left Thumb Spread": 0.12445,
@@ -189,7 +189,7 @@
         "raw_value": 0.18298,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and loose, following the path of the arm as it balances the motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.38208,
         "Right Thumb Spread": 0.48799,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:39:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

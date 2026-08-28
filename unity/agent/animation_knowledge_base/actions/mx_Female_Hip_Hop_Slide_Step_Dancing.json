@@ -14,7 +14,7 @@
   "duration": 4.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a rhythmic hip-hop dance, sliding their feet across the floor while swaying their hips and swinging their arms in alternating motions.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.19235,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward slightly and sways side to side, rotating with the rhythm of the dance steps.",
       "mean_pose": {
         "Spine Front-Back": -0.02139,
         "Spine Left-Right": -0.02074,
@@ -57,7 +57,7 @@
         "raw_value": 0.12013,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward and bobs gently, following the movement of the shoulders and upper body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06591,
         "Neck Tilt Left-Right": -0.00414,
@@ -75,7 +75,7 @@
         "raw_value": 0.26183,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings back and forth across the front of the chest, moving from an extended position to a bent posture near the shoulder.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.46351,
         "Left Shoulder Front-Back": 0.47269,
@@ -96,7 +96,7 @@
         "raw_value": 0.28835,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the opposite motion, swinging across the body and extending outward to maintain balance during the slide.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.0065,
         "Right Shoulder Front-Back": 0.419,
@@ -117,7 +117,7 @@
         "raw_value": 0.21426,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and slides forward, stepping over or past the right foot to initiate the dance move.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.08084,
         "Left Upper Leg In-Out": 0.0212,
@@ -137,7 +137,7 @@
         "raw_value": 0.27906,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows with a similar bending and sliding motion, keeping the feet close together on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.16111,
         "Right Upper Leg In-Out": 0.04153,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, hanging naturally as the arm swings.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.77722,
         "Left Thumb Spread": -0.00388,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is also open and loose, moving freely with the flow of the arm's swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.69012,
         "Right Thumb Spread": 0.0119,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

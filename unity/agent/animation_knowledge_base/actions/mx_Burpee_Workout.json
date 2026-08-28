@@ -14,7 +14,7 @@
   "duration": 3.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a burpee by transitioning from a standing position to a crouch, placing hands on the floor, jumping back into a plank position, and then reversing the movement to stand up with arms raised.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05109,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers from an upright standing position into a deep forward bend while crouching, extends horizontally in a plank position, and returns to vertical as the figure stands back up.",
       "mean_pose": {
         "Spine Front-Back": -0.0832,
         "Spine Left-Right": 0.00604,
@@ -57,7 +57,7 @@
         "raw_value": 0.18532,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the downward trajectory of the body, dropping low during the crouch and remaining aligned with the spine during the horizontal phase before lifting back up.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.47508,
         "Neck Tilt Left-Right": 0.09909,
@@ -75,7 +75,7 @@
         "raw_value": 0.41922,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm reaches down toward the floor during the initial crouch, extends straight out to support the body's weight in the plank position, and swings upward to finish above the head.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.07594,
         "Left Shoulder Front-Back": -0.5046,
@@ -96,7 +96,7 @@
         "raw_value": 0.4697,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down toward the floor during the initial crouch, extends straight out to support the body's weight in the plank position, and swings upward to finish above the head.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.13941,
         "Right Shoulder Front-Back": -0.41362,
@@ -117,7 +117,7 @@
         "raw_value": 0.30389,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee to lower the body, kicks backward to assume a straight position for the plank, and folds forward again to drive the figure back to a standing posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.33053,
         "Left Upper Leg In-Out": 0.23827,
@@ -137,7 +137,7 @@
         "raw_value": 0.31572,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends deeply at the knee to lower the body, kicks backward to assume a straight position for the plank, and folds forward again to drive the figure back to a standing posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.31891,
         "Right Upper Leg In-Out": 0.12356,
@@ -157,7 +157,7 @@
         "raw_value": 0.31676,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a relaxed position near the hip down to touch the ground, maintains a flat supporting pose on the floor, and rises high into the air.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.00107,
         "Left Thumb Spread": 0.05672,
@@ -189,7 +189,7 @@
         "raw_value": 0.3521,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from a relaxed position near the hip down to touch the ground, maintains a flat supporting pose on the floor, and rises high into the air.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42636,
         "Right Thumb Spread": 0.79901,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:33:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

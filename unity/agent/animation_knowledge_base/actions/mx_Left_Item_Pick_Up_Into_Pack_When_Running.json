@@ -14,7 +14,7 @@
   "duration": 1.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward, bends down to pick up an item with the left hand, and then stands back up while continuing to run.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16826,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans sharply forward during the mid-clip bend and returns to an upright running posture by the end.",
       "mean_pose": {
         "Spine Front-Back": -0.15941,
         "Spine Left-Right": 0.00674,
@@ -57,7 +57,7 @@
         "raw_value": 0.2161,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward as the torso bends and lifts back up to face forward at the end of the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.26834,
         "Neck Tilt Left-Right": -0.14991,
@@ -75,7 +75,7 @@
         "raw_value": 0.71179,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down toward the floor in the middle of the clip and then swings upward past the shoulder.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.44943,
         "Left Shoulder Front-Back": -1.32909,
@@ -96,7 +96,7 @@
         "raw_value": 0.39117,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings backward for balance during the bend and then moves forward into a running position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.43713,
         "Right Shoulder Front-Back": -0.26148,
@@ -117,7 +117,7 @@
         "raw_value": 0.28099,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Plants on the ground to support the body's weight during the bend before lifting into the stride.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.24895,
         "Left Upper Leg In-Out": 0.06946,
@@ -137,7 +137,7 @@
         "raw_value": 0.27773,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward to provide momentum and continues the running cycle.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.14318,
         "Right Upper Leg In-Out": 0.02936,
@@ -157,7 +157,7 @@
         "raw_value": 0.63558,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens to grasp the item near the ground and then pulls it up toward the head.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.24083,
         "Left Thumb Spread": -0.08816,
@@ -189,7 +189,7 @@
         "raw_value": 0.23287,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains loosely clenched and swings naturally opposite the left arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.47881,
         "Right Thumb Spread": 0.56972,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:40:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

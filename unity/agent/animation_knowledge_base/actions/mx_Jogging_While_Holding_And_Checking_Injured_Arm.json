@@ -14,7 +14,7 @@
   "duration": 3.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jogs in place while holding and inspecting their left arm.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05324,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward with a slight tilt to the left, bobbing up and down with each stride.",
       "mean_pose": {
         "Spine Front-Back": -0.1916,
         "Spine Left-Right": -6e-05,
@@ -57,7 +57,7 @@
         "raw_value": 0.22182,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward and turns slightly toward the left side to look at the arms.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.10462,
         "Neck Tilt Left-Right": 0.01464,
@@ -75,7 +75,7 @@
         "raw_value": 0.1428,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Held bent across the front of the body with the elbow tucked close to the torso.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.46956,
         "Left Shoulder Front-Back": -0.2095,
@@ -96,7 +96,7 @@
         "raw_value": 0.17027,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow to reach across the body, with the hand grasping the left forearm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.69264,
         "Right Shoulder Front-Back": -0.51185,
@@ -117,7 +117,7 @@
         "raw_value": 0.13699,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Cycles through a jogging motion, alternating between lifting the knee and extending the foot back.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.17567,
         "Left Upper Leg In-Out": -0.07461,
@@ -137,7 +137,7 @@
         "raw_value": 0.12245,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Moves in opposition to the left leg, driving the jogging cycle by bending and extending.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.06628,
         "Right Upper Leg In-Out": 0.06396,
@@ -157,7 +157,7 @@
         "raw_value": 0.17488,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Relaxed and open, held steady near the center of the body as it is supported.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.64215,
         "Left Thumb Spread": -0.31681,
@@ -189,7 +189,7 @@
         "raw_value": 0.27245,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curled into a loose fist, gripping the left forearm to hold it in place.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.2725,
         "Right Thumb Spread": -0.82495,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

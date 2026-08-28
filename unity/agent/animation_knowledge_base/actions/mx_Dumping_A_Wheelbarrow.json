@@ -14,7 +14,7 @@
   "duration": 6.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure bends forward to dump a load from an invisible wheelbarrow and then stands back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08224,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans far forward at the waist in a deep bend and then straightens back to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.41757,
         "Spine Left-Right": -0.04905,
@@ -57,7 +57,7 @@
         "raw_value": 0.19844,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to look at the ground during the bend and lifts to face forward as the body rises.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.15804,
         "Neck Tilt Left-Right": 0.01946,
@@ -75,7 +75,7 @@
         "raw_value": 0.47348,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward and downward, holding a steady grip as if on handles, before pulling back slightly.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.01226,
         "Left Shoulder Front-Back": -0.15766,
@@ -96,7 +96,7 @@
         "raw_value": 0.4415,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, extending forward and down to maintain its grip throughout the dumping motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.06653,
         "Right Shoulder Front-Back": -0.27597,
@@ -117,7 +117,7 @@
         "raw_value": 0.1725,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to lower the body into the crouch and then straightens to stand up.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.0022,
         "Left Upper Leg In-Out": 0.20383,
@@ -137,7 +137,7 @@
         "raw_value": 0.12587,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends to support the forward lean and then extends fully to return the figure to a standing posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.35082,
         "Right Upper Leg In-Out": 0.17028,
@@ -157,7 +157,7 @@
         "raw_value": 0.5113,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains clenched in a firm fist, maintaining its imaginary hold on the wheelbarrow handles.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.86604,
         "Left Thumb Spread": -1.41715,
@@ -189,7 +189,7 @@
         "raw_value": 0.49582,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays clenched in a matching fist, gripping the imaginary handle next to the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": 0.17987,
         "Right Thumb Spread": -0.98056,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:42Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

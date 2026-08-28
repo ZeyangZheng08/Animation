@@ -14,7 +14,7 @@
   "duration": 3.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a slight crouch, hunching forward to hold both hands together in front of the body.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05907,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and downward from the hips, tilting the chest toward the legs while maintaining a bent posture.",
       "mean_pose": {
         "Spine Front-Back": -0.16882,
         "Spine Left-Right": 0.15515,
@@ -57,7 +57,7 @@
         "raw_value": 0.06589,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Drops down and tilts forward, looking down at the hands held in front of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09959,
         "Neck Tilt Left-Right": 0.07928,
@@ -75,7 +75,7 @@
         "raw_value": 0.09919,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs down and bends at the elbow to bring the hand forward and inward toward the center of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.84843,
         "Left Shoulder Front-Back": -1.83688,
@@ -96,7 +96,7 @@
         "raw_value": 0.07315,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs down and bends at the elbow to bring the hand forward and inward to meet the left hand.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.46745,
         "Right Shoulder Front-Back": -1.16599,
@@ -117,7 +117,7 @@
         "raw_value": 0.05114,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands with a slight bend at the knee to support the forward-leaning torso.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.07307,
         "Left Upper Leg In-Out": -0.10466,
@@ -137,7 +137,7 @@
         "raw_value": 0.05142,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands with a slight bend at the knee to support the forward-leaning torso.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.08325,
         "Right Upper Leg In-Out": 0.22545,
@@ -157,7 +157,7 @@
         "raw_value": 0.08734,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and inward, clasping with the right hand below the waist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.29456,
         "Left Thumb Spread": 0.01418,
@@ -189,7 +189,7 @@
         "raw_value": 0.0275,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and inward, clasping with the left hand below the waist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.48683,
         "Right Thumb Spread": 0.69456,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

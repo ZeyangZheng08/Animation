@@ -14,7 +14,7 @@
   "duration": 3.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a rhythmic can-can dance, kicking the legs alternately high while swinging the arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15827,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bounces with the rhythm of the kicks and sways gently side to side to maintain balance.",
       "mean_pose": {
         "Spine Front-Back": -0.00397,
         "Spine Left-Right": -0.15606,
@@ -57,7 +57,7 @@
         "raw_value": 0.28764,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays upright and faces forward, bobbing slightly in time with the body's movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.21748,
         "Neck Tilt Left-Right": -0.0308,
@@ -75,7 +75,7 @@
         "raw_value": 0.32323,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a wide position out to the side down toward the chest, then back up again.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.57061,
         "Left Shoulder Front-Back": 0.84796,
@@ -96,7 +96,7 @@
         "raw_value": 0.30014,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging outward and then drawing inward across the front of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.67465,
         "Right Shoulder Front-Back": -1.41131,
@@ -117,7 +117,7 @@
         "raw_value": 0.28534,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts high into a kick with the knee bent, then lowers back to the floor to support the weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.01703,
         "Left Upper Leg In-Out": 0.07201,
@@ -137,7 +137,7 @@
         "raw_value": 0.30113,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, performing a high bent-knee kick before returning to the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.01851,
         "Right Upper Leg In-Out": 0.07926,
@@ -157,7 +157,7 @@
         "raw_value": 0.05708,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves fluidly with the arm, extending fingers as it arcs through the air.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.99063,
         "Left Thumb Spread": -0.32836,
@@ -189,7 +189,7 @@
         "raw_value": 0.0649,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand follows the arm's swing, keeping the fingers relaxed and extended.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.82797,
         "Right Thumb Spread": -0.26505,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

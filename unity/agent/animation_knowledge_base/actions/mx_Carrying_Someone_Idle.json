@@ -14,7 +14,7 @@
   "duration": 10.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place, shifting its weight from side to side while holding a carrying posture with both hands extended forward.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00652,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds an upright posture, swaying gently left and right as the body shifts its weight between the legs.",
       "mean_pose": {
         "Spine Front-Back": 0.02074,
         "Spine Left-Right": -0.01801,
@@ -57,7 +57,7 @@
         "raw_value": 0.01292,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains level and facing directly forward throughout the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0901,
         "Neck Tilt Left-Right": 0.03447,
@@ -75,7 +75,7 @@
         "raw_value": 0.01275,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow with the forearm held horizontally in front of the chest, making small adjustments to match the body's sway.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.69355,
         "Left Shoulder Front-Back": 0.33042,
@@ -96,7 +96,7 @@
         "raw_value": 0.01201,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static bent position with the forearm parallel to the ground, mirroring the left arm's carrying stance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.53338,
         "Right Shoulder Front-Back": -0.31589,
@@ -117,7 +117,7 @@
         "raw_value": 0.01697,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands relatively straight on the floor, acting as the primary support for the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.32403,
         "Left Upper Leg In-Out": 0.11086,
@@ -137,7 +137,7 @@
         "raw_value": 0.02237,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Shifts its position slightly, bending and extending to move the weight off it and onto the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.35018,
         "Right Upper Leg In-Out": 0.11854,
@@ -157,7 +157,7 @@
         "raw_value": 0.04897,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeps the fingers curled into a loose fist shape, maintaining a steady grip position in mid-air.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.47654,
         "Left Thumb Spread": 0.78422,
@@ -189,7 +189,7 @@
         "raw_value": 0.05284,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds the fingers curled inward in a matching grasp, hovering steadily in front of the torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.13506,
         "Right Thumb Spread": -0.54876,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:00Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, sliding soccer tackle, lunging forward and falling to the ground with legs extended.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16602,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward from an upright stance, tilts horizontally as the body falls into a slide, and remains flat on the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.36523,
         "Spine Left-Right": 0.02493,
@@ -57,7 +57,7 @@
         "raw_value": 0.29116,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down initially, then turns to look back over the shoulder while the body is in mid-air and during the slide.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00113,
         "Neck Tilt Left-Right": -0.02801,
@@ -75,7 +75,7 @@
         "raw_value": 0.43019,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings forward and downward to brace against the floor, extending fully to support the sliding body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.42951,
         "Left Shoulder Front-Back": -1.12861,
@@ -96,7 +96,7 @@
         "raw_value": 0.52224,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches out to the side for balance before swinging back and tucking close to the chest during the fall.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.05299,
         "Right Shoulder Front-Back": -0.26784,
@@ -117,7 +117,7 @@
         "raw_value": 0.29263,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends forward to lead the slide, stretching straight out along the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.18083,
         "Left Upper Leg In-Out": 0.47673,
@@ -137,7 +137,7 @@
         "raw_value": 0.33582,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg kicks up high in the air behind the body, bending at the knee as the figure goes down.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.36668,
         "Right Upper Leg In-Out": 0.05071,
@@ -157,7 +157,7 @@
         "raw_value": 0.21431,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends with fingers splayed, reaching down to touch the ground and stabilize the slide.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.43654,
         "Left Thumb Spread": -0.14778,
@@ -189,7 +189,7 @@
         "raw_value": 0.25899,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed near the hip area, moving backward as the torso rotates.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.10769,
         "Right Thumb Spread": 0.04678,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

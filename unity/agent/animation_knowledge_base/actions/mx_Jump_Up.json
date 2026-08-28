@@ -14,7 +14,7 @@
   "duration": 2.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a jumping jack, swinging its arms and legs out from a closed standing position to an open spread before returning.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05525,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and centered throughout the movement, rising slightly as the legs extend for the jump.",
       "mean_pose": {
         "Spine Front-Back": -0.18344,
         "Spine Left-Right": 0.02352,
@@ -57,7 +57,7 @@
         "raw_value": 0.10553,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays neutral and faces forward while the body moves.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02992,
         "Neck Tilt Left-Right": -0.00143,
@@ -75,7 +75,7 @@
         "raw_value": 0.23128,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and outward from the side of the body to a raised position, then returns down to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.4235,
         "Left Shoulder Front-Back": 0.15867,
@@ -96,7 +96,7 @@
         "raw_value": 0.24381,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings upward and outward from the side of the body to a raised position, then returns down to the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.48649,
         "Right Shoulder Front-Back": -0.11752,
@@ -117,7 +117,7 @@
         "raw_value": 0.17955,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg kicks outward away from the center line during the jump and then returns to a closed stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.33542,
         "Left Upper Leg In-Out": 0.07939,
@@ -137,7 +137,7 @@
         "raw_value": 0.18727,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg kicks outward away from the center line during the jump and then returns to a closed stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.3373,
         "Right Upper Leg In-Out": 0.08021,
@@ -157,7 +157,7 @@
         "raw_value": 0.17815,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends with the fingers spread as the arm lifts, then relaxes as it lowers.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.16067,
         "Left Thumb Spread": 0.02998,
@@ -189,7 +189,7 @@
         "raw_value": 0.22067,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends with the fingers spread as the arm lifts, then relaxes as it lowers.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.15984,
         "Right Thumb Spread": 0.43609,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:03Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

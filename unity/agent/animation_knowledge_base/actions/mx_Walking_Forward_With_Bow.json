@@ -14,7 +14,7 @@
   "duration": 1.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward while bowing deeply, with a hunched posture and swinging arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0799,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a deep, sustained bow that bends the spine significantly at the waist.",
       "mean_pose": {
         "Spine Front-Back": -0.73272,
         "Spine Left-Right": -0.07091,
@@ -57,7 +57,7 @@
         "raw_value": 0.04352,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilted down sharply to look at the ground, following the angle of the bowed torso.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.74942,
         "Neck Tilt Left-Right": -0.32779,
@@ -75,7 +75,7 @@
         "raw_value": 0.06702,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings naturally in opposition to the legs, moving from a forward position to a backward one.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.37612,
         "Left Shoulder Front-Back": -0.64545,
@@ -96,7 +96,7 @@
         "raw_value": 0.06949,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings in opposition to the left arm, alternating between reaching forward and trailing back.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.82526,
         "Right Shoulder Front-Back": -0.83,
@@ -117,7 +117,7 @@
         "raw_value": 0.29357,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Takes long, bent strides, lifting the knee high as it moves through the walking cycle.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.39093,
         "Left Upper Leg In-Out": 0.50994,
@@ -137,7 +137,7 @@
         "raw_value": 0.27018,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates with the left leg, stepping forward and pushing off the ground to propel the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.50549,
         "Right Upper Leg In-Out": 0.06221,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains relaxed and open, hanging loosely by the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28329,
@@ -189,7 +189,7 @@
         "raw_value": 0.12899,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves dynamically with the arm swing, extending forward and then pulling back.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.58049,
         "Right Thumb Spread": -0.25046,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:52:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

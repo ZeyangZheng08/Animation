@@ -14,7 +14,7 @@
   "duration": 5.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from lying on its side to a standing position with a hunched, zombie-like posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10772,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rolls upward from the floor into a crouched position and then straightens into a forward-leaning stance.",
       "mean_pose": {
         "Spine Front-Back": -0.44367,
         "Spine Left-Right": -0.02619,
@@ -57,7 +57,7 @@
         "raw_value": 0.2491,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the ground while prone, lifts during the rise, and remains bowed in a hunched posture while standing.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.05676,
         "Neck Tilt Left-Right": -0.26358,
@@ -75,7 +75,7 @@
         "raw_value": 0.26581,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Rests bent near the chest while on the ground, extends downward to support the body's weight, and retracts to hang loosely by the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.02067,
         "Left Shoulder Front-Back": -0.33312,
@@ -96,7 +96,7 @@
         "raw_value": 0.26529,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises upward initially, lowers to brace against the ground, and finishes extended slightly forward with a bent elbow.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.00967,
         "Right Shoulder Front-Back": -0.77635,
@@ -117,7 +117,7 @@
         "raw_value": 0.16429,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends out while lying down, bends deeply to form the base of the crouch, and straightens to support the full body weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.50481,
         "Left Upper Leg In-Out": 0.40232,
@@ -137,7 +137,7 @@
         "raw_value": 0.24225,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Tucks beneath the body while prone, swings around and bends during the transition, and straightens to stand firmly.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.3273,
         "Right Upper Leg In-Out": 0.21914,
@@ -157,7 +157,7 @@
         "raw_value": 0.24771,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curls near the torso, reaches down to touch the floor for balance, and opens outward at the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.88651,
         "Left Thumb Spread": 0.1456,
@@ -189,7 +189,7 @@
         "raw_value": 0.26287,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open palm up, drops to grip the ground to push up, and settles into a loose fist in front of the waist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.61101,
         "Right Thumb Spread": -0.57754,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

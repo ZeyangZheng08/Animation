@@ -14,7 +14,7 @@
   "duration": 1.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin walks steadily backward, moving away from the front-facing camera while keeping its body oriented forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02546,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and faces forward throughout the clip, shifting slightly side to side with each step to maintain balance.",
       "mean_pose": {
         "Spine Front-Back": -0.04387,
         "Spine Left-Right": -0.01598,
@@ -57,7 +57,7 @@
         "raw_value": 0.01776,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays fixed in a neutral position, facing directly forward without turning or tilting.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0412,
         "Neck Tilt Left-Right": 0.00581,
@@ -75,7 +75,7 @@
         "raw_value": 0.05682,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings gently back and forth at the side of the body, counterbalancing the leg movements.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.68623,
         "Left Shoulder Front-Back": 0.0537,
@@ -96,7 +96,7 @@
         "raw_value": 0.03514,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the opposite swing of the left arm, moving rhythmically as the figure retreats.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.70291,
         "Right Shoulder Front-Back": 0.34105,
@@ -117,7 +117,7 @@
         "raw_value": 0.11534,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between stepping backward and supporting the weight, bending at the knee to drive the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.31422,
         "Left Upper Leg In-Out": -0.00866,
@@ -137,7 +137,7 @@
         "raw_value": 0.10618,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg takes alternating steps backward, extending behind the body to propel the figure away.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.37231,
         "Right Upper Leg In-Out": 0.18346,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs loosely at the side, remaining open and relaxed as it moves with the arm's swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.90329,
         "Left Thumb Spread": -0.11712,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is similarly held open and loose, swinging naturally with the right arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

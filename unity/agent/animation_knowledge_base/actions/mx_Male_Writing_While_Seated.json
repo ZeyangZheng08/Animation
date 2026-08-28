@@ -14,7 +14,7 @@
   "duration": 5.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A seated figure leans forward and moves their right hand in a writing motion over their left hand.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00894,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from the waist, maintaining a stable seated position.",
       "mean_pose": {
         "Spine Front-Back": -0.24592,
         "Spine Left-Right": 0.01999,
@@ -57,7 +57,7 @@
         "raw_value": 0.02221,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward to look at the hands, with slight movement following the writing action.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.13547,
         "Neck Tilt Left-Right": -0.06779,
@@ -75,7 +75,7 @@
         "raw_value": 0.02898,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds its forearm extended horizontally across the lap to support the writing surface.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.7126,
         "Left Shoulder Front-Back": -0.01054,
@@ -96,7 +96,7 @@
         "raw_value": 0.05752,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves back and forth in a short, rhythmic stroke, simulating the act of writing.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.70703,
         "Right Shoulder Front-Back": -0.91283,
@@ -117,7 +117,7 @@
         "raw_value": 0.0027,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the knee in a standard sitting posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.62942,
         "Left Upper Leg In-Out": 0.24446,
@@ -137,7 +137,7 @@
         "raw_value": 0.00625,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the knee, supporting the body's weight on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.61692,
         "Right Upper Leg In-Out": 0.19064,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, open-palm-up pose to serve as a base for the other hand.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Executes small, repetitive horizontal movements above the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.49618,
         "Right Thumb Spread": 0.11546,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:50Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

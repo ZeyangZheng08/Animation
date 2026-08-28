@@ -14,7 +14,7 @@
   "duration": 7.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a slow, unsteady run-in-place while hunched over and holding its hands up in front of its face.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11025,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Hunches forward at the waist and sways gently from side to side with each step.",
       "mean_pose": {
         "Spine Front-Back": -0.14687,
         "Spine Left-Right": 0.01056,
@@ -57,7 +57,7 @@
         "raw_value": 0.1662,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Bows deeply downward and bobs slightly with the movement of the torso.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.037,
         "Neck Tilt Left-Right": 0.00678,
@@ -75,7 +75,7 @@
         "raw_value": 0.30993,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent position with the elbow tucked in, keeping the hand raised near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.20268,
         "Left Shoulder Front-Back": -0.759,
@@ -96,7 +96,7 @@
         "raw_value": 0.32272,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent position with the elbow tucked in, keeping the hand raised near the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.09247,
         "Right Shoulder Front-Back": -0.87715,
@@ -117,7 +117,7 @@
         "raw_value": 0.14374,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates between bending the knee to lift the foot and extending it backward in a running motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.21958,
         "Left Upper Leg In-Out": 0.09897,
@@ -137,7 +137,7 @@
         "raw_value": 0.14864,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates between bending the knee to lift the foot and extending it backward in a running motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.08767,
         "Right Upper Leg In-Out": 0.04432,
@@ -157,7 +157,7 @@
         "raw_value": 0.22819,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and held still near the midsection.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.26767,
         "Left Thumb Spread": 0.11673,
@@ -189,7 +189,7 @@
         "raw_value": 0.26091,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and held still near the midsection.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.50238,
         "Right Thumb Spread": -0.21982,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:52Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

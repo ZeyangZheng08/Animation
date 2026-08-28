@@ -14,7 +14,7 @@
   "duration": 4.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a capoeira flip escape, dropping from a standing position into a handstand and rotating the body to land on its feet.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15406,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso drops sharply from an upright stance, arching over the hands as it rotates completely upside down before flipping back toward a vertical position.",
       "mean_pose": {
         "Spine Front-Back": -0.12478,
         "Spine Left-Right": 0.0044,
@@ -57,7 +57,7 @@
         "raw_value": 0.2126,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and forward as the body lowers, tucks beneath the shoulders during the handstand rotation, and leads the movement back up to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0492,
         "Neck Tilt Left-Right": -0.15959,
@@ -75,7 +75,7 @@
         "raw_value": 0.46867,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings down and extends fully to plant on the floor, supporting the entire body weight in a handstand while the legs rotate overhead.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.86593,
         "Left Shoulder Front-Back": -0.10361,
@@ -96,7 +96,7 @@
         "raw_value": 0.47473,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, extending downward to brace on the ground and stabilize the inverted body during the acrobatic flip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.84239,
         "Right Shoulder Front-Back": -1.17443,
@@ -117,7 +117,7 @@
         "raw_value": 0.40564,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts high into the air, passing through a split position above the head, and kicks down to complete the landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.01205,
         "Left Upper Leg In-Out": 0.16907,
@@ -137,7 +137,7 @@
         "raw_value": 0.36755,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the left upward into the inversion, crossing near the top of the rotation before swinging down to meet the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.23854,
         "Right Upper Leg In-Out": 0.23524,
@@ -157,7 +157,7 @@
         "raw_value": 0.27819,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches down to grip the floor firmly, acting as a primary pivot point for the handstand rotation.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.20314,
         "Left Thumb Spread": 0.03424,
@@ -189,7 +189,7 @@
         "raw_value": 0.25224,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand plants beside the left on the ground, providing a stable base for the body's rotational momentum.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.1499,
         "Right Thumb Spread": -0.00624,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:44Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

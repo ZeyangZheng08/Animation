@@ -14,7 +14,7 @@
   "duration": 0.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure crouches in a wide stance and braces its arms up to block an incoming impact.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02734,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers into a deep crouch, leaning forward with the hips dropped low.",
       "mean_pose": {
         "Spine Front-Back": -0.43621,
         "Spine Left-Right": -0.28714,
@@ -57,7 +57,7 @@
         "raw_value": 0.08076,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down slightly, keeping the gaze focused on the hands held in front of the face.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.11267,
         "Neck Tilt Left-Right": 0.13269,
@@ -75,7 +75,7 @@
         "raw_value": 0.08962,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is raised high, bent at the elbow to position the forearm vertically as a shield.",
       "mean_pose": {
         "Left Shoulder Down-Up": 1.31177,
         "Left Shoulder Front-Back": -2.87943,
@@ -96,7 +96,7 @@
         "raw_value": 0.14619,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is raised alongside the left, bent at the elbow with the hand positioned near the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": 1.6448,
         "Right Shoulder Front-Back": -3.78378,
@@ -117,7 +117,7 @@
         "raw_value": 0.04165,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent deeply at the knee, forming the front part of a low, stable stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.48345,
         "Left Upper Leg In-Out": 0.87395,
@@ -137,7 +137,7 @@
         "raw_value": 0.03573,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is extended backward with the knee bent, anchoring the rear of the crouched posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.53158,
         "Right Upper Leg In-Out": 0.3868,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is clenched into a fist, held steady in front of the upper body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.38983,
         "Left Thumb Spread": -0.97139,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is clenched into a fist, held close to the chin area.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

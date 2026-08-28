@@ -14,7 +14,7 @@
   "duration": 1.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a crouched, forward-moving ninja walk while turning in an arc to the left.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06511,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a deep crouch and continuously rotates to the left throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.53874,
         "Spine Left-Right": -0.07083,
@@ -57,7 +57,7 @@
         "raw_value": 0.08,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward and turns to the left, tracking the direction of the turn.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.25926,
         "Neck Tilt Left-Right": -0.02995,
@@ -75,7 +75,7 @@
         "raw_value": 0.03763,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings from a bent position near the chest out and back in a rhythmic cycle opposite the left leg.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.6441,
         "Left Shoulder Front-Back": 0.59389,
@@ -96,7 +96,7 @@
         "raw_value": 0.0607,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings from a bent position near the chest out and back in a rhythmic cycle opposite the right leg.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.6483,
         "Right Shoulder Front-Back": 0.4667,
@@ -117,7 +117,7 @@
         "raw_value": 0.26981,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives through a low, bent-knee gait with wide steps to navigate the leftward arc.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.50745,
         "Left Upper Leg In-Out": -0.09464,
@@ -137,7 +137,7 @@
         "raw_value": 0.23885,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates with the left leg in a low, bent-knee gait to maintain balance during the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.51145,
         "Right Upper Leg In-Out": 0.18459,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, loosely curled pose with fingers slightly spread.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.16921,
         "Left Thumb Spread": -0.36298,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, loosely curled pose with fingers slightly spread.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.14784,
         "Right Thumb Spread": -0.89556,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:41Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 12.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward while swinging both arms from a relaxed position down by the sides to a final pose with hands resting on the hips.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09116,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso maintains an upright posture throughout the walk, swaying gently in rhythm with the leg movement.",
       "mean_pose": {
         "Spine Front-Back": -0.08105,
         "Spine Left-Right": -0.00667,
@@ -57,7 +57,7 @@
         "raw_value": 0.21713,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains steady and faces forward, aligned with the direction of the walk.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00901,
         "Neck Tilt Left-Right": 0.03045,
@@ -75,7 +75,7 @@
         "raw_value": 0.26504,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally at the side during the initial phase before bending at the elbow to raise the hand up to the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.17984,
         "Left Shoulder Front-Back": 0.09222,
@@ -96,7 +96,7 @@
         "raw_value": 0.27267,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging at the side initially and then bending to bring the hand up to rest on the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.06162,
         "Right Shoulder Front-Back": 0.01499,
@@ -117,7 +117,7 @@
         "raw_value": 0.19622,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg cycles through a standard walking gait, alternating between lifting the foot and extending it forward for the next step.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.32903,
         "Left Upper Leg In-Out": -0.04433,
@@ -137,7 +137,7 @@
         "raw_value": 0.17485,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg performs the opposite walking cycle, stepping forward as the left leg is planted to propel the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.38362,
         "Right Upper Leg In-Out": -0.02207,
@@ -157,7 +157,7 @@
         "raw_value": 0.24723,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand starts relaxed and open at the side, then moves inward to place the fingers on the hip area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": 0.22336,
         "Left Thumb Spread": 0.63792,
@@ -189,7 +189,7 @@
         "raw_value": 0.27648,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand begins open and relaxed at the side, moving across the body to place the fingers on the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": 0.06251,
         "Right Thumb Spread": 0.1739,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

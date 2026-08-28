@@ -14,7 +14,7 @@
   "duration": 2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The character flinches violently backward, leaning away while extending their arms to brace against an unseen force.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0819,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans sharply backward and tilts to the side, moving from a neutral upright stance into a deep recoil.",
       "mean_pose": {
         "Spine Front-Back": -0.17431,
         "Spine Left-Right": 0.07235,
@@ -57,7 +57,7 @@
         "raw_value": 0.17323,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Jerks back and down in sync with the torso's recoil, maintaining a forward-facing orientation relative to the body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.19564,
         "Neck Tilt Left-Right": 0.00023,
@@ -75,7 +75,7 @@
         "raw_value": 0.13847,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward and slightly upward with the elbow bent, reaching out as if to block or balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.66662,
         "Left Shoulder Front-Back": -0.65501,
@@ -96,7 +96,7 @@
         "raw_value": 0.19987,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pushes forward and outward across the chest, extending fully during the peak of the flinch.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.63074,
         "Right Shoulder Front-Back": -1.34511,
@@ -117,7 +117,7 @@
         "raw_value": 0.09187,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted with a slight bend at the knee to absorb the sudden shift in weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.01367,
         "Left Upper Leg In-Out": 0.28736,
@@ -137,7 +137,7 @@
         "raw_value": 0.11597,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains relatively stable on the ground, acting as a pivot point for the upper body's movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.04021,
         "Right Upper Leg In-Out": 0.35429,
@@ -157,7 +157,7 @@
         "raw_value": 0.18985,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide with fingers spread as the arm extends outward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.76286,
         "Left Thumb Spread": -0.74948,
@@ -189,7 +189,7 @@
         "raw_value": 0.2294,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends forward with fingers splayed, mirroring the bracing motion of the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42826,
         "Right Thumb Spread": -0.96241,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:32Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

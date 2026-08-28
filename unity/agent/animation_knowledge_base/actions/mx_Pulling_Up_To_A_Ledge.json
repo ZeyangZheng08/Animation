@@ -14,7 +14,7 @@
   "duration": 3.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jumps upward, reaches for a ledge, and then falls to the ground.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09207,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward from an upright position to a deep crouch, tilting down until it is nearly parallel with the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.34746,
         "Spine Left-Right": -0.02856,
@@ -57,7 +57,7 @@
         "raw_value": 0.23108,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts up while the body is upright, then drops sharply to look at the hands as the figure bends over.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00195,
         "Neck Tilt Left-Right": 0.00637,
@@ -75,7 +75,7 @@
         "raw_value": 0.48262,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings downward from a raised overhead position to hang low in front of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.1716,
         "Left Shoulder Front-Back": -0.08773,
@@ -96,7 +96,7 @@
         "raw_value": 0.5387,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, moving from a high reach down toward the floor level.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.28052,
         "Right Shoulder Front-Back": -1.00839,
@@ -117,7 +117,7 @@
         "raw_value": 0.41595,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts into the air during the jump, then extends downward as the body lowers toward the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.56794,
         "Left Upper Leg In-Out": 0.66147,
@@ -137,7 +137,7 @@
         "raw_value": 0.35401,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg tucks up beneath the body during the ascent and then extends out as the figure descends.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.56892,
         "Right Upper Leg In-Out": 0.11685,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static pose with fingers curled into a loose fist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.67923,
         "Left Thumb Spread": 0.72556,
@@ -189,7 +189,7 @@
         "raw_value": 0.40075,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand opens its fingers as it moves down from the overhead position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.82759,
         "Right Thumb Spread": 1.04274,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:09Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

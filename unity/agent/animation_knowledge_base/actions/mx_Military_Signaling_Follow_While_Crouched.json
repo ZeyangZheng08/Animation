@@ -14,7 +14,7 @@
   "duration": 5.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a crouched follow while signaling with their right hand.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01506,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains in a stable, low crouch throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.08597,
         "Spine Left-Right": -0.18806,
@@ -57,7 +57,7 @@
         "raw_value": 0.31213,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns to face forward and tracks the movement of the raised right hand.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00566,
         "Neck Tilt Left-Right": 0.12237,
@@ -75,7 +75,7 @@
         "raw_value": 0.06726,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow with the hand held near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.3452,
         "Left Shoulder Front-Back": -0.11279,
@@ -96,7 +96,7 @@
         "raw_value": 0.18438,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from the side up to shoulder height, extending outward to signal.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.46134,
         "Right Shoulder Front-Back": -1.40079,
@@ -117,7 +117,7 @@
         "raw_value": 0.01766,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static lunge position with the knee bent and foot planted on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.44499,
         "Left Upper Leg In-Out": 0.83679,
@@ -137,7 +137,7 @@
         "raw_value": 0.0277,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Kneels on the floor behind the body to support the crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.43774,
         "Right Upper Leg In-Out": 0.23823,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and stationary near the torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.06885,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Forms a flat palm facing outwards as it moves upward into the signal.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

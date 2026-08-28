@@ -14,7 +14,7 @@
   "duration": 4.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jumps up to catch a ball with both hands, then is tackled and falls backward to the ground.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0884,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso starts upright in mid-air, leans slightly forward as the arms extend upward, and then tilts sharply backward as the figure falls to the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.0369,
         "Spine Left-Right": -0.02151,
@@ -57,7 +57,7 @@
         "raw_value": 0.37904,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head faces upward while reaching for the catch, then tilts back significantly during the fall, ending near the ground.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04995,
         "Neck Tilt Left-Right": 0.03539,
@@ -75,7 +75,7 @@
         "raw_value": 0.52885,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends straight up with an open hand to catch, bends at the elbow as it brings the catch down, and finally tucks inward against the chest during the fall.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.44372,
         "Left Shoulder Front-Back": 0.37215,
@@ -96,7 +96,7 @@
         "raw_value": 0.45029,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, extending high with an open hand, bending to secure the catch, and folding inward as the body rotates toward the floor.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.06301,
         "Right Shoulder Front-Back": 0.71118,
@@ -117,7 +117,7 @@
         "raw_value": 0.37396,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee in the air, kicks out slightly behind the body during the tackle, and ends bent and raised off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.34721,
         "Left Upper Leg In-Out": 0.29086,
@@ -137,7 +137,7 @@
         "raw_value": 0.35597,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg hangs down initially, lifts up and extends backward as the figure is hit, and finishes extended and elevated in the air.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.39227,
         "Right Upper Leg In-Out": 0.31785,
@@ -157,7 +157,7 @@
         "raw_value": 0.09624,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches high with fingers spread, curls inward to grab the object, and remains held close to the chest on the ground.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.50592,
         "Left Thumb Spread": -0.03808,
@@ -189,7 +189,7 @@
         "raw_value": 0.16058,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches high with fingers spread, closes around the object, and stays tucked near the upper body during the fall.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.6022,
         "Right Thumb Spread": 0.01944,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:00Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

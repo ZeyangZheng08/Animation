@@ -14,7 +14,7 @@
   "duration": 2.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic spinning attack, rotating its body from left to right while swinging an arm overhead and stepping across the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12973,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates continuously from a forward-facing position to a backward-facing one, leaning slightly with the momentum of the spin.",
       "mean_pose": {
         "Spine Front-Back": -0.28299,
         "Spine Left-Right": 0.00378,
@@ -57,7 +57,7 @@
         "raw_value": 0.26587,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns in sync with the torso's rotation, tracking the direction of the spin as it moves from facing front to back.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.20509,
         "Neck Tilt Left-Right": 0.09973,
@@ -75,7 +75,7 @@
         "raw_value": 0.24471,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings up and over the head in a wide arc, extending outward during the rotation to complete the overhead motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.04678,
         "Left Shoulder Front-Back": -1.02633,
@@ -96,7 +96,7 @@
         "raw_value": 0.49939,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends out to the side for balance, moving from a raised position down toward the hip level as the spin progresses.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.18756,
         "Right Shoulder Front-Back": -0.36697,
@@ -117,7 +117,7 @@
         "raw_value": 0.22283,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg acts as the pivot point on the ground, bending at the knee to support the body's weight during the turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.02561,
         "Left Upper Leg In-Out": 0.33481,
@@ -137,7 +137,7 @@
         "raw_value": 0.21849,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts and steps across the body, following the rotation to reposition the stance by the end of the movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.12636,
         "Right Upper Leg In-Out": 0.28649,
@@ -157,7 +157,7 @@
         "raw_value": 0.25714,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and extended, guiding the trajectory of the arm's overhead swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.26635,
         "Left Thumb Spread": -0.07039,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a relaxed, open pose near the side of the body throughout the sequence.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.33667,
         "Right Thumb Spread": -0.67535,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:13Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

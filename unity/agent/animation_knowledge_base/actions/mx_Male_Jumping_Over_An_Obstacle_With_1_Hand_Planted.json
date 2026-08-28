@@ -14,7 +14,7 @@
   "duration": 1.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward and leaps into the air, planting one hand on the ground while kicking the other leg over to clear an invisible obstacle.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1925,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward during the run, pitches sharply downward during the jump as it dives toward the floor, and then rises back up to a standing position.",
       "mean_pose": {
         "Spine Front-Back": -0.06198,
         "Spine Left-Right": -0.019,
@@ -57,7 +57,7 @@
         "raw_value": 0.1953,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head leads the movement by tilting down and forward to look at the landing spot before lifting back up as the body recovers.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.13013,
         "Neck Tilt Left-Right": 0.29511,
@@ -75,7 +75,7 @@
         "raw_value": 0.43487,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings backward for balance during the approach, extends fully downward to plant on the ground during the jump, and pulls back up as the figure stands.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.26571,
         "Left Shoulder Front-Back": -0.09004,
@@ -96,7 +96,7 @@
         "raw_value": 0.29694,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm pumps forward during the run, reaches upward and outward for balance while the left hand is planted, and swings down to stabilize the recovery.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.30831,
         "Right Shoulder Front-Back": -0.13827,
@@ -117,7 +117,7 @@
         "raw_value": 0.34061,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the initial leap, tucks underneath the body in mid-air, and lands bent on the ground to support the weight of the vault.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.03678,
         "Left Upper Leg In-Out": 0.31058,
@@ -137,7 +137,7 @@
         "raw_value": 0.35179,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg kicks high over the imaginary obstacle during the airborne phase and extends behind the body to push off the ground upon landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.07891,
         "Right Upper Leg In-Out": 0.25392,
@@ -157,7 +157,7 @@
         "raw_value": 0.65711,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens to make contact with the floor to support the body's weight during the vault before pushing off to rise.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.07684,
         "Left Thumb Spread": 0.12287,
@@ -189,7 +189,7 @@
         "raw_value": 0.68699,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and extended outward throughout the sequence to maintain balance during the jump and landing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.88529,
         "Right Thumb Spread": -0.39102,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:21Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

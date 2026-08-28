@@ -14,7 +14,7 @@
   "duration": 1.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A mannequin lies flat on its back on the floor, lifting its head and right arm to cough while holding its left hand against its stomach.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1359,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains lying flat on the ground but twists slightly as the upper body lifts during the coughing motion.",
       "mean_pose": {
         "Spine Front-Back": -0.05804,
         "Spine Left-Right": -0.00235,
@@ -57,7 +57,7 @@
         "raw_value": 0.08986,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head lifts off the floor and tilts upward, moving in sync with the torso's rotation during the cough.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.09672,
         "Neck Tilt Left-Right": -0.07111,
@@ -75,7 +75,7 @@
         "raw_value": 0.10485,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm stays bent at the elbow with the forearm resting across the lower abdomen.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.19166,
         "Left Shoulder Front-Back": 0.18699,
@@ -96,7 +96,7 @@
         "raw_value": 0.11856,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm bends at the elbow, raising the hand up toward the face and then lowering it back down.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.97107,
         "Right Shoulder Front-Back": -0.22209,
@@ -117,7 +117,7 @@
         "raw_value": 0.03173,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lies extended on the floor, remaining mostly straight throughout the action.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.58883,
         "Left Upper Leg In-Out": 0.30143,
@@ -137,7 +137,7 @@
         "raw_value": 0.02883,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lies extended on the floor next to the left one, staying relatively still.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.60764,
         "Right Upper Leg In-Out": 0.20699,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand rests statically on the stomach area near the navel.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.27334,
         "Left Thumb Spread": 0.16604,
@@ -189,7 +189,7 @@
         "raw_value": 0.25453,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves up towards the mouth or face area and then drops back down towards the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.95845,
         "Right Thumb Spread": -0.30597,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:40:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

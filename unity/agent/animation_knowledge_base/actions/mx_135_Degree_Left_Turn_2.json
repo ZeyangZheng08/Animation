@@ -14,7 +14,7 @@
   "duration": 1.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a 135-degree turn to the left in a low, crouched stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01648,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds a consistent forward lean and deep squat position throughout the entire turn.",
       "mean_pose": {
         "Spine Front-Back": -0.61023,
         "Spine Left-Right": -0.26114,
@@ -57,7 +57,7 @@
         "raw_value": 0.10494,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Rotates to the left in sync with the body's turn while maintaining a downward gaze.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04171,
         "Neck Tilt Left-Right": -0.00297,
@@ -75,7 +75,7 @@
         "raw_value": 0.04582,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow with the hand held close to the front of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.52508,
         "Left Shoulder Front-Back": -1.04569,
@@ -96,7 +96,7 @@
         "raw_value": 0.02955,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent with the hand hovering near the right hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.70076,
         "Right Shoulder Front-Back": -1.77193,
@@ -117,7 +117,7 @@
         "raw_value": 0.12526,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Keeps a deep knee bend, serving as the stable pivot point for the rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.33813,
         "Left Upper Leg In-Out": 0.27629,
@@ -137,7 +137,7 @@
         "raw_value": 0.14813,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Maintains a bent-knee posture, dragging slightly behind during the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.27986,
         "Right Upper Leg In-Out": 0.19234,
@@ -157,7 +157,7 @@
         "raw_value": 0.01516,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, loosely curled pose near the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.88475,
         "Left Thumb Spread": -0.30152,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, loosely curled pose near the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.66158,
         "Right Thumb Spread": -1.59161,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:02:40Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

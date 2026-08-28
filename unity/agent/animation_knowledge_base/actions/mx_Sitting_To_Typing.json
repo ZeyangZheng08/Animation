@@ -14,7 +14,7 @@
   "duration": 1.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits on an invisible surface and moves their hands from resting on their knees into a typing position in front of them.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.03765,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward, maintaining a stable upright posture throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.40631,
         "Spine Left-Right": -0.06873,
@@ -57,7 +57,7 @@
         "raw_value": 0.04635,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains relatively still, facing forward with a slight downward tilt toward the hands.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06821,
         "Neck Tilt Left-Right": -0.00459,
@@ -75,7 +75,7 @@
         "raw_value": 0.16304,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves from a bent position resting on the knee to being extended forward with the elbow bent at roughly ninety degrees.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.32352,
         "Left Shoulder Front-Back": -0.82588,
@@ -96,7 +96,7 @@
         "raw_value": 0.17138,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves from a bent position resting on the knee to being extended forward with the elbow bent at roughly ninety degrees.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.32601,
         "Right Shoulder Front-Back": -1.2004,
@@ -117,7 +117,7 @@
         "raw_value": 0.01041,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains stationary in a seated position with the thigh horizontal and the lower leg vertical.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.55703,
         "Left Upper Leg In-Out": 0.24253,
@@ -137,7 +137,7 @@
         "raw_value": 0.00961,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains stationary in a seated position with the thigh horizontal and the lower leg vertical.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.57851,
         "Right Upper Leg In-Out": 0.17519,
@@ -157,7 +157,7 @@
         "raw_value": 0.23023,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Transitions from resting flat on the left knee to hovering in front of the body in a relaxed, open typing posture.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.30346,
         "Left Thumb Spread": 0.16449,
@@ -189,7 +189,7 @@
         "raw_value": 0.20845,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Transitions from resting flat on the right knee to hovering in front of the body in a relaxed, open typing posture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.27516,
         "Right Thumb Spread": 0.08132,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:52Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

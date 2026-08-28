@@ -14,7 +14,7 @@
   "duration": 3.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, wide stance with both hands reaching down towards the ground in front of them.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10092,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and downward from an upright position into a deep crouch, maintaining a bent posture throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.39118,
         "Spine Left-Right": -0.10013,
@@ -57,7 +57,7 @@
         "raw_value": 0.23191,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down to look at the hands and feet, following the descent of the torso.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05345,
         "Neck Tilt Left-Right": 0.03889,
@@ -75,7 +75,7 @@
         "raw_value": 0.29148,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down and slightly forward, extending toward the ground in front of the left leg.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.05727,
         "Left Shoulder Front-Back": -0.18071,
@@ -96,7 +96,7 @@
         "raw_value": 0.24047,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downwards and forwards, mirroring the left arm's reach toward the floor.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.18642,
         "Right Shoulder Front-Back": -0.84225,
@@ -117,7 +117,7 @@
         "raw_value": 0.14579,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply at the knee to lower the body into a squat or lunge position, keeping the foot planted.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.7487,
         "Left Upper Leg In-Out": 0.71348,
@@ -137,7 +137,7 @@
         "raw_value": 0.15294,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee alongside the left leg to support the lowered body weight in a wide stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.25962,
         "Right Upper Leg In-Out": 0.4625,
@@ -157,7 +157,7 @@
         "raw_value": 0.20663,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens and extends fingers downward as the arm reaches for the floor.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.46336,
         "Left Thumb Spread": -0.04149,
@@ -189,7 +189,7 @@
         "raw_value": 0.58,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens and extends fingers downward, matching the left hand's gesture toward the ground.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.64618,
         "Right Thumb Spread": -1.28623,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:37:23Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

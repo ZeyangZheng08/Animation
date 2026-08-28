@@ -14,7 +14,7 @@
   "duration": 4.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure reaches up with the right hand to grasp an object from a high position, then brings it down and turns away.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09887,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward during the reach and rotates to the left as the arm is lowered.",
       "mean_pose": {
         "Spine Front-Back": -0.2965,
         "Spine Left-Right": 0.01567,
@@ -57,7 +57,7 @@
         "raw_value": 0.15732,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts upward to track the right hand's movement and then turns to look over the left shoulder.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.09667,
         "Neck Tilt Left-Right": -0.29075,
@@ -75,7 +75,7 @@
         "raw_value": 0.3101,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm remains hanging straight down at the side of the body throughout the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.4519,
         "Left Shoulder Front-Back": -0.5907,
@@ -96,7 +96,7 @@
         "raw_value": 0.14355,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends fully upward and outward to reach for the object, then bends at the elbow to pull the arm back toward the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.08387,
         "Right Shoulder Front-Back": -0.20603,
@@ -117,7 +117,7 @@
         "raw_value": 0.19261,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg serves as the stable base, remaining planted on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.50798,
         "Left Upper Leg In-Out": 0.06846,
@@ -137,7 +137,7 @@
         "raw_value": 0.12731,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts off the floor, bending at the knee to pivot the body toward the left.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.19527,
         "Right Upper Leg In-Out": 0.0735,
@@ -157,7 +157,7 @@
         "raw_value": 0.38754,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open and relaxed at the side of the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.28409,
         "Left Thumb Spread": -0.80928,
@@ -189,7 +189,7 @@
         "raw_value": 0.12861,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand opens to grasp the object in the air and closes into a fist as it is pulled down.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.7628,
         "Right Thumb Spread": 0.10576,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

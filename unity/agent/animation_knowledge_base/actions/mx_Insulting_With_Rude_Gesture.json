@@ -14,7 +14,7 @@
   "duration": 2.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place while raising their right hand to make a rude gesture near their face.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02587,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains mostly upright but shifts slightly forward as the arms are raised.",
       "mean_pose": {
         "Spine Front-Back": -0.04359,
         "Spine Left-Right": 0.0804,
@@ -57,7 +57,7 @@
         "raw_value": 0.12124,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down slightly at first, then levels out and turns toward the raised right hand.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00078,
         "Neck Tilt Left-Right": -0.05003,
@@ -75,7 +75,7 @@
         "raw_value": 0.28676,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm lifts from the side to cross horizontally over the chest, supporting the elbow of the right arm.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.16047,
         "Left Shoulder Front-Back": -0.98938,
@@ -96,7 +96,7 @@
         "raw_value": 0.27099,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm bends at the elbow and raises upward so the hand comes up beside the head.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.01661,
         "Right Shoulder Front-Back": -0.40191,
@@ -117,7 +117,7 @@
         "raw_value": 0.06242,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays planted with a slight bend at the knee.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.19505,
         "Left Upper Leg In-Out": 0.28923,
@@ -137,7 +137,7 @@
         "raw_value": 0.07901,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains standing straight to support the body's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.45651,
         "Right Upper Leg In-Out": -0.15433,
@@ -157,7 +157,7 @@
         "raw_value": 0.23776,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a relaxed, open shape resting against the right forearm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.5657,
         "Left Thumb Spread": 0.04405,
@@ -189,7 +189,7 @@
         "raw_value": 0.38699,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand forms a fist with the thumb extended outward, held up near eye level.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.65044,
         "Right Thumb Spread": -0.23748,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:39:34Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

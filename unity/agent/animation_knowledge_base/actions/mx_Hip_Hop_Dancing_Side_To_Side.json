@@ -14,7 +14,7 @@
   "duration": 13.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure dances by shifting its weight and hips side to side in a rhythmic motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15741,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans laterally to the left and right, following the hip movement with a slight counter-rotation.",
       "mean_pose": {
         "Spine Front-Back": -0.05093,
         "Spine Left-Right": 0.00861,
@@ -57,7 +57,7 @@
         "raw_value": 0.22752,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head bobs gently up and down while tilting slightly to follow the lateral sway of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.16193,
         "Neck Tilt Left-Right": 0.02289,
@@ -75,7 +75,7 @@
         "raw_value": 0.3107,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings loosely from the shoulder, moving outward and inward to counterbalance the hip shift.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.3349,
         "Left Shoulder Front-Back": -0.41586,
@@ -96,7 +96,7 @@
         "raw_value": 0.28696,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings loosely from the shoulder, moving opposite to the left arm to maintain balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.10095,
         "Right Shoulder Front-Back": -0.67824,
@@ -117,7 +117,7 @@
         "raw_value": 0.23954,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee as the figure shifts its weight onto it, supporting the hip drop.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.20771,
         "Left Upper Leg In-Out": 0.28414,
@@ -137,7 +137,7 @@
         "raw_value": 0.21763,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee as the figure shifts its weight onto it, supporting the opposite hip drop.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.11518,
         "Right Upper Leg In-Out": 0.26745,
@@ -157,7 +157,7 @@
         "raw_value": 0.15182,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains relaxed and open, swinging naturally with the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.14169,
         "Left Thumb Spread": -0.48053,
@@ -189,7 +189,7 @@
         "raw_value": 0.1062,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains relaxed and open, swinging naturally with the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.98503,
         "Right Thumb Spread": 0.16461,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

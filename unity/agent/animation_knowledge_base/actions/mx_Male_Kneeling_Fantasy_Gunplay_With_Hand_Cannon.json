@@ -14,7 +14,7 @@
   "duration": 2.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure kneels on one knee and brings a hand up to the face in a firing stance before lowering it.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10782,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from a kneeling base, tilting toward the raised arm before straightening back up.",
       "mean_pose": {
         "Spine Front-Back": -0.03196,
         "Spine Left-Right": -0.05872,
@@ -57,7 +57,7 @@
         "raw_value": 0.23197,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns to look over the shoulder of the raised arm and then returns to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0076,
         "Neck Tilt Left-Right": 0.02371,
@@ -75,7 +75,7 @@
         "raw_value": 0.13555,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Lifts upward with the elbow bent to bring the hand to the cheek level, then lowers back down to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.71367,
         "Left Shoulder Front-Back": 0.03189,
@@ -96,7 +96,7 @@
         "raw_value": 0.29885,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays extended slightly outward and behind the body for balance throughout the movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.34201,
         "Right Shoulder Front-Back": 0.06126,
@@ -117,7 +117,7 @@
         "raw_value": 0.09184,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the knee with the foot planted flat on the ground as the front leg of the stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.51712,
         "Left Upper Leg In-Out": 0.47613,
@@ -137,7 +137,7 @@
         "raw_value": 0.10791,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Kneels on the lower leg with the knee resting on the floor as the rear leg of the stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.4045,
         "Right Upper Leg In-Out": 0.48205,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a closed fist position near the face.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open, relaxed pose hanging by the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.1096,
         "Right Thumb Spread": -0.47809,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:42:06Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

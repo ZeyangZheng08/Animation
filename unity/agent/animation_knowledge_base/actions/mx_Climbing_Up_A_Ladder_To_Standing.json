@@ -14,7 +14,7 @@
   "duration": 4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure climbs upward in a continuous cycle, lifting its knees high and reaching up with its arms before extending into an upright standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08651,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso tilts forward during the climbing phase to balance over the legs, then straightens vertically as the figure stands fully upright at the end of the cycle.",
       "mean_pose": {
         "Spine Front-Back": -0.17724,
         "Spine Left-Right": -0.01891,
@@ -57,7 +57,7 @@
         "raw_value": 0.14989,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head looks down towards the feet during the climb, then lifts forward and up to face ahead as the figure reaches the standing position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.29684,
         "Neck Tilt Left-Right": 0.05831,
@@ -75,7 +75,7 @@
         "raw_value": 0.38966,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm reaches up and forward with the elbow bent, mimicking a grip on a ladder rung, then lowers down to the side of the body as the figure stands.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.5167,
         "Left Shoulder Front-Back": -0.65162,
@@ -96,7 +96,7 @@
         "raw_value": 0.59398,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is held low and bent near the waist during the ascent, then swings slightly outward and downward to finish at the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.62765,
         "Right Shoulder Front-Back": 0.12578,
@@ -117,7 +117,7 @@
         "raw_value": 0.26808,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives upward with the knee bent high, then extends downward and back to support the body in the final standing pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.18434,
         "Left Upper Leg In-Out": 0.1578,
@@ -137,7 +137,7 @@
         "raw_value": 0.2263,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains relatively lower and extended compared to the left leg during the climb, finishing with both legs planted in a neutral standing stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.23614,
         "Right Upper Leg In-Out": 0.21711,
@@ -157,7 +157,7 @@
         "raw_value": 0.42395,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open with fingers curled as if grasping a rung, moving from a high position down to the side of the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.0473,
         "Left Thumb Spread": -0.71989,
@@ -189,7 +189,7 @@
         "raw_value": 0.50279,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs loosely near the thigh during the climb and ends open and relaxed at the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.74203,
         "Right Thumb Spread": 0.26435,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:34:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

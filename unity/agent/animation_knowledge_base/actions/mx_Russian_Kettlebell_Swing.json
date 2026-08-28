@@ -14,7 +14,7 @@
   "duration": 1.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a kettlebell swing, moving from a deep squat with arms hanging low to a standing position with arms raised overhead.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0201,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso starts in a deeply flexed forward position and extends upward to become fully upright as the body rises.",
       "mean_pose": {
         "Spine Front-Back": -0.02049,
         "Spine Left-Right": 0.00295,
@@ -57,7 +57,7 @@
         "raw_value": 0.1804,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down while the torso is bent and lifts up to face forward when the body reaches its standing height.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.56032,
         "Neck Tilt Left-Right": 0.09126,
@@ -75,7 +75,7 @@
         "raw_value": 0.33972,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs straight down near the legs and then swings upward, ending extended above the head.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.00255,
         "Left Shoulder Front-Back": -0.07646,
@@ -96,7 +96,7 @@
         "raw_value": 0.34966,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves in unison with the left, swinging from a low position by the thighs up to an overhead extension.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.27201,
         "Right Shoulder Front-Back": -0.27361,
@@ -117,7 +117,7 @@
         "raw_value": 0.19309,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg begins in a bent, squatting position and straightens out to support the body in a standing stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.15178,
         "Left Upper Leg In-Out": 0.23042,
@@ -137,7 +137,7 @@
         "raw_value": 0.19083,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg transitions from being bent at the knee during the initial squat to a straight, weight-bearing position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.16416,
         "Right Upper Leg In-Out": 0.22718,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers slightly curled throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.45751,
         "Left Thumb Spread": -2.60847,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static open pose with fingers relaxed as it moves through the space.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.18906,
         "Right Thumb Spread": -2.20719,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

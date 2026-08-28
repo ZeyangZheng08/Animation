@@ -14,7 +14,7 @@
   "duration": 4.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A seated figure raises one arm in a celebratory cheer and then returns it to their lap.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08653,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso maintains a forward-leaning seated posture, swaying slightly with the arm movement.",
       "mean_pose": {
         "Spine Front-Back": -0.23545,
         "Spine Left-Right": -0.07451,
@@ -57,7 +57,7 @@
         "raw_value": 0.23547,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts upward during the cheer before returning to a neutral forward-facing position.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00683,
         "Neck Tilt Left-Right": 0.04625,
@@ -75,7 +75,7 @@
         "raw_value": 0.32094,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a resting position on the lap up into the air and back down.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.04719,
         "Left Shoulder Front-Back": -0.4365,
@@ -96,7 +96,7 @@
         "raw_value": 0.42015,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent at the elbow with the hand resting near the hip throughout the clip.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.12203,
         "Right Shoulder Front-Back": 0.14036,
@@ -117,7 +117,7 @@
         "raw_value": 0.03592,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee, supporting the body in a seated pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.60807,
         "Left Upper Leg In-Out": 0.24351,
@@ -137,7 +137,7 @@
         "raw_value": 0.03466,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent at the knee, holding the seated position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.60727,
         "Right Upper Leg In-Out": 0.1629,
@@ -157,7 +157,7 @@
         "raw_value": 0.29964,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from an open palm facing up to a closed fist in the air before opening again.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.26027,
         "Left Thumb Spread": -0.07691,
@@ -189,7 +189,7 @@
         "raw_value": 0.62274,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays in a relaxed, partially curled position near the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.3537,
         "Right Thumb Spread": -0.03619,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:33:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

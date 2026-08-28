@@ -14,7 +14,7 @@
   "duration": 3.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A seated figure performs a small, restrained fist pump with the right arm while their left hand rests on their knee.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05993,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains in a stable, upright seated posture throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.22182,
         "Spine Left-Right": -0.06357,
@@ -57,7 +57,7 @@
         "raw_value": 0.06803,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward without significant movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.0753,
         "Neck Tilt Left-Right": 0.02531,
@@ -75,7 +75,7 @@
         "raw_value": 0.18066,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, resting relaxed with the hand placed on the left knee.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.30543,
         "Left Shoulder Front-Back": -0.57154,
@@ -96,7 +96,7 @@
         "raw_value": 0.38747,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves from a resting position on the knee to a raised, bent pose, executing a low-enthusiasm pump motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.23001,
         "Right Shoulder Front-Back": 0.26037,
@@ -117,7 +117,7 @@
         "raw_value": 0.02603,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg maintains a static seated position with the foot planted on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.63203,
         "Left Upper Leg In-Out": 0.27136,
@@ -137,7 +137,7 @@
         "raw_value": 0.02055,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg holds a steady seated posture with the foot flat on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.63918,
         "Right Upper Leg In-Out": 0.17642,
@@ -157,7 +157,7 @@
         "raw_value": 0.04059,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and stationary on top of the left knee.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.61276,
         "Left Thumb Spread": 0.22919,
@@ -189,7 +189,7 @@
         "raw_value": 0.56348,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand clenches into a fist as it pumps upward and then returns to the knee.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.27766,
         "Right Thumb Spread": -0.11834,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:34Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

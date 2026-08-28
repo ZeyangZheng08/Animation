@@ -14,7 +14,7 @@
   "duration": 8.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dance move, bending forward at the waist before springing up into a wide lunge and finishing in an upright stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13764,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bends forward significantly from the hips, then rises back to an upright position as the figure transitions into a lunge.",
       "mean_pose": {
         "Spine Front-Back": -0.39822,
         "Spine Left-Right": -0.04021,
@@ -57,7 +57,7 @@
         "raw_value": 0.21323,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down with the forward bend of the torso, then lifts and turns slightly to look over the shoulder during the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.08719,
         "Neck Tilt Left-Right": -0.01912,
@@ -75,7 +75,7 @@
         "raw_value": 0.27702,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings down and back during the initial dip, then extends outward to the side for balance before returning toward the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.57894,
         "Left Shoulder Front-Back": -0.18344,
@@ -96,7 +96,7 @@
         "raw_value": 0.33231,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves down and across the body during the dip, then reaches out to the opposite side before coming back to rest near the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.4702,
         "Right Shoulder Front-Back": -0.17983,
@@ -117,7 +117,7 @@
         "raw_value": 0.30823,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent during the dip, then extends forward into a deep lunge before returning to a standing position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.04708,
         "Left Upper Leg In-Out": 0.24043,
@@ -137,7 +137,7 @@
         "raw_value": 0.32775,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg supports the weight during the dip, then extends backward into a straight line for the lunge before returning to stand.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.0067,
         "Right Upper Leg In-Out": 0.25425,
@@ -157,7 +157,7 @@
         "raw_value": 0.70974,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs loosely by the side, opens its fingers during the lunge, and then closes as it returns to the front of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.90127,
         "Left Thumb Spread": -0.15656,
@@ -189,7 +189,7 @@
         "raw_value": 0.71919,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves downward during the dip, extends outward during the lunge, and then brings itself back to meet the other hand in front of the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.73153,
         "Right Thumb Spread": -0.04607,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:22Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

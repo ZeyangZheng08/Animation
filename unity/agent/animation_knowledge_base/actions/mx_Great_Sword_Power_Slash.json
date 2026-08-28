@@ -14,7 +14,7 @@
   "duration": 1.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a two-handed great sword power slash, swinging the weapon in a wide arc from their right side across to their left.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.20665,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward into the stance and rotates with the arms, turning from facing right to facing left during the swing.",
       "mean_pose": {
         "Spine Front-Back": -0.42957,
         "Spine Left-Right": -0.07633,
@@ -57,7 +57,7 @@
         "raw_value": 0.40633,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to follow the motion of the arms, looking toward the right side and then sweeping across to the left.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.42861,
         "Neck Tilt Left-Right": 0.18981,
@@ -75,7 +75,7 @@
         "raw_value": 0.47841,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is raised high at the start, extends forward and down as part of the slash, and finishes extended out to the left.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.64494,
         "Left Shoulder Front-Back": -0.90684,
@@ -96,7 +96,7 @@
         "raw_value": 0.52961,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, moving from a high position on the right side down through the center and finishing extended to the left.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.59885,
         "Right Shoulder Front-Back": -1.52039,
@@ -117,7 +117,7 @@
         "raw_value": 0.24518,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg starts bent and shifts its weight backward, extending straight behind the body by the end of the clip.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.3498,
         "Left Upper Leg In-Out": 0.30616,
@@ -137,7 +137,7 @@
         "raw_value": 0.16467,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps forward to support the swing, bending at the knee to brace the body's momentum.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.20388,
         "Right Upper Leg In-Out": 0.03901,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static, closed fist grip throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15206,
         "Left Thumb Spread": -0.37832,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a fixed, closed fist grip for the duration of the action.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:38:23Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

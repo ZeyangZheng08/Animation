@@ -14,7 +14,7 @@
   "duration": 4.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure takes a step forward while raising both arms out to the sides with open hands.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01718,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady, upright posture facing forward throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.11612,
         "Spine Left-Right": 0.07457,
@@ -57,7 +57,7 @@
         "raw_value": 0.11423,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts slightly upward and back as if projecting a voice.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.11664,
         "Neck Tilt Left-Right": 0.02343,
@@ -75,7 +75,7 @@
         "raw_value": 0.09874,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Lifts from the side of the body, bending at the elbow to bring the forearm up and outward.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.71835,
         "Left Shoulder Front-Back": -0.84532,
@@ -96,7 +96,7 @@
         "raw_value": 0.10417,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings backward away from the body to counterbalance the forward step.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.92932,
         "Right Shoulder Front-Back": -0.71613,
@@ -117,7 +117,7 @@
         "raw_value": 0.11972,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward, extending the knee to place the foot ahead of the other leg.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.03939,
         "Left Upper Leg In-Out": 0.30013,
@@ -137,7 +137,7 @@
         "raw_value": 0.1201,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted behind, acting as the support for the weight shift.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.27134,
         "Right Upper Leg In-Out": -0.03768,
@@ -157,7 +157,7 @@
         "raw_value": 0.24768,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide with fingers spread apart during the arm lift.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.74632,
         "Left Thumb Spread": 0.07242,
@@ -189,7 +189,7 @@
         "raw_value": 0.19011,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely near the hip as the arm moves back.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.14591,
         "Right Thumb Spread": -0.14292,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:49:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

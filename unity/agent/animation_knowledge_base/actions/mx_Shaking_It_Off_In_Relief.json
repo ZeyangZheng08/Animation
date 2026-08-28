@@ -14,7 +14,7 @@
   "duration": 5.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a slow, rhythmic sway while standing in place, bending forward and then straightening up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09358,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bends forward at the waist into a deep hunch before returning to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.15719,
         "Spine Left-Right": 0.03027,
@@ -57,7 +57,7 @@
         "raw_value": 0.2515,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down with the forward bend of the torso and lifts back up as the body straightens.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07353,
         "Neck Tilt Left-Right": 0.0464,
@@ -75,7 +75,7 @@
         "raw_value": 0.22274,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely by the side, swinging slightly backward during the forward bend.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.29387,
         "Left Shoulder Front-Back": -0.75825,
@@ -96,7 +96,7 @@
         "raw_value": 0.22887,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs loosely by the side, mirroring the slight swing of the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.36097,
         "Right Shoulder Front-Back": -0.4367,
@@ -117,7 +117,7 @@
         "raw_value": 0.157,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground, acting as a stable base for the upper body movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.29004,
         "Left Upper Leg In-Out": -0.01521,
@@ -137,7 +137,7 @@
         "raw_value": 0.1426,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted on the ground, supporting the weight of the swaying body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.29731,
         "Right Upper Leg In-Out": 0.00685,
@@ -157,7 +157,7 @@
         "raw_value": 0.43642,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays relaxed and open at the end of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.2891,
         "Left Thumb Spread": -0.16944,
@@ -189,7 +189,7 @@
         "raw_value": 0.47337,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays relaxed and open at the end of the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.19356,
         "Right Thumb Spread": -0.15461,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:08Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

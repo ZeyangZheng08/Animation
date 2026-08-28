@@ -14,7 +14,7 @@
   "duration": 1.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward, stops, and performs a forceful stomp with the right foot.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09315,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward while walking, then dips sharply downward during the stomp before returning to an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.09177,
         "Spine Left-Right": 0.00661,
@@ -57,7 +57,7 @@
         "raw_value": 0.28437,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head bobs gently in rhythm with the walk, tilts down during the stomp, and lifts back up at the end.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.38628,
         "Neck Tilt Left-Right": -0.06581,
@@ -75,7 +75,7 @@
         "raw_value": 0.32126,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally during the walk, then bends upward into a loose fist near the chest for balance before lowering again.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.52159,
         "Left Shoulder Front-Back": -0.44271,
@@ -96,7 +96,7 @@
         "raw_value": 0.30556,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings opposite the legs, tucks close to the body during the stomp, and relaxes back to the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.60492,
         "Right Shoulder Front-Back": -0.94914,
@@ -117,7 +117,7 @@
         "raw_value": 0.21299,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates as the support and swing leg, remaining planted on the ground to stabilize the body during the stomp.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.05792,
         "Left Upper Leg In-Out": 0.22664,
@@ -137,7 +137,7 @@
         "raw_value": 0.23287,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg drives forward, lifts high into the air, and strikes the floor forcefully before settling into a standing position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.1416,
         "Right Upper Leg In-Out": 0.13573,
@@ -157,7 +157,7 @@
         "raw_value": 0.50905,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves freely during the walk, clenches into a fist near the shoulder, and unclenches at the end.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.78582,
         "Left Thumb Spread": -1.22739,
@@ -189,7 +189,7 @@
         "raw_value": 0.43809,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand swings with the arm, stays relatively still and low during the stomp, and returns to a relaxed position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.83258,
         "Right Thumb Spread": -0.92912,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:49Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

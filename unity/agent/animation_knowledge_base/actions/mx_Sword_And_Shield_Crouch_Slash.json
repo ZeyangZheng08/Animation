@@ -14,7 +14,7 @@
   "duration": 1.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure drops into a low crouch and executes a sweeping slash across the body.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16664,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers significantly to form a deep squat, leaning forward and twisting to drive the arm swing.",
       "mean_pose": {
         "Spine Front-Back": -0.32498,
         "Spine Left-Right": -0.27306,
@@ -57,7 +57,7 @@
         "raw_value": 0.2612,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward to look at the ground, rotating slightly to follow the arc of the swinging arm.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.08931,
         "Neck Tilt Left-Right": -0.01007,
@@ -75,7 +75,7 @@
         "raw_value": 0.42555,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward and downward in a wide, sweeping motion that begins high on one side and finishes low on the other.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.33553,
         "Left Shoulder Front-Back": -0.18979,
@@ -96,7 +96,7 @@
         "raw_value": 0.50852,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent and tucked close to the chest throughout the movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.02143,
         "Right Shoulder Front-Back": -0.23867,
@@ -117,7 +117,7 @@
         "raw_value": 0.17977,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply, serving as the primary support for the low stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.81005,
         "Left Upper Leg In-Out": 1.04477,
@@ -137,7 +137,7 @@
         "raw_value": 0.237,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent with the knee raised, lifting the foot off the floor to balance the crouched posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.42484,
         "Right Upper Leg In-Out": 0.84766,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds an open, relaxed pose while tracing the long path of the slash.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21301,
         "Left Thumb Spread": -0.90937,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a static, loosely clenched fist near the midsection.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:10Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

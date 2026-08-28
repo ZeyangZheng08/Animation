@@ -14,7 +14,7 @@
   "duration": 2.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure bounces rhythmically on the balls of its feet in a boxing stance, keeping its fists raised.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01853,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stable, maintaining a consistent vertical alignment throughout the bouncing motion.",
       "mean_pose": {
         "Spine Front-Back": -0.21873,
         "Spine Left-Right": -0.02117,
@@ -57,7 +57,7 @@
         "raw_value": 0.04081,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and centered above the shoulders, facing forward with minimal movement relative to the body.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04392,
         "Neck Tilt Left-Right": 0.03824,
@@ -75,7 +75,7 @@
         "raw_value": 0.04067,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow with the forearm held vertically, keeping the fist raised near the chin.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.5467,
         "Left Shoulder Front-Back": 0.17424,
@@ -96,7 +96,7 @@
         "raw_value": 0.05519,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is similarly bent and held up, with the fist positioned near the jaw in a guard position.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.17183,
         "Right Shoulder Front-Back": -1.06321,
@@ -117,7 +117,7 @@
         "raw_value": 0.09014,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends and extends continuously, driving the upward bounce by pushing off the ball of the foot.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.00371,
         "Left Upper Leg In-Out": 0.29873,
@@ -137,7 +137,7 @@
         "raw_value": 0.06142,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left leg's motion, flexing and straightening to support the rhythmic bouncing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.24909,
         "Right Upper Leg In-Out": 0.35319,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static pose as a clenched fist, pointing upward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a fixed position as a clenched fist, pointing upward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:32:58Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

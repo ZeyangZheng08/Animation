@@ -14,7 +14,7 @@
   "duration": 5.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits in a static pose while performing subtle head movements and shifting their right hand.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01025,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains stationary in an upright, seated position throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.1723,
         "Spine Left-Right": -0.04164,
@@ -57,7 +57,7 @@
         "raw_value": 0.11518,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Moves dynamically, tilting and turning slightly as if engaging in conversation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09401,
         "Neck Tilt Left-Right": -0.11829,
@@ -75,7 +75,7 @@
         "raw_value": 0.01075,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose with the elbow bent and the hand resting near the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.76097,
         "Left Shoulder Front-Back": 0.16024,
@@ -96,7 +96,7 @@
         "raw_value": 0.14073,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves subtly, adjusting its angle at the shoulder and elbow.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.7622,
         "Right Shoulder Front-Back": -0.29144,
@@ -117,7 +117,7 @@
         "raw_value": 0.00426,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays fixed in a seated position with the knee bent and foot flat on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.30452,
         "Left Upper Leg In-Out": 0.2643,
@@ -137,7 +137,7 @@
         "raw_value": 0.0046,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains still in a seated position with the knee bent and foot flat on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.37241,
         "Right Upper Leg In-Out": 0.15791,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose, resting relaxed near the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.13349,
         "Left Thumb Spread": -0.3374,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Shifts position slightly, moving from a rest on the thigh to a more open gesture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.16704,
         "Right Thumb Spread": -1.23899,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a stationary combat stance, holding both fists up near its face in a defensive guard position.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00318,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and centered, maintaining a steady posture throughout the clip without shifting weight or rotating.",
       "mean_pose": {
         "Spine Front-Back": -0.09489,
         "Spine Left-Right": 0.0167,
@@ -57,7 +57,7 @@
         "raw_value": 0.00463,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward, aligned with the direction of the body's stance.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.051,
         "Neck Tilt Left-Right": 0.04807,
@@ -75,7 +75,7 @@
         "raw_value": 0.01416,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, holding the hand up in a fist near the chin and chest area to protect the upper body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.17498,
         "Left Shoulder Front-Back": 0.2099,
@@ -96,7 +96,7 @@
         "raw_value": 0.01738,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow, holding the hand up in a fist near the jaw and cheek area, mirroring the defensive height of the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.65601,
         "Right Shoulder Front-Back": 0.73811,
@@ -117,7 +117,7 @@
         "raw_value": 0.00387,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is planted straight on the floor, supporting the body's weight in a stable vertical line.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.14809,
         "Left Upper Leg In-Out": 0.20835,
@@ -137,7 +137,7 @@
         "raw_value": 0.00269,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is planted straight on the floor, positioned parallel to the left leg to form a balanced base.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.25234,
         "Right Upper Leg In-Out": 0.14556,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is clenched into a fist, held close to the face as part of the guard.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.67039,
         "Left Thumb Spread": -1.46996,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is clenched into a fist, held close to the face as part of the guard.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.4562,
         "Right Thumb Spread": -1.27458,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

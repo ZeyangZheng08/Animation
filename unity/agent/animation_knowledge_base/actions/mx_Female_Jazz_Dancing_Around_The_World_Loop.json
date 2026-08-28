@@ -14,7 +14,7 @@
   "duration": 2.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a smooth jazz dance, rotating in place while extending their arms and stepping rhythmically.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.25091,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists and sways gently to the left and right, driving the rotation of the body.",
       "mean_pose": {
         "Spine Front-Back": 0.01666,
         "Spine Left-Right": -0.04753,
@@ -57,7 +57,7 @@
         "raw_value": 0.16189,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly with the turns, maintaining an upright orientation relative to the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.015,
         "Neck Tilt Left-Right": 0.03609,
@@ -75,7 +75,7 @@
         "raw_value": 0.43155,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings fluidly from a raised position above the shoulder down to the side of the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.1649,
         "Left Shoulder Front-Back": 0.30216,
@@ -96,7 +96,7 @@
         "raw_value": 0.45982,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the motion, moving from a high extension near the ear down toward the waist.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.21192,
         "Right Shoulder Front-Back": 0.30334,
@@ -117,7 +117,7 @@
         "raw_value": 0.32552,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward and bends at the knee, acting as the primary support during the turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.24402,
         "Left Upper Leg In-Out": -0.009,
@@ -137,7 +137,7 @@
         "raw_value": 0.31833,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts behind the body with the knee bent, trailing the movement of the left foot.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.22194,
         "Right Upper Leg In-Out": 0.13489,
@@ -157,7 +157,7 @@
         "raw_value": 0.03306,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends outward with fingers relaxed, following the arc of the arm's descent.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53225,
         "Left Thumb Spread": -0.002,
@@ -189,7 +189,7 @@
         "raw_value": 0.01472,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and relaxed, held low near the thigh throughout the sequence.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52182,
         "Right Thumb Spread": -0.0159,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:22Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

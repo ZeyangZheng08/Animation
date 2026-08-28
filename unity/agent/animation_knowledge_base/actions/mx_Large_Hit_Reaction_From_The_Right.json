@@ -14,7 +14,7 @@
   "duration": 1.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure recoils from a large hit, leaning back and to the left while raising their left arm to shield their head.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05551,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward and tilts to the left, twisting slightly to face away from the impact on its right side.",
       "mean_pose": {
         "Spine Front-Back": -0.28357,
         "Spine Left-Right": -0.08157,
@@ -57,7 +57,7 @@
         "raw_value": 0.16592,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts back and to the left, turning away from the direction of the hit.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.42534,
         "Neck Tilt Left-Right": 0.08091,
@@ -75,7 +75,7 @@
         "raw_value": 0.29198,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises up and across the body to shield the face, with the elbow bent high.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.52208,
         "Left Shoulder Front-Back": -0.78382,
@@ -96,7 +96,7 @@
         "raw_value": 0.18147,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward to the right and down for balance, swinging back as the torso turns.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.04529,
         "Right Shoulder Front-Back": -0.73843,
@@ -117,7 +117,7 @@
         "raw_value": 0.13507,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee and lifts slightly off the ground, supporting the weight shift to the right.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.0096,
         "Left Upper Leg In-Out": 0.27384,
@@ -137,7 +137,7 @@
         "raw_value": 0.16668,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted and bends to absorb the impact, acting as the primary support.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.01675,
         "Right Upper Leg In-Out": 0.36492,
@@ -157,7 +157,7 @@
         "raw_value": 0.16483,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curls into a loose fist near the face as part of the defensive guard.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.40774,
         "Left Thumb Spread": 0.13589,
@@ -189,7 +189,7 @@
         "raw_value": 0.13842,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens and extends outward to the side to help stabilize the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.06348,
         "Right Thumb Spread": 0.13298,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:28Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure bends down to pick up an object from the ground and then stands up to aim it forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17651,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starts upright, bends deeply forward at the waist to reach the floor, and then straightens back up into a standing position while rotating slightly.",
       "mean_pose": {
         "Spine Front-Back": -0.09987,
         "Spine Left-Right": -0.00801,
@@ -57,7 +57,7 @@
         "raw_value": 0.19872,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces downward toward the floor during the bending motion, then lifts and turns forward as the figure stands up to aim.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.13025,
         "Neck Tilt Left-Right": 0.18978,
@@ -75,7 +75,7 @@
         "raw_value": 0.37668,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs by the side initially, reaches down toward the ground alongside the right arm, and then extends forward to support the aiming posture.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.25106,
         "Left Shoulder Front-Back": 0.58415,
@@ -96,7 +96,7 @@
         "raw_value": 0.29043,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down to grasp the object on the ground, pulls it upward, and brings it across the body to point forward.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.28825,
         "Right Shoulder Front-Back": -0.53143,
@@ -117,7 +117,7 @@
         "raw_value": 0.28983,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays relatively planted with a slight bend to assist in lowering the center of gravity during the bend.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.07242,
         "Left Upper Leg In-Out": -0.05808,
@@ -137,7 +137,7 @@
         "raw_value": 0.27745,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward slightly and bends at the knee to lower the body, then straightens to stand fully upright.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.03949,
         "Right Upper Leg In-Out": 0.22138,
@@ -157,7 +157,7 @@
         "raw_value": 0.26365,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens to reach for the object on the floor and then extends forward with the arm to steady the aim.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.18564,
         "Left Thumb Spread": 0.20754,
@@ -189,7 +189,7 @@
         "raw_value": 0.3931,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grasps the object on the ground, lifts it up, and holds it extended forward in an aiming position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.77037,
         "Right Thumb Spread": -0.08872,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:53Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

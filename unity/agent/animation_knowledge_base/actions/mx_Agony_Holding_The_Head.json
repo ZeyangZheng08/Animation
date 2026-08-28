@@ -14,7 +14,7 @@
   "duration": 3.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds both hands to their head in a gesture of distress while swaying and bending forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1957,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from the waist, increasing the bend over time.",
       "mean_pose": {
         "Spine Front-Back": -0.59937,
         "Spine Left-Right": 0.05548,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tucks down toward the chest as the torso bends.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.27233,
         "Neck Tilt Left-Right": -0.15298,
@@ -75,7 +75,7 @@
         "raw_value": 0.00805,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose with the elbow bent and hand raised to the side of the head.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.75879,
         "Left Shoulder Front-Back": -1.13956,
@@ -96,7 +96,7 @@
         "raw_value": 0.01571,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose with the elbow bent and hand raised to the side of the head.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.47185,
         "Right Shoulder Front-Back": -2.33858,
@@ -117,7 +117,7 @@
         "raw_value": 0.10192,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Shifts weight by bending at the knee and moving slightly backward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.45755,
         "Left Upper Leg In-Out": 0.41507,
@@ -137,7 +137,7 @@
         "raw_value": 0.16074,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee to support the forward lean of the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.28438,
         "Right Upper Leg In-Out": 0.07495,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains held against the left side of the head.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0007,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains held against the right side of the head.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.48413,
         "Right Thumb Spread": 0.49742,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:07:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

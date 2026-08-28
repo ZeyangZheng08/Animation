@@ -14,7 +14,7 @@
   "duration": 3.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a breakdance swipe, dropping from a standing position to the floor and swinging its legs up into a handstand.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11775,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bends forward sharply toward the ground and then rotates fully upside down to support the body in an inverted position.",
       "mean_pose": {
         "Spine Front-Back": -0.33319,
         "Spine Left-Right": -0.08962,
@@ -57,7 +57,7 @@
         "raw_value": 0.24897,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head drops forward and down with the torso before pointing toward the floor as the body reaches its inverted state.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.01227,
         "Neck Tilt Left-Right": 0.0232,
@@ -75,7 +75,7 @@
         "raw_value": 0.38898,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends downward to plant on the floor for support while the right arm swings upward to balance the inversion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.43284,
         "Left Shoulder Front-Back": -0.77014,
@@ -96,7 +96,7 @@
         "raw_value": 0.33436,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm sweeps down to place a hand on the ground, after which it remains extended overhead to help stabilize the handstand.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.1481,
         "Right Shoulder Front-Back": -0.58255,
@@ -117,7 +117,7 @@
         "raw_value": 0.24785,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts off the ground and kicks upward to join the other leg in the air during the flip.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.07087,
         "Left Upper Leg In-Out": 0.27176,
@@ -137,7 +137,7 @@
         "raw_value": 0.2594,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg drives upward through the air to complete the transition into the inverted pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.08572,
         "Right Upper Leg In-Out": 0.35611,
@@ -157,7 +157,7 @@
         "raw_value": 0.22784,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches down to press against the floor to bear the weight of the upper body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.23869,
         "Left Thumb Spread": 0.20861,
@@ -189,7 +189,7 @@
         "raw_value": 0.24705,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand plants firmly on the ground to provide the base of support for the maneuver.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.11805,
         "Right Thumb Spread": 0.21123,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:21Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

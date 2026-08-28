@@ -14,7 +14,7 @@
   "duration": 2.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure approaches and secures a grip from behind, wrapping one arm around the front while holding the other arm back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03694,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and rotates to the right as it moves into a grappling position.",
       "mean_pose": {
         "Spine Front-Back": -0.10952,
         "Spine Left-Right": 0.05253,
@@ -57,7 +57,7 @@
         "raw_value": 0.12095,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns sharply to the left and tilts downward, following the rotation of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.10751,
         "Neck Tilt Left-Right": 0.18957,
@@ -75,7 +75,7 @@
         "raw_value": 0.27837,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward across the chest and then folds back toward the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.38054,
         "Left Shoulder Front-Back": 0.10851,
@@ -96,7 +96,7 @@
         "raw_value": 0.1795,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down and wraps around the front of the body to lock in a hold.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.13251,
         "Right Shoulder Front-Back": -0.4463,
@@ -117,7 +117,7 @@
         "raw_value": 0.13397,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward and bends at the knee to provide support for the stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.20742,
         "Left Upper Leg In-Out": 0.21286,
@@ -137,7 +137,7 @@
         "raw_value": 0.13267,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind and lifts off the ground, shifting the body's weight forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.62852,
         "Right Upper Leg In-Out": 0.17065,
@@ -157,7 +157,7 @@
         "raw_value": 0.32064,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends with fingers open before curling into a loose fist near the shoulder.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.08884,
         "Left Thumb Spread": -0.30119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a static, relaxed pose at the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.6214,
         "Right Thumb Spread": -1.72284,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:07:52Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

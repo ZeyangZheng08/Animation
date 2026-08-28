@@ -57,7 +57,7 @@ only** — the agent side reaches this tree over DrvFs and must not manage it.
 
 | Input | Role |
 |---|---|
-| `actions/*.json` (2454 records, 8 accepted; `schema_version: motionkb/v4`) | 9 channels x the kinematic block, plus two description fields: `action_description` and each anatomical channel's `motion_description`. A record is named `<clip_name>.json` while unlabelled and `<action_id>.json` once accepted |
+| `actions/*.json` (2454 records, 8 accepted; `schema_version: motionkb/v4`) | 9 channels x the kinematic block, plus two description fields: `action_description` and each anatomical channel's `motion_description`. A record is named `<clip_name>.json` while unlabelled and `<action_id>.json` once accepted. All 2454 carry both description fields since 2026-08-27, when `qwen3.8-27b` described the 2446-clip corpus on HPC; those 2446 remain `candidate` and unnamed until a human accepts them |
 | `manifest.json` | corpus index; pin the KB by its `kb_version` |
 | `engine_mask_map.json` | engine-neutral channel vocabulary (Unity / UE5 / Blender / SMPL-X) |
 | `raw/<clip>.json` | frozen per-frame pose dumps — the golden regression's input |

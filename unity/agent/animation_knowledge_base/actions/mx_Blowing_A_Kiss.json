@@ -14,7 +14,7 @@
   "duration": 4.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands and performs a blowing kiss gesture, bringing their right hand to their mouth before pushing it forward while holding their left hand at their waist.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04425,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains mostly upright but leans slightly forward as the right arm extends.",
       "mean_pose": {
         "Spine Front-Back": -0.12599,
         "Spine Left-Right": -0.10001,
@@ -57,7 +57,7 @@
         "raw_value": 0.12677,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays relatively still, facing forward with a slight tilt during the gesture.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.25772,
         "Neck Tilt Left-Right": -0.0247,
@@ -75,7 +75,7 @@
         "raw_value": 0.27013,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm bends at the elbow, holding the forearm horizontally across the lower chest or waist area.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.0537,
         "Left Shoulder Front-Back": -0.60126,
@@ -96,7 +96,7 @@
         "raw_value": 0.17221,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm lifts from the side to bring the hand to the mouth, then extends outward in front of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.28594,
         "Right Shoulder Front-Back": 0.05253,
@@ -117,7 +117,7 @@
         "raw_value": 0.02703,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands straight, supporting the figure's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.52508,
         "Left Upper Leg In-Out": 0.12027,
@@ -137,7 +137,7 @@
         "raw_value": 0.02918,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stands straight, supporting the figure's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.49839,
         "Right Upper Leg In-Out": 0.03278,
@@ -157,7 +157,7 @@
         "raw_value": 0.0729,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open near the waist with fingers relaxed.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.97369,
         "Left Thumb Spread": 0.01146,
@@ -189,7 +189,7 @@
         "raw_value": 0.05357,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand starts near the mouth with fingers gathered together, then pushes forward with an open palm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.90005,
         "Right Thumb Spread": 0.03038,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

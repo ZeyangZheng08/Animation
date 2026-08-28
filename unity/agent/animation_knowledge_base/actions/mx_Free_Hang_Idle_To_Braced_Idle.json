@@ -14,7 +14,7 @@
   "duration": 1.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure drops from a high hanging position with arms raised into a low, braced crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.19255,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and lowers significantly as the body descends from the hang into a deep squat.",
       "mean_pose": {
         "Spine Front-Back": -0.03174,
         "Spine Left-Right": -0.01343,
@@ -57,7 +57,7 @@
         "raw_value": 0.15531,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down to follow the descent of the torso, keeping its gaze directed toward the ground.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.21772,
         "Neck Tilt Left-Right": -0.08831,
@@ -75,7 +75,7 @@
         "raw_value": 0.40023,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Lowers from a fully extended overhead position, bending at the elbow to finish in a braced pose near the shoulder.",
       "mean_pose": {
         "Left Shoulder Down-Up": 1.08015,
         "Left Shoulder Front-Back": 0.23173,
@@ -96,7 +96,7 @@
         "raw_value": 0.51081,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirrors the left arm, dropping from an extended reach to a bent, braced position by the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.94651,
         "Right Shoulder Front-Back": -0.60335,
@@ -117,7 +117,7 @@
         "raw_value": 0.3017,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Descends from a straight, dangling posture and bends sharply at the knee to absorb the landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.12938,
         "Left Upper Leg In-Out": 0.42552,
@@ -137,7 +137,7 @@
         "raw_value": 0.38705,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drops alongside the other leg, bending deeply to settle into a wide, stable crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.03988,
         "Right Upper Leg In-Out": 0.46358,
@@ -157,7 +157,7 @@
         "raw_value": 0.20792,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hangs open and relaxed above the head before lowering and curling slightly inward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.16765,
         "Left Thumb Spread": 0.58475,
@@ -189,7 +189,7 @@
         "raw_value": 0.24847,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves downward from an open, raised state, ending in a loose fist near the chest level.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.1558,
         "Right Thumb Spread": 0.43664,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

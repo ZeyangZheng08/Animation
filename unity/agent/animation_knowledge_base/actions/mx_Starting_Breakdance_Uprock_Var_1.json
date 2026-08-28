@@ -14,7 +14,7 @@
   "duration": 1.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs an uprock dance, starting in a low crouch and moving into a wide, leaning stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06303,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bends forward from the hips into a deep crouch before straightening and tilting significantly to the side.",
       "mean_pose": {
         "Spine Front-Back": -0.41885,
         "Spine Left-Right": -0.02651,
@@ -57,7 +57,7 @@
         "raw_value": 0.10712,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is tilted down at the start, then lifts and turns to face forward as the body rises.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01026,
         "Neck Tilt Left-Right": -0.00585,
@@ -75,7 +75,7 @@
         "raw_value": 0.35535,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm moves from a bent position near the chest out to the side and slightly back, ending extended horizontally.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.7932,
         "Left Shoulder Front-Back": -0.68959,
@@ -96,7 +96,7 @@
         "raw_value": 0.3256,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings from a bent position near the waist outward to the side, finishing with the arm extended and hand open.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.87561,
         "Right Shoulder Front-Back": -0.93641,
@@ -117,7 +117,7 @@
         "raw_value": 0.2473,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg starts bent in a low squat, then extends and shifts weight to become the supporting leg in a wide stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.07929,
         "Left Upper Leg In-Out": 0.07428,
@@ -137,7 +137,7 @@
         "raw_value": 0.26271,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg begins bent behind the body, then steps forward and out to the side to form a wide, staggered stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.10774,
         "Right Upper Leg In-Out": 0.15123,
@@ -157,7 +157,7 @@
         "raw_value": 0.20101,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a curled position near the hip outwards, opening its fingers as it extends away from the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.24562,
         "Left Thumb Spread": -0.12784,
@@ -189,7 +189,7 @@
         "raw_value": 0.24816,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand travels from a curled position near the hip outwards, opening its fingers as it extends away from the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.10552,
         "Right Thumb Spread": -0.47476,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

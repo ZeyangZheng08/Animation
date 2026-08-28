@@ -14,7 +14,7 @@
   "duration": 6.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure crouches low and rotates its body from facing left to facing right.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01651,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "It holds a stable, deep forward lean with the spine bent over the legs.",
       "mean_pose": {
         "Spine Front-Back": -0.04477,
         "Spine Left-Right": -0.02527,
@@ -57,7 +57,7 @@
         "raw_value": 0.03285,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "It tilts down and turns in sequence from the left side to the right side to track the body's rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.11753,
         "Neck Tilt Left-Right": -0.46391,
@@ -75,7 +75,7 @@
         "raw_value": 0.03108,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "It hangs loosely at the side of the body, extending slightly outward as the torso turns.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.59925,
         "Left Shoulder Front-Back": -0.25142,
@@ -96,7 +96,7 @@
         "raw_value": 0.05699,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "It remains extended forward and downward, keeping a consistent position relative to the leaning torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.59351,
         "Right Shoulder Front-Back": -0.41038,
@@ -117,7 +117,7 @@
         "raw_value": 0.02179,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "It stays planted on the ground in a wide stance, acting as the pivot point for the turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.84447,
         "Left Upper Leg In-Out": 0.95974,
@@ -137,7 +137,7 @@
         "raw_value": 0.02391,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "It bends deeply at the knee and swings across the body as the figure rotates.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.81283,
         "Right Upper Leg In-Out": 0.82228,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "It is held open and relaxed near the left thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28332,
@@ -189,7 +189,7 @@
         "raw_value": 0.07722,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "It extends forward in a loose fist, maintaining a steady posture throughout the movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.3346,
         "Right Thumb Spread": -0.62298,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:01Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

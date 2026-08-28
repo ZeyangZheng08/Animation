@@ -14,7 +14,7 @@
   "duration": 12.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a rhythmic hip hop dance, hopping between feet while swinging their arms and twisting their torso.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10157,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bobs up and down with the hops and twists side to side, shifting its orientation as the figure moves.",
       "mean_pose": {
         "Spine Front-Back": -0.06872,
         "Spine Left-Right": 0.0735,
@@ -57,7 +57,7 @@
         "raw_value": 0.19868,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly from side to side in rhythm with the body's movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06603,
         "Neck Tilt Left-Right": 0.04605,
@@ -75,7 +75,7 @@
         "raw_value": 0.41422,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings alternately upward and downward across the chest in coordination with the leg movements.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.04923,
         "Left Shoulder Front-Back": -0.04693,
@@ -96,7 +96,7 @@
         "raw_value": 0.33396,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings alternately upward and downward, moving opposite to the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.09108,
         "Right Shoulder Front-Back": -0.44748,
@@ -117,7 +117,7 @@
         "raw_value": 0.21361,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and lifts off the ground to hop, alternating with the right leg.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.40009,
         "Left Upper Leg In-Out": 0.16777,
@@ -137,7 +137,7 @@
         "raw_value": 0.27612,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee and lifts off the ground to hop, alternating with the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.17152,
         "Right Upper Leg In-Out": 0.05521,
@@ -157,7 +157,7 @@
         "raw_value": 0.23378,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers extended throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.51053,
         "Left Thumb Spread": -0.07017,
@@ -189,7 +189,7 @@
         "raw_value": 0.14791,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open with fingers extended throughout the motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.81635,
         "Right Thumb Spread": 0.53912,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

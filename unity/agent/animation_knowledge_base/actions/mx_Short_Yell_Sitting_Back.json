@@ -14,7 +14,7 @@
   "duration": 2.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits in a chair, raises both hands to cup its mouth as if yelling, and then lowers them back down to its lap.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05705,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward from the seated position to support the arm movement, then returns to an upright posture.",
       "mean_pose": {
         "Spine Front-Back": -0.20814,
         "Spine Left-Right": -0.03695,
@@ -57,7 +57,7 @@
         "raw_value": 0.06859,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts upward during the yell and then returns to a neutral, forward-facing position.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04229,
         "Neck Tilt Left-Right": 0.06706,
@@ -75,7 +75,7 @@
         "raw_value": 0.23591,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm lifts from the lap, bending at the elbow to bring the hand up to the side of the face, then lowers back down.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.28819,
         "Left Shoulder Front-Back": -0.7094,
@@ -96,7 +96,7 @@
         "raw_value": 0.23272,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, lifting from the lap to bring the hand up to the side of the face before returning to the starting position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.08726,
         "Right Shoulder Front-Back": -0.14781,
@@ -117,7 +117,7 @@
         "raw_value": 0.028,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains bent in a stable sitting position with the foot planted on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.53773,
         "Left Upper Leg In-Out": 0.23843,
@@ -137,7 +137,7 @@
         "raw_value": 0.02729,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg holds a steady bent position, supporting the seated weight throughout the clip.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.54871,
         "Right Upper Leg In-Out": 0.18132,
@@ -157,7 +157,7 @@
         "raw_value": 0.22318,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from resting on the knee to cupping the side of the mouth, then descends back to the knee.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.61201,
         "Left Thumb Spread": -0.28609,
@@ -189,7 +189,7 @@
         "raw_value": 0.20926,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand travels from the knee up to cup the opposite side of the mouth, then lowers back to rest on the knee.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.01526,
         "Right Thumb Spread": -0.18783,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low leg sweep kick, dropping to one knee and sweeping the other leg across the floor before recovering to a standing stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11946,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward significantly during the sweep and rotates through the motion, then straightens up as it recovers.",
       "mean_pose": {
         "Spine Front-Back": -0.71237,
         "Spine Left-Right": -0.16295,
@@ -57,7 +57,7 @@
         "raw_value": 0.30095,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Drops down with the torso during the sweep and tilts forward, then lifts back up to face ahead in the final pose.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00294,
         "Neck Tilt Left-Right": -0.03608,
@@ -75,7 +75,7 @@
         "raw_value": 0.33785,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down toward the floor for balance during the sweep, then pulls back up into a guarding position near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.3565,
         "Left Shoulder Front-Back": -0.4362,
@@ -96,7 +96,7 @@
         "raw_value": 0.25249,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outwards to the side for balance during the sweep, then retracts to hold a guard position by the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.38762,
         "Right Shoulder Front-Back": -1.22523,
@@ -117,7 +117,7 @@
         "raw_value": 0.19145,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Acts as the support leg, bending deeply at the knee to lower the body's center of gravity during the sweep.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.59867,
         "Left Upper Leg In-Out": 0.60298,
@@ -137,7 +137,7 @@
         "raw_value": 0.1949,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Sweeps low across the ground from right to left in an arc, then lifts and extends backward as the figure stands up.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.13153,
         "Right Upper Leg In-Out": 0.57705,
@@ -157,7 +157,7 @@
         "raw_value": 0.51283,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches down towards the floor with fingers spread, then curls into a fist held near the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.92748,
         "Left Thumb Spread": -0.19954,
@@ -189,7 +189,7 @@
         "raw_value": 0.60081,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends outward with fingers open, then draws inward to form a fist held near the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.88942,
         "Right Thumb Spread": 0.54184,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:04Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

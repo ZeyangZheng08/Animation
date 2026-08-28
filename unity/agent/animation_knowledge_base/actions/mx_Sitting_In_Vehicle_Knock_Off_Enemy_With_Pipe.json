@@ -14,7 +14,7 @@
   "duration": 2.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A seated figure performs a rapid, forceful overhead strike with the right arm before bringing both hands down in front of the chest.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16142,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans back slightly at the start and then rotates sharply to the right during the swing, settling into a forward lean as the arms come down.",
       "mean_pose": {
         "Spine Front-Back": -0.21459,
         "Spine Left-Right": 0.0214,
@@ -57,7 +57,7 @@
         "raw_value": 0.22117,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back slightly as the right arm swings up and then turns to follow the motion of the arms.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.25379,
         "Neck Tilt Left-Right": -0.06192,
@@ -75,7 +75,7 @@
         "raw_value": 0.22768,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is raised high with the elbow bent, holding a static guard position near the face throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.17094,
         "Left Shoulder Front-Back": -0.01952,
@@ -96,7 +96,7 @@
         "raw_value": 0.26421,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends fully upward and backward before swinging rapidly across the body in an overhead arc to finish low in front of the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.08585,
         "Right Shoulder Front-Back": -0.15006,
@@ -117,7 +117,7 @@
         "raw_value": 0.09236,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains bent at the knee in a seated posture, planted on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.41101,
         "Left Upper Leg In-Out": 0.16272,
@@ -137,7 +137,7 @@
         "raw_value": 0.12912,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains bent at the knee in a seated posture, supporting the figure's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.35304,
         "Right Upper Leg In-Out": 0.39497,
@@ -157,7 +157,7 @@
         "raw_value": 0.22946,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open and stationary near the head level, acting as a shield or balance point.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.86814,
         "Left Thumb Spread": -0.53298,
@@ -189,7 +189,7 @@
         "raw_value": 0.31123,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends straight out during the upward reach and snaps forward forcefully during the downward strike.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.16615,
         "Right Thumb Spread": -0.4677,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:47:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

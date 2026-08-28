@@ -14,7 +14,7 @@
   "duration": 6.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a quadrupedal walk, moving forward while maintaining an arched back posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07937,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains bent deeply forward in a pike position throughout the movement, acting as a rigid bridge between the limbs.",
       "mean_pose": {
         "Spine Front-Back": -0.19808,
         "Spine Left-Right": 0.0061,
@@ -57,7 +57,7 @@
         "raw_value": 0.08415,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head hangs down towards the floor, following the downward curve of the spine and facing the ground.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.08,
         "Neck Tilt Left-Right": 0.07087,
@@ -75,7 +75,7 @@
         "raw_value": 0.23842,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends straight down to the floor, supporting the body's weight and stepping forward in alternating rhythm with the right leg.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.77404,
         "Left Shoulder Front-Back": -0.68187,
@@ -96,7 +96,7 @@
         "raw_value": 0.24335,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down to the floor, bearing weight and moving forward in sync with the left leg to maintain balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.46126,
         "Right Shoulder Front-Back": -1.0562,
@@ -117,7 +117,7 @@
         "raw_value": 0.20882,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg pushes off the ground from a bent position, extending backward to propel the body forward before landing again.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.04586,
         "Left Upper Leg In-Out": 0.06023,
@@ -137,7 +137,7 @@
         "raw_value": 0.26176,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, driving forward from a bent stance to extend behind the hips during the stride.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.03223,
         "Right Upper Leg In-Out": 0.14058,
@@ -157,7 +157,7 @@
         "raw_value": 0.07981,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand presses flat against the floor, fingers splayed to provide a stable base of support during the push-off.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.42608,
         "Left Thumb Spread": 0.35975,
@@ -189,7 +189,7 @@
         "raw_value": 0.05977,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays planted on the ground, gripping the surface firmly to stabilize the upper body as the legs cycle.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.86984,
         "Right Thumb Spread": 0.54524,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:43:58Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

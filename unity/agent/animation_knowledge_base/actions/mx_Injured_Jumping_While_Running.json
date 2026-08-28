@@ -14,7 +14,7 @@
   "duration": 0.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a stumbling, injured hop while running forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10894,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans significantly forward and dips low to the ground during the hop, then straightens back up as it lands.",
       "mean_pose": {
         "Spine Front-Back": -0.3374,
         "Spine Left-Right": -0.05253,
@@ -57,7 +57,7 @@
         "raw_value": 0.20073,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down sharply with the forward lean of the body before lifting back up toward the end of the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15486,
         "Neck Tilt Left-Right": -0.06157,
@@ -75,7 +75,7 @@
         "raw_value": 0.27408,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward to the side for balance during the hop, then pulls in closer to the body as the figure recovers.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.37018,
         "Left Shoulder Front-Back": -0.50041,
@@ -96,7 +96,7 @@
         "raw_value": 0.32404,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends out to the side to counterbalance the stumble, then swings back toward the center as the torso rises.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.14497,
         "Right Shoulder Front-Back": -0.45573,
@@ -117,7 +117,7 @@
         "raw_value": 0.12252,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts forward with the knee bent high during the hop, then lowers to plant on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.48377,
         "Left Upper Leg In-Out": 0.34721,
@@ -137,7 +137,7 @@
         "raw_value": 0.20921,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind with the knee bent, then pushes off the ground to propel the body forward into the next step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.31506,
         "Right Upper Leg In-Out": 0.14795,
@@ -157,7 +157,7 @@
         "raw_value": 0.53795,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains loosely clenched while swinging with the arm's balancing motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.11399,
         "Left Thumb Spread": -0.72972,
@@ -189,7 +189,7 @@
         "raw_value": 0.47182,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays loosely clenched as the arm extends and retracts to stabilize the movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.30755,
         "Right Thumb Spread": -0.35746,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:34Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

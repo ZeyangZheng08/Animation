@@ -14,7 +14,7 @@
   "duration": 1.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lies on the ground and convulses, twisting its torso and thrashing its limbs.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03661,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Lying flat on the floor, the torso twists and arches slightly off the ground during the spasms.",
       "mean_pose": {
         "Spine Front-Back": -0.03562,
         "Spine Left-Right": -0.00718,
@@ -57,7 +57,7 @@
         "raw_value": 0.17235,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Resting on the floor, the head turns from side to side along with the body's movements.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00939,
         "Neck Tilt Left-Right": -0.00434,
@@ -75,7 +75,7 @@
         "raw_value": 0.21787,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm lies by the side of the body, twitching and moving slightly outward from the torso.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.46913,
         "Left Shoulder Front-Back": -0.01115,
@@ -96,7 +96,7 @@
         "raw_value": 0.23557,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm rests near the body, jerking and shifting position in sync with the convulsions.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.29147,
         "Right Shoulder Front-Back": 0.57591,
@@ -117,7 +117,7 @@
         "raw_value": 0.08529,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee on the floor, kicking and lifting intermittently.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.19092,
         "Left Upper Leg In-Out": 0.14885,
@@ -137,7 +137,7 @@
         "raw_value": 0.08441,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lies extended on the ground, bending and straightening in a spastic manner.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.16911,
         "Right Upper Leg In-Out": -0.05541,
@@ -157,7 +157,7 @@
         "raw_value": 0.16269,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays close to the hip, fingers curling and uncurling as it twitches.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.71818,
         "Left Thumb Spread": 0.41178,
@@ -189,7 +189,7 @@
         "raw_value": 0.10889,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand rests near the thigh, clenching and releasing repeatedly throughout the motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.05618,
         "Right Thumb Spread": 0.54108,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:35Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

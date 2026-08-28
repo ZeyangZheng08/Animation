@@ -14,7 +14,7 @@
   "duration": 4.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits on the floor and throws an object forward with their right hand.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00603,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds a stable, upright seated posture throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.15342,
         "Spine Left-Right": 0.00556,
@@ -57,7 +57,7 @@
         "raw_value": 0.10701,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts slightly downward to track the motion of the right arm.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.1316,
         "Neck Tilt Left-Right": -0.04064,
@@ -75,7 +75,7 @@
         "raw_value": 0.03751,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow, holding a static position near the torso.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.43032,
         "Left Shoulder Front-Back": -0.54721,
@@ -96,7 +96,7 @@
         "raw_value": 0.14495,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward from a bent position to perform the throwing motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.24756,
         "Right Shoulder Front-Back": -0.17478,
@@ -117,7 +117,7 @@
         "raw_value": 0.01271,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays in a fixed seated position with the knee bent.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.56547,
         "Left Upper Leg In-Out": 0.10493,
@@ -137,7 +137,7 @@
         "raw_value": 0.01277,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains stationary in a seated pose with the knee flexed.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.55033,
         "Right Upper Leg In-Out": 0.26021,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeps a relaxed, open shape while resting near the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.09459,
         "Left Thumb Spread": -0.1906,
@@ -189,7 +189,7 @@
         "raw_value": 0.50481,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves from a closed fist into an open palm as it releases the throw.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.4682,
         "Right Thumb Spread": 0.03409,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:50:31Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 6.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A crouching figure manipulates a weapon with both hands, moving it from a low position at the waist up to a raised, ready stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10077,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and downward in a deep crouch, maintaining a bent posture throughout the sequence.",
       "mean_pose": {
         "Spine Front-Back": -1.53403,
         "Spine Left-Right": 0.5235,
@@ -57,7 +57,7 @@
         "raw_value": 0.17567,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays tilted down, keeping its gaze fixed on the hands and the object being manipulated.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.08526,
         "Neck Tilt Left-Right": -0.38072,
@@ -75,7 +75,7 @@
         "raw_value": 0.52034,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts by holding the object near the waist and extends outward and upward to support it at chest level.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.5475,
         "Left Shoulder Front-Back": 0.23165,
@@ -96,7 +96,7 @@
         "raw_value": 0.20456,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds the object near the body and moves it upward and slightly forward as part of the manipulation.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.87921,
         "Right Shoulder Front-Back": 0.26146,
@@ -117,7 +117,7 @@
         "raw_value": 0.14333,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent in a stable crouch, supporting the front of the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.25208,
         "Left Upper Leg In-Out": 0.60704,
@@ -137,7 +137,7 @@
         "raw_value": 0.14135,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays bent in a deep crouch, anchoring the back of the body's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.10279,
         "Right Upper Leg In-Out": 0.37319,
@@ -157,7 +157,7 @@
         "raw_value": 0.45831,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips the object firmly, extending outwards and upwards to hold it steady.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.28577,
         "Left Thumb Spread": -1.22006,
@@ -189,7 +189,7 @@
         "raw_value": 0.32002,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grasps the object close to the torso and lifts it in coordination with the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.79173,
         "Right Thumb Spread": -0.31057,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:00Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

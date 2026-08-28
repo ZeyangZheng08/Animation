@@ -14,7 +14,7 @@
   "duration": 7.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a stealth assassination, crouching low to deliver a strike before rising and stepping back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06789,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins in a deep forward crouch, rises up through the middle of the clip, and settles into an upright stance as it steps backward.",
       "mean_pose": {
         "Spine Front-Back": -0.20304,
         "Spine Left-Right": -0.0076,
@@ -57,7 +57,7 @@
         "raw_value": 0.29988,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is tucked down and facing forward during the initial crouch, lifts up as the body straightens, and remains tilted slightly downward throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.24103,
         "Neck Tilt Left-Right": 0.07154,
@@ -75,7 +75,7 @@
         "raw_value": 0.44432,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent with the hand held high near the chest, extends outward and downward as the figure rises, and finishes with the arm open at the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.17762,
         "Left Shoulder Front-Back": -0.73046,
@@ -96,7 +96,7 @@
         "raw_value": 0.44642,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, starting bent near the chest, extending outward and down during the rise, and ending open at the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.12369,
         "Right Shoulder Front-Back": -0.29656,
@@ -117,7 +117,7 @@
         "raw_value": 0.17609,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg starts bent in a low squat position, straightens out as the figure stands up, and steps back to finish in a wide stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.30726,
         "Left Upper Leg In-Out": 0.38024,
@@ -137,7 +137,7 @@
         "raw_value": 0.37378,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the same pattern as the left, moving from a deep bend to a straightened position while stepping backward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.24395,
         "Right Upper Leg In-Out": 0.3328,
@@ -157,7 +157,7 @@
         "raw_value": 0.55894,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is clenched near the upper chest at the start, opens and moves outward and down, and ends hanging by the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.45884,
         "Left Thumb Spread": -0.52665,
@@ -189,7 +189,7 @@
         "raw_value": 0.45805,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is clenched near the upper chest at the start, opens and moves outward and down, and ends hanging by the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.72623,
         "Right Thumb Spread": 0.26602,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

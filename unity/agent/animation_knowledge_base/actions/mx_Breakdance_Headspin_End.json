@@ -14,7 +14,7 @@
   "duration": 2.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a breakdance headspin, spinning on its head and then pushing off the floor to rise into a crouched standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.20748,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins inverted with the back facing the ceiling, rotates continuously while balanced on the head, and then rights itself to an upright, forward-leaning posture as the figure stands up.",
       "mean_pose": {
         "Spine Front-Back": -0.65288,
         "Spine Left-Right": 0.06432,
@@ -57,7 +57,7 @@
         "raw_value": 0.22315,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is positioned on the floor acting as the pivot point for the spin, remains low during the rotation, and lifts upward as the body rises from the ground.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.12088,
         "Neck Tilt Left-Right": -0.00958,
@@ -75,7 +75,7 @@
         "raw_value": 0.45017,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends downward toward the floor to support the body's weight during the spin and then bends at the elbow to pull the upper body upward into a crouch.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.13038,
         "Left Shoulder Front-Back": -0.64315,
@@ -96,7 +96,7 @@
         "raw_value": 0.30611,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down to the floor alongside the left arm to assist in the balance and push-off, transitioning from an extended supporting pose to a bent position as the figure rises.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.36946,
         "Right Shoulder Front-Back": -0.80835,
@@ -117,7 +117,7 @@
         "raw_value": 0.28149,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg starts extended upward in the air, swings around during the rotation, and then bends sharply at the knee to bring the foot down to the floor for the final stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.16884,
         "Left Upper Leg In-Out": 0.25148,
@@ -137,7 +137,7 @@
         "raw_value": 0.29837,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left by extending upward and rotating with the body before bending at the knee to plant the foot on the ground as the figure completes the stand-up.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.2217,
         "Right Upper Leg In-Out": 0.07759,
@@ -157,7 +157,7 @@
         "raw_value": 0.25773,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand presses flat against the floor to provide a stable base for the headspin and pushes firmly against the ground to help lift the torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.53801,
         "Left Thumb Spread": 0.51232,
@@ -189,7 +189,7 @@
         "raw_value": 0.3943,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains contact with the floor to stabilize the spin and applies force to drive the body up into the final crouched position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.42888,
         "Right Thumb Spread": 0.46853,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:33:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

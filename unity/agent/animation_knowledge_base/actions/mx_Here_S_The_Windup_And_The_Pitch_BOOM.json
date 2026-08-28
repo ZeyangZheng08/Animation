@@ -14,7 +14,7 @@
   "duration": 7.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a baseball windup and pitch, starting with a crouched stance, lifting the leg high, and finishing with a forward throwing motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12412,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins in a low, bent-forward position, rotates backward to coil during the leg lift, and then swings forcefully forward into the throw.",
       "mean_pose": {
         "Spine Front-Back": -0.26582,
         "Spine Left-Right": -0.05504,
@@ -57,7 +57,7 @@
         "raw_value": 0.35729,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head looks down at the ground initially, tilts up as the body coils, and finally snaps forward to track the direction of the pitch.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.18247,
         "Neck Tilt Left-Right": 0.25392,
@@ -75,7 +75,7 @@
         "raw_value": 0.37874,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts extended slightly outward, is pulled back across the chest during the windup, and swings forward and down for balance during the follow-through.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.52914,
         "Left Shoulder Front-Back": -0.79884,
@@ -96,7 +96,7 @@
         "raw_value": 0.45555,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm starts low near the hip, is drawn back behind the head in a cocked position, and whips forward rapidly to complete the throwing motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.85603,
         "Right Shoulder Front-Back": -1.28855,
@@ -117,7 +117,7 @@
         "raw_value": 0.25071,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is planted on the ground, lifts high with the knee raised during the windup, and extends forward to land as the pivot point for the throw.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.08847,
         "Left Upper Leg In-Out": 0.26496,
@@ -137,7 +137,7 @@
         "raw_value": 0.19458,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg serves as the initial support, bends as the weight shifts, and extends backward to push off the ground during the pitch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.31459,
         "Right Upper Leg In-Out": 0.32379,
@@ -157,7 +157,7 @@
         "raw_value": 0.1725,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, moving from an extended position to tucking near the chest before swinging outwards during the follow-through.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.09783,
         "Left Thumb Spread": 0.06074,
@@ -189,7 +189,7 @@
         "raw_value": 0.13282,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed, moving from a low position to being held high behind the head before extending fully forward after the release.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.88874,
         "Right Thumb Spread": 0.07527,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:38:49Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

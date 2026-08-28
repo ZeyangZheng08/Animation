@@ -14,7 +14,7 @@
   "duration": 3.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a standing position into a walking gait while holding an unseen rifle.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06797,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward as the walk begins, maintaining a steady posture with natural sway during the stride.",
       "mean_pose": {
         "Spine Front-Back": -0.03988,
         "Spine Left-Right": -0.00044,
@@ -57,7 +57,7 @@
         "raw_value": 0.14383,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains upright and faces forward, tracking the direction of movement with minimal turning.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00505,
         "Neck Tilt Left-Right": -0.02853,
@@ -75,7 +75,7 @@
         "raw_value": 0.15076,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent position in front of the chest, simulating a grip on a weapon's forestock.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.95923,
         "Left Shoulder Front-Back": -0.16966,
@@ -96,7 +96,7 @@
         "raw_value": 0.17954,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs lower at the side of the body, bent at the elbow to simulate gripping a weapon's handle.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.45668,
         "Right Shoulder Front-Back": 0.25463,
@@ -117,7 +117,7 @@
         "raw_value": 0.18482,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward to initiate the movement, then extends behind to push off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.24431,
         "Left Upper Leg In-Out": 0.08277,
@@ -137,7 +137,7 @@
         "raw_value": 0.16721,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Supports the weight initially, then swings forward to take the next step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.21564,
         "Right Upper Leg In-Out": 0.08878,
@@ -157,7 +157,7 @@
         "raw_value": 0.08713,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays curled around an imaginary object at waist height throughout the transition.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.29417,
         "Left Thumb Spread": -0.45723,
@@ -189,7 +189,7 @@
         "raw_value": 0.11295,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains clenched in a fist at hip level, mirroring the left hand's hold.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.69861,
         "Right Thumb Spread": -1.20672,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:14Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

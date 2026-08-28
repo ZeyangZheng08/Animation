@@ -14,7 +14,7 @@
   "duration": 1.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a high left block, lifting the left arm overhead to deflect an imaginary strike while shifting its weight and pivoting slightly.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12524,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans backward in a defensive posture, tilting away from the direction of the block before returning to a more upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.50037,
         "Spine Left-Right": 0.1559,
@@ -57,7 +57,7 @@
         "raw_value": 0.22008,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns toward the left side to follow the upward movement of the left arm.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.22086,
         "Neck Tilt Left-Right": 0.0864,
@@ -75,7 +75,7 @@
         "raw_value": 0.33114,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm lifts from a guard position up over the shoulder with the elbow bent, holding the forearm vertically above the head.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.14619,
         "Left Shoulder Front-Back": -0.69632,
@@ -96,7 +96,7 @@
         "raw_value": 0.16269,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent at the elbow, holding a static guard position near the chest throughout the motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.09449,
         "Right Shoulder Front-Back": -1.3095,
@@ -117,7 +117,7 @@
         "raw_value": 0.13833,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is planted firmly on the ground, bending at the knee to support the body's shift in weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.02718,
         "Left Upper Leg In-Out": 0.09958,
@@ -137,7 +137,7 @@
         "raw_value": 0.18425,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee and shifts position slightly to maintain balance as the torso moves.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.35174,
         "Right Upper Leg In-Out": 0.58123,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a fixed open-palm pose, facing outward as it completes the high block.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a static fist-like shape tucked into the guard position near the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:52Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

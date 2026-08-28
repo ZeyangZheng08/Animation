@@ -14,7 +14,7 @@
   "duration": 3.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward with a rifle held horizontally in front of the chest and then comes to a stop.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04799,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bobs up and down with the walking rhythm, leaning slightly forward during the stride before straightening into an upright position at the end.",
       "mean_pose": {
         "Spine Front-Back": -0.13976,
         "Spine Left-Right": -0.02134,
@@ -57,7 +57,7 @@
         "raw_value": 0.08667,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively stable, facing forward throughout the walk and coming to rest in a neutral orientation as the figure stops.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0315,
         "Neck Tilt Left-Right": 0.03568,
@@ -75,7 +75,7 @@
         "raw_value": 0.08446,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow and held across the body, supporting the rear section of the weapon.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.08713,
         "Left Shoulder Front-Back": -0.70046,
@@ -96,7 +96,7 @@
         "raw_value": 0.11041,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is extended forward with a slight bend, gripping the front of the weapon in a steady aiming posture.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.35635,
         "Right Shoulder Front-Back": -1.16908,
@@ -117,7 +117,7 @@
         "raw_value": 0.13863,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg cycles through a standard walking gait, stepping forward and pushing off the ground until it plants firmly beside the other foot.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.38499,
         "Left Upper Leg In-Out": 0.03505,
@@ -137,7 +137,7 @@
         "raw_value": 0.1498,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left leg's walking motion, alternating steps to propel the figure forward before settling into a standing pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.49671,
         "Right Upper Leg In-Out": 0.10666,
@@ -157,7 +157,7 @@
         "raw_value": 0.19956,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand maintains a firm grip on the back of the horizontal object held in front of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.11314,
         "Left Thumb Spread": -0.09239,
@@ -189,7 +189,7 @@
         "raw_value": 0.12029,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds the front of the object steadily, keeping it aligned horizontally across the torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.49839,
         "Right Thumb Spread": -1.56488,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:02Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

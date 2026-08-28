@@ -14,7 +14,7 @@
   "duration": 1.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a high kick with the right leg while balancing on the left foot.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17049,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans backward as the right leg extends, then rotates to face forward during the kick.",
       "mean_pose": {
         "Spine Front-Back": -0.30229,
         "Spine Left-Right": 0.06029,
@@ -57,7 +57,7 @@
         "raw_value": 0.20595,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back slightly in sync with the torso's lean and turns to follow the movement of the kicking leg.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.3164,
         "Neck Tilt Left-Right": 0.17949,
@@ -75,7 +75,7 @@
         "raw_value": 0.30131,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a bent position near the hip outward to the side for balance, then tucks back in toward the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.12878,
         "Left Shoulder Front-Back": -1.43999,
@@ -96,7 +96,7 @@
         "raw_value": 0.38648,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is held relatively static, remaining bent at the elbow and positioned close to the body throughout the motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.2348,
         "Right Shoulder Front-Back": -0.70845,
@@ -117,7 +117,7 @@
         "raw_value": 0.21129,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground, acting as the stable base for the kick.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.0449,
         "Left Upper Leg In-Out": 0.29879,
@@ -137,7 +137,7 @@
         "raw_value": 0.23038,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts from the ground, bends at the knee, and extends upward into a high kick before retracting.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.04659,
         "Right Upper Leg In-Out": 0.357,
@@ -157,7 +157,7 @@
         "raw_value": 0.29382,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves through space along with the swinging arm, ending near the upper chest area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.28322,
         "Left Thumb Spread": -0.14964,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a static pose, held steady near the mid-torso level.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.33667,
         "Right Thumb Spread": -0.67535,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

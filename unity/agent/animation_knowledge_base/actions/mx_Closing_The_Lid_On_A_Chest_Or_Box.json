@@ -14,7 +14,7 @@
   "duration": 10.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure bends forward at the waist to press down on an object in front of them, then straightens back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15913,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans significantly forward from a standing position and returns to upright.",
       "mean_pose": {
         "Spine Front-Back": -0.69088,
         "Spine Left-Right": 0.13591,
@@ -57,7 +57,7 @@
         "raw_value": 0.08599,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to look at the hands while bent over, then lifts back up as the body straightens.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06155,
         "Neck Tilt Left-Right": 0.02679,
@@ -75,7 +75,7 @@
         "raw_value": 0.35719,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward and downward toward the floor, then retracts back to the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.10431,
         "Left Shoulder Front-Back": -0.75442,
@@ -96,7 +96,7 @@
         "raw_value": 0.30804,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends forward and downward parallel to the left arm, then retracts back to the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.53605,
         "Right Shoulder Front-Back": -0.27669,
@@ -117,7 +117,7 @@
         "raw_value": 0.13174,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted with a slight bend at the knee to support the forward lean.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.03564,
         "Left Upper Leg In-Out": 0.05578,
@@ -137,7 +137,7 @@
         "raw_value": 0.14298,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted with a slight bend at the knee to support the forward lean.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.05628,
         "Right Upper Leg In-Out": 0.11836,
@@ -157,7 +157,7 @@
         "raw_value": 0.41065,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches forward and down with fingers extended before pulling back up.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53897,
         "Left Thumb Spread": -0.36303,
@@ -189,7 +189,7 @@
         "raw_value": 0.32819,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches forward and down with fingers extended before pulling back up.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.13769,
         "Right Thumb Spread": -0.5808,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward from the right, turns to face the viewer, and stops in a ready stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0935,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward while walking, then rotates to face front before settling into an upright, braced posture.",
       "mean_pose": {
         "Spine Front-Back": -0.36293,
         "Spine Left-Right": 0.05527,
@@ -57,7 +57,7 @@
         "raw_value": 0.1471,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward during the walk, then turns to look over the left shoulder as the body rotates.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.23617,
         "Neck Tilt Left-Right": 0.07155,
@@ -75,7 +75,7 @@
         "raw_value": 0.29033,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings naturally at the side while walking, then bends upward to hold a guard position near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.5753,
         "Left Shoulder Front-Back": -0.33161,
@@ -96,7 +96,7 @@
         "raw_value": 0.22813,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings naturally at the side while walking, then bends upward to hold a guard position near the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.94468,
         "Right Shoulder Front-Back": 0.20644,
@@ -117,7 +117,7 @@
         "raw_value": 0.16559,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Walks forward with a steady stride, then plants firmly on the ground to form the base of the final stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.31489,
         "Left Upper Leg In-Out": 0.23438,
@@ -137,7 +137,7 @@
         "raw_value": 0.1629,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Walks forward with a steady stride, then steps in to join the left leg in a wide, stable stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.40049,
         "Right Upper Leg In-Out": 0.08598,
@@ -157,7 +157,7 @@
         "raw_value": 0.54759,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely by the side during the walk, then clenches into a fist near the chin.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21583,
         "Left Thumb Spread": 0.13921,
@@ -189,7 +189,7 @@
         "raw_value": 0.54361,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely by the side during the walk, then clenches into a fist near the chin.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.56418,
         "Right Thumb Spread": 0.21241,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:53Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

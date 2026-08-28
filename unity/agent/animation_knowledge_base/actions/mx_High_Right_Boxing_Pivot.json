@@ -14,7 +14,7 @@
   "duration": 0.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a high boxing pivot, turning their body to the right while throwing a punch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03848,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates significantly to the right, twisting from a forward-facing position to face right and then continuing the rotation.",
       "mean_pose": {
         "Spine Front-Back": -0.26996,
         "Spine Left-Right": -0.09474,
@@ -57,7 +57,7 @@
         "raw_value": 0.02639,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to the right in sync with the torso, maintaining focus on the target direction throughout the pivot.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.0021,
         "Neck Tilt Left-Right": 0.03544,
@@ -75,7 +75,7 @@
         "raw_value": 0.05336,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held up near the chest in a guard position, rotating inward with the body's turn.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.47511,
         "Left Shoulder Front-Back": 0.21218,
@@ -96,7 +96,7 @@
         "raw_value": 0.03913,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward to throw a straight punch, retracting back towards the body as the turn completes.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.1762,
         "Right Shoulder Front-Back": -0.95622,
@@ -117,7 +117,7 @@
         "raw_value": 0.07833,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg serves as the pivot point, bending at the knee to support the weight shift during the rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.01919,
         "Left Upper Leg In-Out": 0.28086,
@@ -137,7 +137,7 @@
         "raw_value": 0.12609,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg swings around in an arc, driving the rotational momentum of the pivot step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.13643,
         "Right Upper Leg In-Out": 0.51771,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains clenched in a fist, held close to the chin in a defensive posture.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand forms a fist that drives forward into the punch before returning to a guarded state.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

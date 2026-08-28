@@ -14,7 +14,7 @@
   "duration": 4.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stumbles and loses balance while walking, flailing its arms to recover.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08086,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward significantly at the start, then rocks backward and twists slightly as it attempts to regain stability.",
       "mean_pose": {
         "Spine Front-Back": -0.13171,
         "Spine Left-Right": 0.01038,
@@ -57,7 +57,7 @@
         "raw_value": 0.18729,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and forward in sync with the torso's initial stumble, then lifts up as the figure straightens out.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.1389,
         "Neck Tilt Left-Right": -0.03168,
@@ -75,7 +75,7 @@
         "raw_value": 0.20332,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings backward initially, then extends outward to the side and upward to help counterbalance the fall.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.47619,
         "Left Shoulder Front-Back": 0.22539,
@@ -96,7 +96,7 @@
         "raw_value": 0.18683,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches forward and down, then swings back across the body before extending out to the opposite side for balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.49473,
         "Right Shoulder Front-Back": -0.08635,
@@ -117,7 +117,7 @@
         "raw_value": 0.16613,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is planted firmly on the ground throughout the sequence, acting as the pivot point for the recovery.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.19518,
         "Left Upper Leg In-Out": 0.15569,
@@ -137,7 +137,7 @@
         "raw_value": 0.15558,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg kicks forward and lifts off the ground during the stumble, then lowers back down toward the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.26504,
         "Right Upper Leg In-Out": 0.2079,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the end of the extended arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.00681,
         "Left Thumb Spread": 0.01374,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open with fingers spread as the arm moves through the balancing motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.00228,
         "Right Thumb Spread": 0.03813,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

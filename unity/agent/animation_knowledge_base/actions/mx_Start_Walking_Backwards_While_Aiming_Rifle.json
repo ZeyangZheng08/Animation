@@ -14,7 +14,7 @@
   "duration": 2.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks backwards while holding both arms in a forward aiming pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04857,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and bobs gently with the rhythm of the backward steps.",
       "mean_pose": {
         "Spine Front-Back": -0.25127,
         "Spine Left-Right": -0.04499,
@@ -57,7 +57,7 @@
         "raw_value": 0.02252,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is held steady, facing forward in the direction of the aim.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03032,
         "Neck Tilt Left-Right": -0.01148,
@@ -75,7 +75,7 @@
         "raw_value": 0.05303,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is extended forward at shoulder height, bent at the elbow to support the aiming posture.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.18656,
         "Left Shoulder Front-Back": -0.39371,
@@ -96,7 +96,7 @@
         "raw_value": 0.05147,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends forward parallel to the left arm, maintaining a fixed position for aiming.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.46128,
         "Right Shoulder Front-Back": 0.61161,
@@ -117,7 +117,7 @@
         "raw_value": 0.17497,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between stepping back and supporting weight, driving the backward motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.57738,
         "Left Upper Leg In-Out": 0.36517,
@@ -137,7 +137,7 @@
         "raw_value": 0.18499,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg cycles through backward steps, alternating with the left leg to maintain movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.41117,
         "Right Upper Leg In-Out": 0.02405,
@@ -157,7 +157,7 @@
         "raw_value": 0.02945,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open with fingers spread, positioned as if gripping an unseen weapon.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.91759,
         "Left Thumb Spread": -0.19275,
@@ -189,7 +189,7 @@
         "raw_value": 0.01514,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static, clenched grip shape in front of the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.61699,
         "Right Thumb Spread": -0.83562,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:28Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

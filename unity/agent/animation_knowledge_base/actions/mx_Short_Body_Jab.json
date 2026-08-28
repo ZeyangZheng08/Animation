@@ -14,7 +14,7 @@
   "duration": 1.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a short, quick body jab by thrusting the upper body and head forward from a crouched stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14861,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward significantly to drive the punch, then retracts back to the initial upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.37151,
         "Spine Left-Right": -0.03156,
@@ -57,7 +57,7 @@
         "raw_value": 0.1614,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Follows the torso's momentum, jutting forward during the strike and pulling back as the motion completes.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.12579,
         "Neck Tilt Left-Right": 0.01836,
@@ -75,7 +75,7 @@
         "raw_value": 0.33575,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends straight out in front of the body to deliver the jab, then pulls back toward the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.26575,
         "Left Shoulder Front-Back": -0.30703,
@@ -96,7 +96,7 @@
         "raw_value": 0.09046,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow with the fist held close to the chin throughout the movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.25699,
         "Right Shoulder Front-Back": -0.71083,
@@ -117,7 +117,7 @@
         "raw_value": 0.10879,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground while bending at the knee to support the forward lean.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.11862,
         "Left Upper Leg In-Out": 0.3131,
@@ -137,7 +137,7 @@
         "raw_value": 0.09644,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains relatively straight behind the body to provide balance for the lunge.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.01766,
         "Right Upper Leg In-Out": 0.55857,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a tight fist shape while extending outward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a clenched fist position near the face.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:47:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

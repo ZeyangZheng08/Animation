@@ -14,7 +14,7 @@
   "duration": 2.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a standing backflip, jumping up and rotating backward through the air before landing on their feet.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16129,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans back to initiate the jump, arches into a full horizontal position while inverted in mid-air, and rotates forward to return to an upright stance upon landing.",
       "mean_pose": {
         "Spine Front-Back": -0.15386,
         "Spine Left-Right": -0.01316,
@@ -57,7 +57,7 @@
         "raw_value": 0.20318,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts backward as the body initiates the flip, follows the rotation of the torso until it is fully inverted, and returns to a neutral forward-facing position for the landing.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.39876,
         "Neck Tilt Left-Right": -0.039,
@@ -75,7 +75,7 @@
         "raw_value": 0.45625,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises upward with the elbow bent during the initial jump, extends straight out overhead while the body is inverted, and lowers down to the side of the body for the landing.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.22641,
         "Left Shoulder Front-Back": -0.69705,
@@ -96,7 +96,7 @@
         "raw_value": 0.37577,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirrors the left arm by raising upward during the jump, extending straight out overhead during the inversion, and lowering to the side for the landing.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.15317,
         "Right Shoulder Front-Back": -0.89914,
@@ -117,7 +117,7 @@
         "raw_value": 0.22329,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee to generate power for the jump, tucks slightly toward the chest while airborne, and extends downward to absorb the impact of the landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.40374,
         "Left Upper Leg In-Out": 0.2137,
@@ -137,7 +137,7 @@
         "raw_value": 0.28395,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee to assist in the takeoff, remains tucked near the left leg during the rotation, and extends downward to support the weight upon landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.04073,
         "Right Upper Leg In-Out": 0.20965,
@@ -157,7 +157,7 @@
         "raw_value": 0.32708,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens and points upward as part of the arm's raised position during the jump, maintains an open palm facing outward while inverted, and relaxes at the side of the body after landing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.22832,
         "Left Thumb Spread": -0.2682,
@@ -189,7 +189,7 @@
         "raw_value": 0.29387,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Points upward alongside the left hand during the ascent, keeps the palm open and extended while inverted, and settles into a relaxed position at the side of the body upon completion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.15263,
         "Right Thumb Spread": -0.39246,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 6.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a dynamic martial arts throw, starting from a running stance, dropping into a low hook with the left leg, and finishing in a balanced standing pose with the right leg extended forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09917,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins in an upright, slightly twisted running posture, drops sharply into a deep crouch during the hook phase, and then rises back to a balanced, upright position while rotating slightly.",
       "mean_pose": {
         "Spine Front-Back": -0.19393,
         "Spine Left-Right": 0.01816,
@@ -57,7 +57,7 @@
         "raw_value": 0.31397,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the body's momentum, tilting down as the torso crouches for the hook and lifting up again as the figure straightens out into the final stance.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.40393,
         "Neck Tilt Left-Right": -0.00084,
@@ -75,7 +75,7 @@
         "raw_value": 0.43409,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and outward during the drop to maintain balance, then retracts and extends to the side as the body rises, ending with the arm held out to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.07199,
         "Left Shoulder Front-Back": -0.17588,
@@ -96,7 +96,7 @@
         "raw_value": 0.36529,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down toward the ground during the low hook phase, then sweeps upward and outward across the body to help stabilize the figure in the final standing pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.32932,
         "Right Shoulder Front-Back": -0.02007,
@@ -117,7 +117,7 @@
         "raw_value": 0.29955,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives forward and bends deeply to form a low hooking stance, then pulls back and stabilizes as the figure transitions to a single-leg stand.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.23026,
         "Left Upper Leg In-Out": 0.47308,
@@ -137,7 +137,7 @@
         "raw_value": 0.30242,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg starts as a trailing support, lifts off the ground to extend forward and outward during the throw, and finishes extended in front of the body while balancing on the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.14348,
         "Right Upper Leg In-Out": 0.37536,
@@ -157,7 +157,7 @@
         "raw_value": 0.69987,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and moves fluidly with the arm, reaching high during the crouch and extending outward to the side during the recovery.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.75004,
         "Left Thumb Spread": -0.49374,
@@ -189,7 +189,7 @@
         "raw_value": 0.67136,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open, dipping low near the floor during the hook and rising with the arm to extend forward in the final pose.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.70969,
         "Right Thumb Spread": -0.23481,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

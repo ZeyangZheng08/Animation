@@ -14,7 +14,7 @@
   "duration": 1.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a right hook punch, rotating its body and swinging the right arm in a wide arc before returning to an idle stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06376,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from facing forward to twisting sharply toward the left, then returns to the front.",
       "mean_pose": {
         "Spine Front-Back": -0.14746,
         "Spine Left-Right": -0.05665,
@@ -57,7 +57,7 @@
         "raw_value": 0.25761,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to look over the left shoulder during the rotation of the punch and then faces forward again.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02189,
         "Neck Tilt Left-Right": 0.11412,
@@ -75,7 +75,7 @@
         "raw_value": 0.13528,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is pulled back across the chest with the elbow bent, acting as a guard during the punch, then relaxes slightly at the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.47133,
         "Left Shoulder Front-Back": 0.01177,
@@ -96,7 +96,7 @@
         "raw_value": 0.34176,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings outward in a large, horizontal arc to execute the hook punch, then retracts back to the starting position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.00375,
         "Right Shoulder Front-Back": -0.59915,
@@ -117,7 +117,7 @@
         "raw_value": 0.16346,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward and bends at the knee to pivot the body for the punch, then straightens out.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.1855,
         "Left Upper Leg In-Out": -0.08216,
@@ -137,7 +137,7 @@
         "raw_value": 0.17016,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains relatively stationary but shifts weight, bending slightly to support the rotational force of the punch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.38456,
         "Right Upper Leg In-Out": 0.14117,
@@ -157,7 +157,7 @@
         "raw_value": 0.49376,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays tucked near the chin or chest area, forming a loose fist to protect the face.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.60764,
         "Left Thumb Spread": -1.26489,
@@ -189,7 +189,7 @@
         "raw_value": 0.53334,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand forms a fist, travels through the wide arc of the hook punch, and then opens slightly as it returns to rest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.36208,
         "Right Thumb Spread": -0.91239,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:04Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is knocked backward from a standing position, flying through the air in an arch before crashing to the ground and sliding on its back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17483,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward at first, then arcs violently backward as it is launched into the air, eventually flattening out to land on the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.32435,
         "Spine Left-Right": 0.0074,
@@ -57,7 +57,7 @@
         "raw_value": 0.23378,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down initially, then snaps sharply backward during the launch, and finally rests flat on the ground facing upward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00131,
         "Neck Tilt Left-Right": -0.04671,
@@ -75,7 +75,7 @@
         "raw_value": 0.45868,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely by the side, swings up and back during the fall, and ends extended outward to the side on the floor.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.01912,
         "Left Shoulder Front-Back": 0.19212,
@@ -96,7 +96,7 @@
         "raw_value": 0.49021,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Dangles near the hip, flails upward and backward in the air, and finishes splayed out on the ground.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.25799,
         "Right Shoulder Front-Back": -0.00816,
@@ -117,7 +117,7 @@
         "raw_value": 0.34672,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Starts in a walking stance, kicks up and bends in the air, and lands bent with the foot resting on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.02503,
         "Left Upper Leg In-Out": 0.42807,
@@ -137,7 +137,7 @@
         "raw_value": 0.26542,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Begins planted on the ground, lifts and extends backward during the flight, and comes to rest straight out on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.0158,
         "Right Upper Leg In-Out": 0.45617,
@@ -157,7 +157,7 @@
         "raw_value": 0.25302,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed, swinging freely with the arm until it comes to rest on the ground.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.06022,
         "Left Thumb Spread": 0.53967,
@@ -189,7 +189,7 @@
         "raw_value": 0.2552,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open and limp, moving with the arm's flailing motion until it settles on the floor.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.99873,
         "Right Thumb Spread": -0.01116,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:46Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

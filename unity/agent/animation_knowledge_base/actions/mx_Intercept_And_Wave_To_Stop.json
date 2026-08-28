@@ -14,7 +14,7 @@
   "duration": 1.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward with a bouncy gait, then abruptly stops in place and raises both arms to wave or signal.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08331,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward during the running phase, sways slightly with the stride, and then straightens up as the figure comes to a halt.",
       "mean_pose": {
         "Spine Front-Back": -0.09982,
         "Spine Left-Right": 0.00976,
@@ -57,7 +57,7 @@
         "raw_value": 0.09103,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head bobs rhythmically with the running motion and remains relatively stable while facing forward during the stop.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.26822,
         "Neck Tilt Left-Right": -0.00644,
@@ -75,7 +75,7 @@
         "raw_value": 0.25583,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally backward and forward while running, then lifts upward and outward into a waving position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.55294,
         "Left Shoulder Front-Back": -0.47008,
@@ -96,7 +96,7 @@
         "raw_value": 0.20897,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm pumps opposite to the left leg while running, then raises up alongside the left arm to join the waving gesture.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.17677,
         "Right Shoulder Front-Back": -0.21078,
@@ -117,7 +117,7 @@
         "raw_value": 0.18617,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the running cycle, stepping forward and pushing off, before planting firmly to support the standing pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.03063,
         "Left Upper Leg In-Out": 0.08206,
@@ -137,7 +137,7 @@
         "raw_value": 0.15291,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left in the running stride, ending with a step that brings the feet together for a balanced stop.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.18686,
         "Right Upper Leg In-Out": 0.23975,
@@ -157,7 +157,7 @@
         "raw_value": 0.1331,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves loosely during the run and opens its fingers as it rises to perform the wave.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.56201,
         "Left Thumb Spread": -1.06403,
@@ -189,7 +189,7 @@
         "raw_value": 0.20806,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand mirrors the loose movement of the run and extends its fingers outward as part of the raised stopping gesture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.82806,
         "Right Thumb Spread": -0.53914,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 44.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits on an invisible surface, leaning forward to talk while gesturing with one hand and resting the other.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03012,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from a seated position, holding a slight lean throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.3758,
         "Spine Left-Right": 0.02034,
@@ -57,7 +57,7 @@
         "raw_value": 0.27147,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns to look toward the right side of the frame, keeping a steady orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.08081,
         "Neck Tilt Left-Right": -0.07046,
@@ -75,7 +75,7 @@
         "raw_value": 0.16262,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Rests across the lap, extending down to rest on the thigh.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.23762,
         "Left Shoulder Front-Back": -1.67499,
@@ -96,7 +96,7 @@
         "raw_value": 0.14874,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Lifts up and forward in front of the chest, making small conversational gestures.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.6164,
         "Right Shoulder Front-Back": -2.03108,
@@ -117,7 +117,7 @@
         "raw_value": 0.00869,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the knee in a stable sitting posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.38601,
         "Left Upper Leg In-Out": -0.10754,
@@ -137,7 +137,7 @@
         "raw_value": 0.02193,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Crosses over the left leg, extending out to the side.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.5525,
         "Right Upper Leg In-Out": -0.24992,
@@ -157,7 +157,7 @@
         "raw_value": 0.23105,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open and relaxed, resting on the upper thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.71646,
         "Left Thumb Spread": -0.51733,
@@ -189,7 +189,7 @@
         "raw_value": 0.24071,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves rhythmically in front of the body with fingers curled, emphasizing the conversation.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.06146,
         "Right Thumb Spread": 0.1558,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:47:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

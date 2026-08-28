@@ -14,7 +14,7 @@
   "duration": 7.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure drops from a standing position to the floor and performs a low, crouching spin.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15136,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply forward to lower the body to the ground, then rotates horizontally while maintaining a deep crouch before beginning to rise.",
       "mean_pose": {
         "Spine Front-Back": -0.46921,
         "Spine Left-Right": 0.0366,
@@ -57,7 +57,7 @@
         "raw_value": 0.19688,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down as the figure descends and tracks the rotation of the body during the spin on the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04118,
         "Neck Tilt Left-Right": -0.02191,
@@ -75,7 +75,7 @@
         "raw_value": 0.22521,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings downward toward the floor to help balance the descent, staying bent at the elbow throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.69486,
         "Left Shoulder Front-Back": -0.25993,
@@ -96,7 +96,7 @@
         "raw_value": 0.24769,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down with the hand near the floor to support the weight of the spinning body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.64643,
         "Right Shoulder Front-Back": -0.31612,
@@ -117,7 +117,7 @@
         "raw_value": 0.29601,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply to absorb the drop to the floor and remains tucked close to the body during the turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.00846,
         "Left Upper Leg In-Out": 0.16109,
@@ -137,7 +137,7 @@
         "raw_value": 0.32923,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends outward and sweeps across the floor in an arc to drive the spin.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.2169,
         "Right Upper Leg In-Out": 0.24871,
@@ -157,7 +157,7 @@
         "raw_value": 0.31348,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open and hovers just above the floor, ready to touch down for stability.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.9333,
         "Left Thumb Spread": 0.10019,
@@ -189,7 +189,7 @@
         "raw_value": 0.24081,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand presses against the floor to act as a pivot point for the spin.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.21999,
         "Right Thumb Spread": -0.12377,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:29Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

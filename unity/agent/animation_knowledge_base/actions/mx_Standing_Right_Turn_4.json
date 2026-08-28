@@ -14,7 +14,7 @@
   "duration": 1.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a smooth turn to its right while standing in place.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01881,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains static in an upright position, maintaining a straight vertical alignment throughout the rotation.",
       "mean_pose": {
         "Spine Front-Back": -0.14109,
         "Spine Left-Right": -0.00676,
@@ -57,7 +57,7 @@
         "raw_value": 0.14058,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Rotates smoothly to the right, following the body's turn to keep facing forward relative to the new direction.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.14678,
         "Neck Tilt Left-Right": -0.07856,
@@ -75,7 +75,7 @@
         "raw_value": 0.07192,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings slightly backward and then returns to rest at the side of the body as the turn progresses.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.58221,
         "Left Shoulder Front-Back": -0.02033,
@@ -96,7 +96,7 @@
         "raw_value": 0.04774,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely at the side with a slight bend in the elbow, moving naturally with the body's rotation.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.58386,
         "Right Shoulder Front-Back": -0.57732,
@@ -117,7 +117,7 @@
         "raw_value": 0.08216,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Acts as the pivot leg, staying planted on the floor while rotating on the ball of the foot to facilitate the turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.04825,
         "Left Upper Leg In-Out": 0.24424,
@@ -137,7 +137,7 @@
         "raw_value": 0.11665,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and rotates inward to meet the left foot, completing the pivot motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.31733,
         "Right Upper Leg In-Out": 0.25068,
@@ -157,7 +157,7 @@
         "raw_value": 0.0763,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays relaxed and open near the hip, swinging gently in coordination with the arm's movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72235,
         "Left Thumb Spread": -0.71465,
@@ -189,7 +189,7 @@
         "raw_value": 0.10201,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed by the thigh, shifting slightly with the arm as the body turns.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.3235,
         "Right Thumb Spread": -0.35791,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:06Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

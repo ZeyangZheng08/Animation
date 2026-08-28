@@ -14,7 +14,7 @@
   "duration": 6.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a martial arts sequence, swinging both arms in a wide arc before executing three consecutive knee kicks.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08243,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward during the arm swing and then straightens up to support the balance required for the series of knee kicks.",
       "mean_pose": {
         "Spine Front-Back": -0.0679,
         "Spine Left-Right": -0.00466,
@@ -57,7 +57,7 @@
         "raw_value": 0.34013,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the motion of the torso, tilting slightly forward during the initial swing and lifting upward to maintain an upright posture during the kicks.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03864,
         "Neck Tilt Left-Right": 0.07562,
@@ -75,7 +75,7 @@
         "raw_value": 0.28213,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward from the side of the body to a high position above the shoulder and then drops back down toward the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.0227,
         "Left Shoulder Front-Back": 0.16542,
@@ -96,7 +96,7 @@
         "raw_value": 0.28409,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left arm's movement, swinging out to the opposite side and raising high before returning to a guard position near the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.25595,
         "Right Shoulder Front-Back": -0.00897,
@@ -117,7 +117,7 @@
         "raw_value": 0.20535,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts with the knee bent high for the first kick, lowers briefly, and then raises again for the subsequent kicks.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.05676,
         "Left Upper Leg In-Out": 0.20372,
@@ -137,7 +137,7 @@
         "raw_value": 0.32613,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg serves as the primary support, remaining planted on the ground while the other leg performs the kicks, with slight adjustments to maintain balance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.28524,
         "Right Upper Leg In-Out": 0.24204,
@@ -157,7 +157,7 @@
         "raw_value": 0.51483,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves in conjunction with the arm swing, extending outward and upward before retracting back to the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.97646,
         "Left Thumb Spread": -0.14885,
@@ -189,7 +189,7 @@
         "raw_value": 0.52849,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand travels with the right arm, sweeping across the body to a raised position and then pulling back toward the torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.61982,
         "Right Thumb Spread": -0.21891,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:59Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

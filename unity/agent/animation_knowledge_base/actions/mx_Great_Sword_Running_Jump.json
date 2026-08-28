@@ -14,7 +14,7 @@
   "duration": 0.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a running jump, leaping forward through the air with knees tucked and arms held in front.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16531,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans significantly forward during the leap, maintaining a hunched posture throughout the airborne phase.",
       "mean_pose": {
         "Spine Front-Back": -1.05084,
         "Spine Left-Right": -0.37979,
@@ -57,7 +57,7 @@
         "raw_value": 0.13686,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilted downward to look ahead of the jump, staying aligned with the forward-leaning torso.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.31402,
         "Neck Tilt Left-Right": 0.19883,
@@ -75,7 +75,7 @@
         "raw_value": 0.37169,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Held bent at the elbow in front of the chest, moving slightly forward as the body extends into the jump.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.86402,
         "Left Shoulder Front-Back": -2.23706,
@@ -96,7 +96,7 @@
         "raw_value": 0.24589,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Held bent at the elbow in front of the chest, mirroring the left arm's position to balance the jump.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.59604,
         "Right Shoulder Front-Back": -1.24699,
@@ -117,7 +117,7 @@
         "raw_value": 0.19473,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts high with the knee bent, tucking the foot up toward the buttocks during the flight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.33297,
         "Left Upper Leg In-Out": 0.22354,
@@ -137,7 +137,7 @@
         "raw_value": 0.2453,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts high with the knee bent, mirroring the left leg to create a compact jumping posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.23865,
         "Right Upper Leg In-Out": -0.02123,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenched into a fist and held steady near the center of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.58434,
         "Left Thumb Spread": -1.41031,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenched into a fist and held steady near the center of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.48686,
         "Right Thumb Spread": -0.33843,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:24Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

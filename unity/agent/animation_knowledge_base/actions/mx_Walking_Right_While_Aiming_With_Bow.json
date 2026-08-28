@@ -14,7 +14,7 @@
   "duration": 1.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward to the right while holding a steady, extended bow-aiming posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09686,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward and rotates gently to the right in rhythm with the walking stride.",
       "mean_pose": {
         "Spine Front-Back": -0.48973,
         "Spine Left-Right": -0.02397,
@@ -57,7 +57,7 @@
         "raw_value": 0.02725,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns to face the right side, maintaining a fixed gaze aligned with the aiming arm.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.32595,
         "Neck Tilt Left-Right": 0.07199,
@@ -75,7 +75,7 @@
         "raw_value": 0.01983,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose bent at the elbow, with the forearm drawn back across the chest toward the face.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.35151,
         "Left Shoulder Front-Back": 1.10708,
@@ -96,7 +96,7 @@
         "raw_value": 0.02118,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains fully extended straight out to the side, pointing directly forward in the direction of travel.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.30324,
         "Right Shoulder Front-Back": 0.16774,
@@ -117,7 +117,7 @@
         "raw_value": 0.20172,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Cycles through a walking gait, alternating between lifting forward and pushing off behind.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.20741,
         "Left Upper Leg In-Out": -0.00507,
@@ -137,7 +137,7 @@
         "raw_value": 0.21506,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Moves in an opposite phase to the left leg, stepping forward and extending backward to drive the motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.12401,
         "Right Upper Leg In-Out": 0.24427,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays clenched in a fist near the chin, simulating a hand drawing a bowstring.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.492,
         "Left Thumb Spread": -1.28218,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a tight fist at the end of the extended arm, as if gripping a bow.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.41906,
         "Right Thumb Spread": -0.23216,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:52:11Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

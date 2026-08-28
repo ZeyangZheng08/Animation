@@ -14,7 +14,7 @@
   "duration": 2.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jumps vertically into the air with arms raised high and then brings them down to catch a ball at chest level.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06921,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a crouch, extends upward during the jump, and remains upright while catching.",
       "mean_pose": {
         "Spine Front-Back": -0.11771,
         "Spine Left-Right": 0.08348,
@@ -57,7 +57,7 @@
         "raw_value": 0.13711,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward initially, looks up toward the sky during the jump, and returns to a neutral position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.34223,
         "Neck Tilt Left-Right": 0.00122,
@@ -75,7 +75,7 @@
         "raw_value": 0.30932,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts low at the side, swings straight up overhead during the jump, and bends inward to bring the hand to the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.51585,
         "Left Shoulder Front-Back": -0.01883,
@@ -96,7 +96,7 @@
         "raw_value": 0.33898,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts low at the side, swings straight up overhead during the jump, and bends inward to bring the hand to the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.21649,
         "Right Shoulder Front-Back": -1.0139,
@@ -117,7 +117,7 @@
         "raw_value": 0.23403,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Crouches to load the jump, tucks slightly underneath the body in mid-air, and lowers for landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.07986,
         "Left Upper Leg In-Out": 0.29961,
@@ -137,7 +137,7 @@
         "raw_value": 0.20647,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Crouches to load the jump, tucks slightly underneath the body in mid-air, and lowers for landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.05654,
         "Right Upper Leg In-Out": 0.18435,
@@ -157,7 +157,7 @@
         "raw_value": 0.18841,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide above the head during the jump and closes around the object at chest height.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.7921,
         "Left Thumb Spread": -0.44896,
@@ -189,7 +189,7 @@
         "raw_value": 0.12072,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide above the head during the jump and closes around the object at chest height.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.3104,
         "Right Thumb Spread": -0.4475,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:46Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

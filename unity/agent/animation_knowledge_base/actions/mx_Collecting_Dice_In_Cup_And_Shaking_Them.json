@@ -14,7 +14,7 @@
   "duration": 9.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure shakes an object held in both hands near their face before lowering them to their sides.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03598,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and remains relatively upright throughout the motion, maintaining a stable base for the arm movements.",
       "mean_pose": {
         "Spine Front-Back": -0.631,
         "Spine Left-Right": 0.16321,
@@ -57,7 +57,7 @@
         "raw_value": 0.23041,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward to look at the hands during the shaking motion and then returns to a neutral, forward-facing position.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.46487,
         "Neck Tilt Left-Right": -0.02753,
@@ -75,7 +75,7 @@
         "raw_value": 0.24624,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, raising the hand up toward the face before extending downward to rest by the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.41625,
         "Left Shoulder Front-Back": -0.76967,
@@ -96,7 +96,7 @@
         "raw_value": 0.19139,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow, raising the hand up toward the face to meet the other hand before extending downward to rest by the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.4922,
         "Right Shoulder Front-Back": 0.11396,
@@ -117,7 +117,7 @@
         "raw_value": 0.00939,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains static in a standing position with the foot flat on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.2254,
         "Left Upper Leg In-Out": 0.17709,
@@ -137,7 +137,7 @@
         "raw_value": 0.00983,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains static in a standing position with the foot flat on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.194,
         "Right Upper Leg In-Out": 0.0781,
@@ -157,7 +157,7 @@
         "raw_value": 0.23731,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is raised to cup or hold an object near the face, then lowers to hang loosely by the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.67137,
         "Left Thumb Spread": -0.14226,
@@ -189,7 +189,7 @@
         "raw_value": 0.26893,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is raised to cup or hold an object near the face, then lowers to hang loosely by the thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.46345,
         "Right Thumb Spread": 0.1144,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

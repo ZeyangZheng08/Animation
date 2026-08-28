@@ -14,7 +14,7 @@
   "duration": 5.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a medium drive, transitioning from a high guard to a forward punching stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.26233,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward while rotating the chest toward the right side.",
       "mean_pose": {
         "Spine Front-Back": -0.09168,
         "Spine Left-Right": 0.04934,
@@ -57,7 +57,7 @@
         "raw_value": 0.31183,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and rotates to face the right shoulder as the body turns.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01678,
         "Neck Tilt Left-Right": 0.06334,
@@ -75,7 +75,7 @@
         "raw_value": 0.49461,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings from a high position near the head down across the chest to a lower guard.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.10664,
         "Left Shoulder Front-Back": -0.95112,
@@ -96,7 +96,7 @@
         "raw_value": 0.54813,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward in a straight line, moving from a bent guard position to a full reach.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.1378,
         "Right Shoulder Front-Back": -2.05943,
@@ -117,7 +117,7 @@
         "raw_value": 0.22315,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward with the knee bending to absorb the movement's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.31622,
         "Left Upper Leg In-Out": -0.07868,
@@ -137,7 +137,7 @@
         "raw_value": 0.22682,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted behind with the heel lifting off the ground to pivot.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.57833,
         "Right Upper Leg In-Out": 0.08174,
@@ -157,7 +157,7 @@
         "raw_value": 0.12439,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curls into a fist and lowers its height along with the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.96976,
         "Left Thumb Spread": 0.17382,
@@ -189,7 +189,7 @@
         "raw_value": 0.10928,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens slightly during the motion before closing firmly into a fist at the end of the punch.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.97506,
         "Right Thumb Spread": 0.06283,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:42:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a forward somersault, rotating completely in the air before landing and continuing to run.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11343,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into the flip, rotates through a full 360 degrees, and straightens back up for the landing.",
       "mean_pose": {
         "Spine Front-Back": -0.15374,
         "Spine Left-Right": 0.00428,
@@ -57,7 +57,7 @@
         "raw_value": 0.19436,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tucks down toward the chest during the rotation and lifts to look forward as the body lands.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.26774,
         "Neck Tilt Left-Right": -0.13113,
@@ -75,7 +75,7 @@
         "raw_value": 0.34988,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends out to the side and downward to lead the rotation, then swings back toward the hip for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.28598,
         "Left Shoulder Front-Back": -0.45078,
@@ -96,7 +96,7 @@
         "raw_value": 0.2934,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends out to the side and downward alongside the left arm, then pulls back toward the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.17896,
         "Right Shoulder Front-Back": -0.47292,
@@ -117,7 +117,7 @@
         "raw_value": 0.22608,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts off the ground, tucks slightly during the rotation, and extends to absorb the impact of the landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.37595,
         "Left Upper Leg In-Out": 0.19396,
@@ -137,7 +137,7 @@
         "raw_value": 0.24976,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Follows the left leg into the rotation and extends to plant on the ground upon arrival.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.27864,
         "Right Upper Leg In-Out": 0.09376,
@@ -157,7 +157,7 @@
         "raw_value": 0.38466,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches out with fingers spread during the flip and relaxes by the side after landing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.26922,
         "Left Thumb Spread": -0.19179,
@@ -189,7 +189,7 @@
         "raw_value": 0.37327,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches out with fingers spread during the flip and relaxes by the side after landing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.37772,
         "Right Thumb Spread": -0.4538,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

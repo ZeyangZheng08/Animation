@@ -14,7 +14,7 @@
   "duration": 2.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure pivots ninety degrees to the right while holding a rifle in a steady, two-handed aiming stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03014,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rotates smoothly from facing forward to facing right, maintaining an upright posture with slight knee bends for stability.",
       "mean_pose": {
         "Spine Front-Back": -0.24412,
         "Spine Left-Right": 0.0008,
@@ -57,7 +57,7 @@
         "raw_value": 0.04302,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns continuously to the right, tracking the direction of the turn and keeping alignment with the aim.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00942,
         "Neck Tilt Left-Right": -0.01779,
@@ -75,7 +75,7 @@
         "raw_value": 0.04281,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains extended forward in a fixed position relative to the body, supporting the front of the imaginary rifle.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.16204,
         "Left Shoulder Front-Back": -0.54277,
@@ -96,7 +96,7 @@
         "raw_value": 0.03432,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow with the hand drawn back near the chest, holding the rear of the imaginary rifle.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.36338,
         "Right Shoulder Front-Back": 0.60221,
@@ -117,7 +117,7 @@
         "raw_value": 0.0697,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands relatively straight as the pivot point, with the foot planted firmly on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.52853,
         "Left Upper Leg In-Out": 0.36552,
@@ -137,7 +137,7 @@
         "raw_value": 0.09136,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Shifts slightly backward and adjusts its angle to facilitate the rotation of the hips and torso.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.6089,
         "Right Upper Leg In-Out": 0.14069,
@@ -157,7 +157,7 @@
         "raw_value": 0.01516,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, open grip shape extended forward at shoulder height.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.88584,
         "Left Thumb Spread": -0.24759,
@@ -189,7 +189,7 @@
         "raw_value": 0.01823,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static, curled grip shape pulled back towards the shoulder.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.5678,
         "Right Thumb Spread": -0.84373,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:31:46Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

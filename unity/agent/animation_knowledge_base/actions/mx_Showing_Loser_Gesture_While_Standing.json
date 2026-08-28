@@ -14,7 +14,7 @@
   "duration": 3.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands and performs a \"loser\" gesture by extending the right arm outward with an open palm while placing the left hand on its chest.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08952,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright, leaning slightly forward to emphasize the gesture.",
       "mean_pose": {
         "Spine Front-Back": -0.16575,
         "Spine Left-Right": 0.0036,
@@ -57,7 +57,7 @@
         "raw_value": 0.27951,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down slightly, facing forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01845,
         "Neck Tilt Left-Right": 0.01393,
@@ -75,7 +75,7 @@
         "raw_value": 0.30956,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, bringing the hand up toward the upper chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.39494,
         "Left Shoulder Front-Back": -0.73205,
@@ -96,7 +96,7 @@
         "raw_value": 0.36898,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends out to the side, reaching away from the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.42754,
         "Right Shoulder Front-Back": -0.0843,
@@ -117,7 +117,7 @@
         "raw_value": 0.1756,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays planted in a stable standing position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.08283,
         "Left Upper Leg In-Out": 0.07212,
@@ -137,7 +137,7 @@
         "raw_value": 0.20364,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains straight and grounded.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.25671,
         "Right Upper Leg In-Out": -0.09856,
@@ -157,7 +157,7 @@
         "raw_value": 0.31394,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand rests flat against the chest area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.8565,
         "Left Thumb Spread": 0.21451,
@@ -189,7 +189,7 @@
         "raw_value": 0.42909,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held open with fingers spread as it reaches outwards.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.13841,
         "Right Thumb Spread": -0.42979,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

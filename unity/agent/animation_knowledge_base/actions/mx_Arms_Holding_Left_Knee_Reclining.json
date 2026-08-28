@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static reclining pose, leaning back on the right leg while hugging the raised left knee.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward in a fixed reclined posture.",
       "mean_pose": {
         "Spine Front-Back": -0.99198,
         "Spine Left-Right": -0.13993,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains upright and still, facing forward over the raised knee.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.34476,
         "Neck Tilt Left-Right": 0.00803,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent position with the hand resting on the front of the raised left knee.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.28756,
         "Left Shoulder Front-Back": -2.27046,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent with the hand positioned near the left shin to support the leg.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.05655,
         "Right Shoulder Front-Back": -0.09591,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent position with the knee raised high toward the chest.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.82342,
         "Left Upper Leg In-Out": -0.05449,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends downward to support the body's weight on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.14544,
         "Right Upper Leg In-Out": 0.10804,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips the front of the raised left knee.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.75685,
         "Left Thumb Spread": -0.28704,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Rests against the lower part of the left leg.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.71656,
         "Right Thumb Spread": 0.00835,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:07:46Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

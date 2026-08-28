@@ -14,7 +14,7 @@
   "duration": 2.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a two-hit axe attack, stepping forward to swing the right arm in a wide arc before recovering into a crouched stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.30062,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and rotates clockwise with each swing, shifting its weight onto the left leg before returning to a neutral, upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.30414,
         "Spine Left-Right": 0.04587,
@@ -57,7 +57,7 @@
         "raw_value": 0.31825,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tracks the weapon's movement, turning sharply to the left during the first strike and then back to the right as the body recovers.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00374,
         "Neck Tilt Left-Right": -0.0519,
@@ -75,7 +75,7 @@
         "raw_value": 0.50657,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward to the side for balance during the initial swing, then pulls back toward the chest as the attack concludes.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.12821,
         "Left Shoulder Front-Back": -0.69012,
@@ -96,7 +96,7 @@
         "raw_value": 0.50676,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm executes a large, sweeping overhead motion, swinging from the upper right down across the body to the lower left.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.57844,
         "Right Shoulder Front-Back": -0.35731,
@@ -117,7 +117,7 @@
         "raw_value": 0.21084,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward to anchor the first strike, then bends deeply at the knee to settle into a low lunge.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.11784,
         "Left Upper Leg In-Out": 0.42906,
@@ -137,7 +137,7 @@
         "raw_value": 0.21817,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off the ground to initiate the step, extending behind the body before bending to support the final crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.03534,
         "Right Upper Leg In-Out": 0.41568,
@@ -157,7 +157,7 @@
         "raw_value": 0.50257,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, moving slightly outward to counterbalance the heavy swings of the right arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.12472,
         "Left Thumb Spread": -0.3093,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static, tight fist shape throughout the entire sequence.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.33667,
         "Right Thumb Spread": -0.67535,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:51:32Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

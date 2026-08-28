@@ -14,7 +14,7 @@
   "duration": 2.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a sharp 180-degree turn while running, pivoting on one foot to reverse direction.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07894,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into the turn and rotates fully around its vertical axis to face the opposite way.",
       "mean_pose": {
         "Spine Front-Back": -0.34006,
         "Spine Left-Right": 0.05173,
@@ -57,7 +57,7 @@
         "raw_value": 0.22209,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns with the body during the pivot and stays oriented in the new direction of travel.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.11133,
         "Neck Tilt Left-Right": 0.08498,
@@ -75,7 +75,7 @@
         "raw_value": 0.23759,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings across the front of the body during the rotation and then pumps backward as the run resumes.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.43127,
         "Left Shoulder Front-Back": -0.38559,
@@ -96,7 +96,7 @@
         "raw_value": 0.16561,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps back through the turn and swings forward to lead the stride in the new direction.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.61007,
         "Right Shoulder Front-Back": -0.7673,
@@ -117,7 +117,7 @@
         "raw_value": 0.30815,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Acts as the pivot leg, staying planted on the ground while the body turns around it.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.23336,
         "Left Upper Leg In-Out": 0.05452,
@@ -137,7 +137,7 @@
         "raw_value": 0.26634,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts and swings around the pivot point to set up the first stride in the reversed direction.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.06872,
         "Right Upper Leg In-Out": 0.12737,
@@ -157,7 +157,7 @@
         "raw_value": 0.26658,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curls inward toward the chest during the turn and extends outward for balance.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.51621,
         "Left Thumb Spread": -0.04228,
@@ -189,7 +189,7 @@
         "raw_value": 0.34911,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches forward and down during the pivot before snapping back into a running position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.49466,
         "Right Thumb Spread": -0.14268,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:58Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

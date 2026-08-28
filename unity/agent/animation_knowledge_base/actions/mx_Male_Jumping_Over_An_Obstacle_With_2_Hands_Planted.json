@@ -14,7 +14,7 @@
   "duration": 1.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, forward vaulting jump over an obstacle, supporting the body with both hands before pushing off to land on one foot.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.19204,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply forward and drops low during the mid-air phase of the jump, then rotates upward to return to an upright posture upon landing.",
       "mean_pose": {
         "Spine Front-Back": -0.16496,
         "Spine Left-Right": 0.02832,
@@ -57,7 +57,7 @@
         "raw_value": 0.16741,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward to look at the ground during the hand-plant and lifts up as the body rises out of the jump.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.16924,
         "Neck Tilt Left-Right": 0.10965,
@@ -75,7 +75,7 @@
         "raw_value": 0.42248,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends down and forward toward the floor in a planting position, then bends at the elbow to push the upper body back up.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.13022,
         "Left Shoulder Front-Back": -0.58839,
@@ -96,7 +96,7 @@
         "raw_value": 0.44959,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, extending down and forward to plant on the ground before bending to assist in the upward push-off.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.08137,
         "Right Shoulder Front-Back": -0.57307,
@@ -117,7 +117,7 @@
         "raw_value": 0.24332,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg tucks tightly under the body while airborne, then swings forward and down to become the primary support leg for the landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.16051,
         "Left Upper Leg In-Out": 0.07981,
@@ -137,7 +137,7 @@
         "raw_value": 0.29176,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind the body in the air and follows through by swinging forward after the initial landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.2308,
         "Right Upper Leg In-Out": -0.1081,
@@ -157,7 +157,7 @@
         "raw_value": 0.4389,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches down with fingers spread to make contact with the floor, providing support during the vault.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.22984,
         "Left Thumb Spread": 0.50351,
@@ -189,7 +189,7 @@
         "raw_value": 0.49492,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches down alongside the left to plant on the floor, helping to bear the weight of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.05623,
         "Right Thumb Spread": -0.28281,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:10Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

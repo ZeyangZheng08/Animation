@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure pivots on the spot, turning its body and head to face left while holding a rifle stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15293,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates approximately 90 degrees from facing forward to facing left, leaning slightly into the turn.",
       "mean_pose": {
         "Spine Front-Back": -0.13173,
         "Spine Left-Right": 0.00794,
@@ -57,7 +57,7 @@
         "raw_value": 0.10396,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to follow the torso's rotation, maintaining a forward gaze relative to the body throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07322,
         "Neck Tilt Left-Right": -0.02785,
@@ -75,7 +75,7 @@
         "raw_value": 0.02584,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm stays extended forward at chest height, acting as the front hand of the rifle grip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.33004,
         "Left Shoulder Front-Back": -1.5685,
@@ -96,7 +96,7 @@
         "raw_value": 0.01731,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent with the elbow tucked in, holding the rear position for the weapon.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.01991,
         "Right Shoulder Front-Back": -1.29394,
@@ -117,7 +117,7 @@
         "raw_value": 0.10378,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to shift weight and assist in the pivot.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.09859,
         "Left Upper Leg In-Out": 0.17457,
@@ -137,7 +137,7 @@
         "raw_value": 0.1186,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg moves through a slight step or adjustment to stabilize the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.23083,
         "Right Upper Leg In-Out": 0.17192,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a steady, open grip shape in front of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.73517,
         "Left Thumb Spread": -0.39517,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a fixed, clenched pose near the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.83767,
         "Right Thumb Spread": -0.32191,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

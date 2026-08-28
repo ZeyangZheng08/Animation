@@ -14,7 +14,7 @@
   "duration": 1.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a capoeira escape by ducking into a deep crouch and stepping to the side before rising back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1299,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bends forward and down from an upright stance into a deep squat, then rises back up to a standing position.",
       "mean_pose": {
         "Spine Front-Back": -0.11908,
         "Spine Left-Right": 0.05976,
@@ -57,7 +57,7 @@
         "raw_value": 0.21633,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward as the body crouches and lifts back up to face forward at the end of the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0132,
         "Neck Tilt Left-Right": -0.0179,
@@ -75,7 +75,7 @@
         "raw_value": 0.31169,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent in front of the chest, drops down to the side during the crouch, and extends out to the side while rising.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.85859,
         "Left Shoulder Front-Back": -0.36778,
@@ -96,7 +96,7 @@
         "raw_value": 0.35737,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm begins extended to the side, moves down and slightly back during the descent, and swings outward for balance on the way up.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.38469,
         "Right Shoulder Front-Back": -0.46184,
@@ -117,7 +117,7 @@
         "raw_value": 0.25412,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply to lower the body into a crouch and then straightens to return to a standing posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.13437,
         "Left Upper Leg In-Out": 0.43355,
@@ -137,7 +137,7 @@
         "raw_value": 0.25209,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps out to the side while bending to support the low stance, then straightens as the figure stands up.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.473,
         "Right Upper Leg In-Out": 0.16528,
@@ -157,7 +157,7 @@
         "raw_value": 0.25836,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a raised guard position down toward the hip and then extends outward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.89649,
         "Left Thumb Spread": -0.23548,
@@ -189,7 +189,7 @@
         "raw_value": 0.21423,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from an extended position down near the thigh and then reaches out to the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.74032,
         "Right Thumb Spread": -0.07075,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:52Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

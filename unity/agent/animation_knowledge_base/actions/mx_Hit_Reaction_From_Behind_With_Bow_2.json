@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure recoils from a hit to the back, stumbling forward and bowing deeply before recovering.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0962,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans sharply forward and down into a deep bow, then rises back up to an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.49572,
         "Spine Left-Right": -0.11348,
@@ -57,7 +57,7 @@
         "raw_value": 0.30877,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and forward with the torso's descent, then lifts as the body straightens.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.28406,
         "Neck Tilt Left-Right": -0.24297,
@@ -75,7 +75,7 @@
         "raw_value": 0.17309,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings outward and backward for balance during the stumble, then drops down toward the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.55388,
         "Left Shoulder Front-Back": -0.19195,
@@ -96,7 +96,7 @@
         "raw_value": 0.21317,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves forward and downward across the body, ending in a relaxed position at the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.99612,
         "Right Shoulder Front-Back": -0.68371,
@@ -117,7 +117,7 @@
         "raw_value": 0.17418,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply to absorb the forward momentum of the fall, then extends to stand tall.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.07786,
         "Left Upper Leg In-Out": 0.32714,
@@ -137,7 +137,7 @@
         "raw_value": 0.20903,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward to catch the weight, bending at the knee to stabilize the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.0224,
         "Right Upper Leg In-Out": 0.28528,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, open-palmed pose at the side of the body throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.21578,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches into a fist near the chest and releases it as the arm lowers.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42341,
         "Right Thumb Spread": -0.53312,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

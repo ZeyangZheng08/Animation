@@ -14,7 +14,7 @@
   "duration": 18.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a salsa dance variation, stepping forward and turning while swinging the arms in coordination.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08989,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward at the start, rotates to the right during the turn, and then faces forward again.",
       "mean_pose": {
         "Spine Front-Back": -0.17447,
         "Spine Left-Right": -0.00137,
@@ -57,7 +57,7 @@
         "raw_value": 0.21602,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the rotation of the body, turning to the right and then returning to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11728,
         "Neck Tilt Left-Right": -0.02623,
@@ -75,7 +75,7 @@
         "raw_value": 0.32046,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends out to the side initially, swings across the body during the turn, and returns to a relaxed position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.54476,
         "Left Shoulder Front-Back": -0.42643,
@@ -96,7 +96,7 @@
         "raw_value": 0.32949,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm starts bent near the hip, extends outward during the turn, and moves back toward the center.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.59443,
         "Right Shoulder Front-Back": -0.20123,
@@ -117,7 +117,7 @@
         "raw_value": 0.19593,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward, plants to support the turn, and then steps forward again.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.20131,
         "Left Upper Leg In-Out": -0.0325,
@@ -137,7 +137,7 @@
         "raw_value": 0.18136,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind, lifts and crosses over during the turn, and then steps forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.2555,
         "Right Upper Leg In-Out": 0.03043,
@@ -157,7 +157,7 @@
         "raw_value": 0.27631,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and extended outward, then sweeps across the front of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.11322,
         "Left Thumb Spread": 0.27092,
@@ -189,7 +189,7 @@
         "raw_value": 0.08399,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held near the waist, extends out to the side, and then brings back toward the center.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.51844,
         "Right Thumb Spread": -0.02465,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

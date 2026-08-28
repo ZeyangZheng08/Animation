@@ -14,7 +14,7 @@
   "duration": 2.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a rhythmic jumping motion, bouncing up and down in place while swinging the arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05207,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bobs vertically with each jump, rising during the ascent and compressing slightly upon landing.",
       "mean_pose": {
         "Spine Front-Back": -0.17753,
         "Spine Left-Right": 0.04275,
@@ -57,7 +57,7 @@
         "raw_value": 0.20352,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains upright and relatively stable, moving vertically in sync with the torso's bounce.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.1633,
         "Neck Tilt Left-Right": 0.01031,
@@ -75,7 +75,7 @@
         "raw_value": 0.37087,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings rhythmically from an extended position out to the side down towards the front of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.35378,
         "Left Shoulder Front-Back": -1.00225,
@@ -96,7 +96,7 @@
         "raw_value": 0.35334,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging from an extended position out to the side down towards the front of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.42245,
         "Right Shoulder Front-Back": -0.94025,
@@ -117,7 +117,7 @@
         "raw_value": 0.25318,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to absorb the impact of the landing before extending to push off for the next jump.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.16105,
         "Left Upper Leg In-Out": 0.25176,
@@ -137,7 +137,7 @@
         "raw_value": 0.25809,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee to absorb the impact of the landing before extending to push off for the next jump.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.03283,
         "Right Upper Leg In-Out": 0.06394,
@@ -157,7 +157,7 @@
         "raw_value": 0.19316,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves along with the arm's swing, remaining open and relaxed.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.40802,
         "Left Thumb Spread": -0.0987,
@@ -189,7 +189,7 @@
         "raw_value": 0.23542,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves along with the arm's swing, remaining open and relaxed.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.24852,
         "Right Thumb Spread": -0.10647,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:03Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

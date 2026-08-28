@@ -14,7 +14,7 @@
   "duration": 5.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure swings their legs out from a seated position to stand up and takes a step forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11787,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rises from a deep crouch, leaning slightly forward as it extends upward into an upright walking stance.",
       "mean_pose": {
         "Spine Front-Back": -0.42613,
         "Spine Left-Right": 0.02079,
@@ -57,7 +57,7 @@
         "raw_value": 0.26866,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down toward the floor in the initial crouch and then lifts to face forward as the body stands.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.10437,
         "Neck Tilt Left-Right": 0.00681,
@@ -75,7 +75,7 @@
         "raw_value": 0.24514,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent with the hand near the chest and swings backward as the torso rises.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.6441,
         "Left Shoulder Front-Back": -0.55526,
@@ -96,7 +96,7 @@
         "raw_value": 0.20761,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm begins extended outward for balance and lowers to the side of the body during the standing motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.82036,
         "Right Shoulder Front-Back": -0.30962,
@@ -117,7 +117,7 @@
         "raw_value": 0.24124,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg swings forward from a bent position to plant on the ground, acting as the lead leg.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.00906,
         "Left Upper Leg In-Out": 0.19722,
@@ -137,7 +137,7 @@
         "raw_value": 0.25113,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off from a bent starting position and trails behind as the figure steps forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.09404,
         "Right Upper Leg In-Out": 0.01728,
@@ -157,7 +157,7 @@
         "raw_value": 0.42277,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, moving slightly away from the body as the arm swings back.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.54976,
         "Left Thumb Spread": -0.21688,
@@ -189,7 +189,7 @@
         "raw_value": 0.35569,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open and held low, swinging naturally with the arm as the figure stands.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.37522,
         "Right Thumb Spread": -0.22166,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

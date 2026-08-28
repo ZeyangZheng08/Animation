@@ -14,7 +14,7 @@
   "duration": 3.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a golf putt, bending forward from the waist and swinging their arms back and forth.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11153,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward at the hips into a bent-over posture and sways slightly side-to-side with the arm swing.",
       "mean_pose": {
         "Spine Front-Back": -0.59905,
         "Spine Left-Right": 0.22245,
@@ -57,7 +57,7 @@
         "raw_value": 0.11555,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward to look at the ground while remaining relatively stable above the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.145,
         "Neck Tilt Left-Right": 0.063,
@@ -75,7 +75,7 @@
         "raw_value": 0.1253,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs down in front of the body and swings horizontally back and forth as part of the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.31147,
         "Left Shoulder Front-Back": -1.473,
@@ -96,7 +96,7 @@
         "raw_value": 0.10717,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward and moves in a horizontal arc across the body's midline during the swing.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.37328,
         "Right Shoulder Front-Back": -0.93045,
@@ -117,7 +117,7 @@
         "raw_value": 0.07688,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands planted on the floor with a slight bend at the knee to support the forward-leaning weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.10375,
         "Left Upper Leg In-Out": -0.14019,
@@ -137,7 +137,7 @@
         "raw_value": 0.08376,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains grounded with a slight knee bend, acting as a stable base for the upper body movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.07438,
         "Right Upper Leg In-Out": 0.24609,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open position near the knees throughout the sequence.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.77669,
         "Left Thumb Spread": -0.58174,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains an open, relaxed pose near the left hand while moving through the swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.92386,
         "Right Thumb Spread": -0.5188,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

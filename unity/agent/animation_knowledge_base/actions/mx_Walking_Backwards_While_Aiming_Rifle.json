@@ -14,7 +14,7 @@
   "duration": 1.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks backwards while holding a rifle in a steady aiming position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05582,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward to counterbalance the backward movement, maintaining an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.17903,
         "Spine Left-Right": -0.08355,
@@ -57,7 +57,7 @@
         "raw_value": 0.01427,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains fixed facing forward, looking down the sights of the weapon.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04031,
         "Neck Tilt Left-Right": -0.00012,
@@ -75,7 +75,7 @@
         "raw_value": 0.03848,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds the front of the rifle steady, extending forward with minor adjustments for stability.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.01373,
         "Left Shoulder Front-Back": -0.36333,
@@ -96,7 +96,7 @@
         "raw_value": 0.02608,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Keeps the elbow bent, holding the stock of the rifle against the shoulder to aim.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.45586,
         "Right Shoulder Front-Back": 0.49566,
@@ -117,7 +117,7 @@
         "raw_value": 0.20604,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps backward alternately with the right leg, driving the retreat.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.46463,
         "Left Upper Leg In-Out": 0.03355,
@@ -137,7 +137,7 @@
         "raw_value": 0.20819,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives the body backward by stepping back and pushing off the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.44669,
         "Right Upper Leg In-Out": 0.01743,
@@ -157,7 +157,7 @@
         "raw_value": 0.02651,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips the fore-end of the rifle firmly, moving it in tandem with the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.99458,
         "Left Thumb Spread": -0.18623,
@@ -189,7 +189,7 @@
         "raw_value": 0.00691,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static grip on the trigger area, keeping the weapon aligned.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.62713,
         "Right Thumb Spread": -0.86563,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:51:44Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

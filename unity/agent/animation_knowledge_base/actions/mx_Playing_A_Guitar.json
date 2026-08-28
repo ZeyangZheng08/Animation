@@ -14,7 +14,7 @@
   "duration": 4.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a wide stance and rhythmically bobs its body up and down while moving its arms as if playing an invisible guitar.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.00521,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains static, maintaining a straight, upright posture throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.13688,
         "Spine Left-Right": 0.00207,
@@ -57,7 +57,7 @@
         "raw_value": 0.1089,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward and sways gently from side to side, following the rhythm of the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.42846,
         "Neck Tilt Left-Right": -0.13348,
@@ -75,7 +75,7 @@
         "raw_value": 0.07621,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm stays bent at the elbow with the forearm held horizontally across the lower chest, mimicking the position of holding a guitar neck.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.50489,
         "Left Shoulder Front-Back": -2.18318,
@@ -96,7 +96,7 @@
         "raw_value": 0.16128,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow with the hand positioned near the waist, making small, rhythmic strumming motions.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.18133,
         "Right Shoulder Front-Back": -0.66349,
@@ -117,7 +117,7 @@
         "raw_value": 0.02635,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground, acting as a stable support pillar for the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.16294,
         "Left Upper Leg In-Out": 0.24541,
@@ -137,7 +137,7 @@
         "raw_value": 0.03351,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays firmly planted on the floor, completing a wide, stable standing base.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.5003,
         "Right Upper Leg In-Out": 0.1565,
@@ -157,7 +157,7 @@
         "raw_value": 0.16162,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held relatively still in a gripping shape, simulating fingers pressing down on strings.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.97592,
         "Left Thumb Spread": 0.04716,
@@ -189,7 +189,7 @@
         "raw_value": 0.08173,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves slightly up and down in a continuous strumming motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.84671,
         "Right Thumb Spread": -0.73075,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

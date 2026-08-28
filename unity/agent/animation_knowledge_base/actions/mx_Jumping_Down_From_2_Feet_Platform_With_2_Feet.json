@@ -14,7 +14,7 @@
   "duration": 3.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure descends from the air, bends its knees to absorb the impact of landing on both feet, and then straightens back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06369,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers as the legs bend for the landing, tilting slightly forward, and then rises back to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.06227,
         "Spine Left-Right": 0.01253,
@@ -57,7 +57,7 @@
         "raw_value": 0.09805,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains level, facing forward with a slight downward tilt throughout the descent and recovery.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04872,
         "Neck Tilt Left-Right": -0.01026,
@@ -75,7 +75,7 @@
         "raw_value": 0.14122,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs at the side with a slight bend in the elbow, moving subtly with the body's vertical motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.7058,
         "Left Shoulder Front-Back": 0.14681,
@@ -96,7 +96,7 @@
         "raw_value": 0.12015,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, hanging at the side with a slight bend, swaying gently as the body moves.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.68829,
         "Right Shoulder Front-Back": -0.51597,
@@ -117,7 +117,7 @@
         "raw_value": 0.19319,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends during the fall, bends sharply at the knee upon impact, and then straightens again.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.30509,
         "Left Upper Leg In-Out": 0.05021,
@@ -137,7 +137,7 @@
         "raw_value": 0.21655,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the same pattern as the left, extending, bending deeply to cushion the landing, and extending back out.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.25426,
         "Right Upper Leg In-Out": 0.07554,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open and relaxed at the side of the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.41929,
         "Left Thumb Spread": 0.09451,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held open and relaxed at the side of the thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.4872,
         "Right Thumb Spread": 0.13779,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:03Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

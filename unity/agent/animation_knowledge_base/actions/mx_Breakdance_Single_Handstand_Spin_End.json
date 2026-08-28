@@ -14,7 +14,7 @@
   "duration": 2.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a single handstand spin, rotating on one arm before dropping down and recovering to a standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08944,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Inverted and rigid during the initial handstand, the torso rotates with the body's spin, then drops forward into a deep crouch as the legs land, finally rising upright.",
       "mean_pose": {
         "Spine Front-Back": -0.41756,
         "Spine Left-Right": -0.12794,
@@ -57,7 +57,7 @@
         "raw_value": 0.17639,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tucked beneath the shoulders while inverted, the head swings freely during the rotation and tilts forward in the low crouch before lifting up to face front.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.13354,
         "Neck Tilt Left-Right": -0.02989,
@@ -75,7 +75,7 @@
         "raw_value": 0.30776,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Planted straight on the floor to support the entire body weight during the handstand, the left arm extends outward for balance as the figure drops and then bends at the elbow to swing back toward the center.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.52287,
         "Left Shoulder Front-Back": 0.01644,
@@ -96,7 +96,7 @@
         "raw_value": 0.41321,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Held bent and tucked near the chest during the handstand, the right arm flares out to the side during the drop and then draws inward to meet the other hand at the waist.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.105,
         "Right Shoulder Front-Back": -0.37441,
@@ -117,7 +117,7 @@
         "raw_value": 0.28635,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extended high in the air during the handstand, the left leg kicks down to strike the ground first upon landing, bending at the knee to absorb the impact.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.20867,
         "Left Upper Leg In-Out": 0.17804,
@@ -137,7 +137,7 @@
         "raw_value": 0.33572,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bent and held off the ground during the handstand, the right leg follows the left down to the floor and bends deeply in the crouch before extending to stand.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.11727,
         "Right Upper Leg In-Out": 0.22293,
@@ -157,7 +157,7 @@
         "raw_value": 0.22788,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Pressed flat against the floor to anchor the spin, the left hand releases its grip on landing and lifts away from the ground as the body rises.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.12103,
         "Left Thumb Spread": 0.53088,
@@ -189,7 +189,7 @@
         "raw_value": 0.33127,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Curled loosely in the air near the chest during the handstand, the right hand opens and sweeps outward during the drop before curling back in to clasp the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.9998,
         "Right Thumb Spread": 0.60221,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 4.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a rhythmic chicken dance, hopping on one foot while kicking the other and moving their arms in a flapping motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09205,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bobs up and down with the hops, leaning forward during the kicks and returning to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.35645,
         "Spine Left-Right": 0.08901,
@@ -57,7 +57,7 @@
         "raw_value": 0.12587,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward and follows the vertical rhythm of the body's bouncing.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.14535,
         "Neck Tilt Left-Right": -0.00742,
@@ -75,7 +75,7 @@
         "raw_value": 0.29847,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a raised position near the shoulder down towards the hip in a pumping motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.0002,
         "Left Shoulder Front-Back": -0.56741,
@@ -96,7 +96,7 @@
         "raw_value": 0.29174,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging from a high position down towards the waist to mimic wing flapping.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.23593,
         "Right Shoulder Front-Back": -0.44846,
@@ -117,7 +117,7 @@
         "raw_value": 0.15994,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between supporting the body's weight and lifting up to kick outwards.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.14063,
         "Left Upper Leg In-Out": 0.22071,
@@ -137,7 +137,7 @@
         "raw_value": 0.16823,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates between being the support and kicking out, opposite to the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.21413,
         "Right Upper Leg In-Out": 0.179,
@@ -157,7 +157,7 @@
         "raw_value": 0.60034,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers spread as it moves along with the arm's swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.25981,
         "Left Thumb Spread": -0.88683,
@@ -189,7 +189,7 @@
         "raw_value": 0.61422,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed, following the path of the right arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.87908,
         "Right Thumb Spread": -0.71693,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

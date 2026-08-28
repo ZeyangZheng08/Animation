@@ -14,7 +14,7 @@
   "duration": 5.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits and performs a slow, unenthusiastic clap with both hands in front of the chest.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01692,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stationary in a seated position throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.25679,
         "Spine Left-Right": -0.03915,
@@ -57,7 +57,7 @@
         "raw_value": 0.09346,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is held relatively still, facing forward with only minimal movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.05411,
         "Neck Tilt Left-Right": -0.01459,
@@ -75,7 +75,7 @@
         "raw_value": 0.18528,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends from the shoulder to hold the hand up in front of the body, ready to clap.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.27568,
         "Left Shoulder Front-Back": -0.95887,
@@ -96,7 +96,7 @@
         "raw_value": 0.21928,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, extending forward to meet the other hand for the clap.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.5733,
         "Right Shoulder Front-Back": 0.15995,
@@ -117,7 +117,7 @@
         "raw_value": 0.00548,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee, supporting the seated posture on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.62298,
         "Left Upper Leg In-Out": 0.24029,
@@ -137,7 +137,7 @@
         "raw_value": 0.00502,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent at the knee, holding the static seated pose alongside the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.62955,
         "Right Upper Leg In-Out": 0.16675,
@@ -157,7 +157,7 @@
         "raw_value": 0.3486,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens its fingers and moves slightly to strike against the right hand in a low-energy clap.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.99024,
         "Left Thumb Spread": 0.46574,
@@ -189,7 +189,7 @@
         "raw_value": 0.34747,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand opens its fingers and meets the left hand to complete the unenthusiastic clap.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.93147,
         "Right Thumb Spread": 0.69585,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

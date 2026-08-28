@@ -14,7 +14,7 @@
   "duration": 7.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a shuffling dance, sliding one foot forward while the other trails behind before returning to a neutral stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05119,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright with a slight lean and sway that follows the lateral movement of the legs.",
       "mean_pose": {
         "Spine Front-Back": -0.09411,
         "Spine Left-Right": -0.0509,
@@ -57,7 +57,7 @@
         "raw_value": 0.13039,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward throughout the motion.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04518,
         "Neck Tilt Left-Right": -0.05439,
@@ -75,7 +75,7 @@
         "raw_value": 0.42934,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely at the side, swinging slightly backward in opposition to the leg movements.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.48718,
         "Left Shoulder Front-Back": -1.05368,
@@ -96,7 +96,7 @@
         "raw_value": 0.457,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs at the side, mirroring the subtle swing of the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.52843,
         "Right Shoulder Front-Back": -1.19763,
@@ -117,7 +117,7 @@
         "raw_value": 0.20156,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg slides forward across the floor, extending to lead the shuffle.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.06581,
         "Left Upper Leg In-Out": 0.08808,
@@ -137,7 +137,7 @@
         "raw_value": 0.21356,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind with a bent knee, dragging its foot during the slide.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.02408,
         "Right Upper Leg In-Out": 0.26888,
@@ -157,7 +157,7 @@
         "raw_value": 0.44845,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the end of the swinging arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.05629,
         "Left Thumb Spread": -0.5458,
@@ -189,7 +189,7 @@
         "raw_value": 0.47049,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open and relaxed, moving naturally with the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.94784,
         "Right Thumb Spread": -0.54366,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

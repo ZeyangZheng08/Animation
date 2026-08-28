@@ -14,7 +14,7 @@
   "duration": 1.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is struck in the head, causing them to stagger backward and hunch over before recovering.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13754,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply forward and down, then rotates slightly to the figure's left as it staggers back, before straightening up at the end.",
       "mean_pose": {
         "Spine Front-Back": -0.23965,
         "Spine Left-Right": 0.0436,
@@ -57,7 +57,7 @@
         "raw_value": 0.269,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head snaps downward and tucks into the chest, holding a bowed position for the majority of the clip before lifting slightly at the end.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07634,
         "Neck Tilt Left-Right": 0.08666,
@@ -75,7 +75,7 @@
         "raw_value": 0.22581,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm remains bent with the hand held near the chest, moving slightly outward as the body recoils from the hit.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.06568,
         "Left Shoulder Front-Back": -0.18035,
@@ -96,7 +96,7 @@
         "raw_value": 0.25821,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings out to the side and back during the initial impact, then pulls back in front of the chest as the figure recovers.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.63053,
         "Right Shoulder Front-Back": -1.06087,
@@ -117,7 +117,7 @@
         "raw_value": 0.12101,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to absorb the shock of the hit, stepping back slightly before straightening out.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.30569,
         "Left Upper Leg In-Out": 0.17626,
@@ -137,7 +137,7 @@
         "raw_value": 0.10744,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg acts as a pivot point, bending and adjusting its stance to maintain balance while the figure staggers.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.10719,
         "Right Upper Leg In-Out": 0.49658,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a loose fist near the chest throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a loose fist, swinging outwards and then returning to the front of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:45:07Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

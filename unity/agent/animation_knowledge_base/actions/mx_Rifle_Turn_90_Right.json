@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure pivots on its feet to turn ninety degrees to the right while holding an imaginary rifle in a two-handed grip.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16672,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rotates smoothly from facing forward to facing right, keeping an upright posture throughout the turn.",
       "mean_pose": {
         "Spine Front-Back": -0.13711,
         "Spine Left-Right": 0.00284,
@@ -57,7 +57,7 @@
         "raw_value": 0.13219,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns in sync with the torso, looking straight ahead relative to the body's orientation as it rotates.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05534,
         "Neck Tilt Left-Right": 0.01015,
@@ -75,7 +75,7 @@
         "raw_value": 0.02659,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds the front of the imaginary rifle steady at waist height, extending slightly outward as the body turns.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.33062,
         "Left Shoulder Front-Back": -1.5685,
@@ -96,7 +96,7 @@
         "raw_value": 0.01774,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent and stationary relative to the body, gripping the back of the weapon near the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.02001,
         "Right Shoulder Front-Back": -1.29889,
@@ -117,7 +117,7 @@
         "raw_value": 0.08768,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground, bending slightly at the knee to support the pivot.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.1433,
         "Left Upper Leg In-Out": 0.17343,
@@ -137,7 +137,7 @@
         "raw_value": 0.15294,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Acts as the pivot point, remaining relatively straight and grounded during the rotation.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.23967,
         "Right Upper Leg In-Out": 0.21589,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, open-palm pose extended forward to support the front of the weapon.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.73517,
         "Left Thumb Spread": -0.39517,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static, closed-fist pose at the side of the body to grip the rear of the weapon.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.83767,
         "Right Thumb Spread": -0.32191,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:48Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

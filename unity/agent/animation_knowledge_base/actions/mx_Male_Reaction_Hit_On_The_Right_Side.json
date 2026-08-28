@@ -14,7 +14,7 @@
   "duration": 1.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure reacts to a hit on the right side by flinching back, raising their left hand in defense, and stumbling forward while clutching their injured side.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15194,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply backward initially, then twists and bends forward toward the right side as the figure stumbles.",
       "mean_pose": {
         "Spine Front-Back": -0.14853,
         "Spine Left-Right": -0.01114,
@@ -57,7 +57,7 @@
         "raw_value": 0.18671,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head snaps back away from the impact and then tilts down and to the right, following the momentum of the body's stumble.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.26387,
         "Neck Tilt Left-Right": -0.15495,
@@ -75,7 +75,7 @@
         "raw_value": 0.15894,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm raises quickly with an open palm facing outward to block or brace against the blow, then drops slightly as the body recoils.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.28367,
         "Left Shoulder Front-Back": 0.26487,
@@ -96,7 +96,7 @@
         "raw_value": 0.14949,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm pulls tightly across the chest to cover the impacted shoulder area, remaining close to the body throughout the reaction.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.08581,
         "Right Shoulder Front-Back": 0.89647,
@@ -117,7 +117,7 @@
         "raw_value": 0.19837,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to absorb the shock of the impact and shifts forward to catch the falling weight of the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.04547,
         "Left Upper Leg In-Out": 0.36353,
@@ -137,7 +137,7 @@
         "raw_value": 0.1002,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg acts as the pivot point, stepping forward and bending deeply to support the staggering motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.09211,
         "Right Upper Leg In-Out": 0.28897,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a rigid, open-palm pose with fingers extended straight out.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.54295,
         "Left Thumb Spread": 0.58152,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a loose, relaxed position pressed firmly against the upper chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.85377,
         "Right Thumb Spread": 0.50617,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

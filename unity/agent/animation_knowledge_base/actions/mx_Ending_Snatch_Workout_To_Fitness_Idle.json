@@ -14,7 +14,7 @@
   "duration": 1.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a low crouch to stand upright, turning its body slightly as it straightens.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11913,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a deep squat at the start, then rotates and extends upward into an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.41604,
         "Spine Left-Right": 0.027,
@@ -57,7 +57,7 @@
         "raw_value": 0.15672,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the floor during the crouch, then lifts and turns to face forward as the body stands up.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.56359,
         "Neck Tilt Left-Right": 0.05816,
@@ -75,7 +75,7 @@
         "raw_value": 0.14956,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs low with the hand near the ground while crouching, then swings slightly back and relaxes at the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.79905,
         "Left Shoulder Front-Back": -0.87051,
@@ -96,7 +96,7 @@
         "raw_value": 0.18506,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Dangles by the thigh in the initial squat, then moves backward and settles into a neutral position at the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.23282,
         "Right Shoulder Front-Back": -0.74372,
@@ -117,7 +117,7 @@
         "raw_value": 0.2636,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Starts bent in a deep squat, then straightens fully to support the standing posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.30106,
         "Left Upper Leg In-Out": 0.21144,
@@ -137,7 +137,7 @@
         "raw_value": 0.2701,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Begins in a crouched position with the knee bent, then extends to a straight leg as the figure rises.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.25791,
         "Right Upper Leg In-Out": 0.13408,
@@ -157,7 +157,7 @@
         "raw_value": 0.31084,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches down close to the floor in the crouch, then drops naturally to the side of the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.81156,
         "Left Thumb Spread": -0.56086,
@@ -189,7 +189,7 @@
         "raw_value": 0.29258,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hovers near the right foot while squatting, then falls away from the leg to rest at the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.95243,
         "Right Thumb Spread": -0.54507,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

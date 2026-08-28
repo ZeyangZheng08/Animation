@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin executes a sword and shield hilt melee attack, swinging its right arm in a wide arc from a high guard position down to the side while shifting its weight into a lunge.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0561,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates dynamically with the swing, twisting to the left as the right arm extends outward and leaning forward during the strike.",
       "mean_pose": {
         "Spine Front-Back": -0.19491,
         "Spine Left-Right": -0.06637,
@@ -57,7 +57,7 @@
         "raw_value": 0.1816,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the motion of the torso, turning to look toward the direction of the strike before returning to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.05866,
         "Neck Tilt Left-Right": -0.01211,
@@ -75,7 +75,7 @@
         "raw_value": 0.21643,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm remains bent at the elbow, held close to the chest and abdomen in a protective or balancing posture throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.35022,
         "Left Shoulder Front-Back": -0.52554,
@@ -96,7 +96,7 @@
         "raw_value": 0.45872,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm drives the action, starting raised near the shoulder, swinging forcefully downward and outward to the right, and finishing extended past the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.0006,
         "Right Shoulder Front-Back": 0.04665,
@@ -117,7 +117,7 @@
         "raw_value": 0.12999,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg acts as the primary support, bending at the knee to absorb the impact of the shift and maintaining a stable base.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.21224,
         "Left Upper Leg In-Out": 0.53813,
@@ -137,7 +137,7 @@
         "raw_value": 0.18447,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps forward and bends slightly, providing the forward momentum for the lunge associated with the attack.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.35141,
         "Right Upper Leg In-Out": 0.4728,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is clenched into a fist, consistent with gripping a shield or weapon hilt, held steady against the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21301,
         "Left Thumb Spread": -0.90937,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is formed into a loose fist or grip shape, positioned to hold a weapon handle, moving along the arc of the swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:24Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

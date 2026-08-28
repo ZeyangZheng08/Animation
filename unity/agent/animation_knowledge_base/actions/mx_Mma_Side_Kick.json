@@ -14,7 +14,7 @@
   "duration": 1.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a side kick, chambering the right leg before extending it outward to the side and then returning to a fighting stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07194,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward from an upright position, rotates toward the kicking leg during the extension, and returns to face forward.",
       "mean_pose": {
         "Spine Front-Back": -0.09952,
         "Spine Left-Right": 0.02535,
@@ -57,7 +57,7 @@
         "raw_value": 0.20547,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and turns toward the kicking leg as the body rotates, then lifts and faces forward again.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06707,
         "Neck Tilt Left-Right": -0.12186,
@@ -75,7 +75,7 @@
         "raw_value": 0.24788,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings back and away from the body for balance during the kick, then pulls in front of the chest into a guard.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.43703,
         "Left Shoulder Front-Back": -0.62412,
@@ -96,7 +96,7 @@
         "raw_value": 0.14449,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is held bent near the waist initially, moves up and out for balance during the kick, and finishes tucked at the side of the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.03689,
         "Right Shoulder Front-Back": -0.86653,
@@ -117,7 +117,7 @@
         "raw_value": 0.23205,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground with a slight bend, serving as the support leg throughout the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.15426,
         "Left Upper Leg In-Out": 0.33325,
@@ -137,7 +137,7 @@
         "raw_value": 0.2118,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts and bends at the knee to chamber, extends straight out to the side for the kick, and retracts to land on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.05301,
         "Right Upper Leg In-Out": 0.50129,
@@ -157,7 +157,7 @@
         "raw_value": 0.36709,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and relaxed at the start, extends outward during the kick, and forms a fist in the final pose.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.92264,
         "Left Thumb Spread": -0.10904,
@@ -189,7 +189,7 @@
         "raw_value": 0.32659,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open near the hip, moves up and out during the motion, and ends clenched in a fist near the shoulder.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.64889,
         "Right Thumb Spread": -0.00375,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:43:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

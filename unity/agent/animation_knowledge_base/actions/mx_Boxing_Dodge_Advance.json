@@ -14,7 +14,7 @@
   "duration": 2.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a boxing dodge by leaning back and then advancing forward with a step.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13152,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward to initiate the dodge, then straightens up and leans slightly forward as it advances.",
       "mean_pose": {
         "Spine Front-Back": -0.02274,
         "Spine Left-Right": 0.00598,
@@ -57,7 +57,7 @@
         "raw_value": 0.28451,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts back along with the torso during the dodge and returns to an upright position as the body moves forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09537,
         "Neck Tilt Left-Right": 0.04565,
@@ -75,7 +75,7 @@
         "raw_value": 0.14695,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bends at the elbow and pulls back from a guard position during the lean, then extends forward as the body advances.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.45591,
         "Left Shoulder Front-Back": -0.10521,
@@ -96,7 +96,7 @@
         "raw_value": 0.13477,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent in a high guard position near the chest throughout the movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.66386,
         "Right Shoulder Front-Back": -0.2895,
@@ -117,7 +117,7 @@
         "raw_value": 0.23931,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward to drive the advance, bending at the knee upon landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.13869,
         "Left Upper Leg In-Out": 0.3457,
@@ -137,7 +137,7 @@
         "raw_value": 0.21993,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Acts as the pivot leg, pushing off the ground to propel the body forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.15467,
         "Right Upper Leg In-Out": 0.43705,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static fist pose near the midsection.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.11702,
         "Left Thumb Spread": -0.29336,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static fist pose in a high guard position near the chin.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.26732,
         "Right Thumb Spread": -0.27603,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:32:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

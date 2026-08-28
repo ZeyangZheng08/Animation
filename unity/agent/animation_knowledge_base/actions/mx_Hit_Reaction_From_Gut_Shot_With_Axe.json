@@ -14,7 +14,7 @@
   "duration": 1.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure reacts to a gut shot by staggering backward, hunching over, and clutching the abdomen in pain.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1456,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply forward and down into a hunched posture, rotating slightly to the right as it bends over the impact area.",
       "mean_pose": {
         "Spine Front-Back": -0.36558,
         "Spine Left-Right": -0.05307,
@@ -57,7 +57,7 @@
         "raw_value": 0.21945,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head drops forward and downward following the upper body's collapse, tilting low throughout the reaction.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.20765,
         "Neck Tilt Left-Right": -0.03394,
@@ -75,7 +75,7 @@
         "raw_value": 0.20906,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings out to the side and slightly behind for balance before curling inward toward the midsection.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.14964,
         "Left Shoulder Front-Back": -0.88532,
@@ -96,7 +96,7 @@
         "raw_value": 0.08267,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm bends at the elbow to bring the hand across the body, pressing firmly against the lower stomach.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.01727,
         "Right Shoulder Front-Back": -1.62683,
@@ -117,7 +117,7 @@
         "raw_value": 0.06821,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and lifts off the ground, dragging the foot back as the figure stumbles.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.17814,
         "Left Upper Leg In-Out": 0.51661,
@@ -137,7 +137,7 @@
         "raw_value": 0.05661,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted on the floor, bending at the knee to support the weight of the collapsing body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.10248,
         "Right Upper Leg In-Out": 0.32762,
@@ -157,7 +157,7 @@
         "raw_value": 0.20867,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from an open position near the hip to clench loosely against the lower abdomen.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.48095,
         "Left Thumb Spread": 0.18119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static pose with fingers curled around the wrist area, keeping the arm bent.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.33667,
         "Right Thumb Spread": -0.67535,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:03Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a right diving save, leaping from a standing position to the side and landing on the ground.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15569,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starts upright, leans forward into the jump, rotates sideways in mid-air, and lands on its side before rolling onto its back.",
       "mean_pose": {
         "Spine Front-Back": -0.29567,
         "Spine Left-Right": -0.17448,
@@ -57,7 +57,7 @@
         "raw_value": 0.22344,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward initially, turns toward the direction of the dive during the jump, and ends facing up or away from the camera after landing.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.35307,
         "Neck Tilt Left-Right": 0.01009,
@@ -75,7 +75,7 @@
         "raw_value": 0.59731,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and upward during the dive to help with balance, then reaches down to the floor to break the fall.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.65809,
         "Left Shoulder Front-Back": -0.79209,
@@ -96,7 +96,7 @@
         "raw_value": 0.40443,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings backward for momentum, extends out to the side during the peak of the dive, and follows the body down to the ground.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.18448,
         "Right Shoulder Front-Back": -1.92203,
@@ -117,7 +117,7 @@
         "raw_value": 0.29219,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Acts as the push-off leg, extending backward in the air, and lands bent under the body upon impact.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.20821,
         "Left Upper Leg In-Out": 0.28012,
@@ -137,7 +137,7 @@
         "raw_value": 0.29822,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Leads the movement by kicking out to the side during the dive and lands extended on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.39088,
         "Right Upper Leg In-Out": 0.22519,
@@ -157,7 +157,7 @@
         "raw_value": 0.18702,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens during the dive and presses against the floor to cushion the landing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.9554,
         "Left Thumb Spread": -0.5444,
@@ -189,7 +189,7 @@
         "raw_value": 0.12107,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open throughout the motion and reaches toward the ground alongside the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.36274,
         "Right Thumb Spread": -0.54354,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

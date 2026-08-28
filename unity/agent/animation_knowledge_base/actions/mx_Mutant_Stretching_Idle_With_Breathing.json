@@ -14,7 +14,7 @@
   "duration": 14.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a stretching idle, moving from a wide stance with arms outstretched to a hunched forward position with hands near the knees.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08146,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins upright and straight, then gradually bends forward into a deep hunch by the end of the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.3755,
         "Spine Left-Right": 0.0047,
@@ -57,7 +57,7 @@
         "raw_value": 0.09933,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level while the torso is upright, then tilts down significantly as the body leans forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.13879,
         "Neck Tilt Left-Right": -0.02232,
@@ -75,7 +75,7 @@
         "raw_value": 0.25015,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts extended horizontally to the side, then swings inward and downward to hang in front of the thigh.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.28912,
         "Left Shoulder Front-Back": -1.03454,
@@ -96,7 +96,7 @@
         "raw_value": 0.27115,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm starts extended horizontally to the side, then swings inward and downward to hang in front of the thigh.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.34286,
         "Right Shoulder Front-Back": -0.619,
@@ -117,7 +117,7 @@
         "raw_value": 0.02113,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands slightly bent at the knee, holding the figure's weight in a stable stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.0135,
         "Left Upper Leg In-Out": 0.41011,
@@ -137,7 +137,7 @@
         "raw_value": 0.02028,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stands slightly bent at the knee, mirroring the left leg to support the forward lean.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.01069,
         "Right Upper Leg In-Out": 0.34457,
@@ -157,7 +157,7 @@
         "raw_value": 0.48737,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from an open, outward-facing position to a loosely curled shape hovering near the left knee.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.15323,
         "Left Thumb Spread": -1.56287,
@@ -189,7 +189,7 @@
         "raw_value": 0.45549,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from an open, outward-facing position to a loosely curled shape hovering near the right knee.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.96939,
         "Right Thumb Spread": -1.66403,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

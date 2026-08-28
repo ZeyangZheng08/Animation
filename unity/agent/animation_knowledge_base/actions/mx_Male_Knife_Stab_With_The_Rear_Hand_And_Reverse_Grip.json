@@ -14,7 +14,7 @@
   "duration": 2.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a stabbing motion with the rear hand, driving it forward and then pulling it back into a reverse grip at the hip.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17382,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists to the right as the arm extends, then rotates back to the left to pull the arm in close.",
       "mean_pose": {
         "Spine Front-Back": -0.02639,
         "Spine Left-Right": 0.10075,
@@ -57,7 +57,7 @@
         "raw_value": 0.31813,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to follow the extension of the right arm before returning to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.28284,
         "Neck Tilt Left-Right": 0.01217,
@@ -75,7 +75,7 @@
         "raw_value": 0.17717,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held bent across the body, moving slightly for balance while the other arm strikes.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.5302,
         "Left Shoulder Front-Back": -0.28279,
@@ -96,7 +96,7 @@
         "raw_value": 0.33701,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm drives forward from the side in a stab and retracts sharply back toward the waist.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.71111,
         "Right Shoulder Front-Back": -0.57809,
@@ -117,7 +117,7 @@
         "raw_value": 0.18163,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted with a slight bend to support the twisting weight of the upper body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.06927,
         "Left Upper Leg In-Out": 0.18314,
@@ -137,7 +137,7 @@
         "raw_value": 0.25038,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays relatively stable, adjusting its stance slightly to accommodate the forward drive of the arm.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.52355,
         "Right Upper Leg In-Out": 0.42554,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a loose fist position near the mid-torso throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.81784,
         "Left Thumb Spread": -0.24012,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a clenched fist shape, simulating a reverse grip on an unseen object.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.41058,
         "Right Thumb Spread": -2.86513,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:09Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

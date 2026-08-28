@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a relaxed standing position into a wide, low combat stance with raised fists.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04186,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and lowers its center of gravity to establish a stable fighting posture.",
       "mean_pose": {
         "Spine Front-Back": -0.21484,
         "Spine Left-Right": 0.03721,
@@ -57,7 +57,7 @@
         "raw_value": 0.12267,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains upright while tilting slightly downward as the body shifts into the ready position.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06734,
         "Neck Tilt Left-Right": 0.04514,
@@ -75,7 +75,7 @@
         "raw_value": 0.33513,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from the side of the body, bending at the elbow to bring the hand up in front of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.54228,
         "Left Shoulder Front-Back": -0.22036,
@@ -96,7 +96,7 @@
         "raw_value": 0.22381,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Lifts from the side, curling inward to form a guard with the fist positioned near the chin.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.04312,
         "Right Shoulder Front-Back": -0.94846,
@@ -117,7 +117,7 @@
         "raw_value": 0.14413,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Moves outward and bends at the knee to widen the base of the stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.28924,
         "Left Upper Leg In-Out": 0.22336,
@@ -137,7 +137,7 @@
         "raw_value": 0.18751,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps back and bends at the knee to complete the lateral shift into the fight stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.32531,
         "Right Upper Leg In-Out": 0.24234,
@@ -157,7 +157,7 @@
         "raw_value": 0.42076,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Forms a loose fist held at shoulder height to protect the upper body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.03492,
         "Left Thumb Spread": -0.23453,
@@ -189,7 +189,7 @@
         "raw_value": 0.43423,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches into a fist and holds it high near the face as part of the defensive guard.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.91772,
         "Right Thumb Spread": -0.2312,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

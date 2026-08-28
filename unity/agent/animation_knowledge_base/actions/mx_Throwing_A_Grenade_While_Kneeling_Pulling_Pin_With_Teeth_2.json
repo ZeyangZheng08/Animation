@@ -14,7 +14,7 @@
   "duration": 8.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure kneels on one knee, brings a hand to their mouth, and then throws an object forward with both hands.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.22575,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward from a kneeling position and rotates to the right during the throwing motion before settling back slightly.",
       "mean_pose": {
         "Spine Front-Back": -0.8562,
         "Spine Left-Right": -0.24857,
@@ -57,7 +57,7 @@
         "raw_value": 0.21673,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down toward the chest at the start, lifts up to look forward, and turns to the right as the throw is executed.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02993,
         "Neck Tilt Left-Right": 0.16428,
@@ -75,7 +75,7 @@
         "raw_value": 0.31421,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent with the hand near the face, swings back behind the body, and extends fully forward in a throwing motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.08296,
         "Left Shoulder Front-Back": -0.5876,
@@ -96,7 +96,7 @@
         "raw_value": 0.33665,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs low initially, moves up to meet the other hand, and extends forward to complete the throw.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.10253,
         "Right Shoulder Front-Back": -0.97623,
@@ -117,7 +117,7 @@
         "raw_value": 0.12238,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains in a kneeling position throughout the clip, supporting the front of the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.63383,
         "Left Upper Leg In-Out": 0.50185,
@@ -137,7 +137,7 @@
         "raw_value": 0.22278,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent at the knee with the foot planted, providing a stable base for the movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.00992,
         "Right Upper Leg In-Out": 0.3403,
@@ -157,7 +157,7 @@
         "raw_value": 0.09631,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is raised to the mouth area first, then pulls back and releases forward in a wide arc.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.64143,
         "Left Thumb Spread": -0.01714,
@@ -189,7 +189,7 @@
         "raw_value": 0.39071,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from a lower position up to join the left hand and follows through the forward throw.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.77778,
         "Right Thumb Spread": -0.51794,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

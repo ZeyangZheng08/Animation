@@ -14,7 +14,7 @@
   "duration": 3.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a goalkeeper drop kick, swinging the right leg forward to strike while balancing on the left leg and extending the arms for stability.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14607,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward during the swing and then rotates slightly as the body settles into the follow-through position.",
       "mean_pose": {
         "Spine Front-Back": -0.22791,
         "Spine Left-Right": 0.08302,
@@ -57,7 +57,7 @@
         "raw_value": 0.358,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward to track the ball's path before lifting up as the kick completes.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.08258,
         "Neck Tilt Left-Right": -0.00196,
@@ -75,7 +75,7 @@
         "raw_value": 0.34977,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward to the side to maintain balance throughout the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.02268,
         "Left Shoulder Front-Back": -0.59089,
@@ -96,7 +96,7 @@
         "raw_value": 0.30268,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings across the front of the body in coordination with the kicking leg.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.01765,
         "Right Shoulder Front-Back": -1.19497,
@@ -117,7 +117,7 @@
         "raw_value": 0.23157,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg serves as the planted support leg, remaining relatively stable under the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.01519,
         "Left Upper Leg In-Out": 0.1488,
@@ -137,7 +137,7 @@
         "raw_value": 0.2488,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg drives forward and upward to execute the kick, ending in an extended follow-through pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.10147,
         "Right Upper Leg In-Out": 0.04263,
@@ -157,7 +157,7 @@
         "raw_value": 0.20055,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the end of the outstretched arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.30605,
         "Left Thumb Spread": -0.78369,
@@ -189,7 +189,7 @@
         "raw_value": 0.20987,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed as it moves with the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.64163,
         "Right Thumb Spread": -0.70127,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

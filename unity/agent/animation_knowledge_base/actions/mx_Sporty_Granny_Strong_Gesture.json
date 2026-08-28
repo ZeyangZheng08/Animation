@@ -14,7 +14,7 @@
   "duration": 1.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a strong, energetic gesture, swinging both arms from out to the sides up over the head and back down to the waist.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07395,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso maintains a slight forward lean throughout the motion, swaying gently with the momentum of the arm swing.",
       "mean_pose": {
         "Spine Front-Back": -0.48538,
         "Spine Left-Right": 0.02046,
@@ -57,7 +57,7 @@
         "raw_value": 0.18949,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains upright and relatively stable, facing forward while the body moves beneath it.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05861,
         "Neck Tilt Left-Right": -0.02273,
@@ -75,7 +75,7 @@
         "raw_value": 0.32976,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward to the side, then arcs upward past the head before coming back down to the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.08485,
         "Left Shoulder Front-Back": -0.89109,
@@ -96,7 +96,7 @@
         "raw_value": 0.35782,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging out to the side, arcing high over the head, and returning to the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.55132,
         "Right Shoulder Front-Back": 0.05741,
@@ -117,7 +117,7 @@
         "raw_value": 0.07367,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays planted in a wide stance, bending at the knee to absorb the movement's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.00107,
         "Left Upper Leg In-Out": 0.20733,
@@ -137,7 +137,7 @@
         "raw_value": 0.08169,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg holds its position in the wide stance, mirroring the bend of the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.09138,
         "Right Upper Leg In-Out": 0.30832,
@@ -157,7 +157,7 @@
         "raw_value": 0.3404,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand keeps fingers extended as it travels through the arc, ending near the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.75238,
         "Left Thumb Spread": -0.3221,
@@ -189,7 +189,7 @@
         "raw_value": 0.35434,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand keeps fingers extended as it travels through the arc, ending near the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.75234,
         "Right Thumb Spread": -0.3221,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:48:13Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

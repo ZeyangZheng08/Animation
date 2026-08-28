@@ -14,7 +14,7 @@
   "duration": 1.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a 45-degree turn to the left from an idle stance, bending forward at the waist and pivoting on their feet.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02732,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starts facing forward in an upright position, then bends forward and rotates 45 degrees to the left.",
       "mean_pose": {
         "Spine Front-Back": -0.44556,
         "Spine Left-Right": 0.03514,
@@ -57,7 +57,7 @@
         "raw_value": 0.0721,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the knees as the torso bends, following the rotation of the body to the left.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09272,
         "Neck Tilt Left-Right": 0.05122,
@@ -75,7 +75,7 @@
         "raw_value": 0.06958,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs by the side with a slight bend, swinging slightly backward to counterbalance the forward lean.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.18026,
         "Left Shoulder Front-Back": -1.24144,
@@ -96,7 +96,7 @@
         "raw_value": 0.05912,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely by the side, moving slightly forward and down as the body turns.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.29129,
         "Right Shoulder Front-Back": -1.04917,
@@ -117,7 +117,7 @@
         "raw_value": 0.12754,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted on the ground, serving as the pivot point for the turn while bending slightly at the knee.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.06662,
         "Left Upper Leg In-Out": 0.45881,
@@ -137,7 +137,7 @@
         "raw_value": 0.09187,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays grounded with a bent knee, adjusting its angle to support the weight shift during the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.02581,
         "Right Upper Leg In-Out": 0.35324,
@@ -157,7 +157,7 @@
         "raw_value": 0.03933,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed near the thigh, drifting slightly back with the arm's movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.77449,
         "Left Thumb Spread": -1.4385,
@@ -189,7 +189,7 @@
         "raw_value": 0.03464,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open and loose near the thigh, moving slightly forward along with the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.52911,
         "Right Thumb Spread": -1.82378,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:07:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

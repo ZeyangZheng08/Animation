@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits on the floor and leans its upper body backward, supporting itself with both arms.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward from a seated position until it is nearly parallel to the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.61293,
         "Spine Left-Right": -0.04736,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts back in sync with the torso's movement, keeping the face pointed upward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.44416,
         "Neck Tilt Left-Right": 0.04077,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends straight down behind the body to brace against the floor.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.26081,
         "Left Shoulder Front-Back": -0.32016,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends straight down behind the body to brace against the floor.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.13886,
         "Right Shoulder Front-Back": -0.0007,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the knee with the foot planted on the floor in front of the hips.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.27582,
         "Left Upper Leg In-Out": 0.14653,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the knee with the foot planted on the floor in front of the hips.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.15036,
         "Right Upper Leg In-Out": 0.18168,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Presses flat against the floor to support the leaning weight.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.86986,
         "Left Thumb Spread": 0.44207,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Presses flat against the floor to support the leaning weight.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.25807,
         "Right Thumb Spread": 0.66743,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:39Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

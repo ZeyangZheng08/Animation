@@ -14,7 +14,7 @@
   "duration": 2.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure crouches low to the ground, leaning forward with one hand reaching toward the floor while gesturing with the other.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14035,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply forward from a low crouch and remains bent over throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.20485,
         "Spine Left-Right": 0.0566,
@@ -57,7 +57,7 @@
         "raw_value": 0.17428,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward and forward, keeping its gaze fixed on the ground in front of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.53772,
         "Neck Tilt Left-Right": 0.00045,
@@ -75,7 +75,7 @@
         "raw_value": 0.36993,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends downward and forward, reaching toward the floor to support the body's weight.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.11193,
         "Left Shoulder Front-Back": 0.03667,
@@ -96,7 +96,7 @@
         "raw_value": 0.26061,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow, held up near the chest with the hand raised in a gesture.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.43884,
         "Right Shoulder Front-Back": -0.27025,
@@ -117,7 +117,7 @@
         "raw_value": 0.1847,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent deeply, with the knee positioned low near the ground to form a stable base.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.81648,
         "Left Upper Leg In-Out": 0.45291,
@@ -137,7 +137,7 @@
         "raw_value": 0.25666,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is extended out to the side and back, with the foot planted on the floor for balance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.3474,
         "Right Upper Leg In-Out": 0.42976,
@@ -157,7 +157,7 @@
         "raw_value": 0.1907,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches down close to the ground, with fingers spread out as if about to make contact.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.93323,
         "Left Thumb Spread": 0.03215,
@@ -189,7 +189,7 @@
         "raw_value": 0.29478,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held open and elevated near the chest, making a beckoning or signaling gesture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.0078,
         "Right Thumb Spread": -1.13783,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure remains in a static seated position, leaning forward with its elbows resting on its knees and hands clasped between its legs.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from the hips, tilting the chest down toward the knees while maintaining a seated posture.",
       "mean_pose": {
         "Spine Front-Back": -0.81442,
         "Spine Left-Right": -0.19483,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays bowed downward, facing the space between the legs throughout the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.16207,
         "Neck Tilt Left-Right": -0.21659,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs from the shoulder with the elbow bent, resting against the inner side of the left thigh.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.22927,
         "Left Shoulder Front-Back": -1.15042,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirrors the left arm, hanging with a bent elbow to rest against the inner side of the right thigh.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.13841,
         "Right Shoulder Front-Back": -0.94316,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the knee with the foot planted flat on the floor, supporting the hip.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.70289,
         "Left Upper Leg In-Out": 0.64677,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a matching bent-knee position with the foot flat on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.74519,
         "Right Upper Leg In-Out": 0.7393,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends downward from the forearm to clasp the right hand between the shins.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.78036,
         "Left Thumb Spread": -0.14148,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Meets the left hand in the center, fingers interlaced below the knees.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.51398,
         "Right Thumb Spread": -0.19701,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:54Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

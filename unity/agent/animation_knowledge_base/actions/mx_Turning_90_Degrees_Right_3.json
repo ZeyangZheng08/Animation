@@ -14,7 +14,7 @@
   "duration": 1.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place and turns its body 90 degrees to the right.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.073,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates clockwise from a forward-facing position to face directly to the right.",
       "mean_pose": {
         "Spine Front-Back": -0.24517,
         "Spine Left-Right": 0.03568,
@@ -57,7 +57,7 @@
         "raw_value": 0.14958,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains upright and rotates along with the torso, ending up facing the same direction as the chest.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.21696,
         "Neck Tilt Left-Right": -0.10685,
@@ -75,7 +75,7 @@
         "raw_value": 0.13572,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs at the side of the body and swings slightly backward during the turn before settling into a relaxed hanging pose.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.29611,
         "Left Shoulder Front-Back": -0.05461,
@@ -96,7 +96,7 @@
         "raw_value": 0.11815,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs at the side of the body and swings slightly forward during the turn before settling into a relaxed hanging pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.15262,
         "Right Shoulder Front-Back": 0.10215,
@@ -117,7 +117,7 @@
         "raw_value": 0.09317,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground, serving as the pivot point for the rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.13469,
         "Left Upper Leg In-Out": 0.19174,
@@ -137,7 +137,7 @@
         "raw_value": 0.11973,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right foot pivots on the ball of the foot, rotating inward to align the toes with the new facing direction.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.26733,
         "Right Upper Leg In-Out": 0.16526,
@@ -157,7 +157,7 @@
         "raw_value": 0.11274,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open and relaxed at the side, moving only as part of the overall body rotation.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.13246,
         "Left Thumb Spread": 0.10255,
@@ -189,7 +189,7 @@
         "raw_value": 0.13886,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed at the side, moving only as part of the overall body rotation.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.15087,
         "Right Thumb Spread": 0.21271,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:24Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

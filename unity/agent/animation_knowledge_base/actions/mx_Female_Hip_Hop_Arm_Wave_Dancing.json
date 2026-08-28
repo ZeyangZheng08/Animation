@@ -14,7 +14,7 @@
   "duration": 5.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure dances by shifting their weight side to side while waving both arms in a rhythmic motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12797,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso sways laterally from side to side, leaning slightly into each movement.",
       "mean_pose": {
         "Spine Front-Back": -0.00089,
         "Spine Left-Right": -0.04898,
@@ -57,7 +57,7 @@
         "raw_value": 0.10347,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts gently to the sides, following the rhythm of the body's sway.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.01557,
         "Neck Tilt Left-Right": 0.05104,
@@ -75,7 +75,7 @@
         "raw_value": 0.24736,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm waves outward and back, swinging across the front of the body in an arc.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.09933,
         "Left Shoulder Front-Back": 0.27476,
@@ -96,7 +96,7 @@
         "raw_value": 0.24534,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings down and out to the side, moving in opposition to the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.06554,
         "Right Shoulder Front-Back": 0.28586,
@@ -117,7 +117,7 @@
         "raw_value": 0.24096,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee, supporting the body as it shifts weight to that side.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.41823,
         "Left Upper Leg In-Out": 0.20608,
@@ -137,7 +137,7 @@
         "raw_value": 0.21116,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains relatively straight, extending slightly behind the body during the shift.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.51767,
         "Right Upper Leg In-Out": 0.19634,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a relaxed, open position with fingers slightly curled.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.02374,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves with the arm, keeping its fingers loosely extended.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.5158,
         "Right Thumb Spread": -0.00549,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:36:13Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

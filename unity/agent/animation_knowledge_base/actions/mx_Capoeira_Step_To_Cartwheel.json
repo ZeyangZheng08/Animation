@@ -14,7 +14,7 @@
   "duration": 3.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a capoeira cartwheel, stepping into an inverted handstand and rolling over to land on their feet.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16551,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward from a standing position, rotates sideways to become horizontal in the air during the flip, and returns to an upright stance upon landing.",
       "mean_pose": {
         "Spine Front-Back": -0.36,
         "Spine Left-Right": -0.17945,
@@ -57,7 +57,7 @@
         "raw_value": 0.18758,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down toward the floor as the body inverts, stays oriented downward through the peak of the cartwheel, and lifts back up as the figure stands.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06216,
         "Neck Tilt Left-Right": -0.08232,
@@ -75,7 +75,7 @@
         "raw_value": 0.43409,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends straight down to support the body's weight on the ground before swinging upward as the legs pass overhead.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.04412,
         "Left Shoulder Front-Back": 0.07742,
@@ -96,7 +96,7 @@
         "raw_value": 0.42817,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down to plant on the floor, supporting the inversion, and then pulls back up to assist in returning to a standing position.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.34262,
         "Right Shoulder Front-Back": -0.68915,
@@ -117,7 +117,7 @@
         "raw_value": 0.28712,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg kicks high into the air to initiate the flip, travels horizontally across the frame while inverted, and plants on the ground to complete the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.28919,
         "Left Upper Leg In-Out": 0.37129,
@@ -137,7 +137,7 @@
         "raw_value": 0.31722,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the left leg into the air, remains extended during the inverted phase, and lands on the ground to stabilize the final pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.19558,
         "Right Upper Leg In-Out": 0.38074,
@@ -157,7 +157,7 @@
         "raw_value": 0.38047,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand presses firmly against the floor to bear weight during the handstand portion of the cartwheel before lifting off.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.98714,
         "Left Thumb Spread": -0.19364,
@@ -189,7 +189,7 @@
         "raw_value": 0.37571,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand places itself on the ground to support the body's rotation and pushes off to help return the body to an upright position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.04118,
         "Right Thumb Spread": 0.0343,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:34:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

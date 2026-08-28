@@ -14,7 +14,7 @@
   "duration": 2.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a sweeping left-to-right attack, swinging an arm across the body while pivoting and stepping forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.24773,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from facing left to facing right, leaning forward into the swing before returning to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.33857,
         "Spine Left-Right": 0.04106,
@@ -57,7 +57,7 @@
         "raw_value": 0.33204,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to follow the motion of the attacking arm, looking left at the start and finishing by looking right.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.47926,
         "Neck Tilt Left-Right": -0.34421,
@@ -75,7 +75,7 @@
         "raw_value": 0.45647,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends out to the side, swings downward and across the front of the body in a wide arc, and finishes extended to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.02488,
         "Left Shoulder Front-Back": -0.81334,
@@ -96,7 +96,7 @@
         "raw_value": 0.25685,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is held bent near the chest and hip area, moving slightly with the torso's rotation but remaining close to the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.53481,
         "Right Shoulder Front-Back": -0.33297,
@@ -117,7 +117,7 @@
         "raw_value": 0.25201,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward and bends to support the pivot as the body rotates.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.01955,
         "Left Upper Leg In-Out": 0.27588,
@@ -137,7 +137,7 @@
         "raw_value": 0.27403,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off from behind to drive the rotation and then plants itself to stabilize the final pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.06713,
         "Right Upper Leg In-Out": -0.02959,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41853,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.23142,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays clenched in a fist near the body, mimicking a grip on an object.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.82818,
         "Right Thumb Spread": 0.07783,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

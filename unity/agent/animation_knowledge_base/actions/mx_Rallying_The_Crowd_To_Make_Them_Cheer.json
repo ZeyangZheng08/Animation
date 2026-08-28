@@ -14,7 +14,7 @@
   "duration": 6.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands and performs a sequence of large, sweeping arm gestures to rally the crowd.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09092,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains largely upright with a slight lean forward during the mid-clip gesture, then returns to a neutral standing position.",
       "mean_pose": {
         "Spine Front-Back": -0.05025,
         "Spine Left-Right": 0.00257,
@@ -57,7 +57,7 @@
         "raw_value": 0.22988,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts upward slightly while gesturing outward, then levels out as the arms are brought back to the waist.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04054,
         "Neck Tilt Left-Right": -0.05684,
@@ -75,7 +75,7 @@
         "raw_value": 0.36878,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm begins bent at the elbow with the hand near the chest, sweeps outward and up to shoulder height, then lowers back down to the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.19847,
         "Left Shoulder Front-Back": -0.14666,
@@ -96,7 +96,7 @@
         "raw_value": 0.37286,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm starts raised high overhead, sweeps down and outward to the side, then brings the hand down to rest on the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.19472,
         "Right Shoulder Front-Back": -0.03284,
@@ -117,7 +117,7 @@
         "raw_value": 0.11219,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted firmly on the ground throughout the clip, providing a stable base.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.11643,
         "Left Upper Leg In-Out": 0.09313,
@@ -137,7 +137,7 @@
         "raw_value": 0.16026,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays stationary on the floor, keeping the figure in place.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.31107,
         "Right Upper Leg In-Out": 0.04486,
@@ -157,7 +157,7 @@
         "raw_value": 0.50397,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and relaxed, moving from the chest area out into the air and back down to the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.2227,
         "Left Thumb Spread": -0.08559,
@@ -189,7 +189,7 @@
         "raw_value": 0.44537,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from a high position above the head down through the air to come to rest on the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.48785,
         "Right Thumb Spread": -0.4137,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:34Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

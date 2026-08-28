@@ -14,7 +14,7 @@
   "duration": 2.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure swings an imaginary axe in a powerful downward arc, driving it from high above the head to the ground.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16975,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and rotates to the right, following the momentum of the swing down toward the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.29284,
         "Spine Left-Right": 0.01268,
@@ -57,7 +57,7 @@
         "raw_value": 0.18291,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and turns to the right, tracking the path of the swinging arm.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15661,
         "Neck Tilt Left-Right": -0.02225,
@@ -75,7 +75,7 @@
         "raw_value": 0.22113,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is raised high overhead at the start, then sweeps down forcefully across the body to complete the strike.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.21172,
         "Left Shoulder Front-Back": -0.05277,
@@ -96,7 +96,7 @@
         "raw_value": 0.52319,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends out to the side and bends slightly backward to maintain balance during the swing.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.03076,
         "Right Shoulder Front-Back": -1.08179,
@@ -117,7 +117,7 @@
         "raw_value": 0.21179,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward and bends at the knee to absorb the impact of the downward motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.11454,
         "Left Upper Leg In-Out": 0.16648,
@@ -137,7 +137,7 @@
         "raw_value": 0.21048,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted behind the figure, providing a stable base for the movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.41703,
         "Right Upper Leg In-Out": 0.35359,
@@ -157,7 +157,7 @@
         "raw_value": 0.32176,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves through a wide, vertical arc, starting high above the shoulder and ending low near the ground.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.69454,
         "Left Thumb Spread": -0.27874,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static pose, extended outward to the side with the fingers relaxed.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.33667,
         "Right Thumb Spread": -0.67535,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

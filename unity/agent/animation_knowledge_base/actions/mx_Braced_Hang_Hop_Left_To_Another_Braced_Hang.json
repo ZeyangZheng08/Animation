@@ -14,7 +14,7 @@
   "duration": 1.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure hops in the air, transitioning from a braced pose to another braced position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0699,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and relatively stable throughout the hop, with slight adjustments for balance.",
       "mean_pose": {
         "Spine Front-Back": -0.17322,
         "Spine Left-Right": -0.01984,
@@ -57,7 +57,7 @@
         "raw_value": 0.21936,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays centered above the shoulders, maintaining a consistent orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.24248,
         "Neck Tilt Left-Right": -0.07272,
@@ -75,7 +75,7 @@
         "raw_value": 0.33014,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, held close to the body, and moves slightly forward during the hop.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.78074,
         "Left Shoulder Front-Back": 0.13376,
@@ -96,7 +96,7 @@
         "raw_value": 0.40053,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, bent at the elbow and held close, also moving slightly forward.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.90978,
         "Right Shoulder Front-Back": -0.82208,
@@ -117,7 +117,7 @@
         "raw_value": 0.30223,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee, lifting off the ground as part of the hopping motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.53333,
         "Left Upper Leg In-Out": 0.66193,
@@ -137,7 +137,7 @@
         "raw_value": 0.36051,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg similarly bends and lifts, coordinating with the left leg in the hop.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.54238,
         "Right Upper Leg In-Out": 0.65262,
@@ -157,7 +157,7 @@
         "raw_value": 0.40051,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is clenched into a fist near the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.90246,
         "Left Thumb Spread": 0.67743,
@@ -189,7 +189,7 @@
         "raw_value": 0.29496,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is also clenched into a fist near the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.62097,
         "Right Thumb Spread": -0.31443,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:22Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

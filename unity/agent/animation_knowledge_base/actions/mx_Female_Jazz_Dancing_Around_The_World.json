@@ -14,7 +14,7 @@
   "duration": 2.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure dances in a wide, sweeping circle while keeping both arms raised above the head.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06526,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright with a slight forward lean, rotating continuously as the body travels around the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.04614,
         "Spine Left-Right": 0.05101,
@@ -57,7 +57,7 @@
         "raw_value": 0.15587,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly and turns to follow the direction of movement during the turn.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0498,
         "Neck Tilt Left-Right": -0.08793,
@@ -75,7 +75,7 @@
         "raw_value": 0.46568,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is lifted high above the shoulder with the elbow bent, holding an elevated position throughout the dance.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.12861,
         "Left Shoulder Front-Back": -0.2319,
@@ -96,7 +96,7 @@
         "raw_value": 0.45691,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, held high above the shoulder with a bent elbow in a sustained overhead pose.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.14191,
         "Right Shoulder Front-Back": -0.25313,
@@ -117,7 +117,7 @@
         "raw_value": 0.35728,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward and back in a rhythmic stride, supporting the weight during the circular movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.24475,
         "Left Upper Leg In-Out": -0.0793,
@@ -137,7 +137,7 @@
         "raw_value": 0.36976,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates stepping forward and back, driving the rotation across the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.25165,
         "Right Upper Leg In-Out": 0.0762,
@@ -157,7 +157,7 @@
         "raw_value": 0.19757,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held up near the top of the frame with fingers curled into a relaxed shape.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.11323,
         "Left Thumb Spread": 0.22116,
@@ -189,7 +189,7 @@
         "raw_value": 0.28176,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is positioned high alongside the left, with fingers curved inward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.20846,
         "Right Thumb Spread": -0.39255,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

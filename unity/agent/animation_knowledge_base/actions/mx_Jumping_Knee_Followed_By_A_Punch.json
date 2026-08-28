@@ -14,7 +14,7 @@
   "duration": 2.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure drops from a standing position to the floor, lands on its hands and knees, and then pushes up into a crouched stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1746,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bends forward sharply from an upright position to reach the floor, holds low in a kneeling posture, and then rises back up as the body straightens.",
       "mean_pose": {
         "Spine Front-Back": -0.11667,
         "Spine Left-Right": 0.01701,
@@ -57,7 +57,7 @@
         "raw_value": 0.31543,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward to follow the drop toward the ground, stays lowered while on all fours, and lifts slightly as the figure begins to rise.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.37977,
         "Neck Tilt Left-Right": -0.14834,
@@ -75,7 +75,7 @@
         "raw_value": 0.51477,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends down and forward to plant on the floor, supports the upper body weight during the middle phase, and remains extended to help push the body upward.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.24254,
         "Left Shoulder Front-Back": -0.32426,
@@ -96,7 +96,7 @@
         "raw_value": 0.77886,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down to the floor alongside the left, braces the torso while kneeling, and helps drive the body up into the final crouch.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.13231,
         "Right Shoulder Front-Back": -1.21856,
@@ -117,7 +117,7 @@
         "raw_value": 0.4494,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives downward to land on the knee and shin, tucks under the body during the hold, and bends to lift the hips for the rise.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.16573,
         "Left Upper Leg In-Out": 0.30571,
@@ -137,7 +137,7 @@
         "raw_value": 0.43523,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lowers to the floor with the knee and foot, folds beneath the torso in the center of the clip, and flexes to assist in pushing the body up.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.31989,
         "Right Upper Leg In-Out": 0.13825,
@@ -157,7 +157,7 @@
         "raw_value": 0.58535,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens to strike the floor, presses flat against the ground to support the weight, and maintains contact to stabilize the ascent.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.96661,
         "Left Thumb Spread": -0.20003,
@@ -189,7 +189,7 @@
         "raw_value": 0.53391,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches down to touch the floor, holds firmly to brace the body, and stays planted to aid in the upward motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.07457,
         "Right Thumb Spread": 0.03033,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

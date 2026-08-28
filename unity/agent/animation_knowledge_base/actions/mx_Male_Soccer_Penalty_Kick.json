@@ -14,7 +14,7 @@
   "duration": 1.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a soccer penalty kick, running up and swinging the right leg to strike an imaginary ball.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11758,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward during the run-up, rotates sharply to the left at the moment of impact, and then straightens upright as it settles.",
       "mean_pose": {
         "Spine Front-Back": -0.0303,
         "Spine Left-Right": 0.07699,
@@ -57,7 +57,7 @@
         "raw_value": 0.23686,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward in alignment with the torso, turning slightly to the left to follow through with the body's rotation after the kick.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02392,
         "Neck Tilt Left-Right": 0.04081,
@@ -75,7 +75,7 @@
         "raw_value": 0.16471,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings backward for balance during the run-up, extends out to the side and back at the peak of the kick, and returns to a neutral position by the end.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.48038,
         "Left Shoulder Front-Back": 0.33869,
@@ -96,7 +96,7 @@
         "raw_value": 0.17683,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps forward during the approach, swings down and across the body toward the left hip at the moment of the kick, and relaxes back to the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.62288,
         "Right Shoulder Front-Back": 0.41553,
@@ -117,7 +117,7 @@
         "raw_value": 0.24549,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Serves as the planted support leg, bending slightly to absorb the body's momentum while the other leg kicks.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.16588,
         "Left Upper Leg In-Out": -0.01414,
@@ -137,7 +137,7 @@
         "raw_value": 0.22302,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward during the run-up, lifts high behind the body, and swings forward in a large arc to complete the kick.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.08944,
         "Right Upper Leg In-Out": 0.15907,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed at the side of the body throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open and relaxed, moving naturally with the arm's swing but holding no object.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:42:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

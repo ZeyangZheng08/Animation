@@ -14,7 +14,7 @@
   "duration": 4.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A seated figure leans back to hold off an overhead attack, pushing their hands up and away before returning to a centered guard.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0529,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward from a forward-leaning starting position into a deep recline, then returns to an upright, slightly hunched posture.",
       "mean_pose": {
         "Spine Front-Back": -0.05389,
         "Spine Left-Right": 0.02616,
@@ -57,7 +57,7 @@
         "raw_value": 0.10255,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts back significantly to look upward while the torso is leaning away, then returns to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.43684,
         "Neck Tilt Left-Right": 0.00307,
@@ -75,7 +75,7 @@
         "raw_value": 0.15338,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises upward and extends outward as the body leans back, finishing in a high, open-armed defensive position.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.6959,
         "Left Shoulder Front-Back": -0.04001,
@@ -96,7 +96,7 @@
         "raw_value": 0.09947,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Lifts up alongside the left arm to block the overhead space, extending fully during the lean-back.",
       "mean_pose": {
         "Right Shoulder Down-Up": 1.01923,
         "Right Shoulder Front-Back": -2.19331,
@@ -117,7 +117,7 @@
         "raw_value": 0.02696,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the knee with the foot planted on the floor, supporting the shifting weight of the upper body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.30007,
         "Left Upper Leg In-Out": 0.34412,
@@ -137,7 +137,7 @@
         "raw_value": 0.04016,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static bent-knee sitting position with the foot flat on the ground throughout the movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.28281,
         "Right Upper Leg In-Out": 0.10676,
@@ -157,7 +157,7 @@
         "raw_value": 0.04572,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens its fingers wide and pushes upward to intercept the imaginary strike above.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.98381,
         "Left Thumb Spread": -1.5741,
@@ -189,7 +189,7 @@
         "raw_value": 0.03635,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends upward with an open palm to form a barrier against the attack from above.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.0222,
         "Right Thumb Spread": 0.40768,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:29Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

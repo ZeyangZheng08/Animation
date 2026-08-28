@@ -14,7 +14,7 @@
   "duration": 4.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits on an invisible chair, raises its hands in a gesture of disbelief, and then brings them together to cover its face.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09874,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso maintains a seated posture, leaning slightly forward throughout the clip as the arms move.",
       "mean_pose": {
         "Spine Front-Back": -0.32451,
         "Spine Left-Right": -0.02812,
@@ -57,7 +57,7 @@
         "raw_value": 0.19087,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward from a neutral position at the start, bowing further into the hands by the end of the motion.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09251,
         "Neck Tilt Left-Right": 0.02983,
@@ -75,7 +75,7 @@
         "raw_value": 0.27589,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm lifts upward with the elbow bent, then moves inward and down to bring the hand to the face.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.1681,
         "Left Shoulder Front-Back": -1.46081,
@@ -96,7 +96,7 @@
         "raw_value": 0.45591,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm lifts upward with the elbow bent, then moves inward and down to bring the hand to the face.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.41655,
         "Right Shoulder Front-Back": -1.4913,
@@ -117,7 +117,7 @@
         "raw_value": 0.05824,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains bent in a static sitting position with the foot flat on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.77059,
         "Left Upper Leg In-Out": 0.22483,
@@ -137,7 +137,7 @@
         "raw_value": 0.05771,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains bent in a static sitting position with the foot flat on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.78689,
         "Right Upper Leg In-Out": 0.15617,
@@ -157,7 +157,7 @@
         "raw_value": 0.13753,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand starts raised with the palm facing up, then moves to press against the side of the head.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.25598,
         "Left Thumb Spread": 0.90894,
@@ -189,7 +189,7 @@
         "raw_value": 0.16681,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand starts raised with the palm facing up, then moves to press against the other side of the head.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.95345,
         "Right Thumb Spread": 0.89145,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:50Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

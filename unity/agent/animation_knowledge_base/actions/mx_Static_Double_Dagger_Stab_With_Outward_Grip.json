@@ -14,7 +14,7 @@
   "duration": 3.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a double dagger stab, driving both arms forward in unison from a low stance and then retracting them back to a high guard position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11459,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward into the lunge during the thrust and rotates slightly as it retracts the arms, settling upright at the end.",
       "mean_pose": {
         "Spine Front-Back": -0.11669,
         "Spine Left-Right": -0.0182,
@@ -57,7 +57,7 @@
         "raw_value": 0.202,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down slightly while looking forward during the stab, then lifts up as the body returns to its final stance.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.08021,
         "Neck Tilt Left-Right": -0.07364,
@@ -75,7 +75,7 @@
         "raw_value": 0.33317,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends straight forward with the elbow locked during the initial stab, then bends sharply to pull the hand up beside the head.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.07937,
         "Left Shoulder Front-Back": -0.34184,
@@ -96,7 +96,7 @@
         "raw_value": 0.37482,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, extending fully forward for the thrust before bending at the elbow to raise the hand near the shoulder.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.05243,
         "Right Shoulder Front-Back": -0.44839,
@@ -117,7 +117,7 @@
         "raw_value": 0.14369,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply to absorb the weight of the lunge, then straightens as the figure steps back into a wide stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.13902,
         "Left Upper Leg In-Out": 0.54207,
@@ -137,7 +137,7 @@
         "raw_value": 0.16159,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off from behind during the forward motion and lands in a bent, braced position to stabilize the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.042,
         "Right Upper Leg In-Out": 0.35651,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains clenched in a fist throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -3.05487,
         "Left Thumb Spread": -1.72685,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a closed fist grip for the duration of the clip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.4393,
         "Right Thumb Spread": -1.13718,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

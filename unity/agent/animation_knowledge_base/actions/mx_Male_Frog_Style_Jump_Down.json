@@ -14,7 +14,7 @@
   "duration": 2.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a frog-style jump, tucking its legs in mid-air before landing in a deep squat.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.23759,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso stays mostly upright during the airborne phase and then bends forward into a crouch upon landing.",
       "mean_pose": {
         "Spine Front-Back": -0.22787,
         "Spine Left-Right": 0.0125,
@@ -57,7 +57,7 @@
         "raw_value": 0.23435,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly upward while jumping and then drops down to look toward the ground as it lands.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.10435,
         "Neck Tilt Left-Right": 0.0726,
@@ -75,7 +75,7 @@
         "raw_value": 0.51827,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings up high alongside the head during the jump and then lowers down toward the knee on landing.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.32751,
         "Left Shoulder Front-Back": -1.91246,
@@ -96,7 +96,7 @@
         "raw_value": 0.29491,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging up beside the head and then dropping down toward the other knee.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.07213,
         "Right Shoulder Front-Back": -0.84165,
@@ -117,7 +117,7 @@
         "raw_value": 0.38288,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is tucked tightly against the body in mid-air and then extends outward to form a wide, bent squat position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.26803,
         "Left Upper Leg In-Out": 0.68868,
@@ -137,7 +137,7 @@
         "raw_value": 0.37939,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is tucked in mid-air and then opens out to the side to complete the low squat stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.21923,
         "Right Upper Leg In-Out": 0.64579,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers spread throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open with fingers spread throughout the motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a two-handed spell cast towards the ground, dropping from a standing stance into a deep crouch with arms extended downward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1691,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and drops significantly as the figure transitions from an upright stance to a deep squat over the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.27258,
         "Spine Left-Right": -0.01444,
@@ -57,7 +57,7 @@
         "raw_value": 0.28407,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to follow the descent of the body, facing the ground in the final pose.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.25324,
         "Neck Tilt Left-Right": 0.11464,
@@ -75,7 +75,7 @@
         "raw_value": 0.32421,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a raised position down and across the body toward the floor.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.13539,
         "Left Shoulder Front-Back": -1.25082,
@@ -96,7 +96,7 @@
         "raw_value": 0.53026,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward initially before sweeping down alongside the body toward the ground.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.16071,
         "Right Shoulder Front-Back": -0.91254,
@@ -117,7 +117,7 @@
         "raw_value": 0.2341,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply to lower the body into a crouching position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.02898,
         "Left Upper Leg In-Out": 0.24698,
@@ -137,7 +137,7 @@
         "raw_value": 0.2416,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee to support the drop into the low stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.07009,
         "Right Upper Leg In-Out": 0.23391,
@@ -157,7 +157,7 @@
         "raw_value": 0.44899,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a high position down to hover near the floor.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.47066,
         "Left Thumb Spread": -0.10436,
@@ -189,7 +189,7 @@
         "raw_value": 0.45575,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand travels from an extended position down to rest near the ground.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.85041,
         "Right Thumb Spread": 0.40661,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:51:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

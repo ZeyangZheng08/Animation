@@ -14,7 +14,7 @@
   "duration": 1.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks backwards while bowing forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0319,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans significantly forward, tilting down towards the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.40717,
         "Spine Left-Right": -0.10385,
@@ -57,7 +57,7 @@
         "raw_value": 0.03373,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Drops downward in line with the torso's forward lean.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.08488,
         "Neck Tilt Left-Right": 0.09547,
@@ -75,7 +75,7 @@
         "raw_value": 0.05691,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs low and straight down at the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.68922,
         "Left Shoulder Front-Back": -0.13615,
@@ -96,7 +96,7 @@
         "raw_value": 0.07281,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings naturally in opposition to the legs during the walk.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.52766,
         "Right Shoulder Front-Back": -0.5491,
@@ -117,7 +117,7 @@
         "raw_value": 0.20298,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps backward in a continuous walking rhythm.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.06584,
         "Left Upper Leg In-Out": 0.19573,
@@ -137,7 +137,7 @@
         "raw_value": 0.19443,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps backward in a continuous walking rhythm.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.17303,
         "Right Upper Leg In-Out": -0.02516,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed at the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.06408,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves with the swinging arm, keeping fingers loosely curled.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.37689,
         "Right Thumb Spread": -0.62523,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:32Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

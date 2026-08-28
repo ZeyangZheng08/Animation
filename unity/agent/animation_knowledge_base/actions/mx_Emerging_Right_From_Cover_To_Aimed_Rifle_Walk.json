@@ -14,7 +14,7 @@
   "duration": 2.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a crouched position, raising both arms to an aiming stance while walking forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09581,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rises from a deeply bent forward posture at the start, straightens up into an upright walk, and then leans slightly forward again in the final moment.",
       "mean_pose": {
         "Spine Front-Back": -0.09104,
         "Spine Left-Right": -0.01804,
@@ -57,7 +57,7 @@
         "raw_value": 0.31386,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down initially, lifts to look forward during the rise, and then dips down again toward the end of the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.13885,
         "Neck Tilt Left-Right": 0.17554,
@@ -75,7 +75,7 @@
         "raw_value": 0.34778,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves from a low position near the waist up to a raised, extended position across the body as part of the aiming motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.12645,
         "Left Shoulder Front-Back": -1.3553,
@@ -96,7 +96,7 @@
         "raw_value": 0.33275,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Lifts from a low position on the side of the body to extend straight out in front at shoulder height for aiming.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.2368,
         "Right Shoulder Front-Back": -0.61969,
@@ -117,7 +117,7 @@
         "raw_value": 0.28283,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off the ground to drive the upward movement, transitioning into a steady walking stride.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.13328,
         "Left Upper Leg In-Out": 0.14593,
@@ -137,7 +137,7 @@
         "raw_value": 0.22297,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends backward to support the initial rise, then swings forward to take a step during the walk.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.19168,
         "Right Upper Leg In-Out": 0.04464,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open pose with fingers slightly curled throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.52991,
         "Left Thumb Spread": -0.54397,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static, open hand shape with fingers extended while the arm moves into the aim.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.71772,
         "Right Thumb Spread": -1.2109,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:35:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

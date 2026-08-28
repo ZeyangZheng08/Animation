@@ -14,7 +14,7 @@
   "duration": 3.367,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a two-handed magical projectile throw, pushing both arms forward from a guard stance and then retracting them.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10212,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly backward at the start, twists to the left during the push, and returns to a centered position as the arms retract.",
       "mean_pose": {
         "Spine Front-Back": 0.00289,
         "Spine Left-Right": -0.06713,
@@ -57,7 +57,7 @@
         "raw_value": 0.1495,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down slightly at the beginning, lifts up to look forward during the extension, and stays level through the end of the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06461,
         "Neck Tilt Left-Right": -0.07022,
@@ -75,7 +75,7 @@
         "raw_value": 0.3553,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent with the hand held in front of the chest, extends straight out to the side during the throw, and pulls back into a bent guard position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.07184,
         "Left Shoulder Front-Back": -0.26942,
@@ -96,7 +96,7 @@
         "raw_value": 0.34769,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm begins in a bent guard position near the waist, pushes straight forward to lead the motion, and retracts back toward the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.04683,
         "Right Shoulder Front-Back": -0.43746,
@@ -117,7 +117,7 @@
         "raw_value": 0.19367,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted with a slight bend, serving as the stable base for the upper body's twisting motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.04551,
         "Left Upper Leg In-Out": 0.38158,
@@ -137,7 +137,7 @@
         "raw_value": 0.14267,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is positioned behind the left with a deep knee bend, shifting weight forward to support the lean of the torso.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.0941,
         "Right Upper Leg In-Out": 0.37764,
@@ -157,7 +157,7 @@
         "raw_value": 0.52092,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand starts open near the chest, extends outward with fingers spread during the push, and returns to a relaxed state near the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.66872,
         "Left Thumb Spread": -0.04659,
@@ -189,7 +189,7 @@
         "raw_value": 0.495,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand begins curled near the waist, thrusts forward with an open palm to complete the gesture, and pulls back to rest near the midsection.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.5709,
         "Right Thumb Spread": -0.00018,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:48Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 7.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits in a low crouch and performs a continuous, alternating paddling motion with their arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1641,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from the hips while twisting side to side to drive the arm movements.",
       "mean_pose": {
         "Spine Front-Back": -0.10394,
         "Spine Left-Right": -0.02215,
@@ -57,7 +57,7 @@
         "raw_value": 0.18808,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward, tilting slightly downward as it follows the rhythm of the body's rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.13124,
         "Neck Tilt Left-Right": -0.06133,
@@ -75,7 +75,7 @@
         "raw_value": 0.34334,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches forward and upward, then pulls back toward the torso in a cyclic rowing pattern.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.30771,
         "Left Shoulder Front-Back": -1.80674,
@@ -96,7 +96,7 @@
         "raw_value": 0.40986,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and up, then retracts backward, moving in opposition to the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.22306,
         "Right Shoulder Front-Back": -1.95584,
@@ -117,7 +117,7 @@
         "raw_value": 0.05477,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent in a seated position, supporting the lower half of the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.37406,
         "Left Upper Leg In-Out": 0.16774,
@@ -137,7 +137,7 @@
         "raw_value": 0.04585,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays bent in a seated position, holding the base of the posture steady.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.39916,
         "Right Upper Leg In-Out": 0.16575,
@@ -157,7 +157,7 @@
         "raw_value": 0.40099,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens its fingers during the reach and curls them inward during the pull.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.46473,
         "Left Thumb Spread": -0.75371,
@@ -189,7 +189,7 @@
         "raw_value": 0.09602,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens its fingers during the reach and curls them inward during the pull.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.56619,
         "Right Thumb Spread": -1.1911,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

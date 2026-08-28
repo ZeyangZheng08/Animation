@@ -14,7 +14,7 @@
   "duration": 0.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward and swings the right leg up to kick.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02598,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward with the walking motion, then straightens upright as the figure stops.",
       "mean_pose": {
         "Spine Front-Back": -0.28792,
         "Spine Left-Right": -0.00735,
@@ -57,7 +57,7 @@
         "raw_value": 0.03173,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to look at the feet during the walk and returns to a neutral forward position at the end.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.08263,
         "Neck Tilt Left-Right": -0.01204,
@@ -75,7 +75,7 @@
         "raw_value": 0.03023,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs by the side, swinging slightly backward and forward in opposition to the legs.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.86211,
         "Left Shoulder Front-Back": 0.59077,
@@ -96,7 +96,7 @@
         "raw_value": 0.02723,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs by the side, swinging slightly backward and forward in opposition to the legs.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.72269,
         "Right Shoulder Front-Back": 0.48799,
@@ -117,7 +117,7 @@
         "raw_value": 0.05289,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between supporting the body's weight on the ground and swinging forward for the next step.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.12075,
         "Left Upper Leg In-Out": 0.03033,
@@ -137,7 +137,7 @@
         "raw_value": 0.12922,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts high off the ground with the knee bent to execute a kick, then lowers back to the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.2481,
         "Right Upper Leg In-Out": 0.0491,
@@ -157,7 +157,7 @@
         "raw_value": 0.12293,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.08746,
         "Left Thumb Spread": 0.12129,
@@ -189,7 +189,7 @@
         "raw_value": 0.12064,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and relaxed at the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.99361,
         "Right Thumb Spread": 0.12012,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:53Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

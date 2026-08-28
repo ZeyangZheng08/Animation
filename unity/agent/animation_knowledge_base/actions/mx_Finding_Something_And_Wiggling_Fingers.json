@@ -14,7 +14,7 @@
   "duration": 4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a slight crouch, raising both hands to chest level and wiggling the fingers.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01553,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains static in an upright posture with a slight forward lean.",
       "mean_pose": {
         "Spine Front-Back": -0.16107,
         "Spine Left-Right": -0.07902,
@@ -57,7 +57,7 @@
         "raw_value": 0.04785,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts slightly downward and sways gently side-to-side.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.19638,
         "Neck Tilt Left-Right": 0.06713,
@@ -75,7 +75,7 @@
         "raw_value": 0.16491,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow, holding the forearm up in front of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.4418,
         "Left Shoulder Front-Back": -0.03344,
@@ -96,7 +96,7 @@
         "raw_value": 0.18328,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow, holding the forearm up in front of the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.32624,
         "Right Shoulder Front-Back": -0.38295,
@@ -117,7 +117,7 @@
         "raw_value": 0.07307,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bent at the knee in a low stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.13804,
         "Left Upper Leg In-Out": 0.27682,
@@ -137,7 +137,7 @@
         "raw_value": 0.0597,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bent at the knee in a low stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.17085,
         "Right Upper Leg In-Out": 0.10492,
@@ -157,7 +157,7 @@
         "raw_value": 0.19228,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held open with the palm facing inward while the fingers wiggle.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.50334,
         "Left Thumb Spread": -0.72923,
@@ -189,7 +189,7 @@
         "raw_value": 0.23247,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held open with the palm facing inward while the fingers wiggle.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.2801,
         "Right Thumb Spread": -0.73261,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:08Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

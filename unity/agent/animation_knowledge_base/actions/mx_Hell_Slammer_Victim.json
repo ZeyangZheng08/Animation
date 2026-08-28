@@ -14,7 +14,7 @@
   "duration": 7.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stumbles backward and to the side, leaning heavily to its right as if struck, with arms flailing for balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13085,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans sharply to the right and tilts backward, rotating slightly away from the front view as it loses balance.",
       "mean_pose": {
         "Spine Front-Back": -0.1691,
         "Spine Left-Right": -0.01048,
@@ -57,7 +57,7 @@
         "raw_value": 0.27865,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward and to the right, following the torso's collapse.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02619,
         "Neck Tilt Left-Right": -0.13266,
@@ -75,7 +75,7 @@
         "raw_value": 0.44504,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Flails outward and upward to the left, extending away from the body in a panic.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.14487,
         "Left Shoulder Front-Back": -0.59532,
@@ -96,7 +96,7 @@
         "raw_value": 0.33514,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Drops down and back, swinging low near the hip before trailing behind.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.10844,
         "Right Shoulder Front-Back": -0.70476,
@@ -117,7 +117,7 @@
         "raw_value": 0.27265,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee and lifts off the ground, dragging slightly as the body shifts weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.02252,
         "Left Upper Leg In-Out": 0.376,
@@ -137,7 +137,7 @@
         "raw_value": 0.34056,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Plants firmly on the ground with the knee bent, acting as the pivot point for the fall.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.19488,
         "Right Upper Leg In-Out": 0.34823,
@@ -157,7 +157,7 @@
         "raw_value": 0.57742,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide with fingers splayed as the arm extends outward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.97751,
         "Left Thumb Spread": -0.03594,
@@ -189,7 +189,7 @@
         "raw_value": 0.58488,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely by the side, dropping below the level of the hips.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.47061,
         "Right Thumb Spread": -0.02164,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

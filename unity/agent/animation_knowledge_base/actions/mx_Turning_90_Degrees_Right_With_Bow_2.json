@@ -14,7 +14,7 @@
   "duration": 1.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure crouches in a deep squat and rotates its body ninety degrees to the right while bowing forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04636,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starting from an upright, slightly bent position, the torso bends deeply at the waist into a bow and simultaneously rotates clockwise by ninety degrees.",
       "mean_pose": {
         "Spine Front-Back": -0.06784,
         "Spine Left-Right": 0.00714,
@@ -57,7 +57,7 @@
         "raw_value": 0.16603,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the torso's motion, tilting down as the figure bows and turning to face the new direction after the rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02862,
         "Neck Tilt Left-Right": -0.29624,
@@ -75,7 +75,7 @@
         "raw_value": 0.06991,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs down and back from the shoulder, extending outward for balance with the elbow slightly bent throughout the turn.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.6055,
         "Left Shoulder Front-Back": -0.22157,
@@ -96,7 +96,7 @@
         "raw_value": 0.13017,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is held low and close to the body, swinging around in sync with the torso's rotation.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.55404,
         "Right Shoulder Front-Back": -0.51412,
@@ -117,7 +117,7 @@
         "raw_value": 0.17618,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground with the knee deeply bent, serving as the pivot point for the turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.77888,
         "Left Upper Leg In-Out": 0.59706,
@@ -137,7 +137,7 @@
         "raw_value": 0.20256,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays grounded in a wide stance, bending at the knee to support the deep squat posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.75487,
         "Right Upper Leg In-Out": 0.55139,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, hanging naturally at the end of the extended arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.27954,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open with fingers slightly curled, positioned low near the right thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.36298,
         "Right Thumb Spread": -0.534,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

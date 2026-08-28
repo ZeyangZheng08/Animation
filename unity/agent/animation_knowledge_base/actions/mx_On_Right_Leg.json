@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static pose, balancing on the right leg while extending the left leg forward and upward.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly backward to maintain balance over the supporting right leg.",
       "mean_pose": {
         "Spine Front-Back": -0.37639,
         "Spine Left-Right": -0.06737,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is held upright and faces directly forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.22564,
         "Neck Tilt Left-Right": -0.29019,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow with the hand raised in front of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.77918,
         "Left Shoulder Front-Back": -0.15952,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward and slightly downward to the side for balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.33776,
         "Right Shoulder Front-Back": -0.02928,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is lifted high in front of the body with the knee bent.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.37649,
         "Left Upper Leg In-Out": 1.00565,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains straight and planted on the ground as the supporting limb.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.75751,
         "Right Upper Leg In-Out": 0.91348,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open near the upper chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.3769,
         "Left Thumb Spread": -0.62523,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is extended outward to the side with fingers spread.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.38101,
         "Right Thumb Spread": -1.22806,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:26Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

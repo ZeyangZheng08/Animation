@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lies flat on its back on the floor in a static pose with the left leg bent at the knee.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rests flat on the ground, facing upward.",
       "mean_pose": {
         "Spine Front-Back": -0.48104,
         "Spine Left-Right": -0.01276,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head lies on the floor behind the shoulders, facing up.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.35164,
         "Neck Tilt Left-Right": 0.0569,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward to the side, resting on the floor.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.42256,
         "Left Shoulder Front-Back": -0.42057,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward to the opposite side, resting on the floor.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.23011,
         "Right Shoulder Front-Back": -0.67294,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee with the foot planted on the floor near the hips.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.25282,
         "Left Upper Leg In-Out": -0.02252,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is extended straight out along the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.68042,
         "Right Upper Leg In-Out": 0.07591,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand rests open on the floor beside the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.49306,
         "Left Thumb Spread": -0.81759,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand rests open on the floor beside the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.38698,
         "Right Thumb Spread": 0.51639,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:43:15Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

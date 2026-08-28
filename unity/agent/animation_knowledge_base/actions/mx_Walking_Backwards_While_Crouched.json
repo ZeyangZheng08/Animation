@@ -14,7 +14,7 @@
   "duration": 1.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks backwards in a deep crouch, swinging their arms for balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06437,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a deep crouch and sways side-to-side with the rhythm of the steps.",
       "mean_pose": {
         "Spine Front-Back": -0.61005,
         "Spine Left-Right": -0.03695,
@@ -57,7 +57,7 @@
         "raw_value": 0.03611,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down to look at the ground and bobs slightly as the body moves.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.23591,
         "Neck Tilt Left-Right": -0.04067,
@@ -75,7 +75,7 @@
         "raw_value": 0.02415,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings alternately between being raised up and bent near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.65623,
         "Left Shoulder Front-Back": -1.55244,
@@ -96,7 +96,7 @@
         "raw_value": 0.03872,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings back and forth across the front of the body, opposite the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.30991,
         "Right Shoulder Front-Back": -0.20471,
@@ -117,7 +117,7 @@
         "raw_value": 0.19731,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps backward repeatedly, bending the knee deeply during the swing phase.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.34464,
         "Left Upper Leg In-Out": 0.29169,
@@ -137,7 +137,7 @@
         "raw_value": 0.1576,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps backward repeatedly, mirroring the bent-knee motion of the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.38446,
         "Right Upper Leg In-Out": -0.16177,
@@ -157,7 +157,7 @@
         "raw_value": 0.09105,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed while moving with the arm's swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.93811,
         "Left Thumb Spread": 0.01898,
@@ -189,7 +189,7 @@
         "raw_value": 0.08033,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open and loose as it swings across the torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.93948,
         "Right Thumb Spread": 0.09987,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:49Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

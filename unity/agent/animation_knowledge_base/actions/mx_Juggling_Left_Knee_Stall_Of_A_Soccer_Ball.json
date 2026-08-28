@@ -14,7 +14,7 @@
   "duration": 2.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lifts the left knee high and brings both hands down to meet it in a juggling motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05182,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward toward the raised leg and then returns to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.36873,
         "Spine Left-Right": -0.20397,
@@ -57,7 +57,7 @@
         "raw_value": 0.18917,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward to look at the lifted knee before returning to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05962,
         "Neck Tilt Left-Right": -0.01571,
@@ -75,7 +75,7 @@
         "raw_value": 0.08744,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm bends at the elbow, bringing the hand up from the side of the body to hover near the raised knee.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.79009,
         "Left Shoulder Front-Back": 0.24843,
@@ -96,7 +96,7 @@
         "raw_value": 0.12225,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm bends at the elbow, moving the hand inward across the front of the body to meet the left hand near the knee.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.95912,
         "Right Shoulder Front-Back": -0.06372,
@@ -117,7 +117,7 @@
         "raw_value": 0.18985,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts off the ground with the knee bent upward, then lowers back down to the starting position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.42711,
         "Left Upper Leg In-Out": 0.21136,
@@ -137,7 +137,7 @@
         "raw_value": 0.09745,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted on the ground, supporting the body's weight throughout the movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.41916,
         "Right Upper Leg In-Out": 0.16912,
@@ -157,7 +157,7 @@
         "raw_value": 0.1901,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves upward and inward to position itself just above the left knee.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.10348,
         "Left Thumb Spread": 0.12445,
@@ -189,7 +189,7 @@
         "raw_value": 0.23686,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves inward and slightly upward to join the left hand near the left knee.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.04452,
         "Right Thumb Spread": 0.37909,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

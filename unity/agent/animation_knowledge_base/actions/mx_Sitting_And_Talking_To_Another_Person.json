@@ -14,7 +14,7 @@
   "duration": 44.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A seated figure gestures with both hands while conversing, moving them from an open position to resting on the knees and back out.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.02655,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains in a steady, upright seated posture with minimal shifting throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.52319,
         "Spine Left-Right": -0.1095,
@@ -57,7 +57,7 @@
         "raw_value": 0.14658,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays relatively still, facing forward with only subtle movements consistent with talking.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03307,
         "Neck Tilt Left-Right": 0.06698,
@@ -75,7 +75,7 @@
         "raw_value": 0.15926,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, holding the forearm up in front of the body to gesture before lowering down toward the knee.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.47153,
         "Left Shoulder Front-Back": -0.84355,
@@ -96,7 +96,7 @@
         "raw_value": 0.19166,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, keeping the forearm raised for gesturing and then dropping it down to rest near the leg.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.84866,
         "Right Shoulder Front-Back": -0.95049,
@@ -117,7 +117,7 @@
         "raw_value": 0.01027,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg holds a static sitting pose with the thigh horizontal and the lower leg extending vertically downward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.56378,
         "Left Upper Leg In-Out": 0.27299,
@@ -137,7 +137,7 @@
         "raw_value": 0.01196,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg maintains a static sitting position, parallel to the left leg with the foot planted on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.58628,
         "Right Upper Leg In-Out": 0.16655,
@@ -157,7 +157,7 @@
         "raw_value": 0.18014,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand starts with fingers spread in a loose gesture, moves down to rest flat on the knee, and then lifts slightly again.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15658,
         "Left Thumb Spread": 0.11671,
@@ -189,7 +189,7 @@
         "raw_value": 0.21612,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand begins with an open palm gesture, lowers to place the fingers on the knee, and then returns to a relaxed, semi-open position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.13845,
         "Right Thumb Spread": 0.22175,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:40Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

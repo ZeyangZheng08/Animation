@@ -14,7 +14,7 @@
   "duration": 10.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place, using the left arm to perform a reaching motion to open and then close an invisible cabinet door.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03222,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and centered, maintaining a steady posture with minimal movement throughout the action.",
       "mean_pose": {
         "Spine Front-Back": -0.0234,
         "Spine Left-Right": 0.08341,
@@ -57,7 +57,7 @@
         "raw_value": 0.03815,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward, keeping a consistent orientation while the body performs the task.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.2746,
         "Neck Tilt Left-Right": 0.01991,
@@ -75,7 +75,7 @@
         "raw_value": 0.03932,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward from the side of the body, reaches out as if grasping a handle, and then retracts back toward the torso.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.35531,
         "Left Shoulder Front-Back": -0.08445,
@@ -96,7 +96,7 @@
         "raw_value": 0.31542,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs relaxed at the side of the body, remaining largely stationary and passive during the sequence.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.21976,
         "Right Shoulder Front-Back": -1.15038,
@@ -117,7 +117,7 @@
         "raw_value": 0.01745,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is planted firmly on the ground, holding a static, straight standing pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.38719,
         "Left Upper Leg In-Out": 0.09066,
@@ -137,7 +137,7 @@
         "raw_value": 0.01996,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stands straight and stable beside the left leg, providing a fixed base for the upper body movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.41721,
         "Right Upper Leg In-Out": 0.05802,
@@ -157,7 +157,7 @@
         "raw_value": 0.12637,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves outward into an extended position to interact with the unseen object before returning to rest near the waist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.61146,
         "Left Thumb Spread": -0.35981,
@@ -189,7 +189,7 @@
         "raw_value": 0.24939,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and relaxed by the side of the hip, showing no significant engagement in the action.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.3056,
         "Right Thumb Spread": -1.13155,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:41Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

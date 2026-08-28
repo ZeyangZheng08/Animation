@@ -14,7 +14,7 @@
   "duration": 1.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a quick, agile turn to the right while in a low athletic stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02477,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates significantly to the right, leaning slightly forward and down throughout the pivot.",
       "mean_pose": {
         "Spine Front-Back": -0.42429,
         "Spine Left-Right": -0.19828,
@@ -57,7 +57,7 @@
         "raw_value": 0.08766,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to the right, following the rotation of the body to look over the right shoulder.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.58332,
         "Neck Tilt Left-Right": 0.13495,
@@ -75,7 +75,7 @@
         "raw_value": 0.0191,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is extended out to the side and slightly back, acting as a counterweight to the turn.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.37043,
         "Left Shoulder Front-Back": 0.94498,
@@ -96,7 +96,7 @@
         "raw_value": 0.02374,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings across the front of the body during the rotation, moving from the right side toward the left.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.38554,
         "Right Shoulder Front-Back": -0.84267,
@@ -117,7 +117,7 @@
         "raw_value": 0.15312,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends outward to the left with the knee bent, providing a wide base for the turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.32024,
         "Left Upper Leg In-Out": -0.04607,
@@ -137,7 +137,7 @@
         "raw_value": 0.19483,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends deeply at the knee, serving as the primary support and pivot point for the movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.43784,
         "Right Upper Leg In-Out": 0.57007,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, held steady in an extended position.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.16921,
         "Left Thumb Spread": -0.36298,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open with fingers spread, maintaining a consistent shape as the arm moves.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.14784,
         "Right Thumb Spread": -0.89556,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:36:31Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

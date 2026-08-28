@@ -14,7 +14,7 @@
   "duration": 1.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lies on the floor, using its left hand to grasp and pull at its shirt while turning its head.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00287,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains in a static supine position on the floor with legs extended.",
       "mean_pose": {
         "Spine Front-Back": -0.08983,
         "Spine Left-Right": -0.01821,
@@ -57,7 +57,7 @@
         "raw_value": 0.06497,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns from facing upward to look toward the right side of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.18415,
         "Neck Tilt Left-Right": 0.02409,
@@ -75,7 +75,7 @@
         "raw_value": 0.05712,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bends at the elbow to bring the hand up to the chest area.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.89495,
         "Left Shoulder Front-Back": -0.08811,
@@ -96,7 +96,7 @@
         "raw_value": 0.00859,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose bent at the elbow with the hand resting near the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.95323,
         "Right Shoulder Front-Back": -0.44199,
@@ -117,7 +117,7 @@
         "raw_value": 0.00986,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays in a static, extended position on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.39972,
         "Left Upper Leg In-Out": 0.31509,
@@ -137,7 +137,7 @@
         "raw_value": 0.01549,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains static and extended on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.41431,
         "Right Upper Leg In-Out": 0.16276,
@@ -157,7 +157,7 @@
         "raw_value": 0.35665,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves to the chest to perform a picking motion on the shirt.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.7417,
         "Left Thumb Spread": -0.32721,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static position near the midsection.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.08684,
         "Right Thumb Spread": 0.25716,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:40:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

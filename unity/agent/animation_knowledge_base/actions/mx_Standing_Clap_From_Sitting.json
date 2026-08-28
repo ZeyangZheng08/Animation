@@ -14,7 +14,7 @@
   "duration": 4.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands up from a deep squat and claps its hands together.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07866,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward in the initial squat, then extends upward to an upright position before leaning slightly forward again at the end.",
       "mean_pose": {
         "Spine Front-Back": -0.21026,
         "Spine Left-Right": -0.00173,
@@ -57,7 +57,7 @@
         "raw_value": 0.0984,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down during the squat, lifts to face forward while standing, and lowers slightly as the arms come down.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.20634,
         "Neck Tilt Left-Right": 0.06081,
@@ -75,7 +75,7 @@
         "raw_value": 0.23483,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm rests on the knee during the squat, swings up to clap in front of the chest, and then lowers back toward the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.0081,
         "Left Shoulder Front-Back": -0.7348,
@@ -96,7 +96,7 @@
         "raw_value": 0.40353,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left arm, moving from the knee up to clap and then lowering back down.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.14027,
         "Right Shoulder Front-Back": -0.53707,
@@ -117,7 +117,7 @@
         "raw_value": 0.23345,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg starts bent in a deep squat, straightens to support the standing posture, and bends slightly at the end.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.005,
         "Left Upper Leg In-Out": 0.25588,
@@ -137,7 +137,7 @@
         "raw_value": 0.21923,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg moves in unison with the left, extending from the squat to a full stand and then relaxing into a slight bend.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.06726,
         "Right Upper Leg In-Out": 0.16971,
@@ -157,7 +157,7 @@
         "raw_value": 0.28428,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand rests on the thigh, rises to meet the other hand for a clap, and finishes near the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.34919,
         "Left Thumb Spread": 0.26244,
@@ -189,7 +189,7 @@
         "raw_value": 0.23893,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from the thigh up to clap against the left hand and returns to the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.09715,
         "Right Thumb Spread": 0.87809,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:34Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

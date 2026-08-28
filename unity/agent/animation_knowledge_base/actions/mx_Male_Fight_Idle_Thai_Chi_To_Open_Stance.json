@@ -14,7 +14,7 @@
   "duration": 7.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a compact, centered fighting stance into a wide, open martial arts posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14732,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers and shifts slightly to the left as the stance widens, maintaining an upright but engaged posture.",
       "mean_pose": {
         "Spine Front-Back": -0.08453,
         "Spine Left-Right": -0.04735,
@@ -57,7 +57,7 @@
         "raw_value": 0.09118,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively stable, facing forward with only minor adjustments to track the movement of the arms.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.12392,
         "Neck Tilt Left-Right": -0.07806,
@@ -75,7 +75,7 @@
         "raw_value": 0.29992,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm moves outward and downward from a high guard position near the chest to extend across the body towards the right hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.39686,
         "Left Shoulder Front-Back": -0.0276,
@@ -96,7 +96,7 @@
         "raw_value": 0.26213,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward and upward from a low guard position near the waist to reach up beside the head.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.63301,
         "Right Shoulder Front-Back": 0.03768,
@@ -117,7 +117,7 @@
         "raw_value": 0.12518,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps out to the side, bending at the knee to form a deep lunge in the final pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.1592,
         "Left Upper Leg In-Out": 0.71896,
@@ -137,7 +137,7 @@
         "raw_value": 0.11953,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps out to the opposite side, also bending at the knee to create a wide, grounded stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.07845,
         "Right Upper Leg In-Out": 0.7475,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a flat-palm shape, fingers extended, moving from a vertical guard to a horizontal extension.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.52901,
         "Left Thumb Spread": -0.03977,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a flat-palm shape, fingers extended, moving from a low position to a high guard next to the face.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

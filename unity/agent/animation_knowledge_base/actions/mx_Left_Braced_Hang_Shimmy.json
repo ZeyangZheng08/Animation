@@ -14,7 +14,7 @@
   "duration": 1.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, crouched shimmy with both arms raised high.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02376,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a deep squat and sways side to side in a rhythmic shimmy motion.",
       "mean_pose": {
         "Spine Front-Back": -0.19906,
         "Spine Left-Right": -0.01223,
@@ -57,7 +57,7 @@
         "raw_value": 0.12403,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts slightly downward while bobbing gently up and down with the body's movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.14336,
         "Neck Tilt Left-Right": 0.04142,
@@ -75,7 +75,7 @@
         "raw_value": 0.19854,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises upward and outward, maintaining a bent elbow position while oscillating rhythmically.",
       "mean_pose": {
         "Left Shoulder Down-Up": 1.10387,
         "Left Shoulder Front-Back": 0.45237,
@@ -96,7 +96,7 @@
         "raw_value": 0.20803,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Lifts high above the head with a bent elbow, moving back and forth in sync with the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.97894,
         "Right Shoulder Front-Back": -1.80805,
@@ -117,7 +117,7 @@
         "raw_value": 0.13614,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays bent in a wide squat, shifting its weight laterally as part of the shimmy.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.40682,
         "Left Upper Leg In-Out": 0.74326,
@@ -137,7 +137,7 @@
         "raw_value": 0.15019,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent in a deep lunge stance, alternating pressure with the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.52799,
         "Right Upper Leg In-Out": 0.96098,
@@ -157,7 +157,7 @@
         "raw_value": 0.15068,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open, relaxed shape high in the air, waving slightly with the arm's motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.82005,
         "Left Thumb Spread": 1.01984,
@@ -189,7 +189,7 @@
         "raw_value": 0.2408,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeps fingers loosely curled near the top of the frame, moving fluidly with the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42147,
         "Right Thumb Spread": -0.39204,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

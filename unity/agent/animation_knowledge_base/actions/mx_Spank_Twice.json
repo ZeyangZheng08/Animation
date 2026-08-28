@@ -14,7 +14,7 @@
   "duration": 5.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure swings their right arm down to deliver two quick slaps.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05268,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and rotates slightly with the swinging motion of the arms.",
       "mean_pose": {
         "Spine Front-Back": -0.03728,
         "Spine Left-Right": 0.01159,
@@ -57,7 +57,7 @@
         "raw_value": 0.20901,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to look at the hands and then lifts up as the arm finishes its swing.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04471,
         "Neck Tilt Left-Right": -0.08972,
@@ -75,7 +75,7 @@
         "raw_value": 0.35651,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings back behind the body to balance the momentum of the right arm's movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.40328,
         "Left Shoulder Front-Back": 0.18008,
@@ -96,7 +96,7 @@
         "raw_value": 0.11208,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is raised high before swinging sharply downward twice in a repeated striking motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.66398,
         "Right Shoulder Front-Back": -0.69995,
@@ -117,7 +117,7 @@
         "raw_value": 0.16278,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee, shifting weight to support the dynamic upper body movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.39808,
         "Left Upper Leg In-Out": 0.02429,
@@ -137,7 +137,7 @@
         "raw_value": 0.15839,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains relatively straight, acting as the primary pillar for the stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.40716,
         "Right Upper Leg In-Out": 0.09698,
@@ -157,7 +157,7 @@
         "raw_value": 0.11046,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves backward and opens slightly to counterbalance the swinging right arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72332,
         "Left Thumb Spread": 0.10738,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs loosely by the side of the body in a relaxed position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.87366,
         "Right Thumb Spread": 0.13645,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:08Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

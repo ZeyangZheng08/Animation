@@ -14,7 +14,7 @@
   "duration": 1.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stops performing jumping jacks and transitions into a relaxed standing idle pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01809,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stationary throughout the entire sequence, providing a stable base for the limbs to move around.",
       "mean_pose": {
         "Spine Front-Back": -0.01838,
         "Spine Left-Right": 0.00169,
@@ -57,7 +57,7 @@
         "raw_value": 0.07506,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays neutral and faces forward, remaining relatively still while the body moves.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.19533,
         "Neck Tilt Left-Right": 0.10352,
@@ -75,7 +75,7 @@
         "raw_value": 0.37576,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings down from being raised overhead to rest at the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.04986,
         "Left Shoulder Front-Back": -0.10911,
@@ -96,7 +96,7 @@
         "raw_value": 0.40783,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging down from an overhead position to hang naturally by the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.26212,
         "Right Shoulder Front-Back": -0.25113,
@@ -117,7 +117,7 @@
         "raw_value": 0.12728,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps inward from a wide stance, bending slightly to land in a standard resting position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.41207,
         "Left Upper Leg In-Out": 0.19798,
@@ -137,7 +137,7 @@
         "raw_value": 0.12338,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg moves inward from the outer edge of the jump, straightening out to support the body's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.35241,
         "Right Upper Leg In-Out": 0.19335,
@@ -157,7 +157,7 @@
         "raw_value": 0.19403,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand lowers with the arm, transitioning from a raised position to a relaxed state near the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.16212,
         "Left Thumb Spread": 0.42963,
@@ -189,7 +189,7 @@
         "raw_value": 0.28764,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand descends alongside the body, ending in a loose, open position at the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.51701,
         "Right Thumb Spread": 0.07116,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

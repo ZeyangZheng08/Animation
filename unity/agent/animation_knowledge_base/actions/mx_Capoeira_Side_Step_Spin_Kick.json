@@ -14,7 +14,7 @@
   "duration": 1.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, spinning side step that transitions into a deep forward bend.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14994,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and downward from a crouch, rotating through the spin to finish bent deeply over the legs.",
       "mean_pose": {
         "Spine Front-Back": -0.12374,
         "Spine Left-Right": -0.0298,
@@ -57,7 +57,7 @@
         "raw_value": 0.26177,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Drops down toward the floor as the torso bends, tilting to follow the rotation of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01394,
         "Neck Tilt Left-Right": -0.04028,
@@ -75,7 +75,7 @@
         "raw_value": 0.39294,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches out to the side for balance during the step, then extends high overhead as the body bends forward.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.37935,
         "Left Shoulder Front-Back": -0.36841,
@@ -96,7 +96,7 @@
         "raw_value": 0.29364,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs low near the ground in the initial crouch, then swings upward and outward to counterbalance the lean.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.2161,
         "Right Shoulder Front-Back": -0.67344,
@@ -117,7 +117,7 @@
         "raw_value": 0.28895,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps sideways to initiate the turn, then remains planted with a bent knee as the upper body folds over it.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.69867,
         "Left Upper Leg In-Out": 0.26815,
@@ -137,7 +137,7 @@
         "raw_value": 0.35041,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Supports the weight in a deep crouch, bending further to lower the hips for the final forward fold.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.25979,
         "Right Upper Leg In-Out": 0.39766,
@@ -157,7 +157,7 @@
         "raw_value": 0.2735,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens outward while reaching to the side, finishing with the fingers spread high above the head.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.68167,
         "Left Thumb Spread": -0.16126,
@@ -189,7 +189,7 @@
         "raw_value": 0.19967,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely near the leg at first, then sweeps up and away from the body to extend into the air.",
       "mean_pose": {
         "Right Thumb 1 Stretched": 0.00416,
         "Right Thumb Spread": 0.34089,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

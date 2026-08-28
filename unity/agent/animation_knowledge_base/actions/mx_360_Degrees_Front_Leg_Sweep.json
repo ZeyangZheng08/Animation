@@ -14,7 +14,7 @@
   "duration": 2.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a wide, sweeping spin to its left, rotating a full 360 degrees while keeping a low, athletic stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09394,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers into a deep crouch and rotates continuously to the left through a full circle.",
       "mean_pose": {
         "Spine Front-Back": -0.05242,
         "Spine Left-Right": 0.06908,
@@ -57,7 +57,7 @@
         "raw_value": 0.3105,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays upright and follows the body's rotation, turning fully around with the spin.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.17756,
         "Neck Tilt Left-Right": -0.01753,
@@ -75,7 +75,7 @@
         "raw_value": 0.20694,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held bent at the elbow in front of the chest, swinging slightly as it carries the body's rotation.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.51761,
         "Left Shoulder Front-Back": 0.0016,
@@ -96,7 +96,7 @@
         "raw_value": 0.20056,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, kept bent at the elbow near the waist and moving with the turn.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.48983,
         "Right Shoulder Front-Back": 0.10917,
@@ -117,7 +117,7 @@
         "raw_value": 0.22413,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground, bending deeply at the knee to anchor the sweep.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.10713,
         "Left Upper Leg In-Out": 0.4961,
@@ -137,7 +137,7 @@
         "raw_value": 0.18402,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays grounded, extending outward to form a wide base for the spin.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.01177,
         "Right Upper Leg In-Out": 0.53203,
@@ -157,7 +157,7 @@
         "raw_value": 0.64923,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is curled into a loose fist held at chest height.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.0262,
         "Left Thumb Spread": -0.76786,
@@ -189,7 +189,7 @@
         "raw_value": 0.33996,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is also curled into a loose fist, held lower near the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.39843,
         "Right Thumb Spread": -1.51789,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:07:42Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

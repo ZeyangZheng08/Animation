@@ -14,7 +14,7 @@
   "duration": 2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a mid-height hook punch with the right arm, rotating the torso and shifting weight forward before returning to a neutral stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09976,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from a facing-forward position to a profile orientation during the punch, then twists back to face forward.",
       "mean_pose": {
         "Spine Front-Back": -0.35182,
         "Spine Left-Right": -0.012,
@@ -57,7 +57,7 @@
         "raw_value": 0.13,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively stable, facing forward throughout the sequence with minimal movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.0125,
         "Neck Tilt Left-Right": 0.04188,
@@ -75,7 +75,7 @@
         "raw_value": 0.21056,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held bent at the elbow, keeping the hand tucked near the chest in a guard position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.34557,
         "Left Shoulder Front-Back": 0.16943,
@@ -96,7 +96,7 @@
         "raw_value": 0.08859,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings outward in a horizontal arc to deliver a hook punch, extending fully before retracting back toward the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.16658,
         "Right Shoulder Front-Back": -0.76465,
@@ -117,7 +117,7 @@
         "raw_value": 0.12026,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends slightly to absorb the shift in weight as the body turns into the punch.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.05613,
         "Left Upper Leg In-Out": 0.3452,
@@ -137,7 +137,7 @@
         "raw_value": 0.13935,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends backward to provide balance and support during the rotational movement of the punch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.25585,
         "Right Upper Leg In-Out": 0.49403,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains clenched in a fist, held stationary near the chin area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays clenched in a fist, driving through the extended reach of the hook punch.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:52Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

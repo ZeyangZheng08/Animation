@@ -14,7 +14,7 @@
   "duration": 3.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a breakdance footwork move, transitioning from a low crouch on hands and feet to a seated position with one leg extended.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18215,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins in a deep forward bend over the floor, then rotates and rises as the body shifts into an upright, seated posture.",
       "mean_pose": {
         "Spine Front-Back": -1.37954,
         "Spine Left-Right": -0.04933,
@@ -57,7 +57,7 @@
         "raw_value": 0.27573,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is tucked down near the knees initially, then lifts and turns slightly upward as the figure sits up.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03035,
         "Neck Tilt Left-Right": -0.03521,
@@ -75,7 +75,7 @@
         "raw_value": 0.48623,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts planted on the floor for support, then pulls back and bends at the elbow to rest near the hip as the figure settles into a seat.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.40089,
         "Left Shoulder Front-Back": -2.01408,
@@ -96,7 +96,7 @@
         "raw_value": 0.41786,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends downward to touch the ground, then draws inward across the body toward the chest during the transition.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.86368,
         "Right Shoulder Front-Back": -1.87256,
@@ -117,7 +117,7 @@
         "raw_value": 0.35029,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent underneath the body at the start, then swings forward and straightens out to extend along the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.0627,
         "Left Upper Leg In-Out": 0.09853,
@@ -137,7 +137,7 @@
         "raw_value": 0.34063,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains bent under the body throughout the motion, acting as the pivot point for the transition.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.01843,
         "Right Upper Leg In-Out": 0.0225,
@@ -157,7 +157,7 @@
         "raw_value": 0.47319,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand presses firmly against the floor to bear weight before lifting off and curling into a loose fist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.11186,
         "Left Thumb Spread": -0.11474,
@@ -189,7 +189,7 @@
         "raw_value": 0.56123,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches down to the ground and then retracts upward, ending in a relaxed position near the midsection.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.05289,
         "Right Thumb Spread": -0.07622,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

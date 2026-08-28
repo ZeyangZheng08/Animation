@@ -14,7 +14,7 @@
   "duration": 0.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a walking stride into a stationary standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08794,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rises and straightens, moving from a slight forward lean to an upright posture.",
       "mean_pose": {
         "Spine Front-Back": -0.1275,
         "Spine Left-Right": 0.04435,
@@ -57,7 +57,7 @@
         "raw_value": 0.08099,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head lifts slightly and faces forward as the figure settles into its final pose.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05491,
         "Neck Tilt Left-Right": -0.00067,
@@ -75,7 +75,7 @@
         "raw_value": 0.15032,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings gently forward during the transition before settling down at the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.75581,
         "Left Shoulder Front-Back": -0.86906,
@@ -96,7 +96,7 @@
         "raw_value": 0.11496,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings backward in counter-rhythm with the legs, then returns to rest at the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.76525,
         "Right Shoulder Front-Back": -1.04391,
@@ -117,7 +117,7 @@
         "raw_value": 0.11642,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends forward and plants on the ground, straightening out to support the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.03683,
         "Left Upper Leg In-Out": 0.16496,
@@ -137,7 +137,7 @@
         "raw_value": 0.17814,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off from behind and steps forward to meet the left foot, completing the stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.42247,
         "Right Upper Leg In-Out": 0.20445,
@@ -157,7 +157,7 @@
         "raw_value": 0.15492,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains relaxed and open, swinging naturally with the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.74621,
         "Left Thumb Spread": -0.23853,
@@ -189,7 +189,7 @@
         "raw_value": 0.17891,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs loosely by the hip, moving slightly with the arm's momentum.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.22037,
         "Right Thumb Spread": 0.11269,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:50:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

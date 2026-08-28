@@ -14,7 +14,7 @@
   "duration": 1.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a wide combat stance into a sheathing motion, bringing the arms together in front of the body.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04527,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and rotates to the right, settling into an upright position by the end of the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.36939,
         "Spine Left-Right": -0.04785,
@@ -57,7 +57,7 @@
         "raw_value": 0.12805,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to the right and then back toward the center as the body shifts.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.21969,
         "Neck Tilt Left-Right": 0.19342,
@@ -75,7 +75,7 @@
         "raw_value": 0.26638,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm moves from a low guard position across the body to meet the right hand at the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.54872,
         "Left Shoulder Front-Back": -0.66667,
@@ -96,7 +96,7 @@
         "raw_value": 0.48068,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends forward and down before retracting inward to join the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.27803,
         "Right Shoulder Front-Back": -0.90632,
@@ -117,7 +117,7 @@
         "raw_value": 0.10979,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee, shifting its weight to support the turning motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.12258,
         "Left Upper Leg In-Out": 0.48517,
@@ -137,7 +137,7 @@
         "raw_value": 0.20573,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains relatively straight, pivoting slightly as the body rotates.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.36304,
         "Right Upper Leg In-Out": 0.24602,
@@ -157,7 +157,7 @@
         "raw_value": 0.0854,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches across the lower abdomen to grasp the right hand.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.19691,
         "Left Thumb Spread": -1.00402,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and stationary near the hip throughout the sequence.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:34:13Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

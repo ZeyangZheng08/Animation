@@ -14,7 +14,7 @@
   "duration": 0.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lowers its arms from a high, extended block position to rest them at its sides.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09686,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward during the block and straightens upright as it returns to a standing pose.",
       "mean_pose": {
         "Spine Front-Back": -0.79829,
         "Spine Left-Right": -0.05563,
@@ -57,7 +57,7 @@
         "raw_value": 0.18624,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and looks toward the hands while blocking, then lifts up to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.3392,
         "Neck Tilt Left-Right": 0.24324,
@@ -75,7 +75,7 @@
         "raw_value": 0.29093,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts bent and held high in front of the chest, then extends downward to hang by the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": 1.05602,
         "Left Shoulder Front-Back": -2.33011,
@@ -96,7 +96,7 @@
         "raw_value": 0.26951,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves from a high, extended position out to the side down to hang by the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.86826,
         "Right Shoulder Front-Back": -1.08527,
@@ -117,7 +117,7 @@
         "raw_value": 0.12805,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted with a slight bend throughout the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.19449,
         "Left Upper Leg In-Out": -0.09234,
@@ -137,7 +137,7 @@
         "raw_value": 0.16686,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps back to support the body and straightens as the figure settles into a stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.14079,
         "Right Upper Leg In-Out": 0.28953,
@@ -157,7 +157,7 @@
         "raw_value": 0.16062,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves down from a high guard position to a relaxed state at the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.57036,
         "Left Thumb Spread": -0.50149,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, open-palm shape while moving from an extended position to the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:10Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

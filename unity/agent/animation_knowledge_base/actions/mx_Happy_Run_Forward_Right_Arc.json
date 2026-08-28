@@ -14,7 +14,7 @@
   "duration": 0.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward while turning to the right, moving along a curved path.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11967,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and continuously rotates to the right, following the curve of the run.",
       "mean_pose": {
         "Spine Front-Back": -0.23136,
         "Spine Left-Right": -0.04223,
@@ -57,7 +57,7 @@
         "raw_value": 0.05525,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level with the shoulders and turns to the right to look in the direction of travel.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.18103,
         "Neck Tilt Left-Right": -0.065,
@@ -75,7 +75,7 @@
         "raw_value": 0.18458,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings back and forth in opposition to the legs, bending at the elbow to keep the hand near chest height.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.1425,
         "Left Shoulder Front-Back": -0.08765,
@@ -96,7 +96,7 @@
         "raw_value": 0.21193,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings back and forth opposite the left arm, pumping through a bent-elbow running motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.82612,
         "Right Shoulder Front-Back": 0.07474,
@@ -117,7 +117,7 @@
         "raw_value": 0.30304,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives forward and lifts up high before extending down for foot contact.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.31683,
         "Left Upper Leg In-Out": 0.16414,
@@ -137,7 +137,7 @@
         "raw_value": 0.35718,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, driving forward and lifting up as the body moves through the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.28521,
         "Right Upper Leg In-Out": -0.06678,
@@ -157,7 +157,7 @@
         "raw_value": 0.07076,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains loosely clenched throughout the swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.20791,
         "Left Thumb Spread": 0.61702,
@@ -189,7 +189,7 @@
         "raw_value": 0.12943,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains loosely clenched throughout the swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.2434,
         "Right Thumb Spread": 0.30724,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:48Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

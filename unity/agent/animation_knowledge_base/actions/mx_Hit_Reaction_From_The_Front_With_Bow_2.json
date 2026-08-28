@@ -14,7 +14,7 @@
   "duration": 0.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin reacts to a hit from the front by recoiling backward, throwing its arms up in a defensive gesture, and then bowing forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06263,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans sharply backward at the moment of impact and then hunches forward into a deep bow.",
       "mean_pose": {
         "Spine Front-Back": -0.38367,
         "Spine Left-Right": -0.05974,
@@ -57,7 +57,7 @@
         "raw_value": 0.27071,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head snaps back with the recoil and then drops down low during the bow.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.32351,
         "Neck Tilt Left-Right": 0.71708,
@@ -75,7 +75,7 @@
         "raw_value": 0.13474,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm flings outward and upward to balance the backward fall before swinging forward as the body bows.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.51693,
         "Left Shoulder Front-Back": -0.06815,
@@ -96,7 +96,7 @@
         "raw_value": 0.1535,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm raises slightly out to the side during the recoil and then folds inward toward the waist for the bow.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.59634,
         "Right Shoulder Front-Back": -0.31956,
@@ -117,7 +117,7 @@
         "raw_value": 0.07091,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to absorb the shock of the hit and supports the forward lean of the bow.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.07285,
         "Left Upper Leg In-Out": 0.34874,
@@ -137,7 +137,7 @@
         "raw_value": 0.07579,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps slightly back to stabilize the stance while bending to accommodate the change in posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.16957,
         "Right Upper Leg In-Out": 0.54399,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a relaxed, open position throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.20567,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains loosely curled near the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.31038,
         "Right Thumb Spread": -0.46824,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:52Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

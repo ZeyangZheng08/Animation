@@ -14,7 +14,7 @@
   "duration": 1.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a soccer chest receive, stepping forward and leaning back to cushion an incoming ball against their torso.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13329,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward in a smooth arc from the initial upright stance to create space for the chest receive, then straightens up as the motion concludes.",
       "mean_pose": {
         "Spine Front-Back": -0.13224,
         "Spine Left-Right": 0.00131,
@@ -57,7 +57,7 @@
         "raw_value": 0.15149,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts upward to track the ball's approach and returns to a neutral position as the torso extends.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03101,
         "Neck Tilt Left-Right": -0.00494,
@@ -75,7 +75,7 @@
         "raw_value": 0.24658,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises slightly outward from the side of the body to maintain balance during the backward lean.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.44775,
         "Left Shoulder Front-Back": -0.27081,
@@ -96,7 +96,7 @@
         "raw_value": 0.23393,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends out to the side and bends at the elbow to help stabilize the upper body while receiving the ball.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.55882,
         "Right Shoulder Front-Back": 0.19813,
@@ -117,7 +117,7 @@
         "raw_value": 0.22509,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and bends at the knee to absorb the momentum of the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.55844,
         "Left Upper Leg In-Out": 0.35538,
@@ -137,7 +137,7 @@
         "raw_value": 0.15549,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains relatively stationary with a slight bend to provide a stable base for the step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.2166,
         "Right Upper Leg In-Out": 0.08702,
@@ -157,7 +157,7 @@
         "raw_value": 0.21174,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open and relaxed at the end of the raised arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.98987,
         "Left Thumb Spread": -0.17026,
@@ -189,7 +189,7 @@
         "raw_value": 0.14693,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed near the hip area as the arm extends for balance.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.88405,
         "Right Thumb Spread": -0.39204,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:06Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

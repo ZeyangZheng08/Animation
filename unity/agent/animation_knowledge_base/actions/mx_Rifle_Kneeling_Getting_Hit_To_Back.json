@@ -14,7 +14,7 @@
   "duration": 1.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is knocked from a kneeling stance onto the ground.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16239,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a crouch before falling backward and rotating to lie on its back.",
       "mean_pose": {
         "Spine Front-Back": -0.40483,
         "Spine Left-Right": -0.16287,
@@ -57,7 +57,7 @@
         "raw_value": 0.14777,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the knees, then arches back as the body falls to the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03191,
         "Neck Tilt Left-Right": -0.02133,
@@ -75,7 +75,7 @@
         "raw_value": 0.46251,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts bent with the hand near the knee, then swings up and out as the body drops.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.47478,
         "Left Shoulder Front-Back": -0.91819,
@@ -96,7 +96,7 @@
         "raw_value": 0.34274,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose with the hand resting near the left knee throughout the fall.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.35872,
         "Right Shoulder Front-Back": -0.89218,
@@ -117,7 +117,7 @@
         "raw_value": 0.276,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Begins bent at the knee, then kicks upward into the air during the fall.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.13618,
         "Left Upper Leg In-Out": 0.65427,
@@ -137,7 +137,7 @@
         "raw_value": 0.38139,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Starts extended forward, then bends and lifts off the ground as the body collapses.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.13979,
         "Right Upper Leg In-Out": 0.72451,
@@ -157,7 +157,7 @@
         "raw_value": 0.24306,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves from the knee area outward and upward, ending open above the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.61684,
         "Left Thumb Spread": -0.97449,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains static, holding a position near the left knee.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.39712,
         "Right Thumb Spread": -1.46676,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:45:22Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

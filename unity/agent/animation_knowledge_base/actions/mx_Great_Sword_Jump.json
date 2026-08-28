@@ -14,7 +14,7 @@
   "duration": 0.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a jumping attack, leaping into the air with knees tucked up and arms held in a two-handed grip.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14905,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward as the figure jumps, then crouches deeper to tuck the legs while airborne.",
       "mean_pose": {
         "Spine Front-Back": -0.44063,
         "Spine Left-Right": -0.14,
@@ -57,7 +57,7 @@
         "raw_value": 0.12796,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down, following the forward lean of the torso during the jump.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.4359,
         "Neck Tilt Left-Right": -0.02262,
@@ -75,7 +75,7 @@
         "raw_value": 0.20236,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow and held across the body in a gripping position.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.2964,
         "Left Shoulder Front-Back": -1.42626,
@@ -96,7 +96,7 @@
         "raw_value": 0.17933,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow and held across the body in a gripping position.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.66316,
         "Right Shoulder Front-Back": -2.02783,
@@ -117,7 +117,7 @@
         "raw_value": 0.24184,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and lifts upward, tucking under the body during the jump.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.14638,
         "Left Upper Leg In-Out": 0.42004,
@@ -137,7 +137,7 @@
         "raw_value": 0.24544,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee and lifts upward, tucking under the body during the jump.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.02842,
         "Right Upper Leg In-Out": 0.26415,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains in a closed fist, positioned near the center of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15206,
         "Left Thumb Spread": -0.37832,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains in a closed fist, positioned near the center of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

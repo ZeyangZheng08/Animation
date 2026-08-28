@@ -14,7 +14,7 @@
   "duration": 8.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits on the floor with legs spread, leaning back and tilting their head in a dazed manner.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08639,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward into a slouch and rotates slightly to the left while seated on the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.05475,
         "Spine Left-Right": -0.07074,
@@ -57,7 +57,7 @@
         "raw_value": 0.22908,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward and turns to the right in a slow, dazed motion.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.14152,
         "Neck Tilt Left-Right": -0.05676,
@@ -75,7 +75,7 @@
         "raw_value": 0.12209,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends down and back to prop the body up, keeping the hand planted on the floor.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.92967,
         "Left Shoulder Front-Back": 0.66404,
@@ -96,7 +96,7 @@
         "raw_value": 0.20639,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down and back to brace against the ground, holding the torso upright.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.94276,
         "Right Shoulder Front-Back": -2.21138,
@@ -117,7 +117,7 @@
         "raw_value": 0.0602,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains extended forward with a slight bend at the knee throughout the clip.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.18059,
         "Left Upper Leg In-Out": 0.68849,
@@ -137,7 +137,7 @@
         "raw_value": 0.06082,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays extended forward and slightly outward from the hip.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.30037,
         "Right Upper Leg In-Out": 0.27964,
@@ -157,7 +157,7 @@
         "raw_value": 0.14514,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Presses flat against the floor behind the body to support the weight.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.18535,
         "Left Thumb Spread": 1.05465,
@@ -189,7 +189,7 @@
         "raw_value": 0.30075,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Rests on the floor behind the body, fingers splayed for balance.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.501,
         "Right Thumb Spread": 0.31428,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:47:23Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

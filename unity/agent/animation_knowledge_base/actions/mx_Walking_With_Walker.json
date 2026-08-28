@@ -14,7 +14,7 @@
   "duration": 3.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward at a steady, moderate pace.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03332,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and sways gently up and down with the rhythm of the steps.",
       "mean_pose": {
         "Spine Front-Back": -0.04913,
         "Spine Left-Right": 0.00368,
@@ -57,7 +57,7 @@
         "raw_value": 0.06049,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively stable, facing straight ahead with minimal movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.15529,
         "Neck Tilt Left-Right": -0.05128,
@@ -75,7 +75,7 @@
         "raw_value": 0.13356,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally in opposition to the legs, moving forward as the right leg extends.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.10109,
         "Left Shoulder Front-Back": 0.33348,
@@ -96,7 +96,7 @@
         "raw_value": 0.10528,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings naturally in opposition to the legs, moving forward as the left leg extends.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.54388,
         "Right Shoulder Front-Back": 0.13801,
@@ -117,7 +117,7 @@
         "raw_value": 0.10055,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between extending forward into a stride and pushing off the ground behind.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.24046,
         "Left Upper Leg In-Out": 0.0608,
@@ -137,7 +137,7 @@
         "raw_value": 0.10206,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates between extending forward into a stride and pushing off the ground behind.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.28277,
         "Right Upper Leg In-Out": 0.01206,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a loose fist at the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.40648,
         "Left Thumb Spread": -0.65507,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a loose fist at the side of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.40469,
         "Right Thumb Spread": -1.53879,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:52:11Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

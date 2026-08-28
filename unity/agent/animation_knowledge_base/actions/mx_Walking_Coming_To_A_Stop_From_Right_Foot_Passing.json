@@ -14,7 +14,7 @@
   "duration": 2.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward and comes to a stop, finishing with the right foot passing in front of the left.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11574,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward during the walk, bobbing up and down with each step before settling into an upright position at the end.",
       "mean_pose": {
         "Spine Front-Back": -0.43078,
         "Spine Left-Right": 0.0939,
@@ -57,7 +57,7 @@
         "raw_value": 0.19776,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head faces forward, following the direction of movement, and remains relatively stable with slight bobs matching the gait.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07231,
         "Neck Tilt Left-Right": -0.08919,
@@ -75,7 +75,7 @@
         "raw_value": 0.17098,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings backward as the right leg steps forward, then swings forward past the waist as the right leg passes by, ending bent near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.06763,
         "Left Shoulder Front-Back": -1.05585,
@@ -96,7 +96,7 @@
         "raw_value": 0.13172,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings forward initially, then moves backward and slightly outward for balance, finishing with the hand raised near shoulder height.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.2689,
         "Right Shoulder Front-Back": -1.44962,
@@ -117,7 +117,7 @@
         "raw_value": 0.15227,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg strides forward, plants on the ground to support the body's weight, and remains mostly stationary as the right leg completes its pass.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.53058,
         "Left Upper Leg In-Out": 0.27838,
@@ -137,7 +137,7 @@
         "raw_value": 0.15008,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg drives forward from behind, lifts through the air, and extends across the body to finish in a crossed position in front of the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.29283,
         "Right Upper Leg In-Out": 0.31879,
@@ -157,7 +157,7 @@
         "raw_value": 0.02786,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays relaxed and open, swinging naturally with the arm to maintain rhythm and balance.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.44441,
         "Left Thumb Spread": -0.01013,
@@ -189,7 +189,7 @@
         "raw_value": 0.04515,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and relaxed, moving with the arm's swing before lifting slightly higher as the motion concludes.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.45272,
         "Right Thumb Spread": -0.01307,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:07Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

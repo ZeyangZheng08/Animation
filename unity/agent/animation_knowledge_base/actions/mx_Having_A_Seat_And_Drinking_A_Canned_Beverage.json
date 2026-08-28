@@ -14,7 +14,7 @@
   "duration": 15.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits down on an invisible seat and brings their hands together in front of them.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06087,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers from a standing position to a seated posture, leaning slightly forward.",
       "mean_pose": {
         "Spine Front-Back": -0.39459,
         "Spine Left-Right": -0.16896,
@@ -57,7 +57,7 @@
         "raw_value": 0.26001,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward as the body descends into the sitting position.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.01117,
         "Neck Tilt Left-Right": 0.00103,
@@ -75,7 +75,7 @@
         "raw_value": 0.18993,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm bends at the elbow and moves inward toward the center of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.64201,
         "Left Shoulder Front-Back": -0.24943,
@@ -96,7 +96,7 @@
         "raw_value": 0.40267,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm bends at the elbow and moves inward toward the center of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.57447,
         "Right Shoulder Front-Back": -0.81267,
@@ -117,7 +117,7 @@
         "raw_value": 0.22594,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to lower the body, with the foot planted on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.40111,
         "Left Upper Leg In-Out": 0.59562,
@@ -137,7 +137,7 @@
         "raw_value": 0.213,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee to lower the body, with the foot planted on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.52732,
         "Right Upper Leg In-Out": 0.32708,
@@ -157,7 +157,7 @@
         "raw_value": 0.27638,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves forward and rests near the lap.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.88623,
         "Left Thumb Spread": -0.33207,
@@ -189,7 +189,7 @@
         "raw_value": 0.35402,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves forward and rests near the lap.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.15285,
         "Right Thumb Spread": -0.46494,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward, drops into a low crouch to perform a twist and flip, and then rises back up to continue running.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15645,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward while running, drops significantly lower during the crouch for the flip, and straightens back up to resume the run.",
       "mean_pose": {
         "Spine Front-Back": -0.5425,
         "Spine Left-Right": -0.01806,
@@ -57,7 +57,7 @@
         "raw_value": 0.26692,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays level with the torso while running, dips down as the body crouches, and lifts back up at the end.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.13058,
         "Neck Tilt Left-Right": -0.05768,
@@ -75,7 +75,7 @@
         "raw_value": 0.36168,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings naturally while running, reaches down toward the ground during the crouch, and swings again as the figure stands.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.71977,
         "Left Shoulder Front-Back": -0.31167,
@@ -96,7 +96,7 @@
         "raw_value": 0.35842,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings in opposition to the left arm, extends downward during the flip, and returns to the running swing.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.34926,
         "Right Shoulder Front-Back": -0.86174,
@@ -117,7 +117,7 @@
         "raw_value": 0.31815,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives the running stride, bends deeply into the crouch, and pushes off to stand back up.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.26656,
         "Left Upper Leg In-Out": 0.24857,
@@ -137,7 +137,7 @@
         "raw_value": 0.31299,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates with the left leg in the run, tucks under the body during the low crouch, and extends to support the final rise.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.19653,
         "Right Upper Leg In-Out": 0.16392,
@@ -157,7 +157,7 @@
         "raw_value": 0.25465,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Relaxes in a loose fist while running, opens and reaches down near the floor, and closes slightly on the way up.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.18791,
         "Left Thumb Spread": -0.10117,
@@ -189,7 +189,7 @@
         "raw_value": 0.34997,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Mirrors the left hand's movement, swinging and reaching down during the crouch before returning to the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.53602,
         "Right Thumb Spread": -0.53692,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:46:24Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a deep crouch into an upright standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13579,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso extends upward and straightens, moving from a deeply flexed forward lean to a vertical orientation.",
       "mean_pose": {
         "Spine Front-Back": -0.06961,
         "Spine Left-Right": -0.01613,
@@ -57,7 +57,7 @@
         "raw_value": 0.20469,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down toward the knees initially, then lifts and levels out as the body stands up.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.20575,
         "Neck Tilt Left-Right": 0.03053,
@@ -75,7 +75,7 @@
         "raw_value": 0.28471,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and back for balance before settling at the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.69597,
         "Left Shoulder Front-Back": -0.48503,
@@ -96,7 +96,7 @@
         "raw_value": 0.24538,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves from a bent position near the thigh outward and back, finishing by the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.04843,
         "Right Shoulder Front-Back": -0.58893,
@@ -117,7 +117,7 @@
         "raw_value": 0.36639,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends from a deeply bent knee to support the body in a standing posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.02069,
         "Left Upper Leg In-Out": 0.16911,
@@ -137,7 +137,7 @@
         "raw_value": 0.34055,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends from a bent position to plant on the floor and bear weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.01453,
         "Right Upper Leg In-Out": 0.06668,
@@ -157,7 +157,7 @@
         "raw_value": 0.1238,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens with fingers spread during the movement and relaxes at the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.37548,
         "Left Thumb Spread": 0.20991,
@@ -189,7 +189,7 @@
         "raw_value": 0.19925,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and relaxed, moving slightly away from the body as it stands.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42771,
         "Right Thumb Spread": -0.48031,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:10Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

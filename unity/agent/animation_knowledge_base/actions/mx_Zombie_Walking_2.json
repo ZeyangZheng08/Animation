@@ -14,7 +14,7 @@
   "duration": 4.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a shambling zombie walk, dragging one foot while keeping both arms extended forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14303,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans heavily forward and sways from side to side with each step.",
       "mean_pose": {
         "Spine Front-Back": -0.1785,
         "Spine Left-Right": 0.01391,
@@ -57,7 +57,7 @@
         "raw_value": 0.21591,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Bobs slightly up and down in rhythm with the walking motion.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.24486,
         "Neck Tilt Left-Right": 0.0427,
@@ -75,7 +75,7 @@
         "raw_value": 0.18597,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains held out in front of the body, bent at the elbow, and sways gently with the torso.",
       "mean_pose": {
         "Left Shoulder Down-Up": 1.0149,
         "Left Shoulder Front-Back": -0.8183,
@@ -96,7 +96,7 @@
         "raw_value": 0.15852,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays extended forward with a bent elbow, moving slightly as the body shifts weight.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.19638,
         "Right Shoulder Front-Back": 0.81525,
@@ -117,7 +117,7 @@
         "raw_value": 0.19051,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward in a short, stiff stride, dragging the heel on the ground during the swing phase.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.09637,
         "Left Upper Leg In-Out": 0.26919,
@@ -137,7 +137,7 @@
         "raw_value": 0.23079,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off from behind and then swings forward to take the next drag-step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.15283,
         "Right Upper Leg In-Out": 0.23652,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose with fingers loosely curled and pointing downward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.61734,
         "Left Thumb Spread": -0.18805,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a fixed position with fingers loosely curled and angled toward the floor.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.23858,
         "Right Thumb Spread": 0.45105,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

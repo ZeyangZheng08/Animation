@@ -14,7 +14,7 @@
   "duration": 1.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward with a relaxed, bouncy stride.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07169,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Bobs up and down rhythmically with each step while swaying slightly from side to side.",
       "mean_pose": {
         "Spine Front-Back": -0.23613,
         "Spine Left-Right": -0.07072,
@@ -57,7 +57,7 @@
         "raw_value": 0.06673,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Bobs gently with the vertical movement of the body while maintaining a steady forward orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.26187,
         "Neck Tilt Left-Right": -0.00088,
@@ -75,7 +75,7 @@
         "raw_value": 0.19745,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings in an alternating arc opposite the right leg, bending at the elbow to bring the forearm forward.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.89842,
         "Left Shoulder Front-Back": 0.11393,
@@ -96,7 +96,7 @@
         "raw_value": 0.17252,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings in an alternating arc opposite the left leg, bending at the elbow to bring the forearm forward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.78703,
         "Right Shoulder Front-Back": 0.41202,
@@ -117,7 +117,7 @@
         "raw_value": 0.20525,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward, bends at the knee during mid-stride, and extends to push off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.26865,
         "Left Upper Leg In-Out": -0.05067,
@@ -137,7 +137,7 @@
         "raw_value": 0.1911,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward, bends at the knee during mid-stride, and extends to push off the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.21053,
         "Right Upper Leg In-Out": 0.01682,
@@ -157,7 +157,7 @@
         "raw_value": 0.34886,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves in a loose arc along with the arm, remaining open and relaxed.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.28185,
         "Left Thumb Spread": 0.63712,
@@ -189,7 +189,7 @@
         "raw_value": 0.36344,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves in a loose arc along with the arm, remaining open and relaxed.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.44664,
         "Right Thumb Spread": 0.35005,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:35Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

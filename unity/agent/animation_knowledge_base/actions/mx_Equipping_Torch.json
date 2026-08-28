@@ -14,7 +14,7 @@
   "duration": 1.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward while raising the right arm to equip a torch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0291,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and rotates subtly with the walking motion.",
       "mean_pose": {
         "Spine Front-Back": -0.13165,
         "Spine Left-Right": -0.03005,
@@ -57,7 +57,7 @@
         "raw_value": 0.09616,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head faces forward, looking down briefly toward the right hand before returning to face ahead.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.077,
         "Neck Tilt Left-Right": -0.08316,
@@ -75,7 +75,7 @@
         "raw_value": 0.35677,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally at the side of the body in rhythm with the legs.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.13139,
         "Left Shoulder Front-Back": -0.27808,
@@ -96,7 +96,7 @@
         "raw_value": 0.106,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm lifts from the side, bends at the elbow, and extends forward to hold the equipped torch.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.11762,
         "Right Shoulder Front-Back": -0.14451,
@@ -117,7 +117,7 @@
         "raw_value": 0.05937,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between leading and trailing steps during the walk.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.27163,
         "Left Upper Leg In-Out": 0.15075,
@@ -137,7 +137,7 @@
         "raw_value": 0.10994,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates between leading and trailing steps during the walk.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.44168,
         "Right Upper Leg In-Out": 0.06268,
@@ -157,7 +157,7 @@
         "raw_value": 0.38301,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed at the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.42166,
         "Left Thumb Spread": -0.83997,
@@ -189,7 +189,7 @@
         "raw_value": 0.18231,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves up and forward to grip the torch handle.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.70456,
         "Right Thumb Spread": 0.08289,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 6.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, crawling movement across the floor, dragging its body forward on its hands and feet.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13132,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains in a deeply hunched position close to the ground throughout the sequence, supporting the weight of the upper body while moving forward.",
       "mean_pose": {
         "Spine Front-Back": -0.52594,
         "Spine Left-Right": 0.09651,
@@ -57,7 +57,7 @@
         "raw_value": 0.32288,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is bent down towards the floor, kept low and generally facing forward relative to the direction of movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.09061,
         "Neck Tilt Left-Right": -0.1222,
@@ -75,7 +75,7 @@
         "raw_value": 0.58332,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends downward to the floor, with the hand placed on the ground to help pull the body forward during the crawl.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.05194,
         "Left Shoulder Front-Back": -0.53292,
@@ -96,7 +96,7 @@
         "raw_value": 0.52179,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down and forward, pressing against the floor to assist in propelling the figure along.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.67656,
         "Right Shoulder Front-Back": -0.05105,
@@ -117,7 +117,7 @@
         "raw_value": 0.23883,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg trails behind or tucks under the body, with the foot dragging or pushing off the ground to provide traction for the crawl.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.43833,
         "Left Upper Leg In-Out": 0.73015,
@@ -137,7 +137,7 @@
         "raw_value": 0.27043,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg moves beneath the torso, extending forward and then pulling back to drive the crawling motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.50526,
         "Right Upper Leg In-Out": 0.49911,
@@ -157,7 +157,7 @@
         "raw_value": 0.50152,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand presses flat against the floor, bearing weight and helping to guide the body's forward momentum.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.96955,
         "Left Thumb Spread": -0.28652,
@@ -189,7 +189,7 @@
         "raw_value": 0.4421,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand grips or rests on the floor, working in coordination with the legs to move the figure along the ground.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.69337,
         "Right Thumb Spread": -0.44728,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:34Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a quick, defensive turn to the left while extending an arm forward in a disarming motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08794,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists sharply from facing front to facing right, rotating around the vertical axis as the body turns.",
       "mean_pose": {
         "Spine Front-Back": -0.35257,
         "Spine Left-Right": -0.01601,
@@ -57,7 +57,7 @@
         "raw_value": 0.2241,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head rotates to look down and to the left, tracking the movement of the arms during the turn.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02159,
         "Neck Tilt Left-Right": 0.03825,
@@ -75,7 +75,7 @@
         "raw_value": 0.34075,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends out to the side with the elbow bent, holding a static guard position relative to the chest throughout the rotation.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.15359,
         "Left Shoulder Front-Back": -0.28112,
@@ -96,7 +96,7 @@
         "raw_value": 0.21645,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings across the body, moving from a low position near the hip up towards the shoulder level on the opposite side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.4542,
         "Right Shoulder Front-Back": -0.54572,
@@ -117,7 +117,7 @@
         "raw_value": 0.11926,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to lower the center of gravity, acting as the pivot point for the body's rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.22204,
         "Left Upper Leg In-Out": 0.3691,
@@ -137,7 +137,7 @@
         "raw_value": 0.16788,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps forward and outward, shifting the stance into a wide, stable lunge.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.3872,
         "Right Upper Leg In-Out": 0.13409,
@@ -157,7 +157,7 @@
         "raw_value": 0.47587,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, hovering near the left hip as the arm maintains its bent posture.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.74821,
         "Left Thumb Spread": -0.36452,
@@ -189,7 +189,7 @@
         "raw_value": 0.19427,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches out and opens, fingers spread, before curling back slightly as the arm completes its sweeping motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.47683,
         "Right Thumb Spread": -0.36863,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:21Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure leaps into the air, performs a spinning kick, and lands in a crouched stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18306,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates through the spin during the jump and settles upright as it descends to land.",
       "mean_pose": {
         "Spine Front-Back": -0.2256,
         "Spine Left-Right": -0.11003,
@@ -57,7 +57,7 @@
         "raw_value": 0.2849,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns with the body's rotation in mid-air and faces forward upon landing.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.11511,
         "Neck Tilt Left-Right": 0.00877,
@@ -75,7 +75,7 @@
         "raw_value": 0.24238,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from an extended position out to the side to a bent guard position near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.69423,
         "Left Shoulder Front-Back": 0.04436,
@@ -96,7 +96,7 @@
         "raw_value": 0.36069,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward for balance during the flight and retracts to a bent guard position near the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.08555,
         "Right Shoulder Front-Back": -0.42945,
@@ -117,7 +117,7 @@
         "raw_value": 0.38634,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts high to execute a front kick in mid-air before lowering to bend at the knee for the landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.17592,
         "Left Upper Leg In-Out": 0.37183,
@@ -137,7 +137,7 @@
         "raw_value": 0.34752,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind the kicking motion in the air and bends deeply to absorb the impact of the landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.12364,
         "Right Upper Leg In-Out": 0.53678,
@@ -157,7 +157,7 @@
         "raw_value": 0.48911,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and fingers spread while swinging out, then closes slightly into a loose fist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.93696,
         "Left Thumb Spread": -0.23036,
@@ -189,7 +189,7 @@
         "raw_value": 0.52962,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed during the extension, then forms a loose fist near the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.6612,
         "Right Thumb Spread": -0.21361,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

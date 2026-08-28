@@ -14,7 +14,7 @@
   "duration": 0.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs backwards with a steady, alternating gait.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11627,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and bobs up and down in rhythm with the steps.",
       "mean_pose": {
         "Spine Front-Back": -0.35222,
         "Spine Left-Right": -0.01921,
@@ -57,7 +57,7 @@
         "raw_value": 0.12198,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively stable, facing forward over the shoulders while the body moves backward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.48777,
         "Neck Tilt Left-Right": 0.19128,
@@ -75,7 +75,7 @@
         "raw_value": 0.15096,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings back and forth in opposition to the left leg, bending at the elbow to drive the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.47711,
         "Left Shoulder Front-Back": -0.27196,
@@ -96,7 +96,7 @@
         "raw_value": 0.2468,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings back and forth opposite the right leg, pumping through a bent-elbow arc.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.01744,
         "Right Shoulder Front-Back": -0.34576,
@@ -117,7 +117,7 @@
         "raw_value": 0.13776,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg cycles through a running stride, lifting high behind the body before pushing off to move the figure backward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.07783,
         "Left Upper Leg In-Out": 0.17368,
@@ -137,7 +137,7 @@
         "raw_value": 0.16402,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, extending backward to push off the ground and then swinging forward underneath the hips.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.00798,
         "Right Upper Leg In-Out": 0.08612,
@@ -157,7 +157,7 @@
         "raw_value": 0.02795,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays loosely clenched as it pumps near the hip during the arm swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.24102,
         "Left Thumb Spread": -0.59944,
@@ -189,7 +189,7 @@
         "raw_value": 0.02795,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains loosely clenched, moving in sync with the right arm's backward and forward swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.24101,
         "Right Thumb Spread": -0.59944,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:46:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

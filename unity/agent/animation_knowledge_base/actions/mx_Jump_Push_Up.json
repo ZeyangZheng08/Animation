@@ -14,7 +14,7 @@
   "duration": 1.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a push-up, lowering its body toward the floor and then pushing back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03627,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers from an upright position until it is nearly parallel to the floor, then rises back up.",
       "mean_pose": {
         "Spine Front-Back": -0.23537,
         "Spine Left-Right": 0.01089,
@@ -57,7 +57,7 @@
         "raw_value": 0.10257,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and forward, following the downward motion of the torso before rising again.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.13406,
         "Neck Tilt Left-Right": 0.04297,
@@ -75,7 +75,7 @@
         "raw_value": 0.27825,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends straight down to support the body, bending at the elbow as the torso descends and straightening as it ascends.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.24559,
         "Left Shoulder Front-Back": -0.8309,
@@ -96,7 +96,7 @@
         "raw_value": 0.21549,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, extending downward and bending at the elbow during the descent before straightening on the ascent.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.23863,
         "Right Shoulder Front-Back": -0.73467,
@@ -117,7 +117,7 @@
         "raw_value": 0.16006,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains extended behind the body, with the knee slightly bent throughout the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.35063,
         "Left Upper Leg In-Out": 0.09391,
@@ -137,7 +137,7 @@
         "raw_value": 0.18622,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays extended behind the body, mirroring the slight bend in the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.28914,
         "Right Upper Leg In-Out": 0.09738,
@@ -157,7 +157,7 @@
         "raw_value": 0.15326,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is planted flat on the floor, supporting the weight of the upper body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.31765,
         "Left Thumb Spread": 0.26884,
@@ -189,7 +189,7 @@
         "raw_value": 0.13885,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is planted flat on the floor, providing support alongside the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.86504,
         "Right Thumb Spread": 0.42995,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:39:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

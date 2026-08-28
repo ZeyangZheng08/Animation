@@ -14,7 +14,7 @@
   "duration": 0.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, crouched sneak walk, moving forward with a hunched posture and arms held out for balance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05785,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans heavily forward in a deep crouch, maintaining a low profile while swaying slightly with the gait.",
       "mean_pose": {
         "Spine Front-Back": -0.60048,
         "Spine Left-Right": -0.20677,
@@ -57,7 +57,7 @@
         "raw_value": 0.02956,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays bent downward, keeping the gaze fixed on the ground ahead of the figure.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.59099,
         "Neck Tilt Left-Right": 0.13109,
@@ -75,7 +75,7 @@
         "raw_value": 0.05014,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward and slightly back from the shoulder to maintain balance as the body shifts weight.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.44876,
         "Left Shoulder Front-Back": -0.73228,
@@ -96,7 +96,7 @@
         "raw_value": 0.09095,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches forward and down toward the ground, counterbalancing the torso's forward lean.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.05187,
         "Right Shoulder Front-Back": -1.65124,
@@ -117,7 +117,7 @@
         "raw_value": 0.2646,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward with a bent knee, lowering the body further into the crouch during the stride.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.456,
         "Left Upper Leg In-Out": 0.41685,
@@ -137,7 +137,7 @@
         "raw_value": 0.29721,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trails behind with a bent knee, pushing off the ground to propel the figure forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.50163,
         "Right Upper Leg In-Out": -0.09669,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open with fingers relaxed and spread while extended away from the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.34461,
         "Left Thumb Spread": -0.41702,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open, claw-like pose with fingers curled inward near the ground.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.63504,
         "Right Thumb Spread": -0.35073,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:42:06Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

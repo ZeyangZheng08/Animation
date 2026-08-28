@@ -14,7 +14,7 @@
   "duration": 2.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a floor-based handstand with legs in the air to standing upright with hands on hips.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.26384,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates from an inverted, horizontal position on the floor to a fully upright vertical stance.",
       "mean_pose": {
         "Spine Front-Back": -1.31584,
         "Spine Left-Right": -0.12788,
@@ -57,7 +57,7 @@
         "raw_value": 0.31804,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns from facing downward toward the floor to facing forward and upward as the body stands.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.01178,
         "Neck Tilt Left-Right": 0.01142,
@@ -75,7 +75,7 @@
         "raw_value": 0.49556,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm moves from being planted on the floor to extending out and bending at the elbow with the hand resting on the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.19682,
         "Left Shoulder Front-Back": -0.12636,
@@ -96,7 +96,7 @@
         "raw_value": 0.57168,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves from being planted on the floor to extending out and bending at the elbow with the hand resting on the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.08203,
         "Right Shoulder Front-Back": -1.79213,
@@ -117,7 +117,7 @@
         "raw_value": 0.29982,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg swings down from an extended position in the air to land on the floor and straighten into a standing pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.09758,
         "Left Upper Leg In-Out": 0.20686,
@@ -137,7 +137,7 @@
         "raw_value": 0.30586,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg swings down from an extended position in the air to land on the floor and straighten into a standing pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.09552,
         "Right Upper Leg In-Out": 0.3566,
@@ -157,7 +157,7 @@
         "raw_value": 0.3432,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand pushes off the floor and moves to rest on the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.20203,
         "Left Thumb Spread": -0.52881,
@@ -189,7 +189,7 @@
         "raw_value": 0.39358,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand pushes off the floor and moves to rest on the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.00019,
         "Right Thumb Spread": 0.00284,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

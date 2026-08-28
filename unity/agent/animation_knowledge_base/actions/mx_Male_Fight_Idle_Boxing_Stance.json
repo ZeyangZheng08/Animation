@@ -14,7 +14,7 @@
   "duration": 3.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a relaxed boxing stance, swaying side to side with a subtle bounce.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04448,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and bobs up and down while rotating gently from side to side.",
       "mean_pose": {
         "Spine Front-Back": -0.08698,
         "Spine Left-Right": -0.02002,
@@ -57,7 +57,7 @@
         "raw_value": 0.04312,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward and follows the sway of the body, turning left and right.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.19227,
         "Neck Tilt Left-Right": -0.2091,
@@ -75,7 +75,7 @@
         "raw_value": 0.04392,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, holding the fist up near the face in a guard position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.65695,
         "Left Shoulder Front-Back": -0.18764,
@@ -96,7 +96,7 @@
         "raw_value": 0.04766,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow, holding the fist out in front of the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.51078,
         "Right Shoulder Front-Back": -0.11592,
@@ -117,7 +117,7 @@
         "raw_value": 0.14641,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and shifts its weight as the body sways.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.4651,
         "Left Upper Leg In-Out": 0.33689,
@@ -137,7 +137,7 @@
         "raw_value": 0.13733,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee and moves in opposition to the left leg to maintain balance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.57634,
         "Right Upper Leg In-Out": 0.2251,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains clenched into a tight fist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.05484,
         "Left Thumb Spread": -1.13642,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains clenched into a tight fist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.93146,
         "Right Thumb Spread": -0.87513,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

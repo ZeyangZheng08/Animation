@@ -14,7 +14,7 @@
   "duration": 1.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The character transitions from a low, crouched defensive stance to an upright, relaxed standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06095,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a deep crouch at the start, then rises vertically to stand straight and square by the end.",
       "mean_pose": {
         "Spine Front-Back": -0.04878,
         "Spine Left-Right": 0.02315,
@@ -57,7 +57,7 @@
         "raw_value": 0.13328,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down while crouching and lifts to face forward as the body stands up.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.4072,
         "Neck Tilt Left-Right": 0.10528,
@@ -75,7 +75,7 @@
         "raw_value": 0.30518,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward with a bent elbow in the initial pose, then lowers down to hang loosely at the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.0072,
         "Left Shoulder Front-Back": -0.72139,
@@ -96,7 +96,7 @@
         "raw_value": 0.26845,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches out forward in the starting position, then drops back down to rest naturally at the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.29219,
         "Right Shoulder Front-Back": -0.65966,
@@ -117,7 +117,7 @@
         "raw_value": 0.29259,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Starts bent in a low squat or lunge, then straightens out to support the full weight of the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.08063,
         "Left Upper Leg In-Out": 0.09809,
@@ -137,7 +137,7 @@
         "raw_value": 0.20225,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Begins bent under the body in the crouch, then extends to stand flat on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.04398,
         "Right Upper Leg In-Out": 0.1337,
@@ -157,7 +157,7 @@
         "raw_value": 0.24728,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a tense, open shape in front of the chest before relaxing into a loose fist at the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.14935,
         "Left Thumb Spread": 0.40284,
@@ -189,7 +189,7 @@
         "raw_value": 0.08311,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays extended and open during the transition, then relaxes into a loose fist at the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.706,
         "Right Thumb Spread": 0.11235,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

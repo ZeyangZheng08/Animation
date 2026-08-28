@@ -14,7 +14,7 @@
   "duration": 2.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a soccer throw-in, lifting both hands overhead to release an object before recovering into a forward stride.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07774,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward from the hips during the throwing motion and then returns to an upright position as the arms lower.",
       "mean_pose": {
         "Spine Front-Back": -0.27792,
         "Spine Left-Right": 0.00459,
@@ -57,7 +57,7 @@
         "raw_value": 0.1384,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts upward to track the object being thrown and then lowers back to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02271,
         "Neck Tilt Left-Right": -0.00042,
@@ -75,7 +75,7 @@
         "raw_value": 0.38361,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm lifts fully overhead with the hand extended, releases the object by extending outward, and then swings down to the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.20223,
         "Left Shoulder Front-Back": -0.27347,
@@ -96,7 +96,7 @@
         "raw_value": 0.41474,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, lifting overhead, extending outward for the release, and swinging down to rest at the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.03964,
         "Right Shoulder Front-Back": -0.90857,
@@ -117,7 +117,7 @@
         "raw_value": 0.21083,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground to support the weight of the body during the throw.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.18381,
         "Left Upper Leg In-Out": 0.00553,
@@ -137,7 +137,7 @@
         "raw_value": 0.25338,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent behind the body in a lunge stance, providing balance and power for the throw.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.24059,
         "Right Upper Leg In-Out": 0.1779,
@@ -157,7 +157,7 @@
         "raw_value": 0.23757,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds the object high above the head, extends forward to release it, and finishes open at the side.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.01588,
         "Left Thumb Spread": -0.08952,
@@ -189,7 +189,7 @@
         "raw_value": 0.21042,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand supports the object overhead, extends forward to release it, and finishes open at the side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.60177,
         "Right Thumb Spread": -0.11706,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:24Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

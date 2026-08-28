@@ -14,7 +14,7 @@
   "duration": 1.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks backwards with a steady, alternating gait.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09403,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso maintains an upright posture, swaying gently side-to-side and rotating slightly to counterbalance the leg movements.",
       "mean_pose": {
         "Spine Front-Back": -0.35613,
         "Spine Left-Right": 0.04169,
@@ -57,7 +57,7 @@
         "raw_value": 0.07173,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays relatively level and stable, facing forward while the body moves backward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02541,
         "Neck Tilt Left-Right": -0.00262,
@@ -75,7 +75,7 @@
         "raw_value": 0.16329,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally in opposition to the left leg, bending at the elbow as it moves through the walking cycle.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.81134,
         "Left Shoulder Front-Back": -0.42337,
@@ -96,7 +96,7 @@
         "raw_value": 0.17588,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings naturally in opposition to the right leg, mirroring the left arm's motion with a bent elbow.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.03914,
         "Right Shoulder Front-Back": -0.36678,
@@ -117,7 +117,7 @@
         "raw_value": 0.17568,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between extending behind the body and lifting forward to place the foot down.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.42072,
         "Left Upper Leg In-Out": 0.08103,
@@ -137,7 +137,7 @@
         "raw_value": 0.14263,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates between extending behind the body and lifting forward, stepping in time with the opposite arm.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.41808,
         "Right Upper Leg In-Out": 0.06138,
@@ -157,7 +157,7 @@
         "raw_value": 0.30503,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains relaxed and open, swinging freely at the end of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.63914,
         "Left Thumb Spread": -0.53467,
@@ -189,7 +189,7 @@
         "raw_value": 0.26306,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains relaxed and open, swinging freely at the end of the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.86615,
         "Right Thumb Spread": -0.57735,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a throwing motion, extending an arm forward to release an object while balancing on the legs.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1659,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and rotates slightly during the throw, then straightens up as the movement concludes.",
       "mean_pose": {
         "Spine Front-Back": -0.20337,
         "Spine Left-Right": 0.14402,
@@ -57,7 +57,7 @@
         "raw_value": 0.22527,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and looks toward the right side, tracking the path of the thrown object.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02147,
         "Neck Tilt Left-Right": 0.04859,
@@ -75,7 +75,7 @@
         "raw_value": 0.29024,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings back for balance before moving forward across the body to finish the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.07159,
         "Left Shoulder Front-Back": -0.16239,
@@ -96,7 +96,7 @@
         "raw_value": 0.33809,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends forward in a follow-through after releasing the object, then draws back toward the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.3073,
         "Right Shoulder Front-Back": 0.15122,
@@ -117,7 +117,7 @@
         "raw_value": 0.1517,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward and bends at the knee to absorb the shift in weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.3264,
         "Left Upper Leg In-Out": 0.37112,
@@ -137,7 +137,7 @@
         "raw_value": 0.2126,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains behind with the heel lifted off the ground, providing a stable base.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.51692,
         "Right Upper Leg In-Out": 0.19395,
@@ -157,7 +157,7 @@
         "raw_value": 0.0037,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a relaxed, open position near the hip throughout the clip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.86431,
         "Left Thumb Spread": -0.24404,
@@ -189,7 +189,7 @@
         "raw_value": 0.46612,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand opens its fingers to release the object and then relaxes into a loose fist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.46764,
         "Right Thumb Spread": -0.94413,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

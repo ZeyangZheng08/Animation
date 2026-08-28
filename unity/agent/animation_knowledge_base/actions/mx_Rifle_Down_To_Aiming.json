@@ -14,7 +14,7 @@
   "duration": 0.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from holding a weapon at their waist to raising it into an aiming position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09045,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright, shifting slightly forward as the arms raise.",
       "mean_pose": {
         "Spine Front-Back": -0.21059,
         "Spine Left-Right": -0.03715,
@@ -57,7 +57,7 @@
         "raw_value": 0.13746,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down initially and then lifts to look forward in line with the aim.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01976,
         "Neck Tilt Left-Right": -0.02486,
@@ -75,7 +75,7 @@
         "raw_value": 0.17947,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent at the waist and extends outward to support the front of the weapon.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.52551,
         "Left Shoulder Front-Back": -0.77214,
@@ -96,7 +96,7 @@
         "raw_value": 0.21566,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves from the side of the body up toward the face to hold the rear of the weapon.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.42754,
         "Right Shoulder Front-Back": -0.2331,
@@ -117,7 +117,7 @@
         "raw_value": 0.10798,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands relatively straight, providing a stable base.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.46265,
         "Left Upper Leg In-Out": 0.26847,
@@ -137,7 +137,7 @@
         "raw_value": 0.05069,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends slightly at the knee to absorb the shift in posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.69416,
         "Right Upper Leg In-Out": 0.1132,
@@ -157,7 +157,7 @@
         "raw_value": 0.19948,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand grips the front of the weapon and moves forward as it is raised.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.57608,
         "Left Thumb Spread": -0.16001,
@@ -189,7 +189,7 @@
         "raw_value": 0.23426,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds the weapon near the shoulder and pulls it upward into the aiming stance.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.50433,
         "Right Thumb Spread": -1.15995,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:18Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

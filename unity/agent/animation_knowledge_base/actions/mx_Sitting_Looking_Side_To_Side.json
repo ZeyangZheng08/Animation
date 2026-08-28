@@ -14,7 +14,7 @@
   "duration": 4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A seated figure slowly turns their head to look from one side to the other.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00717,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains in a static, upright seated position facing forward throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.29256,
         "Spine Left-Right": -0.05082,
@@ -57,7 +57,7 @@
         "raw_value": 0.39891,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head rotates horizontally, turning to look toward the left and then returning to face the right.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.33965,
         "Neck Tilt Left-Right": -0.06024,
@@ -75,7 +75,7 @@
         "raw_value": 0.01011,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held statically at the side of the body with the elbow slightly bent.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.27855,
         "Left Shoulder Front-Back": 0.34311,
@@ -96,7 +96,7 @@
         "raw_value": 0.01245,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is held statically at the side of the body with the elbow slightly bent.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.32714,
         "Right Shoulder Front-Back": -0.07129,
@@ -117,7 +117,7 @@
         "raw_value": 0.00197,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee in a static sitting posture with the foot planted on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.31301,
         "Left Upper Leg In-Out": 0.20665,
@@ -137,7 +137,7 @@
         "raw_value": 0.00558,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent at the knee in a static sitting posture with the foot planted on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.33753,
         "Right Upper Leg In-Out": 0.20461,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand rests statically on the upper thigh near the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.01617,
         "Left Thumb Spread": -0.46585,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand rests statically on the upper thigh near the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.48948,
         "Right Thumb Spread": -0.7285,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:47:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

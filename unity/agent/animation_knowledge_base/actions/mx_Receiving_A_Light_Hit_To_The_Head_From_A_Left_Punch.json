@@ -14,7 +14,7 @@
   "duration": 1.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure recoils and leans back while keeping their arms raised in a guard position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09393,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward away from the impact, twisting slightly to the right before returning to a more upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.12347,
         "Spine Left-Right": -0.00907,
@@ -57,7 +57,7 @@
         "raw_value": 0.1915,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Snaps back and to the left with the torso's recoil, then turns forward as the body recovers.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0214,
         "Neck Tilt Left-Right": -0.03477,
@@ -75,7 +75,7 @@
         "raw_value": 0.15373,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow with the hand held high near the shoulder throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.0347,
         "Left Shoulder Front-Back": -0.05386,
@@ -96,7 +96,7 @@
         "raw_value": 0.17568,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow with the hand held up near the chest, moving passively with the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.373,
         "Right Shoulder Front-Back": -1.39236,
@@ -117,7 +117,7 @@
         "raw_value": 0.09576,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps backward and bends at the knee to absorb the force of the hit.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.22439,
         "Left Upper Leg In-Out": 0.10604,
@@ -137,7 +137,7 @@
         "raw_value": 0.13986,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee to support the weight shift and maintain balance during the recoil.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.50409,
         "Right Upper Leg In-Out": 0.55522,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static clenched fist pose near the left shoulder.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static clenched fist pose near the right side of the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:44:55Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

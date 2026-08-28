@@ -14,7 +14,7 @@
   "duration": 2.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward while aiming a rifle, then collapses to the ground in a dying pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16481,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso moves forward with the walking gait, leaning slightly into the aim before falling heavily to the side and ending up prone on the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.12284,
         "Spine Left-Right": -0.05311,
@@ -57,7 +57,7 @@
         "raw_value": 0.31439,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to look downrange while aiming, then drops forward and twists to the side as the body hits the ground.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.40733,
         "Neck Tilt Left-Right": -0.07165,
@@ -75,7 +75,7 @@
         "raw_value": 0.39815,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward to support the weapon during the walk, then falls limp to the side of the body upon collapse.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.27555,
         "Left Shoulder Front-Back": -0.67894,
@@ -96,7 +96,7 @@
         "raw_value": 0.43175,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm holds the rear of the weapon close to the chest while walking, then drops downward as the figure falls.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.84038,
         "Right Shoulder Front-Back": -0.21377,
@@ -117,7 +117,7 @@
         "raw_value": 0.22125,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg strides forward and backward in a walking cycle before extending out straight when the body lies on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.17012,
         "Left Upper Leg In-Out": -0.08758,
@@ -137,7 +137,7 @@
         "raw_value": 0.23136,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left in the walking motion, then bends and folds under the body as it collapses.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.20258,
         "Right Upper Leg In-Out": 0.00527,
@@ -157,7 +157,7 @@
         "raw_value": 0.20508,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand grips the front of the imaginary rifle, then relaxes and opens as the figure falls.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.45688,
         "Left Thumb Spread": 0.08035,
@@ -189,7 +189,7 @@
         "raw_value": 0.31447,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds the trigger area of the imaginary rifle, then releases its grip and drops to the ground.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.20243,
         "Right Thumb Spread": -0.73455,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

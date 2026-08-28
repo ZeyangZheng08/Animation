@@ -14,7 +14,7 @@
   "duration": 1.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a standing position into a deep crouch, tucking the head down and bringing both hands up to shield it.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10536,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and lowers significantly as the hips drop, bending at the waist to bring the upper body close to the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.12362,
         "Spine Left-Right": -0.00154,
@@ -57,7 +57,7 @@
         "raw_value": 0.12177,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward and tucks toward the chest, moving from an upright neutral position to being shielded by the arms.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.64997,
         "Neck Tilt Left-Right": -0.18445,
@@ -75,7 +75,7 @@
         "raw_value": 0.28129,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm bends at the elbow and moves upward and inward, positioning the forearm in front of the face and neck.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.35511,
         "Left Shoulder Front-Back": -0.43914,
@@ -96,7 +96,7 @@
         "raw_value": 0.30746,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm bends at the elbow and lifts across the body, joining the left arm to form a protective barrier over the head.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.59065,
         "Right Shoulder Front-Back": -1.25846,
@@ -117,7 +117,7 @@
         "raw_value": 0.26459,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee, lowering the body's center of gravity while keeping the foot planted on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.50621,
         "Left Upper Leg In-Out": 0.15333,
@@ -137,7 +137,7 @@
         "raw_value": 0.2474,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left by bending deeply at the knee to support the low squatting posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.54674,
         "Right Upper Leg In-Out": 0.21112,
@@ -157,7 +157,7 @@
         "raw_value": 0.20517,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand curls into a loose fist and rises to cover the side of the head and neck area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.5873,
         "Left Thumb Spread": -0.42568,
@@ -189,7 +189,7 @@
         "raw_value": 0.17954,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand curls into a loose fist and rises to meet the left hand, completing the protective pose over the head.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.79454,
         "Right Thumb Spread": -0.32119,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:35:41Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

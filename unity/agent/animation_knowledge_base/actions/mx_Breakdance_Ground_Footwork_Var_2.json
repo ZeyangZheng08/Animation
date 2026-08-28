@@ -14,7 +14,7 @@
   "duration": 1.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a breakdance ground move, starting in a low crouch with hands on the floor, swinging the legs up and over to transition into a seated position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.3349,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins bent forward in a deep crouch, rotates as the body swings through the air, and settles into an upright, slightly twisted seated posture.",
       "mean_pose": {
         "Spine Front-Back": -1.40291,
         "Spine Left-Right": -0.0673,
@@ -57,7 +57,7 @@
         "raw_value": 0.26385,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays tucked down near the chest during the initial crouch, lifts and tilts back as the body rotates through the air, and then faces forward while settling into the seat.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04893,
         "Neck Tilt Left-Right": -0.03285,
@@ -75,7 +75,7 @@
         "raw_value": 0.59534,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts extended downward with the hand flat on the floor, lifts off the ground and extends upward and outward for balance during the swing, and finishes bent at the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.64407,
         "Left Shoulder Front-Back": -1.46105,
@@ -96,7 +96,7 @@
         "raw_value": 0.46245,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm begins with the hand on the floor, swings upward and across the body during the rotation, and ends with the hand resting on the knee.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.21986,
         "Right Shoulder Front-Back": -1.29035,
@@ -117,7 +117,7 @@
         "raw_value": 0.31489,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg starts bent underneath the body, kicks up and out to the side during the transition, and lands bent on the floor to support the seated pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.07659,
         "Left Upper Leg In-Out": 0.15812,
@@ -137,7 +137,7 @@
         "raw_value": 0.27328,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg begins bent under the torso, swings high over the body, and comes down extended to the side in the final sitting position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 3e-05,
         "Right Upper Leg In-Out": 0.08017,
@@ -157,7 +157,7 @@
         "raw_value": 0.45531,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand presses flat against the floor initially, lifts into the air with fingers spread during the movement, and releases to hang loosely by the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.01152,
         "Left Thumb Spread": -0.10633,
@@ -189,7 +189,7 @@
         "raw_value": 0.43105,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is planted on the floor at the start, moves through the air during the turn, and finishes gripping the thigh or knee.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.45707,
         "Right Thumb Spread": 0.53545,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:36Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

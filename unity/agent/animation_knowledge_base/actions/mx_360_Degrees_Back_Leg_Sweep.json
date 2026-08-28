@@ -14,7 +14,7 @@
   "duration": 2.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a full 360-degree spin, sweeping the left leg in a wide arc across the floor behind them while balancing on the right leg.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07964,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates continuously through a complete circle, leaning forward and to the side to maintain balance during the spin.",
       "mean_pose": {
         "Spine Front-Back": -0.23074,
         "Spine Left-Right": 0.0303,
@@ -57,7 +57,7 @@
         "raw_value": 0.2622,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns to look over the shoulder as the body begins its rotation, then faces forward again as the turn completes.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.26585,
         "Neck Tilt Left-Right": -0.20824,
@@ -75,7 +75,7 @@
         "raw_value": 0.2975,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward from the chest to counterbalance the turning motion, extending away from the body before returning inward.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.53547,
         "Left Shoulder Front-Back": -0.00846,
@@ -96,7 +96,7 @@
         "raw_value": 0.2753,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves fluidly around the body, swinging from the front to the back to help drive the momentum of the spin.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.22524,
         "Right Shoulder Front-Back": 0.08591,
@@ -117,7 +117,7 @@
         "raw_value": 0.28611,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts off the ground and sweeps in a large circular path behind the standing leg, finishing the rotation extended backward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.3071,
         "Left Upper Leg In-Out": 0.474,
@@ -137,7 +137,7 @@
         "raw_value": 0.21784,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted on the floor as the pivot point, bending at the knee to absorb the weight and stabilize the turn.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.01147,
         "Right Upper Leg In-Out": 0.45054,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open with fingers spread, positioned near the chest and moving with the arm's swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held open with fingers relaxed, extending out to the side as part of the balancing posture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.09452,
         "Right Thumb Spread": -0.37259,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:06Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

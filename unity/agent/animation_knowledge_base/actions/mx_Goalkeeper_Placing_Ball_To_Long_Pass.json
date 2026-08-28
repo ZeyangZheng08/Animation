@@ -14,7 +14,7 @@
   "duration": 7.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure bends down to place a ball on the floor and then stands up to walk away.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11339,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward from a standing position, descends into a deep crouch at the start, rises back to an upright posture, and settles into a slight forward lean while walking.",
       "mean_pose": {
         "Spine Front-Back": -0.21988,
         "Spine Left-Right": 0.0361,
@@ -57,7 +57,7 @@
         "raw_value": 0.29094,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward to look at the hands during the placement phase, lifts up as the body straightens, and remains level while walking.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.19021,
         "Neck Tilt Left-Right": -0.01994,
@@ -75,7 +75,7 @@
         "raw_value": 0.33306,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends downward toward the floor with the elbow bent, holds the lowered position briefly, and then swings slightly backward as the figure stands and walks.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.75445,
         "Left Shoulder Front-Back": -0.18704,
@@ -96,7 +96,7 @@
         "raw_value": 0.34883,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down alongside the left arm to support the motion, retracts upward as the torso rises, and hangs naturally by the side during the walk.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.7111,
         "Right Shoulder Front-Back": -0.79717,
@@ -117,7 +117,7 @@
         "raw_value": 0.27017,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent deeply in a lunge or squat position to lower the body, extends fully as the figure stands, and steps forward in a walking stride.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.28012,
         "Left Upper Leg In-Out": 0.20087,
@@ -137,7 +137,7 @@
         "raw_value": 0.26623,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg provides support in the initial crouch, straightens to full extension when standing, and trails behind the left leg in the walking gait.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.23001,
         "Right Upper Leg In-Out": -0.01837,
@@ -157,7 +157,7 @@
         "raw_value": 0.2767,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches down to the ground, makes contact to place the object, and then opens and moves away as the body rises.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.19099,
         "Left Thumb Spread": -0.04419,
@@ -189,7 +189,7 @@
         "raw_value": 0.30923,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand mirrors the left by reaching for the floor, assists in the placement action, and then releases to hang loosely at the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.94419,
         "Right Thumb Spread": -0.17203,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:38:03Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

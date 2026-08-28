@@ -14,7 +14,7 @@
   "duration": 0.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure shuffles backwards while turning to their right, hunched over with a pained, unstable gait.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0697,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans heavily forward and tilts to the left throughout the movement, rotating in a clockwise arc as it retreats.",
       "mean_pose": {
         "Spine Front-Back": -0.23095,
         "Spine Left-Right": 0.17756,
@@ -57,7 +57,7 @@
         "raw_value": 0.10652,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays bent down low and angled toward the left shoulder, following the torso's rotation without looking up.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0066,
         "Neck Tilt Left-Right": 0.15986,
@@ -75,7 +75,7 @@
         "raw_value": 0.22184,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely at the side with the elbow slightly bent, swinging gently for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.03861,
         "Left Shoulder Front-Back": -0.60221,
@@ -96,7 +96,7 @@
         "raw_value": 0.19002,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Held close to the body with the elbow sharply bent, keeping the hand tucked near the waist.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.05188,
         "Right Shoulder Front-Back": -0.30381,
@@ -117,7 +117,7 @@
         "raw_value": 0.11485,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Takes short, dragging steps backward, bending at the knee to support the shifting weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.07119,
         "Left Upper Leg In-Out": 0.29718,
@@ -137,7 +137,7 @@
         "raw_value": 0.15374,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps back behind the left leg, trailing with a limp that drives the backward motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.22835,
         "Right Upper Leg In-Out": 0.065,
@@ -157,7 +157,7 @@
         "raw_value": 0.18285,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles open and relaxed by the hip, swaying slightly with the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.65277,
         "Left Thumb Spread": -0.76686,
@@ -189,7 +189,7 @@
         "raw_value": 0.15807,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains curled inward near the lower abdomen, held still against the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.36442,
         "Right Thumb Spread": -0.72076,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:39:34Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

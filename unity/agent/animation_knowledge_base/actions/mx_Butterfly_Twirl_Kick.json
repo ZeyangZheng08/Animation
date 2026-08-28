@@ -14,7 +14,7 @@
   "duration": 3.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a butterfly kick, swinging one leg up and over their body in an aerial arc while rotating and dropping low to the ground.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15889,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates continuously with the spin, tilting backward as the leg swings high and then bending forward at the waist to drop low toward the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.05474,
         "Spine Left-Right": 0.07008,
@@ -57,7 +57,7 @@
         "raw_value": 0.34815,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tracks the rotation of the body, turning through the twirl and dipping downward as the torso bends into the final crouch.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.59458,
         "Neck Tilt Left-Right": -0.05908,
@@ -75,7 +75,7 @@
         "raw_value": 0.39685,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends upward and outward for balance during the initial turn, then sweeps down toward the floor as the body drops.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.16084,
         "Left Shoulder Front-Back": -0.65048,
@@ -96,7 +96,7 @@
         "raw_value": 0.52479,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm starts bent near the chest, then extends down and out to the side, reaching low to the ground as the figure finishes the move.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.0994,
         "Right Shoulder Front-Back": -0.19382,
@@ -117,7 +117,7 @@
         "raw_value": 0.26091,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives upward and across the body in a sweeping arc, passing overhead before coming back down to plant on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.15568,
         "Left Upper Leg In-Out": 0.38021,
@@ -137,7 +137,7 @@
         "raw_value": 0.30148,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg serves as the pivot, bending to support the weight during the spin and extending slightly as the body lowers into a crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.27364,
         "Right Upper Leg In-Out": 0.3116,
@@ -157,7 +157,7 @@
         "raw_value": 0.34238,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and reaches down toward the floor, ending near the ground in the final pose.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.94153,
         "Left Thumb Spread": 0.19419,
@@ -189,7 +189,7 @@
         "raw_value": 0.25776,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open, moving from the chest area down to the side and finishing low near the floor.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.20548,
         "Right Thumb Spread": -0.67382,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

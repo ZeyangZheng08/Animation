@@ -14,7 +14,7 @@
   "duration": 1.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a low crouch to lying flat on its stomach on the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.25238,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso starts in an upright but bent-forward position while crouching, then lowers significantly as the body falls forward until it rests flat against the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.89777,
         "Spine Left-Right": 0.23616,
@@ -57,7 +57,7 @@
         "raw_value": 0.21138,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head begins by looking down and slightly forward, follows the descent of the body, and ends up resting near the floor, facing away from the starting position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.55858,
         "Neck Tilt Left-Right": 0.02974,
@@ -75,7 +75,7 @@
         "raw_value": 0.45925,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward and downward from a bent position, reaching out to support the falling body before coming to rest on the ground.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.48157,
         "Left Shoulder Front-Back": -1.37883,
@@ -96,7 +96,7 @@
         "raw_value": 0.30784,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm also reaches forward and down, mirroring the left arm's movement to help lower the body, ending in a prone position with the hand extended.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.42913,
         "Right Shoulder Front-Back": -0.13061,
@@ -117,7 +117,7 @@
         "raw_value": 0.35711,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg moves from a bent, weight-bearing stance in a crouch to extending backward and straightening out as the figure lies down.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.28557,
         "Left Upper Leg In-Out": 0.35084,
@@ -137,7 +137,7 @@
         "raw_value": 0.37407,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg transitions from being bent underneath the body in the crouch to extending back alongside the left leg in the final lying position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.04909,
         "Right Upper Leg In-Out": 0.8272,
@@ -157,7 +157,7 @@
         "raw_value": 0.44738,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches forward toward the floor, fingers spread or open, to brace the fall before settling onto the surface.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61471,
         "Left Thumb Spread": 0.37804,
@@ -189,7 +189,7 @@
         "raw_value": 0.33245,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand mirrors the left, extending forward to touch the ground and stabilize the transition into the prone pose.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.85905,
         "Right Thumb Spread": 0.12254,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:34:59Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

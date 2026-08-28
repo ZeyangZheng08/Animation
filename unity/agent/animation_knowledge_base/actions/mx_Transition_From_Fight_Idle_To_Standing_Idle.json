@@ -14,7 +14,7 @@
   "duration": 1.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a crouched fighting stance into an upright standing position, lowering its arms and straightening its legs.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04237,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rises from a forward-leaning crouch to an upright, neutral position.",
       "mean_pose": {
         "Spine Front-Back": -0.10891,
         "Spine Left-Right": 0.03242,
@@ -57,7 +57,7 @@
         "raw_value": 0.09915,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts up from a lowered guard position to face forward in a relaxed state.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06922,
         "Neck Tilt Left-Right": 0.02113,
@@ -75,7 +75,7 @@
         "raw_value": 0.26237,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm drops from a raised, bent guard position down to the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.71778,
         "Left Shoulder Front-Back": -0.79218,
@@ -96,7 +96,7 @@
         "raw_value": 0.233,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm lowers from a high, bent guard position to rest at the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.22973,
         "Right Shoulder Front-Back": -0.90942,
@@ -117,7 +117,7 @@
         "raw_value": 0.14899,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends from a bent, staggered position to stand straight on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.16563,
         "Left Upper Leg In-Out": 0.24026,
@@ -137,7 +137,7 @@
         "raw_value": 0.15725,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg straightens from a deep bend to support the figure's weight in a standing posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.38858,
         "Right Upper Leg In-Out": 0.24626,
@@ -157,7 +157,7 @@
         "raw_value": 0.29877,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand relaxes from a clenched fist into a loose, open shape as it moves down.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.0349,
         "Left Thumb Spread": -0.2345,
@@ -189,7 +189,7 @@
         "raw_value": 0.39691,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand unclenches from a fist into a relaxed, open shape while lowering.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.86685,
         "Right Thumb Spread": -0.24852,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:50:40Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

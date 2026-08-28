@@ -14,7 +14,7 @@
   "duration": 1.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward while holding a torch extended out to their right side.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04272,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward and sways gently with the rhythm of the steps.",
       "mean_pose": {
         "Spine Front-Back": -0.07429,
         "Spine Left-Right": 0.0094,
@@ -57,7 +57,7 @@
         "raw_value": 0.02727,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward in the direction of travel, turning slightly toward the right hand.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.14847,
         "Neck Tilt Left-Right": -0.52016,
@@ -75,7 +75,7 @@
         "raw_value": 0.06091,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings naturally back and forth at the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.06961,
         "Left Shoulder Front-Back": -0.36131,
@@ -96,7 +96,7 @@
         "raw_value": 0.07382,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady position, extending straight out to the side with a slight bend at the elbow.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.36867,
         "Right Shoulder Front-Back": -0.50069,
@@ -117,7 +117,7 @@
         "raw_value": 0.17359,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates between lifting forward and pushing off the ground behind.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.11637,
         "Left Upper Leg In-Out": 0.05073,
@@ -137,7 +137,7 @@
         "raw_value": 0.18297,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Moves through a standard walking cycle, stepping forward and supporting the body's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.02243,
         "Right Upper Leg In-Out": 0.10702,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hangs relaxed and open near the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41852,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.08497,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips firmly in a closed fist shape, holding the unseen torch.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.76288,
         "Right Thumb Spread": 0.10537,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

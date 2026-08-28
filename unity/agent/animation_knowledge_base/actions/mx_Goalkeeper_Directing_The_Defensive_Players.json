@@ -14,7 +14,7 @@
   "duration": 7.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure paces forward while directing players with alternating arm gestures.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04476,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and sways side-to-side to maintain balance during the walk.",
       "mean_pose": {
         "Spine Front-Back": -0.26555,
         "Spine Left-Right": 0.01728,
@@ -57,7 +57,7 @@
         "raw_value": 0.20337,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns from facing left to facing right, tracking the direction of the gesturing arms.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.15847,
         "Neck Tilt Left-Right": 0.00262,
@@ -75,7 +75,7 @@
         "raw_value": 0.30571,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings down from a raised position at the start, moves to the hip in the middle, and extends outward to the side at the end.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.4032,
         "Left Shoulder Front-Back": -0.37624,
@@ -96,7 +96,7 @@
         "raw_value": 0.33093,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is lowered at the start, raises upward with an open palm in the middle, and points forward at the end.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.22855,
         "Right Shoulder Front-Back": -1.11318,
@@ -117,7 +117,7 @@
         "raw_value": 0.16751,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward and bends at the knee to support the body's weight as it advances.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.04545,
         "Left Upper Leg In-Out": 0.24227,
@@ -137,7 +137,7 @@
         "raw_value": 0.16796,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg drives backward and pushes off the ground to propel the figure forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.06035,
         "Right Upper Leg In-Out": 0.09591,
@@ -157,7 +157,7 @@
         "raw_value": 0.26396,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand transitions from an open palm, rests on the hip, and then extends outward with fingers spread.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.8024,
         "Left Thumb Spread": -0.42381,
@@ -189,7 +189,7 @@
         "raw_value": 0.20783,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand begins open near the thigh, raises high with the palm facing out, and finishes extended forward pointing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.51047,
         "Right Thumb Spread": -0.46314,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

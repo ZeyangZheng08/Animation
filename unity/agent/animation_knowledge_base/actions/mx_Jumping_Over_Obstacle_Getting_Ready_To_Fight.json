@@ -14,7 +14,7 @@
   "duration": 4.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure leaps forward, rotates mid-air to land on its hands and feet, and settles into a low crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1244,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans far forward in the air, rotates with the body's turn, and ends up bent over in a deep squat.",
       "mean_pose": {
         "Spine Front-Back": -0.53114,
         "Spine Left-Right": -0.04556,
@@ -57,7 +57,7 @@
         "raw_value": 0.2594,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the floor during the leap, then lifts and turns to face forward as the body lands.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03116,
         "Neck Tilt Left-Right": -0.04384,
@@ -75,7 +75,7 @@
         "raw_value": 0.29835,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward toward the ground in the jump, then swings upward and bends at the elbow to form a guard.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.48217,
         "Left Shoulder Front-Back": -0.08657,
@@ -96,7 +96,7 @@
         "raw_value": 0.32917,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down for the landing, then rises and bends to join the left arm in a fighting stance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.44587,
         "Right Shoulder Front-Back": -0.06698,
@@ -117,7 +117,7 @@
         "raw_value": 0.22028,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Tucks backward under the body during the leap, extends out to absorb the impact, and finishes bent in a lunge.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.15337,
         "Left Upper Leg In-Out": 0.18459,
@@ -137,7 +137,7 @@
         "raw_value": 0.27212,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Follows the left leg in tucking and extending for the landing, ending bent behind the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.05255,
         "Right Upper Leg In-Out": 0.11802,
@@ -157,7 +157,7 @@
         "raw_value": 0.64641,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide to brace against the floor, then closes into a fist held up near the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.99973,
         "Left Thumb Spread": -0.28398,
@@ -189,7 +189,7 @@
         "raw_value": 0.64703,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens to support the landing, then clenches into a fist held up near the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.68014,
         "Right Thumb Spread": -0.03925,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

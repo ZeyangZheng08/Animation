@@ -14,7 +14,7 @@
   "duration": 0.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure recoils from a hit taken in the back, bowing forward and down before straightening up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07928,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans sharply forward and down, then returns to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.45978,
         "Spine Left-Right": -0.18146,
@@ -57,7 +57,7 @@
         "raw_value": 0.16152,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Drops forward with the torso's initial recoil, then lifts back up.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.10148,
         "Neck Tilt Left-Right": -0.04548,
@@ -75,7 +75,7 @@
         "raw_value": 0.16252,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings out to the side and slightly back for balance as the body bends forward.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.39211,
         "Left Shoulder Front-Back": -0.50129,
@@ -96,7 +96,7 @@
         "raw_value": 0.11359,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pulls inward toward the chest during the recoil, then extends outward again.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.2426,
         "Right Shoulder Front-Back": -0.39574,
@@ -117,7 +117,7 @@
         "raw_value": 0.06121,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground while bending at the knee to lower the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.16395,
         "Left Upper Leg In-Out": 0.36303,
@@ -137,7 +137,7 @@
         "raw_value": 0.0578,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee to support the forward lean of the upper body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.00042,
         "Right Upper Leg In-Out": 0.50464,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed at the end of the swinging arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.14314,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches into a fist near the chest and then unclenches as it moves away.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.35376,
         "Right Thumb Spread": -0.5051,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 11.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a wide stance and turns its head from side to side to look around.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.029,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright with a slight forward lean, swaying subtly from side to side as the weight shifts between the legs.",
       "mean_pose": {
         "Spine Front-Back": -0.30669,
         "Spine Left-Right": -0.0487,
@@ -57,7 +57,7 @@
         "raw_value": 0.17352,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns significantly to the left, then rotates back to face forward, and finally turns toward the right.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03641,
         "Neck Tilt Left-Right": -0.10107,
@@ -75,7 +75,7 @@
         "raw_value": 0.10702,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs down at the side of the body, swinging slightly outward to maintain balance during the turn.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.42241,
         "Left Shoulder Front-Back": -0.87672,
@@ -96,7 +96,7 @@
         "raw_value": 0.0492,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is held bent at the elbow with the hand raised near the waist, keeping a steady guard position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.18771,
         "Right Shoulder Front-Back": -1.66476,
@@ -117,7 +117,7 @@
         "raw_value": 0.04721,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays planted on the ground with a slight bend in the knee, acting as the pivot for the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.13983,
         "Left Upper Leg In-Out": 0.59967,
@@ -137,7 +137,7 @@
         "raw_value": 0.05518,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is positioned forward with the foot flat on the floor, providing a stable base for the stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.05284,
         "Right Upper Leg In-Out": 0.39064,
@@ -157,7 +157,7 @@
         "raw_value": 0.10632,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, hanging loosely by the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.1982,
         "Left Thumb Spread": -0.24379,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static pose, kept clenched or ready at chest height throughout the clip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.33667,
         "Right Thumb Spread": -0.67535,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:41:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low crouched walk, moving to the side before coming to a stop.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11991,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a deep crouch and rocks slightly from side to side with the leg movement.",
       "mean_pose": {
         "Spine Front-Back": -1.09875,
         "Spine Left-Right": -0.07325,
@@ -57,7 +57,7 @@
         "raw_value": 0.05014,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and turns toward the left to maintain focus on the direction of movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.3477,
         "Neck Tilt Left-Right": 0.0472,
@@ -75,7 +75,7 @@
         "raw_value": 0.09763,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow and held close to the chest for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.09773,
         "Left Shoulder Front-Back": -0.65048,
@@ -96,7 +96,7 @@
         "raw_value": 0.26264,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and outward, reaching ahead of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.66268,
         "Right Shoulder Front-Back": -0.54922,
@@ -117,7 +117,7 @@
         "raw_value": 0.12702,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Kicks forward and then plants on the ground to support the weight during the strafe.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.46362,
         "Left Upper Leg In-Out": 0.41417,
@@ -137,7 +137,7 @@
         "raw_value": 0.23535,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off from the back to drive the body sideways.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.25533,
         "Right Upper Leg In-Out": 0.2176,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose with fingers curled inward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.40582,
         "Left Thumb Spread": -0.21603,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static pose with fingers extended and open.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -0.85237,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:49Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

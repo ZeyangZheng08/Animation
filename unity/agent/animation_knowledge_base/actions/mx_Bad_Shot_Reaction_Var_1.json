@@ -14,7 +14,7 @@
   "duration": 8.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place while performing a shrugging gesture with both arms raised outwards, accompanied by a slight forward lean.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12945,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward at the waist throughout the sequence, maintaining a consistent tilt.",
       "mean_pose": {
         "Spine Front-Back": -0.08926,
         "Spine Left-Right": -0.08783,
@@ -57,7 +57,7 @@
         "raw_value": 0.2034,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downwards towards the chest, keeping a low angle relative to the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.16187,
         "Neck Tilt Left-Right": 0.01894,
@@ -75,7 +75,7 @@
         "raw_value": 0.4221,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm lifts upwards and outwards from the side of the body, bending at the elbow to raise the hand to shoulder height.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.00155,
         "Left Shoulder Front-Back": -0.92712,
@@ -96,7 +96,7 @@
         "raw_value": 0.30448,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left by lifting upwards and outwards, bending at the elbow to bring the hand up near the shoulder.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.99901,
         "Right Shoulder Front-Back": -1.42129,
@@ -117,7 +117,7 @@
         "raw_value": 0.16548,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted firmly on the ground, acting as a stable support for the upper body movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.48623,
         "Left Upper Leg In-Out": -0.07773,
@@ -137,7 +137,7 @@
         "raw_value": 0.17117,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays stationary on the floor, providing balance without shifting weight or stepping.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.39188,
         "Right Upper Leg In-Out": 0.21361,
@@ -157,7 +157,7 @@
         "raw_value": 0.31425,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens with fingers spread wide as it rises to shoulder level.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.19248,
         "Left Thumb Spread": -0.32417,
@@ -189,7 +189,7 @@
         "raw_value": 0.39915,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand opens with fingers extended as it moves up alongside the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.40572,
         "Right Thumb Spread": -0.36374,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:32:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

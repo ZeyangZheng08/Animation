@@ -14,7 +14,7 @@
   "duration": 6.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place and pulls an imaginary lever down with their right hand.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02219,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward to initiate the pull, then returns to an upright standing position.",
       "mean_pose": {
         "Spine Front-Back": 0.02473,
         "Spine Left-Right": 0.01826,
@@ -57,7 +57,7 @@
         "raw_value": 0.15927,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to look at the hand during the motion and lifts back up at the end.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.12114,
         "Neck Tilt Left-Right": -0.01394,
@@ -75,7 +75,7 @@
         "raw_value": 0.04309,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs straight down at the side of the body throughout the clip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.50626,
         "Left Shoulder Front-Back": -0.06671,
@@ -96,7 +96,7 @@
         "raw_value": 0.24049,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends forward from a resting position, bends at the elbow to perform the downward pulling motion, and then relaxes back toward the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.12332,
         "Right Shoulder Front-Back": -0.48225,
@@ -117,7 +117,7 @@
         "raw_value": 0.03316,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the floor in a static standing pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.35377,
         "Left Upper Leg In-Out": 0.06492,
@@ -137,7 +137,7 @@
         "raw_value": 0.03297,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted on the floor in a static standing pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.42966,
         "Right Upper Leg In-Out": -0.03987,
@@ -157,7 +157,7 @@
         "raw_value": 0.10132,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs open and relaxed by the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.48992,
         "Left Thumb Spread": 0.16647,
@@ -189,7 +189,7 @@
         "raw_value": 0.30022,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends out, clenches to grip the invisible lever, pulls downward, and then opens as it releases.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.55213,
         "Right Thumb Spread": -0.30267,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:44:06Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

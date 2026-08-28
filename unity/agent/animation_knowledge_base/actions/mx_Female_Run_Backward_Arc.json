@@ -14,7 +14,7 @@
   "duration": 0.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs backward while turning in a circular arc.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06285,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into the stride and rotates continuously to guide the body along the arc.",
       "mean_pose": {
         "Spine Front-Back": -0.06907,
         "Spine Left-Right": -0.00235,
@@ -57,7 +57,7 @@
         "raw_value": 0.03617,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Turns to look over the shoulder in the direction of travel, keeping the gaze fixed on the path ahead.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.33783,
         "Neck Tilt Left-Right": 0.14095,
@@ -75,7 +75,7 @@
         "raw_value": 0.13812,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings back and forth in opposition to the legs, pumping from a bent position near the chest to an extended position behind the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.59181,
         "Left Shoulder Front-Back": -0.02154,
@@ -96,7 +96,7 @@
         "raw_value": 0.15918,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pumps in a reciprocal rhythm with the left arm, swinging between a forward bend at the elbow and a backward extension.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.32686,
         "Right Shoulder Front-Back": -0.29092,
@@ -117,7 +117,7 @@
         "raw_value": 0.16325,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward and then kicks back in a running cycle, bending the knee to lift the foot high during the recovery phase.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.03932,
         "Left Upper Leg In-Out": 0.00903,
@@ -137,7 +137,7 @@
         "raw_value": 0.15453,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates with the left leg, pushing off the ground and swinging through to complete the backward running stride.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.06266,
         "Right Upper Leg In-Out": -0.01792,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, slightly curled shape at the end of the swinging arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.48396,
         "Left Thumb Spread": -0.02861,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a loose, open posture as the arm cycles through its swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.76814,
         "Right Thumb Spread": -0.1209,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

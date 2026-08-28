@@ -14,7 +14,7 @@
   "duration": 2.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure hangs from an overhead support, holding a static pose with only slight shifts in the arms and hands.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00983,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stationary throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": 0.03366,
         "Spine Left-Right": -0.06587,
@@ -57,7 +57,7 @@
         "raw_value": 0.0109,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is held still, facing forward above the raised arms.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.35364,
         "Neck Tilt Left-Right": 0.08357,
@@ -75,7 +75,7 @@
         "raw_value": 0.02343,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm stays raised high, bent at the elbow to hold its position.",
       "mean_pose": {
         "Left Shoulder Down-Up": 1.13035,
         "Left Shoulder Front-Back": -0.0244,
@@ -96,7 +96,7 @@
         "raw_value": 0.02175,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm holds a steady position bent at the shoulder and elbow, reaching up toward the center.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.4824,
         "Right Shoulder Front-Back": 0.01512,
@@ -117,7 +117,7 @@
         "raw_value": 0.01156,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg hangs straight down, supporting the body's weight without moving.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.5993,
         "Left Upper Leg In-Out": 0.16087,
@@ -137,7 +137,7 @@
         "raw_value": 0.0108,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg hangs straight down alongside the left leg in a fixed position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.683,
         "Right Upper Leg In-Out": 0.05518,
@@ -157,7 +157,7 @@
         "raw_value": 0.01744,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand maintains a static grip shape at the top of the frame.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.70557,
         "Left Thumb Spread": -0.60831,
@@ -189,7 +189,7 @@
         "raw_value": 0.0208,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hovers near the head, making very small positional adjustments while remaining open.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.63555,
         "Right Thumb Spread": -0.54774,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:43Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward while manipulating an object held in the left hand with the right.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.038,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bobs and sways gently with the rhythm of the walk, tilting slightly forward.",
       "mean_pose": {
         "Spine Front-Back": -0.07202,
         "Spine Left-Right": -0.09111,
@@ -57,7 +57,7 @@
         "raw_value": 0.09986,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head maintains a steady, upright orientation facing forward throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03027,
         "Neck Tilt Left-Right": 0.14079,
@@ -75,7 +75,7 @@
         "raw_value": 0.30388,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow and held relatively still at waist height, serving as the anchor for the action.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.23675,
         "Left Shoulder Front-Back": 0.0199,
@@ -96,7 +96,7 @@
         "raw_value": 0.24108,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches across the body toward the left hand to perform the reloading motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.68813,
         "Right Shoulder Front-Back": -0.09519,
@@ -117,7 +117,7 @@
         "raw_value": 0.15819,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between supporting the body's weight and swinging forward in a walking stride.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.38488,
         "Left Upper Leg In-Out": 0.05939,
@@ -137,7 +137,7 @@
         "raw_value": 0.15689,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg cycles through the walking gait, pushing off the ground and stepping forward opposite the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.34546,
         "Right Upper Leg In-Out": 0.03797,
@@ -157,7 +157,7 @@
         "raw_value": 0.44399,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and stable at the front of the body, holding the position for the other hand to interact with.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.84949,
         "Left Thumb Spread": -1.44636,
@@ -189,7 +189,7 @@
         "raw_value": 0.00986,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static pose near the center of the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -3.06,
         "Right Thumb Spread": -2.08458,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

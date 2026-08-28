@@ -72,11 +72,12 @@ drift out of sync with the store that records it.
 What is in that store: 2454 records, of which 8 are accepted nursing actions and 2446 are the Mixamo
 corpus ingest_corpus.py brought in. The corpus is measured (2026-08-21) and, since 2026-08-27, fully
 rendered -- every clip has its eight-view ring on disk, 57,680 JPEGs and 3.5 GB, produced in one resumable
-pass with no failures. Its descriptions are the pass that has not been run: nine sentences per record
-under the v4 contract, planned as a local ~27B Qwen on HPC reading those frames rather than 2446 hosted
-calls. Until then the corpus answers questions about what a clip DOES and not about what it MEANS, which
-is what 
-un_eval.py's baseline still scores against the eight.
+pass with no failures. The semantic pass ran the same day: `qwen3.8-27b`, served locally on HPC rather
+than through 2446 hosted calls, read those rings and wrote the nine v4 sentences into every corpus
+record, so the store now answers questions about what a clip MEANS as well as what it DOES. Those 2446
+stay `status: candidate` with `vlm_proposal.status: awaiting_human_accept` and a null `action_id` --
+describing a clip is not accepting it, and `run_eval.py`'s baseline still scores against the eight.
+`HPC_HANDOFF.md` has the setup and the pull-it-home procedure.
 
 A third repository, `~/Research/pub-code`, mirrors both of these to
 [`ZeyangZheng08/Animation`, branch `code`](https://github.com/ZeyangZheng08/Animation/tree/code): source

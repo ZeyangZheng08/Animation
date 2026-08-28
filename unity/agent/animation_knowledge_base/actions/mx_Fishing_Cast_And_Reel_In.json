@@ -14,7 +14,7 @@
   "duration": 8.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a fishing cast, swinging their arms overhead and then bringing them down to reel in the line.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06982,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates slightly with the arm movements, leaning back during the overhead cast and forward as the arms come down.",
       "mean_pose": {
         "Spine Front-Back": -0.0983,
         "Spine Left-Right": 0.01154,
@@ -57,7 +57,7 @@
         "raw_value": 0.13981,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts up to follow the motion of the arms during the cast and then returns to a neutral position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11573,
         "Neck Tilt Left-Right": -0.07382,
@@ -75,7 +75,7 @@
         "raw_value": 0.29351,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward over the head during the cast and then lowers back down to the front.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.23415,
         "Left Shoulder Front-Back": 0.67658,
@@ -96,7 +96,7 @@
         "raw_value": 0.35454,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves in tandem with the left, swinging up overhead for the cast and then coming down to the front.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.11847,
         "Right Shoulder Front-Back": -0.3484,
@@ -117,7 +117,7 @@
         "raw_value": 0.08338,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains relatively straight, acting as a stable support throughout the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.34693,
         "Left Upper Leg In-Out": 0.03657,
@@ -137,7 +137,7 @@
         "raw_value": 0.14297,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends slightly at the knee, providing balance as the upper body shifts weight during the cast.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.62917,
         "Right Upper Leg In-Out": 0.2211,
@@ -157,7 +157,7 @@
         "raw_value": 0.0127,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open near the center of the chest, maintaining a static pose.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.79085,
         "Left Thumb Spread": -0.83487,
@@ -189,7 +189,7 @@
         "raw_value": 0.2695,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves dynamically, swinging up high over the head and then down towards the waist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.02328,
         "Right Thumb Spread": -1.59025,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

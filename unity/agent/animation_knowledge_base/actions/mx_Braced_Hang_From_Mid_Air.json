@@ -14,7 +14,7 @@
   "duration": 1.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure hangs suspended in mid-air, leaning backward with knees bent and arms reaching upward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09462,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans backward into a reclined posture while remaining suspended off the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.21186,
         "Spine Left-Right": -0.01957,
@@ -57,7 +57,7 @@
         "raw_value": 0.13973,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts back to face upward toward the ceiling.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.30481,
         "Neck Tilt Left-Right": -0.02806,
@@ -75,7 +75,7 @@
         "raw_value": 0.28105,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches up and slightly forward with the elbow bent.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.92221,
         "Left Shoulder Front-Back": -0.47288,
@@ -96,7 +96,7 @@
         "raw_value": 0.47782,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches up and slightly forward with the elbow bent, mirroring the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.83845,
         "Right Shoulder Front-Back": -1.82049,
@@ -117,7 +117,7 @@
         "raw_value": 0.25676,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the knee, tucked up underneath the torso.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.45173,
         "Left Upper Leg In-Out": 0.53853,
@@ -137,7 +137,7 @@
         "raw_value": 0.29133,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the knee, tucked up underneath the torso.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.53333,
         "Right Upper Leg In-Out": 0.59542,
@@ -157,7 +157,7 @@
         "raw_value": 0.52718,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open position with fingers spread wide.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.8814,
         "Left Thumb Spread": 0.71733,
@@ -189,7 +189,7 @@
         "raw_value": 0.36526,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open position with fingers spread wide.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42745,
         "Right Thumb Spread": -0.17838,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:33:01Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

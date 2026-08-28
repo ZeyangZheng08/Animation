@@ -14,7 +14,7 @@
   "duration": 2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a running jump, landing on the balls of both feet and settling into a standing idle.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18902,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward during the jump and landing, then rises to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.44905,
         "Spine Left-Right": -0.13623,
@@ -57,7 +57,7 @@
         "raw_value": 0.22037,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts slightly downward in the air and lifts up as the body stands straight.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.26142,
         "Neck Tilt Left-Right": -0.38282,
@@ -75,7 +75,7 @@
         "raw_value": 0.16187,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings backward during the leap and extends outward to the side for balance upon landing.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.03917,
         "Left Shoulder Front-Back": -0.22772,
@@ -96,7 +96,7 @@
         "raw_value": 0.34719,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bends at the elbow with the hand raised near the chest throughout the clip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.57767,
         "Right Shoulder Front-Back": -0.65639,
@@ -117,7 +117,7 @@
         "raw_value": 0.2539,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward during the jump, lands bent, and extends to support the standing pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.11583,
         "Left Upper Leg In-Out": 0.21205,
@@ -137,7 +137,7 @@
         "raw_value": 0.25779,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Trails behind during the jump, lands bent, and extends to support the standing pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.03167,
         "Right Upper Leg In-Out": 0.13043,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, open pose while swinging with the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41852,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.50672,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains curled in a fist near the upper chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.77282,
         "Right Thumb Spread": -0.48295,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:32Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

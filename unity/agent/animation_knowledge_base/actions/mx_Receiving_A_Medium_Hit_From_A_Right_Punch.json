@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is shown staggering and recoiling from a punch to the head, hunching over in pain before recovering.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.188,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans sharply forward and twists to the left at the moment of impact, then straightens up into an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.37198,
         "Spine Left-Right": 0.10854,
@@ -57,7 +57,7 @@
         "raw_value": 0.21656,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Snaps violently downward and to the left under the force of the hit, then lifts back up to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07553,
         "Neck Tilt Left-Right": 0.01031,
@@ -75,7 +75,7 @@
         "raw_value": 0.25207,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises upward with the elbow bent to guard the face during the initial recoil, then lowers slightly as the body recovers.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.00784,
         "Left Shoulder Front-Back": -0.25268,
@@ -96,7 +96,7 @@
         "raw_value": 0.20473,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays low near the hip with a bent elbow throughout the sequence, remaining relatively close to the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.47986,
         "Right Shoulder Front-Back": -1.13809,
@@ -117,7 +117,7 @@
         "raw_value": 0.11108,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted on the ground while bending at the knee to absorb the forward momentum of the fall.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.19624,
         "Left Upper Leg In-Out": 0.21448,
@@ -137,7 +137,7 @@
         "raw_value": 0.12381,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends significantly to lower the center of gravity during the stagger, then extends as the figure stands back up.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.01227,
         "Right Upper Leg In-Out": 0.40799,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a clenched fist pose near the face for protection.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a loose fist pose near the waist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 5.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a back flip, launching from a standing position to land in a deep crouch before rising and throwing an uppercut with the right arm.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17349,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates backward and arches during the flip, lands bent forward into a deep squat, and then straightens up as it twists slightly to the right for the final punch.",
       "mean_pose": {
         "Spine Front-Back": -0.07754,
         "Spine Left-Right": -0.01397,
@@ -57,7 +57,7 @@
         "raw_value": 0.29154,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back and down during the rotation of the flip, drops low toward the knees upon landing, and then lifts upward as the body rises to finish the move.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15471,
         "Neck Tilt Left-Right": -0.04796,
@@ -75,7 +75,7 @@
         "raw_value": 0.38318,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and outward for balance during the flip, extends forward while crouched, and then draws back to rest at the side of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.00059,
         "Left Shoulder Front-Back": -1.05673,
@@ -96,7 +96,7 @@
         "raw_value": 0.34747,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is raised high during the initial jump, swings forward through the air while crouching, and finally drives upward in a powerful uppercut.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.24834,
         "Right Shoulder Front-Back": -0.36,
@@ -117,7 +117,7 @@
         "raw_value": 0.27313,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends and tucks close to the body during the aerial rotation, plants firmly on the ground to absorb the impact of the landing, and then pushes off to stand upright.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.02745,
         "Left Upper Leg In-Out": 0.17905,
@@ -137,7 +137,7 @@
         "raw_value": 0.27285,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left by tucking during the flip, lands to support the crouch, and extends fully to bring the figure back to a standing height.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.10492,
         "Right Upper Leg In-Out": 0.19643,
@@ -157,7 +157,7 @@
         "raw_value": 0.52525,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed throughout the movement, flaring out for balance and settling near the waist after the punch.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21077,
         "Left Thumb Spread": 0.024,
@@ -189,7 +189,7 @@
         "raw_value": 0.6146,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and extended during the flip and landing, then clenches into a fist as it executes the upward strike.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.99622,
         "Right Thumb Spread": -0.12642,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:36Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

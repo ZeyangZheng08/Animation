@@ -14,7 +14,7 @@
   "duration": 3.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a rhythmic capoeira idle, bouncing on the balls of its feet while swaying and extending its arms in alternating arcs.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17539,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bobs up and down with the footwork, leaning forward during the bounces and twisting to follow the momentum of the arm movements.",
       "mean_pose": {
         "Spine Front-Back": -0.75987,
         "Spine Left-Right": -0.00515,
@@ -57,7 +57,7 @@
         "raw_value": 0.11211,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively upright, bobbing gently with the body's vertical motion and turning slightly to look over the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.22972,
         "Neck Tilt Left-Right": -0.02155,
@@ -75,7 +75,7 @@
         "raw_value": 0.25197,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings in a wide arc, moving from a low position near the hip out to the side and then back toward the center.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.22203,
         "Left Shoulder Front-Back": -0.11288,
@@ -96,7 +96,7 @@
         "raw_value": 0.26815,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging in an opposing rhythm from a high guard position down towards the waist.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.06163,
         "Right Shoulder Front-Back": 0.13199,
@@ -117,7 +117,7 @@
         "raw_value": 0.24914,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays close to the ground, bending at the knee to absorb the bounce and shifting weight to support the sway.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.05876,
         "Left Upper Leg In-Out": 0.24231,
@@ -137,7 +137,7 @@
         "raw_value": 0.27901,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates between supporting the body and lifting the heel, creating a rolling, dance-like step pattern.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.05107,
         "Right Upper Leg In-Out": 0.19971,
@@ -157,7 +157,7 @@
         "raw_value": 0.21573,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends outward with fingers relaxed, tracing the path of the arm's swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.68388,
         "Left Thumb Spread": -0.06582,
@@ -189,7 +189,7 @@
         "raw_value": 0.19224,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves fluidly, sometimes curling near the chest and other times reaching out to balance the torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.88517,
         "Right Thumb Spread": 0.10787,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

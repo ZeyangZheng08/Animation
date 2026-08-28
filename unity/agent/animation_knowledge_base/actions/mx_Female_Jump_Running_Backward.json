@@ -14,7 +14,7 @@
   "duration": 0.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs backward while leaping into the air.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12371,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and bobs up and down with the running rhythm, rising higher during the jump.",
       "mean_pose": {
         "Spine Front-Back": -0.12274,
         "Spine Left-Right": -0.03766,
@@ -57,7 +57,7 @@
         "raw_value": 0.12867,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward and remains relatively stable, facing forward throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.05667,
         "Neck Tilt Left-Right": 0.00525,
@@ -75,7 +75,7 @@
         "raw_value": 0.28248,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings back and forth in a pumping motion, bent at the elbow to drive the backward run.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.00226,
         "Left Shoulder Front-Back": 0.0015,
@@ -96,7 +96,7 @@
         "raw_value": 0.18377,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging alternately with an opposite phase to maintain balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.31651,
         "Right Shoulder Front-Back": -0.3654,
@@ -117,7 +117,7 @@
         "raw_value": 0.26332,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives backward from a bent position, extending to push off the ground before lifting for the leap.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.10444,
         "Left Upper Leg In-Out": 0.09402,
@@ -137,7 +137,7 @@
         "raw_value": 0.29274,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the same driving cycle, alternating with the left leg to propel the body backward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.15285,
         "Right Upper Leg In-Out": 0.05673,
@@ -157,7 +157,7 @@
         "raw_value": 0.33943,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is loosely clenched and moves along with the arc of the swinging arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.28908,
         "Left Thumb Spread": 0.09647,
@@ -189,7 +189,7 @@
         "raw_value": 0.40804,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is loosely clenched and moves along with the arc of the swinging arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.17986,
         "Right Thumb Spread": 0.17805,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

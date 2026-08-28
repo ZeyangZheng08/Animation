@@ -14,7 +14,7 @@
   "duration": 1.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, crouching movement, shifting its weight from one side to the other while keeping its center of gravity down.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10547,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and downward throughout the clip, twisting slightly from side to side as it shifts weight between the legs.",
       "mean_pose": {
         "Spine Front-Back": -0.07446,
         "Spine Left-Right": -0.00126,
@@ -57,7 +57,7 @@
         "raw_value": 0.38516,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilted down and tucked close to the shoulders, following the forward lean of the torso with minimal independent rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.13582,
         "Neck Tilt Left-Right": -0.03936,
@@ -75,7 +75,7 @@
         "raw_value": 0.28661,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs low and bent at the elbow, swinging slightly backward and forward in opposition to the leg movements for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.06796,
         "Left Shoulder Front-Back": -0.74714,
@@ -96,7 +96,7 @@
         "raw_value": 0.42784,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow and held lower than the left, moving subtly in coordination with the torso's twist.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.4491,
         "Right Shoulder Front-Back": 0.67664,
@@ -117,7 +117,7 @@
         "raw_value": 0.26429,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bent deeply at the knee, acting as the primary support leg that bears most of the body's weight during the shift.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.38014,
         "Left Upper Leg In-Out": 0.36845,
@@ -137,7 +137,7 @@
         "raw_value": 0.24357,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extended slightly behind and to the side with the knee bent, providing a stable base while the weight transfers onto the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.42635,
         "Right Upper Leg In-Out": 0.29775,
@@ -157,7 +157,7 @@
         "raw_value": 0.38154,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Relaxed with fingers slightly curled, positioned low near the thigh area.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.87823,
         "Left Thumb Spread": -0.10521,
@@ -189,7 +189,7 @@
         "raw_value": 0.25828,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held loosely with fingers extended, hovering just above the knee level on the right side.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.06335,
         "Right Thumb Spread": -0.36316,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:34:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

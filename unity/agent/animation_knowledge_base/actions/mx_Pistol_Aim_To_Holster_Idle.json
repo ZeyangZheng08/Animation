@@ -14,7 +14,7 @@
   "duration": 7.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lowers a two-handed aim from chest height down to the right hip, releases the grip, and settles into a relaxed idle stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05006,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso tilts slightly forward during the aiming phase and rotates subtly to the left as the arms lower, straightening up for the final idle pose.",
       "mean_pose": {
         "Spine Front-Back": -0.04587,
         "Spine Left-Right": 0.0042,
@@ -57,7 +57,7 @@
         "raw_value": 0.11955,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head looks forward while aiming, then turns to look down at the right hand as it moves toward the hip, before facing forward again.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.35122,
         "Neck Tilt Left-Right": -0.01525,
@@ -75,7 +75,7 @@
         "raw_value": 0.32883,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward to support the aim, retracts across the body to assist in lowering the weapon, and finally drops down to rest by the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.38807,
         "Left Shoulder Front-Back": -0.44049,
@@ -96,7 +96,7 @@
         "raw_value": 0.38842,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm leads the movement, extending forward to aim, then bending downward to holster the weapon at the right hip before relaxing outward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.09031,
         "Right Shoulder Front-Back": -0.72637,
@@ -117,7 +117,7 @@
         "raw_value": 0.1267,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends slightly to provide a stable base during the aim and remains planted with a soft bend throughout the sequence.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.23421,
         "Left Upper Leg In-Out": 0.16622,
@@ -137,7 +137,7 @@
         "raw_value": 0.10492,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg maintains a slight knee bend to support the weight shift during the holstering motion and stays relatively static.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.38546,
         "Right Upper Leg In-Out": 0.22487,
@@ -157,7 +157,7 @@
         "raw_value": 0.56964,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand grips the front of the imaginary weapon during the aim, guides it down to the waist, and then opens its fingers to release the grip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.42472,
         "Left Thumb Spread": 0.03411,
@@ -189,7 +189,7 @@
         "raw_value": 0.31508,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds the handle of the imaginary weapon, pulls it down into the holster position at the hip, and relaxes its fingers once secured.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.29073,
         "Right Thumb Spread": 0.14683,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

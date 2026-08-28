@@ -14,7 +14,7 @@
   "duration": 5.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits on an invisible surface and raises a clenched fist in a victory gesture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02239,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains seated upright, leaning slightly forward with a subtle shift to the right side.",
       "mean_pose": {
         "Spine Front-Back": -0.11131,
         "Spine Left-Right": 0.04644,
@@ -57,7 +57,7 @@
         "raw_value": 0.2252,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts upward and turns slightly to the left, looking up at the raised arm.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.19481,
         "Neck Tilt Left-Right": 0.03064,
@@ -75,7 +75,7 @@
         "raw_value": 0.12871,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, extending upward from the shoulder to hold the hand high near the head.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.70813,
         "Left Shoulder Front-Back": -0.6681,
@@ -96,7 +96,7 @@
         "raw_value": 0.28685,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs down by the side of the body, resting near the thigh.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.20365,
         "Right Shoulder Front-Back": 0.03493,
@@ -117,7 +117,7 @@
         "raw_value": 0.09423,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee with the foot planted flat on the ground in a standard sitting position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.62549,
         "Left Upper Leg In-Out": 0.24982,
@@ -137,7 +137,7 @@
         "raw_value": 0.09444,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent at the knee with the foot planted flat on the ground in a standard sitting position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.59792,
         "Right Upper Leg In-Out": 0.19834,
@@ -157,7 +157,7 @@
         "raw_value": 0.09265,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is clenched into a fist and held high in the air.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.3062,
         "Left Thumb Spread": -0.19174,
@@ -189,7 +189,7 @@
         "raw_value": 0.68391,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs loosely by the hip with fingers relaxed and open.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.22879,
         "Right Thumb Spread": -0.14958,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:09Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

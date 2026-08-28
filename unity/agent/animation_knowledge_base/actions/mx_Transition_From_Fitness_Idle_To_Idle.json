@@ -14,7 +14,7 @@
   "duration": 1.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin transitions from a relaxed fitness idle stance to a neutral standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03478,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright throughout the sequence, with only subtle shifts in weight distribution between the hips.",
       "mean_pose": {
         "Spine Front-Back": -0.02395,
         "Spine Left-Right": 0.02698,
@@ -57,7 +57,7 @@
         "raw_value": 0.05157,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward, maintaining a fixed orientation relative to the body.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.30083,
         "Neck Tilt Left-Right": 0.08442,
@@ -75,7 +75,7 @@
         "raw_value": 0.0345,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely at the side, making very minor adjustments to stay balanced as the body settles.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.55958,
         "Left Shoulder Front-Back": -0.69713,
@@ -96,7 +96,7 @@
         "raw_value": 0.04,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm rests naturally by the side, remaining mostly still with slight organic swaying.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.73919,
         "Right Shoulder Front-Back": -1.01639,
@@ -117,7 +117,7 @@
         "raw_value": 0.05924,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg serves as the primary support, bearing the majority of the body's weight while staying relatively straight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.25241,
         "Left Upper Leg In-Out": 0.17595,
@@ -137,7 +137,7 @@
         "raw_value": 0.08324,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg relaxes slightly, with the knee bending gently to shift the foot into a more casual resting position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.31024,
         "Right Upper Leg In-Out": 0.07559,
@@ -157,7 +157,7 @@
         "raw_value": 0.01623,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static, open pose with fingers relaxed at the side of the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.14935,
         "Left Thumb Spread": 0.40283,
@@ -189,7 +189,7 @@
         "raw_value": 0.0099,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a static, open pose hanging loosely near the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.706,
         "Right Thumb Spread": 0.11235,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:50:42Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 6.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward while pumping their arms in a celebratory victory gesture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12755,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward with the running motion and bobs vertically up and down with each stride.",
       "mean_pose": {
         "Spine Front-Back": -0.11684,
         "Spine Left-Right": 0.05201,
@@ -57,7 +57,7 @@
         "raw_value": 0.20721,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward throughout the sequence, moving slightly in sync with the torso's vertical bobbing.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05866,
         "Neck Tilt Left-Right": -0.00386,
@@ -75,7 +75,7 @@
         "raw_value": 0.16356,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings backward from a bent position at the start and then pumps forward into a fist by the end of the clip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.90074,
         "Left Shoulder Front-Back": -0.10285,
@@ -96,7 +96,7 @@
         "raw_value": 0.26183,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings forward and down initially before pumping back to a bent, raised position at the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.20956,
         "Right Shoulder Front-Back": -0.4133,
@@ -117,7 +117,7 @@
         "raw_value": 0.17425,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives forward through a full running cycle, extending and then bending as it pushes off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.0198,
         "Left Upper Leg In-Out": 0.07894,
@@ -137,7 +137,7 @@
         "raw_value": 0.19796,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg cycles opposite to the left, pushing off the ground to propel the body forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.11891,
         "Right Upper Leg In-Out": 0.02505,
@@ -157,7 +157,7 @@
         "raw_value": 0.58235,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand forms a loose fist that tightens as the arm swings forward in the later frames.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.29439,
         "Left Thumb Spread": 0.00582,
@@ -189,7 +189,7 @@
         "raw_value": 0.49254,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains loosely curled near the hip area as the arm swings backward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.84448,
         "Right Thumb Spread": -0.66528,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:44:24Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

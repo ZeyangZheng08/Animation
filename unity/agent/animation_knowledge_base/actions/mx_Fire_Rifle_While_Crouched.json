@@ -14,7 +14,7 @@
   "duration": 1.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure crouches low to the ground and aims a rifle forward, firing it with a slight recoil.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01772,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a deep crouch, holding the position steady while slightly recoiling backward from the shot.",
       "mean_pose": {
         "Spine Front-Back": -1.49671,
         "Spine Left-Right": 0.05169,
@@ -57,7 +57,7 @@
         "raw_value": 0.02726,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down to look through the sights, dipping further as the body lowers and snapping back slightly upon firing.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.30157,
         "Neck Tilt Left-Right": 0.01145,
@@ -75,7 +75,7 @@
         "raw_value": 0.04261,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward to support the front of the weapon, pushing out as the arm straightens and pulling back with the recoil.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.1179,
         "Left Shoulder Front-Back": -0.53223,
@@ -96,7 +96,7 @@
         "raw_value": 0.02912,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches across the body to grip the trigger area, extending forward to aim and jerking back sharply when firing.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.48279,
         "Right Shoulder Front-Back": 0.50429,
@@ -117,7 +117,7 @@
         "raw_value": 0.01495,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply at the knee to maintain a low crouching stance on the left side.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.37186,
         "Left Upper Leg In-Out": 0.43378,
@@ -137,7 +137,7 @@
         "raw_value": 0.01781,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Folds underneath the body in a kneeling position, providing a stable base for the crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.18244,
         "Right Upper Leg In-Out": 0.11656,
@@ -157,7 +157,7 @@
         "raw_value": 0.04308,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips the front of the imaginary rifle, moving forward to extend the arm and shifting back with the recoil.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.89354,
         "Left Thumb Spread": -0.24658,
@@ -189,7 +189,7 @@
         "raw_value": 0.05133,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds the trigger mechanism, extending forward with the arm and pulling back quickly to fire.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.58184,
         "Right Thumb Spread": -0.84711,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:02Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

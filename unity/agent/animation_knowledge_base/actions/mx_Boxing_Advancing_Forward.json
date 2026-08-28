@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure advances forward in a continuous, bouncy boxing walk while maintaining a high guard.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02766,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward into the movement and sways gently side to side with each step.",
       "mean_pose": {
         "Spine Front-Back": -0.12388,
         "Spine Left-Right": 0.10074,
@@ -57,7 +57,7 @@
         "raw_value": 0.03438,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Bobs up and down with the rhythm of the walking cycle while facing straight ahead.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04649,
         "Neck Tilt Left-Right": -0.0935,
@@ -75,7 +75,7 @@
         "raw_value": 0.06291,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static boxing guard position with the elbow bent and fist raised near the chin.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.55867,
         "Left Shoulder Front-Back": -0.67253,
@@ -96,7 +96,7 @@
         "raw_value": 0.0348,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a static boxing guard position with the elbow bent and fist raised near the chin.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.38693,
         "Right Shoulder Front-Back": -1.28912,
@@ -117,7 +117,7 @@
         "raw_value": 0.08567,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward repeatedly, bending at the knee during the swing and extending on landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.07434,
         "Left Upper Leg In-Out": 0.23055,
@@ -137,7 +137,7 @@
         "raw_value": 0.14259,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward repeatedly, bending at the knee during the swing and extending on landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.45893,
         "Right Upper Leg In-Out": 0.31795,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains clenched in a fist held at chest height.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.09881,
         "Left Thumb Spread": -0.44551,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains clenched in a fist held at chest height.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.21765,
         "Right Thumb Spread": -0.62903,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:07Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 20.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a Charleston dance step, kicking one leg forward while swinging the arms in a rhythmic, opposite motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10171,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists from side to side, leaning slightly forward during the kicks and rotating with the momentum of the legs.",
       "mean_pose": {
         "Spine Front-Back": -0.3701,
         "Spine Left-Right": 0.01703,
@@ -57,7 +57,7 @@
         "raw_value": 0.23058,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head bobs up and down and turns slightly to follow the direction of the body's rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05256,
         "Neck Tilt Left-Right": -0.00029,
@@ -75,7 +75,7 @@
         "raw_value": 0.31552,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings backward and upward as the right leg kicks, then swings forward and downward to complete the cycle.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.35246,
         "Left Shoulder Front-Back": -0.1003,
@@ -96,7 +96,7 @@
         "raw_value": 0.32535,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm pumps forward and upward when the left leg is planted, then sweeps back as the body shifts weight.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.43964,
         "Right Shoulder Front-Back": 0.09315,
@@ -117,7 +117,7 @@
         "raw_value": 0.25855,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between being the planted support leg and lifting forward into a high kick with the knee bent.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.31004,
         "Left Upper Leg In-Out": 0.07147,
@@ -137,7 +137,7 @@
         "raw_value": 0.24336,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left, stepping forward and kicking while the other foot supports the body's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.08214,
         "Right Upper Leg In-Out": 0.16029,
@@ -157,7 +157,7 @@
         "raw_value": 0.37433,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers relaxed, moving freely along with the swing of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.86936,
         "Left Thumb Spread": -0.45752,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs relatively still at the side of the body, maintaining a fixed position near the hip throughout the movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:58Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

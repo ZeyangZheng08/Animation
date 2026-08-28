@@ -14,7 +14,7 @@
   "duration": 0.9,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a standing posture into a wide, low combat stance while bringing their hands together in front of the chest.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07706,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso tilts forward and rotates slightly to the left as it lowers into a crouched position.",
       "mean_pose": {
         "Spine Front-Back": -0.25098,
         "Spine Left-Right": -0.10209,
@@ -57,7 +57,7 @@
         "raw_value": 0.18483,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains upright with a slight downward tilt, keeping its gaze level throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03828,
         "Neck Tilt Left-Right": 0.0525,
@@ -75,7 +75,7 @@
         "raw_value": 0.37891,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm moves from a relaxed position at the side to an extended pose, reaching out to the left side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.15037,
         "Left Shoulder Front-Back": 0.40917,
@@ -96,7 +96,7 @@
         "raw_value": 0.23075,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm crosses the midline of the body, extending toward the left side to meet the other hand.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.11366,
         "Right Shoulder Front-Back": -0.4011,
@@ -117,7 +117,7 @@
         "raw_value": 0.14877,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps out to the left and bends at the knee to form a stable base for the stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.14909,
         "Left Upper Leg In-Out": 0.44411,
@@ -137,7 +137,7 @@
         "raw_value": 0.14618,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg shifts weight backward and bends, supporting the lowered center of gravity.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.20468,
         "Right Upper Leg In-Out": 0.30511,
@@ -157,7 +157,7 @@
         "raw_value": 0.40751,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends outward and slightly upward, fingers held open and relaxed.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.60016,
         "Left Thumb Spread": -0.92132,
@@ -189,7 +189,7 @@
         "raw_value": 0.32751,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches across the body toward the left side, fingers loosely curled as if preparing to grip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.55368,
         "Right Thumb Spread": -0.30229,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

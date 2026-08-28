@@ -13,8 +13,9 @@ far each one has got is `status`, not where its file sits:
 
 - **`accepted` — eight fully described nursing actions.** Measured *and* described. These are what the
   runtime plays today, and the only ones retrieval by meaning can see.
-- **`candidate` — 2446 Mixamo clips, measured only.** Every number is there; not one sentence is. They
-  can be searched by what they physically do and not yet by what they look like. See
+- **`candidate` — 2446 Mixamo clips, measured and described, not accepted.** Every number and, since
+  2026-08-27, every sentence is there — `qwen3.8-27b` described the corpus on HPC. What they still lack
+  is a human's acceptance and the `action_id` that comes with it. See
   [the corpus](#the-mixamo-corpus) below.
 
 A record is named by its key: `<clip_name>.json` while it is undescribed, `<action_id>.json` once a
@@ -23,7 +24,7 @@ and accepting a clip renames its file rather than moving it.
 
 ```
 animation_knowledge_base/          everything a CONSUMER reads
-├── actions/                all 2454 records — 8 accepted, 2446 measured-only
+├── actions/                all 2454 records — 8 accepted, 2446 candidate
 ├── raw/                    frozen per-frame pose dumps — every KINEMATIC number comes from these,
 │                           and kb_pose and the seam tables still read them at runtime
 │                           (the corpus's own dumps, `mx_*.json`, are ~1.4 GB and deliberately untracked)
@@ -57,9 +58,9 @@ be a second store, `candidate/`, and it repeated in the path what `status` alrea
 to ask costs 68 seconds across the mount this KB is reached through (6 with concurrency); the manifest
 indexes exactly that subset and `check_kb.sh` gate 3 is what keeps it honest.
 
-> **Status:** 8 fully described nursing actions, plus 2446 measured-only Mixamo clips awaiting
-> description. This README is the human overview; pointers to the deeper docs (and version/rollback
-> details) are at the end.
+> **Status:** 8 accepted nursing actions, plus 2446 measured-and-described Mixamo clips awaiting
+> acceptance — the corpus descriptions landed 2026-08-27, written by `qwen3.8-27b` on HPC. This README
+> is the human overview; pointers to the deeper docs (and version/rollback details) are at the end.
 
 > **What this library does NOT record, and why (`motionkb/v4`, 2026-08-26).** It says nothing about
 > how two actions combine, what a hand is holding, where an IK goal should pin, or which body part
@@ -187,17 +188,18 @@ Three things a v3 record carried and a v4 record does not, with where each went:
 
 Eight nursing actions are enough to build a pipeline on and far too few to retrieve from. So the whole
 of [Mixamo](https://www.mixamo.com)'s library — 2446 clips, re-downloaded at 30 fps to match the
-project's rig — was imported into Unity and run through the measuring half of the pipeline. The result
-sits in the store as 2446 records with `status: candidate`, one JSON per clip, and each is **exactly
-half a record**:
+project's rig — was imported into Unity and run through the pipeline: measured first (2026-08-21), then
+photographed and described (2026-08-27). The result sits in the store as 2446 records with
+`status: candidate`, one JSON per clip, complete in everything except the `action_id` that acceptance
+decides:
 
 | | `accepted` (8) | `candidate` (2446) |
 | --- | --- | --- |
 | duration, frame rate, loop | yes | yes |
 | per-channel static/dynamic + magnitude, mean pose | yes | yes |
-| `action_id` | yes | **null** |
-| `action_description` | yes | **null** |
-| per-channel `motion_description` (x8) | yes | **null** |
+| `action_description` | yes | yes *(since 2026-08-27)* |
+| per-channel `motion_description` (x8) | yes | yes *(since 2026-08-27)* |
+| `action_id` | yes | **null** — decided at acceptance |
 
 What is in it: 2446 clips, 143 minutes of motion, median 2.2 s and longest 46.7 s. Between 85% and 91%
 of them move on any given body channel; the hands are the quietest at 62%. 128 are Mixamo *pose* assets
@@ -209,23 +211,24 @@ One caveat worth knowing before you use the corpus: **`loop` is `false` on every
 walks and runs. It is an importer setting, not a measurement — nobody set it when the corpus was
 imported — so it records that no one has declared these clips loopable, not that they do not cycle.
 
-What that buys today is retrieval **by measurement**: *"clips whose legs are dynamic and whose torso is
+What that buys is retrieval **by measurement**: *"clips whose legs are dynamic and whose torso is
 static"* is a query the corpus can answer, and it will return every walk, run, jog and sidestep in the
-library without anyone having named one of them. What it cannot answer is *"clips of someone walking"* —
-that needs a description, and none has been written yet.
+library without anyone having named one of them. *"Clips of someone walking"* needs a description
+instead — and since 2026-08-27 the corpus has those too.
 
-Filling that half is the next pass, and v4 made it a smaller pass than it was: what has to be produced
-for each of the 2446 is nine sentences, not nine sentences plus forty categorical labels that have to
-agree with each other. It stays deliberately separate from measuring, for the reason the whole
+Filling that half was the pass v4 made smaller than it would have been: what had to be produced for
+each of the 2446 was nine sentences, not nine sentences plus forty categorical labels that have to
+agree with each other. It stayed deliberately separate from measuring, for the reason the whole
 kinematic / semantic split exists: the numbers come from measuring, the sentences come from looking,
 and running them together is how the two get confused. The eight accepted actions were described by a
-VLM reading rendered frames (ADR 0008); doing the same for 2446 is a scale question.
+VLM reading rendered frames (ADR 0008); doing the same for 2446 was a scale question.
 
-**The looking has already been done.** As of **2026-08-27** every corpus clip has its eight-view ring on
-disk — 57,680 JPEGs, 3.5 GB, about four hours of engine time, not one failure — so nothing stands between
-the corpus and its descriptions except running a model over the frames. That model is planned as a local
-~27B Qwen on HPC rather than 2446 calls to a hosted API. It has not been run yet, which is why every
-`action_description` in the table above still reads **null**.
+**Both halves are filled now.** Every corpus clip got its eight-view ring on **2026-08-27** — 57,680
+JPEGs, 3.5 GB, about four hours of engine time, not one failure — and the same day `qwen3.8-27b`, served
+locally on an HPC cluster rather than through 2446 hosted-API calls, read those rings and wrote the nine
+sentences into every record. Each one now carries an `extraction.vlm_proposal` block naming the model,
+the frame count and the eight views, at `status: awaiting_human_accept`. No kinematic number moved, and
+the records keep `status: candidate` under their `mx_` filenames: describing a clip is not accepting it.
 
 Why the corpus is `status: candidate` rather than a store of its own, why a record with a null
 `action_id` is nevertheless valid, and why its pose dumps are not in git:
@@ -331,7 +334,8 @@ python validate_motionkb.py    # check every entry against the contract
 ```
 
 All 2454 records pass today — the 8 accepted against the full contract, the 2446 corpus records
-against the part of it a measured-only record is answerable for.
+against the part of it a record that has not been accepted is answerable for (its `action_id` is
+decided at acceptance).
 
 ## Going deeper
 

@@ -14,7 +14,7 @@
   "duration": 2.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a snap kick with the rear right foot while simultaneously advancing forward with the left leg.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15815,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans backward to counterbalance the kicking motion, then rotates and shifts forward as the body advances.",
       "mean_pose": {
         "Spine Front-Back": -0.16121,
         "Spine Left-Right": -0.03635,
@@ -57,7 +57,7 @@
         "raw_value": 0.21378,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back slightly during the extension of the kick and remains relatively stable in orientation throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00179,
         "Neck Tilt Left-Right": -0.09661,
@@ -75,7 +75,7 @@
         "raw_value": 0.18032,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends outward to the side for balance and swings slightly forward as the body moves ahead.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.30439,
         "Left Shoulder Front-Back": 0.10389,
@@ -96,7 +96,7 @@
         "raw_value": 0.23453,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm pulls back near the chest and hip area before extending slightly outward during the kick.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.52087,
         "Right Shoulder Front-Back": -0.05776,
@@ -117,7 +117,7 @@
         "raw_value": 0.26487,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward to advance the body, landing in front of the right leg.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.00472,
         "Left Upper Leg In-Out": 0.45505,
@@ -137,7 +137,7 @@
         "raw_value": 0.264,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts from the ground, bending at the knee, and snaps forward into a kick position before returning toward the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.03652,
         "Right Upper Leg In-Out": 0.2591,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds an open, relaxed pose with fingers extended.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a loose, open posture near the torso.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

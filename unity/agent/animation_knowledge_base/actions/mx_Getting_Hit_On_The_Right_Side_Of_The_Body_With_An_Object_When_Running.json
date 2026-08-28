@@ -14,7 +14,7 @@
   "duration": 2.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is running forward when suddenly struck on the right side, causing them to stagger and collapse heavily onto the ground.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13321,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "While maintaining a slight forward lean for running, the torso twists sharply to the left upon impact before pitching forward into a deep bow as the figure loses balance and falls.",
       "mean_pose": {
         "Spine Front-Back": -0.26398,
         "Spine Left-Right": 0.08051,
@@ -57,7 +57,7 @@
         "raw_value": 0.17933,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Initially held upright during the run, the head snaps violently to the left from the blow, then drops down toward the chest as the body folds over in pain.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.18535,
         "Neck Tilt Left-Right": 0.0144,
@@ -75,7 +75,7 @@
         "raw_value": 0.34649,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally with the run but quickly extends outward and downward, reaching for the floor to break the fall.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.26058,
         "Left Shoulder Front-Back": -0.98575,
@@ -96,7 +96,7 @@
         "raw_value": 0.46133,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm flails upward and back in reaction to the hit before dropping limply by the side of the body as it collapses.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.56792,
         "Right Shoulder Front-Back": -0.77113,
@@ -117,7 +117,7 @@
         "raw_value": 0.26123,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg continues its running stride briefly before bending deeply at the knee to support the falling weight of the upper body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.10745,
         "Left Upper Leg In-Out": -0.01762,
@@ -137,7 +137,7 @@
         "raw_value": 0.27901,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg plants firmly on the ground to stabilize the figure, with the knee bending as the center of gravity shifts forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.07803,
         "Right Upper Leg In-Out": -0.00014,
@@ -157,7 +157,7 @@
         "raw_value": 0.51064,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens and reaches out to touch the floor, attempting to catch the figure's weight.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.39057,
         "Left Thumb Spread": -0.31797,
@@ -189,7 +189,7 @@
         "raw_value": 0.50195,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs loosely near the thigh, limp and unresponsive as the figure crumples.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.27327,
         "Right Thumb Spread": -0.25489,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:39Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

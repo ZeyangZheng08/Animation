@@ -14,7 +14,7 @@
   "duration": 1.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a heavy, two-handed overhead swing, driving the motion downward into a deep forward bend before rising back to an upright stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06999,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins in a slightly bent position, hinges sharply forward and down during the middle of the clip as the swing completes, and then straightens back up to a neutral standing posture.",
       "mean_pose": {
         "Spine Front-Back": -0.82972,
         "Spine Left-Right": -0.07326,
@@ -57,7 +57,7 @@
         "raw_value": 0.21037,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to follow the downward momentum of the swing at the midpoint of the action, then lifts back up to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.16658,
         "Neck Tilt Left-Right": 0.22944,
@@ -75,7 +75,7 @@
         "raw_value": 0.37401,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends out and down with the rest of the body during the strike, keeping the elbow relatively straight, before returning to a bent position near the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.8938,
         "Left Shoulder Front-Back": -1.68634,
@@ -96,7 +96,7 @@
         "raw_value": 0.25754,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging from a raised position down through the front of the body into the low point of the arc, then lifting back up.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.52679,
         "Right Shoulder Front-Back": -1.24536,
@@ -117,7 +117,7 @@
         "raw_value": 0.11727,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee to absorb the weight of the forward lean, then straightens as the figure returns to a standing position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.28574,
         "Left Upper Leg In-Out": 0.37445,
@@ -137,7 +137,7 @@
         "raw_value": 0.14429,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg also bends significantly to support the crouched posture during the impact phase, extending upward as the torso rises.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.16402,
         "Right Upper Leg In-Out": 0.09277,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains in a fixed, clenched fist grip throughout the entire movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15206,
         "Left Thumb Spread": -0.37831,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a static, closed fist shape for the duration of the clip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

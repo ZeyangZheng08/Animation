@@ -14,7 +14,7 @@
   "duration": 1.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jumps in place, crouching low to gather momentum before springing into the air and landing with a slight bend in the knees.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11521,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso lowers significantly during the initial crouch, rises vertically as the figure extends into the jump, and compresses slightly again upon impact with the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.34772,
         "Spine Left-Right": -0.09279,
@@ -57,7 +57,7 @@
         "raw_value": 0.13443,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward while crouching, lifts to look forward during the ascent, and dips slightly forward upon landing.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.30066,
         "Neck Tilt Left-Right": -0.14959,
@@ -75,7 +75,7 @@
         "raw_value": 0.10004,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings backward from the hip during the crouch, moves forward and upward through the air, and then drops down toward the thigh as the body lands.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.02407,
         "Left Shoulder Front-Back": -0.66254,
@@ -96,7 +96,7 @@
         "raw_value": 0.25489,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent at the elbow and held forward throughout the sequence, acting as a counterbalance to the jumping motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.64948,
         "Right Shoulder Front-Back": -0.47078,
@@ -117,7 +117,7 @@
         "raw_value": 0.22809,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee during the preparation phase, straightens fully to propel the body upward, and flexes again to absorb the force of the landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.01142,
         "Left Upper Leg In-Out": 0.30059,
@@ -137,7 +137,7 @@
         "raw_value": 0.2546,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left leg's movement, bending deep for the crouch, extending straight for the jump, and bending once more to cushion the landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.07299,
         "Right Upper Leg In-Out": 0.17016,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, hanging naturally near the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41853,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.18956,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays clenched in a fist, held steady in front of the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60937,
         "Right Thumb Spread": 0.07459,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:40:14Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

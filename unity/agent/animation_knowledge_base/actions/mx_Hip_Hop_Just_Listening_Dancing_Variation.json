@@ -14,7 +14,7 @@
   "duration": 18.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a rhythmic hip hop dance, bouncing on bent knees while swinging their arms in alternating arcs.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13841,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bounces vertically with the rhythm and tilts slightly side to side, counterbalancing the arm movements.",
       "mean_pose": {
         "Spine Front-Back": -0.05956,
         "Spine Left-Right": -0.04676,
@@ -57,7 +57,7 @@
         "raw_value": 0.26732,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively stable, bobbing gently up and down in sync with the body's bounce.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02793,
         "Neck Tilt Left-Right": -0.00661,
@@ -75,7 +75,7 @@
         "raw_value": 0.238,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings in a large arc, moving from a position bent at the hip out to the side and then crossing in front of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.28196,
         "Left Shoulder Front-Back": -0.23986,
@@ -96,7 +96,7 @@
         "raw_value": 0.22482,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves in opposition to the left, swinging outward and then bending back toward the body as the other arm extends.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.11619,
         "Right Shoulder Front-Back": -0.15394,
@@ -117,7 +117,7 @@
         "raw_value": 0.13453,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays planted with a constant bend at the knee, supporting the weight during the vertical bounce.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.21364,
         "Left Upper Leg In-Out": -0.0124,
@@ -137,7 +137,7 @@
         "raw_value": 0.15764,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left, remaining bent at the knee and acting as the primary shock absorber for the hopping motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.10383,
         "Right Upper Leg In-Out": 0.0543,
@@ -157,7 +157,7 @@
         "raw_value": 0.12519,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open and relaxed, following the flow of the arm's swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.21045,
         "Left Thumb Spread": 0.02565,
@@ -189,7 +189,7 @@
         "raw_value": 0.19328,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and loose, mirroring the movement of the left hand as it travels through the air.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.30458,
         "Right Thumb Spread": 0.05595,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

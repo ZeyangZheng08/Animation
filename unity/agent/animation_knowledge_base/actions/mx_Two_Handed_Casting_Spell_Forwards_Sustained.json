@@ -14,7 +14,7 @@
   "duration": 3.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a sustained magical casting motion, thrusting both arms forward with open hands before retracting them back toward the body.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09026,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward significantly during the arm extension phase and then returns to an upright, slightly bent posture as the arms are pulled back.",
       "mean_pose": {
         "Spine Front-Back": -0.30838,
         "Spine Left-Right": -0.0525,
@@ -57,7 +57,7 @@
         "raw_value": 0.23635,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward in coordination with the forward lean of the body and lifts slightly as the pose resets.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.37313,
         "Neck Tilt Left-Right": 0.3347,
@@ -75,7 +75,7 @@
         "raw_value": 0.5676,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a raised, bent position at the start, extends fully straight out in front, and then retracts back toward the hip area.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.5215,
         "Left Shoulder Front-Back": -2.02547,
@@ -96,7 +96,7 @@
         "raw_value": 0.48491,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging from a bent starting position, extending straight out forward, and then pulling back down towards the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.46939,
         "Right Shoulder Front-Back": -1.89432,
@@ -117,7 +117,7 @@
         "raw_value": 0.21492,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply to support the forward lean of the upper body and straightens slightly as the figure returns to a neutral stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.1394,
         "Left Upper Leg In-Out": 0.14144,
@@ -137,7 +137,7 @@
         "raw_value": 0.22493,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg acts as a pivot, stepping back and bending to balance the forward momentum before settling into a stable standing position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.64712,
         "Right Upper Leg In-Out": 0.27205,
@@ -157,7 +157,7 @@
         "raw_value": 0.61268,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens its fingers wide during the forward reach and remains open as it draws back across the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.43979,
         "Left Thumb Spread": 0.47714,
@@ -189,7 +189,7 @@
         "raw_value": 0.42886,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand mirrors the left, opening its fingers for the casting gesture and holding that open shape while returning to the resting position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.87958,
         "Right Thumb Spread": 0.34855,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:38Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

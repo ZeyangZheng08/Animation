@@ -14,7 +14,7 @@
   "duration": 7.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic two-handed forward slam, driving their arms from a high position down and out in front of them.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13779,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward as the arms drive down, rotating slightly to follow the momentum of the slam.",
       "mean_pose": {
         "Spine Front-Back": -0.09473,
         "Spine Left-Right": 0.00491,
@@ -57,7 +57,7 @@
         "raw_value": 0.31231,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward, following the trajectory of the arms toward the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04816,
         "Neck Tilt Left-Right": 0.04178,
@@ -75,7 +75,7 @@
         "raw_value": 0.33592,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a high position near the shoulder down and outward, extending fully at the end of the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.0077,
         "Left Shoulder Front-Back": -0.52162,
@@ -96,7 +96,7 @@
         "raw_value": 0.46303,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging down and outward from a high position to complete the two-handed strike.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.05377,
         "Right Shoulder Front-Back": -0.70018,
@@ -117,7 +117,7 @@
         "raw_value": 0.21452,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to absorb the impact of the forward lean, with the foot planted on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.07924,
         "Left Upper Leg In-Out": 0.40483,
@@ -137,7 +137,7 @@
         "raw_value": 0.2336,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent and positioned behind the body, providing balance for the forward movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.55056,
         "Right Upper Leg In-Out": 0.31044,
@@ -157,7 +157,7 @@
         "raw_value": 0.56206,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends forward with fingers spread wide during the downward swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53196,
         "Left Thumb Spread": -0.54152,
@@ -189,7 +189,7 @@
         "raw_value": 0.69551,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand extends forward alongside the left, with fingers spread wide during the downward swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.93186,
         "Right Thumb Spread": -0.52348,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:42Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

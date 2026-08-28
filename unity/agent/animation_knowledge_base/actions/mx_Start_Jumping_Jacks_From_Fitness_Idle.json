@@ -14,7 +14,7 @@
   "duration": 0.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a single jumping jack, transitioning from a standing idle pose with feet together to a wide stance with arms raised overhead.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02016,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stable throughout the movement, rising slightly as the figure extends into the jump.",
       "mean_pose": {
         "Spine Front-Back": -0.01308,
         "Spine Left-Right": 0.00452,
@@ -57,7 +57,7 @@
         "raw_value": 0.08535,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays aligned with the spine, facing forward without significant rotation or tilt.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.2156,
         "Neck Tilt Left-Right": 0.10909,
@@ -75,7 +75,7 @@
         "raw_value": 0.46058,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and outward from the side of the body to a position directly above the head.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.24222,
         "Left Shoulder Front-Back": 0.45755,
@@ -96,7 +96,7 @@
         "raw_value": 0.5323,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging upward and outward from the side to meet above the head.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.07431,
         "Right Shoulder Front-Back": 0.42637,
@@ -117,7 +117,7 @@
         "raw_value": 0.17211,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg moves outward from a closed stance to a wide position with the foot flat on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.29852,
         "Left Upper Leg In-Out": 0.29685,
@@ -137,7 +137,7 @@
         "raw_value": 0.18645,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps outward in sync with the left, opening into a wide stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.27394,
         "Right Upper Leg In-Out": 0.21162,
@@ -157,7 +157,7 @@
         "raw_value": 0.25657,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand travels up alongside the head, ending with the palm facing inward near the top of the frame.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.1157,
         "Left Thumb Spread": 0.13308,
@@ -189,7 +189,7 @@
         "raw_value": 0.21907,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves upward to meet the left hand, finishing with palms pressed together overhead.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.24217,
         "Right Thumb Spread": 0.04068,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

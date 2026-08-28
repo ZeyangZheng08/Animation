@@ -14,7 +14,7 @@
   "duration": 4.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a disappointed shrug, bringing its hands up to its shoulders while bowing its head.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08801,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward from an upright position and twists slightly toward the right side of the body.",
       "mean_pose": {
         "Spine Front-Back": -0.25417,
         "Spine Left-Right": -0.06873,
@@ -57,7 +57,7 @@
         "raw_value": 0.1735,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward and rotates toward the figure's left shoulder.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.3233,
         "Neck Tilt Left-Right": 0.01687,
@@ -75,7 +75,7 @@
         "raw_value": 0.14233,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and upward from the side, ending with the elbow bent and the hand raised near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.38299,
         "Left Shoulder Front-Back": -2.08549,
@@ -96,7 +96,7 @@
         "raw_value": 0.34445,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm lifts inward from the side, bending at the elbow so the hand rests near the left shoulder.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.50852,
         "Right Shoulder Front-Back": -0.2749,
@@ -117,7 +117,7 @@
         "raw_value": 0.04858,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground with a slight bend in the knee.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.44,
         "Left Upper Leg In-Out": 0.08578,
@@ -137,7 +137,7 @@
         "raw_value": 0.05744,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays grounded with a slight bend in the knee.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.46156,
         "Right Upper Leg In-Out": 0.09941,
@@ -157,7 +157,7 @@
         "raw_value": 0.10186,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from the side of the body up to the front of the chest with fingers loosely curled.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.92679,
         "Left Thumb Spread": 0.00808,
@@ -189,7 +189,7 @@
         "raw_value": 0.31388,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand travels from the side of the body across the chest to hover near the left shoulder.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.0114,
         "Right Thumb Spread": -0.04806,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:08Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

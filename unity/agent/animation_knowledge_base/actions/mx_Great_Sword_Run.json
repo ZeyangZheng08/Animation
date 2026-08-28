@@ -14,7 +14,7 @@
   "duration": 0.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs forward while holding a large weapon with both hands.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1009,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into the run and bobs slightly with each stride.",
       "mean_pose": {
         "Spine Front-Back": -0.35695,
         "Spine Left-Right": 0.03173,
@@ -57,7 +57,7 @@
         "raw_value": 0.12876,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays aligned with the shoulders, tilting down to look ahead in the direction of travel.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.80756,
         "Neck Tilt Left-Right": 0.29571,
@@ -75,7 +75,7 @@
         "raw_value": 0.14159,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bends at the elbow and holds steady in front of the chest as part of the two-handed grip.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.30239,
         "Left Shoulder Front-Back": -1.52298,
@@ -96,7 +96,7 @@
         "raw_value": 0.10149,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bends at the elbow and holds steady near the waist to support the grip on the weapon.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.88786,
         "Right Shoulder Front-Back": -0.31194,
@@ -117,7 +117,7 @@
         "raw_value": 0.26537,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward and extends behind the body in a continuous running cycle.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.07871,
         "Left Upper Leg In-Out": 0.20271,
@@ -137,7 +137,7 @@
         "raw_value": 0.24762,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates with the left leg, driving forward and extending backward to propel the run.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.04488,
         "Right Upper Leg In-Out": -0.09366,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains fixed in a closed fist, gripping the upper section of the weapon.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.12434,
         "Left Thumb Spread": -0.45487,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains fixed in a closed fist, gripping the lower section of the weapon.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.02572,
         "Right Thumb Spread": -0.32337,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:21Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

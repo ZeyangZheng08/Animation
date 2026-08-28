@@ -14,7 +14,7 @@
   "duration": 1.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a continuous strafe walk to the left, maintaining a forward-facing orientation while moving laterally.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03009,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward and tilts to the left, bobbing up and down with the rhythm of the stride.",
       "mean_pose": {
         "Spine Front-Back": -0.45044,
         "Spine Left-Right": -0.07934,
@@ -57,7 +57,7 @@
         "raw_value": 0.04779,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays oriented toward the front, turning slightly to follow the movement direction.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04971,
         "Neck Tilt Left-Right": -0.17809,
@@ -75,7 +75,7 @@
         "raw_value": 0.06047,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings forward and back in opposition to the legs, bent at the elbow.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.28421,
         "Left Shoulder Front-Back": -0.00421,
@@ -96,7 +96,7 @@
         "raw_value": 0.0586,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pendulums opposite to the left arm, swinging through a relaxed arc at the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.26302,
         "Right Shoulder Front-Back": 0.40133,
@@ -117,7 +117,7 @@
         "raw_value": 0.18139,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps out wide to the left and retracts, driving the lateral motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.08145,
         "Left Upper Leg In-Out": 0.21336,
@@ -137,7 +137,7 @@
         "raw_value": 0.22201,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Follows behind the left leg, pushing off to propel the body sideways.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.04308,
         "Right Upper Leg In-Out": 0.19712,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, loosely clenched fist shape.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21301,
         "Left Thumb Spread": -0.90937,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a fixed, loosely clenched fist position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

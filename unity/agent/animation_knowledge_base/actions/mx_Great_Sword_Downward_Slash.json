@@ -14,7 +14,7 @@
   "duration": 1.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a downward slash, swinging both arms from a high position near the head down to the side.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.20326,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and rotates slightly as the arm swing progresses.",
       "mean_pose": {
         "Spine Front-Back": -0.5792,
         "Spine Left-Right": -0.15253,
@@ -57,7 +57,7 @@
         "raw_value": 0.24196,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward, following the motion of the arms during the strike.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.52941,
         "Neck Tilt Left-Right": 0.01483,
@@ -75,7 +75,7 @@
         "raw_value": 0.50696,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a raised position near the face down toward the front-left side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.60783,
         "Left Shoulder Front-Back": -3.03472,
@@ -96,7 +96,7 @@
         "raw_value": 0.40457,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings from a raised position near the face down toward the front-right side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": 1.01188,
         "Right Shoulder Front-Back": -2.28486,
@@ -117,7 +117,7 @@
         "raw_value": 0.15825,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and shifts its weight as the body moves through the strike.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.13849,
         "Left Upper Leg In-Out": 0.19342,
@@ -137,7 +137,7 @@
         "raw_value": 0.158,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee and adjusts its stance to support the downward movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.49621,
         "Right Upper Leg In-Out": 0.24124,
@@ -157,7 +157,7 @@
         "raw_value": 0.14285,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand clenches into a fist as it moves from a high starting point to a lower finish.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15206,
         "Left Thumb Spread": -0.37832,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains in a fixed, open pose near the chest throughout the action.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

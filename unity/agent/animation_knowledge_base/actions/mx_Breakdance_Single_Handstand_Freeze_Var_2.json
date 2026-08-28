@@ -14,7 +14,7 @@
   "duration": 4.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a one-handed handstand freeze, kicking up from a standing position to balance on the right arm while holding the pose with legs split.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11891,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso transitions from an upright standing position to being fully inverted and held vertical in mid-air during the handstand.",
       "mean_pose": {
         "Spine Front-Back": -0.3372,
         "Spine Left-Right": -0.17349,
@@ -57,7 +57,7 @@
         "raw_value": 0.26428,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head moves from an upright orientation to pointing downwards toward the floor while inverted, remaining aligned with the spine throughout the motion.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02916,
         "Neck Tilt Left-Right": -0.02768,
@@ -75,7 +75,7 @@
         "raw_value": 0.28837,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and extends to the side to maintain balance while the body is inverted.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.86248,
         "Left Shoulder Front-Back": -0.46726,
@@ -96,7 +96,7 @@
         "raw_value": 0.39899,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm drives downward to support the entire body weight in a straight line for the handstand.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.28528,
         "Right Shoulder Front-Back": -0.87022,
@@ -117,7 +117,7 @@
         "raw_value": 0.26208,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg kicks upward into the air, extending straight out as part of the inverted split-leg pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.0748,
         "Left Upper Leg In-Out": 0.22907,
@@ -137,7 +137,7 @@
         "raw_value": 0.36489,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee, tucking the lower leg back towards the hip while the upper leg points up.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.07727,
         "Right Upper Leg In-Out": 0.22707,
@@ -157,7 +157,7 @@
         "raw_value": 0.2383,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open with fingers spread as it extends away from the body for balance.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.96531,
         "Left Thumb Spread": 0.30624,
@@ -189,7 +189,7 @@
         "raw_value": 0.26826,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand presses flat against the ground, bearing the full weight of the inverted body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.79899,
         "Right Thumb Spread": 0.60865,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

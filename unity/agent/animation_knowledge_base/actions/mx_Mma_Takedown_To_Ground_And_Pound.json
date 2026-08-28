@@ -14,7 +14,7 @@
   "duration": 7.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure drops from a standing stance to the floor, performs a crawling motion, and then rises into a kneeling punching pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.1863,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and down until nearly parallel to the ground, twists during the crawl, and then straightens up into an upright kneeling position.",
       "mean_pose": {
         "Spine Front-Back": -0.2857,
         "Spine Left-Right": -0.05646,
@@ -57,7 +57,7 @@
         "raw_value": 0.32411,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward as the body lowers, stays low during the crawl, and lifts back up as the figure rises.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03095,
         "Neck Tilt Left-Right": -0.02892,
@@ -75,7 +75,7 @@
         "raw_value": 0.31619,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends forward and down to touch the floor, supports the body weight while crawling, and swings upward to throw a punch.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.22734,
         "Left Shoulder Front-Back": -0.41784,
@@ -96,7 +96,7 @@
         "raw_value": 0.36115,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down to brace on the floor, pulls through during the crawl, and extends forward in a second punching motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.12754,
         "Right Shoulder Front-Back": -0.53177,
@@ -117,7 +117,7 @@
         "raw_value": 0.2572,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drops to the knee first, drags backward during the crawl, and ends bent underneath the torso in a lunge.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.23092,
         "Left Upper Leg In-Out": 0.45755,
@@ -137,7 +137,7 @@
         "raw_value": 0.36333,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward and lowers to the ground, trails behind during the crawl, and finishes extended back for balance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.04294,
         "Right Upper Leg In-Out": 0.8242,
@@ -157,7 +157,7 @@
         "raw_value": 0.54849,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens to grip the floor, presses down to push the body along, and clenches into a fist at the end of the punch.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.62818,
         "Left Thumb Spread": -1.00822,
@@ -189,7 +189,7 @@
         "raw_value": 0.50783,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Touches the ground to stabilize the fall, pushes off the surface while moving, and forms a fist for the final strike.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.46806,
         "Right Thumb Spread": -1.06704,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:06Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

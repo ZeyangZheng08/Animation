@@ -14,7 +14,7 @@
   "duration": 2.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward, trips over its own foot, and falls heavily to the ground, ending up lying on its side.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12679,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso maintains an upright posture while walking, then pitches sharply forward and rotates as it falls, finally coming to rest flat against the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.01381,
         "Spine Left-Right": -0.05541,
@@ -57,7 +57,7 @@
         "raw_value": 0.26908,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level with the shoulders during the walk, drops forward in sync with the torso's fall, and ends up resting on the ground near the extended arms.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.05338,
         "Neck Tilt Left-Right": 0.08932,
@@ -75,7 +75,7 @@
         "raw_value": 0.46863,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally at the side during the walk, flails outward and downward to break the fall, and lands stretched out on the floor.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.31861,
         "Left Shoulder Front-Back": -1.57739,
@@ -96,7 +96,7 @@
         "raw_value": 0.44579,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves in opposition to the left while walking, extends forward and down to brace against the impact, and comes to a stop pressed flat against the ground.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.04871,
         "Right Shoulder Front-Back": -0.33019,
@@ -117,7 +117,7 @@
         "raw_value": 0.29626,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg strides forward in a normal gait, tangles with the other leg causing the trip, kicks upward into the air during the fall, and settles bent on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.33106,
         "Left Upper Leg In-Out": 0.10002,
@@ -137,7 +137,7 @@
         "raw_value": 0.2608,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg provides support during the walk, gets caught under the body's momentum, trails behind as the figure topples, and finishes extended along the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.0041,
         "Right Upper Leg In-Out": 0.11567,
@@ -157,7 +157,7 @@
         "raw_value": 0.22526,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains relaxed and open while walking, reaches toward the ground to cushion the descent, and lies flat on the surface after the fall.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.36546,
         "Left Thumb Spread": 0.08578,
@@ -189,7 +189,7 @@
         "raw_value": 0.1943,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs loosely at the side, thrusts forward to catch the body's weight, and presses firmly against the floor in the final pose.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.41303,
         "Right Thumb Spread": -0.21269,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:27:58Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

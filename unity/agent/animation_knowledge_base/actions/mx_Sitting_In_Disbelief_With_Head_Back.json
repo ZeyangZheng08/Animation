@@ -14,7 +14,7 @@
   "duration": 4.767,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits with hands clasped behind its head, then drops its arms forward to gesture in disbelief.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08425,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly backward while seated, then straightens up as the arms move away from the head.",
       "mean_pose": {
         "Spine Front-Back": -0.21421,
         "Spine Left-Right": -0.019,
@@ -57,7 +57,7 @@
         "raw_value": 0.2019,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts far back so the face points toward the ceiling, then returns to a level, forward-facing position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.26231,
         "Neck Tilt Left-Right": 0.15576,
@@ -75,7 +75,7 @@
         "raw_value": 0.33267,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is raised and bent with the hand held behind the head, then lowers down and extends forward with the palm open.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.00751,
         "Left Shoulder Front-Back": -0.8036,
@@ -96,7 +96,7 @@
         "raw_value": 0.42118,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, raised and bent with the hand behind the head, then lowers and extends forward with an open palm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.11383,
         "Right Shoulder Front-Back": -0.25702,
@@ -117,7 +117,7 @@
         "raw_value": 0.14223,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains bent at the knee in a seated posture throughout the clip.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.45285,
         "Left Upper Leg In-Out": 0.19205,
@@ -137,7 +137,7 @@
         "raw_value": 0.12419,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays bent at the knee, supporting the seated position without changing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.49261,
         "Right Upper Leg In-Out": 0.20518,
@@ -157,7 +157,7 @@
         "raw_value": 0.11384,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is clasped behind the head initially, then moves down and forward into an open, flat gesture.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.40456,
         "Left Thumb Spread": 0.68757,
@@ -189,7 +189,7 @@
         "raw_value": 0.12962,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is clasped behind the head initially, then moves down and forward into an open, flat gesture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.36583,
         "Right Thumb Spread": 0.61125,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:46Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

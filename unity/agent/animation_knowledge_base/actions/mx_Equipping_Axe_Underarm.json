@@ -14,7 +14,7 @@
   "duration": 1.233,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a two-handed grip on an object held low at the right hip, bringing both hands together from opposite sides.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04833,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso maintains a mostly upright posture with a slight forward lean and a subtle rotation to the right throughout the sequence.",
       "mean_pose": {
         "Spine Front-Back": -0.23694,
         "Spine Left-Right": -0.01058,
@@ -57,7 +57,7 @@
         "raw_value": 0.12336,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively stable, facing forward with minor adjustments to maintain balance during the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.01542,
         "Neck Tilt Left-Right": -0.08863,
@@ -75,7 +75,7 @@
         "raw_value": 0.19335,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts in a relaxed position down by the side of the body and then swings across the front of the body toward the right hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.13182,
         "Left Shoulder Front-Back": -0.27747,
@@ -96,7 +96,7 @@
         "raw_value": 0.32368,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow and held close to the body near the right hip, serving as the anchor point for the action.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.03908,
         "Right Shoulder Front-Back": -0.96362,
@@ -117,7 +117,7 @@
         "raw_value": 0.12795,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands straight and bears weight, providing a stable base for the upper body movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.1208,
         "Left Upper Leg In-Out": 0.36992,
@@ -137,7 +137,7 @@
         "raw_value": 0.13678,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is slightly bent at the knee, supporting the stance while the hips shift subtly.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.20922,
         "Right Upper Leg In-Out": 0.24259,
@@ -157,7 +157,7 @@
         "raw_value": 0.24601,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a hanging position across the body to meet the right hand at the right hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21217,
         "Left Thumb Spread": 0.05911,
@@ -189,7 +189,7 @@
         "raw_value": 0.39148,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains positioned at the right hip, waiting for the left hand to complete the grasp.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.08748,
         "Right Thumb Spread": -0.55897,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:07Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

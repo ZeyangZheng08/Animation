@@ -14,7 +14,7 @@
   "duration": 17.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward in a crouched posture, then stops to bring both hands up toward the chest and abdomen.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12543,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a crouch while walking, then straightens slightly as it stops and brings its arms inward.",
       "mean_pose": {
         "Spine Front-Back": -0.08354,
         "Spine Left-Right": 0.00368,
@@ -57,7 +57,7 @@
         "raw_value": 0.25935,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward throughout the movement, keeping a low angle relative to the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06978,
         "Neck Tilt Left-Right": -0.03771,
@@ -75,7 +75,7 @@
         "raw_value": 0.31758,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely at the side during the walk, then bends at the elbow to raise the hand toward the center of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.74789,
         "Left Shoulder Front-Back": 0.07055,
@@ -96,7 +96,7 @@
         "raw_value": 0.32871,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs at the side during the walk, then lifts and bends forward to meet the other hand near the midsection.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.49997,
         "Right Shoulder Front-Back": -0.02333,
@@ -117,7 +117,7 @@
         "raw_value": 0.23036,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward with a bent knee to drive the crouched walk, ending in a planted position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.11051,
         "Left Upper Leg In-Out": 0.20218,
@@ -137,7 +137,7 @@
         "raw_value": 0.2532,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Follows through the walking cycle with a bent knee, settling into a wide stance behind the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.24001,
         "Right Upper Leg In-Out": 0.28807,
@@ -157,7 +157,7 @@
         "raw_value": 0.45407,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles open at the side initially, then curves upward and inward to join the right hand at the front of the torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.18648,
         "Left Thumb Spread": -0.19403,
@@ -189,7 +189,7 @@
         "raw_value": 0.43568,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Drops loosely by the hip while walking, then reaches forward and up to clasp near the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.35284,
         "Right Thumb Spread": 0.35924,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:10Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

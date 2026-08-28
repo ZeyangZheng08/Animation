@@ -14,7 +14,7 @@
   "duration": 17.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic Capoeira kick, dropping into a handstand-like stance to swing a leg in a high arc before returning to a crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.26622,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso drops from an upright position down toward the floor, tilting significantly as it transitions through the inverted pose and back up.",
       "mean_pose": {
         "Spine Front-Back": -0.82584,
         "Spine Left-Right": -0.04155,
@@ -57,7 +57,7 @@
         "raw_value": 0.24187,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the descent of the torso, moving down near the ground during the low phase of the movement before rising again.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.20119,
         "Neck Tilt Left-Right": -0.04455,
@@ -75,7 +75,7 @@
         "raw_value": 0.41775,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends downward to support the body's weight on the floor during the inverted portion of the move.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.31412,
         "Left Shoulder Front-Back": -0.1168,
@@ -96,7 +96,7 @@
         "raw_value": 0.36798,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down to the floor alongside the left arm to help stabilize the body in the low stance.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.03477,
         "Right Shoulder Front-Back": 0.06396,
@@ -117,7 +117,7 @@
         "raw_value": 0.306,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg serves as the primary support, remaining relatively grounded while the body shifts its weight over it.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.18539,
         "Left Upper Leg In-Out": 0.2511,
@@ -137,7 +137,7 @@
         "raw_value": 0.33679,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg swings upward in a large, high arc to execute the kick, extending fully at the peak of the motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.11656,
         "Right Upper Leg In-Out": 0.1774,
@@ -157,7 +157,7 @@
         "raw_value": 0.57793,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand presses against the floor to bear the upper body's weight during the handstand phase.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.91605,
         "Left Thumb Spread": 0.08175,
@@ -189,7 +189,7 @@
         "raw_value": 0.54397,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches down to touch the floor, providing balance and support for the inverted posture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.59778,
         "Right Thumb Spread": 0.11946,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

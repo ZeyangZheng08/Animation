@@ -14,7 +14,7 @@
   "duration": 1.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure moves backward in a low crawl, dragging its feet while supporting its weight on its hands.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10636,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains in a low, hunched position close to the ground, leaning forward to support the body's weight.",
       "mean_pose": {
         "Spine Front-Back": -0.3906,
         "Spine Left-Right": -0.03559,
@@ -57,7 +57,7 @@
         "raw_value": 0.22099,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays low, pointing downward toward the floor, maintaining a consistent orientation relative to the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": 1.06398,
         "Neck Tilt Left-Right": 0.06789,
@@ -75,7 +75,7 @@
         "raw_value": 0.23721,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is extended forward with the elbow slightly bent, serving as a primary point of contact with the ground.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.34012,
         "Left Shoulder Front-Back": -0.49372,
@@ -96,7 +96,7 @@
         "raw_value": 0.26717,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is also extended forward, mirroring the left arm to create a stable base for the crawling motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.40098,
         "Right Shoulder Front-Back": -1.9329,
@@ -117,7 +117,7 @@
         "raw_value": 0.20627,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg trails behind the body with the knee bent and the foot dragged along the floor surface.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.77917,
         "Left Upper Leg In-Out": 0.41133,
@@ -137,7 +137,7 @@
         "raw_value": 0.23978,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends backward, keeping the lower leg relatively straight as it slides across the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.27088,
         "Right Upper Leg In-Out": 0.26108,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is planted firmly on the floor with fingers spread to provide stability.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.2267,
         "Left Thumb Spread": 0.56647,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand rests flat on the ground, bearing the weight of the upper body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.24425,
         "Right Thumb Spread": -0.96627,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:43:01Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

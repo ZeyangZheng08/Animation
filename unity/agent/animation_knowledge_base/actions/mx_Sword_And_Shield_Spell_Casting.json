@@ -14,7 +14,7 @@
   "duration": 2.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a spell casting motion, dropping into a low crouch with one arm extended high before rising back to a standing combat stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10468,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward significantly while sinking into a deep crouch, then straightens upright to return to a balanced, slightly bent posture.",
       "mean_pose": {
         "Spine Front-Back": -0.32212,
         "Spine Left-Right": -0.11038,
@@ -57,7 +57,7 @@
         "raw_value": 0.31015,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down toward the floor during the crouch and lifts up to face forward as the body rises.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.21439,
         "Neck Tilt Left-Right": 0.12907,
@@ -75,7 +75,7 @@
         "raw_value": 0.31126,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends upward and outward from the shoulder, reaching its peak height during the crouch before lowering to rest at the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.19496,
         "Left Shoulder Front-Back": -0.03396,
@@ -96,7 +96,7 @@
         "raw_value": 0.5071,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches downward toward the ground in front of the figure during the crouch, then swings back up to hover in front of the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.22253,
         "Right Shoulder Front-Back": -0.16447,
@@ -117,7 +117,7 @@
         "raw_value": 0.244,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply at the knee to form a lunge position on the left side, then extends to support the full weight of the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.5021,
         "Left Upper Leg In-Out": -0.09594,
@@ -137,7 +137,7 @@
         "raw_value": 0.40079,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends underneath the body in the crouch, then straightens to stand alongside the left leg in a wide stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.38224,
         "Right Upper Leg In-Out": 0.49136,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a loose fist shape while raised in the air.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21301,
         "Left Thumb Spread": -0.90937,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open with fingers curled as it moves down toward the floor and back up.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

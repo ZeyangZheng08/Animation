@@ -14,7 +14,7 @@
   "duration": 1.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a boxing taunt, rhythmically bobbing and weaving while swinging both arms in alternating circular motions.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01357,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and centered throughout the sequence, maintaining a stable base for the upper body movements.",
       "mean_pose": {
         "Spine Front-Back": -0.24026,
         "Spine Left-Right": -0.02021,
@@ -57,7 +57,7 @@
         "raw_value": 0.10961,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head bobs up and down in sync with the torso's movement, tilting slightly to follow the rhythm of the arm swings.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.16631,
         "Neck Tilt Left-Right": -0.01895,
@@ -75,7 +75,7 @@
         "raw_value": 0.25885,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm moves dynamically, swinging outward and then curling back toward the chest in a continuous looping motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.60485,
         "Left Shoulder Front-Back": 0.37867,
@@ -96,7 +96,7 @@
         "raw_value": 0.30918,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the opposite side, extending outward and drawing back into a circular path that alternates with the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.56065,
         "Right Shoulder Front-Back": -0.60476,
@@ -117,7 +117,7 @@
         "raw_value": 0.09101,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg shifts its weight forward and backward, bending at the knee to support the body's lateral swaying.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.08489,
         "Left Upper Leg In-Out": 0.24431,
@@ -137,7 +137,7 @@
         "raw_value": 0.1164,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg works in opposition to the left, stepping to stabilize the stance as the figure weaves from side to side.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.34742,
         "Right Upper Leg In-Out": 0.30846,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand maintains a relaxed, open posture with fingers slightly curled while moving through the air.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a similar open, loosely curled shape, consistent with the rest of the arm's trajectory.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

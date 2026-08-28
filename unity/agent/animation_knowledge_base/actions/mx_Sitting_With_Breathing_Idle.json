@@ -14,7 +14,7 @@
   "duration": 4.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits on an unseen surface, maintaining a stable posture with hands resting on the knees while exhibiting subtle breathing movements.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01192,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady, upright seated position without significant movement or rotation.",
       "mean_pose": {
         "Spine Front-Back": -0.4877,
         "Spine Left-Right": -0.10543,
@@ -57,7 +57,7 @@
         "raw_value": 0.02008,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains relatively still and facing forward, showing only minor vertical shifts consistent with breathing.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02951,
         "Neck Tilt Left-Right": -0.00128,
@@ -75,7 +75,7 @@
         "raw_value": 0.02996,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent at the elbow with the forearm angled inward to rest on the upper thigh.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.52692,
         "Left Shoulder Front-Back": -0.91374,
@@ -96,7 +96,7 @@
         "raw_value": 0.03152,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirrors the left arm by staying bent at the elbow with the forearm angled inward to rest on the upper thigh.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.84096,
         "Right Shoulder Front-Back": -1.10146,
@@ -117,7 +117,7 @@
         "raw_value": 0.00323,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static seated pose with the knee bent and foot planted flat on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.57277,
         "Left Upper Leg In-Out": 0.26301,
@@ -137,7 +137,7 @@
         "raw_value": 0.00312,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Maintains a static seated pose with the knee bent and foot planted flat on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.59596,
         "Right Upper Leg In-Out": 0.17308,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Rests open and relaxed on top of the left knee.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.35837,
         "Left Thumb Spread": -0.37118,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Rests open and relaxed on top of the right knee.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.32014,
         "Right Thumb Spread": 0.24877,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:47:44Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

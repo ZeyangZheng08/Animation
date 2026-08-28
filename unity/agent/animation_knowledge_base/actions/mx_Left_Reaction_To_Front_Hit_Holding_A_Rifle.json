@@ -14,7 +14,7 @@
   "duration": 2.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure flinches backward and down from a front hit, then recovers to a stable stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07533,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans back and twists away from the impact, dips forward at the waist, and straightens up.",
       "mean_pose": {
         "Spine Front-Back": -0.18557,
         "Spine Left-Right": -0.17435,
@@ -57,7 +57,7 @@
         "raw_value": 0.16059,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts back and turns to the left in reaction to the hit, drops forward, and returns to face front.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15168,
         "Neck Tilt Left-Right": -0.01672,
@@ -75,7 +75,7 @@
         "raw_value": 0.14567,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Pulls inward across the chest for protection, drops downward, and rises back up to a guard position.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.26649,
         "Left Shoulder Front-Back": 0.10704,
@@ -96,7 +96,7 @@
         "raw_value": 0.13373,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises outward with an open palm, lowers toward the ground, and lifts back up to shoulder height.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.23172,
         "Right Shoulder Front-Back": 0.28147,
@@ -117,7 +117,7 @@
         "raw_value": 0.13447,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends deeply to absorb the force of the hit and then straightens into a wide stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.22466,
         "Left Upper Leg In-Out": 0.47566,
@@ -137,7 +137,7 @@
         "raw_value": 0.12766,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Shifts weight backward and bends to stabilize the body before straightening out.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.11039,
         "Right Upper Leg In-Out": 0.17398,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a closed fist pressed against the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.90925,
         "Left Thumb Spread": -1.13686,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds an open palm facing outward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.74956,
         "Right Thumb Spread": -1.96737,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:59Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

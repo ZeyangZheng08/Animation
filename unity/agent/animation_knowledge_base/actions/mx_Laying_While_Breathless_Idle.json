@@ -14,7 +14,7 @@
   "duration": 0.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin lies flat on its back on the floor with hands clasped over its chest, performing a subtle breathing motion.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01318,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rests flat against the floor and expands slightly outward during the breathing cycle.",
       "mean_pose": {
         "Spine Front-Back": -0.10789,
         "Spine Left-Right": -0.0178,
@@ -57,7 +57,7 @@
         "raw_value": 0.01472,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Lies flat on the ground behind the shoulders, facing directly upward without moving.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.18903,
         "Neck Tilt Left-Right": 0.00601,
@@ -75,7 +75,7 @@
         "raw_value": 0.0777,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow with the forearm held across the upper torso in a static position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.96019,
         "Left Shoulder Front-Back": 0.12392,
@@ -96,7 +96,7 @@
         "raw_value": 0.05201,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Bent at the elbow with the forearm held across the upper torso in a static position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.03423,
         "Right Shoulder Front-Back": -0.19089,
@@ -117,7 +117,7 @@
         "raw_value": 0.00844,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extended straight out along the floor with the foot relaxed.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.45229,
         "Left Upper Leg In-Out": 0.3089,
@@ -137,7 +137,7 @@
         "raw_value": 0.00383,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extended straight out along the floor with the foot relaxed.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.45162,
         "Right Upper Leg In-Out": 0.16598,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clasped together with the right hand resting over the center of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.69355,
         "Left Thumb Spread": 0.09385,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clasped together with the left hand resting over the center of the chest.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.08684,
         "Right Thumb Spread": 0.25716,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:41Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

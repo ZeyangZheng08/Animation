@@ -14,7 +14,7 @@
   "duration": 1.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure takes a step to the left while holding a rifle in a two-handed aiming stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02825,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates slightly to the left and leans forward, tracking the movement of the legs.",
       "mean_pose": {
         "Spine Front-Back": -0.20537,
         "Spine Left-Right": -0.0132,
@@ -57,7 +57,7 @@
         "raw_value": 0.01815,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains static, held steady and facing forward in line with the arms.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00794,
         "Neck Tilt Left-Right": -0.01658,
@@ -75,7 +75,7 @@
         "raw_value": 0.04351,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow and held up in front of the chest, maintaining a stable grip position.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.1468,
         "Left Shoulder Front-Back": -0.53481,
@@ -96,7 +96,7 @@
         "raw_value": 0.02828,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends forward from the shoulder, keeping the aim level as the body shifts.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.37281,
         "Right Shoulder Front-Back": 0.57187,
@@ -117,7 +117,7 @@
         "raw_value": 0.09389,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts and swings forward to take a step, landing on the ball of the foot before flattening.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.52502,
         "Left Upper Leg In-Out": 0.3857,
@@ -137,7 +137,7 @@
         "raw_value": 0.09312,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee to push off the ground, providing the momentum for the leftward step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.53439,
         "Right Upper Leg In-Out": 0.16431,
@@ -157,7 +157,7 @@
         "raw_value": 0.01018,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a fixed, open-palm pose near the center of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.88584,
         "Left Thumb Spread": -0.24759,
@@ -189,7 +189,7 @@
         "raw_value": 0.00931,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a static, gripping shape extended out in front of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60165,
         "Right Thumb Spread": -0.85203,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:18Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

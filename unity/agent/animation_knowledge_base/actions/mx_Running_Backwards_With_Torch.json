@@ -14,7 +14,7 @@
   "duration": 0.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs backwards while holding a torch in its right hand.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0834,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward with a rhythmic bobbing motion to maintain balance during the backward run.",
       "mean_pose": {
         "Spine Front-Back": -0.24503,
         "Spine Left-Right": 0.07002,
@@ -57,7 +57,7 @@
         "raw_value": 0.09121,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts slightly upward and turns to look back over the shoulder toward the direction of movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.19182,
         "Neck Tilt Left-Right": -0.24086,
@@ -75,7 +75,7 @@
         "raw_value": 0.08092,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings freely in opposition to the legs, pumping from front to back to drive the stride.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.37739,
         "Left Shoulder Front-Back": -0.97275,
@@ -96,7 +96,7 @@
         "raw_value": 0.12048,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains raised and bent at the elbow, extending outward to hold the invisible torch.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.6939,
         "Right Shoulder Front-Back": -0.75229,
@@ -117,7 +117,7 @@
         "raw_value": 0.16289,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives forward and tucks underneath the body in a continuous running cycle.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.04675,
         "Left Upper Leg In-Out": 0.20759,
@@ -137,7 +137,7 @@
         "raw_value": 0.17512,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends behind for propulsion and swings forward to alternate with the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.0245,
         "Right Upper Leg In-Out": -0.1,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a relaxed, loosely open fist as it swings through the air.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.41852,
         "Left Thumb Spread": -1.16639,
@@ -189,7 +189,7 @@
         "raw_value": 0.1881,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips tightly, maintaining a fixed pose as if holding an object.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52968,
         "Right Thumb Spread": -0.20013,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:27Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

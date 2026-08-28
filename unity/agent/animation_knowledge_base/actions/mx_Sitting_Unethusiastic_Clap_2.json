@@ -14,7 +14,7 @@
   "duration": 6.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits in a chair and performs a slow, unenthusiastic clap.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02218,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward slightly while seated, then straightens up as the hands are lowered to the lap.",
       "mean_pose": {
         "Spine Front-Back": -0.22448,
         "Spine Left-Right": -0.0426,
@@ -57,7 +57,7 @@
         "raw_value": 0.08282,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down briefly during the clap and then lifts back up to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.0571,
         "Neck Tilt Left-Right": 0.04876,
@@ -75,7 +75,7 @@
         "raw_value": 0.24487,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is raised with the elbow bent, bringing the hand up to meet the right hand before lowering it to rest on the thigh.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.04103,
         "Left Shoulder Front-Back": -1.0212,
@@ -96,7 +96,7 @@
         "raw_value": 0.33241,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, raising the bent elbow to clap and then returning the hand to the other thigh.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.25854,
         "Right Shoulder Front-Back": -1.27334,
@@ -117,7 +117,7 @@
         "raw_value": 0.00284,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains static in a seated position, with the knee bent and foot planted on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.6174,
         "Left Upper Leg In-Out": 0.23454,
@@ -137,7 +137,7 @@
         "raw_value": 0.00242,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg holds a static seated pose, supporting the body with the knee bent and foot on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.62769,
         "Right Upper Leg In-Out": 0.16374,
@@ -157,7 +157,7 @@
         "raw_value": 0.23166,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens upward to clap against the right hand and then relaxes flat onto the left thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.98219,
         "Left Thumb Spread": 0.68011,
@@ -189,7 +189,7 @@
         "raw_value": 0.25479,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves toward the left for the clap and then settles resting on the right thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.23516,
         "Right Thumb Spread": 1.06941,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

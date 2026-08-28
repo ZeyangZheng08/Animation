@@ -14,7 +14,7 @@
   "duration": 0.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure runs backward in a low crouch, holding both arms forward to aim an unseen rifle.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02443,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans significantly forward over the hips and sways slightly up and down with each step of the backward run.",
       "mean_pose": {
         "Spine Front-Back": -1.11336,
         "Spine Left-Right": 0.19398,
@@ -57,7 +57,7 @@
         "raw_value": 0.02315,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays fixed in a downward tilt, facing forward toward the direction of movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.09886,
         "Neck Tilt Left-Right": 0.0794,
@@ -75,7 +75,7 @@
         "raw_value": 0.03417,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady, bent position in front of the chest, supporting the aiming posture.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.23171,
         "Left Shoulder Front-Back": -0.49298,
@@ -96,7 +96,7 @@
         "raw_value": 0.02892,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends straight forward from the shoulder, maintaining a rigid line for aiming.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.362,
         "Right Shoulder Front-Back": 0.65088,
@@ -117,7 +117,7 @@
         "raw_value": 0.1475,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Cycles through a deep, bent-knee stride to push off the ground while moving backward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.11351,
         "Left Upper Leg In-Out": 0.15732,
@@ -137,7 +137,7 @@
         "raw_value": 0.16432,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Alternates with the left leg, bending deeply at the knee to drive the body backward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.15729,
         "Right Upper Leg In-Out": -0.0745,
@@ -157,7 +157,7 @@
         "raw_value": 0.03743,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and held flat near the center of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.92244,
         "Left Thumb Spread": -0.32192,
@@ -189,7 +189,7 @@
         "raw_value": 0.0132,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, extended grip shape at the end of the outstretched arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.53223,
         "Right Thumb Spread": -0.8986,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:46:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

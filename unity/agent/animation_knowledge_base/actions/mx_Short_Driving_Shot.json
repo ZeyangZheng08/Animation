@@ -14,7 +14,7 @@
   "duration": 3.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a driving motion by gripping an imaginary steering wheel with both hands while shifting their weight and legs in a rhythmic walking-like gait.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.27001,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward slightly and rotates subtly from side to side, coordinating with the leg movements to simulate the balance required for driving.",
       "mean_pose": {
         "Spine Front-Back": -0.16624,
         "Spine Left-Right": 0.0568,
@@ -57,7 +57,7 @@
         "raw_value": 0.34939,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively steady but tilts and turns slightly, maintaining focus ahead as if looking at the road.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.01235,
         "Neck Tilt Left-Right": 0.00744,
@@ -75,7 +75,7 @@
         "raw_value": 0.44155,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow and held up in front of the chest, keeping a consistent grip position on the imaginary wheel.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.69635,
         "Left Shoulder Front-Back": -2.32384,
@@ -96,7 +96,7 @@
         "raw_value": 0.41121,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, bent at the elbow and raised, working in tandem to hold the imaginary steering wheel.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.92523,
         "Right Shoulder Front-Back": -1.54065,
@@ -117,7 +117,7 @@
         "raw_value": 0.24918,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg moves through a walking cycle, alternating between being planted on the ground and lifting to swing forward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.32594,
         "Left Upper Leg In-Out": -0.06277,
@@ -137,7 +137,7 @@
         "raw_value": 0.23443,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, stepping forward and back to create a continuous, rhythmic stride.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.48984,
         "Right Upper Leg In-Out": 0.12821,
@@ -157,7 +157,7 @@
         "raw_value": 0.08651,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand maintains a firm, static grip shape, fingers curled as if holding the rim of a wheel.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.78148,
         "Left Thumb Spread": 0.07713,
@@ -189,7 +189,7 @@
         "raw_value": 0.17247,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a similar fixed grip shape, mirroring the left hand to complete the illusion of steering.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.93238,
         "Right Thumb Spread": 0.46971,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:18Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

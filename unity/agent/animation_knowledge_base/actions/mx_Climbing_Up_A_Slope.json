@@ -14,7 +14,7 @@
   "duration": 4.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure climbs up an invisible slope, moving from a standing position into a deep forward-leaning crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.25143,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans progressively forward and lowers, bending at the waist to assume a steeply inclined climbing posture.",
       "mean_pose": {
         "Spine Front-Back": -0.31548,
         "Spine Left-Right": 0.02792,
@@ -57,7 +57,7 @@
         "raw_value": 0.24189,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward throughout the clip, following the forward lean of the upper body to look toward the ground ahead.",
       "mean_pose": {
         "Neck Nod Down-Up": 1.08476,
         "Neck Tilt Left-Right": -0.07698,
@@ -75,7 +75,7 @@
         "raw_value": 0.52105,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings forward and upward, extending in front of the body with the elbow bent as if reaching for a higher hold.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.02584,
         "Left Shoulder Front-Back": -1.14464,
@@ -96,7 +96,7 @@
         "raw_value": 0.53553,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves forward and slightly inward, mirroring the left arm's motion to balance the climbing effort.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.10503,
         "Right Shoulder Front-Back": -1.04153,
@@ -117,7 +117,7 @@
         "raw_value": 0.29114,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee and lifts forward, driving the upward motion of the climb.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.07098,
         "Left Upper Leg In-Out": 0.07453,
@@ -137,7 +137,7 @@
         "raw_value": 0.33455,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg also bends at the knee and lifts, stepping up in coordination with the left leg to ascend the slope.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.09409,
         "Right Upper Leg In-Out": 0.17392,
@@ -157,7 +157,7 @@
         "raw_value": 0.24854,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends forward with fingers spread, reaching out as if to grasp a surface on the incline.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.68777,
         "Left Thumb Spread": -0.2987,
@@ -189,7 +189,7 @@
         "raw_value": 0.33056,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches forward alongside the left, fingers open and poised to grip while supporting the body's weight.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.41842,
         "Right Thumb Spread": 0.03973,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:34:21Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A seated figure pumps one arm up and down in an enthusiastic cheer.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09686,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains in a stable, upright seated posture throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.23042,
         "Spine Left-Right": -0.08247,
@@ -57,7 +57,7 @@
         "raw_value": 0.15226,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays mostly level with a slight forward tilt, facing straight ahead.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.12754,
         "Neck Tilt Left-Right": -0.03182,
@@ -75,7 +75,7 @@
         "raw_value": 0.21434,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is raised high above the head with the elbow bent, then lowers to rest on the knee.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.1549,
         "Left Shoulder Front-Back": -0.95006,
@@ -96,7 +96,7 @@
         "raw_value": 0.41245,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm rests steadily on the right thigh for the entire duration of the action.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.2679,
         "Right Shoulder Front-Back": 0.22991,
@@ -117,7 +117,7 @@
         "raw_value": 0.05236,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg maintains its bent position in the seated pose, with the foot planted on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.65149,
         "Left Upper Leg In-Out": 0.30352,
@@ -137,7 +137,7 @@
         "raw_value": 0.03643,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg holds a static bent position, supporting the seated body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.67258,
         "Right Upper Leg In-Out": 0.13104,
@@ -157,7 +157,7 @@
         "raw_value": 0.05504,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a clenched fist held high in the air down to an open palm resting on the left knee.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.61271,
         "Left Thumb Spread": 0.40531,
@@ -189,7 +189,7 @@
         "raw_value": 0.57507,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and flat, resting on the right thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.29647,
         "Right Thumb Spread": -0.32444,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:09Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

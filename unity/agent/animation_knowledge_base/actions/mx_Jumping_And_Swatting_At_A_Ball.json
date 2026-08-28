@@ -14,7 +14,7 @@
   "duration": 5.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jumps into the air, raises one arm high to swat at an object, and then lands in a crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09644,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso extends upward during the jump, leans slightly backward while airborne, and compresses downward upon landing.",
       "mean_pose": {
         "Spine Front-Back": -0.03346,
         "Spine Left-Right": 0.0198,
@@ -57,7 +57,7 @@
         "raw_value": 0.32498,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back to look up toward the raised hand during the jump and then lowers as the body descends.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00023,
         "Neck Tilt Left-Right": 0.00929,
@@ -75,7 +75,7 @@
         "raw_value": 0.29104,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward to the side for balance during the ascent and retracts down by the hip upon landing.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.09742,
         "Left Shoulder Front-Back": 0.04588,
@@ -96,7 +96,7 @@
         "raw_value": 0.2248,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm thrusts straight up overhead to perform the swatting motion and then drops down to the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.15911,
         "Right Shoulder Front-Back": 0.0957,
@@ -117,7 +117,7 @@
         "raw_value": 0.22538,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and tucks underneath the body while airborne, extending downward to absorb the impact of the landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.14906,
         "Left Upper Leg In-Out": 0.10216,
@@ -137,7 +137,7 @@
         "raw_value": 0.21285,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains relatively straight and extended during the jump, bending sharply at the knee to cushion the landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.13596,
         "Right Upper Leg In-Out": 0.07975,
@@ -157,7 +157,7 @@
         "raw_value": 0.10649,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open with fingers spread out while balancing the jump, relaxing downwards as the figure lands.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.24759,
         "Left Thumb Spread": -0.10242,
@@ -189,7 +189,7 @@
         "raw_value": 0.31035,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held open with fingers extended above the head to execute the swat, lowering along with the arm after the motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.76791,
         "Right Thumb Spread": -0.00062,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a slow, subtle sway while standing with a slouched posture, shifting its weight slightly from side to side.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02778,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward in a hunched position and sways gently left and right throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.14895,
         "Spine Left-Right": 0.02943,
@@ -57,7 +57,7 @@
         "raw_value": 0.05277,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains tilted downward consistently, following the slight lateral movements of the upper body.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03908,
         "Neck Tilt Left-Right": -0.00038,
@@ -75,7 +75,7 @@
         "raw_value": 0.06934,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely at the side of the body, moving passively with the sway of the torso.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.2929,
         "Left Shoulder Front-Back": -0.78841,
@@ -96,7 +96,7 @@
         "raw_value": 0.07096,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs loosely at the side of the body, mirroring the passive movement of the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.4536,
         "Right Shoulder Front-Back": -0.72558,
@@ -117,7 +117,7 @@
         "raw_value": 0.03294,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands relatively straight but bends slightly at the knee as the body's center of gravity shifts.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.5468,
         "Left Upper Leg In-Out": 0.12893,
@@ -137,7 +137,7 @@
         "raw_value": 0.02302,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left leg, maintaining a standing position with minor adjustments to balance the sway.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.4941,
         "Right Upper Leg In-Out": 0.02526,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, hanging naturally near the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.6289,
         "Left Thumb Spread": 0.12675,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains open and relaxed, hanging naturally near the thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.27796,
         "Right Thumb Spread": 0.37535,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:03Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

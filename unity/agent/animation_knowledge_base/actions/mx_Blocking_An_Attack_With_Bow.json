@@ -14,7 +14,7 @@
   "duration": 2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a defensive block, raising their arms to cross in front of their chest and then lowering them back down.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09823,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward at the start, remains upright during the block, and returns to a neutral standing position.",
       "mean_pose": {
         "Spine Front-Back": -0.265,
         "Spine Left-Right": 0.00517,
@@ -57,7 +57,7 @@
         "raw_value": 0.19177,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and turns slightly to the right, maintaining that orientation throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.13229,
         "Neck Tilt Left-Right": 0.02066,
@@ -75,7 +75,7 @@
         "raw_value": 0.25325,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts bent at the side, raises across the body to meet the right hand at chest level, and then lowers back to the side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.77968,
         "Left Shoulder Front-Back": -0.22857,
@@ -96,7 +96,7 @@
         "raw_value": 0.30728,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm begins extended outward, draws inward to join the left arm for the block, and extends back out as the motion concludes.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.23602,
         "Right Shoulder Front-Back": -0.80565,
@@ -117,7 +117,7 @@
         "raw_value": 0.07216,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays planted on the ground with a slight bend in the knee throughout the sequence.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.03767,
         "Left Upper Leg In-Out": 0.34584,
@@ -137,7 +137,7 @@
         "raw_value": 0.06591,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains grounded and stable, supporting the weight of the upper body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.16061,
         "Right Upper Leg In-Out": 0.45371,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a relaxed, open state near the hip for the duration of the clip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.7285,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.2536,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from an open position to form a loose fist at the center of the chest, then relaxes again as it drops.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.47093,
         "Right Thumb Spread": -0.75045,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:49Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

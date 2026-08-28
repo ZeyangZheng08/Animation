@@ -14,7 +14,7 @@
   "duration": 5.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a combat sequence, grabbing and twisting an opponent's arm before delivering a high kick to the head.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11299,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates sharply from facing forward to facing left, then twists back to face forward while leaning into the kick.",
       "mean_pose": {
         "Spine Front-Back": -0.32776,
         "Spine Left-Right": 0.00156,
@@ -57,7 +57,7 @@
         "raw_value": 0.24362,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the torso rotation, looking down at the hands during the grab and twist, then tilts up toward the target for the kick.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.10444,
         "Neck Tilt Left-Right": -0.0355,
@@ -75,7 +75,7 @@
         "raw_value": 0.31057,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward to initiate the grab, pulls the captured arm across the chest during the twist, and then swings back for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.17121,
         "Left Shoulder Front-Back": 0.20122,
@@ -96,7 +96,7 @@
         "raw_value": 0.24748,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches in to assist the grab, maintains the hold on the arm during the twist, and then retracts to the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -6e-05,
         "Right Shoulder Front-Back": 0.31232,
@@ -117,7 +117,7 @@
         "raw_value": 0.19482,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward to support the weight of the body during the arm twist and remains planted as the pivot point for the kick.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.30254,
         "Left Upper Leg In-Out": 0.36259,
@@ -137,7 +137,7 @@
         "raw_value": 0.2056,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts from the ground and executes a high kick, extending upward toward head level before lowering.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.24544,
         "Right Upper Leg In-Out": 0.34127,
@@ -157,7 +157,7 @@
         "raw_value": 0.50975,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends to make contact, grips firmly during the twist, and then opens slightly as it swings back.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.09726,
         "Left Thumb Spread": -0.0973,
@@ -189,7 +189,7 @@
         "raw_value": 0.36039,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves in to secure the grip on the arm, holds position through the twist, and relaxes as the kick begins.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.47751,
         "Right Thumb Spread": -0.65606,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

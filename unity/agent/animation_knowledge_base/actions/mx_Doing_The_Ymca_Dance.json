@@ -14,7 +14,7 @@
   "duration": 4.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs the YMCA dance, raising their arms in a large overhead circle before bringing them down to alternate pumping fists at chest level.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11113,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bobs up and down rhythmically with the dance steps, leaning slightly forward as the arms come down.",
       "mean_pose": {
         "Spine Front-Back": -0.2023,
         "Spine Left-Right": 0.00903,
@@ -57,7 +57,7 @@
         "raw_value": 0.16167,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains upright, tracking the movement of the body and turning slightly with the alternating arm pumps.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.20364,
         "Neck Tilt Left-Right": -0.03222,
@@ -75,7 +75,7 @@
         "raw_value": 0.38185,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings from a high position above the head down to the side, then bends at the elbow to pump the fist forward at chest height.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.11315,
         "Left Shoulder Front-Back": -0.73813,
@@ -96,7 +96,7 @@
         "raw_value": 0.3921,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, moving from an overhead position down to the side and then pumping its fist forward at chest height in opposition to the other arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.37977,
         "Right Shoulder Front-Back": -0.59124,
@@ -117,7 +117,7 @@
         "raw_value": 0.14326,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between being planted on the ground and lifting the knee upward to step into the rhythm.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.21585,
         "Left Upper Leg In-Out": 0.28579,
@@ -137,7 +137,7 @@
         "raw_value": 0.14156,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts the knee in time with the opposite arm, providing the stepping motion for the dance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.12991,
         "Right Upper Leg In-Out": 0.25979,
@@ -157,7 +157,7 @@
         "raw_value": 0.51496,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand forms a loose fist during the pumping phase, opening and extending upward during the overhead swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.24468,
         "Left Thumb Spread": -0.06182,
@@ -189,7 +189,7 @@
         "raw_value": 0.52792,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand forms a loose fist while pumping, mirroring the open-hand pose of the left hand when raised overhead.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.12884,
         "Right Thumb Spread": -0.05214,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:35:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

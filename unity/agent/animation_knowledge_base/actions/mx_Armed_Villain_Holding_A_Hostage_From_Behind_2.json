@@ -14,7 +14,7 @@
   "duration": 5.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a static pose holding an unseen hostage from behind with both arms wrapped around their chest.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00165,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stationary throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": 0.00763,
         "Spine Left-Right": 0.06323,
@@ -57,7 +57,7 @@
         "raw_value": 0.00192,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is held still, facing forward over the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.11232,
         "Neck Tilt Left-Right": 0.11927,
@@ -75,7 +75,7 @@
         "raw_value": 0.00302,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is raised and bent at the elbow, wrapping across the upper chest area to hold the front figure.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.47942,
         "Left Shoulder Front-Back": -0.93619,
@@ -96,7 +96,7 @@
         "raw_value": 0.00342,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, bent and extended across the chest to complete the embrace.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.48102,
         "Right Shoulder Front-Back": -1.27863,
@@ -117,7 +117,7 @@
         "raw_value": 0.00226,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands straight, supporting the body's weight.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.39205,
         "Left Upper Leg In-Out": 0.32774,
@@ -137,7 +137,7 @@
         "raw_value": 0.00123,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is planted firmly beside the left, maintaining a stable stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.84103,
         "Right Upper Leg In-Out": 0.14671,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is clenched near the opposite shoulder, gripping the unseen subject.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.18157,
         "Left Thumb Spread": 0.06528,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is positioned near the opposite shoulder, mirroring the left hand's grip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": 0.113,
         "Right Thumb Spread": 1.46812,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:07:42Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

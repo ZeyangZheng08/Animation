@@ -14,7 +14,7 @@
   "duration": 3.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure collapses from a standing position to the ground, ending up on its back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13776,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and down, rotating backward as the figure falls until it is lying flat on its back.",
       "mean_pose": {
         "Spine Front-Back": -0.38438,
         "Spine Left-Right": 0.07778,
@@ -57,7 +57,7 @@
         "raw_value": 0.19254,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward initially and then rotates upward with the body's fall to face the ceiling.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06338,
         "Neck Tilt Left-Right": 0.0887,
@@ -75,7 +75,7 @@
         "raw_value": 0.37683,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings out to the side and extends upward during the fall, finishing in an open pose above the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.05832,
         "Left Shoulder Front-Back": -0.16269,
@@ -96,7 +96,7 @@
         "raw_value": 0.27877,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm drops from a bent position near the chest, extending outward and upward as the body hits the floor.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.20753,
         "Right Shoulder Front-Back": 0.11357,
@@ -117,7 +117,7 @@
         "raw_value": 0.31181,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee during the collapse and kicks slightly upward before settling on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.13316,
         "Left Upper Leg In-Out": 0.35871,
@@ -137,7 +137,7 @@
         "raw_value": 0.28166,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lifts and bends, swinging through the air as the figure falls, and ends up extended beside the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.05054,
         "Right Upper Leg In-Out": 0.65039,
@@ -157,7 +157,7 @@
         "raw_value": 0.39185,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens its fingers and flails upward as the body loses balance and falls.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.71983,
         "Left Thumb Spread": -0.13216,
@@ -189,7 +189,7 @@
         "raw_value": 0.21222,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand releases its grip on the body, extending outward with fingers spread during the descent.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60369,
         "Right Thumb Spread": -1.1544,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:35:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

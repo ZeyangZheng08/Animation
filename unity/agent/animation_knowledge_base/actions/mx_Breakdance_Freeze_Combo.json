@@ -14,7 +14,7 @@
   "duration": 6.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a breakdance freeze, kicking up into an inverted handstand and then swinging their legs down to balance on one arm.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.11353,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starting upright, the torso rotates and tilts backward as it inverts into a vertical handstand position before leaning forward during the final balance.",
       "mean_pose": {
         "Spine Front-Back": -0.33385,
         "Spine Left-Right": -0.08595,
@@ -57,7 +57,7 @@
         "raw_value": 0.29399,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the body's inversion, moving from an upright orientation to pointing toward the floor during the handstand and the subsequent one-arm balance.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11601,
         "Neck Tilt Left-Right": -0.0416,
@@ -75,7 +75,7 @@
         "raw_value": 0.41359,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extending downward from the hips, the left arm reaches for the floor to provide support during the handstand and remains extended in the final pose.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.27369,
         "Left Shoulder Front-Back": -0.8245,
@@ -96,7 +96,7 @@
         "raw_value": 0.45111,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends down to the floor to catch the weight of the body, holding the entire inverted pose in the final moment while the other arm is tucked away.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.26633,
         "Right Shoulder Front-Back": -0.70276,
@@ -117,7 +117,7 @@
         "raw_value": 0.32956,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Kicking upward to initiate the inversion, the left leg extends vertically during the handstand and then swings out to the side during the final transition.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.02766,
         "Left Upper Leg In-Out": 0.26325,
@@ -137,7 +137,7 @@
         "raw_value": 0.35675,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Following the left leg up into the air, the right leg holds a vertical position in the handstand before swinging down and crossing the body during the one-arm balance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.17112,
         "Right Upper Leg In-Out": 0.19467,
@@ -157,7 +157,7 @@
         "raw_value": 0.35392,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Placing flat on the floor, the left hand supports the upper body weight during the initial handstand phase of the move.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.93989,
         "Left Thumb Spread": 0.49399,
@@ -189,7 +189,7 @@
         "raw_value": 0.3431,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaching down to the ground, the right hand becomes the sole point of contact with the floor, supporting the full body weight in the final freeze.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.69807,
         "Right Thumb Spread": 0.56716,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:33:36Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure begins in a crouched stance, swings both arms upward to initiate a backflip, and rotates backward through the air to land on their back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12898,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starts in a forward-leaning crouch, arches backward as the body lifts into the air, and extends fully during the rotation before flattening out for the landing.",
       "mean_pose": {
         "Spine Front-Back": -0.09241,
         "Spine Left-Right": 0.03775,
@@ -57,7 +57,7 @@
         "raw_value": 0.25888,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down while crouching, tilts back to look up as the swing begins, and continues to look upward throughout the aerial rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.03559,
         "Neck Tilt Left-Right": -0.11596,
@@ -75,7 +75,7 @@
         "raw_value": 0.52188,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves from a bent position at the hip upward and outward to lead the initial swing, then stays extended overhead during the flip.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.1474,
         "Left Shoulder Front-Back": -0.07611,
@@ -96,7 +96,7 @@
         "raw_value": 0.41394,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirrors the left arm, swinging up from the hip to initiate the motion and remaining extended overhead during the rotation.",
       "mean_pose": {
         "Right Shoulder Down-Up": 1.01999,
         "Right Shoulder Front-Back": -0.46607,
@@ -117,7 +117,7 @@
         "raw_value": 0.28034,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off from a bent starting position, tucks slightly during the ascent, and extends downward toward the floor for the landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.55661,
         "Left Upper Leg In-Out": 0.27803,
@@ -137,7 +137,7 @@
         "raw_value": 0.31348,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off from a bent starting position, follows the left leg into a slight tuck, and extends to meet the ground upon impact.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.23701,
         "Right Upper Leg In-Out": 0.16761,
@@ -157,7 +157,7 @@
         "raw_value": 0.57948,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens from a relaxed position near the hip, reaches high above the head to start the swing, and remains open during the fall.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.97251,
         "Left Thumb Spread": -0.55767,
@@ -189,7 +189,7 @@
         "raw_value": 0.39327,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens from a relaxed position near the hip, reaches high above the head alongside the other hand, and stays open until landing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.14606,
         "Right Thumb Spread": -0.99899,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

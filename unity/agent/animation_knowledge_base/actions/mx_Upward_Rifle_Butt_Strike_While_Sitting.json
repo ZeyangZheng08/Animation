@@ -14,7 +14,7 @@
   "duration": 2.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a seated upward strike, swinging both arms from a low position up and over the head.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13789,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans back slightly to support the arm swing before returning to an upright sitting posture.",
       "mean_pose": {
         "Spine Front-Back": -0.22162,
         "Spine Left-Right": -0.01189,
@@ -57,7 +57,7 @@
         "raw_value": 0.22714,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts back as the arms pass overhead, then returns to a neutral forward-facing position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.02586,
         "Neck Tilt Left-Right": -0.12816,
@@ -75,7 +75,7 @@
         "raw_value": 0.31842,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings upward and across the body, arching over the head in a wide motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.5315,
         "Left Shoulder Front-Back": -0.39995,
@@ -96,7 +96,7 @@
         "raw_value": 0.28027,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings upward and across the body, mirroring the left arm's arc over the head.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.03611,
         "Right Shoulder Front-Back": -0.57845,
@@ -117,7 +117,7 @@
         "raw_value": 0.0847,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the knee with the foot planted on the floor throughout the movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.27634,
         "Left Upper Leg In-Out": 0.14171,
@@ -137,7 +137,7 @@
         "raw_value": 0.15996,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the knee with the foot planted on the floor throughout the movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.26052,
         "Right Upper Leg In-Out": 0.46085,
@@ -157,7 +157,7 @@
         "raw_value": 0.165,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves in a continuous arc from below the waist to above the head.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.08535,
         "Left Thumb Spread": -1.01565,
@@ -189,7 +189,7 @@
         "raw_value": 0.19095,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves in a continuous arc from below the waist to above the head.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.21749,
         "Right Thumb Spread": -0.98788,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:51:33Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 7.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place while repeatedly raising its left arm to make a pointing gesture with the index finger.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06696,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward during the pointing motion and returns to an upright position when the arm lowers.",
       "mean_pose": {
         "Spine Front-Back": -0.05006,
         "Spine Left-Right": 0.01383,
@@ -57,7 +57,7 @@
         "raw_value": 0.09564,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward to look at the hand while it is raised, then lifts back up to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00978,
         "Neck Tilt Left-Right": -0.02254,
@@ -75,7 +75,7 @@
         "raw_value": 0.21619,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm remains relaxed and hangs by the side of the body throughout the sequence.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.53911,
         "Left Shoulder Front-Back": -0.0473,
@@ -96,7 +96,7 @@
         "raw_value": 0.0583,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward and upward from the side, bending at the elbow to bring the hand in front of the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.4975,
         "Right Shoulder Front-Back": -0.10172,
@@ -117,7 +117,7 @@
         "raw_value": 0.04085,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains straight and planted on the ground, providing support for the standing pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.33683,
         "Left Upper Leg In-Out": 0.055,
@@ -137,7 +137,7 @@
         "raw_value": 0.04161,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays stationary and straight, maintaining a stable base alongside the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.36908,
         "Right Upper Leg In-Out": -0.03518,
@@ -157,7 +157,7 @@
         "raw_value": 0.30752,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs open and relaxed at the side of the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.74085,
         "Left Thumb Spread": 0.0427,
@@ -189,7 +189,7 @@
         "raw_value": 0.14111,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand forms a pointing shape with the index finger extended, moving forward as the arm raises.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.62878,
         "Right Thumb Spread": 0.17893,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a 90-degree turn to the right, pivoting on its feet while maintaining a slightly hunched posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0799,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and rotates clockwise from facing front to facing left, completing a quarter-turn.",
       "mean_pose": {
         "Spine Front-Back": -0.42569,
         "Spine Left-Right": 0.03713,
@@ -57,7 +57,7 @@
         "raw_value": 0.1496,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays bowed down throughout the sequence and turns to the right along with the body's rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.12083,
         "Neck Tilt Left-Right": 0.24573,
@@ -75,7 +75,7 @@
         "raw_value": 0.06941,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs bent at the elbow in front of the body, swinging slightly outward as the torso turns.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.28868,
         "Left Shoulder Front-Back": -1.3075,
@@ -96,7 +96,7 @@
         "raw_value": 0.07396,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent and held close to the side, moving with the torso's rotation.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.23075,
         "Right Shoulder Front-Back": -1.08406,
@@ -117,7 +117,7 @@
         "raw_value": 0.10553,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays planted and relatively straight, serving as the primary pivot point for the turn.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.00277,
         "Left Upper Leg In-Out": 0.37248,
@@ -137,7 +137,7 @@
         "raw_value": 0.08428,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains bent at the knee and stationary, providing support during the rotation.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.06378,
         "Right Upper Leg In-Out": 0.36787,
@@ -157,7 +157,7 @@
         "raw_value": 0.08479,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays loosely curled near the thigh area, moving passively with the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.63154,
         "Left Thumb Spread": -1.49863,
@@ -189,7 +189,7 @@
         "raw_value": 0.08257,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is loosely clenched near the hip, remaining relatively still relative to the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.59557,
         "Right Thumb Spread": -1.76401,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:42:59Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

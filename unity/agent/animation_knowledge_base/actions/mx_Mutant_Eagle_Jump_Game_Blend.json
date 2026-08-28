@@ -14,7 +14,7 @@
   "duration": 0.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure leaps into the air, twisting its body while spreading its arms wide before landing in a stable stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0948,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leaps upward and twists to the left, then straightens out to face forward upon landing.",
       "mean_pose": {
         "Spine Front-Back": -0.64652,
         "Spine Left-Right": 0.05501,
@@ -57,7 +57,7 @@
         "raw_value": 0.0842,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down during the initial jump, lifts up as the body rotates, and settles facing forward on landing.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.52422,
         "Neck Tilt Left-Right": -0.02975,
@@ -75,7 +75,7 @@
         "raw_value": 0.21553,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises from a low position to extend high above the head during the twist, then lowers to the side on landing.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.17532,
         "Left Shoulder Front-Back": -0.03001,
@@ -96,7 +96,7 @@
         "raw_value": 0.35143,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward to the right throughout the jump, holding a steady line before lowering slightly on landing.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.53607,
         "Right Shoulder Front-Back": 0.19205,
@@ -117,7 +117,7 @@
         "raw_value": 0.27763,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts high with the knee bent during the jump, then extends downward to plant firmly on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.02134,
         "Left Upper Leg In-Out": 0.70585,
@@ -137,7 +137,7 @@
         "raw_value": 0.20703,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee to support the leap, then straightens to absorb the impact of the landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.11818,
         "Right Upper Leg In-Out": 0.49214,
@@ -157,7 +157,7 @@
         "raw_value": 0.29203,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens widely as the arm raises high, then relaxes as the arm comes down.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.90582,
         "Left Thumb Spread": -1.2305,
@@ -189,7 +189,7 @@
         "raw_value": 0.24738,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and extended outward to balance the body during the rotation.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.05061,
         "Right Thumb Spread": -1.63926,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:15Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

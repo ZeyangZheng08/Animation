@@ -14,7 +14,7 @@
   "duration": 2.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lies on the floor, writhing and twisting its body from side to side.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12494,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso twists and rolls back and forth across the floor, changing its orientation with each squirm.",
       "mean_pose": {
         "Spine Front-Back": -0.10857,
         "Spine Left-Right": -0.00357,
@@ -57,7 +57,7 @@
         "raw_value": 0.17757,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns and tilts along with the rolling motion of the upper body, shifting direction as the figure twists.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.09015,
         "Neck Tilt Left-Right": -0.20427,
@@ -75,7 +75,7 @@
         "raw_value": 0.2039,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, moving up and down and shifting position against the chest as the body rolls.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.14837,
         "Left Shoulder Front-Back": -0.66383,
@@ -96,7 +96,7 @@
         "raw_value": 0.17745,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm remains bent near the torso, adjusting its angle in sync with the twisting of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.89548,
         "Right Shoulder Front-Back": -0.07302,
@@ -117,7 +117,7 @@
         "raw_value": 0.21479,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee, lifting and swinging slightly as the lower body shifts position on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.44334,
         "Left Upper Leg In-Out": 0.50927,
@@ -137,7 +137,7 @@
         "raw_value": 0.23268,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends and extends, kicking out and pulling back to aid the rolling movement of the hips.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.49686,
         "Right Upper Leg In-Out": 0.15918,
@@ -157,7 +157,7 @@
         "raw_value": 0.06092,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays curled and close to the chest area throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.40601,
         "Left Thumb Spread": 0.12677,
@@ -189,7 +189,7 @@
         "raw_value": 0.03695,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains near the torso, moving slightly with the arm but not extending away from the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.79386,
         "Right Thumb Spread": 0.0391,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:53Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

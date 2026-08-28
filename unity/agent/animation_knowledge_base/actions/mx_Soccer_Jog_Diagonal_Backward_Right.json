@@ -14,7 +14,7 @@
   "duration": 0.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure jogs backward in a diagonal path toward the right side of the screen.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06378,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward while moving backward, twisting slightly to align with the diagonal direction of travel.",
       "mean_pose": {
         "Spine Front-Back": -0.12107,
         "Spine Left-Right": 0.03378,
@@ -57,7 +57,7 @@
         "raw_value": 0.04973,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Faces forward and tilts down slightly, maintaining a steady gaze in front of the body.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02334,
         "Neck Tilt Left-Right": -0.05118,
@@ -75,7 +75,7 @@
         "raw_value": 0.17277,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings in a pumping motion, alternating between being bent at the elbow near the chest and extending back.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.62746,
         "Left Shoulder Front-Back": -0.05938,
@@ -96,7 +96,7 @@
         "raw_value": 0.15469,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings in opposition to the left arm, bending at the elbow and moving through the space beside the torso.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.0307,
         "Right Shoulder Front-Back": 0.57237,
@@ -117,7 +117,7 @@
         "raw_value": 0.1786,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps backward and bends at the knee, pushing off the ground to propel the body diagonally.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.20704,
         "Left Upper Leg In-Out": 0.25216,
@@ -137,7 +137,7 @@
         "raw_value": 0.16305,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Follows the opposite rhythm of the left leg, lifting the foot and stepping back into position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.01751,
         "Right Upper Leg In-Out": 0.11611,
@@ -157,7 +157,7 @@
         "raw_value": 0.10645,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains loosely curled as it moves with the swinging arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.99194,
         "Left Thumb Spread": 0.01747,
@@ -189,7 +189,7 @@
         "raw_value": 0.19795,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays relaxed and slightly open, mirroring the movement of the right arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.02552,
         "Right Thumb Spread": 0.03451,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:48:04Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

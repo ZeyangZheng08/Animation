@@ -14,7 +14,7 @@
   "duration": 1.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure crawls forward across the floor on its hands and knees, alternating its limbs to move.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05112,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso stays low and horizontal, supporting the body's weight as it travels forward.",
       "mean_pose": {
         "Spine Front-Back": -0.52092,
         "Spine Left-Right": 0.06993,
@@ -57,7 +57,7 @@
         "raw_value": 0.10171,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is bent down, looking toward the ground in front of the figure.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.16909,
         "Neck Tilt Left-Right": 0.02714,
@@ -75,7 +75,7 @@
         "raw_value": 0.29619,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends down to the floor, supporting the body while moving forward.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.02984,
         "Left Shoulder Front-Back": -1.08086,
@@ -96,7 +96,7 @@
         "raw_value": 0.36428,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends down to the floor, supporting the body while moving forward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.29783,
         "Right Shoulder Front-Back": -1.00921,
@@ -117,7 +117,7 @@
         "raw_value": 0.19279,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee with the foot tucked under, driving the body forward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.35832,
         "Left Upper Leg In-Out": -0.00211,
@@ -137,7 +137,7 @@
         "raw_value": 0.49992,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends at the knee with the foot tucked under, driving the body forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.3845,
         "Right Upper Leg In-Out": 0.03523,
@@ -157,7 +157,7 @@
         "raw_value": 0.22391,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is placed flat on the ground to provide support.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.90045,
         "Left Thumb Spread": -0.00759,
@@ -189,7 +189,7 @@
         "raw_value": 0.2606,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is placed flat on the ground to provide support.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.94015,
         "Right Thumb Spread": 0.02821,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:31Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

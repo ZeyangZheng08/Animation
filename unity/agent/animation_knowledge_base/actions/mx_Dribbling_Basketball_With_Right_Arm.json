@@ -14,7 +14,7 @@
   "duration": 2.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a wide, low athletic stance while rhythmically bouncing an invisible ball on the floor with their right hand.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01392,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward from the waist into a low, crouched position and remains stable throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.78738,
         "Spine Left-Right": -0.07255,
@@ -57,7 +57,7 @@
         "raw_value": 0.01514,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays upright relative to the torso, facing forward and slightly downward.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.10963,
         "Neck Tilt Left-Right": 0.14689,
@@ -75,7 +75,7 @@
         "raw_value": 0.02347,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow, held out to the side for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.0988,
         "Left Shoulder Front-Back": -0.12209,
@@ -96,7 +96,7 @@
         "raw_value": 0.14871,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends down toward the floor, moving up and down in a vertical bouncing motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.19007,
         "Right Shoulder Front-Back": 0.14857,
@@ -117,7 +117,7 @@
         "raw_value": 0.00672,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted in a wide, bent-knee stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.38378,
         "Left Upper Leg In-Out": 0.46898,
@@ -137,7 +137,7 @@
         "raw_value": 0.00757,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, bent-knee position opposite the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.02455,
         "Right Upper Leg In-Out": 0.44236,
@@ -157,7 +157,7 @@
         "raw_value": 0.05426,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open with fingers spread, hovering near hip level.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.78346,
         "Left Thumb Spread": -0.3626,
@@ -189,7 +189,7 @@
         "raw_value": 0.17593,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves vertically, extending downward with fingers pointing toward the ground to simulate dribbling.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.08769,
         "Right Thumb Spread": -0.22816,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:11:25Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

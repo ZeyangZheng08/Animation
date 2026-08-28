@@ -14,7 +14,7 @@
   "duration": 5.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin stands in a wide stance, holding an aiming posture with arms extended forward while swaying its torso and turning its head to look around.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04667,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The upper body maintains a slight forward lean while rotating side-to-side to facilitate looking in different directions.",
       "mean_pose": {
         "Spine Front-Back": -0.10858,
         "Spine Left-Right": -0.22724,
@@ -57,7 +57,7 @@
         "raw_value": 0.3,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head turns independently from the shoulders, panning left and right to scan the surroundings.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.47937,
         "Neck Tilt Left-Right": 0.16614,
@@ -75,7 +75,7 @@
         "raw_value": 0.32381,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The arm extends forward and outward, held relatively steady at shoulder height as part of the aiming pose.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.26401,
         "Left Shoulder Front-Back": -1.11836,
@@ -96,7 +96,7 @@
         "raw_value": 0.43333,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The arm reaches across the chest toward the left side, mirroring the extension of the other arm in a two-handed grip position.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.58911,
         "Right Shoulder Front-Back": -0.63122,
@@ -117,7 +117,7 @@
         "raw_value": 0.12529,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The leg remains planted in a wide stance with the knee slightly bent to support the weight of the shifting torso.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.23292,
         "Left Upper Leg In-Out": 0.44562,
@@ -137,7 +137,7 @@
         "raw_value": 0.12576,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The leg stays fixed in a wide stance with a bent knee, providing a stable base for the upper body movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.22104,
         "Right Upper Leg In-Out": 0.28661,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The hand holds a static, open-grip shape consistent with gripping a bowstring.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.72851,
         "Left Thumb Spread": -1.28331,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The hand maintains a static, open-grip shape positioned to hold the weapon's limb.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.41906,
         "Right Thumb Spread": -0.23216,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:02Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

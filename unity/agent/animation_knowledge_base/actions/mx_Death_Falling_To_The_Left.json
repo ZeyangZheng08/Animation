@@ -14,7 +14,7 @@
   "duration": 3.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The mannequin stumbles and collapses backward to the floor, ending up on its back with limbs splayed.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.16725,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Tilts backward from an upright stance, rotating until it is lying flat on the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.19212,
         "Spine Left-Right": -0.04051,
@@ -57,7 +57,7 @@
         "raw_value": 0.29894,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tosses backward over the shoulder as the body falls and ends up resting on the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.35542,
         "Neck Tilt Left-Right": 0.20579,
@@ -75,7 +75,7 @@
         "raw_value": 0.31142,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Flails upward and outward during the fall before landing beside the torso.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.79928,
         "Left Shoulder Front-Back": -1.32345,
@@ -96,7 +96,7 @@
         "raw_value": 0.42372,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Drops down and back as the figure loses balance, then extends out to the side upon impact.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.25619,
         "Right Shoulder Front-Back": -0.8254,
@@ -117,7 +117,7 @@
         "raw_value": 0.29846,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts off the ground and flails in the air before hitting the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.17366,
         "Left Upper Leg In-Out": 0.50089,
@@ -137,7 +137,7 @@
         "raw_value": 0.26607,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Kicks upward as the body rotates, coming to rest extended on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.4182,
         "Right Upper Leg In-Out": 0.16681,
@@ -157,7 +157,7 @@
         "raw_value": 0.1162,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens and waves through the air before settling on the floor.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.20199,
         "Left Thumb Spread": 0.08578,
@@ -189,7 +189,7 @@
         "raw_value": 0.21945,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles by the side initially, then reaches out as the body hits the ground.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.34905,
         "Right Thumb Spread": 0.58501,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:54Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

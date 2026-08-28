@@ -14,7 +14,7 @@
   "duration": 4.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is blown violently backward by an explosion, tumbling through the air and landing hard on its back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.08324,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso is launched from a standing position into a backward arc, rotating completely until it crashes onto the floor and settles flat on its back.",
       "mean_pose": {
         "Spine Front-Back": 0.10156,
         "Spine Left-Right": -0.02871,
@@ -57,7 +57,7 @@
         "raw_value": 0.30741,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head snaps backward with the force of the impact, following the body's rotation as it tumbles through the air and lands facing up.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04297,
         "Neck Tilt Left-Right": 0.0213,
@@ -75,7 +75,7 @@
         "raw_value": 0.31226,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm flails upward and outward during the fall, then extends toward the ground to break the fall before coming to rest beside the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.05026,
         "Left Shoulder Front-Back": 0.36094,
@@ -96,7 +96,7 @@
         "raw_value": 0.30108,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings out for balance in mid-air, then drops down to strike the floor near the shoulder as the body lands.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.19674,
         "Right Shoulder Front-Back": 0.15184,
@@ -117,7 +117,7 @@
         "raw_value": 0.27233,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg kicks forward and upward during the tumble, then flops down to lie extended and slightly bent on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.3791,
         "Left Upper Leg In-Out": 0.19241,
@@ -137,7 +137,7 @@
         "raw_value": 0.24979,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the backward momentum, extending into the air before hitting the ground and settling straight next to the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.18555,
         "Right Upper Leg In-Out": 0.50939,
@@ -157,7 +157,7 @@
         "raw_value": 0.39312,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens wide in mid-air and reaches down to make contact with the floor just before the torso lands.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.25736,
         "Left Thumb Spread": -0.24879,
@@ -189,7 +189,7 @@
         "raw_value": 0.29533,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is thrown open and high during the initial blast, then falls alongside the body to rest on the ground.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.58494,
         "Right Thumb Spread": 0.03529,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:36:04Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

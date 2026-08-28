@@ -14,7 +14,7 @@
   "duration": 0.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure transitions from a relaxed standing pose into a low, wide defensive block with both arms extended forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10073,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and rotates slightly to the left as it drops into a deep crouch, ending in a bent-forward stance.",
       "mean_pose": {
         "Spine Front-Back": -0.83764,
         "Spine Left-Right": 0.02838,
@@ -57,7 +57,7 @@
         "raw_value": 0.20266,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and turns to the left, maintaining focus on the hands throughout the transition.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.42921,
         "Neck Tilt Left-Right": 0.10075,
@@ -75,7 +75,7 @@
         "raw_value": 0.30534,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings up and forward from a resting position at the hip, extending outwards to meet the right hand in front of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.98594,
         "Left Shoulder Front-Back": -2.29819,
@@ -96,7 +96,7 @@
         "raw_value": 0.30392,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm lifts from a low position near the thigh and extends forward, crossing slightly in front of the body to form a guard.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.7538,
         "Right Shoulder Front-Back": -1.09055,
@@ -117,7 +117,7 @@
         "raw_value": 0.13635,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee, lowering the center of gravity while remaining planted on the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.27822,
         "Left Upper Leg In-Out": -0.15505,
@@ -137,7 +137,7 @@
         "raw_value": 0.18167,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends significantly to support the squatting posture, positioning the foot firmly behind the left.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.04976,
         "Right Upper Leg In-Out": 0.23542,
@@ -157,7 +157,7 @@
         "raw_value": 0.16135,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand clenches into a fist as it moves upward and forward to join the right hand.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.57036,
         "Left Thumb Spread": -0.50149,
@@ -189,7 +189,7 @@
         "raw_value": 0.02709,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand forms a fist and moves upward and forward to clasp with the left hand in a double-handed grip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.54535,
         "Right Thumb Spread": -0.05987,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:38:29Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 2.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is violently knocked backward from a standing position, falling through the air and tumbling to land on their back.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.10695,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starts in an upright, slightly hunched posture, then rotates sharply backward into a supine orientation while traveling through the air.",
       "mean_pose": {
         "Spine Front-Back": -0.54863,
         "Spine Left-Right": -0.03774,
@@ -57,7 +57,7 @@
         "raw_value": 0.35852,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts forward initially before snapping sharply backward as the body is thrown into the air.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15339,
         "Neck Tilt Left-Right": -0.07793,
@@ -75,7 +75,7 @@
         "raw_value": 0.31479,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Begins bent at the hip level, swings upward during the fall, and ends with the hand near the chest upon landing.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.92212,
         "Left Shoulder Front-Back": -1.14215,
@@ -96,7 +96,7 @@
         "raw_value": 0.24462,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Starts bent near the waist, extends outward and upward during the flight, and comes to rest near the face on the ground.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.04843,
         "Right Shoulder Front-Back": -0.5701,
@@ -117,7 +117,7 @@
         "raw_value": 0.35453,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Moves from a standing position to being kicked up high in the air, ending extended outwards on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.10067,
         "Left Upper Leg In-Out": 0.63025,
@@ -137,7 +137,7 @@
         "raw_value": 0.26516,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts off the ground during the impact, tucks briefly, and lands bent with the foot flat on the surface.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.01987,
         "Right Upper Leg In-Out": -0.21832,
@@ -157,7 +157,7 @@
         "raw_value": 0.18824,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Transitions from a relaxed state at the side to an open palm resting against the upper torso.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.81373,
         "Left Thumb Spread": -1.56446,
@@ -189,7 +189,7 @@
         "raw_value": 0.25024,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves from a low position to extending away from the body before curling inward near the head.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.37195,
         "Right Thumb Spread": -0.33881,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:37:40Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

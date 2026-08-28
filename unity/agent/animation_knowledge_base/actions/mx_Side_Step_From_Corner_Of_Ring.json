@@ -14,7 +14,7 @@
   "duration": 1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a side step to their right from a boxing stance, shifting their weight and pivoting their feet.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02766,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward in a low athletic stance, rotating slightly to the right as it shifts its weight during the step.",
       "mean_pose": {
         "Spine Front-Back": -0.10858,
         "Spine Left-Right": 0.06684,
@@ -57,7 +57,7 @@
         "raw_value": 0.0345,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains tucked down in a guard position, turning to the right to follow the direction of the body's movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04642,
         "Neck Tilt Left-Right": -0.09343,
@@ -75,7 +75,7 @@
         "raw_value": 0.06016,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a bent guard position near the chest, moving laterally with the torso without changing its shape.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.55851,
         "Left Shoulder Front-Back": -0.67301,
@@ -96,7 +96,7 @@
         "raw_value": 0.03517,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Maintains a high, bent guard position near the face, staying relatively still relative to the shoulders throughout the step.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.38667,
         "Right Shoulder Front-Back": -1.28902,
@@ -117,7 +117,7 @@
         "raw_value": 0.08918,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps out to the right, bending at the knee to absorb the movement and support the new stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.12714,
         "Left Upper Leg In-Out": 0.26447,
@@ -137,7 +137,7 @@
         "raw_value": 0.13813,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off the ground to initiate the lateral move, extending behind the body before planting to stabilize the stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.41032,
         "Right Upper Leg In-Out": 0.30535,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static clenched fist pose at the side of the chin.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.09881,
         "Left Thumb Spread": -0.44551,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static clenched fist pose directly in front of the face.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.21765,
         "Right Thumb Spread": -0.62903,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:47:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

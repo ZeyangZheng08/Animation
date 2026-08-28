@@ -14,7 +14,7 @@
   "duration": 1.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure steps forward and executes a high side kick, swinging the right leg up to horizontal height while balancing on the left leg.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15419,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly backward and twists to the left as the right leg lifts into the high kick position.",
       "mean_pose": {
         "Spine Front-Back": -0.09902,
         "Spine Left-Right": -0.02034,
@@ -57,7 +57,7 @@
         "raw_value": 0.23412,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back and looks upward toward the extended right foot during the peak of the kick.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09392,
         "Neck Tilt Left-Right": -0.16433,
@@ -75,7 +75,7 @@
         "raw_value": 0.38578,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward and bends at the elbow, bringing the hand near the head for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.58246,
         "Left Shoulder Front-Back": -0.2491,
@@ -96,7 +96,7 @@
         "raw_value": 0.4856,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends outward and downward, then sweeps across the body toward the chest area.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.76429,
         "Right Shoulder Front-Back": -0.72291,
@@ -117,7 +117,7 @@
         "raw_value": 0.32785,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground, acting as the supporting pillar for the kick.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.06074,
         "Left Upper Leg In-Out": 0.41683,
@@ -137,7 +137,7 @@
         "raw_value": 0.31109,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg drives forward and upward from a bent starting position, extending fully out to the side in a high kick.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.18805,
         "Right Upper Leg In-Out": 0.41699,
@@ -157,7 +157,7 @@
         "raw_value": 0.28049,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and raised near the face level to assist with upper body balance.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.87019,
         "Left Thumb Spread": -0.26563,
@@ -189,7 +189,7 @@
         "raw_value": 0.22787,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open and moves dynamically in opposition to the kicking leg, ending near the midsection.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4585,
         "Right Thumb Spread": 0.00406,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:52Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

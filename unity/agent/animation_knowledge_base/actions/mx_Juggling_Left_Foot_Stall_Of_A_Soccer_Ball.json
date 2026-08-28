@@ -14,7 +14,7 @@
   "duration": 3.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands on the right leg while rhythmically lifting the left knee to perform a foot stall.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03982,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward slightly, bending at the waist and hips to keep the center of gravity over the standing leg.",
       "mean_pose": {
         "Spine Front-Back": -0.4231,
         "Spine Left-Right": -0.16905,
@@ -57,7 +57,7 @@
         "raw_value": 0.04192,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and forward, tracking the movement of the raised left foot.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.08667,
         "Neck Tilt Left-Right": -0.00747,
@@ -75,7 +75,7 @@
         "raw_value": 0.03289,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs by the side with a slight bend at the elbow, swinging gently for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.85095,
         "Left Shoulder Front-Back": 0.68483,
@@ -96,7 +96,7 @@
         "raw_value": 0.05647,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs by the side with a slight bend at the elbow, swinging gently for balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.71169,
         "Right Shoulder Front-Back": 0.47777,
@@ -117,7 +117,7 @@
         "raw_value": 0.12572,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts repeatedly from the ground, bending the knee to bring the foot up in front of the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.46619,
         "Left Upper Leg In-Out": 0.04761,
@@ -137,7 +137,7 @@
         "raw_value": 0.05475,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains planted on the ground as the support leg, with a slight bend at the knee.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.05424,
         "Right Upper Leg In-Out": 0.12238,
@@ -157,7 +157,7 @@
         "raw_value": 0.08477,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely at the side of the body with fingers relaxed.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.10348,
         "Left Thumb Spread": 0.12445,
@@ -189,7 +189,7 @@
         "raw_value": 0.0712,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely at the side of the body with fingers relaxed.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.99361,
         "Right Thumb Spread": 0.12012,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

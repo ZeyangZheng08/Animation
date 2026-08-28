@@ -14,7 +14,7 @@
   "duration": 3.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure reaches up to kiss a taller person, lifting their arms and head toward an unseen partner before lowering back down.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03222,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso tilts upward and leans slightly forward to reach for the partner, then returns to an upright position.",
       "mean_pose": {
         "Spine Front-Back": 0.02654,
         "Spine Left-Right": -0.04009,
@@ -57,7 +57,7 @@
         "raw_value": 0.18807,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts significantly upward to align with the taller person's face, then lowers back to neutral.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.15547,
         "Neck Tilt Left-Right": 0.05591,
@@ -75,7 +75,7 @@
         "raw_value": 0.31821,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm rises from the side of the body to shoulder height with the elbow bent, holding a relaxed pose in the air.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.31165,
         "Left Shoulder Front-Back": -0.59769,
@@ -96,7 +96,7 @@
         "raw_value": 0.28658,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm lifts up and across the chest toward the center, reaching out as if to touch the partner's face or neck.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.03373,
         "Right Shoulder Front-Back": -0.5977,
@@ -117,7 +117,7 @@
         "raw_value": 0.11733,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the ground, acting as the primary support for the upward lean.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.47736,
         "Left Upper Leg In-Out": 0.01093,
@@ -137,7 +137,7 @@
         "raw_value": 0.10372,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stays relatively straight beside the left leg, providing a stable base while the upper body moves.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.4993,
         "Right Upper Leg In-Out": -0.01293,
@@ -157,7 +157,7 @@
         "raw_value": 0.27111,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and raised to about shoulder level, hovering in the air near the partner.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.27577,
         "Left Thumb Spread": 0.29138,
@@ -189,7 +189,7 @@
         "raw_value": 0.25427,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches up and inward toward the face area, fingers curled as if cupping a cheek or chin.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.4652,
         "Right Thumb Spread": 0.6239,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:23Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 1.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a quick forward roll to evade, transitioning smoothly from an inverted handstand position into a seated recovery and finally into an upright running stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.18786,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starts inverted with the spine curved during the roll, rotates through the mid-section as it comes up to a seated position, and straightens fully into an upright posture for the run.",
       "mean_pose": {
         "Spine Front-Back": -0.09435,
         "Spine Left-Right": 0.11797,
@@ -57,7 +57,7 @@
         "raw_value": 0.27709,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Begins facing down towards the floor while inverted, lifts and turns slightly during the transition to sitting, and faces forward in line with the shoulders at the end of the clip.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.00039,
         "Neck Tilt Left-Right": 0.13377,
@@ -75,7 +75,7 @@
         "raw_value": 0.4161,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward toward the ground to support the weight during the initial roll, pulls back close to the body in the seated phase, and swings backward while bent at the elbow during the run.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.17507,
         "Left Shoulder Front-Back": -0.50804,
@@ -96,7 +96,7 @@
         "raw_value": 0.43993,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Reaches down to brace on the floor during the roll, brings the hand up near the chest or head area while seated, and pumps forward with a bent elbow in the running motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.57878,
         "Right Shoulder Front-Back": -0.17225,
@@ -117,7 +117,7 @@
         "raw_value": 0.32556,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Is extended upward in the air during the inverted phase, tucks inward as the body rolls onto its side, and drives backward in a stride pattern once standing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.49508,
         "Left Upper Leg In-Out": 0.26503,
@@ -137,7 +137,7 @@
         "raw_value": 0.34213,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Supports the body near the ground initially, bends and retracts during the roll transition, and extends forward to push off the ground in the final running pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.63648,
         "Right Upper Leg In-Out": 0.29093,
@@ -157,7 +157,7 @@
         "raw_value": 0.54677,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Presses against the floor to stabilize the upper body during the roll, rests open near the torso while seated, and clenches into a fist by the hip while running.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.69383,
         "Left Thumb Spread": 0.19852,
@@ -189,7 +189,7 @@
         "raw_value": 0.50133,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Touches the ground to assist in the pivot, reaches up near the face during the sit-up, and forms a fist pumping in front of the chest during the sprint.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.66764,
         "Right Thumb Spread": 0.0745,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

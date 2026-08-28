@@ -14,7 +14,7 @@
   "duration": 3.1,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a deep crouch with hands on the ground to a fully upright standing position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.2162,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rises and straightens vertically from a deeply bent forward position to an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.65718,
         "Spine Left-Right": 0.05753,
@@ -57,7 +57,7 @@
         "raw_value": 0.13478,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Lifts from being tucked low between the arms to facing forward in a neutral vertical position.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.07494,
         "Neck Tilt Left-Right": 0.04805,
@@ -75,7 +75,7 @@
         "raw_value": 0.32979,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward to the floor to support weight, then pulls up and swings slightly back as the body stands.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.16518,
         "Left Shoulder Front-Back": 0.03097,
@@ -96,7 +96,7 @@
         "raw_value": 0.28615,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends downward to the floor to support weight, then pulls up and swings slightly back as the body stands.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.18538,
         "Right Shoulder Front-Back": -0.09959,
@@ -117,7 +117,7 @@
         "raw_value": 0.34221,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Unbends from a tight crouch to extend into a straight, weight-bearing leg.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.1317,
         "Left Upper Leg In-Out": 0.03337,
@@ -137,7 +137,7 @@
         "raw_value": 0.34365,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Unbends from a tight crouch to extend into a straight, weight-bearing leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.12231,
         "Right Upper Leg In-Out": 0.19665,
@@ -157,7 +157,7 @@
         "raw_value": 0.38001,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Presses flat against the floor for support before lifting away from the ground.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.13571,
         "Left Thumb Spread": 0.31727,
@@ -189,7 +189,7 @@
         "raw_value": 0.31863,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Presses flat against the floor for support before lifting away from the ground.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.77353,
         "Right Thumb Spread": 0.25713,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:48:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 10.333,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure bends forward at the waist to place an object on the floor and then straightens back up.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.21152,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso hinges forward from a standing position until it is nearly parallel to the ground, then returns to upright.",
       "mean_pose": {
         "Spine Front-Back": -0.62552,
         "Spine Left-Right": 0.23776,
@@ -57,7 +57,7 @@
         "raw_value": 0.12597,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to look at the floor during the bend and lifts back up as the torso straightens.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.04559,
         "Neck Tilt Left-Right": 0.01819,
@@ -75,7 +75,7 @@
         "raw_value": 0.09142,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends downward toward the floor in the middle of the clip and then raises back up to the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.00843,
         "Left Shoulder Front-Back": 0.26088,
@@ -96,7 +96,7 @@
         "raw_value": 0.28027,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings slightly outward for balance while the figure is bent over, then returns to the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.42462,
         "Right Shoulder Front-Back": -0.44417,
@@ -117,7 +117,7 @@
         "raw_value": 0.16257,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays planted with a slight bend at the knee to support the forward lean of the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.04676,
         "Left Upper Leg In-Out": -0.00316,
@@ -137,7 +137,7 @@
         "raw_value": 0.18434,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains straight and stationary on the ground throughout the movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.06906,
         "Right Upper Leg In-Out": 0.19297,
@@ -157,7 +157,7 @@
         "raw_value": 0.07661,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand reaches all the way down to touch the floor before lifting back up to rest by the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.64118,
         "Left Thumb Spread": 0.15509,
@@ -189,7 +189,7 @@
         "raw_value": 0.31764,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs loosely at the side of the body, moving only with the general sway of the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.73029,
         "Right Thumb Spread": -1.25671,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:22Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

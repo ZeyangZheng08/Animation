@@ -14,7 +14,7 @@
   "duration": 1.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands still and nods its head up and down in a rhythmic motion to signal agreement.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00324,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains upright and stationary throughout the clip, maintaining a neutral standing posture.",
       "mean_pose": {
         "Spine Front-Back": -0.08269,
         "Spine Left-Right": 0.07234,
@@ -57,7 +57,7 @@
         "raw_value": 0.09853,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Nods vertically, moving down and then back up to an upright position in a smooth, repetitive cycle.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.0771,
         "Neck Tilt Left-Right": 0.00508,
@@ -75,7 +75,7 @@
         "raw_value": 0.03177,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs straight down at the side of the body with a slight bend at the elbow, remaining completely static.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.80115,
         "Left Shoulder Front-Back": -1.08485,
@@ -96,7 +96,7 @@
         "raw_value": 0.03062,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs straight down at the side of the body with a slight bend at the elbow, remaining completely static.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.96279,
         "Right Shoulder Front-Back": -0.96351,
@@ -117,7 +117,7 @@
         "raw_value": 0.01041,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands straight and planted on the ground, supporting the body's weight without any movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.41677,
         "Left Upper Leg In-Out": 0.1785,
@@ -137,7 +137,7 @@
         "raw_value": 0.01076,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stands straight and planted on the ground, supporting the body's weight without any movement.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.58282,
         "Right Upper Leg In-Out": -0.05784,
@@ -157,7 +157,7 @@
         "raw_value": 0.03496,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely by the side with fingers relaxed and slightly curled, showing no independent motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.4298,
         "Left Thumb Spread": -0.09061,
@@ -189,7 +189,7 @@
         "raw_value": 0.0548,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Dangles loosely by the side with fingers relaxed and slightly curled, showing no independent motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.35265,
         "Right Thumb Spread": -0.08837,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

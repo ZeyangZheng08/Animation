@@ -14,7 +14,7 @@
   "duration": 1.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a slow, shambling zombie walk with an hunched posture and arms held forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07594,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains heavily hunched forward and sways slightly from side to side in time with the leg movement.",
       "mean_pose": {
         "Spine Front-Back": -0.28287,
         "Spine Left-Right": 0.08492,
@@ -57,7 +57,7 @@
         "raw_value": 0.12342,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is tilted far down, facing toward the ground, and bobs gently along with the body's sway.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06845,
         "Neck Tilt Left-Right": 0.09169,
@@ -75,7 +75,7 @@
         "raw_value": 0.1057,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs forward and downward with a slight bend at the elbow, moving subtly as the body shifts.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.90881,
         "Left Shoulder Front-Back": 0.25759,
@@ -96,7 +96,7 @@
         "raw_value": 0.09395,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm also hangs forward and downward with a bent elbow, mirroring the left arm's position and motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.44726,
         "Right Shoulder Front-Back": 0.33696,
@@ -117,7 +117,7 @@
         "raw_value": 0.16441,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg alternates between supporting weight on a straightened stance and lifting to take a short, dragging step forward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.02255,
         "Left Upper Leg In-Out": 0.22135,
@@ -137,7 +137,7 @@
         "raw_value": 0.16406,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates between supporting weight and stepping forward, creating a slow, alternating gait with the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.16608,
         "Right Upper Leg In-Out": 0.27751,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs loosely with fingers relaxed and pointing downward.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs loosely with fingers relaxed and pointing downward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:36Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

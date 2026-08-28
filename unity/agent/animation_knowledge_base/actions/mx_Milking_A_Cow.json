@@ -14,7 +14,7 @@
   "duration": 4.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure crouches low and leans forward, repeatedly extending both hands out to grip and pull an unseen object.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01569,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains in a deep, forward-leaning squat throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -1.03356,
         "Spine Left-Right": 0.01141,
@@ -57,7 +57,7 @@
         "raw_value": 0.02583,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward, keeping its gaze fixed on the area between the hands.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.10967,
         "Neck Tilt Left-Right": 0.01593,
@@ -75,7 +75,7 @@
         "raw_value": 0.1269,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward from the shoulder, bending at the elbow as it reaches out to grasp.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.75562,
         "Left Shoulder Front-Back": -1.44565,
@@ -96,7 +96,7 @@
         "raw_value": 0.15954,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, reaching forward and bending at the elbow to join the gripping motion.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.63769,
         "Right Shoulder Front-Back": 0.04728,
@@ -117,7 +117,7 @@
         "raw_value": 0.00607,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent at the knee in a stable, low squatting position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -1.08092,
         "Left Upper Leg In-Out": 1.04379,
@@ -137,7 +137,7 @@
         "raw_value": 0.00864,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg holds a matching bent-knee squat to support the body's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -1.14487,
         "Right Upper Leg In-Out": 0.97786,
@@ -157,7 +157,7 @@
         "raw_value": 0.30779,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens and closes in a rhythmic squeezing motion, simulating a milking action.",
       "mean_pose": {
         "Left Thumb 1 Stretched": 0.05744,
         "Left Thumb Spread": -1.31419,
@@ -189,7 +189,7 @@
         "raw_value": 0.33313,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand performs the same opening and closing squeeze, coordinated with the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.16182,
         "Right Thumb Spread": -1.23064,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:58Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

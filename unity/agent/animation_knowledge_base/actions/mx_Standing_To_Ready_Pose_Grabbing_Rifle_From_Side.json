@@ -14,7 +14,7 @@
   "duration": 2.467,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure turns from a standing position to the right and brings both hands together in front of its body to grab an object.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04359,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates significantly to the right, shifting the body's orientation from facing forward to a profile view.",
       "mean_pose": {
         "Spine Front-Back": -0.07111,
         "Spine Left-Right": 0.01051,
@@ -57,7 +57,7 @@
         "raw_value": 0.1097,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the rotation of the torso, turning to the right to maintain alignment with the body's new direction.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11344,
         "Neck Tilt Left-Right": -0.03272,
@@ -75,7 +75,7 @@
         "raw_value": 0.178,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings forward and inward across the body, ending bent at the waist with the hand near the center.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.51555,
         "Left Shoulder Front-Back": 0.16238,
@@ -96,7 +96,7 @@
         "raw_value": 0.19621,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves forward and slightly downward, extending toward the midline to meet the left hand.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.3302,
         "Right Shoulder Front-Back": -1.00731,
@@ -117,7 +117,7 @@
         "raw_value": 0.0743,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted as the primary support while the upper body pivots.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.38969,
         "Left Upper Leg In-Out": 0.14239,
@@ -137,7 +137,7 @@
         "raw_value": 0.08101,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg shifts weight and adjusts its stance slightly to accommodate the turn of the hips.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.50385,
         "Right Upper Leg In-Out": 0.05198,
@@ -157,7 +157,7 @@
         "raw_value": 0.13656,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from the side of the body to the center, opening up to receive or grasp the object.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.29613,
         "Left Thumb Spread": -0.05627,
@@ -189,7 +189,7 @@
         "raw_value": 0.15997,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand reaches forward to meet the left hand, closing into a grip on the object being grabbed.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.5281,
         "Right Thumb Spread": -0.00562,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:11Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

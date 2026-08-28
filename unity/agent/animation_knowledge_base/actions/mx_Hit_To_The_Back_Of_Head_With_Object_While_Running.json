@@ -14,7 +14,7 @@
   "duration": 2.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure is thrown violently backward through the air, tumbling over their head and shoulders before landing in a seated position on the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12766,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso tumbles backward through the air, rotating from an upright to a fully inverted position before settling into a slight recline against the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.33012,
         "Spine Left-Right": -0.04597,
@@ -57,7 +57,7 @@
         "raw_value": 0.19829,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head whips back and rotates with the body's fall, moving from an upright orientation to being pointed downward at the ground, and finally coming to rest facing forward while seated.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.08409,
         "Neck Tilt Left-Right": 0.01827,
@@ -75,7 +75,7 @@
         "raw_value": 0.47455,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm flails upward and outward during the initial fall, then swings down past the body as it rotates, ending in a relaxed position near the lap.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.05072,
         "Left Shoulder Front-Back": -0.05628,
@@ -96,7 +96,7 @@
         "raw_value": 0.48274,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends out to the side during the tumble, then draws inward across the body as the figure lands, finishing bent at the elbow near the waist.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.67842,
         "Right Shoulder Front-Back": -0.23589,
@@ -117,7 +117,7 @@
         "raw_value": 0.28385,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg kicks up high into the air during the fall, then bends at the knee as the body rotates, finally extending forward onto the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.32063,
         "Left Upper Leg In-Out": 0.11033,
@@ -137,7 +137,7 @@
         "raw_value": 0.17904,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the left leg upward during the fall, bending slightly at the knee, and comes to rest extended on the floor alongside the other leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.25675,
         "Right Upper Leg In-Out": 0.03145,
@@ -157,7 +157,7 @@
         "raw_value": 0.48445,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens and flails freely in the air during the fall, then relaxes and drops down toward the lap upon landing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.22572,
         "Left Thumb Spread": -0.15668,
@@ -189,7 +189,7 @@
         "raw_value": 0.58324,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves with the arm's swing during the rotation, finishing in a loose fist held near the midsection.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.99295,
         "Right Thumb Spread": -0.1877,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:39:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

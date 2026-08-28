@@ -14,7 +14,7 @@
   "duration": 1.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lies on its back and twists its upper body to the side in a hunched, vomiting posture.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14089,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rolls from lying flat on its back into a twisted, hunched position leaning onto the right hip, then returns to a flat supine position.",
       "mean_pose": {
         "Spine Front-Back": -0.12067,
         "Spine Left-Right": -0.05427,
@@ -57,7 +57,7 @@
         "raw_value": 0.13028,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts toward the left shoulder as the torso twists, then turns to face upward when the body flattens out.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.17641,
         "Neck Tilt Left-Right": 0.03177,
@@ -75,7 +75,7 @@
         "raw_value": 0.13255,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm remains bent with the hand held up near the mouth throughout the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.14169,
         "Left Shoulder Front-Back": -0.37683,
@@ -96,7 +96,7 @@
         "raw_value": 0.12998,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow with the forearm resting across the chest, keeping the hand positioned near the chin.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.93417,
         "Right Shoulder Front-Back": -0.16693,
@@ -117,7 +117,7 @@
         "raw_value": 0.19858,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays extended and straight on the floor for the duration of the clip.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.30202,
         "Left Upper Leg In-Out": 0.28111,
@@ -137,7 +137,7 @@
         "raw_value": 0.22115,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg begins extended but bends at the knee, drawing the foot up off the floor during the twist before extending again.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.26575,
         "Right Upper Leg In-Out": 0.44301,
@@ -157,7 +157,7 @@
         "raw_value": 0.01206,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static, loosely curled pose close to the face.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.09192,
         "Left Thumb Spread": -0.80652,
@@ -189,7 +189,7 @@
         "raw_value": 0.05709,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves slightly closer to the mouth as the body twists, maintaining a curled shape.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.00654,
         "Right Thumb Spread": -0.63667,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:16:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

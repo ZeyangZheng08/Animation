@@ -14,7 +14,7 @@
   "duration": 3.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place and pumps its right fist up and down.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01997,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stationary throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.0783,
         "Spine Left-Right": 0.07683,
@@ -57,7 +57,7 @@
         "raw_value": 0.14899,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head bobs slightly up and down with the rhythm of the arm movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.24357,
         "Neck Tilt Left-Right": 0.00554,
@@ -75,7 +75,7 @@
         "raw_value": 0.02525,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs relaxed at the side of the body, remaining still.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.81766,
         "Left Shoulder Front-Back": -1.07608,
@@ -96,7 +96,7 @@
         "raw_value": 0.21083,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow and moves vertically, pumping upward to chest height and then back down.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.94696,
         "Right Shoulder Front-Back": -0.92917,
@@ -117,7 +117,7 @@
         "raw_value": 0.05277,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands straight, supporting the body's weight without moving.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.40695,
         "Left Upper Leg In-Out": 0.19259,
@@ -137,7 +137,7 @@
         "raw_value": 0.06154,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stands straight, mirroring the left leg in a static stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.57806,
         "Right Upper Leg In-Out": -0.06429,
@@ -157,7 +157,7 @@
         "raw_value": 0.01427,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a loose, open pose at the hip level.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.43558,
         "Left Thumb Spread": -0.06866,
@@ -189,7 +189,7 @@
         "raw_value": 0.52458,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand forms a closed fist as it travels up and down.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.89975,
         "Right Thumb Spread": -0.68864,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:07Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 3.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure collapses from a kneeling position to the ground, falling forward and settling on their stomach.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.15678,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso pitches forward and lowers continuously until it is flat against the floor.",
       "mean_pose": {
         "Spine Front-Back": -0.14389,
         "Spine Left-Right": -0.03508,
@@ -57,7 +57,7 @@
         "raw_value": 0.21149,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the torso's descent, dropping from an upright position to rest on the ground.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.63756,
         "Neck Tilt Left-Right": -0.06165,
@@ -75,7 +75,7 @@
         "raw_value": 0.2514,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings forward and downward as the body falls, ending with the hand near the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.75688,
         "Left Shoulder Front-Back": -0.3383,
@@ -96,7 +96,7 @@
         "raw_value": 0.45916,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends slightly forward during the fall before coming to rest at the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.89347,
         "Right Shoulder Front-Back": -0.27607,
@@ -117,7 +117,7 @@
         "raw_value": 0.21277,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and tucks backward under the body as the figure drops to the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.14723,
         "Left Upper Leg In-Out": -0.03285,
@@ -137,7 +137,7 @@
         "raw_value": 0.3168,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends slightly behind the body before folding in as the figure settles on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.51823,
         "Right Upper Leg In-Out": -0.13183,
@@ -157,7 +157,7 @@
         "raw_value": 0.31487,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves forward and down, landing on the floor next to the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.36657,
         "Left Thumb Spread": -0.58723,
@@ -189,7 +189,7 @@
         "raw_value": 0.00894,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains relatively static, holding a fixed position near the hip throughout the collapse.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.49457,
         "Right Thumb Spread": -0.87079,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:22Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

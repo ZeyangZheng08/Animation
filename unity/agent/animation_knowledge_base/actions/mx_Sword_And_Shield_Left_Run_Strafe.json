@@ -14,7 +14,7 @@
   "duration": 0.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The character runs in a steady stride while moving laterally to the left.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06746,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward and tilts slightly to the left, maintaining a low profile for the run.",
       "mean_pose": {
         "Spine Front-Back": -0.54309,
         "Spine Left-Right": -0.08432,
@@ -57,7 +57,7 @@
         "raw_value": 0.07578,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level with the shoulders, facing forward in the direction of movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.06537,
         "Neck Tilt Left-Right": -0.20277,
@@ -75,7 +75,7 @@
         "raw_value": 0.25378,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings naturally from the shoulder, bending at the elbow to drive the stride.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.28782,
         "Left Shoulder Front-Back": -0.89396,
@@ -96,7 +96,7 @@
         "raw_value": 0.11569,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings opposite to the left arm, keeping the elbows bent near the waist.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.22999,
         "Right Shoulder Front-Back": -0.4499,
@@ -117,7 +117,7 @@
         "raw_value": 0.17302,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives the body sideways, extending back and pushing off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.0887,
         "Left Upper Leg In-Out": 0.04846,
@@ -137,7 +137,7 @@
         "raw_value": 0.17578,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps out to the side and bends to absorb the impact of the lateral move.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.15723,
         "Right Upper Leg In-Out": 0.09013,
@@ -157,7 +157,7 @@
         "raw_value": 0.00081,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a loose fist at the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21301,
         "Left Thumb Spread": -0.90937,
@@ -189,7 +189,7 @@
         "raw_value": 0.00231,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held in a loose fist near the front of the waist.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.45423,
         "Right Thumb Spread": -1.7908,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:26:10Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

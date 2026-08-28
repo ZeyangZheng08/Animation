@@ -14,7 +14,7 @@
   "duration": 3.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure lunges forward with a high right leg kick and extends both arms to strike, then retracts into a crouched fighting stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05317,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward aggressively during the lunge, tilts back slightly in mid-air, and lowers into a deep crouch at the end of the motion.",
       "mean_pose": {
         "Spine Front-Back": -0.25697,
         "Spine Left-Right": -0.01939,
@@ -57,7 +57,7 @@
         "raw_value": 0.36407,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down to focus on the target area during the forward lunge before leveling out as the body settles into the final stance.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.07092,
         "Neck Tilt Left-Right": 0.01434,
@@ -75,7 +75,7 @@
         "raw_value": 0.27656,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends straight forward from the shoulder with an open palm during the lunge, then bends sharply to pull the hand back to the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.4425,
         "Left Shoulder Front-Back": -0.60013,
@@ -96,7 +96,7 @@
         "raw_value": 0.36673,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings upward and forward in a striking arc with an open hand, then draws back across the body to finish bent near the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.37908,
         "Right Shoulder Front-Back": -0.5636,
@@ -117,7 +117,7 @@
         "raw_value": 0.17201,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground to support the weight of the lunge, bending at the knee to lower the body's center of gravity.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.03831,
         "Left Upper Leg In-Out": 0.42441,
@@ -137,7 +137,7 @@
         "raw_value": 0.21551,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives up and forward in a high kicking motion with the knee raised, then brings the foot down to land in a wide, staggered stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.09651,
         "Right Upper Leg In-Out": 0.44901,
@@ -157,7 +157,7 @@
         "raw_value": 0.63057,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens flat to lead the forward attack, then closes into a fist as it retracts to the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.57419,
         "Left Thumb Spread": -0.02232,
@@ -189,7 +189,7 @@
         "raw_value": 0.63805,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens with fingers spread for the upper strike, then clenches into a fist as the arm pulls back to complete the movement.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.55038,
         "Right Thumb Spread": -0.07869,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:48Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

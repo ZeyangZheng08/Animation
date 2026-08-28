@@ -14,7 +14,7 @@
   "duration": 3.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands and leans backward in a startled reaction, flinging their arms out to the sides before settling back into an upright stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09829,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso tilts sharply backward away from the camera at the midpoint of the clip, then straightens back up to a neutral standing position by the end.",
       "mean_pose": {
         "Spine Front-Back": -0.07546,
         "Spine Left-Right": -0.01994,
@@ -57,7 +57,7 @@
         "raw_value": 0.2552,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the upper body's movement, tilting back with the torso during the lean and then returning to face forward as the figure recovers.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.1405,
         "Neck Tilt Left-Right": 0.04273,
@@ -75,7 +75,7 @@
         "raw_value": 0.12917,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings outward and slightly upward from the side of the body for balance, then lowers back down toward the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.59657,
         "Left Shoulder Front-Back": 0.08885,
@@ -96,7 +96,7 @@
         "raw_value": 0.10457,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, extending outward and away from the body during the recoil before dropping back to a relaxed position at the side.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.69678,
         "Right Shoulder Front-Back": -0.02494,
@@ -117,7 +117,7 @@
         "raw_value": 0.1149,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee to absorb the backward shift in weight, then straightens as the figure returns to a stable stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.57066,
         "Left Upper Leg In-Out": 0.17699,
@@ -137,7 +137,7 @@
         "raw_value": 0.12294,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains relatively planted while the knee flexes slightly to support the backward lean, then extends again to finish the motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.40083,
         "Right Upper Leg In-Out": 0.08733,
@@ -157,7 +157,7 @@
         "raw_value": 0.1782,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand opens and flails outward with the arm swing, ending with the fingers relaxed near the left thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.36694,
         "Left Thumb Spread": -0.23079,
@@ -189,7 +189,7 @@
         "raw_value": 0.16526,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves outwards with the arm extension, finishing the sequence with an open palm resting near the right thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.16702,
         "Right Thumb Spread": -0.05828,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:25:05Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

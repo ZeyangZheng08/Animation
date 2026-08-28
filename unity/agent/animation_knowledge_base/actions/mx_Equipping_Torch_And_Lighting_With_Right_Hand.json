@@ -14,7 +14,7 @@
   "duration": 3.0,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a quick, fluid motion to equip a torch with their right hand, bringing it up from their hip to a ready position in front of them.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03195,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains relatively upright but shifts slightly forward and rotates subtly to the left as the arm moves into position.",
       "mean_pose": {
         "Spine Front-Back": -0.17576,
         "Spine Left-Right": -0.02618,
@@ -57,7 +57,7 @@
         "raw_value": 0.12328,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down slightly at the start, looking toward the right hip, then lifts and turns forward as the action completes.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03808,
         "Neck Tilt Left-Right": -0.056,
@@ -75,7 +75,7 @@
         "raw_value": 0.29957,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs mostly relaxed by the side initially, then bends at the elbow to bring the hand up towards the center of the body for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.24418,
         "Left Shoulder Front-Back": -0.30414,
@@ -96,7 +96,7 @@
         "raw_value": 0.21921,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm starts bent with the hand near the hip, then extends upward and forward across the body before settling into a raised, ready stance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.53463,
         "Right Shoulder Front-Back": -0.59451,
@@ -117,7 +117,7 @@
         "raw_value": 0.08617,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg serves as the primary support, remaining planted while shifting its weight slightly backward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.3348,
         "Left Upper Leg In-Out": 0.17178,
@@ -137,7 +137,7 @@
         "raw_value": 0.09356,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg steps slightly forward and bends at the knee to lower the center of gravity during the equipping motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.46513,
         "Right Upper Leg In-Out": 0.00574,
@@ -157,7 +157,7 @@
         "raw_value": 0.34587,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains open and relaxed, drifting slightly inward to assist with the upper body's rotation.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.42559,
         "Left Thumb Spread": -0.99445,
@@ -189,7 +189,7 @@
         "raw_value": 0.30976,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand begins near the right hip, mimicking a grip, and moves upward and forward into a clenched fist holding an imaginary object.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.61902,
         "Right Thumb Spread": 0.08505,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:12:04Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

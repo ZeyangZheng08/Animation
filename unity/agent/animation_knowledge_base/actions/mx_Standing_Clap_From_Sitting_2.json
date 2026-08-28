@@ -14,7 +14,7 @@
   "duration": 4.433,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a deep squat to a standing position while clapping their hands.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07616,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso extends upward from a deeply bent, crouched posture to an upright standing position.",
       "mean_pose": {
         "Spine Front-Back": -0.11946,
         "Spine Left-Right": -0.04001,
@@ -57,7 +57,7 @@
         "raw_value": 0.15782,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head lifts and tilts slightly upward as the body rises, then settles into a neutral forward-facing orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.2937,
         "Neck Tilt Left-Right": -0.02661,
@@ -75,7 +75,7 @@
         "raw_value": 0.37287,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward from resting on the knee, bending at the elbow to raise the hand to chest level for clapping.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.22363,
         "Left Shoulder Front-Back": -1.45207,
@@ -96,7 +96,7 @@
         "raw_value": 0.33256,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging up from the knee with a bent elbow to meet the other hand in a clap.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.20044,
         "Right Shoulder Front-Back": -0.11038,
@@ -117,7 +117,7 @@
         "raw_value": 0.25762,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg straightens from a deeply bent squat position to support the full weight of the standing body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.0719,
         "Left Upper Leg In-Out": 0.17525,
@@ -137,7 +137,7 @@
         "raw_value": 0.23733,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends fully from the crouch, straightening out to form a stable base for the standing pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.00638,
         "Right Upper Leg In-Out": 0.11025,
@@ -157,7 +157,7 @@
         "raw_value": 0.24268,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a resting position on the knee to meet the right hand in front of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.05137,
         "Left Thumb Spread": 0.57062,
@@ -189,7 +189,7 @@
         "raw_value": 0.19843,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand travels from the knee up to join the left hand in a clapping motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.13143,
         "Right Thumb Spread": 0.6561,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

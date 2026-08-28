@@ -14,7 +14,7 @@
   "duration": 1.867,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a celebratory victory pose, raising both arms overhead and pointing upward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06412,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright with slight swaying motion to support the arm movements.",
       "mean_pose": {
         "Spine Front-Back": -0.09818,
         "Spine Left-Right": -0.16907,
@@ -57,7 +57,7 @@
         "raw_value": 0.13892,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly back and looks upward, following the direction of the raised hands.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.13135,
         "Neck Tilt Left-Right": -0.00457,
@@ -75,7 +75,7 @@
         "raw_value": 0.47696,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm lifts from the side, bends at the elbow, and raises high above the shoulder.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.15365,
         "Left Shoulder Front-Back": -0.71147,
@@ -96,7 +96,7 @@
         "raw_value": 0.44299,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, lifting and bending to raise the hand high above the shoulder.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.31485,
         "Right Shoulder Front-Back": -0.5061,
@@ -117,7 +117,7 @@
         "raw_value": 0.09751,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stays planted on the ground in a stable standing position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.17854,
         "Left Upper Leg In-Out": -0.00779,
@@ -137,7 +137,7 @@
         "raw_value": 0.12562,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains stationary on the ground, balancing the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.17686,
         "Right Upper Leg In-Out": 0.46826,
@@ -157,7 +157,7 @@
         "raw_value": 0.28578,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is raised with the index finger extended straight up.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.77148,
         "Left Thumb Spread": -0.52141,
@@ -189,7 +189,7 @@
         "raw_value": 0.3071,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is raised with the index finger extended straight up.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.73122,
         "Right Thumb Spread": -0.47441,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:45Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

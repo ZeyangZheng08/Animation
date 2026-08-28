@@ -14,7 +14,7 @@
   "duration": 2.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a quick, informal bow by bending forward at the waist and then returning to an upright stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06529,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso hinges forward from the hips into a deep lean and then returns to an upright position.",
       "mean_pose": {
         "Spine Front-Back": -0.19998,
         "Spine Left-Right": 0.01645,
@@ -57,7 +57,7 @@
         "raw_value": 0.04499,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down along with the forward bend of the torso before lifting back up to face forward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.18887,
         "Neck Tilt Left-Right": 0.00207,
@@ -75,7 +75,7 @@
         "raw_value": 0.05706,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs loosely by the side, swinging slightly backward as the body bends forward.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.87255,
         "Left Shoulder Front-Back": -1.22857,
@@ -96,7 +96,7 @@
         "raw_value": 0.06392,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs loosely by the side, swinging slightly backward as the body bends forward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.92782,
         "Right Shoulder Front-Back": -1.07768,
@@ -117,7 +117,7 @@
         "raw_value": 0.05596,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains planted on the floor with a slight bend in the knee throughout the motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.36394,
         "Left Upper Leg In-Out": 0.14687,
@@ -137,7 +137,7 @@
         "raw_value": 0.06523,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted on the floor with a slight bend in the knee throughout the motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.46094,
         "Right Upper Leg In-Out": -0.01949,
@@ -157,7 +157,7 @@
         "raw_value": 0.08225,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs relaxed near the thigh, moving only with the natural swing of the arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.33081,
         "Left Thumb Spread": 0.0416,
@@ -189,7 +189,7 @@
         "raw_value": 0.06774,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand hangs relaxed near the thigh, moving only with the natural swing of the arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.27734,
         "Right Thumb Spread": 0.06825,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:20:22Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

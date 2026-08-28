@@ -14,7 +14,7 @@
   "duration": 1.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure throws a short, forward elbow punch with the right arm while stepping slightly forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07278,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward and rotates to the left as the punch is thrown.",
       "mean_pose": {
         "Spine Front-Back": -0.08112,
         "Spine Left-Right": -0.02399,
@@ -57,7 +57,7 @@
         "raw_value": 0.2646,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down and turns to the left, following the motion of the punch.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.19935,
         "Neck Tilt Left-Right": 0.02499,
@@ -75,7 +75,7 @@
         "raw_value": 0.16315,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm bends at the elbow and holds its guard position near the chest throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.03212,
         "Left Shoulder Front-Back": -0.2392,
@@ -96,7 +96,7 @@
         "raw_value": 0.18879,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm drives forward in a short, straight line, extending from a bent guard position to strike.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.05311,
         "Right Shoulder Front-Back": -1.24631,
@@ -117,7 +117,7 @@
         "raw_value": 0.13782,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg steps forward and bends at the knee to support the weight shift.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.08645,
         "Left Upper Leg In-Out": 0.12145,
@@ -137,7 +137,7 @@
         "raw_value": 0.24875,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg pushes off the ground and trails behind the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.2718,
         "Right Upper Leg In-Out": 0.29835,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains clenched in a fist near the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.48441,
         "Left Thumb Spread": -1.22451,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays clenched in a fist as it extends forward.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.40263,
         "Right Thumb Spread": -0.96395,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:44Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

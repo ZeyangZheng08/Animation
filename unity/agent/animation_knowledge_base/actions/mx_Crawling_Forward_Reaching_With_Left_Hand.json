@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static, low crawling pose on the floor with its left hand reaching forward.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso is held in a hunched, forward-leaning position close to the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.64836,
         "Spine Left-Right": 0.26691,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains tilted downward and slightly to the left, facing the direction of the reach.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.43482,
         "Neck Tilt Left-Right": -0.03214,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is extended straight out forward from the shoulder, holding a rigid reaching posture.",
       "mean_pose": {
         "Left Shoulder Down-Up": 1.1631,
         "Left Shoulder Front-Back": -1.1411,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow, supporting the body's weight near the center of the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.63122,
         "Right Shoulder Front-Back": 0.01656,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is bent underneath the hips, with the foot planted on the floor for support.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.45536,
         "Left Upper Leg In-Out": 0.12148,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent behind the body, with the knee resting on the ground.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.80691,
         "Right Upper Leg In-Out": 0.01583,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open with fingers spread, hovering just above the floor in a grasping shape.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.29951,
         "Left Thumb Spread": -0.27479,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is pressed flat against the floor to stabilize the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.2238,
         "Right Thumb Spread": 0.42958,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:28Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

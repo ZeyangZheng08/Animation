@@ -14,7 +14,7 @@
   "duration": 0.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a two-handed shooting motion, extending both arms forward and then retracting them back toward the chest.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00751,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and stable, holding a static posture with no significant rotation or tilt throughout the movement.",
       "mean_pose": {
         "Spine Front-Back": -0.02878,
         "Spine Left-Right": -0.00259,
@@ -57,7 +57,7 @@
         "raw_value": 0.02552,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward to follow the line of sight as the arms extend, then lifts back up as they are retracted.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.3471,
         "Neck Tilt Left-Right": 0.09525,
@@ -75,7 +75,7 @@
         "raw_value": 0.03489,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends straight out in front of the body and then bends at the elbow to pull the hand back toward the center of the chest.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.10741,
         "Left Shoulder Front-Back": -0.14788,
@@ -96,7 +96,7 @@
         "raw_value": 0.03429,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm moves in tandem with the left, extending forward and then drawing back toward the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.68636,
         "Right Shoulder Front-Back": 0.46438,
@@ -117,7 +117,7 @@
         "raw_value": 0.02312,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is planted firmly on the ground in a wide stance, providing a stable base for the upper body movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.00764,
         "Left Upper Leg In-Out": 0.47011,
@@ -137,7 +137,7 @@
         "raw_value": 0.01974,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg stands planted in a wide stance, remaining stationary to support the figure's weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.48919,
         "Right Upper Leg In-Out": 0.49453,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends forward with fingers held relatively still, then retracts back toward the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.53219,
         "Left Thumb Spread": -0.02726,
@@ -189,7 +189,7 @@
         "raw_value": 0.06266,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand mirrors the left, moving forward in an open position before being pulled back alongside the other hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.52642,
         "Right Thumb Spread": -0.0048,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:08Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

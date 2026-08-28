@@ -14,7 +14,7 @@
   "duration": 2.633,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a full-body dive, falling forward and landing flat on the floor.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.20104,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans sharply forward from an upright stance, rotating down until it is parallel to the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.20008,
         "Spine Left-Right": -0.00526,
@@ -57,7 +57,7 @@
         "raw_value": 0.20678,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tucks slightly downward as the body pitches forward, ending up facing the floor in the final pose.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.10522,
         "Neck Tilt Left-Right": -0.20531,
@@ -75,7 +75,7 @@
         "raw_value": 0.37009,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings forward and extends straight out ahead of the body to lead the fall toward the ground.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.26915,
         "Left Shoulder Front-Back": 0.56559,
@@ -96,7 +96,7 @@
         "raw_value": 0.38874,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves forward in tandem with the other arm, extending fully to brace for the impact.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.59479,
         "Right Shoulder Front-Back": 0.37644,
@@ -117,7 +117,7 @@
         "raw_value": 0.25247,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off the ground to propel the body forward, then tucks underneath before extending out behind the torso.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.2319,
         "Left Upper Leg In-Out": 0.15447,
@@ -137,7 +137,7 @@
         "raw_value": 0.32479,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Assists in the push-off, folding under the body during the dive and stretching out straight behind upon landing.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.20058,
         "Right Upper Leg In-Out": 0.16835,
@@ -157,7 +157,7 @@
         "raw_value": 0.36324,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Reaches forward with fingers spread, aiming for the floor to cushion the descent.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.71075,
         "Left Thumb Spread": 0.07872,
@@ -189,7 +189,7 @@
         "raw_value": 0.39106,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Extends forward alongside the left hand, reaching out to meet the ground at the end of the dive.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.21085,
         "Right Thumb Spread": 0.00299,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:56Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

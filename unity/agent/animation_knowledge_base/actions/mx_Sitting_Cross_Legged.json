@@ -14,7 +14,7 @@
   "duration": 9.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits on the floor with legs crossed, gently rocking its upper body back and forth.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.03603,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Rocks backward and then forward from a seated position, leaning away from the camera before returning to an upright posture.",
       "mean_pose": {
         "Spine Front-Back": -0.3788,
         "Spine Left-Right": 0.08571,
@@ -57,7 +57,7 @@
         "raw_value": 0.0108,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains held steady and upright throughout the motion.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.15005,
         "Neck Tilt Left-Right": 0.0074,
@@ -75,7 +75,7 @@
         "raw_value": 0.11321,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs down from the shoulder with the elbow bent, keeping the hand positioned near the lap.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.27435,
         "Left Shoulder Front-Back": -1.91928,
@@ -96,7 +96,7 @@
         "raw_value": 0.08026,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Rests at the side with the elbow bent, holding the hand in a static position near the knee.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.00796,
         "Right Shoulder Front-Back": -1.23019,
@@ -117,7 +117,7 @@
         "raw_value": 0.00605,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static cross-legged pose with the lower leg extended forward.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.5847,
         "Left Upper Leg In-Out": -0.12229,
@@ -137,7 +137,7 @@
         "raw_value": 0.00426,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static cross-legged pose with the foot tucked underneath the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.40225,
         "Right Upper Leg In-Out": -0.45658,
@@ -157,7 +157,7 @@
         "raw_value": 0.03751,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Stays open and relaxed, resting near the shin of the extended leg.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.28103,
         "Left Thumb Spread": -1.124,
@@ -189,7 +189,7 @@
         "raw_value": 0.03709,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and stationary, hovering just above the right knee.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.00086,
         "Right Thumb Spread": -0.13639,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

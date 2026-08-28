@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits on the floor in a static pose, leaning back slightly with one arm raised to shield the face and the other braced behind.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans backward from the hips, angled away from the extended legs to support the seated posture.",
       "mean_pose": {
         "Spine Front-Back": -0.57845,
         "Spine Left-Right": 0.03724,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts upward and back, facing toward the raised right arm.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.21433,
         "Neck Tilt Left-Right": -0.07822,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends downward and outward to the side, with the hand resting flat on the floor for balance.",
       "mean_pose": {
         "Left Shoulder Down-Up": 1.18896,
         "Left Shoulder Front-Back": 1.13003,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow and raised high, holding the forearm horizontally across the forehead.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.76785,
         "Right Shoulder Front-Back": -0.08418,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends forward with a slight bend at the knee, resting on the floor.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.73242,
         "Left Upper Leg In-Out": 0.08463,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is bent at the knee, tucked closer to the body than the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.52996,
         "Right Upper Leg In-Out": -0.25912,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is open and flat against the ground, fingers spread to provide support.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.76587,
         "Left Thumb Spread": 0.107,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held up near the face, palm facing inward as part of the shielding gesture.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.59915,
         "Right Thumb Spread": 0.44221,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:58Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

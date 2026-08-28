@@ -14,7 +14,7 @@
   "duration": 16.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a rhythmic dance step, shifting its weight side to side with bent knees and swinging arms.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05201,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso sways laterally from side to side, leaning slightly forward as it shifts weight between the legs.",
       "mean_pose": {
         "Spine Front-Back": -0.22352,
         "Spine Left-Right": -0.01051,
@@ -57,7 +57,7 @@
         "raw_value": 0.11812,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head bobs gently up and down while tilting slightly to the left, maintaining a relatively steady orientation.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.12294,
         "Neck Tilt Left-Right": -0.07013,
@@ -75,7 +75,7 @@
         "raw_value": 0.15876,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings loosely at the side of the body, bending at the elbow and moving in opposition to the leg on the same side.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.64385,
         "Left Shoulder Front-Back": -0.01443,
@@ -96,7 +96,7 @@
         "raw_value": 0.15089,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, swinging at the side with a bent elbow to counterbalance the body's movement.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.74067,
         "Right Shoulder Front-Back": -0.08596,
@@ -117,7 +117,7 @@
         "raw_value": 0.19164,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends at the knee and steps out to the side, supporting the weight shift of the dance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.18414,
         "Left Upper Leg In-Out": 0.02138,
@@ -137,7 +137,7 @@
         "raw_value": 0.19195,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg bends and steps out to the opposite side, alternating with the left leg in a stepping motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.11359,
         "Right Upper Leg In-Out": 0.04199,
@@ -157,7 +157,7 @@
         "raw_value": 0.20209,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand remains relaxed and open, dangling naturally from the swinging forearm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.19254,
         "Left Thumb Spread": -0.26278,
@@ -189,7 +189,7 @@
         "raw_value": 0.21154,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays loose and open, following the arc of the right arm's swing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.10039,
         "Right Thumb Spread": -0.26603,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

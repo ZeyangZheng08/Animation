@@ -14,7 +14,7 @@
   "duration": 0.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a flying bicycle kick, rotating its body in the air while swinging both legs in a circular motion.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.0537,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates continuously around its vertical axis as it moves through the air.",
       "mean_pose": {
         "Spine Front-Back": -0.50259,
         "Spine Left-Right": -0.00159,
@@ -57,7 +57,7 @@
         "raw_value": 0.04917,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays aligned with the spine and turns along with the torso rotation.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.03219,
         "Neck Tilt Left-Right": -0.00048,
@@ -75,7 +75,7 @@
         "raw_value": 0.04174,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm remains bent at the elbow and held close to the side of the chest throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.00044,
         "Left Shoulder Front-Back": -3e-05,
@@ -96,7 +96,7 @@
         "raw_value": 0.03131,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is also bent at the elbow and held near the chest, mirroring the position of the left arm.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.00043,
         "Right Shoulder Front-Back": -2e-05,
@@ -117,7 +117,7 @@
         "raw_value": 0.16637,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg swings up and over the top of the arc during the rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.77172,
         "Left Upper Leg In-Out": -0.00444,
@@ -137,7 +137,7 @@
         "raw_value": 0.13546,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg sweeps across the bottom of the arc, completing the circular kicking motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.76644,
         "Right Upper Leg In-Out": -0.00182,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a loose fist shape.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.74895,
         "Left Thumb Spread": -0.20432,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a loose fist shape.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.7114,
         "Right Thumb Spread": -0.36646,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:09Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

@@ -14,7 +14,7 @@
   "duration": 6.667,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward while repeatedly raising its left arm to swat at the air.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06841,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans slightly forward in a walking posture, bobbing gently with each step.",
       "mean_pose": {
         "Spine Front-Back": -0.09841,
         "Spine Left-Right": -0.00635,
@@ -57,7 +57,7 @@
         "raw_value": 0.35139,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts upward and turns slightly to the left to track the movement of the raised hand.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.12057,
         "Neck Tilt Left-Right": -0.20771,
@@ -75,7 +75,7 @@
         "raw_value": 0.22186,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Lifts high above the head with the elbow bent, performing an active swatting motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.53574,
         "Left Shoulder Front-Back": 0.43576,
@@ -96,7 +96,7 @@
         "raw_value": 0.28652,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely by the side, swinging slightly backward and forward in opposition to the legs.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.12739,
         "Right Shoulder Front-Back": 0.79701,
@@ -117,7 +117,7 @@
         "raw_value": 0.13915,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Strides forward with a bent knee, alternating between the ground and mid-air to propel the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.30053,
         "Left Upper Leg In-Out": 0.22977,
@@ -137,7 +137,7 @@
         "raw_value": 0.15903,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Follows behind in a standard walking gait, extending back before bending to swing forward.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.30451,
         "Right Upper Leg In-Out": -0.05026,
@@ -157,7 +157,7 @@
         "raw_value": 0.23437,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens wide with fingers spread apart as it moves through the swatting arc.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.29442,
         "Left Thumb Spread": -0.15465,
@@ -189,7 +189,7 @@
         "raw_value": 0.29839,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains relaxed and open, hanging naturally near the hip throughout the walk.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.87454,
         "Right Thumb Spread": -0.40735,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:28:16Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

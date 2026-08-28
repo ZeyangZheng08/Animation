@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static, low crouching stance with its body angled forward and arms held out for balance.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains in a fixed, forward-leaning posture, bent at the waist to lower the center of gravity.",
       "mean_pose": {
         "Spine Front-Back": -0.25388,
         "Spine Left-Right": -0.03887,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head is held steady, tilted slightly downward and oriented straight ahead.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.21912,
         "Neck Tilt Left-Right": -0.27957,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is extended outward and slightly back from the body, with the elbow gently bent.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.33488,
         "Left Shoulder Front-Back": -0.04418,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches forward and down toward the floor, held rigid with a slight bend in the elbow.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.78133,
         "Right Shoulder Front-Back": -0.09914,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is planted on the ground with the knee deeply bent, supporting the rear of the crouch.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.91672,
         "Left Upper Leg In-Out": 0.80471,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is positioned forward with the knee flexed, bearing weight in the front of the stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.58915,
         "Right Upper Leg In-Out": 0.6747,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand hangs open and relaxed near the side of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.06423,
         "Left Thumb Spread": -0.25926,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is open with fingers extended, pointing down toward the ground.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.37662,
         "Right Thumb Spread": -0.62518,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:17:34Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

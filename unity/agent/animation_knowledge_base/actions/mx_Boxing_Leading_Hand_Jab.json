@@ -14,7 +14,7 @@
   "duration": 1.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a leading hand jab, punching forward with the right arm and returning to a guard stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06096,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains in a slightly crouched boxing stance, rotating subtly with the punch and settling back into alignment.",
       "mean_pose": {
         "Spine Front-Back": -0.15637,
         "Spine Left-Right": 0.00128,
@@ -57,7 +57,7 @@
         "raw_value": 0.12406,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward, tracking the direction of the jab.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.16941,
         "Neck Tilt Left-Right": -0.15552,
@@ -75,7 +75,7 @@
         "raw_value": 0.25134,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is held bent at the elbow with the fist raised near the chest as a guard throughout the motion.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.36404,
         "Left Shoulder Front-Back": 0.42533,
@@ -96,7 +96,7 @@
         "raw_value": 0.09983,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm extends straight out from the shoulder to deliver a jab before retracting back to the starting position.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.05997,
         "Right Shoulder Front-Back": -0.94279,
@@ -117,7 +117,7 @@
         "raw_value": 0.11432,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is planted firmly on the ground, serving as the stable front pivot for the stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.04752,
         "Left Upper Leg In-Out": 0.42866,
@@ -137,7 +137,7 @@
         "raw_value": 0.13535,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is positioned behind and bent, providing support and balance during the punch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.42132,
         "Right Upper Leg In-Out": 0.46173,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held in a tight fist, maintaining a defensive guard position near the chin.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.932,
         "Left Thumb Spread": -0.66451,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand forms a fist that drives forward to execute the jab and then pulls back.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.92145,
         "Right Thumb Spread": -0.54501,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:26Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

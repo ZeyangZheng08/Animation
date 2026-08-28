@@ -14,7 +14,7 @@
   "duration": 21.067,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure steps back into a low crouch and then rises to stand upright, holding their hands together in front of them.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07292,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bends forward as the figure drops into a deep squat, then straightens vertically as they rise back to a standing position.",
       "mean_pose": {
         "Spine Front-Back": -0.12619,
         "Spine Left-Right": 0.00081,
@@ -57,7 +57,7 @@
         "raw_value": 0.30317,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts down to look at the hands during the crouch and lifts upward to face forward when standing.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.12116,
         "Neck Tilt Left-Right": -0.03851,
@@ -75,7 +75,7 @@
         "raw_value": 0.27069,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow with the forearm held horizontally across the body, keeping the hand positioned near the centerline throughout the movement.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.40654,
         "Left Shoulder Front-Back": -0.36912,
@@ -96,7 +96,7 @@
         "raw_value": 0.27748,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow with the forearm held horizontally, bringing the hand together with the left hand in front of the chest.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.32143,
         "Right Shoulder Front-Back": -0.43446,
@@ -117,7 +117,7 @@
         "raw_value": 0.20854,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends deeply at the knee and hip to lower the body into a squat, then extends to straighten the leg for the final standing pose.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.00867,
         "Left Upper Leg In-Out": 0.20038,
@@ -137,7 +137,7 @@
         "raw_value": 0.2141,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left by bending fully to support the crouch and extending completely to stand tall.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.02476,
         "Right Upper Leg In-Out": 0.13353,
@@ -157,7 +157,7 @@
         "raw_value": 0.02113,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held up in front of the body with fingers curled, meeting the other hand in a clasped position.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.12557,
         "Left Thumb Spread": -0.48465,
@@ -189,7 +189,7 @@
         "raw_value": 0.45236,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is held up in front of the body with fingers curled, claspng the left hand as the figure moves from the crouch to standing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.41519,
         "Right Thumb Spread": -0.82763,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:37Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

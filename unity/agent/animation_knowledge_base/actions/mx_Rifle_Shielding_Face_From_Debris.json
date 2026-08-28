@@ -14,7 +14,7 @@
   "duration": 4.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward and then drops into a low crouch, raising their left arm to shield their face while holding a rifle in their right hand.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13592,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward as it transitions from walking to a deep crouch.",
       "mean_pose": {
         "Spine Front-Back": -0.45563,
         "Spine Left-Right": -0.14868,
@@ -57,7 +57,7 @@
         "raw_value": 0.19622,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and tucks slightly toward the chest during the descent into the crouch.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.13918,
         "Neck Tilt Left-Right": -0.0136,
@@ -75,7 +75,7 @@
         "raw_value": 0.40155,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raises upward and across the body so the forearm covers the upper face.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.08942,
         "Left Shoulder Front-Back": -1.27587,
@@ -96,7 +96,7 @@
         "raw_value": 0.16538,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds the weapon steady at waist level with the elbow bent.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.05192,
         "Right Shoulder Front-Back": -1.22584,
@@ -117,7 +117,7 @@
         "raw_value": 0.3205,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps forward before bending deeply to lower the body into a squat.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.38258,
         "Left Upper Leg In-Out": 0.55559,
@@ -137,7 +137,7 @@
         "raw_value": 0.30833,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bends at the knee and lowers until the shin rests on the floor.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.06875,
         "Right Upper Leg In-Out": 0.07326,
@@ -157,7 +157,7 @@
         "raw_value": 0.58961,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Forms a flat palm held vertically against the forehead.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.72166,
         "Left Thumb Spread": -0.03089,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Grips the handle of the weapon firmly at the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.60048,
         "Right Thumb Spread": -1.66355,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:35Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

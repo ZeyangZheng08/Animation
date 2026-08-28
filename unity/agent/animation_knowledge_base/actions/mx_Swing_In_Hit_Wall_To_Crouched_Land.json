@@ -14,7 +14,7 @@
   "duration": 3.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure swings its arms overhead, loses balance, falls forward, and lands in a crouch.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.13389,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Starts upright, leans back slightly during the swing, then pitches sharply forward as it falls to end up bent over low to the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.35227,
         "Spine Left-Right": 0.08518,
@@ -57,7 +57,7 @@
         "raw_value": 0.19575,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilted back while looking up at the hands, then drops down quickly with the fall to face the floor in the final crouch.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.11353,
         "Neck Tilt Left-Right": -0.15774,
@@ -75,7 +75,7 @@
         "raw_value": 0.51273,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raised high above the head with a clenched fist, then drops forward and downward to reach for the ground.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.38535,
         "Left Shoulder Front-Back": -1.44563,
@@ -96,7 +96,7 @@
         "raw_value": 0.53066,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Raised high alongside the left arm, then extends forward and down towards the floor as the body falls.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.00976,
         "Right Shoulder Front-Back": -0.52512,
@@ -117,7 +117,7 @@
         "raw_value": 0.33023,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bent at the knee in mid-air, extending backward before landing to support the crouched position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.51677,
         "Left Upper Leg In-Out": 0.52377,
@@ -137,7 +137,7 @@
         "raw_value": 0.37864,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Bending deeply to absorb the impact of the fall, ending in a low crouch under the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.70315,
         "Right Upper Leg In-Out": 0.48526,
@@ -157,7 +157,7 @@
         "raw_value": 0.62687,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenched in a fist high above the head, opening slightly as it reaches down toward the floor.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.02103,
         "Left Thumb Spread": 0.23183,
@@ -189,7 +189,7 @@
         "raw_value": 0.61232,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenched high near the left hand, moving down and forward to hover just above the ground.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.55337,
         "Right Thumb Spread": 0.49724,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:49:49Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

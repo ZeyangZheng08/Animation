@@ -14,7 +14,7 @@
   "duration": 2.8,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a front flip, launching into the air to rotate forward before landing and immediately transitioning into a high kick.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09426,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso arches backward at the start, rotates through an inverted position during the aerial flip, and then extends forward upon landing to prepare for the kick.",
       "mean_pose": {
         "Spine Front-Back": -0.5299,
         "Spine Left-Right": 0.07457,
@@ -57,7 +57,7 @@
         "raw_value": 0.25304,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts back initially, tucks forward as the body rotates upside down in mid-air, and lifts up again as the figure lands and balances on one leg.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.20011,
         "Neck Tilt Left-Right": -0.01751,
@@ -75,7 +75,7 @@
         "raw_value": 0.33421,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts raised near the face, swings outward and downward during the rotation of the flip, and extends out to the side to maintain balance after landing.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.61257,
         "Left Shoulder Front-Back": 0.47847,
@@ -96,7 +96,7 @@
         "raw_value": 0.34582,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm begins bent near the chest, sweeps upward and around during the flip, and moves down toward the hip area upon completion of the landing.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.88801,
         "Right Shoulder Front-Back": -0.44186,
@@ -117,7 +117,7 @@
         "raw_value": 0.30694,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is extended in the air during the flip, plants firmly on the ground to absorb the impact of the landing, and remains straight as the support leg for the kick.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.52337,
         "Left Upper Leg In-Out": 0.49466,
@@ -137,7 +137,7 @@
         "raw_value": 0.36299,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the rotation of the flip, tucks slightly during the airborne phase, and swings up forcefully to execute a high kick while the figure is balanced on the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.25572,
         "Right Upper Leg In-Out": 0.47716,
@@ -157,7 +157,7 @@
         "raw_value": 0.27047,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held close to the head at the beginning, opens outward during the flip, and remains open and extended away from the body after landing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.01533,
         "Left Thumb Spread": 0.01395,
@@ -189,7 +189,7 @@
         "raw_value": 0.13433,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is positioned near the chin at the start, moves through the air during the flip, and stays relaxed and low near the waist during the final kick pose.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.17119,
         "Right Thumb Spread": -0.23725,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:37:47Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

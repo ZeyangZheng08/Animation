@@ -14,7 +14,7 @@
   "duration": 4.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a dynamic spellcasting sequence, starting with an extended reach, transitioning into a wide crouched stance with crossed arms, and finishing in a balanced standing pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.06145,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso begins upright and leaning slightly forward, drops significantly into a deep crouch at the midpoint, and returns to an upright, slightly bent position at the end.",
       "mean_pose": {
         "Spine Front-Back": -0.31806,
         "Spine Left-Right": 0.01746,
@@ -57,7 +57,7 @@
         "raw_value": 0.37905,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward throughout the sequence, dipping further during the mid-clip crouch before rising slightly but maintaining a bowed posture at the conclusion.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09861,
         "Neck Tilt Left-Right": 0.02185,
@@ -75,7 +75,7 @@
         "raw_value": 0.33105,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm starts extended outward to the side, swings across the body to cross over the right arm in the middle, and ends bent at the elbow with the hand resting near the waist.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.15555,
         "Left Shoulder Front-Back": -0.54173,
@@ -96,7 +96,7 @@
         "raw_value": 0.34149,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm begins bent with the hand held low near the hip, lifts up to cross under the left arm during the crouch, and finishes extended downwards and outwards from the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.5265,
         "Right Shoulder Front-Back": -0.83888,
@@ -117,7 +117,7 @@
         "raw_value": 0.16586,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg transitions from a bent, supporting position to being planted firmly on the ground in a wide lunge, ending in a stable, slightly bent stance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.10096,
         "Left Upper Leg In-Out": 0.46347,
@@ -137,7 +137,7 @@
         "raw_value": 0.17465,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg moves from a bent position behind the body to extending forward into a wide lunge, and finally settles into a grounded, slightly bent standing position.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.11672,
         "Right Upper Leg In-Out": 0.52433,
@@ -157,7 +157,7 @@
         "raw_value": 0.17367,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand extends with fingers spread, brings its palm inward to press against the back of the right hand, and then retracts to hover near the lower abdomen.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.2388,
         "Left Thumb Spread": -0.28327,
@@ -189,7 +189,7 @@
         "raw_value": 0.22579,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand starts in a loose fist near the hip, opens to meet the left hand for a crossing gesture, and extends outward and down with fingers relaxed.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.15811,
         "Right Thumb Spread": -0.21363,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:10:23Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

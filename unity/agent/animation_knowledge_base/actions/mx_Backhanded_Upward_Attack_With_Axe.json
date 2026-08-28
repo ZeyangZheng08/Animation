@@ -14,7 +14,7 @@
   "duration": 3.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure executes a wide, backhanded upward swing with the right arm while leaning and twisting the torso.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17308,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward and to the left in the first pose, rotates and leans further into the swing in the middle, then returns to an upright stance.",
       "mean_pose": {
         "Spine Front-Back": -0.2803,
         "Spine Left-Right": 0.02318,
@@ -57,7 +57,7 @@
         "raw_value": 0.27416,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down and away from the swinging arm during the attack, then lifts up to face forward as the motion concludes.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.17253,
         "Neck Tilt Left-Right": 0.12854,
@@ -75,7 +75,7 @@
         "raw_value": 0.26744,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends outward to the side for balance during the swing, then lowers down toward the hip at the end of the clip.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.35654,
         "Left Shoulder Front-Back": -0.05122,
@@ -96,7 +96,7 @@
         "raw_value": 0.38444,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings in a large arc from a low position on the right side up and across the body to a high finish on the left.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.21708,
         "Right Shoulder Front-Back": -0.58698,
@@ -117,7 +117,7 @@
         "raw_value": 0.23368,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the knee throughout the sequence, serving as the planted base for the rotation.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.00601,
         "Left Upper Leg In-Out": 0.38693,
@@ -137,7 +137,7 @@
         "raw_value": 0.21187,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays relatively straight, shifting its weight to support the body's twist and final stance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.14068,
         "Right Upper Leg In-Out": 0.33335,
@@ -157,7 +157,7 @@
         "raw_value": 0.34906,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens and extends outward to counterbalance the momentum of the swing before returning to a relaxed position.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.21466,
         "Left Thumb Spread": -0.18754,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady, open-palm shape as it drives the backhanded arc of the attack.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.33667,
         "Right Thumb Spread": -0.67535,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:32:19Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

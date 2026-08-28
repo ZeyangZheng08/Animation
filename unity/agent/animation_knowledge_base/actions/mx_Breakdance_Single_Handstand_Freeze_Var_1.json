@@ -14,7 +14,7 @@
   "duration": 4.133,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a breakdance move, kicking up from a crouch into an inverted one-handed handstand freeze.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.12329,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso rotates and tilts forward to invert the body, then holds straight and vertical while balancing on one arm.",
       "mean_pose": {
         "Spine Front-Back": -0.44469,
         "Spine Left-Right": -0.09753,
@@ -57,7 +57,7 @@
         "raw_value": 0.28647,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head drops low with the torso during the initial kick-up and remains tucked near the supporting shoulder in the final pose.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.02229,
         "Neck Tilt Left-Right": -0.00468,
@@ -75,7 +75,7 @@
         "raw_value": 0.47,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends down to press against the floor as the primary support, keeping the body balanced in the freeze.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.79996,
         "Left Shoulder Front-Back": -0.87672,
@@ -96,7 +96,7 @@
         "raw_value": 0.41824,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches upward and outward for balance, ending with the hand held high above the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.3377,
         "Right Shoulder Front-Back": -0.86844,
@@ -117,7 +117,7 @@
         "raw_value": 0.25837,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg kicks upward to initiate the inversion and stays extended high in the air.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.10739,
         "Left Upper Leg In-Out": 0.09488,
@@ -137,7 +137,7 @@
         "raw_value": 0.31652,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg follows the momentum of the kick, extending upward to complete the inverted line of the body.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.07327,
         "Right Upper Leg In-Out": 0.21687,
@@ -157,7 +157,7 @@
         "raw_value": 0.21179,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand presses flat onto the ground to bear the full weight of the body.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.25328,
         "Left Thumb Spread": -0.36282,
@@ -189,7 +189,7 @@
         "raw_value": 0.33013,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is raised high with fingers open, holding a static pose for stability.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.03101,
         "Right Thumb Spread": 0.08142,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

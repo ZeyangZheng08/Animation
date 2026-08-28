@@ -14,7 +14,7 @@
   "duration": 0.567,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a soccer kick with their left leg, swinging it forward while balancing on the right leg.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.028,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans slightly forward during the swing of the kicking leg and then returns to an upright position as the leg retracts.",
       "mean_pose": {
         "Spine Front-Back": -0.36015,
         "Spine Left-Right": -0.05931,
@@ -57,7 +57,7 @@
         "raw_value": 0.04171,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts downward, keeping the gaze fixed on the feet throughout the kicking motion.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.08716,
         "Neck Tilt Left-Right": 0.00532,
@@ -75,7 +75,7 @@
         "raw_value": 0.031,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings backward from the hip to counterbalance the forward momentum of the kicking leg.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.86543,
         "Left Shoulder Front-Back": 0.56654,
@@ -96,7 +96,7 @@
         "raw_value": 0.02856,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings forward across the body in opposition to the left arm to maintain balance.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.72321,
         "Right Shoulder Front-Back": 0.49779,
@@ -117,7 +117,7 @@
         "raw_value": 0.143,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts from the ground, bends at the knee, and swings forward in an arc to execute the kick before returning to a standing position.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.1643,
         "Left Upper Leg In-Out": 0.04479,
@@ -137,7 +137,7 @@
         "raw_value": 0.05971,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg remains planted on the ground as the primary support, bending slightly at the knee to absorb the shift in weight.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.19439,
         "Right Upper Leg In-Out": 0.06824,
@@ -157,7 +157,7 @@
         "raw_value": 0.05031,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays relaxed and open, moving passively with the swing of the left arm.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.10348,
         "Left Thumb Spread": 0.12445,
@@ -189,7 +189,7 @@
         "raw_value": 0.04881,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand remains loose and open, following the forward swing of the right arm.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.38208,
         "Right Thumb Spread": 0.48799,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:15:46Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

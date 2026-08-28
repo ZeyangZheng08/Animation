@@ -14,7 +14,7 @@
   "duration": 1.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, crouched walk to the right while holding both hands together in front of their body.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09868,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a deep crouch and shifts its weight side-to-side with each step.",
       "mean_pose": {
         "Spine Front-Back": -0.43706,
         "Spine Left-Right": -0.02489,
@@ -57,7 +57,7 @@
         "raw_value": 0.02235,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Stays tilted downward, looking toward the ground as it moves.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.24508,
         "Neck Tilt Left-Right": -0.15217,
@@ -75,7 +75,7 @@
         "raw_value": 0.05407,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains bent at the elbow, holding the hand steady in front of the lower torso.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.46001,
         "Left Shoulder Front-Back": -1.19013,
@@ -96,7 +96,7 @@
         "raw_value": 0.02789,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Holds a fixed bent position, keeping the hand clasped near the left.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.98669,
         "Right Shoulder Front-Back": -2.60477,
@@ -117,7 +117,7 @@
         "raw_value": 0.18572,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps out and bends to drive the movement, then straightens to push off the ground.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.19305,
         "Left Upper Leg In-Out": 0.16987,
@@ -137,7 +137,7 @@
         "raw_value": 0.18679,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Follows in an alternating stride, bending at the knee to lift the foot during the walk.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.04903,
         "Right Upper Leg In-Out": 0.07381,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Clenches into a fist and remains held close to the right hand.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.15206,
         "Left Thumb Spread": -0.37832,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Maintains a clenched fist shape, staying clasped with the left hand throughout the motion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.42402,
         "Right Thumb Spread": -0.05539,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:14:30Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

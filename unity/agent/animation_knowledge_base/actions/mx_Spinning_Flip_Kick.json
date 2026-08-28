@@ -14,7 +14,7 @@
   "duration": 3.7,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a spinning flip kick, launching into an inverted aerial rotation before landing on the ground.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.17621,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward to initiate the jump, rotates fully upside down during the mid-air spin, and twists as it lands in a crouch.",
       "mean_pose": {
         "Spine Front-Back": -0.13596,
         "Spine Left-Right": 0.06426,
@@ -57,7 +57,7 @@
         "raw_value": 0.2813,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts down slightly at the start, tumbles with the body's inversion during the flip, and drops low toward the floor upon landing.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.08969,
         "Neck Tilt Left-Right": -0.05674,
@@ -75,7 +75,7 @@
         "raw_value": 0.55858,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings down and back from a ready position to help balance the airborne rotation, then extends downward to brace against the floor on impact.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.29507,
         "Left Shoulder Front-Back": -1.01582,
@@ -96,7 +96,7 @@
         "raw_value": 0.52473,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Drops to the side for momentum during the flip and bends inward near the chest as the figure settles onto the ground.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.27384,
         "Right Shoulder Front-Back": -0.48981,
@@ -117,7 +117,7 @@
         "raw_value": 0.37361,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Drives upward to launch the body, kicks out high while inverted, and bends sharply to absorb the shock of the landing.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.11399,
         "Left Upper Leg In-Out": 0.31587,
@@ -137,7 +137,7 @@
         "raw_value": 0.25655,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Extends high through the air to complete the flip kick motion, then folds beneath the body to support the final seated pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.21466,
         "Right Upper Leg In-Out": 0.06183,
@@ -157,7 +157,7 @@
         "raw_value": 0.24676,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves outward during the ascent, opens wide in the air, and presses flat against the floor to break the fall.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.33534,
         "Left Thumb Spread": -0.25043,
@@ -189,7 +189,7 @@
         "raw_value": 0.2974,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely by the side initially, curls slightly during the rotation, and stays tucked close to the torso after landing.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.6172,
         "Right Thumb Spread": -0.61718,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:24:17Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

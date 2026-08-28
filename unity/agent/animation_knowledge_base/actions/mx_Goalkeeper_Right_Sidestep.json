@@ -14,7 +14,7 @@
   "duration": 0.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, athletic sidestep to the right while maintaining a wide, balanced stance.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.03785,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Leans forward into a deep crouch and shifts laterally to the right, keeping the chest angled toward the direction of movement.",
       "mean_pose": {
         "Spine Front-Back": -0.25314,
         "Spine Left-Right": 0.01785,
@@ -57,7 +57,7 @@
         "raw_value": 0.05363,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Tilts downward to look at the ground and tracks the body's shift to the right.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.11284,
         "Neck Tilt Left-Right": -0.05051,
@@ -75,7 +75,7 @@
         "raw_value": 0.05281,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays extended out to the side with the elbow bent, moving outward for balance as the body steps away.",
       "mean_pose": {
         "Left Shoulder Down-Up": -1.05967,
         "Left Shoulder Front-Back": 0.06721,
@@ -96,7 +96,7 @@
         "raw_value": 0.06057,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains extended to the side with a bent elbow, mirroring the left arm to maintain stability during the step.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.04751,
         "Right Shoulder Front-Back": -0.21331,
@@ -117,7 +117,7 @@
         "raw_value": 0.18977,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Planted firmly on the ground with a bent knee, serving as the pivot point for the lateral movement.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.28029,
         "Left Upper Leg In-Out": 0.56944,
@@ -137,7 +137,7 @@
         "raw_value": 0.15498,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Steps out wide to the right in a low lunge position, bending the knee to absorb the motion.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.45989,
         "Right Upper Leg In-Out": 0.13566,
@@ -157,7 +157,7 @@
         "raw_value": 0.13062,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held open and relaxed at the end of the extended arm, maintaining a steady position relative to the shoulder.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.65388,
         "Left Thumb Spread": 0.07655,
@@ -189,7 +189,7 @@
         "raw_value": 0.13591,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Held open and relaxed at the end of the extended arm, moving with the shoulder to keep the upper body level.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.24113,
         "Right Thumb Spread": 0.34325,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:57Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

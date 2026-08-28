@@ -14,7 +14,7 @@
   "duration": 1.733,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs an energetic, rhythmic dance, bouncing on their feet while shaking their body and gesturing with both hands.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.07319,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso bounces up and down with a slight forward lean, twisting side to side in a loose, rhythmic manner.",
       "mean_pose": {
         "Spine Front-Back": -0.2839,
         "Spine Left-Right": -0.24246,
@@ -57,7 +57,7 @@
         "raw_value": 0.13236,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts and nods along with the bounce of the body, turning slightly from side to side.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.09972,
         "Neck Tilt Left-Right": -0.00168,
@@ -75,7 +75,7 @@
         "raw_value": 0.24425,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm bends at the elbow, swinging loosely back and forth in front of the body as part of the gesture.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.47187,
         "Left Shoulder Front-Back": -0.73506,
@@ -96,7 +96,7 @@
         "raw_value": 0.22633,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, bending at the elbow and moving rhythmically in sync with the body's shake.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.3086,
         "Right Shoulder Front-Back": -0.27816,
@@ -117,7 +117,7 @@
         "raw_value": 0.10642,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg remains relatively planted but bends and straightens at the knee to absorb the vertical bounce.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.02757,
         "Left Upper Leg In-Out": -0.00708,
@@ -137,7 +137,7 @@
         "raw_value": 0.13115,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg mirrors the left, flexing at the knee to support the bouncing motion of the hips.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.04116,
         "Right Upper Leg In-Out": 0.5188,
@@ -157,7 +157,7 @@
         "raw_value": 0.42219,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is held open and relaxed, waving gently in time with the arm's swing.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.85346,
         "Left Thumb Spread": -0.47636,
@@ -189,7 +189,7 @@
         "raw_value": 0.48123,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is also open and relaxed, mirroring the gestural movement of the left hand.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.80909,
         "Right Thumb Spread": -0.40445,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:08:48Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

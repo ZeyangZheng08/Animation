@@ -14,7 +14,7 @@
   "duration": 2.833,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure bends forward from a standing position, plants their hands on the floor to invert their body, and kicks their legs up into a handstand.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.21797,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward from an upright stance, tilting downward until it is inverted with the chest facing toward the ground.",
       "mean_pose": {
         "Spine Front-Back": -0.92286,
         "Spine Left-Right": 0.11604,
@@ -57,7 +57,7 @@
         "raw_value": 0.19235,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head follows the forward lean of the body, moving from a neutral upright position down to a fully inverted orientation pointing at the floor.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.12819,
         "Neck Tilt Left-Right": -0.05347,
@@ -75,7 +75,7 @@
         "raw_value": 0.30619,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends downward and outward to plant its hand on the ground, then straightens completely to support the weight of the inverted body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.28333,
         "Left Shoulder Front-Back": -0.81301,
@@ -96,7 +96,7 @@
         "raw_value": 0.40106,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches down alongside the left to touch the floor, providing a second point of contact to stabilize the handstand.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.59879,
         "Right Shoulder Front-Back": -0.82492,
@@ -117,7 +117,7 @@
         "raw_value": 0.28149,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lifts off the ground as the body inverts, extending upward and slightly outward to maintain balance in the air.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.17573,
         "Left Upper Leg In-Out": 0.41042,
@@ -137,7 +137,7 @@
         "raw_value": 0.25169,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg rises with the rest of the lower body, pointing upward and away from the supporting arms to complete the vertical handstand pose.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.06499,
         "Right Upper Leg In-Out": 0.34331,
@@ -157,7 +157,7 @@
         "raw_value": 0.22094,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a relaxed position at the side down to the floor, pressing flat against the ground to bear the body's weight.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.43818,
         "Left Thumb Spread": 0.05836,
@@ -189,7 +189,7 @@
         "raw_value": 0.37384,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand travels down to the floor next to the left, flattening out to create a stable base for the inversion.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.47638,
         "Right Thumb Spread": 0.35017,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:33:31Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

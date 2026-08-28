@@ -14,7 +14,7 @@
   "duration": 10.6,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure rises from a low, bent-over position on the floor to stand upright and walk forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.19729,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso transitions from being heavily flexed forward near the ground to an upright, vertical stance.",
       "mean_pose": {
         "Spine Front-Back": -0.51895,
         "Spine Left-Right": 0.04765,
@@ -57,7 +57,7 @@
         "raw_value": 0.20903,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head lifts from a downward position tucked between the shoulders to facing straight ahead.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.09279,
         "Neck Tilt Left-Right": -0.00552,
@@ -75,7 +75,7 @@
         "raw_value": 0.52067,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm swings upward from touching the floor to hanging naturally at the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.47991,
         "Left Shoulder Front-Back": -0.93739,
@@ -96,7 +96,7 @@
         "raw_value": 0.46787,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm swings upward from reaching down to hang relaxed at the side of the body.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.46428,
         "Right Shoulder Front-Back": -0.82051,
@@ -117,7 +117,7 @@
         "raw_value": 0.33476,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg extends from a bent, crouched position to a straight, weight-bearing posture.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.11556,
         "Left Upper Leg In-Out": 0.06974,
@@ -137,7 +137,7 @@
         "raw_value": 0.39097,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg extends from a bent, crouched position to a straight, weight-bearing posture.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.20522,
         "Right Upper Leg In-Out": 0.06166,
@@ -157,7 +157,7 @@
         "raw_value": 0.35542,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves from a flat position on the floor to a relaxed state by the hip.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.68635,
         "Left Thumb Spread": -0.35023,
@@ -189,7 +189,7 @@
         "raw_value": 0.35976,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand moves from a flat position on the floor to a relaxed state by the hip.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.17827,
         "Right Thumb Spread": -0.1197,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:20Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

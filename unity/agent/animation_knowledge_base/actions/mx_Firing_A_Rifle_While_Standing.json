@@ -14,7 +14,7 @@
   "duration": 1.167,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in a stable stance, holding a rifle at chest height with both hands while performing a subtle recoil or adjustment motion.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.00257,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and static, facing forward without any noticeable leaning or twisting throughout the clip.",
       "mean_pose": {
         "Spine Front-Back": -0.19759,
         "Spine Left-Right": 0.00063,
@@ -57,7 +57,7 @@
         "raw_value": 0.01359,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays fixed in position, looking straight ahead to maintain aim.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00053,
         "Neck Tilt Left-Right": -0.01336,
@@ -75,7 +75,7 @@
         "raw_value": 0.01919,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm holds a steady, bent pose, supporting the front end of the weapon near the chest level.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.16334,
         "Left Shoulder Front-Back": -0.462,
@@ -96,7 +96,7 @@
         "raw_value": 0.01862,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm maintains a static posture, gripping the rear of the weapon and extending it slightly forward.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.36504,
         "Right Shoulder Front-Back": 0.57873,
@@ -117,7 +117,7 @@
         "raw_value": 0.00803,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg stands firmly planted with a slight bend at the knee to provide balance.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.57378,
         "Left Upper Leg In-Out": 0.33638,
@@ -137,7 +137,7 @@
         "raw_value": 0.00675,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg supports the body weight in a similar stance, keeping the feet shoulder-width apart.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.67579,
         "Right Upper Leg In-Out": 0.10322,
@@ -157,7 +157,7 @@
         "raw_value": 0.10283,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand moves dynamically, shifting its grip slightly as if adjusting the foregrip of the rifle.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -2.10336,
         "Left Thumb Spread": -0.21546,
@@ -189,7 +189,7 @@
         "raw_value": 0.06364,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand makes small, dynamic movements consistent with pulling a trigger or managing recoil.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.54732,
         "Right Thumb Spread": -0.84911,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:13:21Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

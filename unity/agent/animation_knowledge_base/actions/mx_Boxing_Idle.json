@@ -14,7 +14,7 @@
   "duration": 2.2,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure bounces gently on the balls of its feet in a boxing stance, shifting its weight side to side while keeping its fists raised.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01865,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and centered, maintaining a stable posture with no significant rotation or tilting.",
       "mean_pose": {
         "Spine Front-Back": -0.17394,
         "Spine Left-Right": 0.03117,
@@ -57,7 +57,7 @@
         "raw_value": 0.04197,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays level and faces forward, aligned directly above the center of the shoulders.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.1771,
         "Neck Tilt Left-Right": -0.11664,
@@ -75,7 +75,7 @@
         "raw_value": 0.04356,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow and held up high, with the forearm angled inward toward the face.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.54824,
         "Left Shoulder Front-Back": 0.24138,
@@ -96,7 +96,7 @@
         "raw_value": 0.05233,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, bent at the elbow and held up high near the chin.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.16826,
         "Right Shoulder Front-Back": -0.98749,
@@ -117,7 +117,7 @@
         "raw_value": 0.09268,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends slightly at the knee, lifting the heel off the ground to support the bounce.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.03216,
         "Left Upper Leg In-Out": 0.29095,
@@ -137,7 +137,7 @@
         "raw_value": 0.0711,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg also bends at the knee, keeping the foot on the balls of the toes for balance.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.5602,
         "Right Upper Leg In-Out": 0.42842,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static pose as a closed fist in front of the cheek.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.86222,
         "Left Thumb Spread": -0.71649,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a static pose as a closed fist guarding the jaw.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.85857,
         "Right Thumb Spread": -0.70549,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:09:12Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

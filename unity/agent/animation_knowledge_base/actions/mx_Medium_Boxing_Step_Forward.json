@@ -14,7 +14,7 @@
   "duration": 0.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a boxing step forward, moving from a rear stance into a deep lunge while keeping fists raised in a guard position.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.04497,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso leans forward significantly as the body advances into the lunge, maintaining an upright posture relative to the hips.",
       "mean_pose": {
         "Spine Front-Back": -0.30759,
         "Spine Left-Right": -0.05579,
@@ -57,7 +57,7 @@
         "raw_value": 0.05011,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains relatively stable and level, facing forward with slight adjustments to maintain balance during the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.04533,
         "Neck Tilt Left-Right": 0.04021,
@@ -75,7 +75,7 @@
         "raw_value": 0.08759,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm stays bent at the elbow with the fist held up near chest height, acting as a guard that moves forward with the body's momentum.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.55219,
         "Left Shoulder Front-Back": 0.42236,
@@ -96,7 +96,7 @@
         "raw_value": 0.07752,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, staying bent with the fist raised in a guard position close to the face throughout the step.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.12554,
         "Right Shoulder Front-Back": -0.91672,
@@ -117,7 +117,7 @@
         "raw_value": 0.13607,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg drives forward, extending out and bending at the knee to form the front leg of the lunge.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.09844,
         "Left Upper Leg In-Out": 0.38315,
@@ -137,7 +137,7 @@
         "raw_value": 0.19164,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg trails behind, pushing off the ground and extending backward to support the weight during the forward step.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.48152,
         "Right Upper Leg In-Out": 0.57708,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static clenched fist pose, positioned in front of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.61166,
         "Left Thumb Spread": -0.38119,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand holds a static clenched fist pose, positioned near the chin or cheek area.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.4915,
         "Right Thumb Spread": -0.37217,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:18:51Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

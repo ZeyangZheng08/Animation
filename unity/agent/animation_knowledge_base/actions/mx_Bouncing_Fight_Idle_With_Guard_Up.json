@@ -14,7 +14,7 @@
   "duration": 2.967,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure bounces rhythmically in a low, wide stance while keeping both fists raised in a defensive guard.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01205,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains upright and centered, maintaining a stable base for the bouncing motion.",
       "mean_pose": {
         "Spine Front-Back": -0.14115,
         "Spine Left-Right": -0.0704,
@@ -57,7 +57,7 @@
         "raw_value": 0.03441,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head tilts slightly downward, keeping its focus forward throughout the movement.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.10425,
         "Neck Tilt Left-Right": -0.01856,
@@ -75,7 +75,7 @@
         "raw_value": 0.02423,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow with the fist held high near the chest to protect the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.17708,
         "Left Shoulder Front-Back": -0.4262,
@@ -96,7 +96,7 @@
         "raw_value": 0.02127,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm mirrors the left, bent and held up with the fist ready near the face.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.38732,
         "Right Shoulder Front-Back": -1.65845,
@@ -117,7 +117,7 @@
         "raw_value": 0.03031,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg bends and extends repeatedly to drive the vertical bouncing of the body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.24551,
         "Left Upper Leg In-Out": 0.27775,
@@ -137,7 +137,7 @@
         "raw_value": 0.02415,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg works in sync with the left, flexing and straightening to support the bounce.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.15495,
         "Right Upper Leg In-Out": 0.34802,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays clenched into a tight fist.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.70361,
         "Left Thumb Spread": 0.12253,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a closed fist position.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.55849,
         "Right Thumb Spread": 0.566,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:33:01Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

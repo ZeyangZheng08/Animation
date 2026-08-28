@@ -14,7 +14,7 @@
   "duration": 0.033,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure holds a static pose standing on its toes with its back arched deeply backward.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.0,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso is held in a fixed, exaggerated arch, curving significantly backward from the hips to the shoulders.",
       "mean_pose": {
         "Spine Front-Back": 0.01131,
         "Spine Left-Right": -0.02776,
@@ -57,7 +57,7 @@
         "raw_value": 0.0,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head remains still, tilted far back so that the face points toward the sky.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.91364,
         "Neck Tilt Left-Right": -8e-05,
@@ -75,7 +75,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm hangs down at the side of the body, extending straight out slightly away from the hip.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.37057,
         "Left Shoulder Front-Back": 0.4298,
@@ -96,7 +96,7 @@
         "raw_value": 0.0,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm hangs down at the side of the body, mirroring the left arm's position.",
       "mean_pose": {
         "Right Shoulder Down-Up": 0.4437,
         "Right Shoulder Front-Back": 0.75089,
@@ -117,7 +117,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg is extended straight down, balancing the weight entirely on the ball of the foot.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.76685,
         "Left Upper Leg In-Out": 0.05197,
@@ -137,7 +137,7 @@
         "raw_value": 0.0,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg is extended straight down, supporting the body on the ball of the foot.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.3056,
         "Right Upper Leg In-Out": -0.04088,
@@ -157,7 +157,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand stays open and relaxed, hanging loosely near the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.37689,
         "Left Thumb Spread": -0.62523,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand stays open and relaxed, hanging loosely near the thigh.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.329,
         "Right Thumb Spread": -0.28534,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:31Z",
+      "frames": 16,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

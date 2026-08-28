@@ -14,7 +14,7 @@
   "duration": 6.4,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "A figure lying prone on the floor manipulates an object held in front of their chest with both hands.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.09414,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains flat against the ground, maintaining a stable prone position throughout the sequence.",
       "mean_pose": {
         "Spine Front-Back": 0.20315,
         "Spine Left-Right": 0.06453,
@@ -57,7 +57,7 @@
         "raw_value": 0.15025,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays raised and oriented forward, looking down at the hands near the chest.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.73321,
         "Neck Tilt Left-Right": 0.0478,
@@ -75,7 +75,7 @@
         "raw_value": 0.47697,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm is bent at the elbow, holding its hand up in front of the chest to manipulate the object.",
       "mean_pose": {
         "Left Shoulder Down-Up": 0.17995,
         "Left Shoulder Front-Back": -0.88498,
@@ -96,7 +96,7 @@
         "raw_value": 0.32173,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm is bent at the elbow, extending forward to work alongside the left hand.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.2718,
         "Right Shoulder Front-Back": 0.14321,
@@ -117,7 +117,7 @@
         "raw_value": 0.12665,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg lies extended on the floor, slightly bent at the knee.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.60725,
         "Left Upper Leg In-Out": 0.3405,
@@ -137,7 +137,7 @@
         "raw_value": 0.07941,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg lies extended on the floor, positioned parallel to the left leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.70564,
         "Right Upper Leg In-Out": 0.42433,
@@ -157,7 +157,7 @@
         "raw_value": 0.39341,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand is raised in front of the chest, fingers actively engaged in handling the item.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.08621,
         "Left Thumb Spread": -0.53901,
@@ -189,7 +189,7 @@
         "raw_value": 0.17077,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand is raised in front of the chest, coordinating with the left hand to manipulate the object.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.46183,
         "Right Thumb Spread": -1.07663,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:21:04Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

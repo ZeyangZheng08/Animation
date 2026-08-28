@@ -14,7 +14,7 @@
   "duration": 1.933,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure walks forward to the right in a low crouched stance while holding an invisible rifle with both hands.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.02993,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "The torso remains bent forward at the waist to maintain a low profile, leaning into the steps as it moves.",
       "mean_pose": {
         "Spine Front-Back": -0.50212,
         "Spine Left-Right": -0.14308,
@@ -57,7 +57,7 @@
         "raw_value": 0.03553,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "The head stays tucked down and faces forward toward the direction of travel, looking slightly downward.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.06539,
         "Neck Tilt Left-Right": 0.05257,
@@ -75,7 +75,7 @@
         "raw_value": 0.03239,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The left arm extends forward from the shoulder, keeping the elbow bent to hold the front end of the weapon steady.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.61422,
         "Left Shoulder Front-Back": -0.81967,
@@ -96,7 +96,7 @@
         "raw_value": 0.02594,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "The right arm reaches across the body toward the center, bending at the elbow to grip the rear section of the weapon.",
       "mean_pose": {
         "Right Shoulder Down-Up": -1.32644,
         "Right Shoulder Front-Back": -1.2078,
@@ -117,7 +117,7 @@
         "raw_value": 0.12615,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The left leg cycles through a walking gait, stepping forward and pushing back to propel the crouched body.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.02927,
         "Left Upper Leg In-Out": 0.24276,
@@ -137,7 +137,7 @@
         "raw_value": 0.12313,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "The right leg alternates with the left, driving forward to advance the figure while maintaining the deep knee bend.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.18497,
         "Right Upper Leg In-Out": -0.03532,
@@ -157,7 +157,7 @@
         "raw_value": 0.00835,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The left hand holds a static, curled gripping pose positioned in front of the chest.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.46084,
         "Left Thumb Spread": -0.29435,
@@ -189,7 +189,7 @@
         "raw_value": 0.0,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "The right hand maintains a fixed, clenched grip shape near the center of the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -0.93897,
         "Right Thumb Spread": -1.01,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:22:06Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

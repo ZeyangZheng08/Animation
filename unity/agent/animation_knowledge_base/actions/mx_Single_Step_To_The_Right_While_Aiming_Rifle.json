@@ -14,7 +14,7 @@
   "duration": 1.533,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure steps to the right while holding a two-handed aiming pose.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.01315,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Holds a steady, upright posture facing forward with no visible rotation or tilt.",
       "mean_pose": {
         "Spine Front-Back": -0.20676,
         "Spine Left-Right": -0.03957,
@@ -57,7 +57,7 @@
         "raw_value": 0.0121,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Maintains a fixed position facing straight ahead in alignment with the torso.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.00439,
         "Neck Tilt Left-Right": -0.02769,
@@ -75,7 +75,7 @@
         "raw_value": 0.0268,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Stays bent and raised at chest level, holding a static supporting position for the weapon.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.15992,
         "Left Shoulder Front-Back": -0.47668,
@@ -96,7 +96,7 @@
         "raw_value": 0.02068,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Remains extended forward from the shoulder in a constant aiming posture.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.34919,
         "Right Shoulder Front-Back": 0.54401,
@@ -117,7 +117,7 @@
         "raw_value": 0.11649,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts off the ground and swings forward to complete a single step to the side.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.47757,
         "Left Upper Leg In-Out": 0.29133,
@@ -137,7 +137,7 @@
         "raw_value": 0.11342,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Pushes off the ground to initiate the movement before landing as the new support leg.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.65649,
         "Right Upper Leg In-Out": 0.09602,
@@ -157,7 +157,7 @@
         "raw_value": 0.0135,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Keeps a closed grip on the lower part of the weapon throughout the motion.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.88584,
         "Left Thumb Spread": -0.24759,
@@ -189,7 +189,7 @@
         "raw_value": 0.01292,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Holds a static gripping pose on the upper part of the weapon.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.56345,
         "Right Thumb Spread": -0.84349,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:23:32Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

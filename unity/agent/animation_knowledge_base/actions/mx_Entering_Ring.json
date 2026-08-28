@@ -14,7 +14,7 @@
   "duration": 7.3,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure performs a low, sweeping spin while bent deeply forward.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.14493,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Hunched forward in a deep bend and rotates continuously through the turn.",
       "mean_pose": {
         "Spine Front-Back": -0.25338,
         "Spine Left-Right": 0.06228,
@@ -57,7 +57,7 @@
         "raw_value": 0.14368,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Dropped low toward the ground with the face turned down, maintaining its position relative to the torso.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.12344,
         "Neck Tilt Left-Right": 0.01458,
@@ -75,7 +75,7 @@
         "raw_value": 0.25165,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Hangs loosely by the side of the body, swinging slightly outward for balance during the rotation.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.43316,
         "Left Shoulder Front-Back": -0.37248,
@@ -96,7 +96,7 @@
         "raw_value": 0.1768,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Swings across the front of the body, extending forward and then back as part of the rotational momentum.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.31253,
         "Right Shoulder Front-Back": 0.11964,
@@ -117,7 +117,7 @@
         "raw_value": 0.19485,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Acts as the primary pivot leg, bending at the knee to lower the center of gravity and supporting the weight on the ball of the foot.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.15326,
         "Left Upper Leg In-Out": 0.24275,
@@ -137,7 +137,7 @@
         "raw_value": 0.21382,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Lifts off the floor and swings around the body in a wide arc, kicking out to the side before returning.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.05938,
         "Right Upper Leg In-Out": 0.16887,
@@ -157,7 +157,7 @@
         "raw_value": 0.0997,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Remains open and relaxed, trailing near the left thigh throughout the movement.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -0.82435,
         "Left Thumb Spread": 0.28679,
@@ -189,7 +189,7 @@
         "raw_value": 0.02361,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves fluidly with the arm's swing, staying open and extended away from the body.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -2.28231,
         "Right Thumb Spread": -0.39741,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:35:48Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

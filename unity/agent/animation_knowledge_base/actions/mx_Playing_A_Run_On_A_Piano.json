@@ -14,7 +14,7 @@
   "duration": 9.5,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure sits in a crouched position, bobbing their upper body while moving both hands as if playing a fast run on an invisible piano.",
   "channels": {
     "root": {
       "state_label": "static",
@@ -36,7 +36,7 @@
         "raw_value": 0.01188,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Remains static in a low, crouched posture with the hips bent and knees flexed.",
       "mean_pose": {
         "Spine Front-Back": -0.3394,
         "Spine Left-Right": 0.07448,
@@ -57,7 +57,7 @@
         "raw_value": 0.09766,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Bobs slightly up and down, tilting forward to look at the hands.",
       "mean_pose": {
         "Neck Nod Down-Up": -0.2102,
         "Neck Tilt Left-Right": 0.0623,
@@ -75,7 +75,7 @@
         "raw_value": 0.08108,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves rhythmically, extending forward and downward from the shoulder to simulate striking keys.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.34232,
         "Left Shoulder Front-Back": -0.50854,
@@ -96,7 +96,7 @@
         "raw_value": 0.12299,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Mirrors the left arm's motion, reaching forward and down in a synchronized playing gesture.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.26898,
         "Right Shoulder Front-Back": -0.54924,
@@ -117,7 +117,7 @@
         "raw_value": 0.02499,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, bent-knee seated position supporting the crouch.",
       "mean_pose": {
         "Left Upper Leg Front-Back": -0.48154,
         "Left Upper Leg In-Out": 0.10039,
@@ -137,7 +137,7 @@
         "raw_value": 0.01532,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds a static, bent-knee seated position supporting the crouch.",
       "mean_pose": {
         "Right Upper Leg Front-Back": -0.38321,
         "Right Upper Leg In-Out": 0.26456,
@@ -157,7 +157,7 @@
         "raw_value": 0.21188,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves rapidly up and down with fingers extended to mimic pressing piano keys.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.2855,
         "Left Thumb Spread": -0.03384,
@@ -189,7 +189,7 @@
         "raw_value": 0.27102,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Moves rapidly up and down in parallel with the left hand, simulating key presses.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.55009,
         "Right Thumb Spread": 0.0364,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:19:50Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }

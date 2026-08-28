@@ -7,6 +7,13 @@ This directory is **not the project**. It is the slice of it that the semantic p
 from a Windows workstation on 2026-08-27. The Unity project, the runtime service, the git history and
 the 1.4 GB of pose dumps stayed behind, deliberately — see §6.
 
+> **The pass has been run, and the results are home (2026-08-27).** All 2446 records were described by
+> **`qwen3.8-27b`** reading the eight-view frame rings, pulled back to the Windows workstation with the
+> command in §7, and committed in the Unity repository. Validator 2454/2454, all four `check_kb.sh`
+> gates green. The records stay `status: candidate` — their `vlm_proposal` block reads
+> `awaiting_human_accept`, and acceptance is a separate decision. What follows is the record of how
+> the pass was set up and what it must not do, kept for the next one.
+
 ---
 
 ## 0. The job, in one paragraph
@@ -211,19 +218,45 @@ The eight accepted records are your reference for register and length — read a
 ## 7. Getting the results home
 
 The descriptions are written back into `actions/*.json` in place. Only that directory changes, and it
-is **21 MB**, so it goes home on its own:
+is **21 MB**, so it goes home on its own.
+
+**The transfer is a pull from the workstation, never a push from HPC.** Logging in here costs a
+password plus a Duo prompt every time, no key may be installed, and Windows OpenSSH has no connection
+multiplexing — so an `rsync` aimed at `<workstation>:` has nothing to authenticate back with. What
+works is running it from WSL, reusing a ControlMaster the user opens by hand. The WSL `~/.ssh/config`
+already carries `ControlMaster auto`, `ControlPath ~/.ssh/cm/%r@%h-%p` and `ControlPersist 12h` for
+the `hpc` host, so one authentication covers the whole session:
 
 ```bash
-rsync -avz --partial \
-  /project/Driver_in_the_loop/AI_agent/Animation/animation_knowledge_base/actions/ \
-  <workstation>:.../Animation/agent/animation_knowledge_base/actions/
+# in WSL. Answer the password and the Duo push once; every later hop reuses the socket.
+ssh -fN hpc
+
+rsync -az --partial --include='mx_*.json' --exclude='*' \
+  hpc:/project/Driver_in_the_loop/AI_agent/Animation/animation_knowledge_base/actions/ \
+  /mnt/f/Research/AI_agent/Animation/Animation_agent/Project/Animation/agent/animation_knowledge_base/actions/
 ```
+
+The destination is the **Unity repository's** knowledge base, which is also where the eight accepted
+nursing records live (`bvm.json`, `walking.json`, …). Those were never on HPC, so the filter is
+load-bearing rather than a speed optimisation: `--include='mx_*.json' --exclude='*'` makes it
+impossible for the pull to overwrite or delete them.
 
 Frames and schema do not travel back; they never change.
 
-On arrival, from the agent repo: `python validate_motionkb.py` (expects 2454/2454) and
-`./check_kb.sh` for the full four gates. Then the corpus is retrievable by meaning, and the
-descriptions get committed in the Unity repository alongside the assets they describe.
+Verify the arrival before believing it, in this order, from the Unity repository (Windows git — never
+WSL git over `/mnt/f`):
+
+1. `git status` shows **exactly 2446 modified, 0 added, 0 deleted**. Anything else means the filter or
+   the destination path was wrong.
+2. Tally the keys on the changed lines of `git diff -U0`. Only `action_description`,
+   `motion_description`, the `field_origin` lists and the new `vlm_proposal` block may appear. If
+   `state_label`, `motion_magnitude`, `raw_measurement`, `mean_pose`, `mean_body_height` or
+   `mean_body_tilt_deg` shows up on a changed line, the pass wrote where it must not — stop and read §5.
+3. `python validate_motionkb.py` — expects **2454/2454**.
+4. `./check_kb.sh` with `MOTIONKB_DIR` pointed at the Unity knowledge base — all four gates.
+
+Then the corpus is retrievable by meaning, and the descriptions get committed in the Unity repository
+alongside the assets they describe.
 
 ---
 

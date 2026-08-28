@@ -14,7 +14,7 @@
   "duration": 3.267,
   "frame_rate": 30,
   "loop": false,
-  "action_description": null,
+  "action_description": "The figure stands in place, releasing a held object from its waist and lowering both arms to hang naturally at its sides.",
   "channels": {
     "root": {
       "state_label": "dynamic",
@@ -36,7 +36,7 @@
         "raw_value": 0.05007,
         "divisor": 0.2969
       },
-      "motion_description": null,
+      "motion_description": "Stays upright with a slight forward lean that straightens out as the arms lower.",
       "mean_pose": {
         "Spine Front-Back": -0.0779,
         "Spine Left-Right": -0.00662,
@@ -57,7 +57,7 @@
         "raw_value": 0.13097,
         "divisor": 0.4963
       },
-      "motion_description": null,
+      "motion_description": "Remains relatively still, facing forward with only minor adjustments.",
       "mean_pose": {
         "Neck Nod Down-Up": 0.16661,
         "Neck Tilt Left-Right": -0.01202,
@@ -75,7 +75,7 @@
         "raw_value": 0.13767,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Moves from being bent at the waist down to hanging straight at the side of the body.",
       "mean_pose": {
         "Left Shoulder Down-Up": -0.52319,
         "Left Shoulder Front-Back": 0.14315,
@@ -96,7 +96,7 @@
         "raw_value": 0.20652,
         "divisor": 0.6864
       },
-      "motion_description": null,
+      "motion_description": "Extends from a bent position at the waist downward until it hangs loosely by the hip.",
       "mean_pose": {
         "Right Shoulder Down-Up": -0.45718,
         "Right Shoulder Front-Back": -1.00937,
@@ -117,7 +117,7 @@
         "raw_value": 0.07385,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Stays planted on the ground, maintaining a stable stance throughout the motion.",
       "mean_pose": {
         "Left Upper Leg Front-Back": 0.39786,
         "Left Upper Leg In-Out": 0.10183,
@@ -137,7 +137,7 @@
         "raw_value": 0.07176,
         "divisor": 0.4468
       },
-      "motion_description": null,
+      "motion_description": "Holds its position on the floor, supporting the body's weight without shifting.",
       "mean_pose": {
         "Right Upper Leg Front-Back": 0.41144,
         "Right Upper Leg In-Out": 0.05703,
@@ -157,7 +157,7 @@
         "raw_value": 0.13997,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Opens from a closed grip at the front of the waist and drops down to rest near the thigh.",
       "mean_pose": {
         "Left Thumb 1 Stretched": -1.96204,
         "Left Thumb Spread": -0.02963,
@@ -189,7 +189,7 @@
         "raw_value": 0.14829,
         "divisor": 0.7546
       },
-      "motion_description": null,
+      "motion_description": "Releases its hold at the waist and lowers to hang relaxed by the side of the leg.",
       "mean_pose": {
         "Right Thumb 1 Stretched": -1.70848,
         "Right Thumb Spread": 0.08687,
@@ -241,11 +241,36 @@
         "controller_layer",
         "trigger_param"
       ],
-      "semantic_pending": [
+      "vlm_proposed": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "semantic": [
         "action_description",
         "channels.*.motion_description"
       ]
     },
-    "verified_against_screenshots": false
+    "verified_against_screenshots": false,
+    "vlm_proposal": {
+      "model": "qwen3.8-27b",
+      "proposed_at": "2026-08-28T01:44:27Z",
+      "frames": 24,
+      "render_views": [
+        "back",
+        "back_left",
+        "back_right",
+        "front",
+        "front_left",
+        "front_right",
+        "left",
+        "right"
+      ],
+      "consistency_validated": true,
+      "scope": [
+        "action_description",
+        "channels.*.motion_description"
+      ],
+      "status": "awaiting_human_accept"
+    }
   }
 }
