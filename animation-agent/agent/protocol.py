@@ -58,7 +58,15 @@ later as a wrong pose, not as an error.
 # answer "resolved, touched nothing" -- which reads exactly like a pass. A plan would then commit on
 # the strength of a check that never ran. A fatal version mismatch turns that into an error on the
 # first message instead.
-PROTOCOL_VERSION = 4
+# v5 ADDS `apply_root_motion` ON A LAYER, and the bump is not optional for the same reason.
+# A retrieved posture transition is a clip that TRAVELS -- a sit-down steps 0.45 m backwards into the
+# chair -- and the composer has always discarded root motion, which is right for a walk cycle played
+# under a NavMeshAgent and wrong for this. So the layer says which it is. An executor from before v5
+# does not know the field, drops it, discards the root motion, and plays the sit-down on the spot:
+# the feet slide, the hips finish where they started, and the plan reports success about a character
+# who never reached the seat. Silently plausible, which is the one failure mode this protocol
+# refuses to have.
+PROTOCOL_VERSION = 5
 
 
 class T:

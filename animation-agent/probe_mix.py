@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """probe_mix.py — one body part driven by two clips at once, and what the graph actually held.
 
-The plan names `giving_pills` and `walking` on the same legs, so both are asked for there and neither
+The plan names two standing clips on the same legs, so both are asked for there and neither
 can simply win. Winner-take-all threw one of them away; the shares are half each, and this is where
 that stops being an arithmetic claim. It sends the plan down the real path and then asks the engine,
 not the plan, what the mixer ended up holding.
 
 WHO DECIDES THE CONTENTION CHANGED, AND THE ARITHMETIC WITH IT. Under v3 the pair contested the legs
-by themselves -- `giving_pills` labelled them `support`, `walking` labelled them `primary`, and
+by themselves -- one labelled them `support`, the other `primary`, and
 normalising ROLE_PRIORITY gave 0.6 and 0.4. motionkb/v4 deletes `role` (ADR 0022), so a contested
 channel is one the PLAN named twice, and the shares are equal because nothing is left to rank them
 by. What this probe measures is unchanged: whether a fractional weight survives the trip to the
@@ -15,7 +15,7 @@ graph.
 
 THE PRIMITIVE WAS CHECKED FIRST, SEPARATELY. Whether a masked layer interpolates at a fractional weight
 at all is a question about Unity, not about this pipeline, so it was answered on its own before any of
-this was built: `walking` under `nurse_cpr_30` masked to the right arm, sampled at weights 0, 0.5 and 1,
+this was built: a walk under a chest-compression clip masked to the right arm, sampled at 0, 0.5 and 1,
 gave a right elbow 34.21 degrees from one end and 35.01 from the other across a 69.14 degree span — a
 detour of 0.08 degrees off the geodesic, i.e. a genuine midpoint — while the left elbow, outside the
 mask, moved 0.00. What is left for this probe is the part that pipeline can get wrong: does the share
@@ -23,7 +23,7 @@ survive the trip.
 
 IT GOES THROUGH THE TOOL, NOT AROUND IT. probe_sit.py hand-builds its payload and carries a note about
 what that cost — a probe whose payload has drifted from the tool's has stopped being evidence about the
-tool. So this dispatches `plan_motion` itself.
+tool. So this dispatches `unity_execute` itself.
 
 Run with Unity in play mode, and with nothing else serving the runtime channel: this is the server, so
 the auto-started service has to be off (Tools > Animation Agent > Open Terminal On Play).
@@ -31,6 +31,23 @@ the auto-started service has to be off (Tools > Animation Agent > Open Terminal 
 import argparse
 import asyncio
 import sys
+
+
+def _wait_for_unity(coro_timeout, where):
+    """A readable failure when nothing connects, instead of a bare TimeoutError traceback.
+
+    These scripts are the SERVER on the runtime channel, so "no engine" is the ordinary outcome of
+    running one with Unity closed — and a traceback through asyncio.timeouts says nothing about what
+    to do. Two things go wrong here and they need different answers: nobody entered play mode, or
+    something else is already holding the port (a service `terminal.ps1` left running is the usual
+    one), in which case this process never got to listen at all.
+    """
+    raise SystemExit(
+        "no engine connected on %s within the wait.\n"
+        "  * Unity has to be in PLAY mode: this script is the server and the executor dials in.\n"
+        "  * Nothing else may hold the port. `ss -ltn | grep %s` finds a service left running by\n"
+        "    terminal.ps1; stop it, or turn off Tools > Animation Agent > Open Terminal On Play."
+        % (where, where.rsplit(":", 1)[-1]))
 
 from agent import assemble as A
 from agent import gates as G
@@ -41,8 +58,11 @@ from agent.tools import ToolRegistry
 from agent.tools import kb as kb_tools
 from agent.tools import scene as scene_tools
 
-BASE = "giving_pills"
-OVERLAY = "walking"
+# A standing base that works with its hands, and a standing overlay whose legs move: both name the
+# legs, so both are asked for there and neither can have them outright. The eight nursing actions
+# this probe used to name left the knowledge base (agent/nursing_assets/).
+BASE = "mx_Taking_An_Item_And_Examining_It"
+OVERLAY = "mx_Walking_Forward"
 # The body part both halves of the plan are asked for. The legs, because that is the pair this probe
 # was written about: a walk's stride and a hand-over's brace, on one set of legs.
 CONTESTED = ["left_leg", "right_leg"]
@@ -82,7 +102,10 @@ async def main(argv):
 
     async with EngineLink(args.host, args.port) as link:
         print("serving ws://%s:%d — enter play mode in Unity" % (args.host, args.port), flush=True)
-        hello = await link.wait_ready(timeout=args.wait)
+        try:
+            hello = await link.wait_ready(timeout=args.wait)
+        except (asyncio.TimeoutError, TimeoutError):
+            _wait_for_unity(None, "%s:%d" % (args.host, args.port))
 
         registry = kb_tools.register(ToolRegistry(), kb)
         scene_tools.register(registry, link, kb)
@@ -92,10 +115,10 @@ async def main(argv):
         character = next((cid for cid, name in names.items()
                           if name.lower() == args.character.lower()), args.character)
 
-        plan = await registry.dispatch("plan_motion", {
+        plan = await registry.dispatch("unity_execute", {
             "base": args.base, "base_channels": list(args.channels),
             "overlays": [{"action_id": args.overlay, "channels": list(args.channels)}],
-            "character": args.character, "mode": "commit"})
+            "character": args.character})
         if plan.get("success") is False:
             print("the plan was refused: %s" % plan.get("error"))
             return 1
@@ -113,8 +136,8 @@ async def main(argv):
 
         # Give the graph a moment to be built and played before reading weights off it.
         await asyncio.sleep(0.5)
-        # THE GATE DIRECTLY, THROUGH THE SAME PROJECTION THE TOOL USES. `check_motion` raises on any
-        # failed check, and this plan has one that has nothing to do with mixing: `giving_pills`
+        # THE GATE DIRECTLY, THROUGH THE SAME PROJECTION THE TOOL USES. `unity_measure` raises on any
+        # failed check, and this plan has one that has nothing to do with mixing: the base
         # animates both hands against the pill bottle, so standing anywhere else fails
         # `contact_reached` however well the legs are composed. Reading `composed` off that raised
         # result gave an empty list, and the probe reported "the share did not survive the trip" about

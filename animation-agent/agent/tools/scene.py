@@ -6,14 +6,18 @@ them matter to any given motion. Pushing a snapshot would be both useless and un
 a 32k window. So the engine enumerates deterministically over an annotated registry and answers typed
 predicates, and the model narrows to a handful of candidates over a few calls.
 
-TWO QUESTIONS, TWO TOOLS. `scene_search` answers "which thing is that?" and returns identity alone:
-an id, a label, the contact names the motion library spells it by. `scene_query` answers "where does that
-leave her?" and returns the relation: does it exist, is it within reach, does she have to walk, is somebody
-holding it. Nothing else crosses. The four tools this replaced also handed out categories, surface heights,
-carriability, per-hand anchor flags and metres, and every one of those was a fact about the deterministic
-backend rather than about what the model has to decide. Measured on real turns, they were mostly used to
-guess wrong: an invented `category` filtered a room down to nothing, and `carriable` invited the model to
-plan around a capability the executor validates anyway.
+TWO QUESTIONS, ONE TOOL, AND A SCHEMA THAT KEEPS THEM APART. `unity_query` answers "which thing is that?"
+— identity alone: an id, a label, the contact names the motion library spells it by — or "where does that
+leave her?" — the relation: does it exist, is it within reach, does she have to walk, is somebody holding
+it. They were two tools, and the split cost a round trip on every turn that needed both, because finding a
+chair and asking whether she has to walk to it is one question asked twice. They are one tool with a
+`oneOf`: `{query}` searches, `{object_ids}` relates, and asking for both or neither is refused rather than
+resolved, so the merge cannot quietly become a tool that does something in between. The four tools this
+replaced also handed out categories, surface heights, carriability, per-hand anchor flags and metres, and
+every one of those was a fact about the deterministic backend rather than about what the model has to
+decide. Measured on real turns, they were mostly used to guess wrong: an invented `category` filtered a
+room down to nothing, and `carriable` invited the model to plan around a capability the executor
+validates anyway.
 
 WHAT COMES BACK IS SYMBOLIC. Identity and coarse relations. No transforms, no distances, no extents, no
 angles. Exact pose stays engine-side where the IK solver, the geometric gates and the sit/carry logic
@@ -24,29 +28,37 @@ never handles motion numerics, and it is enforced by the shape of the reply rath
 THE UNDERLYING PROTOCOL IS UNCHANGED. `scene.find`, `scene.describe`, `scene.anchors` and `scene.position`
 are still what the engine speaks; they are engine-internal API now, reached through this file and never
 declared to the model. Collapsing the tool surface and rewriting the wire in one change would have put
-`plan_motion`, sitting, navigation and IK all in the blast radius of the same edit.
+`unity_execute`, sitting, navigation and IK all in the blast radius of the same edit.
 
-NOTHING VISIBLE MOVES UNTIL THE PLAN HAS BEEN CHECKED. `plan_motion` compiles the whole thing once --
+NOTHING VISIBLE MOVES UNTIL THE PLAN HAS BEEN CHECKED. `unity_execute` compiles the whole thing once --
 steps, layers, channel windows, generated posture change, IK bindings, contacts, carry -- and then sends
 that same compiled plan twice: once as `mode: "validate"`, which the executor runs on a hidden duplicate
 of the character at fixed timestep, and only on a pass as `mode: "commit"`. The walk is inside that
 fence too: where a walk would put her is PREVIEWED rather than performed, and the motion that follows is
 judged at the projected arrival, so a plan that cannot work does not get as far as walking her across
-the room to find out. The model still sees two modes, `dry_run` and `commit`; `validate` is between this
-file and the engine and costs no model round trip.
+the room to find out.
 
-WHY NOT JUST READ THE GATE AFTERWARDS. That is what `check_motion` does, and it can only ever say what
+THE MODE IS GONE FROM THE MODEL'S SIDE. It used to be a parameter with two values, and a tool whose
+default was one of them: measured, one turn spent an iteration on a dry run and another on the identical
+commit, and another invented `commit: true` and lost a third to the error. So there are two tools instead.
+`unity_execute` plays the motion, checking it out of sight first. `unity_validate` takes the same
+arguments, derives the same plan, projects where a walk would leave her, runs the same hidden check there
+— and stops. Nothing moves and nothing is committed. Which one to call is a decision about intent rather
+than about a flag, and neither can be confused for the other.
+
+WHY NOT JUST READ THE GATE AFTERWARDS. That is what `unity_measure` does, and it can only ever say what
 already happened -- measured on real turns, a sit that landed nowhere was reported seconds after a
-viewer had watched it. The runtime gate is kept (see §2.11 of the design, and `check_motion` below) but
+viewer had watched it. The runtime gate is kept (see §2.11 of the design, and `unity_measure` below) but
 its job changed: it is now watching for the scene moving out from under a plan that was already checked,
 not deciding whether the plan was any good.
 
-THE PLAN TOOL HAS NO NUMERIC PARAMETERS AT ALL. Look at `PLAN_PARAMS`: every field is an identifier or an
+THE PLAN TOOL HAS NO NUMERIC PARAMETERS AT ALL. Look at `EXECUTE_PARAMS`: every field is an identifier or an
 enum. There is nowhere for a joint angle, a weight, a duration or a frame index to enter, so the
 invariant is structural rather than aspirational. Weights, speeds and phase offsets are constants or come
 from measured clip data, and the engine fills them in.
 """
 import asyncio
+import math
 
 from .. import assemble as A
 from .. import gates as G
@@ -56,50 +68,168 @@ from .. import transitions as T
 from ..engine import EngineError, EngineTimeout, EngineUnavailable
 from .. import kbindex as KI
 from ..kbindex import ANATOMICAL
+from .kb import TEMPORAL_INTENT as KB_TEMPORAL_INTENT, window_for_intent
 from .registry import ToolFailure
 
-SEARCH_PARAMS = {
+# TWO SHAPES, STRICTLY EXCLUSIVE. `oneOf` rather than four optional fields, because the two halves are
+# different questions and a call that mixed them would have to mean something. Naming both or neither is
+# refused by name; `relative_to` is meaningless on the search half and is declared only on the other.
+UNITY_QUERY_PARAMS = {
     "type": "object",
     "additionalProperties": False,
     "properties": {
         "query": {
             "type": "string",
-            "description": "A word for the thing: what it is called, or the contact name the motion "
-                           "library spells it by -- pills, aspirin_bottle, patient_chest, "
-                           "patient_wrist, bvm_mask, keyboard. Places count as things: 'bedside' "
-                           "finds the bedside anchor. Leave it out entirely to list everything this "
-                           "scene has been annotated with, which is the cheapest correct answer to "
-                           "'is there a chair?'.",
+            "description": "WHICH THING IS THAT. A word for it: what it is called, or the contact "
+                           "name a motion spells it by -- keyboard, chair, bedside. Places count as "
+                           "things. Leave the whole call empty of arguments except this, set to \"\", "
+                           "to list everything this scene has been annotated with, which is the "
+                           "cheapest correct answer to 'is there a chair?'.",
         },
         "limit": {"type": "integer", "minimum": 1, "maximum": 20, "default": 10},
-    },
-}
-
-QUERY_PARAMS = {
-    "type": "object",
-    "additionalProperties": False,
-    "properties": {
         "object_ids": {
             "type": "array", "minItems": 1, "maxItems": 8,
-            "items": {"type": "string", "description": "id from scene_search."},
+            "items": {"type": "string", "description": "id from a unity_query search."},
+            "description": "WHAT THOSE THINGS ARE TO HER RIGHT NOW: does it exist, is it within arm's "
+                           "reach, does she have to walk to it, is somebody holding it.",
         },
         "relative_to": {
             "type": "string",
-            "description": "Whose point of view. A character name or id; with one character in the "
-                           "scene it is hers and can be left out.",
+            "description": "Whose point of view, for the object_ids form only. A character name or "
+                           "id; with one character in the scene it is hers and can be left out.",
         },
     },
-    "required": ["object_ids"],
+    "oneOf": [
+        {"required": ["query"], "not": {"required": ["object_ids"]}},
+        {"required": ["object_ids"], "not": {"required": ["query"]}},
+    ],
 }
 
 # The model picks a word; the metres stay here. Same reasoning as everywhere else on this surface:
 # "beside it" is a decision a model can make and "0.35 m" is one it cannot.
 _STOP_WITHIN = {"beside_it": 0.35, "right_at_it": 0.08, "arms_reach": 0.6}
 
-# The one action in this corpus that means travelling. `move_to` plays it under the navigation agent,
-# and `_opening_step` keys on the same identifier so there is one place that decides what "she is
-# walking" refers to, rather than a list that can drift from what move_to actually starts.
-LOCOMOTION_ACTION = "walking"
+
+def _stop_metres(stop_within):
+    """Metres, from either a word the model chose or a number this file computed.
+
+    A COMPUTED STANDING POINT HAS NO TOLERANCE TO SPEND. `right_at_it` is 0.08 m, which is the right
+    slack for "stand at the chair" and is the entire error budget for a point that was solved so that
+    a clip's own travel lands the hips on the seat: measured, stopping 0.08 m short of it left
+    `seat_alignment` at 0.0809 m against a 0.05 m bar. So the seating path passes the number 0.0
+    rather than a word, and the words keep meaning exactly what they did.
+    """
+    if isinstance(stop_within, (int, float)):
+        return float(stop_within)
+    return _STOP_WITHIN.get(stop_within, 0.35)
+
+# ---- runtime primitives ------------------------------------------------------------------------
+#
+# TWO ACTIONS THE SYSTEM NEEDS AND THE AGENT NEVER CHOOSES. Travelling and standing still are not
+# search results: `unity_locomotion` plays a walk cycle under the navigation agent, and a plan that
+# arrives somewhere settles into a stance. Both used to be literal ids in this file, back when the
+# library held eight clips and exactly one of each. Over 2446 they are a configuration -- `cli.py`
+# takes them as options -- and what makes them safe is that the service checks them at start-up
+# rather than discovering at commit time that the walk it was given is a two-frame T-pose.
+DEFAULT_LOCOMOTION_ACTION = "mx_Walking_Forward"
+DEFAULT_IDLE_ACTION = "mx_Standing_Idle"
+
+# A pose asset is not an animation. 128 of the corpus's 2446 records are single Mixamo poses sampled
+# at two frames -- `mx_Walking` is one of them, which is exactly the trap this catches, since its name
+# is the obvious thing to reach for. Twenty frames is two thirds of a second at 30 fps: shorter than
+# any real gait cycle in the corpus and far longer than a pose.
+LOCOMOTION_MIN_SAMPLED_FRAMES = 20
+
+# How far apart a walk's first and last frames may be and still be worth looping. DERIVED, NOT TUNED:
+# it is what the seam search's stated angular-rate assumption can cross in a quarter of a second, so
+# a cycle whose ends are further apart than that is one whose wrap would read as a snap by the same
+# rule every other blend in this system is judged by. `mx_Walking_Forward` measures 0.0 deg on every
+# channel -- Mixamo's in-place cycles start and end on the same pose.
+LOOP_SEAM_S = 0.25
+
+# Below this, a channel's measured motion is a breath rather than a movement. An idle has to be
+# something a character can stand in indefinitely without appearing to perform, and the corpus leaves
+# a wide gap for the line: `mx_Standing_Idle` reads 0.051 at its busiest channel, while
+# `mx_Standing_Idle_Looking_Around` -- also a standing idle by name -- reads 0.70, and a walk cycle
+# reads 0.46. 0.15 sits in that gap, an order of magnitude above the one and well below the others.
+IDLE_MAX_MOTION_MAGNITUDE = 0.15
+
+
+def validate_primitives(kb, locomotion=DEFAULT_LOCOMOTION_ACTION, idle=DEFAULT_IDLE_ACTION):
+    """Check the two runtime primitives against what is measured about them. Raises SystemExit.
+
+    WHY AT START-UP AND NOT AT USE. These two are reached from inside a committed plan -- the walk
+    `unity_locomotion` plays, the stance a plan settles into when its walk is over -- so a bad one
+    surfaces as a character marching on the spot in front of a viewer, seconds after a tool reported
+    success. Every property below is a lookup in data already loaded, so checking costs milliseconds
+    once and the failure is a message naming the option to change.
+
+    WHAT IS CHECKED, AND WHY EACH. A locomotion clip has to be an animation rather than a pose
+    (`sampled_frames`), has to actually move the legs and the body (`state_label`), has to be
+    performed on the feet (`dominant_posture`), and has to be worth looping, since travelling takes
+    as long as it takes and the clip is one stride (the gap between its ends). NOT that it has a
+    measured `cycle_frames`: a Mixamo walk IS one cycle, so the period search finds nothing to repeat
+    inside it, and requiring one would reject every correct answer. An idle has to be on its feet and
+    has to be still.
+    """
+    from .. import segments as S                      # local: keeps the import graph acyclic
+
+    problems = []
+    for role, action_id in (("--locomotion-action", locomotion), ("--idle-action", idle)):
+        if action_id not in kb.actions:
+            problems.append("%s %r is not in the knowledge base" % (role, action_id))
+    if problems:
+        raise SystemExit("runtime primitives: " + "; ".join(problems)
+                         + "\nPick ids motion_search returns, or accept the defaults (%s, %s)."
+                         % (DEFAULT_LOCOMOTION_ACTION, DEFAULT_IDLE_ACTION))
+
+    table = S.read_table() or {}
+    report = {}
+
+    rec = kb.record(locomotion)
+    channels = rec.get("channels") or {}
+    frames = (rec.get("extraction") or {}).get("sampled_frames") or 0
+    if frames < LOCOMOTION_MIN_SAMPLED_FRAMES:
+        problems.append("%s is %d sampled frame(s); a pose asset, not a gait cycle (needs %d+)"
+                        % (locomotion, frames, LOCOMOTION_MIN_SAMPLED_FRAMES))
+    still = [c for c in ("root", "left_leg", "right_leg")
+             if (channels.get(c) or {}).get("state_label") != "dynamic"]
+    if still:
+        problems.append("%s does not move %s; a walk moves the body and both legs"
+                        % (locomotion, ", ".join(still)))
+    walk_posture = KI.posture_of(rec)
+    if walk_posture != "standing":
+        problems.append("%s is %s; travelling happens on the feet" % (locomotion, walk_posture))
+    gap = max([seg["loop_gap_deg"] for seg in table.get(locomotion) or []] or [0.0])
+    budget = T.MAX_BLEND_RATE_DEG_PER_S * LOOP_SEAM_S
+    if gap > budget:
+        problems.append("%s's first and last frames are %.1f deg apart, over the %.0f deg a %.2f s "
+                        "blend can cross, so looping it would snap" % (locomotion, gap, budget,
+                                                                       LOOP_SEAM_S))
+    report[locomotion] = {"role": "locomotion", "sampled_frames": frames,
+                          "posture": walk_posture, "loop_gap_deg": round(gap, 2)}
+
+    rec = kb.record(idle)
+    idle_posture = KI.posture_of(rec)
+    if idle_posture != "standing":
+        problems.append("%s is %s; the resting stance is a stand" % (idle, idle_posture))
+    busiest, magnitude = None, 0.0
+    for name, ch in (rec.get("channels") or {}).items():
+        value = (ch or {}).get("motion_magnitude")
+        if isinstance(value, (int, float)) and value > magnitude:
+            busiest, magnitude = name, value
+    if magnitude > IDLE_MAX_MOTION_MAGNITUDE:
+        problems.append("%s moves its %s at %.3f, over the %.2f an idle may; that is a performance, "
+                        "not a stance" % (idle, busiest, magnitude, IDLE_MAX_MOTION_MAGNITUDE))
+    report[idle] = {"role": "idle", "posture": idle_posture,
+                    "busiest_channel": busiest, "motion_magnitude": round(magnitude, 4)}
+
+    if problems:
+        raise SystemExit(
+            "runtime primitives do not hold up:\n  " + "\n  ".join(problems)
+            + "\nChange --locomotion-action / --idle-action, or accept the defaults (%s, %s)."
+            % (DEFAULT_LOCOMOTION_ACTION, DEFAULT_IDLE_ACTION))
+    return report
 
 MOVE_PARAMS = {
     "type": "object",
@@ -108,7 +238,7 @@ MOVE_PARAMS = {
         "character": {"type": "string"},
         "destination": {
             "type": "string",
-            "description": "Where to walk. Any id scene_search returned -- an object or a named "
+            "description": "Where to walk. Any id unity_query returned -- an object or a named "
                            "place -- or 'near:<object_id>' for beside a thing rather than at it, or "
                            "'view:left' / 'view:right' / 'view:ahead' / 'view:behind' for somewhere "
                            "relative to whoever is watching.",
@@ -133,7 +263,18 @@ MOVE_PARAMS = {
     "required": ["destination"],
 }
 
-PLAN_PARAMS = {
+# What an overlay is asking of a clip in time. Mirrors kb.TEMPORAL_INTENT, which is where the mapping
+# to a frame window is written; declared in both places because the two schemas are read by the model
+# independently and a shared constant it cannot see would not help it.
+_TEMPORAL_INTENT = {
+    "type": "string", "enum": list(KB_TEMPORAL_INTENT), "default": "once",
+    "description": "How long this overlay lasts. 'once' plays the part of it that is moving, one "
+                   "time. 'repeat' keeps that part going under a longer base — one chest compression "
+                   "over and over rather than the thirty in the clip. 'continuous' ignores the window "
+                   "and runs the whole clip.",
+}
+
+EXECUTE_PARAMS = {
     "type": "object",
     "additionalProperties": False,
     "properties": {
@@ -160,6 +301,7 @@ PLAN_PARAMS = {
                         "items": {"type": "string", "enum": list(ANATOMICAL)},
                         "description": "Which body parts this overlay drives.",
                     },
+                    "temporal_intent": _TEMPORAL_INTENT,
                 },
                 "required": ["action_id", "channels"],
             },
@@ -216,7 +358,7 @@ PLAN_PARAMS = {
                            "you — name the order, nothing else. This is also the ONLY way a posture "
                            "change is generated: name the standing action and the seated one in one "
                            "call with sit_on, and the frames between them are made. Two separate "
-                           "plan_motion calls cut straight from one to the other instead. "
+                           "unity_execute calls cut straight from one to the other instead. "
                            "Name the two actions that matter and nothing else: walking then the "
                            "seated action is a supported pair, and putting `idle` between them does "
                            "not help the change along — it replaces walking into the chair with "
@@ -235,11 +377,23 @@ PLAN_PARAMS = {
                                 "action_id": {"type": "string"},
                                 "channels": {"type": "array", "minItems": 1, "maxItems": 8,
                                              "items": {"type": "string", "enum": list(ANATOMICAL)}},
+                                "temporal_intent": _TEMPORAL_INTENT,
                             },
                             "required": ["action_id", "channels"],
                         },
                     },
                     "hold_final_pose": {"type": "array", "maxItems": 3, "items": {"type": "string"}},
+                    "via": {
+                        "type": "array", "minItems": 1, "maxItems": 2,
+                        "items": {"type": "string"},
+                        "description": "Actions to play between the previous step and this one, in "
+                                       "order. This is where a posture change you FOUND goes: "
+                                       "motion_search(transition=...) finds clips that do the "
+                                       "change, motion_transition(via=[...]) ranks them, and naming "
+                                       "the one you chose here plays it instead of having the frames "
+                                       "generated. Leave it out and the frames are generated, which "
+                                       "works and is said so in the result.",
+                    },
                     "sit_on": {"type": "string",
                                "description": "Accepted here as well as at the top level, for the "
                                               "step that does the sitting. There is one seat per "
@@ -261,8 +415,9 @@ PLAN_PARAMS = {
                            "call, so nothing happens in between. Use it whenever the motion has to "
                            "happen somewhere she is not: `walk_to` the seat with `base: walking` and "
                            "the seated action in `then`, and she walks over and sits down out of the "
-                           "walk. Calling move_to and then plan_motion separately does the same two "
-                           "things with a stop in the middle. Takes the same places move_to does, "
+                           "walk. Calling unity_locomotion and then unity_execute separately does the "
+                           "same two things with a stop in the middle. Takes the same places "
+                           "unity_locomotion does, "
                            "including 'near:<object_id>' and 'view:left' / 'view:right'.",
         },
         "stop_within": {
@@ -270,18 +425,11 @@ PLAN_PARAMS = {
             "description": "How close walk_to gets. Left out it is chosen for you: right at it when "
                            "there is something to sit on, beside it otherwise.",
         },
-        # DEFAULTS TO COMMIT, and it did not used to. A dry run then a commit is two round trips to
-        # play one motion, and the model paid them: measured, one turn spent an iteration on a dry run
-        # and another on the identical commit. Worse, the pair invited invention -- asked for a commit
-        # it sent `commit: true`, which is not a parameter, and lost a third iteration to the error.
-        # The tool's job is to play the motion, so playing it is what it does unless asked not to.
-        "mode": {
-            "type": "string", "enum": ["dry_run", "commit"], "default": "commit",
-            "description": "Leave this out to play the motion — it is checked against the scene "
-                           "out of sight first, so a plan that does not work is refused rather than "
-                           "played. dry_run derives the plan and runs only the cheap structural "
-                           "checks, for when you want to see what a plan resolves to first.",
-        },
+        # `mode` USED TO LIVE HERE and is now the difference between two tools. A flag with a default
+        # invited both mistakes at once: measured, one turn spent an iteration on a dry run and
+        # another on the identical commit, and another invented `commit: true` -- not a parameter --
+        # and lost a third to the error. `unity_execute` plays the motion; `unity_validate` takes
+        # these same arguments and stops before anything moves.
     },
     "required": ["base"],
 }
@@ -289,9 +437,83 @@ PLAN_PARAMS = {
 
 # THE BLANK-CLAUSE DEFENCE IS GONE BECAUSE THE CLAUSES ARE. `near`, `reachable_by` and `category` were
 # the fields a model filled in because the schema offered them, and a blank one forwarded as a real
-# constraint is what hid a chair that was across the room. `scene_search` takes one word and a limit, so
+# constraint is what hid a chair that was across the room. The search half of `unity_query` takes one
+# word and a limit, so
 # there is nothing left to fill in wrongly. The engine keeps its own version of the same guard, because
 # `scene.find` is still reachable from inside this file.
+
+
+# How close the walk is asked to stop to a computed standing point. Zero, because the point IS the
+# destination: it was worked out so that the transition clip's own travel lands the hips on the seat,
+# and stopping half a metre short of it is the error this whole computation exists to remove.
+STANDING_POINT_TOLERANCE_M = 0.0
+
+
+def standing_point_for(seat_xz, approach_xz, travel):
+    """Where she has to be standing, and which way, for a transition clip to finish ON the seat.
+
+    THE PROBLEM THIS SOLVES. A retrieved sit-down is a clip that travels: measured on
+    `mx_Standing_To_Sitting_Transition`, the hips move 0.446 m BACKWARD over its 67 frames, because
+    that is how a person sits down -- you step back and lower yourself onto the seat behind you.
+    Played from wherever a walk happened to stop, it finishes 0.446 m in front of the chair, and the
+    old generated descent hid this because it drove the hips to the seat directly rather than playing
+    anything.
+
+    SO THE ARITHMETIC RUNS BACKWARDS. She ends where the seat is; the clip moves her by `travel`
+    rotated into whatever direction she is facing; therefore she starts at `seat - R(yaw) * travel`.
+    The facing is decided first and it is not free: sitting down means putting your back to the seat,
+    so she faces AWAY from it, along the line from the seat towards where she is coming from.
+
+    `travel` is (dx, dz) in the clip's own frame, read off the posture sidecar's `root_travel` -- the
+    displacement between the clip's first and last frame, measured from the frozen dump.
+
+    Returns (stand_x, stand_z, facing_deg), where facing_deg is a compass heading about +Y in the
+    same convention the engine reports: 0 is +Z, 90 is +X.
+
+    PURE, and that is why it is out here rather than inside the tool. Everything it needs is three
+    pairs of numbers, so it can be checked against a chair whose position somebody wrote down.
+    """
+    seat_x, seat_z = float(seat_xz[0]), float(seat_xz[1])
+    from_x, from_z = float(approach_xz[0]), float(approach_xz[1])
+    dx, dz = float(travel[0]), float(travel[1])
+
+    # WHICH WAY SHE FACES: away from the seat, towards where she is coming from. A degenerate
+    # approach -- she is already standing on the seat's own position -- has no direction in it, so
+    # the seat's own +Z is used rather than a normalisation of zero.
+    away_x, away_z = from_x - seat_x, from_z - seat_z
+    if math.hypot(away_x, away_z) < 1e-4:
+        away_x, away_z = 0.0, 1.0
+    facing_deg = math.degrees(math.atan2(away_x, away_z))
+
+    # R(yaw) * (dx, dz), with yaw measured from +Z towards +X -- Unity's convention, so the number
+    # can go straight onto the wire as `facing_deg`.
+    rad = math.radians(facing_deg)
+    cos, sin = math.cos(rad), math.sin(rad)
+    world_dx = dx * cos + dz * sin
+    world_dz = -dx * sin + dz * cos
+    return (seat_x - world_dx, seat_z - world_dz, facing_deg)
+
+
+def _then_order(then):
+    """Every action_id `then` names, in the order they play — the `via` bridges included."""
+    return [aid for entry in (then or [])
+            for aid in list(entry.get("via") or []) + [entry["base"]]]
+
+
+def _then_sequence(base, then):
+    """[(action_id, entry or None)] for the whole plan.
+
+    A `via` STEP CARRIES NO ENTRY, and that is the whole of what it is: a clip the agent found and
+    chose to play between two others, on its own, with nothing grafted onto it and nothing named
+    against it. Overlays, held poses and channel reservations belong to the step the agent asked for;
+    a bridge that took overlays would be a second composed step nobody described.
+    """
+    sequence = [(base, None)]
+    for entry in (then or []):
+        for via in (entry.get("via") or []):
+            sequence.append((via, None))
+        sequence.append((entry["base"], entry))
+    return sequence
 
 
 def _settled_at(step):
@@ -445,34 +667,50 @@ def _engine_failure(e):
     return ToolFailure("%s: %s" % (e.code, e.msg))
 
 
-def register(registry, engine, kb=None):
-    """Attach the scene and plan tools. `kb` enables the assembly derivation in plan_motion."""
+def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
+             idle=DEFAULT_IDLE_ACTION):
+    """Attach the scene and plan tools. `kb` enables the assembly derivation in unity_execute.
 
-    # The per-channel segment table, read once. Built live if the sidecar is missing or `raw` has
-    # moved under it -- a few hundred milliseconds for eight clips, and a stale table would hand out
-    # frame numbers for a corpus that no longer exists. A dict rather than None-or-dict so callers do
-    # not each have to check.
+    `locomotion` and `idle` are the runtime primitives (see the top of this file). They arrive as
+    arguments rather than as module constants because they are configuration now, and they are
+    checked before they are used: an unchecked primitive fails as a character marching on the spot
+    rather than as an error.
+    """
+    LOCOMOTION_ACTION, IDLE_ACTION = locomotion, idle
+    if kb is not None:
+        validate_primitives(kb, LOCOMOTION_ACTION, IDLE_ACTION)
+
+    # The per-channel segment table, read once. A missing sidecar is a real failure over 2446 records
+    # rather than a few hundred milliseconds of rebuild: building it live means reading 1.4 GB of
+    # dumps, which is a minute of start-up nobody asked for. So it is read, and its absence is said.
     _segment_table = {}
 
     def _segments():
         if not _segment_table:
             table = S.read_table()
             if table is None:
-                table = S.build_table(T.load_clips(kb)) if kb is not None else {}
+                raise ToolFailure(
+                    "no segment table for this knowledge base",
+                    hint="run `python build_segments.py`; the frame windows every overlay is "
+                         "trimmed to are measured there, not at start-up.")
             _segment_table.update(table)
         return _segment_table
 
-    def _window_of(action_id, channels):
+    def _window_of(action_id, channels, intent="once"):
         """Which frames this action contributes on these channels, or None for the whole clip.
 
-        THE MODEL NEVER SEES THESE NUMBERS AND NEVER SENDS THEM. It named an action; which part of that
-        action is worth playing was measured from the frozen dumps. `cpr` as an overlay means one chest
-        compression rather than all thirty, and that is the difference between an arm that pumps under
-        a walk and one that outlives it by seventeen seconds.
+        THE MODEL NEVER SENDS THESE NUMBERS. It named an action and said what it wanted from it in
+        time; which part of that action is worth playing was measured from the frozen dumps. `cpr` as
+        an overlay means one chest compression rather than all thirty, and that is the difference
+        between an arm that pumps under a walk and one that outlives it by seventeen seconds.
+
+        `intent` is the one bit the measurement cannot supply, because it is about the task rather
+        than the clip: whether the base outlives the overlay and the overlay should keep going. The
+        mapping lives in `kb.window_for_intent`, next to the enum the model reads.
         """
         if not channels:
             return None
-        return S.window_for(_segments().get(action_id), channels)
+        return window_for_intent(S.window_for(_segments().get(action_id), channels), intent)
 
     async def _call(msg_type, params):
         try:
@@ -494,7 +732,11 @@ def register(registry, engine, kb=None):
         if verdict.get("status") == "fail":
             raise _validation_failure(verdict)
         return {key: verdict[key] for key in
-                ("status", "checked", "samples", "seconds_simulated", "unmeasured")
+                ("status", "checked", "samples", "seconds_simulated", "unmeasured",
+                 # How much of a travelling step's own displacement actually reached the transform.
+                 # Kept because "the sit missed the seat" and "the clip never moved her" are the same
+                 # number for two different reasons, and this is what separates them.
+                 "root_motion_applied_m")
                 if key in verdict}
 
     async def _assemble(payload, at=None, checked=False):
@@ -509,7 +751,7 @@ def register(registry, engine, kb=None):
         yet. Absent, she is checked where she is.
 
         `checked` says a caller has already validated these same layers -- the walk cycle that
-        `_walk_there` starts, which `plan_motion` validated before it began walking. Without it the
+        `_walk_there` starts, which `_plan` validated before it began walking. Without it the
         walk would be re-checked from inside the walk, which is a second round trip about a plan whose
         verdict is already in hand.
 
@@ -543,14 +785,14 @@ def register(registry, engine, kb=None):
         face = await _resolve_id(face)
         params = {"character": character, "preview": True, "to": destination}
         if stop_within is not None:
-            params["stop_within_m"] = _STOP_WITHIN.get(stop_within, 0.35)
+            params["stop_within_m"] = _stop_metres(stop_within)
         if face:
             params["face"] = face
         data = await _call(P.T.MOTION_LOCOMOTE, params)
         if not data.get("reachable"):
             raise ToolFailure(
                 "she cannot get to %s: %s" % (destination, data.get("why") or "no complete route"),
-                hint="nothing has moved. Pick somewhere she can walk to -- scene_search lists the "
+                hint="nothing has moved. Pick somewhere she can walk to -- unity_query lists the "
                      "room -- or name the thing rather than a place beside it.")
         preview = {"destination": destination,
                    # WHETHER THERE IS A WALK AT ALL. A destination she is already standing at is a
@@ -579,7 +821,7 @@ def register(registry, engine, kb=None):
     def _who(character):
         """Resolve which character to drive, from whatever the instruction called her.
 
-        Requiring the id bought nothing and cost a round trip: measured twice, `move_to` with character
+        Requiring the id bought nothing and cost a round trip: measured twice, `unity_locomotion` with character
         "nurse" against a scene whose only character is "chr:CPRNurse", each time an iteration spent on
         an error and a retry. Making the parameter optional did not help, because the model kept
         supplying a plausible wrong value rather than omitting it. Where there is exactly one character
@@ -655,7 +897,7 @@ def register(registry, engine, kb=None):
                             "aliases": []})
         return out
 
-    async def scene_search(query=None, limit=10):
+    async def _find(query=None, limit=10):
         """Which thing is that. Identity, and deliberately nothing else.
 
         WHAT THIS DOES NOT RETURN, AND WHY THAT IS THE POINT. No category, no surface height, no
@@ -665,8 +907,8 @@ def register(registry, engine, kb=None):
         nothing, ten times in one turn, and the agent concluded there was no chair. The registry is a
         couple of dozen entries, so the honest answer to any question about it is a list.
 
-        A bare call lists everything. That used to be refused, which is how absence came to be inferred
-        from repeated misses instead of read off a list.
+        An empty query lists everything. That used to be refused, which is how absence came to be
+        inferred from repeated misses instead of read off a list.
         """
         query = (query or "").strip()
         results, seen = [], set()
@@ -728,7 +970,7 @@ def register(registry, engine, kb=None):
 
         result = {"results": results[:limit], "count": min(len(results), limit)}
         if not results:
-            result["note"] = ("nothing here is called %r. Call scene_search with no query to see "
+            result["note"] = ("nothing here is called %r. Call unity_query with query=\"\" to see "
                               "everything there is; the list is short and it is complete." % query)
         elif raw_only:
             # NOTHING IS INVENTED FOR THESE. They came out of a raw scene-name search rather than the
@@ -748,7 +990,7 @@ def register(registry, engine, kb=None):
         except ToolFailure:
             return None
 
-    async def scene_query(object_ids, relative_to=None):
+    async def _relate(object_ids, relative_to=None):
         """What these things are to her right now: does it exist, can she reach it, must she walk,
         is somebody already holding it.
 
@@ -760,7 +1002,8 @@ def register(registry, engine, kb=None):
         still judges in metres — they simply stop passing through the model.
         """
         if not object_ids:
-            raise ToolFailure("name at least one object", hint="use scene_search to get ids first")
+            raise ToolFailure("name at least one object",
+                              hint="search with unity_query(query=...) to get ids first")
 
         # Through _who, like every other tool that names a character: the engine knows ids and an
         # instruction says a name, and a `relative_to` that skipped the resolution silently measured
@@ -800,26 +1043,64 @@ def register(registry, engine, kb=None):
         if who:
             result["relative_to"] = who
         if missing:
-            result["note"] = ("no object with id %s; ids come from scene_search"
+            result["note"] = ("no object with id %s; ids come from a unity_query search"
                               % ", ".join(repr(m) for m in missing))
         elif ask:
             result["note"] = ("%s — so whether these are in reach is not answered here. Ask again "
                               "with relative_to." % ask)
         return result
 
+    async def unity_query(query=None, limit=10, object_ids=None, relative_to=None):
+        """One tool, two questions, and a refusal for anything in between.
+
+        THE MERGE IS ABOUT ROUND TRIPS, NOT TIDINESS. Finding a chair and asking whether she has to
+        walk to it is one thought, and it cost two calls: measured, every turn that placed a motion on
+        an object spent an iteration on each. What made them separate tools was that they return
+        different shapes, and that is still true — so the schema keeps them apart with a `oneOf` and
+        this dispatches on which one arrived.
+
+        BOTH OR NEITHER IS REFUSED BY NAME. A `oneOf` is advisory: models send what they send. Left to
+        resolve itself, a call with both would have to mean something, and whichever half was chosen
+        would silently ignore the other — which is the failure shape a merged tool is most likely to
+        acquire and hardest to notice.
+        """
+        asked_search = query is not None
+        asked_relate = bool(object_ids)
+        if asked_search and asked_relate:
+            raise ToolFailure(
+                "unity_query answers one question per call, and this asked both",
+                hint="`query` finds things and returns ids; `object_ids` says what those things are "
+                     "to her right now. Search first, then ask about what it returned.")
+        if not asked_search and not asked_relate:
+            raise ToolFailure(
+                "unity_query needs either `query` or `object_ids`",
+                hint="pass query=\"\" to list everything this scene has been annotated with, or "
+                     "object_ids to ask about things you already have ids for.")
+        if asked_relate:
+            return await _relate(object_ids, relative_to)
+        return await _find(query, limit)
+
     def _one_step(base, overlays, hold_final_pose, ik_bindings, base_channels=None, pinned=None):
         """Build one step's channel split and its gates. Raises ToolFailure with the reason a model
         can act on.
 
-        `overlays` is [{"action_id":…, "channels":[…]}] -- the split the AGENT decided. Through v3 it
-        was a list of bare action_ids and this function derived the split from the KB's `role` labels;
-        motionkb/v4 deletes those (ADR 0022) because which part of a clip matters depends on the task,
-        which only the agent can see. `pinned` are the channels this plan attaches to a scene object.
+        `overlays` is [{"action_id":…, "channels":[…], "temporal_intent":…}] -- the split the AGENT
+        decided. Through v3 it was a list of bare action_ids and this function derived the split from
+        the KB's `role` labels; motionkb/v4 deletes those (ADR 0022) because which part of a clip
+        matters depends on the task, which only the agent can see. `pinned` are the channels this plan
+        attaches to a scene object.
         """
+        # READ OFF THE REQUEST BEFORE IT IS NORMALISED AWAY. `normalise_overlays` returns pairs,
+        # because the partition is a question about channels alone; the intent rides alongside as a
+        # per-action lookup and is applied where the window is taken.
+        intents = {}
+        for item in (overlays or []):
+            if isinstance(item, dict) and item.get("action_id"):
+                intents[item["action_id"]] = item.get("temporal_intent") or "once"
         # THROUGH THE SAME REFUSAL AS THE ARBITRATION BELOW. This normalisation is where a malformed
         # overlay is actually caught -- `arbitrate` normalises again, but by then the list is already
         # clean -- so leaving it outside the guard turned the one error a model can fix by itself, an
-        # overlay that names no channels, into "plan_motion failed internally".
+        # overlay that names no channels, into "unity_execute failed internally".
         try:
             overlays = A.normalise_overlays(overlays) if overlays else []
         except ValueError as e:
@@ -827,7 +1108,7 @@ def register(registry, engine, kb=None):
         unknown = [a for a in [base] + [aid for aid, _ in overlays] if a not in kb.actions]
         if unknown:
             raise ToolFailure("unknown action_id: %s" % ", ".join(unknown),
-                              hint="use kb_search and pass an action_id it returns")
+                              hint="use motion_search and pass an action_id it returns")
 
         # Posture first: two actions that cannot share a stance cannot be combined however the channels
         # fall out, and reporting a channel conflict instead would send the model looking for a
@@ -841,7 +1122,7 @@ def register(registry, engine, kb=None):
             # `typing` in `overlays` alongside a standing base, then the turn ran out of budget.
             # Overlays play AT THE SAME TIME, which two postures cannot; `then` plays them in order,
             # and that is the one that makes the frames in between.
-            seated = [a for a in [base] + overlay_ids if _posture_of(a) == "seated"]
+            seated = [a for a in [base] + overlay_ids if _sits_at_some_point(a)]
             raise ToolFailure(
                 posture["detail"],
                 hint="overlays play at the same time as the base, and two postures cannot happen at "
@@ -885,7 +1166,7 @@ def register(registry, engine, kb=None):
         for mix in assembly.shared:
             for aid, _ in mix.shares:
                 driven.setdefault(aid, set()).add(mix.channel)
-        windows = {aid: _window_of(aid, sorted(chans))
+        windows = {aid: _window_of(aid, sorted(chans), intents.get(aid, "once"))
                    for aid, chans in driven.items() if aid != assembly.base}
 
         layers = []
@@ -901,6 +1182,8 @@ def register(registry, engine, kb=None):
                      "owns_root": aid == assembly.root_owner,
                      "hold_final_pose": aid in (hold_final_pose or []),
                      "clip": _clip_of(kb, aid)}
+            if aid != assembly.base and aid in intents:
+                entry["temporal_intent"] = intents[aid]
             # THE BASE IS NEVER CUT. It establishes the posture everything else is grafted onto, so a
             # base trimmed to the frames its legs happen to be moving in is a posture that stops
             # halfway through the plan. An overlay is grafted on and should contribute only the part
@@ -916,7 +1199,7 @@ def register(registry, engine, kb=None):
     # ids (`obj:PillBottle`) so that arbitrate could tell which of two competing grips the request had
     # asked for. v4 records declare no grips (ADR 0022), so there is no second grip to weigh against
     # the request: what a hand holds is named once, by the plan, in `carry` or `ik_bindings`, and it
-    # is already a scene id. The alias vocabulary survives in scene_search, where a person still types
+    # is already a scene id. The alias vocabulary survives in unity_query, where a person still types
     # "pills".
 
     def _apply_window(entry, window):
@@ -1029,7 +1312,7 @@ def register(registry, engine, kb=None):
             return 0
 
     def _in_place_payload(character, action_id, from_action=None, overlays=None, carry=None):
-        """The plan for one action played under a displacement -- see move_to -- with whatever is
+        """The plan for one action played under a displacement -- see unity_locomotion -- with whatever is
         grafted onto it. BUILT, not sent, so the same dictionary can be checked before she moves and
         then committed byte for byte.
 
@@ -1057,7 +1340,7 @@ def register(registry, engine, kb=None):
     async def _play_in_place(character, action_id, from_action=None, overlays=None, carry=None,
                              payload=None, checked=False):
         """Send one of those. `payload` is a plan a caller already built AND already checked -- the
-        walk `plan_motion` validated before it started walking -- and passing it here is what stops
+        walk `_plan` validated before it started walking -- and passing it here is what stops
         the same plan being validated twice."""
         await _assemble(payload or _in_place_payload(character, action_id, from_action, overlays,
                                                      carry),
@@ -1065,10 +1348,10 @@ def register(registry, engine, kb=None):
 
     async def _walk_there(character, destination, face=None, stop_within=None, then_wait=True,
                           settle=True, under=None, carry=None, under_payload=None):
-        """Walk somewhere and play the walk while doing it. The body of move_to, factored out so a
+        """Walk somewhere and play the walk while doing it. The body of unity_locomotion, factored out so a
         plan that begins with a walk can reuse it.
 
-        `settle` IS THE WHOLE REASON THIS IS SEPARATE. move_to ends by dropping her into idle, which
+        `settle` IS THE WHOLE REASON THIS IS SEPARATE. unity_locomotion ends by dropping her into idle, which
         is right when the walk is the entire request -- left looping she marches on the spot forever.
         It is wrong when a sit follows: the opener of the next plan is then whatever she is playing,
         so an idle she was only parked in becomes the pose the descent departs from, and the sequence
@@ -1087,7 +1370,7 @@ def register(registry, engine, kb=None):
         face = await _resolve_id(face)
         params = {"character": character, "to": destination}
         if stop_within is not None:
-            params["stop_within_m"] = _STOP_WITHIN.get(stop_within, 0.35)
+            params["stop_within_m"] = _stop_metres(stop_within)
         data = await _call(P.T.MOTION_LOCOMOTE, params)
         eta = data.get("eta_s")
         result = {"destination": destination, "path_length_m": data.get("path_length_m"),
@@ -1144,10 +1427,10 @@ def register(registry, engine, kb=None):
         # carrying across the room does not end because the crossing did, and dropping it here would
         # make the arrival look like the motion had been interrupted. `idle` claims nothing on any
         # channel, so this is the same overlay over a stance instead of over a stride.
-        if settle and result.get("playing") == LOCOMOTION_ACTION and "idle" in kb.actions:
-            await _play_in_place(character, "idle", from_action=LOCOMOTION_ACTION,
+        if settle and result.get("playing") == LOCOMOTION_ACTION and IDLE_ACTION in kb.actions:
+            await _play_in_place(character, IDLE_ACTION, from_action=LOCOMOTION_ACTION,
                                  overlays=under, carry=carry)
-            result["playing"] = "idle"
+            result["playing"] = IDLE_ACTION
 
         if face:
             # Arriving leaves her facing the way she walked. For a seat that is backwards, so which way
@@ -1169,8 +1452,9 @@ def register(registry, engine, kb=None):
                 result["note"] = "still turning to face %s" % face
         return result
 
-    async def move_to(destination, character=None, face=None, stop_within=None, then_wait=True):
-        """Walk somewhere. Separate from plan_motion because every clip in the library is in-place:
+    async def unity_locomotion(destination, character=None, face=None, stop_within=None,
+                               then_wait=True):
+        """Walk somewhere. Separate from unity_execute because every clip in the library is in-place:
         playing the walk cycle animates a walk and moves the character nowhere. This is what moves her.
 
         AND IT PLAYS THE WALK. Displacement and animation are separate mechanisms here -- the navigation
@@ -1178,12 +1462,12 @@ def register(registry, engine, kb=None):
         the character slid across the room in whatever pose she was already in. Nobody had asked for a
         slide; the walk cycle simply had no one to start it. Started here rather than left to the model
         because it is not a decision: something that moves on its own feet is walking, and making it a
-        separate plan_motion call would cost a round trip to say so.
+        separate unity_execute call would cost a round trip to say so.
 
         Blocks until arrival by default, because "she is at the desk" is the precondition the next call
         depends on, and a tool that returns before it is true just moves the waiting into the model.
 
-        For a walk that exists to get her somewhere so she can DO something there, prefer plan_motion's
+        For a walk that exists to get her somewhere so she can DO something there, prefer unity_execute's
         `walk_to`: it is this same walk without the stop in between.
         """
         return await _walk_there(_who(character), destination, face=face, stop_within=stop_within,
@@ -1219,7 +1503,7 @@ def register(registry, engine, kb=None):
         return None, None
 
     async def _turn_to_face(character, object_id):
-        """Turn, and wait it out. Same reason move_to waits: the next thing to happen is a descent
+        """Turn, and wait it out. Same reason unity_locomotion waits: the next thing to happen is a descent
         onto a seat, and starting it mid-turn puts her down facing part of the way round."""
         await _call(P.T.MOTION_LOCOMOTE, {"character": character, "face_only": object_id})
         registry.progress("turning to face %s" % object_id)
@@ -1285,7 +1569,8 @@ def register(registry, engine, kb=None):
             "sitting on %s would leave her underneath it: %s ends with her hips lower than that "
             "object's surface" % (object_id, action_id),
             hint="that is something to work AT, not to sit on. Pass a seat as sit_on -- "
-                 "scene_search('chair') finds one, and a bare scene_search lists the room -- and let "
+                 "unity_query('chair') finds one, and unity_query with an empty query lists the "
+                     "room -- and let "
                  "her reach the other thing from there")
 
     async def _verify_seat(object_id):
@@ -1299,12 +1584,12 @@ def register(registry, engine, kb=None):
         found = (data.get("objects") or [{}])[0]
         if not found.get("found"):
             raise ToolFailure("no object %r to sit on" % object_id,
-                              hint="scene_search('chair') finds a seat, and a bare scene_search "
+                              hint="unity_query('chair') finds a seat, and an empty query "
                                    "lists everything there is")
         if found.get("surface_height_m") is None:
             raise ToolFailure("%r has no measurable surface to sit on" % object_id,
                               hint="that is not something with a seat. Pass a chair or a stool; "
-                                   "scene_search('chair') finds one")
+                                   "unity_query('chair') finds one")
         return found
 
     async def _pair_bound_hands(ik_bindings):
@@ -1327,7 +1612,7 @@ def register(registry, engine, kb=None):
 
         LOOKED UP BY NAME, THEN NARROWED BY ID. `scene.find` filters on the name, the alias list and
         the category; `id` is not one of its predicates, and the engine keeps the same blank-clause
-        guard `scene_search` describes -- so asking for one was asking for no filter at all, which
+        guard the search half describes -- so asking for one was asking for no filter at all, which
         comes back as the whole registry and never as the single hit this needs. The id is still what
         decides: the name search is the only way in, and the exact match is taken out of what it
         returns rather than trusted to be the first row.
@@ -1390,7 +1675,7 @@ def register(registry, engine, kb=None):
         cycle and does not settle it, so `playing` is `walking` and `going` is false by construction.
 
         A STANDING-TO-SEATED CHANGE NEEDS A STANDING STEP TO DEPART FROM, and the model reaches for
-        `walking` because that is the standing action it just used to get there. But `move_to` has
+        the walk because that is the standing action it just used to get there. But `unity_locomotion` has
         already walked her and left her idle, so the walk cycle plays again -- in place. That is what
         "the walking got stuck" was.
 
@@ -1419,17 +1704,17 @@ def register(registry, engine, kb=None):
 
         if base == LOCOMOTION_ACTION and not then and not overlays:
             # A WALK CYCLE ON ITS OWN, WHILE SHE IS NOT TRAVELLING, IS MARCHING ON THE SPOT. Measured
-            # on a real turn: move_to walked her to the patient and the model then committed `walking`
+            # on a real turn: unity_locomotion walked her to the patient and the model then committed the walk
             # by itself, so she arrived and kept striding in place indefinitely — and reported having
             # walked there, which was true and was not what the scene showed. Refused rather than
             # substituted, because there is nothing this plan wants: the walking already happened.
             #
             # ONLY the bare case. `walking` with an overlay is a composed motion whose base carries the
             # posture — walking while grabbing a bottle — and refusing that would take away a capability
-            # over a plan the model may yet follow with a move_to.
+            # over a plan the model may yet follow with a unity_locomotion.
             raise ToolFailure(
                 "she is not going anywhere, so playing the walk cycle would march her on the spot",
-                hint="move_to is what moves her and it has already left her standing where she "
+                hint="unity_locomotion is what moves her and it has already left her standing where she "
                      "arrived. Nothing needs to be played for a walk that is over — say she is there.")
 
         if base != LOCOMOTION_ACTION:
@@ -1453,10 +1738,85 @@ def register(registry, engine, kb=None):
         Falls back to standing rather than to null, which is what the executor assumes."""
         return KI.posture_of(kb.record(action_id))
 
+    def _sits_at_some_point(action_id):
+        """Whether this action has the character seated at any point in it.
+
+        THE QUESTION `sit_on` ACTUALLY ASKS. A clip that is seated throughout needs something under
+        her, and so does one that ENDS seated -- it is putting her down onto something. Reading the
+        dominant posture alone answered neither honestly once clips could change: a sit-down is
+        dominantly `standing` and is the clearest possible case of needing a seat.
+        """
+        start, end = KI.posture_span_of(kb.record(action_id))
+        return "seated" in (start, end, _posture_of(action_id))
+
+    def _end_hip_height(action_id):
+        """Where a clip's last frame leaves the hips, in metres above the character's own root.
+
+        READ OFF THE FROZEN DUMP, not off a descent's plan: a retrieved transition has no plan, it
+        has an animator's arc, and the only honest statement about where it ends is where it ends.
+        None when the dump cannot be opened, which leaves the seat check with nothing to object to
+        rather than an invented number.
+        """
+        if action_id not in kb.actions:
+            return None
+        try:
+            clip = T.load_clip((kb.record(action_id).get("source_clip") or {}).get("clip_name"),
+                               loop=bool(kb.record(action_id).get("loop")))
+        except (IOError, OSError, KeyError, TypeError):
+            return None
+        track = clip.bones.get("Hips")
+        return None if not track else track[-1][1]
+
+    def _crosses(action_id, want_from, want_to):
+        """Whether this clip carries the agent from one posture to the other."""
+        if action_id not in kb.actions:
+            return False
+        start, end = KI.posture_span_of(kb.record(action_id))
+        return start == want_from and end == want_to
+
+    def _seating_via(then):
+        """The `via` the agent chose to sit down with, if any, and the step it belongs to.
+
+        ONE PER PLAN, because there is one seat per plan. A second sit-down in the same call would be
+        a plan that sits twice, and the geometry below has nowhere to put the second seat.
+        """
+        for entry in (then or []):
+            for via in (entry.get("via") or []):
+                if _crosses(via, "standing", "seated"):
+                    return via
+        return None
+
+    def _rising_via(then):
+        """The mirror: a `via` that takes her off the seat and back onto her feet."""
+        for entry in (then or []):
+            for via in (entry.get("via") or []):
+                if _crosses(via, "seated", "standing"):
+                    return via
+        return None
+
+    def _travels(action_id):
+        """Whether playing this clip is supposed to MOVE her.
+
+        Above a centimetre, because every clip's first and last frame differ by a little and a plan
+        that applied root motion for two millimetres would be turning the agent off for nothing.
+        """
+        if action_id not in kb.actions:
+            return False
+        dx, dz, _ = KI.root_travel_of(kb.record(action_id))
+        return math.hypot(dx, dz) > 0.01
+
+    async def _where_is(object_id):
+        """An object's world position, or None. Engine-side arithmetic reads these; the model does
+        not see them (see the module docstring on what crosses)."""
+        data = await _call(P.T.SCENE_POSITION, {"object_ids": [object_id]})
+        found = (data.get("objects") or [{}])[0]
+        position = found.get("position")
+        return None if not found.get("found") or not position else position
+
     async def _commit_sequence(character, order, sit_on=None):
         """Build and commit a plain ordered plan — no overlays, no bindings, no gaze.
 
-        Deliberately not plan_motion. That function's job is to turn what a MODEL asked for into a plan,
+        Deliberately not `_plan`. That function's job is to turn what a MODEL asked for into a plan,
         and most of it is about the ways a model can ask for something impossible. This is for the plans
         this file decides on by itself, where the order is already known to be right, and reusing the
         big one would mean re-deriving a seat, a facing and a walk that have already been settled.
@@ -1515,20 +1875,27 @@ def register(registry, engine, kb=None):
             state = await _call(P.T.MOTION_LOCOMOTE, {"character": character, "query": True})
         except ToolFailure:
             return None
-        if state.get("posture") != "seated" or _posture_of(opener) == "seated":
+        # WHERE THE OPENER BEGINS, not what it mostly is. A rise is needed when she is sitting and
+        # the next thing starts on its feet; an action that starts seated needs no rise however it
+        # finishes, and one that ends standing after starting seated IS the rise.
+        if state.get("posture") != "seated" or KI.posture_span_of(kb.record(opener))[0] == "seated":
             return None
 
         # What she is in the middle of, which is what the rise departs from. The engine's answer is
-        # preferred over the corpus's single seated action, so this keeps working when there are two.
+        # what the composer is playing, so it is preferred over anything derived; the fallback exists
+        # for the case where it names something the library does not hold.
+        #
+        # NO SEARCH OF THE LIBRARY FOR A SUBSTITUTE. That fallback picked "the one seated action"
+        # and was correct over eight records; over 2446 there are 161 seated ones and no way to
+        # choose. So the engine is asked to say what it is playing, and a report this file cannot
+        # place is an error naming what came back rather than a guess.
         from_action = state.get("playing")
-        if from_action not in kb.actions or _posture_of(from_action) != "seated":
-            seated = [a for a in kb.actions if _posture_of(a) == "seated"]
-            if len(seated) != 1:
-                raise ToolFailure(
-                    "%s is seated and I cannot tell which seated action she is in" % character,
-                    hint="the engine reported %r, which is not a seated action in the library"
-                         % (from_action,))
-            from_action = seated[0]
+        if from_action not in kb.actions or KI.posture_span_of(kb.record(from_action))[1] != "seated":
+            raise ToolFailure(
+                "%s is seated and the engine reports %r, which is not an action that ends seated"
+                % (character, from_action),
+                hint="nothing was played. The rise departs from what she is actually in, and that "
+                     "has to be an action the library holds.")
 
         rise = await _commit_sequence(character, [from_action, opener],
                                       sit_on=state.get("sitting_on"))
@@ -1544,7 +1911,7 @@ def register(registry, engine, kb=None):
         rise["note"] = "she did not finish standing up; nothing was walked"
         return rise
 
-    async def plan_motion(base, character=None, overlays=None, base_channels=None,
+    async def _plan(base, character=None, overlays=None, base_channels=None,
                           hold_final_pose=None, ik_bindings=None,
                           gaze_at=None, stand_at=None, carry=None, then=None, sit_on=None,
                           walk_to=None, stop_within=None, mode="commit"):
@@ -1575,7 +1942,7 @@ def register(registry, engine, kb=None):
 
         # SITTING ON SOMETHING MEANS BEING AT IT, so naming a seat is naming somewhere to walk. Left to
         # the model this went wrong in both directions on real turns: one committed the sit while she
-        # was still crossing the room, and the rest walked there with move_to, which ends by parking
+        # was still crossing the room, and the rest walked there with unity_locomotion, which ends by parking
         # her in idle -- so the plan departed from a standstill and the sequence read walk, stop,
         # stand, sit. It is not a decision either: the seat is already named, the gate already refuses
         # a landing that misses it, and there is nothing else `sit_on` could mean.
@@ -1586,7 +1953,45 @@ def register(registry, engine, kb=None):
         # destination. Otherwise a seat that is not one is reported as a place she could not get to,
         # which is a true sentence about the wrong problem.
         seat = await _verify_seat(sit_on) if sit_on else None
-        if sit_on and not walk_to:
+
+        # WHERE SHE HAS TO BE STANDING FOR A RETRIEVED SIT-DOWN TO LAND ON THE SEAT.
+        #
+        # Naming a seat used to mean walking to the seat, and that was right while the frames between
+        # standing and seated were GENERATED: the descent drove the hips onto the seat directly, from
+        # wherever the walk had stopped. A retrieved clip does not do that. It performs a sit-down --
+        # which means stepping backwards and lowering onto what is behind you -- so played from a
+        # navmesh stop in front of the chair it finishes with the hips 0.45 m in FRONT of it. That is
+        # what the chair looked wrong by.
+        #
+        # So the walk's destination stops being the seat and becomes the point the clip's own travel
+        # ends AT the seat from, and her facing stops being "towards the chair" and becomes "away from
+        # it", which is how a person sits. Both come out of `standing_point_for`; everything it reads
+        # is measured -- the clip's `root_travel`, the seat's position, where she is now -- and none of
+        # it reaches the model, which named a `via` and a `sit_on` and nothing else.
+        seating_via = _seating_via(then)
+        stand_facing = None
+        if sit_on and seating_via and _travels(seating_via):
+            seat_at = await _where_is(sit_on)
+            standing_from = await _where_is(character) or seat_at
+            if seat_at:
+                travel = KI.root_travel_of(kb.record(seating_via))[:2]
+                stand_x, stand_z, facing_deg = standing_point_for(
+                    (seat_at[0], seat_at[2]), (standing_from[0], standing_from[2]), travel)
+                walk_to = "point:%.4f,%.4f" % (stand_x, stand_z)
+                stop_within = STANDING_POINT_TOLERANCE_M
+                # FACING BY POINT, because that is what the engine's `face` takes and there is no
+                # object standing behind the chair to name. Two metres along the way she came, which
+                # is the direction `standing_point_for` already decided she has to be looking.
+                rad = math.radians(facing_deg)
+                stand_facing = "point:%.4f,%.4f" % (stand_x + 2.0 * math.sin(rad),
+                                                    stand_z + 2.0 * math.cos(rad))
+        elif sit_on and not walk_to and not _rising_via(then):
+            # NAMING A SEAT MEANS WALKING TO IT, EXCEPT WHEN SHE IS ALREADY ON IT. A plan whose `via`
+            # takes her OFF the seat still has to name it -- the step it opens on is seated, and a
+            # seated step says what it is sitting on -- but it is the one shape where the seat is
+            # where she starts rather than where she is going. Measured before this guard: the
+            # executor refused the whole plan with "is sitting on obj:Chair and cannot walk from
+            # there", which is true and was about a walk nobody asked for.
             walk_to = sit_on
 
         # EVERY OBJECT THE MODEL NAMED, RESOLVED BEFORE ANYTHING MOVES. The walk below needs them --
@@ -1622,7 +2027,7 @@ def register(registry, engine, kb=None):
         stood_up = await _get_up_first(character, base) if mode == "commit" else None
         if stood_up and not stood_up.get("landed"):
             raise ToolFailure(stood_up.get("note") or "she did not finish standing up",
-                              hint="nothing else was played. Read check_motion for how far the rise "
+                              hint="nothing else was played. Read unity_measure for how far the rise "
                                    "got before asking for it again.")
 
         # WHERE THE WALK WOULD PUT HER, WITHOUT WALKING HER THERE.
@@ -1635,11 +2040,11 @@ def register(registry, engine, kb=None):
         # arrival. She takes her first step after the verdict, further down.
         #
         # ONE CALL STILL, SO THERE IS NO MODEL TURN IN THE MIDDLE OF THE MOTION. Walking and then
-        # sitting used to be move_to followed by plan_motion, and between them sat a model round trip
+        # sitting used to be unity_locomotion followed by unity_execute, and between them sat a model round trip
         # -- measured at 0.85 s on a real turn -- during which she stood at the chair doing nothing.
         # The check that has been inserted is an ENGINE round trip; the model still makes one call.
         preview, aim, aimed_for = None, None, None
-        if walk_to and mode == "commit":
+        if walk_to:
             if stop_within is None:
                 stop_within = "right_at_it" if sit_on else "beside_it"
             # Which way she ends up facing is decided by the action and what it touches, not by the
@@ -1650,6 +2055,13 @@ def register(registry, engine, kb=None):
             aim, aimed_for = _face_for((ik_bindings or []) + [{"effector": h.get("hand"),
                                                               "object_id": h.get("object_id")}
                                                              for h in (carry or [])], gaze_at)
+            if stand_facing is not None:
+                # A SIT-DOWN OVERRIDES WHAT THE PLAN TOUCHES. Facing is normally taken from the object
+                # a hand is bound to -- to sit at a desk she has to end up facing the desk -- but the
+                # clip that puts her on the seat only works from one heading, and arriving on any
+                # other one puts the hips somewhere else. She turns to the desk afterwards, seated,
+                # which is a head and torso the next step owns.
+                aim, aimed_for = stand_facing, "the heading the sit-down clip has to start from"
             preview = await _preview_walk(character, walk_to, stop_within=stop_within, face=aim)
 
         asked_base = base
@@ -1658,9 +2070,9 @@ def register(registry, engine, kb=None):
         # for. The overlays stay: `idle` claims nothing on any channel, so this is the same composed
         # motion over a stance instead of over a stride. Only when nothing follows; a plan with `then`
         # is departing from the walk on purpose.
-        arrived_composing = bool(while_walking) and not then and "idle" in kb.actions
+        arrived_composing = bool(while_walking) and not then and IDLE_ACTION in kb.actions
         if arrived_composing:
-            base = "idle"
+            base = IDLE_ACTION
         # After a walk the engine's own answer is about the wrong moment -- she has not set off yet --
         # so the opener is decided against what the walk will leave behind. `_walk_there` plays the
         # walk cycle and is told not to settle it, so this is construction rather than a guess.
@@ -1703,12 +2115,12 @@ def register(registry, engine, kb=None):
         # (`sit_on` is hoisted off the `then` entry and resolved at the top of this function, because
         # the walk that may precede the plan needs the seat to know how close to stop. `gaze_at`,
         # `ik_bindings` and `carry` are resolved above, ahead of the partition that now consults them.)
-        seated = [a for a in [base] + overlay_ids + [e["base"] for e in (then or [])]
-                  if a in kb.actions and _posture_of(a) == "seated"]
+        seated = [a for a in [base] + overlay_ids + _then_order(then)
+                  if a in kb.actions and _sits_at_some_point(a)]
         if seated and not sit_on:
             raise ToolFailure(
-                "%s is a seated action and nothing was named to sit on" % seated[0],
-                hint="find a seat with scene_search('chair'), and pass its id as the top-level "
+                "%s puts her in a seated pose and nothing was named to sit on" % seated[0],
+                hint="find a seat with unity_query('chair'), and pass its id as the top-level "
                      "`sit_on` of this same call — that also walks her there. Playing a seated clip "
                      "on open floor puts her in mid-air.")
 
@@ -1744,11 +2156,19 @@ def register(registry, engine, kb=None):
                 "hint": "name the standing action as `base` and %s in `then`, in one call, to have "
                         "the frames between them generated." % seated[0]})
 
+        synthesised = []
         if then:
             # TIMING IS DERIVED HERE TOO. The seam search picks where each step enters and hands over
             # and how long the crossfade needs; the model named an order, nothing more. Same split as
             # the channel partition, for the same reason.
-            order = [base] + [entry["base"] for entry in then]
+            #
+            # THE ORDER INCLUDES THE BRIDGES. A `via` the agent chose is a step like any other from
+            # here on: it is scheduled, seamed and layered exactly as a step it named directly, which
+            # is the point of accepting one at all. What changes is what does NOT happen — a real
+            # transition clip between two postures means the seam on either side is an ordinary
+            # blend, so nothing is generated and nothing has to be said about generated frames.
+            sequence = _then_sequence(base, then)
+            order = [aid for aid, _ in sequence]
             try:
                 clips = {aid: T.load_clip((kb.record(aid).get("source_clip") or {}).get("clip_name"),
                                           loop=bool(kb.record(aid).get("loop")))
@@ -1759,18 +2179,22 @@ def register(registry, engine, kb=None):
             except ValueError as e:
                 raise ToolFailure(str(e),
                                   hint="the library has no clip for standing up or sitting down. Find "
-                                       "something to sit on with scene_search('chair') and "
+                                       "something to sit on with unity_query('chair') and "
                                        "pass it as sit_on; the frames will then be generated against "
                                        "it rather than blended.")
             except (IOError, OSError) as e:
                 raise ToolFailure("no per-frame data to find a seam with: %s" % e)
 
             steps = []
-            for index, aid in enumerate(order):
+            for index, (aid, entry) in enumerate(sequence):
+                # READ BEFORE `entry` IS NORMALISED AWAY. A via step is the one the agent did not
+                # name directly, and `entry is None` is what says so -- three lines below it becomes
+                # an empty dict and the distinction is gone.
+                is_bridge = entry is None and index > 0
                 if index == 0:
                     step_layers, step_gates = layers, gates
                 else:
-                    entry = then[index - 1]
+                    entry = entry or {}
                     a, step_layers, step_gates = _one_step(
                         aid, entry.get("overlays") or [], entry.get("hold_final_pose"), None,
                         entry.get("base_channels"), pinned)
@@ -1781,6 +2205,56 @@ def register(registry, engine, kb=None):
                 timed.update({"layers": step_layers,
                               "posture": _posture_of(aid),
                               "frame_rate": kb.record(aid).get("frame_rate") or 30})
+                # A CLIP THAT TRAVELS HAS TO BE ALLOWED TO. The composer discards root motion, which
+                # is right for a walk cycle -- the NavMeshAgent owns where she is, and a cycle that
+                # also moved her would double the distance -- and wrong for a sit-down, whose whole
+                # job is to carry the hips from in front of the seat onto it. So the step says which
+                # it is, and only a bridge the agent chose in `via` ever says yes: the base and the
+                # steps it named play in place as they always have.
+                #
+                # Protocol v5. An executor from before it drops the field, discards the root motion,
+                # and plays the sit-down on the spot -- feet sliding, hips finishing where they
+                # started -- while reporting success. The version check is fatal for exactly this.
+                if is_bridge and _travels(aid):
+                    timed["apply_root_motion"] = True
+                    for layer in step_layers:
+                        layer["apply_root_motion"] = True
+
+                # THE STEP THAT ENDS SEATED IS THE ONE WITH A LANDING TO JUDGE. `expect_support` was
+                # set only on a lone seated step, because until now the other way to end up on a seat
+                # was a GENERATED descent, which arms the gate through its own path
+                # (`SupportLanded`). A retrieved transition arms neither, so the sit that 4c exists
+                # to place was the one sit nothing measured -- `seat_alignment` would never have been
+                # computed for it, which is most of why the miss went unseen.
+                if sit_on and seat and _crosses(aid, "standing", "seated"):
+                    # WHEN THE LANDING BECOMES JUDGEABLE, on the plan's own clock. The engine armed
+                    # this half a second in, which was right while a seated step was the whole plan;
+                    # here the sit is the third step of a plan that walks first, so half a second in
+                    # she is mid-stride and standing. Measured before this was sent: the gate read
+                    # seat_alignment 0.4667 m and pelvis_above_surface 0.5253 m -- both true of where
+                    # she was at 0.5 s, and neither about the sit.
+                    settled = (timed.get("start_at_s") or 0.0) + (timed.get("duration_s") or 1.0)
+                    timed["expect_support"] = {"object_id": sit_on,
+                                               "surface_m": seat.get("surface_height_m"),
+                                               "judgeable_at_s": round(settled, 4)}
+                if timed.get("generated"):
+                    # SAID, AND SAID AS A CHOICE THAT WAS AVAILABLE. These frames exist in no clip;
+                    # they are made against the seat. That works, and it is not the only way — the
+                    # library holds real clips for this change, and naming one in `via` plays it
+                    # instead. Reported so the agent can take that route next time rather than
+                    # discovering it existed from somewhere else.
+                    synthesised.append({
+                        "between": [order[index - 1], aid] if index else [aid],
+                        "from_posture": KI.posture_span_of(kb.record(order[index - 1]))[1]
+                        if index else None,
+                        "to_posture": KI.posture_span_of(kb.record(aid))[0],
+                        "why": "no clip in this plan covers the change, so the frames were generated "
+                               "against %s" % (sit_on or "the support"),
+                        "alternative": "motion_search(query, transition={from_posture, to_posture}) "
+                                       "finds clips that perform the change; motion_transition(via=[…]) "
+                                       "ranks them; naming the one you pick in `then[].via` plays it "
+                                       "instead of generating anything.",
+                    })
                 if timed.get("generated") and sit_on:
                     # Name the support on the wire so the gate can check the landing rather than only
                     # how well the descent tracked its own plan.
@@ -1788,11 +2262,19 @@ def register(registry, engine, kb=None):
                     timed["generated"]["support_surface_m"] = seat.get("surface_height_m")
                     _refuse_sitting_under_it(sit_on, seat.get("surface_height_m"),
                                              timed["generated"].get("target_hip_height_m"), aid)
+                elif timed.get("apply_root_motion") and sit_on and seat:
+                    # THE SAME CHECK, AGAINST THE CLIP INSTEAD OF AGAINST A DESCENT. Nothing is
+                    # generated here, so there is no `target_hip_height_m` to compare -- what the hips
+                    # arrive at is whatever the clip's last frame puts them at, and that is measurable
+                    # from the frozen dump. A seat this clip would finish underneath is refused for
+                    # the same reason a generated descent into a desk was.
+                    _refuse_sitting_under_it(sit_on, seat.get("surface_height_m"),
+                                             _end_hip_height(aid), aid)
                 steps.append(timed)
 
         paired = await _pair_bound_hands(ik_bindings or [])
         walk_payload = None
-        if while_walking and mode == "commit":
+        if while_walking:
             # The walk-with-overlays plan, built here so it can be checked before she sets off and
             # then sent verbatim by `_walk_there`. Entered on the frame closest to what she is
             # currently doing, which is a read-only question and stable: nothing has moved.
@@ -1820,14 +2302,20 @@ def register(registry, engine, kb=None):
         }
         # ---- everything above this line is derivation; nothing has moved ------------------------
         #
-        # THE FENCE. Both plans are run on a hidden duplicate of her before the visible one does
-        # anything: the walk-with-overlays where she stands now, and the motion itself at the arrival
+        # THE FENCE, AND IT IS THE SAME FENCE FOR BOTH TOOLS. Both plans are run on a hidden duplicate
+        # of her: the walk-with-overlays where she stands now, and the motion itself at the arrival
         # the route preview projected. A failure here raises, and she is exactly where she was.
-        validated = None
-        if mode == "commit":
-            if walk_payload is not None:
-                await _validate(walk_payload)
-            validated = await _validate(payload, at=_standing_at(preview))
+        #
+        # `unity_validate` STOPS HERE, and that is the whole difference between the two. It is not a
+        # cheaper check or a different one -- it is this check, with the commit below left undone. A
+        # validation that ran weaker checks than the commit would be answering a question nobody
+        # asked, and the answer would be reassuring for the wrong reasons.
+        if walk_payload is not None:
+            await _validate(walk_payload)
+        validated = await _validate(payload, at=_standing_at(preview))
+        if mode != "commit":
+            return _validation_report(base, derived, assemblies, gates, steps, validated, preview,
+                                      gaze_at, synthesised)
 
         # ---- and only now does anything visible happen -------------------------------------------
         walked = None
@@ -1840,7 +2328,7 @@ def register(registry, engine, kb=None):
                 raise ToolFailure(
                     "she did not get to %s: %s" % (walk_to, walked.get("note") or "still walking"),
                     hint="the motion was not played. The route was clear when it was checked, so "
-                         "something is in the way now -- try again, or walk there with move_to and "
+                         "something is in the way now -- try again, or walk there with unity_locomotion and "
                          "see how far she gets.")
             if aim:
                 # The turn has to finish before the plan commits: a descent that starts mid-turn puts
@@ -1865,7 +2353,12 @@ def register(registry, engine, kb=None):
         # a motion existing in no clip left nothing behind saying so. Same function the eval scores
         # with; see assemble.verdict.
         verdicts = [A.verdict(a, gaze_at) for a in assemblies]
-        result = {"mode": mode, "derived": derived if len(derived) > 1 else derived[0],
+        # `committed` RATHER THAN A MODE. The mode was a parameter with a default, so a result had to
+        # be read against what the tool decided rather than what it was asked -- and the trace, which
+        # read the arguments, reported no motion for every call that took the default. There is no
+        # mode any more: this path plays the motion and says so, `unity_validate` says the opposite,
+        # and both halves of the pair are answering the same field.
+        result = {"committed": True, "derived": derived if len(derived) > 1 else derived[0],
                   "retrieval": verdicts if len(verdicts) > 1 else verdicts[0],
                   "gates": gates, "engine": data}
         if validated:
@@ -1918,6 +2411,7 @@ def register(registry, engine, kb=None):
                                    "fades_in_over_s": s["blend_in_s"]} for s in steps]
         if generated:
             result["generated_transitions"] = generated
+            result["posture_transition_synthesis"] = synthesised
             result["note"] = ("part of this motion does not exist in the library and was generated: "
                               "say so rather than presenting it as a retrieved clip.")
             if mode == "commit":
@@ -1930,7 +2424,7 @@ def register(registry, engine, kb=None):
                 # so it is scheduled: the loop runs it once it is answerable and reports separately.
                 result["verify"] = {
                     "status": "scheduled",
-                    "tool": "check_motion",
+                    "tool": "unity_measure",
                     "arguments": {"character": character},
                     "confirms": "the pelvis landed on %s, in the real scene rather than the copy"
                                 % sit_on,
@@ -1941,6 +2435,36 @@ def register(registry, engine, kb=None):
                 }
         return result
 
+    def _validation_report(base, derived, assemblies, gates, steps, validated, preview, gaze_at,
+                           synthesised):
+        """What `unity_validate` answers with: the plan, resolved and checked, and nothing done.
+
+        SAME FIELDS AS A COMMIT, MINUS WHAT A COMMIT PRODUCES. The derivation, the retrieval verdict,
+        the gates and the hidden-copy verdict are the same objects the committed path builds, because
+        they came from the same code -- so what this says about a plan is what will be true of it.
+        `committed: false` is stated rather than implied by an absent field: a reply that reads like
+        a commit is how "I validated it" becomes "she did it".
+        """
+        verdicts = [A.verdict(a, gaze_at) for a in assemblies]
+        report = {
+            "committed": False,
+            "derived": derived if len(derived) > 1 else derived[0],
+            "retrieval": verdicts if len(verdicts) > 1 else verdicts[0],
+            "gates": gates,
+            "validated": validated,
+            "sequence": [{"action_id": step["action_id"], "starts_at_s": step["start_at_s"],
+                          "fades_in_over_s": step["blend_in_s"]} for step in steps],
+            "note": "this plan resolves and passes the geometric check on a hidden copy. Nothing "
+                    "moved and nothing is playing. unity_execute with the same arguments plays it.",
+        }
+        if preview is not None:
+            # WHERE THE WALK WOULD PUT HER, WHICH IS THE HALF OF A VALIDATION THAT COSTS NOTHING TO
+            # ANSWER AND IS EASIEST TO GET WRONG. She has not walked; the route was computed.
+            report["would_walk_to"] = {k: v for k, v in preview.items() if k != "arrival"}
+        if synthesised:
+            report["posture_transition_synthesis"] = synthesised
+        return report
+
     def _clip_of(kb, action_id):
         """guid + file_id, resolved here so the engine never needs the knowledge base and the model
         never sees an asset id."""
@@ -1948,7 +2472,7 @@ def register(registry, engine, kb=None):
         return {"guid": clip.get("guid"), "file_id": clip.get("file_id"),
                 "clip_name": clip.get("clip_name")}
 
-    async def check_motion(character=None):
+    async def unity_measure(character=None):
         """The geometric verdict on what is actually playing.
 
         Waits for the motion to reach the point where its checks can be answered, rather than sampling
@@ -1969,7 +2493,7 @@ def register(registry, engine, kb=None):
             raise ToolFailure(
                 "the motion has not reached the point where %s can be measured" % waited,
                 hint="it is still playing. This is not a failure and not a pass -- nothing about the "
-                     "landing is known yet, so do not report success. Call check_motion again.")
+                     "landing is known yet, so do not report success. Call unity_measure again.")
         if not ok:
             problems = "; ".join(f["problem"] for f in payload["failures"])
             hints = " ".join(f["try"] for f in payload["failures"])
@@ -1977,58 +2501,99 @@ def register(registry, engine, kb=None):
                               hint=hints)
         return payload
 
-    registry.add("check_motion",
+    async def unity_execute(base, character=None, overlays=None, base_channels=None,
+                            hold_final_pose=None, ik_bindings=None, gaze_at=None, stand_at=None,
+                            carry=None, then=None, sit_on=None, walk_to=None, stop_within=None):
+        """Play it."""
+        return await _plan(base, character=character, overlays=overlays,
+                           base_channels=base_channels, hold_final_pose=hold_final_pose,
+                           ik_bindings=ik_bindings, gaze_at=gaze_at, stand_at=stand_at, carry=carry,
+                           then=then, sit_on=sit_on, walk_to=walk_to, stop_within=stop_within,
+                           mode="commit")
+
+    async def unity_validate(base, character=None, overlays=None, base_channels=None,
+                             hold_final_pose=None, ik_bindings=None, gaze_at=None, stand_at=None,
+                             carry=None, then=None, sit_on=None, walk_to=None, stop_within=None):
+        """Resolve it and check it, and leave the scene exactly as it is.
+
+        THE SAME ARGUMENTS AND THE SAME DERIVATION, deliberately: two tools whose plans could differ
+        would make a passed validation evidence about something else. What differs is where the
+        function stops.
+        """
+        return await _plan(base, character=character, overlays=overlays,
+                           base_channels=base_channels, hold_final_pose=hold_final_pose,
+                           ik_bindings=ik_bindings, gaze_at=gaze_at, stand_at=stand_at, carry=carry,
+                           then=then, sit_on=sit_on, walk_to=walk_to, stop_within=stop_within,
+                           mode="dry_run")
+
+    registry.add("unity_measure",
                  "Measure the motion currently playing against the scene: did the bound hand stay on "
                  "its object, did a foot go through the floor, did a sit land on the seat. Waits for "
                  "the motion to reach the point where that is answerable, so it may take a moment.",
                  {"type": "object", "additionalProperties": False,
                   "properties": {"character": {"type": "string"}}},
-                 check_motion)
+                 unity_measure)
 
-    registry.add("scene_search",
-                 "Which thing is that. Search the scene by name or by the contact name a motion uses, "
-                 "and get back the id to plan with, what it is called, and the other names it answers "
-                 "to. Named places are things too, so this is also how you find somewhere to walk. "
-                 "Call it with no query to list everything there is — the list is short and complete.",
-                 SEARCH_PARAMS, scene_search)
-    registry.add("scene_query",
-                 "What those things are to the character right now: does it exist, is it within arm's "
-                 "reach, does she have to walk to it, is somebody holding it. Use it to decide "
-                 "whether a motion needs a walk first.",
-                 QUERY_PARAMS, scene_query)
-    registry.add("move_to",
+    registry.add("unity_query",
+                 "Ask the scene one of two things. With `query`: which thing is that — search by name "
+                 "or by the contact name a motion uses, and get back the id to plan with, what it is "
+                 "called, and the other names it answers to. Named places are things too, so this is "
+                 "also how you find somewhere to walk; query=\"\" lists everything there is, which is "
+                 "short and complete. With `object_ids`: what those things are to the character right "
+                 "now — does it exist, is it within arm's reach, does she have to walk to it, is "
+                 "somebody holding it. One or the other per call, never both.",
+                 UNITY_QUERY_PARAMS, unity_query)
+    registry.add("unity_locomotion",
                  "Walk the character somewhere and wait until she gets there. The motion clips are all "
                  "in-place, so playing a walk does not move her — this does. Somewhere can be an "
                  "object or anchor by id, or a place: 'near:<object_id>' is beside a thing rather than "
                  "at it, and 'view:left' / 'view:right' / 'view:ahead' / 'view:behind' are relative to "
                  "whoever is watching, for a request like 'go to the right of my view'. Call it before "
                  "anything that has to happen AT a particular place.",
-                 MOVE_PARAMS, move_to)
-    registry.add("plan_motion",
-                 "Combine one base action with optional overlays, bind hands and gaze to scene objects, "
-                 "and play it. The body-channel split is derived for you from the actions you name, and "
-                 "so is which way she ends up facing — the object an action touches is what she faces. "
-                 "Pass walk_to to have her walk there and start the motion on arrival, in one call. "
-                 "Use dry_run first to see the split and the checks.",
-                 PLAN_PARAMS, plan_motion)
+                 MOVE_PARAMS, unity_locomotion)
+    registry.add("unity_validate",
+                 "Resolve a motion and check it against the scene WITHOUT playing it: the channel "
+                 "split, the timing, where a walk would leave her, and the geometric verdict from a "
+                 "hidden copy of the character. Nothing moves. Takes exactly the arguments "
+                 "unity_execute takes, so what it says about a plan is what will be true of it.",
+                 EXECUTE_PARAMS, unity_validate)
+    registry.add("unity_execute",
+                 "Play a motion: one base action with optional overlays, actions after it in `then`, "
+                 "hands and gaze bound to scene objects, and a walk to get her there. The "
+                 "body-channel split comes from the channels you name, the timing and seams are "
+                 "derived, and which way she ends up facing follows from what the plan touches. It "
+                 "is checked on a hidden copy first, so a plan that does not work comes back refused "
+                 "rather than half-played.",
+                 EXECUTE_PARAMS, unity_execute)
     return registry
 
 
 def _posture_gate(base, overlays, kb):
     """The most fundamental check and the cheapest, so it runs first and alone.
 
-    The posture is MEASURED now -- a bin over the clip's mean body height (kbindex.posture_of) --
-    where v3 read a `composability.posture` label. The gate is unchanged: a standing action and a
-    seated one cannot play at the same time however the channels fall out.
+    BOTH ENDS, NOT THE MIDDLE. Overlays play AT THE SAME TIME as the base, so what has to agree is
+    where each clip starts and where each finishes: a walk and a stand-up cannot be layered, however
+    the channels fall out, because one of them is putting the body somewhere the other is not. This
+    read the dominant posture, which was the same answer while every clip held one posture throughout
+    and is the wrong one now -- a stand-up is dominantly `seated` and layers perfectly well under
+    nothing at all.
+
+    `other` IS NOT A MISMATCH. It is the posture analysis's fallback for a configuration its rules
+    cannot place -- crouching, kneeling, airborne -- and 985 of the corpus's 2446 clips carry it. A
+    difference involving it is an absence of information, so refusing on one would refuse most
+    combinations the library can actually perform, in the name of a claim nothing made.
     """
-    postures = {aid: KI.posture_of(kb.record(aid)) for aid in [base] + list(overlays)}
-    distinct = {p for p in postures.values() if p}
-    if len(distinct) <= 1:
-        return {"id": "posture", "status": "pass",
-                "detail": "all %s" % (distinct.pop() if distinct else "unspecified")}
-    return {"id": "posture", "status": "fail",
-            "detail": "cannot mix postures: "
-                      + ", ".join("%s is %s" % (a, p) for a, p in sorted(postures.items()) if p)}
+    spans = {aid: KI.posture_span_of(kb.record(aid)) for aid in [base] + list(overlays)}
+    for index, moment in ((0, "start"), (1, "end")):
+        claimed = {aid: span[index] for aid, span in spans.items()
+                   if span[index] in T.DEFINITE_POSTURES}
+        if len(set(claimed.values())) > 1:
+            return {"id": "posture", "status": "fail",
+                    "detail": "cannot mix postures: at the %s, %s" % (
+                        moment, ", ".join("%s is %s" % (a, p) for a, p in sorted(claimed.items())))}
+    held = {p for span in spans.values() for p in span if p in T.DEFINITE_POSTURES}
+    return {"id": "posture", "status": "pass",
+            "detail": "all %s" % (", then ".join(sorted(held)) if held else "unplaced")}
 
 
 def _structural_gates(assembly, kb, ik_bindings):

@@ -7,7 +7,7 @@ accepted review frames. This writes elsewhere and touches nothing in the KB.
 
 It was written when `select_fracs` sampled inside an "action window" that structurally excluded frame 0,
 which meant no frame 0 had ever been rendered for any action. Coverage-based selection picks frame 0
-whenever the opening pose is the only thing representing it -- on `check_pulse` it now does -- so this
+whenever the opening pose is the only thing representing it -- on a clip that opens on its held pose it now does -- so this
 is no longer the only way to see one. It is still the way to see a RANGE of opening frames at a chosen
 resolution, which is what an import artefact at the head of a clip looks like.
 """

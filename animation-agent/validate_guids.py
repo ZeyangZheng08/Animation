@@ -13,10 +13,18 @@ from inside the Unity project; driving it from here over the MCP bridge leaves N
 engine, which is the point of the split (ADR 0008 pattern: Python owns the knowledge, C# is generated
 and disposable). Writes agent/motionkb_build/reports/kb_state.md, same report the Editor tool used to write.
 
-Usage:  python validate_guids.py [--host H] [--port P] [--instance NAME]
-Exit:   0 if every accepted action resolves; 1 on any failure or if the bridge is unreachable.
+A SAMPLE BY DEFAULT, since the corpus landed. This resolves every guid in one C# call, and that call
+is a source file the bridge compiles: at 2446 entries it is a few hundred KB of generated C# for a
+question about assets that all arrived in one import. So the default is a deterministic sample --
+same clips on every run, so a failure is reproducible and a fix is checkable -- and `--all` is there
+for the run that matters, after a reimport or before a release. A sample cannot prove the whole store
+resolves, and this says which it did.
+
+Usage:  python validate_guids.py [--all | --sample N] [--seed S] [--host H] [--port P] [--instance NAME]
+Exit:   0 if every action it checked resolves; 1 on any failure or if the bridge is unreachable.
 """
 import os
+import random
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -25,11 +33,23 @@ import unity_sampler             # noqa: E402
 
 REPORT = os.path.join(paths.REPORTS_DIR, "kb_state.md")
 
+# How many actions to resolve when no size is given. Enough that a broken import shows up -- the
+# corpus arrived in one pass, so a guid failure is almost never confined to one clip -- and small
+# enough that the generated C# stays a page.
+DEFAULT_SAMPLE = 40
 
-def _entries():
-    """(key, guid, file_id, clip_name) for every accepted action, keyed by action_id."""
+
+def _entries(sample=None, seed=0):
+    """(key, guid, file_id, clip_name) for the actions to check, keyed by action_id.
+
+    `sample` limits it to that many, drawn deterministically from the sorted store so the same run
+    checks the same clips. None means all of them.
+    """
+    files = paths.accepted_files()
+    if sample is not None and sample < len(files):
+        files = sorted(random.Random(seed).sample(files, sample))
     out = []
-    for path in paths.accepted_files():
+    for path in files:
         doc = paths.read_json(path)
         sc = doc.get("source_clip") or {}
         out.append({
@@ -54,9 +74,16 @@ VERDICT_TEXT = {
 def main(argv):
     paths.require_kb()
     host, port, instance = unity_sampler.DEFAULT_HOST, unity_sampler.DEFAULT_PORT, None
+    sample, seed = DEFAULT_SAMPLE, 0
     i = 0
     while i < len(argv):
-        if argv[i] == "--host" and i + 1 < len(argv):
+        if argv[i] == "--all":
+            sample = None; i += 1
+        elif argv[i] == "--sample" and i + 1 < len(argv):
+            sample = int(argv[i + 1]); i += 2
+        elif argv[i] == "--seed" and i + 1 < len(argv):
+            seed = int(argv[i + 1]); i += 2
+        elif argv[i] == "--host" and i + 1 < len(argv):
             host = argv[i + 1]; i += 2
         elif argv[i] == "--port" and i + 1 < len(argv):
             port = int(argv[i + 1]); i += 2
@@ -65,7 +92,8 @@ def main(argv):
         else:
             i += 1
 
-    entries = _entries()
+    total = len(paths.accepted_files())
+    entries = _entries(sample=sample, seed=seed)
     if not entries:
         print("FATAL: manifest.json lists no accepted actions (store: %s)" % paths.ACTIONS_DIR)
         return 1
@@ -79,7 +107,9 @@ def main(argv):
               "Open the Unity project and start the MCP server on HTTP (port %d) first." % (host, port, port))
         return 1
 
-    print("guid -> AnimationClip resolution via %s:%d — %d accepted action(s)\n" % (host, port, len(entries)))
+    scope = ("all %d accepted action(s)" % total if sample is None
+             else "%d of %d accepted action(s), sampled with seed %d" % (len(entries), total, seed))
+    print("guid -> AnimationClip resolution via %s:%d — %s\n" % (host, port, scope))
     cs = unity_sampler.build_validate_guids_csharp(entries)
     ok, result_text, _ = unity_sampler.run_csharp_over_http(cs, host=host, port=port, instance=instance)
     if not ok:
@@ -95,7 +125,9 @@ def main(argv):
     rows = [
         "# MotionKB state - guid->asset resolution (engine-side layer)",
         "",
-        "Resolves each accepted action's source_clip (guid + file_id) to a real AnimationClip.",
+        "Resolves an accepted action's source_clip (guid + file_id) to a real AnimationClip.",
+        "",
+        "Scope of this run: %s." % scope,
         "Driven from agent-side Python over the Unity MCP bridge; no agent code lives in the Unity project.",
         "Schema + cross-field invariants are checked with no Unity by validate_motionkb.py.",
         "",
@@ -116,7 +148,8 @@ def main(argv):
                        VERDICT_TEXT.get(verdict, "NO (%s)" % verdict), clip_name, asset))
         print("  %-6s %s -> %s" % (verdict, e["key"], asset or "(unresolved)"))
 
-    rows += ["", "**%d resolved / %d failed / %d warning(s).**" % (npass, nfail, nwarn)]
+    rows += ["", "**%d resolved / %d failed / %d warning(s)** out of %s."
+             % (npass, nfail, nwarn, scope)]
     paths.write_text(REPORT, "\n".join(rows) + "\n")
     print("\n%d resolved / %d failed / %d warn -> %s" % (npass, nfail, nwarn, paths.rel(REPORT)))
     return 1 if nfail else 0

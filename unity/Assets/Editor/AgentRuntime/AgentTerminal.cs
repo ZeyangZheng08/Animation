@@ -30,7 +30,7 @@ namespace AgentRuntime.EditorTools
         private const string ScriptKey = "AgentRuntime.TerminalScript";
         private const string OnPlayKey = "AgentRuntime.TerminalOnPlay";
         private const string DefaultScript =
-            @"\\wsl.localhost\Ubuntu-24.04\home\chenhui\Research\animation-agent\terminal.ps1";
+            @"\\wsl.localhost\Ubuntu-24.04\home\yuq8cp\Research\animation_agent\terminal.ps1";
 
         private static Process _terminal;
 

@@ -1,7 +1,7 @@
 """
 kbindex.py — the MotionKB loaded once into memory, and the only place that decides what a model sees.
 
-The KB is small (8 actions, ~1.4 MB with its frozen samples) and read-only at runtime, so it is loaded
+The KB is 2446 accepted Mixamo actions, ~15 MB of records, and read-only at runtime, so it is loaded
 whole at startup and never touched on disk again during a turn. The only writer is the offline pipeline.
 
 WHY PROJECTIONS ARE NOT AN OPTIMIZATION. The demo's model has a 32k context window. One full action
@@ -24,15 +24,23 @@ a rendering floor cannot answer them. The agent decides them from the task and t
 in its plan. So `arbitrate()` — which used to rank `role` and hand back an owner per channel — is
 gone from this module, and channel ownership arrives from the plan instead (see agent/assemble.py).
 
-WHAT IS DERIVED HERE. `posture_of` is a bin over the root channel's measured `mean_body_height`, not
-a stored label. It is derived rather than deleted because the ENGINE needs it — every plan step
-carries a posture so the executor can refuse to walk a seated character off a chair — and because it
-is a fact about the clip's carriage that the measurement already contains.
+WHERE POSTURE COMES FROM NOW. `posture_of` READS a sidecar, `derived/posture.json`, built by
+`build_posture.py`. It used to bin the root channel's `mean_body_height` against one threshold, which
+gives one word per clip — and a clip that stands up out of a chair is not one word. The sidecar holds
+a per-frame segmentation over four coarse states (standing / seated / floor / other) with its start,
+its end and its dominant state; this module reads the dominant one, and the tools that need the time
+structure read the sidecar directly. The ENGINE is why it exists at all: every plan step carries a
+posture so the executor can refuse to walk a seated character off a chair.
+
+NO FALLBACK IF THE SIDECAR IS MISSING. `load` refuses to start without it. A fallback would answer
+"standing" for a corpus of 2446 clips a fifth of which are on the floor, and the refusal it exists to
+make would be quietly switched off.
 """
 import json
 import os
 import re
 
+import build_posture
 import paths
 
 # The 8 anatomical channels plus root. Mirrors config.STATE_CHANNELS; kept here as the retrieval-side
@@ -41,40 +49,92 @@ CHANNELS = ("root", "torso", "head", "left_arm", "right_arm",
             "left_leg", "right_leg", "left_hand", "right_hand")
 ANATOMICAL = CHANNELS[1:]
 
-# Below this mean body height (normalised humanoid units, HumanPose.bodyPosition.y) a clip's carriage
-# is a seated one. It is a bin over a measurement, and the corpus leaves an unusually wide gap for it
-# to sit in: the one seated action reads 0.647 and the lowest standing action (bvm, leaning over a
-# patient) reads 0.859. 0.75 is the middle of that gap. Deliberately NOT combined with
-# `mean_body_tilt_deg`: tilt measures forward lean, and cpr (44.6 deg) and bvm (39.3 deg) lean far
-# harder than the seated clip does (8.7 deg), so any rule reading tilt gets those two wrong.
-SEATED_BELOW = 0.75
 
-# What a tool may hand to the model. `extraction` and `source_clip` are absent on purpose: provenance
-# and asset guids cost tokens and inform no decision the model makes.
-MODEL_VISIBLE_FIELDS = frozenset({
-    "action_id", "action_description", "duration", "frame_rate", "loop", "channels",
-})
+def _posture_entry(rec):
+    """The record's entry in `derived/posture.json`, or a SystemExit naming the rebuild.
+
+    An action the sidecar does not cover is not a missing value to be defaulted: a store and a
+    sidecar that disagree about what is in the KB is a build that did not finish, and the honest
+    answer to "what posture is this" is then "the sidecar is stale", not "standing".
+    """
+    aid = rec.get("action_id") if isinstance(rec, dict) else None
+    entry = build_posture.read_sidecar().get(aid)
+    if entry is None:
+        raise SystemExit(
+            "no posture for %r in %s.\n"
+            "The sidecar does not cover the accepted store. Rebuild it:  python build_posture.py"
+            % (aid, paths.rel(build_posture.PATH)))
+    return entry
+
+
+def posture_detail(rec):
+    """The record's whole posture entry: the two ends, the dominant state, the segmentation, the
+    boundaries between segments, and how far the clip travels.
+
+    A COPY, because the sidecar is memoised and shared for the life of the process. A tool that
+    returned the stored dict would hand a mutable view of the index to whatever formats it next.
+    """
+    entry = _posture_entry(rec)
+    return {
+        "start_posture": entry["start_posture"],
+        "end_posture": entry["end_posture"],
+        "dominant_posture": entry["dominant_posture"],
+        "posture_segments": [dict(seg) for seg in entry["posture_segments"]],
+        "posture_transitions": [dict(t) for t in entry["posture_transitions"]],
+        "root_travel": dict(entry.get("root_travel") or {}),
+    }
+
+
+def root_travel_of(rec):
+    """(dx, dz, yaw_deg) for a clip: where it leaves the body relative to where it picked it up.
+
+    THE NUMBER A SEAT IS PLACED FROM. A retrieved sit-down steps backwards into the chair, so the
+    point she has to be standing on before it starts is the seat MINUS this displacement, rotated
+    into the direction she will be facing. See `scene._standing_point_for`.
+    """
+    travel = _posture_entry(rec).get("root_travel") or {}
+    return (float(travel.get("dx") or 0.0), float(travel.get("dz") or 0.0),
+            float(travel.get("yaw_deg") or 0.0))
 
 
 def posture_of(rec):
-    """'standing' or 'seated', binned from the record's measured carriage.
+    """A record's coarse posture: 'standing', 'seated', 'floor' or 'other'.
 
-    Through v3 this was `composability.posture`, a label a VLM proposed and a human accepted. It is
-    computed now because the label is gone (ADR 0022) and because it was never really a judgement:
-    where the hips sit over the clip is a measurement, and the record keeps it.
+    THE VALUE IS NOT COMPUTED HERE. It is the `dominant_posture` of the record's entry in
+    `derived/posture.json`, which `build_posture.py` derives from the frozen `raw` dump by geometric
+    rules over trunk, thigh, shank and knee angles and the normalised body height. That module owns
+    the rules and the version; this one only looks the answer up, so a posture cannot come to mean
+    one thing to the pipeline and another to retrieval.
 
-    A record with no root carriage falls back to standing, which is what the executor assumes.
+    Takes a RECORD rather than an action_id because every caller already has one, and because the
+    record is where the id lives.
     """
-    if not isinstance(rec, dict):
-        return "standing"
-    h = ((rec.get("channels") or {}).get("root") or {}).get("mean_body_height")
-    if not isinstance(h, (int, float)):
-        return "standing"
-    return "seated" if h < SEATED_BELOW else "standing"
+    return _posture_entry(rec)["dominant_posture"]
 
+
+def posture_span_of(rec):
+    """(start_posture, end_posture) for the record — the two ends of the same segmentation.
+
+    Separate from `posture_of` because they answer different questions: "what is this clip mostly"
+    decides how a step is classified, and "where does it begin and end" decides whether two steps
+    can be joined at all. A clip that stands up is dominantly one of the two and compatible with
+    neither at both ends.
+    """
+    entry = _posture_entry(rec)
+    return entry["start_posture"], entry["end_posture"]
+
+
+# `mx` is in here for a reason the rest of the list does not share: it is not an English stopword, it
+# is the corpus's filename prefix. Every one of the 2446 action_ids begins with it, so `_document`
+# emits it 2446 times and BM25 gives it an IDF of zero — which is harmless — while a query that
+# happens to contain it matches everything, and `coverage` counts it as a word the library has. It
+# carries no meaning about motion in either direction, so it is dropped where every other meaningless
+# token is dropped, rather than by stripping the prefix in `_document` and leaving `coverage` to
+# disagree with the index about what a word is.
 _STOP = frozenset("""
 a an the and or but of to in on at by for with from into over under while during as is are was were be
 been being it its this that these those her his their she he they them we you i not no nor so then than
+mx
 """.split())
 
 _TOKEN = re.compile(r"[a-z0-9]+")
@@ -98,20 +158,32 @@ def tokenize(text):
 
 
 class Hit:
-    """One search result. Kept small on purpose — see the module docstring on the context budget."""
+    """One search result. Kept small on purpose — see the module docstring on the context budget.
 
-    __slots__ = ("action_id", "description", "score", "why", "posture")
+    THREE POSTURES, NOT ONE. `posture` is what the clip mostly is, and it is what a filter matches on;
+    `start_posture` and `end_posture` are where it begins and ends, which is the pair that decides
+    whether two clips can be put in sequence at all. A clip that stands up out of a chair is
+    dominantly one of the two and joins neither cleanly at both ends, and a result that offered only
+    the dominant reading would hide exactly the clips a posture change needs.
+    """
 
-    def __init__(self, action_id, description, score, why, posture):
+    __slots__ = ("action_id", "description", "score", "why", "posture",
+                 "start_posture", "end_posture")
+
+    def __init__(self, action_id, description, score, why, posture,
+                 start_posture=None, end_posture=None):
         self.action_id = action_id
         self.description = description
         self.score = score
         self.why = why
         self.posture = posture
+        self.start_posture = start_posture
+        self.end_posture = end_posture
 
     def as_dict(self):
         return {"action_id": self.action_id, "description": self.description,
-                "score": round(self.score, 2), "why": self.why, "posture": self.posture}
+                "score": round(self.score, 2), "why": self.why, "posture": self.posture,
+                "start_posture": self.start_posture, "end_posture": self.end_posture}
 
     def __repr__(self):
         return "Hit(%s, %.2f)" % (self.action_id, self.score)
@@ -125,6 +197,18 @@ class KBIndex:
         self._ids = sorted(actions)
         self._docs = {aid: self._document(actions[aid]) for aid in self._ids}
         self._bm25 = None                           # built lazily; rank_bm25 import costs ~40 ms
+        # PRECOMPUTED ONCE, BECAUSE BOTH READERS WERE QUADRATIC IN THE CORPUS. `_why` ranked a
+        # matched term by how many documents hold it, and built a fresh set per document per term:
+        # over eight documents that was free, over 2446 it is a set construction per term per hit per
+        # search. `coverage` unioned every document's tokens on every call for the same reason. Both
+        # answers are functions of the index alone, so they are answered from these two tables --
+        # built with the rest of the index in under 100 ms, read in constant time afterwards.
+        self._terms = {aid: frozenset(tokens) for aid, tokens in self._docs.items()}
+        self._document_frequency = {}
+        for terms in self._terms.values():
+            for term in terms:
+                self._document_frequency[term] = self._document_frequency.get(term, 0) + 1
+        self._vocabulary = frozenset(self._document_frequency)
 
     # ---- loading ---------------------------------------------------------------------------
 
@@ -135,7 +219,7 @@ class KBIndex:
         The store holds every record whatever its status (ADR 0016), and the agent retrieves only what
         has been described — an undescribed record has no sentence anywhere in it, so it is not
         findable by meaning and would only dilute the ranking. Which ones those are comes from
-        `paths.accepted_files()`, which reads the manifest rather than opening 2454 files at every
+        `paths.accepted_files()`, which reads the manifest rather than opening 2446 files at every
         start. Pass `actions_dir` to read a directory directly instead; tests use it.
         """
         paths.require_kb()
@@ -152,6 +236,19 @@ class KBIndex:
             raise SystemExit(
                 "no accepted actions found in %s — the KB is present but empty, which would make every "
                 "retrieval silently return nothing" % where)
+        if actions_dir is None:
+            # THE POSTURE SIDECAR IS PART OF LOADING THE KB, not an optional extra read later. Every
+            # plan step carries a posture, so a store the sidecar does not cover is a KB that cannot
+            # answer at the moment it is asked, in the middle of a turn, once per action. Checked
+            # here, at start-up, it is one message naming one command.
+            postures = build_posture.read_sidecar()
+            uncovered = sorted(set(actions) - set(postures))
+            if uncovered:
+                raise SystemExit(
+                    "%s covers %d action(s); the accepted store has %d, and %d of them are not in "
+                    "it\n(first: %s).\nRebuild it:  python build_posture.py"
+                    % (paths.rel(build_posture.PATH), len(postures), len(actions), len(uncovered),
+                       ", ".join(uncovered[:3])))
         return cls(actions)
 
     # ---- the searchable document -----------------------------------------------------------
@@ -205,21 +302,22 @@ class KBIndex:
 
     def _hit(self, aid, score, why):
         rec = self.actions[aid]
-        return Hit(aid, rec.get("action_description"), float(score), why, posture_of(rec))
+        start, end = posture_span_of(rec)
+        return Hit(aid, rec.get("action_description"), float(score), why, posture_of(rec),
+                   start_posture=start, end_posture=end)
 
     def _why(self, aid, query):
         """The query terms this action actually matched, so the model can judge the hit rather than
         trust the score. Ordered by how distinctive the term is across the corpus."""
-        present = set(self._docs[aid])
-        matched = {t for t in query if t in present}
+        matched = {t for t in query if t in self._terms[aid]}
         if not matched:
             return ""
-        rarity = {t: sum(1 for other in self._ids if t in set(self._docs[other])) for t in matched}
-        return ", ".join(sorted(matched, key=lambda t: (rarity[t], t))[:4])
+        return ", ".join(sorted(matched,
+                                key=lambda t: (self._document_frequency.get(t, 0), t))[:4])
 
     @staticmethod
     def _matches(rec, filters):
-        """Structured narrowing, over the two things a v4 record can still be filtered BY.
+        """Structured narrowing, over what a v4 record plus its posture sidecar can be filtered BY.
 
         v3 filtered on `base_or_overlay`, `motion_type`, `contact_object` and a per-channel `role`
         as well. Each of those read a deleted field, and none has an honest substitute: what a clip
@@ -227,6 +325,21 @@ class KBIndex:
         is now measured (see `posture_of`), `loop` because it always was, and `moves_channel` is
         added in their place — "which action moves the legs" is a question the KINEMATIC half can
         answer, and it is the nearest thing to `channel_role` that is not a guess.
+
+        TWO MORE ARRIVED WITH THE CORPUS, and both exist because 2446 documents make a search that
+        cannot be steered useless in a way eight never did.
+
+        `exclude` names ids to drop. Its job is the second search: the first returned five plausible
+        clips, the agent read them and rejected them, and without this the only way to see the sixth
+        is to rephrase — which changes the ranking as well as the offset, so the rejected five come
+        back in a different order. Naming them is how "not these" is said once.
+
+        `transition` filters on the ENDS rather than the middle: `{from_posture, to_posture}` keeps
+        clips that start in one and finish in the other. That is the query a posture change needs and
+        `posture` cannot express, because a clip that stands up out of a chair is dominantly one or
+        the other and matches neither honestly. Mutually exclusive with `posture` — one asks what the
+        clip IS and the other what it CROSSES — and the caller is refused rather than silently
+        served the intersection.
         """
         channels = rec.get("channels", {})
 
@@ -235,6 +348,15 @@ class KBIndex:
                 continue
             if key == "posture" and posture_of(rec) != want:
                 return False
+            elif key == "exclude":
+                if rec.get("action_id") in set(want):
+                    return False
+            elif key == "transition":
+                start, end = posture_span_of(rec)
+                if want.get("from_posture") and start != want["from_posture"]:
+                    return False
+                if want.get("to_posture") and end != want["to_posture"]:
+                    return False
             elif key == "loop" and bool(rec.get("loop")) != bool(want):
                 return False
             elif key == "moves_channel":
@@ -308,10 +430,7 @@ class KBIndex:
         query = tokenize(text)
         if not query:
             return None
-        vocabulary = set()
-        for tokens in self._docs.values():
-            vocabulary.update(tokens)
-        return round(sum(1 for t in query if t in vocabulary) / len(query), 2)
+        return round(sum(1 for t in query if t in self._vocabulary) / len(query), 2)
 
     # `contacts()` lived here: object name -> [(action_id, effector)], read off `ik_goals`, as the
     # bridge from a scene object back to candidate motions. It had no callers, and v4 removes the

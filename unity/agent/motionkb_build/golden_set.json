@@ -1,0 +1,75 @@
+{
+  "_meta": {
+    "kind": "gate-input",
+    "read_by": "test_golden_extraction.py (gate 2 of check_kb.sh)",
+    "note": "The golden re-extraction regression's fixed subset. It used to be 'every accepted record', which was eight clips; the store is 2446 now, and re-running the kinematic pipeline over all of them would turn a gate that answers in seconds into one nobody runs. A FIXED list, not a sample: the point of a regression is that the same clips answer the same way on every run, so a drift in a divisor or a bone map shows up as the same failure twice rather than a different one each time.",
+    "coverage": "Chosen to span what the kinematic half has to get right -- standing, walking, sitting, sit/stand transitions, crouching, kneeling, bending, floor-level crawling and lying, and one airborne clip -- plus two single-pose clips, because 128 of the corpus's records are two frames long and that is the shortest path through every formula.",
+    "action_count": 16
+  },
+  "actions": [
+    {
+      "action_id": "mx_Standing_Idle",
+      "covers": "standing — an idle stand, every channel static"
+    },
+    {
+      "action_id": "mx_Standing_Idle_Looking_Around",
+      "covers": "standing — head and torso move under a still stance"
+    },
+    {
+      "action_id": "mx_Walking",
+      "covers": "single-pose clip — two frames, the shortest a dump can be"
+    },
+    {
+      "action_id": "mx_Walking_Forward",
+      "covers": "walking — a locomotion cycle, both legs dynamic"
+    },
+    {
+      "action_id": "mx_Aim_Pistol_While_Sitting",
+      "covers": "sitting — seated throughout, arms working"
+    },
+    {
+      "action_id": "mx_Sitting_Down_Arms_Outside_Armrests",
+      "covers": "sitting — standing into a seat"
+    },
+    {
+      "action_id": "mx_Standing_To_Sitting_Transition",
+      "covers": "transition — standing to seated"
+    },
+    {
+      "action_id": "mx_Big_Standing_Fist_Pump_From_Sitting",
+      "covers": "transition — seated to standing and back"
+    },
+    {
+      "action_id": "mx_Crouch_Cover_To_Cover",
+      "covers": "crouching — low carriage on folded legs"
+    },
+    {
+      "action_id": "mx_Standing_From_A_Crouch",
+      "covers": "crouching — crouch into a stand"
+    },
+    {
+      "action_id": "mx_Kneeling_Idle",
+      "covers": "kneeling — static, shanks flat"
+    },
+    {
+      "action_id": "mx_Kneeling_Digging_And_Planting_Seeds",
+      "covers": "kneeling — arms and hands working over a kneel"
+    },
+    {
+      "action_id": "mx_Bending_Forward_Arms_Crossed_Over_Knees",
+      "covers": "bending — trunk past horizontal, still on the feet"
+    },
+    {
+      "action_id": "mx_Crawling_Forward_On_Hands_And_Knees",
+      "covers": "floor — crawling, whole body low"
+    },
+    {
+      "action_id": "mx_Standing_From_A_Lying_Prone",
+      "covers": "floor — prone into a stand, the longest state change"
+    },
+    {
+      "action_id": "mx_Cross_Jumps",
+      "covers": "airborne — leaves the ground and lands"
+    }
+  ]
+}

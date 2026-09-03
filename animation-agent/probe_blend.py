@@ -6,12 +6,35 @@ A sequence that hard-cuts and a sequence that blends both pass the geometric gat
 time. The composer records that; this drives one sequence and reads it back.
 
     python probe_blend.py                     # a blend seam
-    python probe_blend.py --order cpr bvm
+    python probe_blend.py --order mx_Walking_Forward mx_Standing_Idle
 """
 import argparse
 import asyncio
 import sys
 import time
+
+
+def _wait_for_unity(coro_timeout, where):
+    """A readable failure when nothing connects, instead of a bare TimeoutError traceback.
+
+    These scripts are the SERVER on the runtime channel, so "no engine" is the ordinary outcome of
+    running one with Unity closed — and a traceback through asyncio.timeouts says nothing about what
+    to do. Two things go wrong here and they need different answers: nobody entered play mode, or
+    something else is already holding the port (a service `terminal.ps1` left running is the usual
+    one), in which case this process never got to listen at all.
+    """
+    raise SystemExit(
+        "no engine connected on %s within the wait.\n"
+        "  * Unity has to be in PLAY mode: this script is the server and the executor dials in.\n"
+        "  * Nothing else may hold the port. `ss -ltn | grep %s` finds a service left running by\n"
+        "    terminal.ps1; stop it, or turn off Tools > Animation Agent > Open Terminal On Play."
+        % (where, where.rsplit(":", 1)[-1]))
+
+# Runtime primitives, named rather than spelled. The eight nursing actions these probes used to
+# name left the knowledge base (agent/nursing_assets/); these are real Mixamo records, and
+# `tests/corpus.py` holds the same constants for the test suite.
+WALK = "mx_Walking_Forward"
+IDLE = "mx_Standing_Idle"
 
 from agent import assemble as A
 from agent import protocol as P
@@ -39,20 +62,25 @@ def steps_of(order, kb, clips):
 
 async def main(argv):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--order", nargs="+", default=["cpr", "bvm"])
+    ap.add_argument("--order", nargs="+", default=[WALK, IDLE])
     ap.add_argument("--host", default=DEFAULT_HOST)
     ap.add_argument("--port", type=int, default=DEFAULT_PORT)
     ap.add_argument("--wait", type=int, default=90)
     args = ap.parse_args(argv)
 
     kb = KBIndex.load()
-    clips = T.load_clips(kb)
+    clips = {a: T.load_clip((kb.record(a)["source_clip"])["clip_name"],
+                            loop=bool(kb.record(a).get("loop")))
+             for a in args.order}
     steps = steps_of(args.order, kb, clips)
     seam = T.find_seam(args.order[0], args.order[1], kb, clips)
 
     async with EngineLink(args.host, args.port) as link:
         print("serving ws://%s:%d — enter play mode in Unity" % (args.host, args.port))
-        hello = await link.wait_ready(timeout=args.wait)
+        try:
+            hello = await link.wait_ready(timeout=args.wait)
+        except (asyncio.TimeoutError, TimeoutError):
+            _wait_for_unity(None, "%s:%d" % (args.host, args.port))
         character = (hello.get("characters") or ["chr:CPRNurse"])[0]
 
         print("\nseam %s -> %s: %.2f deg, %d blend frame(s), class %s"

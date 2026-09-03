@@ -42,7 +42,14 @@ namespace AgentRuntime
         // answer "resolved, touched nothing" -- which reads exactly like a pass. A plan would then be
         // committed on the strength of a check that never ran. A fatal version mismatch turns that into
         // an error on the first message instead.
-        public const int Version = 4;
+        // v5 ADDS `apply_root_motion` ON A LAYER, and the bump is not optional for the same reason.
+        // A retrieved posture transition is a clip that TRAVELS -- a sit-down steps 0.45 m backwards
+        // into the chair -- and the composer has always discarded root motion, which is right for a
+        // walk cycle played under a NavMeshAgent and wrong for this. So the layer says which it is.
+        // An executor from before v5 does not know the field, drops it, discards the root motion, and
+        // plays the sit-down on the spot: the feet slide, the hips finish where they started, and the
+        // plan reports success about a character who never reached the seat.
+        public const int Version = 5;
 
         // engine -> agent, unsolicited
         public const string EngineHello = "engine.hello";

@@ -17,6 +17,7 @@ import pytest
 import paths
 from agent.tools import ToolRegistry
 from agent.tools import files as F
+from tests import corpus as C
 
 
 @pytest.fixture(scope="module")
@@ -119,16 +120,15 @@ def test_read_lists_a_directory(registry, loop):
 # ---- glob ------------------------------------------------------------------------------------
 
 def test_glob_finds_the_rendered_frames(registry, loop):
-    out = call(registry, loop, "glob", pattern="frames/**/*.jpg", path="kb")
-    assert out["success"] and out["count"] >= 40
-    assert any("Typing" in p for p in out["paths"])
+    out = call(registry, loop, "glob", pattern="frames/%s/*.jpg" % C.WALK, path="kb")
+    assert out["success"] and out["count"] >= 20
     assert all(p.startswith("kb/") for p in out["paths"]), "results must be usable as read paths"
 
 
 def test_glob_finds_the_far_side_of_the_ring(registry, loop):
     """Frames are the eight-view ring since 2026-08-26, so the angle a near view hides is on disk and
     reachable by name. Before that a clip had two views and neither of them was ever the back."""
-    out = call(registry, loop, "glob", pattern="frames/Typing/back*.jpg", path="kb")
+    out = call(registry, loop, "glob", pattern="frames/%s/back*.jpg" % C.WALK, path="kb")
     assert out["success"] and out["count"] >= 3
 
 
@@ -136,12 +136,13 @@ def test_a_pattern_is_relative_to_path_but_results_are_not(registry, loop):
     """`glob('t*.json', path='kb')` has to mean what it looks like, and still return something `read`
     accepts. Those are two different path flavours and both are load-bearing.
 
-    The pattern is narrower than `*.json` because the store is one directory of 2454 records now
+    The pattern is narrower than `*.json` because the store is one directory of 2446 records now
     (ADR 0016) and a wildcard over all of them truncates at MAX_PATHS -- announced in `note`, but it
     would turn this test into a test about the cap."""
-    out = call(registry, loop, "glob", pattern="t*.json", path="kb/actions")
-    assert out["success"] and "kb/actions/typing.json" in out["paths"]
-    assert call(registry, loop, "read", file_path="kb/actions/typing.json")["success"]
+    record = "kb/actions/%s.json" % C.WALK
+    out = call(registry, loop, "glob", pattern="%s.json" % C.WALK, path="kb/actions")
+    assert out["success"] and record in out["paths"]
+    assert call(registry, loop, "read", file_path=record)["success"]
 
 
 def test_a_top_level_glob_does_not_leak_into_subdirectories(registry, loop):
@@ -167,15 +168,22 @@ def test_glob_spans_every_place_when_unscoped(registry, loop, has_source):
 def test_grep_answers_which_actions_are_seated_in_one_call(registry, loop):
     """One call replaces the rephrasing loop.
 
-    WHAT IT MATCHES ON CHANGED. It used to be `"posture": "seated"`, a stored label; v4 deletes the
-    whole `composability` block (ADR 0022) and derives the posture from the measured carriage
-    instead, which is a number no regex can bin. What a described record still says in words is its
-    `action_description`, and typing's says she sits. So this is now a search over prose, which is
-    what grep is for — and it is scoped to `actions/`, because the sentence also turns up in the
-    retired v2/v3 schema files and in the derived transition table."""
-    out = call(registry, loop, "grep", pattern="seated", path="kb/actions")
+    WHAT IT MATCHES ON CHANGED TWICE. It used to be `"posture": "seated"`, a stored label; v4 deletes
+    the whole `composability` block (ADR 0022) and derives the posture from measured geometry, which
+    is a number no regex can bin. What every record now says in words is its `action_description` and
+    eight `motion_description`s, so this is a search over prose — which is what grep is for.
+
+    AND IT RETURNS MANY, WHICH IS THE POINT. Over eight records the answer was one file and could be
+    written down; over 2446 the answer is a population, and what is worth asserting is that it is a
+    SUBSET rather than everything, that a clip known to be seated is in it, and that a clip known to
+    be standing is not. A grep that returned every file would be the failure mode
+    `test_a_pattern_that_matches_everything_says_so` is about."""
+    out = call(registry, loop, "grep", pattern="seated", path="kb/actions", files_only=True)
     assert out["success"]
-    assert out["files_with_matches"] == ["kb/actions/typing.json"]
+    hits = set(out["files_with_matches"])
+    assert 0 < len(hits) < out["files_searched"]
+    assert "kb/actions/%s.json" % C.SEATED in hits
+    assert "kb/actions/%s.json" % C.WALK not in hits
 
 
 def test_grep_skips_binaries_and_says_so(registry, loop):
@@ -206,7 +214,7 @@ def test_the_library_holds_no_sit_or_stand_action(registry, loop):
 def test_a_miss_does_not_rest_on_the_corpus_being_small(registry, loop):
     """It used to say "the corpus is small, so absence here is real". The point was right — a miss has
     to be usable as evidence, or the model rephrases its way to the iteration limit — but the premise
-    stopped being true at 2454 records. The note now rests on the count of what was actually searched,
+    stopped being true at 2446 records. The note now rests on the count of what was actually searched,
     which the model can check, and on the two things that would widen it."""
     out = call(registry, loop, "grep", pattern="zzz_no_such_token_zzz", path="kb")
     assert out["success"] and out["files_with_matches"] == []
@@ -248,118 +256,126 @@ def test_the_exclusion_is_by_directory_not_by_a_corpus_prefix(registry, loop):
     assert not any(f.endswith("raw/Walk_N.json") for f in out["files_with_matches"])
 
 
-def test_a_pattern_that_matches_everything_says_so(registry, loop, has_source):
-    """The trap the widened scope opened, caught live. `sit` matches all 23 animation assets, because
-    every one of them contains `position`. A model asking whether a sit-down exists would have read
-    23 hits as a yes — a confident wrong answer, which is worse than not being able to search at all.
+def test_a_pattern_that_matches_everything_says_so(registry, loop):
+    """The trap a wide scope opens, caught live. `sit` matched every animation asset on the old
+    `source/` mount, because every one of them contained `position`; a model asking whether a
+    sit-down exists would have read that as a yes — a confident wrong answer, which is worse than not
+    being able to search at all.
 
-    So a result that matched every file searched carries a note saying what that means. The fix is not
-    to forbid the query; it is to stop the useless answer from looking like a useful one.
-    """
-    if not has_source:
-        pytest.skip("source assets not mounted")
-    out = call(registry, loop, "grep", pattern="sit", path="source", include="**/*.anim",
-               files_only=True)
+    Those assets were YAML. The mount is the Mixamo FBX now and grep opens none of them, so the trap
+    has moved rather than gone: the same shape is reachable over the records, where every one of 2446
+    contains the schema's own field names."""
+    out = call(registry, loop, "grep", pattern="channels", path="kb/actions", files_only=True)
     assert out["success"] and len(out["files_with_matches"]) == out["files_searched"]
-    assert "incidental" in out["note"] and "position" in out["note"]
+    assert "incidental" in out["note"]
     # And never a bare file list with nothing to check it against.
-    assert "position" in out["example_match"].lower()
+    assert out["example_match"]
 
 
-def test_word_boundaries_make_the_same_question_answerable(registry, loop, has_source):
+def test_word_boundaries_make_the_same_question_answerable(registry, loop):
+    """The repair the note points at. `sit` hits `position` and `sitting` alike; `\bsit\b` hits the
+    word."""
+    loose = call(registry, loop, "grep", pattern="sit", path="kb/actions", files_only=True)
+    tight = call(registry, loop, "grep", pattern=r"\bsits\b", path="kb/actions", files_only=True)
+    assert loose["success"] and tight["success"]
+    assert 0 < len(tight["files_with_matches"]) < len(loose["files_with_matches"])
+
+
+def test_grep_over_the_binary_source_assets_proves_nothing_and_says_so(registry, loop, has_source):
+    """`source/` is 2446 FBX and their .meta: binary, so grep skips every one and searches zero files.
+
+    A MISS OVER NOTHING IS NOT A MISS, and reporting it as evidence of absence would be the worst
+    answer this tool can give — a confident no about a question nobody asked. This is the one place
+    the count in the note is load-bearing rather than informative."""
     if not has_source:
         pytest.skip("source assets not mounted")
-    out = call(registry, loop, "grep", pattern=r"\bsit\b", path="source", include="**/*.anim",
-               files_only=True)
-    assert out["success"] and len(out["files_with_matches"]) < out["files_searched"]
+    out = call(registry, loop, "grep", pattern="sit", path="source")
+    assert out["success"] and out["files_searched"] == 0
+    assert "evidence of absence" not in out["note"]
+    assert "glob" in out["note"] and "NAMES" in out["note"]
 
 
-def test_whether_a_sit_exists_anywhere_is_answerable_from_the_source_assets(registry, loop, has_source):
-    """THE test for widening the scope. "No sit-down exists" was previously a claim the agent could
-    only take from its prompt: the knowledge base holds the eight accepted actions, so asking it what
-    exists returns what was already decided. The animation assets are the population, and the agent can
-    now read them itself.
+def test_whether_something_exists_in_the_assets_is_a_question_about_names(registry, loop, has_source):
+    """THE test for the narrowed scope. `source/` is the FBX the 2446 records were sampled from, so
+    the two mounts describe one library and "does a sit-down exist" has one answer whichever way it
+    is asked. Over the assets that answer comes from the file NAMES.
 
-    This asserts the QUESTION is answerable, not a particular answer — if a sit-down asset is ever
-    imported, the right outcome is that the agent finds it, not that this test fails.
-    """
+    This asserts the QUESTION is answerable, not a particular answer."""
     if not has_source:
         pytest.skip("source assets not mounted")
-    everything = call(registry, loop, "glob", pattern="**/*.anim", path="source")
+    everything = call(registry, loop, "glob", pattern="*.fbx", path="source")
     assert everything["success"] and everything["count"] > 0
 
-    out = call(registry, loop, "glob", pattern="**/*[Ss]it*", path="source")
-    assert out["success"]
-    assert out["count"] == 0 or all("source/" in p for p in out["paths"])
+    out = call(registry, loop, "glob", pattern="*[Ss]it*", path="source")
+    assert out["success"] and out["count"] > 0
+    assert all(p.startswith("source/") for p in out["paths"])
 
-def test_an_unlabelled_record_offers_a_regex_nothing_but_its_own_identifiers(registry, loop):
-    """TRIPWIRE, not an invariant. `glob`'s description tells the model to prefer it to grep for
-    anything name-shaped, and this is why: a measured-only record contains its own identifiers -- the
-    clip name and the guid -- and beyond those, only a vocabulary the schema fixes (`channels`,
-    `left_arm`, `static`, `null`, and the 95 Unity muscle DOF names `mean_pose` is keyed by). Not one
-    word of it describes the motion. So grep over the store reads 2446 files to return what glob
-    matched from the file names without opening any.
 
-    The sample is the store minus the accepted records, because those ARE labelled -- one directory
-    holds both now (ADR 0016) and status is what separates them.
+def test_the_source_mount_is_the_corpus_and_only_the_corpus(registry, loop, has_source):
+    """The isolation the narrowing exists for. `source/` used to be all of `Assets/Animations`, which
+    holds the nursing FBX and the nursing `.anim` beside the corpus; those are scene assets and they
+    stay where the scenes reference them. What changed is that the agent cannot see them."""
+    if not has_source:
+        pytest.skip("source assets not mounted")
+    out = call(registry, loop, "glob", pattern="*", path="source")
+    assert out["success"] and out["count"] > 0
+    for path in out["paths"]:
+        assert not C.has_nursing_content(path), path
+        assert os.path.basename(path).startswith("mx_"), path
 
-    WHEN THIS FAILS, the semantic pass has landed: records now carry an `action_description` and
-    eight `motion_description`s, the vocabulary is prose rather than field names, and grep over the
-    store starts earning the ~7 s it costs. Update glob's description in agent/tools/files.py and
-    this test — do not relax the bound. See ADR 0014.
+def test_the_records_carry_prose_so_grep_over_the_store_earns_its_cost(registry, loop):
+    """THE TRIPWIRE THIS REPLACES SAID THE OPPOSITE, and it fired exactly as it was written to.
+
+    It asserted that a measured-only record contains nothing but its own identifiers and a vocabulary
+    the schema fixes -- `channels`, `left_arm`, `static`, `null`, and the 95 Unity muscle DOF names
+    `mean_pose` is keyed by -- so grep over the store read 2446 files to return what glob matched
+    from the file names without opening any. Its instruction on failing was: the semantic pass has
+    landed, update glob's description and this test rather than relaxing the bound. Both are done
+    (see `register` in agent/tools/files.py).
+
+    The premise it rested on is gone twice over. The corpus pass wrote nine sentences into every
+    record, and `accept-corpus` then accepted all 2446 -- so there is no undescribed sample left to
+    take, and `candidate` no longer means `wordless`. What is worth guarding now is the fact that
+    replaced it: the store is searchable BY MEANING, which is what makes grep over `kb/actions` a
+    real question rather than an expensive way to match file names.
+
+    Measured when this was written: 200 sampled records carry about 1900 distinct words beyond the
+    schema's vocabulary and their own identifiers, against the 141 the old bound was set at. The bar
+    is 1000, which is far below what prose produces and far above what field names ever could.
     """
     import glob as globmod
     import io
     import json
     import re
 
-    accepted = set(paths.accepted_files())
-    files = [f for f in sorted(globmod.glob(os.path.join(paths.ACTIONS_DIR, "*.json")))
-             if f not in accepted]
+    files = sorted(globmod.glob(os.path.join(paths.ACTIONS_DIR, "*.json")))
     if len(files) < 50:
-        pytest.skip("the bulk corpus is not ingested here")
+        pytest.skip("the corpus is not ingested here")
     sample = files[:200]
 
     def words_in(text):
         return set(re.findall(r"[A-Za-z][A-Za-z_]{2,}", text))
 
-    def words(path):
-        return words_in(io.open(path, encoding="utf-8").read())
+    def prose(path):
+        """Only the SENTENCES: the action's own description and the eight per-channel ones. Read off
+        the named fields rather than off the whole file, so the schema's field names and the muscle
+        DOF names cannot be mistaken for vocabulary about motion."""
+        doc = json.load(io.open(path, encoding="utf-8"))
+        text = [doc.get("action_description") or ""]
+        for channel in (doc.get("channels") or {}).values():
+            text.append((channel or {}).get("motion_description") or "")
+        return " ".join(text)
 
-    def identifiers(path):
-        """Every token the record's own identity contributes. Read off `source_clip` rather than
-        guessed from the file name, because neither is one token: `mx_135_Degree_Left_Turn` breaks at
-        the digits, and a 32-char hex guid yields runs like `aaef` and `dbe`."""
-        sc = json.load(io.open(path, encoding="utf-8"))["source_clip"]
-        return words_in(" ".join(str(sc.get(k) or "") for k in ("clip_name", "guid", "fbx_or_anim")))
+    described = [f for f in sample if prose(f).strip()]
+    assert len(described) == len(sample), (
+        "%d of %d sampled records carry no sentence; the semantic half has gone missing"
+        % (len(sample) - len(described), len(sample)))
 
     vocabulary = set()
     for f in sample:
-        vocabulary |= words(f)
-    for f in sample:
-        vocabulary -= identifiers(f)
-
-    # 175, against 141 measured. The bound has always carried about 35 words of headroom -- it was
-    # 150 against 104 until formula v3.0.0 gave every channel a `mean_pose` keyed by Unity's muscle
-    # DOF names (`Left Forearm Twist In-Out`, `Chest Front-Back`), then 200 against 164.
-    #
-    # It comes DOWN for the first time here, because motionkb/v4 deleted fields rather than adding
-    # them: `role`, `motion_type`, `contact`, `constraint`, `target`, `tags`, `display_name`,
-    # `overall_intent`, `mask_coverage`, `ik_goals` and the `composability` block are gone (ADR
-    # 0022), and on an undescribed record every one of them was a KEY holding a null -- schema
-    # vocabulary that said nothing about any clip. Losing 23 such words made the corpus MORE
-    # measured-only than it was, so the bound follows it down rather than sitting 59 above and
-    # quietly becoming a weaker tripwire than the one it replaced.
-    #
-    # What remains is the 95 HumanTrait muscle DOF names, the channel and field names the schema
-    # fixes, and `static` / `dynamic` / `null`. Still nowhere near what 2446 free-text descriptions
-    # would produce, so it fires early in the semantic pass rather than after it.
-    assert len(vocabulary) < 175, (
-        "the corpus vocabulary has grown to %d words beyond the records\' own identifiers (%s ...) -- "
-        "if that is the semantic pass landing, update glob\'s description in agent/tools/files.py and "
-        "this test rather than relaxing the bound" % (len(vocabulary), sorted(vocabulary)[:12]))
-
-    for f in sample[:20]:
-        beyond = words(f) - vocabulary - identifiers(f)
-        assert not beyond, ("%s carries a word that is neither shared vocabulary nor part of its own "
-                            "identity: %s" % (os.path.basename(f), sorted(beyond)))
+        vocabulary |= words_in(prose(f))
+    assert len(vocabulary) > 1000, (
+        "the sampled records describe themselves in only %d distinct words, which is field-name "
+        "vocabulary rather than prose -- if the descriptions have been stripped, grep over "
+        "kb/actions/ has stopped being a search by meaning and glob's description in "
+        "agent/tools/files.py needs to say so again" % len(vocabulary))

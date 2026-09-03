@@ -231,7 +231,7 @@ class Session:
             arguments = call.arguments
 
         # WHAT IT IS ASKING FOR, NOT JUST WHICH TOOL. A column of bare tool names says the agent is
-        # alive and nothing else; four `scene_search` calls in a row look identical whether they are
+        # alive and nothing else; four `unity_query` calls in a row look identical whether they are
         # narrowing on a chair or re-asking a question already answered. Composed here rather than in
         # a renderer so the stdin session and an attached terminal cannot describe a turn differently.
         called = digest.describe(call.name, arguments)
@@ -239,7 +239,7 @@ class Session:
         self._emit(Ev.TOOL_STARTED, name=call.name, arguments=call.arguments, call=called)
 
         # WHAT IT IS DOING WHILE IT DOES IT. A tool result arrives when the tool is finished, so the
-        # three seconds `plan_motion` spends watching her cross the room were three seconds of nothing
+        # three seconds `unity_execute` spends watching her cross the room were three seconds of nothing
         # on screen. The tool says so itself rather than a renderer guessing from arguments, which is
         # opencode's split between a tool's `output` (for the model) and its `metadata` (for the UI).
         def say(text):
@@ -272,10 +272,11 @@ class Session:
                              # claim without it being true, so the trace records it rather than
                              # leaving the answer as the only account of what happened.
                              "generated": len(result.get("generated_transitions") or []) or None,
-                             # From the RESULT, not from the arguments. A tool with a defaulted mode
-                             # commits on a call that never mentions committing, and reading the
-                             # arguments made every one of those look like nothing had moved.
-                             "committed": result.get("mode") == "commit" or None,
+                             # From the RESULT, not from the arguments. `unity_execute` and
+                             # `unity_validate` take identical arguments and differ only in what they
+                             # do, so nothing about a call says whether anything moved -- only the
+                             # answer does.
+                             "committed": result.get("committed") or None,
                              # HOW FAR SHE ACTUALLY TRAVELLED, for the same reason `generated` is
                              # here. A plan that walks her across the room and one committed where she
                              # already stood are the same call with the same arguments -- naming a
@@ -397,12 +398,11 @@ class TurnReport:
         afterwards, on its own. Reporting only the total makes a fast decision followed by a long
         animation look like a slow agent.
 
-        Read off what the tool did rather than what it was asked to do. `mode` defaults to committing,
-        so the trace was reporting no motion at all for a turn that had committed one on the default —
-        which is exactly the shape the prompt asks for.
+        Read off what the tool did rather than what it was asked to do. `unity_execute` and
+        `unity_validate` take identical arguments, so nothing in a call says whether anything moved.
         """
         for step in self.trace:
-            if step.get("tool") == "plan_motion" and step.get("success") and step.get("committed"):
+            if step.get("tool") == "unity_execute" and step.get("success") and step.get("committed"):
                 return step.get("at_s")
         return None
 

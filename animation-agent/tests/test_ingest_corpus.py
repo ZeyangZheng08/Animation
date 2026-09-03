@@ -18,6 +18,7 @@ import config as C
 import extract
 import ingest_corpus as I
 import paths
+from tests import corpus as CORPUS
 import unity_sampler
 
 RAW_SOURCE_DIR = paths.RAW_DIR      # bound before the kb fixture redirects it
@@ -26,13 +27,22 @@ ROW = ("mx_Test_Clip\tAssets/Animations/Mixamo30/mx_Test_Clip.fbx\t"
        "0123456789abcdef0123456789abcdef\t-203655887218126122\t2.5\t30\ttrue")
 
 
-def held_pose_dump(source="Walk_N"):
+def held_pose_dump(source=CORPUS.WALK):
     """A 2-frame dump — Mixamo's pose assets resolve to exactly this.
 
     Built by taking a REAL dump and holding its first frame, rather than hand-rolling one: the dump
     shape is the sampler's, not this test's, and a fixture invented here would keep passing after the
     sampler grew a field that metrics.py needs.
+
+    The source used to be `Walk_N`, a nursing clip whose dump was tracked in the repository. Those
+    left with the eight records, and the corpus's own dumps are untracked (ADR 0014) -- so a machine
+    that has the records without the dumps skips these rather than failing, which is what
+    `pytest.skip` below is for.
     """
+    # Against RAW_SOURCE_DIR, which was bound at import: the kb fixture redirects `paths.RAW_DIR` at
+    # a temporary store, and asking the live path here would say "no dump" about every machine.
+    if not os.path.isfile(os.path.join(RAW_SOURCE_DIR, source + ".json")):
+        pytest.skip("no raw dump for %s on this machine; the corpus's dumps are untracked" % source)
     real = paths.read_json(os.path.join(RAW_SOURCE_DIR, source + ".json"))
     out = {}
     for k, v in real.items():

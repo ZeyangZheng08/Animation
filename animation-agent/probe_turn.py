@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """probe_turn.py — run one turn and print the tool trace, arguments included.
 
-Exists because "the model called kb_search seven times" is not a diagnosis. What it searched FOR is.
+Exists because "the model called motion_search seven times" is not a diagnosis. What it searched FOR is.
 """
 import argparse
 import asyncio
@@ -21,7 +21,6 @@ async def main(argv):
     ap.add_argument("text")
     ap.add_argument("--model", default=llm.DEFAULT_MODEL)
     ap.add_argument("--narrow-tools", action="store_true")
-    ap.add_argument("--no-corpus", action="store_true")
     ap.add_argument("--engine", action="store_true")
     ap.add_argument("--full", action="store_true", help="do not truncate arguments")
     args = ap.parse_args(argv)
@@ -40,8 +39,10 @@ async def main(argv):
         await engine.wait_ready(timeout=90)
         scene_tools.register(registry, engine, kb)
 
-    instructions = prompt.INSTRUCTIONS if args.no_corpus else prompt.with_corpus(kb)
-    session = Session(llm.backend_for(args.model, keys.load_openai_key()), registry, instructions)
+    # `--no-corpus` chose between the instructions and the instructions plus the whole action list.
+    # There is one set now: 2446 rows do not go in a prompt, and `motion_search` is what replaced them.
+    session = Session(llm.backend_for(args.model, keys.load_openai_key()), registry,
+                      prompt.INSTRUCTIONS)
     await session.start()
     report = await session.run_turn(args.text)
     await session.close()

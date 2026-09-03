@@ -101,7 +101,8 @@ namespace AgentRuntimeEditor
             RemoveLegacyConsole(root);
 
             int objects = BuildRegistry(registry);
-            int resolved = BuildClipLibrary(clips);
+            int accepted;
+            int resolved = BuildClipLibrary(clips, out accepted);
             AgentCharacter[] characters = SetUpCharacters();
 
             Wire(query, "registry", registry);
@@ -122,8 +123,8 @@ namespace AgentRuntimeEditor
                 UnityEngine.SceneManagement.SceneManager.GetActiveScene());
 
             Debug.Log(string.Format(
-                "[AgentRuntime] registry {0} objects, clip library {1}/8 actions, {2} character(s): {3}",
-                objects, resolved, characters.Length,
+                "[AgentRuntime] registry {0} objects, clip library {1}/{2} actions, {3} character(s): {4}",
+                objects, resolved, accepted, characters.Length,
                 characters.Length == 0 ? "NONE" : string.Join(", ", named)));
         }
 
@@ -264,11 +265,19 @@ namespace AgentRuntimeEditor
 
         // ---- clip library ----------------------------------------------------------------------
 
-        private static int BuildClipLibrary(ClipLibrary library)
+        // `accepted` is how many the manifest DECLARED accepted, so the caller's log line reads
+        // resolved/accepted. It was the literal 8 until the store became the 2446-clip corpus, and a
+        // literal is exactly the wrong thing here: the number this line is for is whether any clip
+        // silently failed to resolve, which is resolved != accepted -- and a hardcoded denominator
+        // cannot say that about a store whose size changes.
+        private static int BuildClipLibrary(ClipLibrary library, out int accepted)
         {
+            accepted = 0;
             // Built from the manifest, which indexes exactly the accepted records and already carries
             // the identity this needs (action_id + source_clip) -- so no record is opened, where
-            // reading the store would mean parsing 2454 files to keep 8 (ADR 0016).
+            // reading the store would mean parsing every file in it to read one field (ADR 0016).
+            // The store is 2446 records now, all of them accepted, since the eight nursing actions
+            // moved out to agent/nursing_assets/ and the Mixamo corpus was accepted in their place.
             //
             // The loop this replaces globbed "*.json" at the KB ROOT and skipped three shared files by
             // name. That has returned ZERO items since ADR 0012 moved the records down into actions/:
@@ -295,6 +304,7 @@ namespace AgentRuntimeEditor
             foreach (var entry in entries)
             {
                 if (entry.Value<string>("status") != "accepted") continue;
+                accepted++;
                 var source = entry["source_clip"] as Newtonsoft.Json.Linq.JObject;
                 if (source == null) continue;
 

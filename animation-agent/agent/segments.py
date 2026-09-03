@@ -45,6 +45,7 @@ ONE PERFORMANCE, ONE WINDOW PER ACTION -- not per channel. That decision is not 
 the channels an action actually drives is the caller's to take, and giving one clip's two hands
 different windows would have them living at different moments.
 """
+import hashlib
 import os
 
 import paths
@@ -263,21 +264,38 @@ def window_for(action_segments, channels):
                     else "the frames it is moving in")}
 
 
-def write_table(table, path=None, raw_dir=None):
-    """Write the sidecar. Same discipline as the seam table: derived, fingerprinted against `raw`, and
-    referenced by no record in the contract."""
-    from .transitions import raw_fingerprint
+# Bump when a threshold or a formula in this module changes. Recorded in the sidecar so a table built
+# by a superseded rule is refused rather than believed.
+SEGMENT_ALGORITHM_VERSION = "1.0.0"
+
+
+def write_table(table, path=None, digests=None):
+    """Write the sidecar: derived, versioned, and referenced by no record in the contract.
+
+    NO CONTENT FINGERPRINT OVER `raw`, and there cannot be one. The old `_meta.raw_fingerprint` hashed
+    every dump in the directory, which cost 52 s per process once the corpus landed and would now have
+    to read 1.4 GB before answering "is this table current". Worse, it could not be checked at all
+    after a clone: the corpus's dumps are untracked (they are reproducible from the FBX and the
+    sampler), so `raw` is empty in a fresh checkout while `segments.json` is committed content.
+
+    What is recorded instead is what CAN be checked cheaply: the algorithm version, and — when the
+    builder hands them over, which costs nothing because it read the files anyway — a single digest
+    over the per-clip content digests, so a rebuild can say whether the corpus moved. `read_table`
+    checks the version. Coverage is the reader's real safety net: a table that does not hold the
+    action being asked about returns nothing for it, and the caller computes live.
+    """
     doc = {
         "_meta": {
             "kind": "derived",
+            "version": SEGMENT_ALGORITHM_VERSION,
             "derived_from": "_raw bone_rot (root_local, xyzw)",
             "regenerate": "python build_segments.py",
-            "raw_fingerprint": raw_fingerprint(raw_dir),
+            "raw_digest": _corpus_digest(digests),
             "min_lag_frames": MIN_LAG,
             "cycle_travel_floor_deg": CYCLE_TRAVEL_FLOOR_DEG,
             "cycle_residual_fraction": CYCLE_RESIDUAL_FRAC,
             "quiet_fraction": QUIET_FRACTION,
-            "note": "Regenerable sidecar. Not part of the motionkb/v3 contract; no record references "
+            "note": "Regenerable sidecar. Not part of the motionkb/v4 contract; no record references "
                     "it. A window is one repetition where the channel repeats, and the span between "
                     "its first and last moving frame otherwise.",
         },
@@ -286,43 +304,47 @@ def write_table(table, path=None, raw_dir=None):
     return paths.write_json(path or TABLE_PATH, doc)
 
 
-# TABLE_PATH -> ((size, mtime_ns, raw fingerprint), table). See read_table.
+def _corpus_digest(digests):
+    """One digest over the per-clip content digests the builder collected, or None if it collected
+    none. Order-independent by sorting, so it names a SET of dumps rather than a walk of them."""
+    if not digests:
+        return None
+    h = hashlib.sha256()
+    for action_id, digest in sorted(digests.items()):
+        h.update(("%s:%s\n" % (action_id, digest)).encode("utf-8"))
+    return h.hexdigest()[:16]
+
+
+# TABLE_PATH -> ((size, mtime_ns), table). See read_table.
 _TABLE_CACHE = {}
 
 
-def read_table(path=None, check_fingerprint=True, raw_dir=None):
-    """The cached table, or None when there is none or `raw` has moved under it.
-
-    None rather than stale data, for the reason the seam table gives: a cache that cannot notice its
-    inputs changed answers confidently about a corpus that no longer exists.
+def read_table(path=None):
+    """The cached table, or None when there is none or it was built by a superseded rule.
 
     WHY THE DEFAULT PATH IS MEMOISED. Every tool registry reads this table once, and a test suite builds
     a registry per test, so the same file was opened a few hundred times. On a local disk that is
     nothing; the KB normally lives on a Windows worktree reached over DrvFs, where one open costs about
-    9 ms and one stat about 1.4 ms, and it became seconds. The memo is keyed on the file's (size, mtime)
-    together with the `raw` fingerprint, so it expires for exactly the reasons the fingerprint exists.
-    Only the default path is cached: pass `path` explicitly -- as the builders and the tests do -- and
-    the read is unconditional. The cached table is SHARED; copy it before mutating.
+    9 ms and one stat about 1.4 ms, and it became seconds. The memo is keyed on the file's (size,
+    mtime). Only the default path is cached: pass `path` explicitly -- as the builders and the tests
+    do -- and the read is unconditional. The cached table is SHARED; copy it before mutating.
     """
-    from .transitions import raw_fingerprint
-    memo = path is None and raw_dir is None and check_fingerprint
+    memo = path is None
     path = path or TABLE_PATH
     if not os.path.exists(path):
         return None
-    fingerprint = raw_fingerprint(raw_dir) if check_fingerprint else None
     key = None
     if memo:
         st = os.stat(path)
-        key = (st.st_size, st.st_mtime_ns, fingerprint)
+        key = (st.st_size, st.st_mtime_ns)
         hit = _TABLE_CACHE.get(path)
         if hit is not None and hit[0] == key:
             return hit[1]
     doc = paths.read_json(path)
-    if check_fingerprint:
-        stored = (doc.get("_meta") or {}).get("raw_fingerprint")
-        if stored and stored != fingerprint:
-            return None
-    table = doc.get("segments") or None
+    version = (doc.get("_meta") or {}).get("version")
+    # A table with no version at all predates SEGMENT_ALGORITHM_VERSION and is refused for the same
+    # reason a superseded one is: it was cut by rules nobody can now name.
+    table = doc.get("segments") or None if version == SEGMENT_ALGORITHM_VERSION else None
     if memo:
         _TABLE_CACHE[path] = (key, table)
     return table

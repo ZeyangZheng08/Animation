@@ -121,12 +121,30 @@ namespace MixamoImport
             {
                 clips[i].name = i == 0 ? stem : string.Format("{0}_{1}", stem, i + 1);
 
-                // Root motion baked into the pose, matching every Mixamo clip already in the
-                // project and the knowledge base's `has_root_motion=false`. The FBX still carries
-                // the displacement, so a clip that needs to travel is one checkbox away.
+                // XZ TRAVEL STAYS IN ROOT MOTION; Y and rotation are baked into the pose.
+                //
+                // This read `lockRootPositionXZ = true` and that was a misreading of what the
+                // corpus is. Mixamo's walks, runs and sit-downs are AUTHORED TRAVELLING:
+                // `mx_Walking_Forward` covers 1.3 m over its cycle and
+                // `mx_Standing_To_Sitting_Transition` steps 0.33 m backwards into the chair.
+                // Baking that into the pose does not remove it -- it moves it into the joint
+                // angles, where the character slides across the floor under a NavMeshAgent that
+                // does not know it is happening. That is the drift seen in play mode.
+                //
+                // Unbaked, the displacement arrives as root motion, and who applies it is a
+                // decision the composer makes per step (MotionComposer.ProcessRootMotion): a
+                // locomotion cycle discards it and plays in place while the agent drives the
+                // transform, and a posture transition APPLIES it, so the feet stay planted and
+                // the hips travel the arc the animator authored. Neither is possible while the
+                // travel is welded into the pose.
+                //
+                // The `raw` dumps are NOT resampled for this. They record the displacement the
+                // clip contains, which is a true fact about the clip and the thing 4c's seat
+                // alignment is computed from; whether it is applied at play time is the
+                // executor's decision, not the dump's.
                 clips[i].lockRootRotation = true;    // Root Transform Rotation   -> Bake Into Pose
                 clips[i].lockRootHeightY = true;     // Root Transform Position Y -> Bake Into Pose
-                clips[i].lockRootPositionXZ = true;  // Root Transform Position XZ-> Bake Into Pose
+                clips[i].lockRootPositionXZ = false; // Root Transform Position XZ-> root motion
                 clips[i].keepOriginalOrientation = false;
                 clips[i].keepOriginalPositionY = true;
                 clips[i].keepOriginalPositionXZ = false;

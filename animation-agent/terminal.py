@@ -175,7 +175,7 @@ class Farewell(Exception):
     """The agent said the run is over. Unwinds the reader thread; the main loop then exits."""
 
 
-NAME_COL = 14       # `kb_get_action` and `plan_motion` are the longest; longer ones just push right
+NAME_COL = 17       # `motion_transition` is the longest; longer ones just push right
 CALL_COL = 42       # digest.WIDTH, so a clipped argument phrase lands inside its column
 ROW_WIDTH = 76      # how much of a line the collapsed names may fill before wrapping
 

@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """
-run_eval.py — score retrieval against `retrieval_eval_set.json`.
+run_eval.py — ARCHIVED. Score retrieval against `retrieval_eval_set.json`.
+
+DOES NOT RUN, and is kept for the reason README.md next to it gives: every case names one of the
+eight nursing actions, and those records left the knowledge base when the Mixamo corpus became the
+whole of it. `KBIndex.load()` will not find them. Nothing in the live tree imports this file, and
+`sys.path` no longer reaches the repository root from here — running it needs both fixing, which is
+deliberate.
 
 The eval set has existed since Phase 1 with `_meta` saying "DATA ONLY - there is no run_eval.py yet".
 This is that runner.
@@ -56,8 +62,9 @@ import json
 import os
 import sys
 
-import paths
-from agent import assemble as A
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+import paths                                                     # noqa: E402
+from agent import assemble as A                                  # noqa: E402
 from agent.kbindex import ANATOMICAL, KBIndex
 # Only the constant at module scope: the baseline arm must not drag in the LLM stack to run.
 from agent.llm import DEFAULT_MODEL
@@ -66,7 +73,11 @@ def load_cases():
     # The eval set is a build artifact, not knowledge: it says what retrieval SHOULD return, which is a
     # statement about this project's expectations rather than a fact about any motion (ADR 0017).
     paths.require_kb()
-    path = paths.EVAL_SET
+    # BUILT HERE, NOT READ FROM `paths`. This eval scores eight records that are no longer in the
+    # knowledge base, so the live path table stopped naming its case file (see paths.py). The file
+    # sits beside those records, in the Unity repository's own legacy directory.
+    path = os.path.join(os.path.dirname(paths.KB_DIR), "legacy", "eval_8_actions",
+                        "retrieval_eval_set.json")
     if not os.path.exists(path):
         raise SystemExit("eval set not found at %s" % path)
     with open(path, encoding="utf-8") as f:

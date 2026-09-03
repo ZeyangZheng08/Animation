@@ -1,83 +1,141 @@
 #!/usr/bin/env python3
 """
-build_transitions.py — regenerate the derived seam table, and report what it found.
+build_transitions.py — verify the seam search on a sample of pairs. It no longer builds anything.
 
-The table is a CACHE. `kb_transition` computes the same answer live from `raw`, so deleting this file
-costs a rebuild and nothing else; it exists so the agent's tool call is a lookup instead of a 56-pair
-search. Nothing in the motionkb/v3 contract references it.
+WHY THERE IS NOTHING LEFT TO BUILD. This used to write `derived/transitions.json`: every ordered pair
+of an eight-action store, 56 seams, under a second, and a table the tool call could look up instead of
+searching. The knowledge base is 2446 actions now. That is 5,981,970 ordered pairs and roughly seven
+CPU-hours, to precompute answers to questions the agent will ask a few dozen of. So seams are computed
+when they are asked for and kept in a bounded LRU keyed on the two dumps' content digests and
+`SEAM_ALGORITHM_VERSION` (agent/transitions.py). The old table moved out with the eight records it
+covered, and is frozen at agent/nursing_assets/derived/transitions.json.
 
-The report is the point of running this by hand: it prints, for every ordered pair, what a direct cut
-costs, what the aligned seam costs, and what routing through `idle` would cost — which is what the
-Animator does today. Pairs where the idle detour is WORSE are called out, because that is the evidence
-for removing it rather than an opinion about it.
+WHAT IS LEFT IS THE CHECK. A search that is only ever run on demand is a search nobody looks at, so
+this samples pairs, runs the real `find_seam` on them, and asserts the properties the seam search
+claims for every answer it gives:
 
-    python build_transitions.py                # write the table + print the report
-    python build_transitions.py --report-only  # print, write nothing
+  * the cut lands inside the search window at each end, and outside either clip's payload;
+  * the blend length is exactly what the stated angular-rate rule gives for the busiest channel, so
+    MAX_BLEND_RATE_DEG_PER_S is a ceiling rather than a decoration;
+  * the class follows from the blend length and the two postures, and nothing else;
+  * asking twice returns the same object — the LRU is keyed on content, so a repeat is free.
+
+    python build_transitions.py                      # 40 pairs, seed 0
+    python build_transitions.py --pairs 200          # more of them
+    python build_transitions.py --pair mx_Walking_Forward mx_Standing_Idle
+Exit: 0 when every sampled pair holds every property, 1 otherwise.
 """
 import argparse
+import random
 import sys
 
 from agent import transitions as T
+from agent import kbindex as KI
 from agent.kbindex import KBIndex
 
-
-def direct_cost(a, b, clips):
-    ca, cb = clips[a], clips[b]
-    shared = [n for n in ca.pose_bones if n in cb.rot]
-    return T.pose_distance(ca, ca.frames - 1, cb, 0, shared)
+DEFAULT_PAIRS = 40
 
 
-def via_idle_cost(a, b, clips, hub="idle"):
-    """Worst of the two seams on the A -> idle -> B path. A detour is only as good as its worse half."""
-    if hub not in clips or a == hub or b == hub:
-        return None
-    return max(direct_cost(a, hub, clips), direct_cost(hub, b, clips))
+def sample_pairs(action_ids, count, seed):
+    """`count` distinct ordered pairs, drawn deterministically.
+
+    Drawn from a POOL rather than from all 2446, so the run touches a few dozen dumps instead of a few
+    hundred: reading the corpus is the cost here, not the search.
+    """
+    rng = random.Random(seed)
+    pool = sorted(action_ids)
+    if len(pool) > 2 * count:
+        pool = sorted(rng.sample(pool, 2 * count))
+    pairs, seen = [], set()
+    guard = 0
+    while len(pairs) < count and guard < count * 100:
+        guard += 1
+        a, b = rng.choice(pool), rng.choice(pool)
+        if a == b or (a, b) in seen:
+            continue
+        seen.add((a, b))
+        pairs.append((a, b))
+    return pairs
+
+
+def check(seam, kb, clips):
+    """[complaint, ...] — the properties the seam search claims, checked on one answer."""
+    bad = []
+    a, b = clips[seam.from_action], clips[seam.to_action]
+    rec_a, rec_b = kb.actions[seam.from_action], kb.actions[seam.to_action]
+
+    from_allowed = T._search_range(a, rec_a, tail=True)
+    to_allowed = T._search_range(b, rec_b, tail=False)
+    if seam.from_frame not in from_allowed:
+        bad.append("cuts %s at frame %d, outside its search window/payload budget"
+                   % (seam.from_action, seam.from_frame))
+    if seam.to_frame not in to_allowed:
+        bad.append("enters %s at frame %d, outside its search window/payload budget"
+                   % (seam.to_action, seam.to_frame))
+
+    want = T.blend_frames_for(seam.pace_deg(), a.fps or 30)
+    if seam.blend_frames != want:
+        bad.append("blend is %d frames; the %.0f deg/s rule gives %d for %.2f deg at %d fps"
+                   % (seam.blend_frames, T.MAX_BLEND_RATE_DEG_PER_S, want, seam.pace_deg(),
+                      a.fps or 30))
+    if seam.blend_frames > 0:
+        rate = seam.pace_deg() / (seam.blend_frames / float(a.fps or 30))
+        if rate > T.MAX_BLEND_RATE_DEG_PER_S + 1e-6:
+            bad.append("busiest channel sweeps %.1f deg/s, over the stated %.0f"
+                       % (rate, T.MAX_BLEND_RATE_DEG_PER_S))
+
+    want_class = T.classify(seam.blend_frames, KI.posture_of(rec_a), KI.posture_of(rec_b))
+    if seam.cls != want_class:
+        bad.append("class is %s; the blend length and the two postures give %s"
+                   % (seam.cls, want_class))
+    return bad
 
 
 def main(argv):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--report-only", action="store_true")
-    ap.add_argument("--out", default=None)
+    ap.add_argument("--pairs", type=int, default=DEFAULT_PAIRS)
+    ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--pair", nargs=2, action="append", default=None,
+                    help="verify this ordered pair (repeatable); overrides sampling")
     args = ap.parse_args(argv)
 
     kb = KBIndex.load()
-    clips = T.load_clips(kb)
-    seams = T.build_table(kb)
+    if args.pair:
+        pairs = [tuple(p) for p in args.pair]
+        unknown = sorted({a for p in pairs for a in p} - set(kb.actions))
+        if unknown:
+            print("unknown action_id(s): %s" % ", ".join(unknown))
+            return 2
+    else:
+        pairs = sample_pairs(kb.actions, args.pairs, args.seed)
 
-    print("%d actions, %d ordered pairs\n" % (len(clips), len(seams)))
-    print("%-14s %-14s %8s %8s %8s %7s %-16s" %
-          ("from", "to", "direct", "aligned", "viaIdle", "blend", "class"))
-    worse_via_idle = []
-    for s in seams:
-        d = direct_cost(s.from_action, s.to_action, clips)
-        v = via_idle_cost(s.from_action, s.to_action, clips)
-        if v is not None and v > d:
-            worse_via_idle.append((s.from_action, s.to_action, d, v))
-        print("%-14s %-14s %8.2f %8.2f %8s %6df %-16s" %
-              (s.from_action, s.to_action, d, s.cost_deg,
-               "-" if v is None else "%.2f" % v, s.blend_frames, s.cls))
+    print("seam algorithm %s — %d of %d ordered pairs (%d actions, seed %d)\n"
+          % (T.SEAM_ALGORITHM_VERSION, len(pairs), len(kb.actions) * (len(kb.actions) - 1),
+             len(kb.actions), args.seed))
+    print("%-44s %-44s %8s %6s %-15s" % ("from", "to", "cost", "blend", "class"))
 
-    by_class = {}
-    for s in seams:
-        by_class[s.cls] = by_class.get(s.cls, 0) + 1
+    failures, by_class = [], {}
+    for from_id, to_id in pairs:
+        clips = {a: T.load_clip((kb.actions[a].get("source_clip") or {})["clip_name"],
+                                loop=bool(kb.actions[a].get("loop")))
+                 for a in (from_id, to_id)}
+        seam = T.find_seam(from_id, to_id, kb, clips)
+        again = T.find_seam(from_id, to_id, kb, clips)
+        bad = check(seam, kb, clips)
+        if again is not seam:
+            bad.append("asking twice recomputed instead of hitting the LRU")
+        by_class[seam.cls] = by_class.get(seam.cls, 0) + 1
+        print("%-44s %-44s %8.2f %5df %-15s%s"
+              % (from_id, to_id, seam.cost_deg, seam.blend_frames, seam.cls,
+                 "  <- FAIL" if bad else ""))
+        for line in bad:
+            print("        - %s" % line)
+        if bad:
+            failures.append((from_id, to_id, bad))
+
     print("\nby class: " + ", ".join("%s=%d" % kv for kv in sorted(by_class.items())))
-
-    print("\n%d of %d pairs are WORSE through idle than cut directly:"
-          % (len(worse_via_idle), len(seams)))
-    for a, b, d, v in sorted(worse_via_idle, key=lambda r: r[2] - r[3])[:10]:
-        print("   %-14s -> %-14s  direct %5.2f  vs viaIdle %5.2f   (+%.2f)" % (a, b, d, v, v - d))
-
-    posture = [s for s in seams if s.cls == T.CLASS_POSTURE_CHANGE]
-    if posture:
-        print("\nposture changes (no clip covers these — they have to be generated):")
-        for s in posture:
-            print("   %-14s -> %-14s  %s" % (s.from_action, s.to_action,
-                                             s.notes[0] if s.notes else ""))
-
-    if not args.report_only:
-        path = T.write_table(seams, path=args.out)
-        print("\nwrote %s" % path)
-    return 0
+    print("%d of %d pair(s) hold every property" % (len(pairs) - len(failures), len(pairs)))
+    return 1 if failures else 0
 
 
 if __name__ == "__main__":

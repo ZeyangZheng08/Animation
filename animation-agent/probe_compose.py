@@ -8,7 +8,7 @@ pairs, not about the one that was demonstrated.
 
 FOUR OUTCOMES, AND ONLY ONE OF THEM IS A CAPABILITY:
 
-  posture     refused before any channel is looked at. `typing` is the only seated action, so it
+  posture     refused before any channel is looked at. Two clips that cannot share a stance, so
               composes with nothing -- 14 pairs, and no amount of channel work changes that.
   conflict    refused because the plan pins a hand two actions both drive. Nothing is pinned here,
               so this arm should report zero; it is run to prove the refusal did not simply
@@ -22,7 +22,7 @@ WHERE THE CHANNEL LISTS COME FROM, AND WHY THAT IS A STAND-IN. Since motionkb/v4
 partition is not derivable from a record: `role` is gone, because which part of a clip matters is a
 fact about the task. In a live turn the AGENT names the channels. This probe has no task and no
 agent, so it uses the only honest substitute the kinematics offer -- the channels each clip actually
-ANIMATES, which is the same pool `kb_search` hands the model as `moves`. That is a floor, not a
+ANIMATES, which is the same pool `motion_search` hands the model as `moves`. That is a floor, not a
 plan: an agent that names fewer channels contests fewer of them, so a pair composable here may be
 composable in more ways than this counts, and a pair that is not is not composable at all.
 
@@ -39,6 +39,8 @@ partitions.
 import argparse
 import asyncio
 import itertools
+import math
+import random
 import sys
 
 from agent import assemble as A
@@ -47,6 +49,23 @@ from agent import segments as S
 from agent import transitions as T
 from agent.engine import DEFAULT_HOST, DEFAULT_PORT, EngineLink
 from agent.kbindex import ANATOMICAL, KBIndex
+
+
+def _wait_for_unity(coro_timeout, where):
+    """A readable failure when nothing connects, instead of a bare TimeoutError traceback.
+
+    These scripts are the SERVER on the runtime channel, so "no engine" is the ordinary outcome of
+    running one with Unity closed — and a traceback through asyncio.timeouts says nothing about what
+    to do. Two things go wrong here and they need different answers: nobody entered play mode, or
+    something else is already holding the port (a service `terminal.ps1` left running is the usual
+    one), in which case this process never got to listen at all.
+    """
+    raise SystemExit(
+        "no engine connected on %s within the wait.\n"
+        "  * Unity has to be in PLAY mode: this script is the server and the executor dials in.\n"
+        "  * Nothing else may hold the port. `ss -ltn | grep %s` finds a service left running by\n"
+        "    terminal.ps1; stop it, or turn off Tools > Animation Agent > Open Terminal On Play."
+        % (where, where.rsplit(":", 1)[-1]))
 
 POSTURE, CONFLICT, DEGENERATE, COMPOSED = "posture", "conflict", "degenerate", "composed"
 
@@ -123,16 +142,19 @@ async def commit(kb, pairs, host, port, wait, who):
     results = {}
     async with EngineLink(host, port) as link:
         print("serving ws://%s:%d — enter play mode in Unity" % (host, port), flush=True)
-        await link.wait_ready(timeout=wait)
+        try:
+            await link.wait_ready(timeout=wait)
+        except (asyncio.TimeoutError, TimeoutError):
+            _wait_for_unity(None, "%s:%d" % (host, port))
         registry = kb_tools.register(ToolRegistry(), kb)
         scene_tools.register(registry, link, kb)
         for index, (base, overlay) in enumerate(pairs):
             # The same channel lists `classify` used, so what is committed is the partition this
             # probe just counted rather than a second one that merely looks like it.
-            out = await registry.dispatch("plan_motion", {
+            out = await registry.dispatch("unity_execute", {
                 "base": base, "base_channels": moves(kb, base),
                 "overlays": [{"action_id": overlay, "channels": moves(kb, overlay)}],
-                "character": who, "mode": "commit"})
+                "character": who})
             ok = out.get("success") is not False
             results[(base, overlay)] = (ok, out.get("error") or "committed")
             print("  %3d/%d  %-4s %-14s + %-14s %s"
@@ -151,12 +173,24 @@ def main(argv):
     ap.add_argument("--wait", type=int, default=120)
     ap.add_argument("--verbose", action="store_true", help="print every pair, not only the composed")
     ap.add_argument("--character", default="Jill", help="who to drive under --engine")
+    ap.add_argument("--pairs", type=int, default=40,
+                    help="how many ordered pairs to compose. Every pair over the real library is "
+                         "5.98 million, which is not a run anybody makes.")
+    ap.add_argument("--seed", type=int, default=0, help="which sample; fixed so a run repeats")
     args = ap.parse_args(argv)
 
     kb = KBIndex.load()
-    ids = sorted(kb.actions)
-    pairs = list(itertools.permutations(ids, 2))
-    segment_table = S.read_table() or S.build_table(T.load_clips(kb))
+    # A SAMPLE. The library is 2446 actions, so every ordered pair is 5,981,970 compositions -- and
+    # the question here is "how often does a proposed composition resolve", which a sample answers.
+    # `--seed` says which sample, fixed by default so a surprising number can be looked at again.
+    pool = max(2, math.ceil((1 + math.sqrt(1 + 4 * args.pairs)) / 2))
+    ids = sorted(random.Random(args.seed).sample(sorted(kb.actions), min(pool, len(kb.actions))))
+    pairs = list(itertools.permutations(ids, 2))[:args.pairs]
+    # Read, never rebuilt: building it means reading 1.4 GB of dumps. `build_segments.py` writes it.
+    segment_table = S.read_table()
+    if segment_table is None:
+        print("no segment table; run `python build_segments.py` first")
+        return 1
 
     outcomes = {}
     for pair in pairs:
@@ -179,7 +213,7 @@ def main(argv):
     print("\n  composed      %d/%d   <- the number" % (counts[COMPOSED], len(pairs)))
     print("  degenerate    %d      one action ends up driving everything; not a composition"
           % counts[DEGENERATE])
-    print("  posture       %d      %s is the only seated action" % (counts[POSTURE], "typing"))
+    print("  posture       %d      two clips that cannot share a stance" % counts[POSTURE])
     print("  conflict      %d      nothing is pinned here, so this should be 0" % counts[CONFLICT])
     print("\n  of the composed, %d have a body part driven by both clips at half each"
           % len(with_share))

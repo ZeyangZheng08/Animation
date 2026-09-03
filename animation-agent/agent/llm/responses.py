@@ -23,7 +23,11 @@ import json
 
 from .base import DEFAULT_SILENCE_S, LlmBackend, LlmError, TextDelta, ToolCall, TurnDone
 
-DEFAULT_MODEL = "gpt-5.6-luna"
+# The service's default arm (see agent/llm/__init__.py). Restated rather than imported so this
+# module stands on its own for a caller that constructs the backend directly, and kept equal to it
+# deliberately: a backend defaulting to a different model than the CLI does is a difference nobody
+# sees until a run is already under way.
+DEFAULT_MODEL = "gpt-5.6-terra"
 
 
 class ResponsesBackend(LlmBackend):

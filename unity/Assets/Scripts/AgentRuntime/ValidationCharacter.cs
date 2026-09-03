@@ -293,7 +293,8 @@ namespace AgentRuntime
                 // A seated step that was retrieved rather than generated: the clip needs a moment to
                 // establish the pose before there is anything to measure, which is the same half
                 // second JudgeSupport waits at runtime.
-                if (plan.Pending == null && !landed && plan.PendingSupport != null && elapsed >= 0.5f)
+                if (plan.Pending == null && !landed && plan.PendingSupport != null
+                    && elapsed >= Mathf.Max(0.5f, plan.PendingSupportAt))
                 {
                     gate.SupportLanded();
                     landed = true;
@@ -342,6 +343,13 @@ namespace AgentRuntime
                 { "resolved", plan.Resolved },
                 { "bindings", bindings },
                 { "ground_y", groundY },
+                // WHAT THE DUPLICATE'S ROOT MOTION ACTUALLY DID. A retrieved posture transition is
+                // supposed to carry her onto the seat, and if it does not, "the sit missed by 0.47 m"
+                // and "the clip travels 0.45 m and she never moved" are the same number for two
+                // completely different reasons. These two tell them apart without a play-mode probe.
+                { "root_motion_applied_m", _composer == null ? 0f : _composer.RootMotionAppliedM },
+                { "root_motion_samples", _composer == null ? 0 : _composer.RootMotionSamples },
+                { "root_motion_calls", _composer == null ? 0 : _composer.RootMotionCalls },
                 { "first_pose", firstPose },
                 { "last_pose", lastPose },
                 // A range of zero over a whole plan means the graph never advanced, which is a very
@@ -400,7 +408,8 @@ namespace AgentRuntime
             {
                 SceneRegistry.Entry seat = scene.Registry.ById(plan.PendingSupport);
                 if (seat == null || seat.target == null) return;
-                gate.ExpectSupport(plan.PendingSupport, seat.target, seat.surfaceHeight, hips, 0.5f);
+                gate.ExpectSupport(plan.PendingSupport, seat.target, seat.surfaceHeight, hips,
+                                   Mathf.Max(0.5f, plan.PendingSupportAt));
             }
         }
 

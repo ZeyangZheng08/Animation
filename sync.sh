@@ -7,9 +7,9 @@
 # SIX TRAPS, each already paid for once. Every one of them fails QUIETLY -- a plausible count, exit 0,
 # nothing in red -- which is why the two guards below exist.
 #
-#   1. Never run this WSL git inside /mnt/f. Linux git over the 9p mount reports hundreds of files as
+#   1. Never run this WSL git inside /mnt/d. Linux git over the 9p mount reports hundreds of files as
 #      dirty on file mode and CRLF alone. Windows git decides what is tracked over there --
-#      `git.exe -C "F:/..."` -- and this script only reads bytes back out of it.
+#      `git.exe -C "D:/..."` -- and this script only reads bytes back out of it.
 #   2. `git.exe` drains the stdin of the `while read` loop it is called from. Without `</dev/null` the
 #      loop stops at the first unity/ path, having done the animation-agent files and none of the 571
 #      Unity ones, and still prints a refreshed count. The count guard after the loop catches it.
@@ -34,9 +34,9 @@
 # collapsed the whole LFS path list onto one line.
 set -euo pipefail
 
-UNITY_WIN="F:/Research/AI_agent/Animation/Animation_agent/Project/Animation"
-UNITY_POSIX="/mnt/f/Research/AI_agent/Animation/Animation_agent/Project/Animation"
-AGENT="$HOME/Research/animation-agent"
+UNITY_WIN="D:/Research/AI_agent/Animation_agent/Animation"
+UNITY_POSIX="/mnt/d/Research/AI_agent/Animation_agent/Animation"
+AGENT="$HOME/Research/animation_agent"
 cd "$(dirname "$0")"
 
 # --adopt copies the reported additions in; --ext adds extensions to the candidate filter.

@@ -88,6 +88,7 @@ namespace AgentRuntime
             public float StartHipY;       // where the plan said the hips would start
             public float TargetHipY;      // and where it said they would end
             public float HorizontalMiss = -1f;
+            public float CentreMiss = -1f;   // how far the pelvis ended from the middle of the seat
             public float VerticalGap;
             public float HipMiss;
             public float BiasM;           // what the descent's closed loop had to accumulate
@@ -245,6 +246,15 @@ namespace AgentRuntime
             float dx = Mathf.Max(0f, Mathf.Max(f.min.x - hips.x, hips.x - f.max.x));
             float dz = Mathf.Max(0f, Mathf.Max(f.min.z - hips.z, hips.z - f.max.z));
             _support.HorizontalMiss = Mathf.Sqrt(dx * dx + dz * dz);
+            // AND HOW FAR FROM THE MIDDLE OF IT, which is a different question and the one a viewer
+            // is actually asking. Containment says the pelvis is somewhere over the chair; it says
+            // nothing about where, and a chair's footprint is wide enough that a sit landing near its
+            // edge -- or on the arm -- contains perfectly well. Measured on the first retrieved
+            // sit-down: `seated_on_support` passed at 0.000 while the character was visibly 0.3-0.5 m
+            // off the seat, because the whole error fitted inside the box.
+            Vector3 centre = f.center;
+            float cx = hips.x - centre.x, cz = hips.z - centre.z;
+            _support.CentreMiss = Mathf.Sqrt(cx * cx + cz * cz);
             _support.VerticalGap = hips.y - _support.SurfaceY;
             _support.HipMiss = Mathf.Abs(hips.y - _support.TargetHipY);
             _support.Armed = true;
@@ -381,6 +391,18 @@ namespace AgentRuntime
                                    "metres the pelvis ended up outside the footprint of "
                                    + _support.ObjectId + "; a sit that lands on nothing is not a sit",
                                    null, _support.ObjectId));
+                // NOT A CALIBRATED NUMBER, A GEOMETRIC ONE. Five centimetres is about the slack
+                // between a pelvis and the middle of a seat it is genuinely sitting on -- the width of
+                // a hand -- and it is the scale the plan places her at: `scene.standing_point_for`
+                // works the standing point out from the clip's own travel and lands the hips on the
+                // seat centre exactly, so anything past a few centimetres means something moved that
+                // was not supposed to. Fatal, because a sit that misses by more than that is the
+                // failure this gate exists for and the containment test above cannot see it.
+                metrics.Add(Metric("seat_alignment", _support.CentreMiss, 0.05f, _frames,
+                                   "metres between the pelvis and the middle of " + _support.ObjectId
+                                   + "; containment alone passes a sit that landed on the edge",
+                                   null, _support.ObjectId));
+
                 // Reported, not judged: how far a pelvis should sit above a seat surface depends on the
                 // avatar, and one measurement is not a calibration.
                 metrics.Add(Metric("pelvis_above_surface", _support.VerticalGap, -1f, _frames,
@@ -496,6 +518,7 @@ namespace AgentRuntime
             {
                 case "ground_penetration": return "foot_through_floor";
                 case "seated_on_support": return "pelvis_outside_support";
+                case "seat_alignment": return "pelvis_off_centre_on_support";
                 case "sat_through_support": return "pelvis_below_support";
                 case "hip_reached_target": return "hip_did_not_reach_target";
                 case "correction_reached_graph": return "correction_discarded";

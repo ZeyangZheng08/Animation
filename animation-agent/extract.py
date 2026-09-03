@@ -25,7 +25,7 @@ this repo reaches it through paths.py / MOTIONKB_DIR.
        The v4 structural migration. Rewrites every record into the motionkb/v4 shape WITHOUT
        re-measuring: it renames `overall_intent` to `action_description`, drops the retired keys, and
        restamps the version/provenance lines. It exists because v4 changed no number — running the
-       measure half to move a record's shape would reprocess 2454 frozen dumps to write back the
+       measure half to move a record's shape would reprocess 2446 frozen dumps to write back the
        values they already hold. Idempotent; safe on an already-v4 store.
 
 KINEMATIC is program-generated and never fabricated (ADR 0002); the SEMANTIC half is now exactly two
@@ -87,7 +87,7 @@ def _by_clip():
     """{clip_name: record path} for the whole store, built once per process.
 
     Three lookups here used to walk the store and json.load every file to find one clip. Since the
-    corpus landed that is 2454 opens apiece and 68 s each over the DrvFs mount the KB is reached
+    corpus landed that is 2446 opens apiece and 68 s each over the DrvFs mount the KB is reached
     through; one concurrent pass, held for the run, costs 6 s.
     """
     global _BY_CLIP
@@ -191,7 +191,7 @@ def _apply_v4_shape(doc):
 
     The rename is done in place rather than as a delete-then-add so that `action_description` keeps
     `overall_intent`'s position in the file: these records are read as text and diffed, and moving a
-    line that did not change is noise in a 2454-file rewrite.
+    line that did not change is noise in a 2446-file rewrite.
     """
     if "overall_intent" in doc:
         doc = _rename_key(doc, "overall_intent", "action_description")
@@ -227,7 +227,7 @@ def _apply_kinematic(doc, blocks):
 
     Keys that already exist are ASSIGNED IN PLACE rather than removed and re-added, because a Python
     dict keeps insertion order and the records are read as text: re-adding would reorder every
-    channel in 2454 files and bury the values that actually changed. New keys land at the end of the
+    channel in 2446 files and bury the values that actually changed. New keys land at the end of the
     channel, retired ones are dropped.
 
     This is also where a record's `schema_version` is stamped, because the KINEMATIC half is what
@@ -718,6 +718,67 @@ def _promote_candidate(clip_name, human):
     return 0
 
 
+# The corpus's clip names all carry it, and nothing else in the store does. Membership in "the
+# corpus" is a fact about where a clip came from, and the name is the only place the record keeps it.
+CORPUS_PREFIX = "mx_"
+
+
+def accept_corpus(dry_run=False):
+    """Accept the whole Mixamo corpus in one pass: `action_id = clip_name`, `status = accepted`.
+
+    WHY NOT `author all`. That path is `_promote_candidate`, which exists to promote ONE record a
+    human just looked at: it gates the action_id as a hand-written slug, renames the file to it, and
+    stamps `verified_at`. None of the three fits 2446 records that were described in a batch. The
+    slug gate rejects `mx_Walking` on its capitals; the rename is a no-op because the file is already
+    named for the clip; and a fresh `verified_at` on every run would make this rewrite 2446 files
+    each time it was called.
+
+    WHY action_id IS THE CLIP NAME. A corpus record has no second identity to be given. Inventing
+    slugs for 2446 clips would be 2446 judgements nobody made, and the clip name is already unique,
+    already what the raw dump and the frames directory are keyed by, and already what the Unity
+    ClipLibrary resolves. Under ADR 0016 a record is named by its key, so the file needs no rename:
+    it was `<clip_name>.json` and the key it is now named by is the same string.
+
+    WHAT `accepted` CLAIMS HERE. That the record is complete and retrievable -- measured, and
+    described by the corpus pass whose consistency gate it passed. It does not claim a human read it,
+    which is why `vlm_proposal.status` becomes `vlm_accepted` and `verified_against_screenshots` is
+    left exactly as it was. Nothing else on the record is touched, so the SHAPE is untouched too.
+
+    IDEMPOTENT. Running it twice writes nothing the second time: the three fields are compared, not
+    stamped, and no timestamp is advanced.
+    """
+    changed = untouched = skipped = failed = 0
+    misnamed = []
+    for p, doc, err in paths.read_records():
+        if err:
+            print("  FAIL  %s: %s" % (paths.rel(p), err))
+            failed += 1
+            continue
+        clip = (doc.get("source_clip") or {}).get("clip_name") or ""
+        if not clip.startswith(CORPUS_PREFIX):
+            skipped += 1
+            continue
+        before = json.dumps(doc, ensure_ascii=False, sort_keys=True)
+        doc["action_id"] = clip
+        doc["status"] = "accepted"
+        doc.setdefault("extraction", {}).setdefault("vlm_proposal", {})["status"] = "vlm_accepted"
+        if os.path.basename(p) != clip + ".json":
+            misnamed.append((paths.rel(p), clip))
+        if json.dumps(doc, ensure_ascii=False, sort_keys=True) == before:
+            untouched += 1
+            continue
+        if not dry_run:
+            _atomic_write(p, doc)
+        changed += 1
+    for path, clip in misnamed:
+        print("  WARN  %s should be named %s.json (ADR 0016: a record is named by its key)"
+              % (path, clip))
+    print("%d corpus record(s) accepted%s, %d already accepted, %d not corpus records, %d unreadable."
+          % (changed, " (dry run -- nothing written)" if dry_run else "",
+             untouched, skipped, failed))
+    return 1 if failed else 0
+
+
 def author(clip_name):
     """Optional human review — the SEMANTIC 'author' step (the human is the author; the VLM only proposes):
     bless a staged candidate as human_accepted and promote it to the accepted store. (The default `propose`
@@ -798,6 +859,8 @@ def main(argv):
             print("usage: extract.py propose <clip_name> [--stage] [--host H --port P --instance Name@hash]"); return 2
         rest = [a for a in argv[3:] if a != "--stage"]
         return propose(argv[2], *_parse_bridge_flags(rest), stage=("--stage" in argv[3:]))
+    if cmd == "accept-corpus":
+        return accept_corpus(dry_run="--dry-run" in argv[2:])
     if cmd == "author":
         if len(argv) < 3:
             print("usage: extract.py author <clip_name|all>"); return 2
@@ -815,7 +878,7 @@ def main(argv):
             return rc
         return author(argv[2])
     print("usage: extract.py [register <clip>|resolve-controller <clip>|emit-sampler|sample [clip]|assemble|"
-          "migrate [--dry-run]|render <clip>|propose <clip>|author <clip|all>]")
+          "migrate [--dry-run]|render <clip>|propose <clip>|author <clip|all>|accept-corpus [--dry-run]]")
     print("  bridge options: --host H (default %s)  --port P (default %d)  --instance Name@hash"
           % (unity_sampler.DEFAULT_HOST, unity_sampler.DEFAULT_PORT))
     return 2

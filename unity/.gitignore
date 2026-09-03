@@ -117,14 +117,14 @@ __pycache__/
 *.env
 key.env
 
-# MotionKB render frames are TRACKED (they were ignored until 2026-08-05). They started as a
-# disposable intermediate of the offline VLM proposal step, but under the Phase-2 architecture they
-# are a RUNTIME RETRIEVAL INPUT: the agent fetches them as open-ended visual evidence to arbitrate
-# between candidates whose closed-vocabulary semantic labels do not separate them. Two consequences
-# make ignoring them wrong: (1) they are part of the consumed contract, not an intermediate;
-# (2) regenerating them needs a running Unity editor + the MCP bridge, which would make restoring
-# the pure-Python agent side depend on booting the engine. They are binary, so *.png routes them
-# through git-lfs (see .gitattributes); their .meta stay in plain git.
+# Render frames are TRACKED where they are repo content (they were ignored until 2026-08-05). They
+# started as a disposable intermediate of the offline VLM proposal step, and became repo content for
+# one reason that still holds: regenerating them needs a running Unity editor + the MCP bridge, which
+# would make restoring the pure-Python agent side depend on booting the engine. Since the eight
+# nursing records left the knowledge base (agent/nursing_assets/README.md), the only tracked frame
+# directories are theirs, under agent/nursing_assets/frames/; everything under
+# agent/animation_knowledge_base/frames/ is the Mixamo corpus and is ignored below. They are binary,
+# so *.jpg / *.png route them through git-lfs (see .gitattributes); their .meta stay in plain git.
 
 # The bulk Mixamo corpus is UNTRACKED. It is ~2400 skinless FBX (~1 GB) fetched from mixamo.com
 # and fully reproducible from Dataset/tools/mixamo_batch.py plus the catalog.json and _state.json
@@ -142,18 +142,17 @@ key.env
 # A dump is JSON at about 5.6 KB per sampled frame; 2446 clips come to roughly 1.4 GB, some
 # 600 MB packed. Tracking them would preserve only half a reproduction chain that is already
 # broken at its source, since the FBX they were sampled from are untracked too — and it would
-# grow a repository that already cannot be pushed. The candidate records built FROM them ARE
-# tracked: those are knowledge base content, about 6 KB each. When a corpus clip is promoted
-# into agent/animation_knowledge_base/actions/, its dump is added in the same commit as its FBX
-# (ADR 0014; the path is ADR 0017's).
+# grow a repository that already cannot be pushed. The records built FROM them ARE tracked: those
+# are knowledge base content, about 6 KB each, and all 2446 of them are accepted now. Accepting a
+# record does NOT pull its dump into the repository — the dump is reproducible from the FBX and the
+# sampler, and the FBX is untracked (ADR 0014; the path is ADR 0017's).
 /agent/animation_knowledge_base/raw/mx_*.json
 
 # ...and the render frames of those same corpus clips, by the same rule again. The eight nursing
-# actions' frame directories above stay TRACKED: they are the consumed contract for eight records
-# that ARE repo content. The corpus's are 2446 x 24 JPEG, about 3.4 GB, regenerable offline from the
-# dumps with `ingest_corpus.py render` — and the reason the nursing frames had to be tracked (that
+# actions' frame directories stay TRACKED, under agent/nursing_assets/frames/: those eight clips are
+# repo content. The corpus's are 2446 x 24 JPEG, about 3.4 GB, regenerable offline from the dumps
+# with `ingest_corpus.py render` — and the reason the nursing frames had to be tracked (that
 # regenerating them needs a live Unity editor, which the pure-Python agent side must not depend on)
 # does not save these: the clips they show are untracked, so the engine could not regenerate them
-# from a fresh clone anyway. A corpus clip that is promoted into the knowledge base brings its
-# frames into the same commit as its FBX and its dump.
+# from a fresh clone anyway.
 /agent/animation_knowledge_base/frames/mx_*/

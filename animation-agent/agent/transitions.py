@@ -15,10 +15,17 @@ Three things it answers, in the model's vocabulary:
   HOW LONG the blend has to be, derived from a stated angular-rate assumption rather than tuned.
 
 DELIBERATELY NO TUNED THRESHOLD. The class of a pair falls out of the blend length and the postures;
-there is no "seam cost above X is infeasible" constant, because the corpus has 8 clips and any cutoff
-fitted to it would be noise wearing a number. A same-posture pair always gets a blend, and whether it
-looks acceptable is the geometric gate's verdict, measured on the frames that actually played.
+there is no "seam cost above X is infeasible" constant, because any cutoff fitted to a corpus would be
+noise wearing a number. A same-posture pair always gets a blend, and whether it looks acceptable is the
+geometric gate's verdict, measured on the frames that actually played.
+
+ON DEMAND, NOT PRECOMPUTED. There is no seam table any more: 2446 actions are 5.98 million ordered
+pairs and about seven CPU-hours, for the few dozen an agent asks about. Seams are computed when asked
+for and kept in a bounded LRU keyed on SEAM_ALGORITHM_VERSION and the two dumps' content digests —
+see `load_clip`, `find_seam`, and the note at the foot of this file.
 """
+import collections
+import hashlib
 import json
 import math
 import os
@@ -27,6 +34,12 @@ import config
 import paths
 
 from . import kbindex
+
+# Which seam algorithm produced an answer. Everything a seam depends on is either a constant in this
+# module or the two dumps it read, so the cache key is this version plus those two dumps' digests: a
+# cached seam from a different version, or from a dump that has been re-sampled, cannot be returned.
+# Bump it when the search, the cost, the blend rule or the classification changes.
+SEAM_ALGORITHM_VERSION = "1.0.0"
 
 # Angular rate a joint is allowed to sweep during a blend. A blend that moves the average joint faster
 # than this reads as a snap. This is an ASSUMPTION, stated here so the gate's velocity-continuity
@@ -72,15 +85,27 @@ CLASS_DIRECT = "direct"
 CLASS_BLEND = "blend"
 CLASS_POSTURE_CHANGE = "posture_change"
 
+# The three coarse states that make a CLAIM about where the body is. `other` is the posture
+# analysis's conservative fallback -- crouching, kneeling, airborne, mid-change -- so it says the
+# rules could not place the configuration, not that the configuration differs from another. Anything
+# comparing two postures compares these and treats `other` as no answer.
+DEFINITE_POSTURES = frozenset(("standing", "seated", "floor"))
+
 
 # ---- raw access ------------------------------------------------------------------------------
 
 class Clip(object):
     """One `raw` dump, with just enough structure for a seam search."""
 
-    __slots__ = ("clip_name", "frames", "fps", "rot", "bones", "pose_bones", "foot_y", "loop")
+    __slots__ = ("clip_name", "frames", "fps", "rot", "bones", "pose_bones", "foot_y", "loop",
+                 "digest")
 
-    def __init__(self, raw, loop=False):
+    def __init__(self, raw, loop=False, digest=None):
+        # CONTENT IDENTITY, carried by the clip that has it. A seam is a function of two dumps and the
+        # constants in this module, so caching one needs a name for "these exact two dumps". The digest
+        # is taken once, on the bytes that were about to be parsed anyway, and travels with the Clip --
+        # so the cost is one hash per file read, not one per seam.
+        self.digest = digest
         self.clip_name = raw["clip"]
         self.frames = raw["frames"]
         self.fps = raw.get("frame_rate") or 30
@@ -110,43 +135,77 @@ def _foot_heights(bones):
     return [max(left[i][1], right[i][1]) for i in range(min(len(left), len(right)))]
 
 
-# (path, loop) -> Clip, for the default corpus only. See load_clip and forget_raw.
-_CLIP_CACHE = {}
+# How many parsed dumps to keep. BOUNDED, because the corpus is 2446 clips of about 600 KB of JSON
+# apiece: an unbounded memo was right when the store held eight dumps and is a slow memory leak now,
+# since a long session searches seams all over the library. Twelve covers what any one plan touches
+# (a base, its overlays, a locomotion primitive, an idle) several times over.
+CLIP_CACHE_MAX = 12
+
+# (path, loop) -> Clip, for the default corpus only, most-recently-used last. See load_clip.
+_CLIP_CACHE = collections.OrderedDict()
+
+# How many seam answers to keep. Each is a small object; 2048 is a few hundred KB and covers the pairs
+# an agent revisits within a session without ever growing with the corpus.
+SEAM_CACHE_MAX = 2048
+
+# (from_action, to_action, SEAM_ALGORITHM_VERSION, digest_from, digest_to) -> Seam. See find_seam.
+_SEAM_CACHE = collections.OrderedDict()
 
 
 def forget_raw():
     """Drop everything memoised from the default `raw`. The sampler calls this after writing a dump.
 
     Nothing else needs it: `raw` is frozen for every process that only reads the KB, and the one writer
-    is `unity_sampler.write_raw`, which runs in the offline pipeline.
+    is `unity_sampler.write_raw`, which runs in the offline pipeline. The seam cache goes too — it is
+    keyed on content digests, so a re-sampled dump could not return a stale answer anyway, but the
+    entries it would leave behind are about clips that no longer exist.
     """
     _CLIP_CACHE.clear()
-    _FINGERPRINT_CACHE.pop(paths.RAW_DIR, None)
+    _SEAM_CACHE.clear()
 
 
-def load_clip(clip_name, loop=False, raw_dir=None):
-    """One `raw` dump as a Clip.
+def _remember(cache, key, value, limit):
+    """Insert into a bounded LRU, evicting the least recently used. One helper for both caches so the
+    eviction rule cannot drift between them."""
+    cache[key] = value
+    cache.move_to_end(key)
+    while len(cache) > limit:
+        cache.popitem(last=False)
+    return value
 
-    MEMOISED FOR THE DEFAULT CORPUS. These dumps are about 900 KB each and get loaded by every seam
-    search, every segment build and every plan that windows a layer. On a local disk re-reading them is
+
+def load_clip(clip_name, loop=False, raw_dir=None, memo=True):
+    """One `raw` dump as a Clip, carrying the SHA-256 digest of the bytes it was parsed from.
+
+    MEMOISED FOR THE DEFAULT CORPUS, up to CLIP_CACHE_MAX. These dumps are about 600 KB each and get
+    loaded by every seam search and every plan that windows a layer. On a local disk re-reading them is
     cheap; the KB normally sits on a Windows worktree over DrvFs, where one open costs about 19 ms, and
     across a test suite that was two seconds of pure re-reading. A Clip is a read-only value object
     (`__slots__`, built once in `__init__`, never written to afterwards), so sharing one is safe.
 
+    THE DIGEST IS TAKEN ON THE WAY PAST. The file has to be read to be parsed, so it is read as bytes,
+    hashed, and then decoded — one pass, not two — and the digest is what the seam cache is keyed on.
+    Hashing the whole `raw` directory instead, which is what the old table fingerprint did, cost 52 s
+    per process once the corpus landed, to prove that 2446 files nobody opened were unchanged.
+
     Pass `raw_dir` and the read is unconditional -- that is the corpus a caller brought itself, and this
-    module has no idea when it changes.
+    module has no idea when it changes. Pass `memo=False` for a one-pass sweep of the whole corpus,
+    which would otherwise evict everything worth keeping.
     """
-    frozen = raw_dir is None
+    frozen = raw_dir is None and memo
     path = os.path.join(raw_dir or paths.RAW_DIR, clip_name + ".json")
     key = (path, bool(loop))
     if frozen:
         hit = _CLIP_CACHE.get(key)
         if hit is not None:
+            _CLIP_CACHE.move_to_end(key)
             return hit
-    with open(path, encoding="utf-8") as fh:
-        clip = Clip(json.load(fh), loop=loop)
+    with open(path, "rb") as fh:
+        blob = fh.read()
+    clip = Clip(json.loads(blob.decode("utf-8")), loop=loop,
+                digest=hashlib.sha256(blob).hexdigest())
     if frozen:
-        _CLIP_CACHE[key] = clip
+        _remember(_CLIP_CACHE, key, clip, CLIP_CACHE_MAX)
     return clip
 
 
@@ -328,11 +387,22 @@ def blend_frames_for(cost_deg, fps):
 def classify(blend_frames, posture_from, posture_to):
     """No tuned constant here on purpose — see the module docstring.
 
-    A posture change is categorical (the knowledge base says one action is seated and the other is not)
-    and outranks the numbers, because no crossfade between a stance and a sit is a stance change: it
-    needs frames that neither clip contains.
+    A posture change is categorical and outranks the numbers, because no crossfade between a stance
+    and a sit is a stance change: it needs frames that neither clip contains.
+
+    THE TWO POSTURES ARE THE ENDS, NOT THE MIDDLES. A seam joins the last played frame of A to the
+    first played frame of B, so what decides whether a crossfade can serve is where A FINISHES and
+    where B BEGINS. It used to be each clip's dominant posture, which was the same answer while every
+    clip held one posture throughout, and is the wrong one as soon as a clip changes: a stand-up ends
+    standing, and joining it to a walk is an ordinary blend that a dominant reading of `seated` would
+    have called impossible — which would hide exactly the clips a posture change needs.
+
+    `other` IS NOT A POSTURE FOR THIS PURPOSE. It is the fallback for a configuration the rules cannot
+    place, so a difference involving it is an absence of information rather than a mismatch, and
+    refusing on it would refuse most of the corpus.
     """
-    if posture_from and posture_to and posture_from != posture_to:
+    definite = (posture_from in DEFINITE_POSTURES and posture_to in DEFINITE_POSTURES)
+    if definite and posture_from != posture_to:
         return CLASS_POSTURE_CHANGE
     return CLASS_DIRECT if blend_frames <= 1 else CLASS_BLEND
 
@@ -350,9 +420,29 @@ def _foot_penalty(clip, frame):
 
 
 def find_seam(from_id, to_id, kb, clips):
-    """Best join between two actions. `clips` maps action_id -> Clip."""
+    """Best join between two actions. `clips` maps action_id -> Clip.
+
+    MEMOISED, because this is the tool call the agent makes most and the search is O(tail x head)
+    frame pairs over every shared bone. There is no precomputed table any more and there cannot be
+    one: 2446 actions are 5.98 million ordered pairs, about seven CPU-hours, and the agent will ask
+    about a few dozen of them. So the answer is computed on demand and kept.
+
+    THE KEY IS THE INPUTS, NOT THE NAMES. `(from, to)` alone would survive a re-sample and answer
+    about a dump that no longer exists, which is the failure mode the old whole-directory fingerprint
+    existed to prevent — at the cost of hashing the entire corpus. The two clips' content digests say
+    the same thing about exactly the two files this answer depends on, and `SEAM_ALGORITHM_VERSION`
+    covers the constants in this module. A clip loaded from a caller's own `raw_dir` still carries a
+    digest, so its seams are cached and cannot collide with the default corpus's.
+    """
     rec_a, rec_b = kb.actions[from_id], kb.actions[to_id]
     a, b = clips[from_id], clips[to_id]
+    key = None
+    if a.digest and b.digest:
+        key = (from_id, to_id, SEAM_ALGORITHM_VERSION, a.digest, b.digest)
+        hit = _SEAM_CACHE.get(key)
+        if hit is not None:
+            _SEAM_CACHE.move_to_end(key)
+            return hit
     shared = [n for n in a.pose_bones if n in b.rot]
 
     from_frames = _search_range(a, rec_a, tail=True)
@@ -373,8 +463,10 @@ def find_seam(from_id, to_id, kb, clips):
     seam = Seam(from_id, to_id, i, j, cost, 0, None, [], per_channel,
                 support_channels(rec_a, rec_b))
     frames = blend_frames_for(seam.pace_deg(), fps)
-    posture_a = kbindex.posture_of(rec_a)
-    posture_b = kbindex.posture_of(rec_b)
+    # WHERE A FINISHES AND WHERE B BEGINS -- see `classify`. Not the two dominant postures, which
+    # answer a different question and get a clip that changes posture exactly backwards.
+    posture_a = kbindex.posture_span_of(rec_a)[1]
+    posture_b = kbindex.posture_span_of(rec_b)[0]
     cls = classify(frames, posture_a, posture_b)
 
     notes = []
@@ -390,7 +482,9 @@ def find_seam(from_id, to_id, kb, clips):
     seam.blend_frames = frames
     seam.cls = cls
     seam.notes = notes
-    return seam
+    # SHARED, and read-only from here on: nothing outside this function assigns to a Seam, and
+    # `as_dict` is a projection rather than a handle. A caller that wants to change one copies it.
+    return seam if key is None else _remember(_SEAM_CACHE, key, seam, SEAM_CACHE_MAX)
 
 
 # ---- mixing: two sources on one channel, at the same time ------------------------------------
@@ -445,9 +539,26 @@ def mix_entry_frame(a, a_frame, b, channels, rec_b=None):
 
 # ---- the table -------------------------------------------------------------------------------
 
+# Above this many actions, holding every parsed dump at once stops fitting in a process: the corpus's
+# 2446 are 1.4 GB of JSON on disk and several times that once parsed.
+LOAD_CLIPS_MAX_ACTIONS = 64
+
+
 def load_clips(kb, raw_dir=None):
     """Clip objects for every accepted action, keyed by action_id (the `raw` files are keyed by clip
-    name, which is not the same string — that mismatch is a standing trap in this repo)."""
+    name, which is not the same string — that mismatch is a standing trap in this repo).
+
+    MATERIALISES EVERY DUMP IT IS ASKED FOR, so it is for a SMALL set of actions: a temporary store in
+    a test, or a sampled subset. It REFUSES a large one rather than trying: the corpus's dumps are
+    1.4 GB of JSON, which does not fit in a process, and the failure without this guard is a machine
+    swapping until something is killed -- not a message anybody can act on. Anything that has to sweep
+    all 2446 loads them one at a time instead (`build_segments.py`, `build_posture.py`).
+    """
+    if len(kb.actions) > LOAD_CLIPS_MAX_ACTIONS:
+        raise ValueError(
+            "load_clips over %d actions would hold every dump in memory; the cutoff is %d. Load the "
+            "clips a plan actually names (load_clip), or sweep one at a time."
+            % (len(kb.actions), LOAD_CLIPS_MAX_ACTIONS))
     out = {}
     for action_id, rec in kb.actions.items():
         clip_name = (rec.get("source_clip") or {}).get("clip_name")
@@ -457,8 +568,26 @@ def load_clips(kb, raw_dir=None):
     return out
 
 
+# Above this many actions, every ordered pair stops being a table and becomes a research project:
+# 64 actions is 4032 seams, already minutes. The corpus's 2446 would be 5.98 million.
+BUILD_TABLE_MAX_ACTIONS = 64
+
+
 def build_table(kb, raw_dir=None):
-    """Every ordered pair. 8 actions = 56 seams, each a small search — under a second in total."""
+    """Every ordered pair of a SMALL store — n actions give n(n-1) seams, each its own search.
+
+    Refuses a store big enough for the quadratic to matter, rather than running for hours and then
+    writing a file nothing reads: the corpus's seams are computed on demand (`find_seam`), and this
+    exists for temporary stores and sampled subsets.
+    """
+    # COUNTED BEFORE ANYTHING IS READ. Refusing after `load_clips` would mean the caller waits for
+    # every dump to be parsed in order to be told the run was never going to finish -- and over the
+    # real corpus `load_clips` refuses first anyway, so this message would never be seen.
+    if len(kb.actions) > BUILD_TABLE_MAX_ACTIONS:
+        raise ValueError(
+            "build_table over %d actions is %d ordered pairs; the cutoff is %d. Seams are computed "
+            "on demand -- use find_seam, or build_transitions.py to verify a sample."
+            % (len(kb.actions), len(kb.actions) * (len(kb.actions) - 1), BUILD_TABLE_MAX_ACTIONS))
     clips = load_clips(kb, raw_dir=raw_dir)
     ids = sorted(clips)
     seams = []
@@ -689,152 +818,16 @@ def schedule(action_ids, kb, clips, min_loop_cycles=1, generate_posture_changes=
     return steps
 
 
-TABLE_PATH = os.path.join(paths.DERIVED_DIR, "transitions.json")
-
-
-# raw_dir -> (stat signature, digest). See raw_fingerprint.
-_FINGERPRINT_CACHE = {}
-
-
-def accepted_dump_names(actions_dir=None):
-    """`<clip_name>.json` for every accepted action — the `raw` files the derived tables read.
-
-    Records are keyed by `action_id` and dumps by `clip_name`, and those are not the same string (see
-    `load_clips`), so this has to go through the records rather than guess.
-    """
-    files = paths.action_files(actions_dir) if actions_dir else paths.accepted_files()
-    names = []
-    for p, doc, err in paths.read_records(files):
-        if err:
-            continue
-        clip_name = (doc.get("source_clip") or {}).get("clip_name")
-        if clip_name:
-            names.append(clip_name + ".json")
-    return sorted(names)
-
-
-def raw_fingerprint(raw_dir=None):
-    """Content hash of every `raw` dump the table was derived from.
-
-    A cache with no way to notice its inputs moved is worse than no cache: it answers confidently with
-    the old corpus. Re-sample one clip and this changes, so a stale table announces itself instead of
-    being believed.
-
-    WHICH DUMPS. The accepted store's, one per action -- not everything in the directory. `raw` also
-    holds the 2446-clip Mixamo corpus's dumps and whatever a calibration run left behind, and none of
-    that is an input to a table whose seams run between accepted actions. Hashing the directory was a
-    fair approximation of "the dumps it was derived from" while those were nearly all of it; measured
-    once the corpus landed it costs 52 s per process to prove that 2446 files the table never opened
-    are unchanged. Promote a corpus clip into `actions/` and its dump joins the fingerprint, which is
-    the moment it starts mattering.
-
-    WHY THIS IS MEMOISED. Every `read_table` calls it, and it hashes 7 MB of JSON. That is low tens of
-    milliseconds on a local disk -- the cost the original version budgeted for -- but the KB normally
-    lives on a Windows worktree reached over DrvFs, where the same read is about 270 ms. Paid once per
-    tool registry and once per table, across a test suite it was most of a nine-second gap between
-    running against the mounted KB and against a local copy of it.
-
-    So it is memoised, and the DEFAULT corpus is memoised without touching the filesystem at all. That
-    is not an assumption about disks, it is the write discipline: the only writer of `raw` is
-    `unity_sampler.write_raw`, running in the offline pipeline, and it calls `forget_raw`. Every other
-    process treats the KB as read-only, so within one of them `raw` cannot move. A stat-per-file check
-    would cost 8 x 19 ms here and prove something already guaranteed.
-
-    Pass `raw_dir` explicitly -- as the builders and the tests do -- and BOTH of those narrowings are
-    off: every `.json` in that directory is hashed, and the memo is verified against each file's
-    (name, size, mtime). That corpus is the caller's, it may well change, and nothing here knows which
-    part of it they meant.
-    """
-    import hashlib
-    frozen = raw_dir is None
-    raw_dir = raw_dir or paths.RAW_DIR
-
-    if frozen:
-        cached = _FINGERPRINT_CACHE.get(raw_dir)
-        if cached is not None:
-            return cached[1]
-        names, signature = accepted_dump_names(), None
-    else:
-        names = sorted(n for n in os.listdir(raw_dir) if n.endswith(".json"))
-        signature = tuple((n, s.st_size, s.st_mtime_ns) for n, s in
-                          ((n, os.stat(os.path.join(raw_dir, n))) for n in names))
-        cached = _FINGERPRINT_CACHE.get(raw_dir)
-        if cached is not None and cached[0] == signature:
-            return cached[1]
-
-    h = hashlib.sha256()
-    for name in names:
-        h.update(name.encode("utf-8"))
-        p = os.path.join(raw_dir, name)
-        if not os.path.exists(p):
-            # An accepted action whose dump is gone. Hash the absence rather than raising: the caller
-            # asked whether the inputs moved, and they did.
-            h.update(b"<missing>")
-            continue
-        with open(p, "rb") as fh:
-            h.update(fh.read())
-    digest = h.hexdigest()[:16]
-    _FINGERPRINT_CACHE[raw_dir] = (signature, digest)
-    return digest
-
-
-def write_table(seams, path=None, extra=None, raw_dir=None):
-    """Write the cache. DERIVED, not contract: `raw` is untouched, and deleting this file costs a
-    rebuild, not information."""
-    doc = {
-        "_meta": {
-            "kind": "derived",
-            "derived_from": "_raw bone_rot (root_local, xyzw)",
-            "regenerate": "python build_transitions.py",
-            "raw_fingerprint": raw_fingerprint(raw_dir),
-            "max_blend_rate_deg_per_s": MAX_BLEND_RATE_DEG_PER_S,
-            "search_fraction": SEARCH_FRACTION,
-            "note": "Regenerable sidecar. Not part of the motionkb/v3 contract; no record references it.",
-        },
-        "seams": [s.as_dict() for s in seams],
-    }
-    if extra:
-        doc["_meta"].update(extra)
-    return paths.write_json(path or TABLE_PATH, doc)
-
-
-# TABLE_PATH -> ((size, mtime_ns, raw fingerprint), table). See read_table.
-_TABLE_CACHE = {}
-
-
-def read_table(path=None, check_fingerprint=True, raw_dir=None):
-    """Cached seams keyed by (from, to), or None if there is no usable cache.
-
-    Returns None rather than stale data when `raw` has moved underneath it, so the caller recomputes
-    instead of quietly answering about a corpus that no longer exists.
-
-    WHY THE DEFAULT PATH IS MEMOISED. Every tool registry reads this table once, and a test suite builds
-    a registry per test, so the same file was opened a few hundred times. On a local disk that is
-    nothing; the KB normally lives on a Windows worktree reached over DrvFs, where one open costs about
-    9 ms and one stat about 1.4 ms, and it became seconds. The memo is keyed on the file's (size, mtime)
-    together with the `raw` fingerprint, so it expires for exactly the reasons the fingerprint exists.
-    Only the default path is cached: pass `path` explicitly -- as the builders and the tests do -- and
-    the read is unconditional. The cached table is SHARED; copy it before mutating.
-    """
-    memo = path is None and raw_dir is None and check_fingerprint
-    path = path or TABLE_PATH
-    if not os.path.exists(path):
-        return None
-    fingerprint = raw_fingerprint(raw_dir) if check_fingerprint else None
-    key = None
-    if memo:
-        st = os.stat(path)
-        key = (st.st_size, st.st_mtime_ns, fingerprint)
-        hit = _TABLE_CACHE.get(path)
-        if hit is not None and hit[0] == key:
-            return hit[1]
-    with open(path, encoding="utf-8") as fh:
-        doc = json.load(fh)
-    if check_fingerprint:
-        stored = (doc.get("_meta") or {}).get("raw_fingerprint")
-        if stored and stored != fingerprint:
-            return None
-    table = {(s["from"], s["to"]): s for s in doc.get("seams", [])}
-    if memo:
-        _TABLE_CACHE[path] = (key, table)
-    return table
+# NO PRECOMPUTED SEAM TABLE, and no whole-directory fingerprint. Both are gone, and neither can come
+# back at this size. The table covered every ordered pair of an eight-action store -- 56 seams, under
+# a second -- and it lived beside those eight records, so it moved out with them
+# (agent/nursing_assets/derived/transitions.json, frozen). The corpus is 2446 actions: 5.98 million
+# ordered pairs, about seven CPU-hours, to answer the few dozen questions an agent actually asks. The
+# fingerprint that kept the table honest hashed every dump in `raw` -- 52 s per process once the
+# corpus landed, to prove that 2446 files the table never opened had not changed.
+#
+# What replaces both is in `load_clip` and `find_seam` above: one SHA-256 per file actually read,
+# carried on the Clip, and a bounded process-local LRU keyed on those digests plus
+# SEAM_ALGORITHM_VERSION. Same guarantee -- a re-sampled dump cannot return a stale seam -- paid for
+# per clip that is used instead of per clip that exists. `build_transitions.py` is now a sampling
+# verifier rather than a builder.

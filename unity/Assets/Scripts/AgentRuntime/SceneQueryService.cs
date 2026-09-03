@@ -324,6 +324,32 @@ namespace AgentRuntime
             why = null;
             if (string.IsNullOrEmpty(id)) { why = "no destination was given"; return null; }
 
+            // A POINT THE PLANNER COMPUTED, in world XZ. Every other form here names something in
+            // the room, and that is the right shape for a destination a MODEL chose. This one is not
+            // a model's: it is where the agent's compiler worked out she has to stand for a retrieved
+            // sit-down clip to finish on the seat, and that is arithmetic over the clip's own root
+            // travel and the seat's position. There is no object at the answer, so there is nothing
+            // to name it by.
+            //
+            // Snapped to the navigation mesh like every other destination, because a point that is
+            // not walkable is a walk that never arrives.
+            if (id.StartsWith("point:"))
+            {
+                string[] parts = id.Substring("point:".Length).Split(',');
+                float px, pz;
+                if (parts.Length != 2
+                    || !float.TryParse(parts[0], System.Globalization.NumberStyles.Float,
+                                       System.Globalization.CultureInfo.InvariantCulture, out px)
+                    || !float.TryParse(parts[1], System.Globalization.NumberStyles.Float,
+                                       System.Globalization.CultureInfo.InvariantCulture, out pz))
+                {
+                    why = "a point destination is point:<x>,<z> in world metres, not " + id;
+                    return null;
+                }
+                float py = mover != null ? mover.position.y : 0f;
+                return OnMesh(new Vector3(px, py, pz), out why);
+            }
+
             if (id.StartsWith("near:"))
             {
                 string inner = id.Substring("near:".Length);

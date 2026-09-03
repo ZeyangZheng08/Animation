@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """probe_sit.py — drive the one motion the library does not contain, and measure what came out.
 
-walking -> typing crosses standing to seated. Nothing in the corpus covers it, no crossfade can serve,
+A walk into a seated clip crosses standing to seated. No crossfade can serve,
 and the frames have to be made. This sends that plan and then asks the gate what actually happened:
 where the hips ended up, how well the closed loop tracked the descent, whether the feet stayed put and
 whether anything went through the floor.
@@ -11,6 +11,30 @@ Run with Unity in play mode.
 import argparse
 import asyncio
 import sys
+
+
+def _wait_for_unity(coro_timeout, where):
+    """A readable failure when nothing connects, instead of a bare TimeoutError traceback.
+
+    These scripts are the SERVER on the runtime channel, so "no engine" is the ordinary outcome of
+    running one with Unity closed — and a traceback through asyncio.timeouts says nothing about what
+    to do. Two things go wrong here and they need different answers: nobody entered play mode, or
+    something else is already holding the port (a service `terminal.ps1` left running is the usual
+    one), in which case this process never got to listen at all.
+    """
+    raise SystemExit(
+        "no engine connected on %s within the wait.\n"
+        "  * Unity has to be in PLAY mode: this script is the server and the executor dials in.\n"
+        "  * Nothing else may hold the port. `ss -ltn | grep %s` finds a service left running by\n"
+        "    terminal.ps1; stop it, or turn off Tools > Animation Agent > Open Terminal On Play."
+        % (where, where.rsplit(":", 1)[-1]))
+
+# Runtime primitives and the corpus clips this probe drives. The eight nursing actions it used to
+# name left the knowledge base (agent/nursing_assets/); `tests/corpus.py` holds the same set for
+# the test suite.
+WALK = "mx_Walking_Forward"
+SIT_DOWN = "mx_Standing_To_Sitting_Transition"
+SEATED = "mx_Aim_Pistol_While_Sitting"
 
 from agent import assemble as A
 from agent import gates as G
@@ -49,7 +73,11 @@ def steps_of(order, kb, clips, seat_id=None, seat_surface=None):
 
 async def main(argv):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--order", nargs="+", default=["walking", "typing"])
+    ap.add_argument("--order", nargs="+", default=[WALK, SIT_DOWN, SEATED],
+                    help="the sequence to schedule. The default walks in, plays the real sit-down "
+                         "clip the library holds, and settles into a seated action -- so the descent "
+                         "between the walk and the sit is RETRIEVED, and only the last seam is "
+                         "generated. Pass two ids to see the generated path instead.")
     ap.add_argument("--host", default=DEFAULT_HOST)
     ap.add_argument("--port", type=int, default=DEFAULT_PORT)
     ap.add_argument("--wait", type=int, default=90)
@@ -65,11 +93,22 @@ async def main(argv):
     args = ap.parse_args(argv)
 
     kb = KBIndex.load()
-    clips = T.load_clips(kb)
+    unknown = [a for a in args.order if a not in kb.actions]
+    if unknown:
+        print("not in the library: %s" % ", ".join(unknown))
+        return 1
+    # The named clips only. `load_clips` over the whole library is refused: 2446 parsed dumps do not
+    # fit in a process.
+    clips = {a: T.load_clip((kb.record(a)["source_clip"])["clip_name"],
+                            loop=bool(kb.record(a).get("loop")))
+             for a in args.order}
 
     async with EngineLink(args.host, args.port) as link:
         print("serving ws://%s:%d — enter play mode in Unity" % (args.host, args.port))
-        hello = await link.wait_ready(timeout=args.wait)
+        try:
+            hello = await link.wait_ready(timeout=args.wait)
+        except (asyncio.TimeoutError, TimeoutError):
+            _wait_for_unity(None, "%s:%d" % (args.host, args.port))
         character = (hello.get("characters") or ["chr:CPRNurse"])[0]
 
         seats = await link.call(P.T.SCENE_FIND, {"category": "seating"})
@@ -115,7 +154,7 @@ async def main(argv):
 
         # WHAT SHE IS ASKED TO TOUCH, OUT OF THIS PROBE'S OWN --bind LIST.
         #
-        # It used to be read off the knowledge base: `typing` declared both hands `contact:
+        # It used to be read off the knowledge base: a seated record declared both hands `contact:
         # object:keyboard`, and the alias joined that to the laptop. A v4 record says how a hand
         # moves, not what it is on (ADR 0022), because what a hand holds is a fact about the scene
         # and the task. In a real turn the PLAN names it; a probe has no plan, so it is named here

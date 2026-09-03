@@ -11,14 +11,14 @@
     ended, the client follows it, this script returns, and the window goes with it. A window still
     on screen therefore means a failure worth reading, not a run that finished.
 
-        powershell -ExecutionPolicy Bypass -File \\wsl.localhost\Ubuntu-24.04\home\chenhui\Research\animation-agent\terminal.ps1
+        powershell -ExecutionPolicy Bypass -File \\wsl.localhost\Ubuntu-24.04\home\yuq8cp\Research\animation_agent\terminal.ps1
 
     -Restart stops a running service first, which is what you want after changing agent code.
 #>
 param(
     [string]$Distro = "Ubuntu-24.04",
-    [string]$Repo = "~/Research/animation-agent",
-    [string]$Python = "~/miniconda3/envs/animation-agent/bin/python",
+    [string]$Repo = "~/Research/animation_agent",
+    [string]$Python = "~/miniforge3/envs/animation-agent/bin/python",
     [int]$Port = 8771,
     [switch]$Restart
 )
@@ -61,7 +61,7 @@ if (-not (Test-Service)) {
     #
     # This used to hand `bash -lc "cd $Repo && exec $Python cli.py --engine --headless"` to
     # Start-Process, and it silently did not work: the service never came up, and the log showed
-    # python looking for `cli.py` under `/mnt/f/...`, which is Unity's working directory translated
+    # python looking for `cli.py` under `/mnt/d/...`, which is Unity's working directory translated
     # into the distro. The `cd` reported success and did not change directory, so `&&` carried on
     # regardless and the launch failed somewhere no window was showing. Pressing Play gave a terminal
     # attached to nothing.
@@ -85,11 +85,12 @@ if (-not (Test-Service)) {
     # The service's output is captured in the failure path below instead, where the call is direct.
     Start-Process -WindowStyle Hidden -FilePath "wsl.exe" -ArgumentList @(
         "-d", $Distro, "--cd", $repoAbs, "--",
+        "env", "MOTIONKB_DIR=/mnt/d/Research/AI_agent/Animation_agent/Animation/agent/animation_knowledge_base",
         $pythonAbs, "-u", "cli.py", "--engine", "--headless"
     )
     # LONG ENOUGH FOR A COLD START. Ten seconds was fine against a warm distro and is not a fair
     # budget from a stopped one: the VM boots, python starts, and the knowledge base is read across
-    # /mnt/f, where DrvFs makes every one of those files cost. Waiting is free; a wait that expires
+    # /mnt/d, where DrvFs makes every one of those files cost. Waiting is free; a wait that expires
     # while the service is still coming up costs the whole run and reads like a failure.
     $waited = 0
     while ($waited -lt 45 -and -not (Test-Service)) {
@@ -105,7 +106,7 @@ if (-not (Test-Service)) {
         # command string safe to pass, so it can carry the timeout and the redirect the launch cannot.
         Write-Host ""
         Write-Host "asking it again in the foreground, to see what it says:" -ForegroundColor DarkGray
-        $said = (& wsl.exe -d $Distro -- bash -lc "cd '$repoAbs' && timeout 20 '$pythonAbs' -u cli.py --engine --headless 2>&1 | tail -20")
+        $said = (& wsl.exe -d $Distro -- bash -lc "cd '$repoAbs' && MOTIONKB_DIR=/mnt/d/Research/AI_agent/Animation_agent/Animation/agent/animation_knowledge_base timeout 20 '$pythonAbs' -u cli.py --engine --headless 2>&1 | tail -20")
         if ($said) { $said | ForEach-Object { Write-Host "  $_" } }
         else { Write-Host "  nothing at all - it did not get far enough to say anything" }
         Fail "the service did not come up on port $Port after $waited s."

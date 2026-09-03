@@ -17,6 +17,7 @@ Usage:
     python cli.py --engine              # also serve the runtime channel and expose scene tools
     python cli.py --headless --engine       # instructions come from the console in the Unity scene
     python cli.py --model gpt-realtime-2.1-mini   # the low-latency comparison arm
+    python cli.py --locomotion-action mx_Walk_Forward   # swap a runtime primitive; both are checked
 """
 import argparse
 import asyncio
@@ -36,6 +37,7 @@ from agent.loop import Ev, Op, Session
 from agent.tools import ToolRegistry
 from agent.tools import kb as kb_tools
 from agent.tools import files as file_tools
+from agent.tools import scene as scene_tools
 
 DIM, BOLD, RESET = "\033[2m", "\033[1m", "\033[0m"
 
@@ -216,6 +218,14 @@ async def main(args):
             **({"stream": service_log} if service_log is not None else {}))
     over = asyncio.Event()          # the run is finished; whatever is driving this should return
     kb = KBIndex.load()
+
+    # THE PRIMITIVES ARE CHECKED BEFORE ANYTHING ELSE, AND WHETHER OR NOT UNITY IS COMING. Travelling
+    # and standing still are the two actions the system reaches for on its own; a bad one surfaces as
+    # a character marching on the spot in front of a viewer, seconds after a tool reported success.
+    # Every property is a lookup in data already loaded, so the check costs milliseconds and turns
+    # that into a message naming the option to change. Raises SystemExit with the reason.
+    primitives = scene_tools.validate_primitives(kb, args.locomotion_action, args.idle_action)
+
     registry = kb_tools.register(ToolRegistry(), kb, measuring=not args.narrow_tools)
     if not args.narrow_tools:
         file_tools.register(registry)
@@ -223,12 +233,15 @@ async def main(args):
     engine = None
     if args.engine:
         engine = await EngineLink(args.host, args.port).start()
-        from agent.tools import scene as scene_tools
-        scene_tools.register(registry, engine, kb)
+        scene_tools.register(registry, engine, kb,
+                             locomotion=args.locomotion_action, idle=args.idle_action)
 
     backend = llm.backend_for(args.model, keys.load_openai_key(),
                               silence_timeout=args.model_silence_s)
-    session = Session(backend, registry, prompt.with_corpus(kb))
+    # THE CORPUS IS NO LONGER IN THE PROMPT. `with_corpus` appended all eight actions, which was a
+    # good trade at forty tokens and is not one at 2446 rows; what replaces it is `motion_search`,
+    # and the instructions say how to read its diagnostics instead of how to read a list.
+    session = Session(backend, registry, prompt.INSTRUCTIONS)
     # NOTHING READS STDOUT WHEN THE SERVICE IS DETACHED, and rendering to it anyway is not merely
     # useless. `render` is blocking `print` called from inside the event loop, and the launcher starts
     # this with its output on a hidden Windows console; a write that stalls there stops the loop
@@ -270,6 +283,16 @@ async def main(args):
 
     print("%s%s%s  %d actions, tools: %s"
           % (BOLD, args.model, RESET, len(kb.actions), ", ".join(registry.names())))
+    # SAID AT START-UP, because these two are the only actions the system chooses for itself and a
+    # run that swapped one silently would be a run whose walk nobody agreed to.
+    print("runtime primitives: " + "; ".join(
+        "%s %s (%s)" % (fact["role"], action_id,
+                        "%d frames, loop gap %.1f deg" % (fact["sampled_frames"],
+                                                          fact["loop_gap_deg"])
+                        if fact["role"] == "locomotion" else
+                        "busiest channel %s at %.3f" % (fact["busiest_channel"],
+                                                        fact["motion_magnitude"]))
+        for action_id, fact in primitives.items()))
     if engine is not None:
         print("runtime channel on ws://%s:%d — waiting for Unity to connect (it can join any time)"
               % (args.host, args.port))
@@ -307,9 +330,16 @@ if __name__ == "__main__":
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--engine", action="store_true", help="serve the runtime channel and expose scene tools")
     ap.add_argument("--narrow-tools", action="store_true",
-                    help="withhold glob/grep/read and kb_pose/kb_transition, leaving the surface as it "
-                         "stood before the agent could investigate. The comparison arm: a wider tool "
-                         "surface is a trade, not a free win.")
+                    help="withhold glob/grep/read and motion_timing/motion_compose/motion_transition, "
+                         "leaving the surface as it stood before the agent could investigate. The "
+                         "comparison arm: a wider tool surface is a trade, not a free win.")
+    ap.add_argument("--locomotion-action", default=scene_tools.DEFAULT_LOCOMOTION_ACTION,
+                    help="the walk cycle played under the navigation agent. Checked at start-up: it "
+                         "has to be an animation rather than a pose asset, move the body and both "
+                         "legs, be performed standing, and loop without a visible jump.")
+    ap.add_argument("--idle-action", default=scene_tools.DEFAULT_IDLE_ACTION,
+                    help="the stance a plan settles into when its walk is over. Checked at start-up: "
+                         "standing, and still enough to hold indefinitely.")
     ap.add_argument("--host", default=DEFAULT_HOST)
     ap.add_argument("--port", type=int, default=DEFAULT_PORT)
     ap.add_argument("--console-port", type=int, default=DEFAULT_CONSOLE_PORT,

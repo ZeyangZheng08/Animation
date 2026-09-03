@@ -28,7 +28,7 @@ def build_manifest():
     """Rebuild the index from the store.
 
     This is the one place that decides what 'accepted' means by READING it. Everything else asks
-    paths.accepted_files(), which reads this file — so this walks the whole store (2454 records since
+    paths.accepted_files(), which reads this file — so this walks the whole store (2446 records since
     the corpus landed, ADR 0014) and filters on status, and `--check` below is gate 3 of check_kb.sh,
     which is what stops the index and the store from drifting apart unnoticed.
     """

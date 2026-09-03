@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Experimental.Animations;
@@ -151,9 +152,73 @@ namespace AgentRuntime
             }
         }
 
+        /// <summary>Reads the root motion out of the stream and leaves it where the composer can pick
+        /// it up. Writes nothing to the pose.
+        ///
+        /// WHY A JOB AND NOT `Animator.applyRootMotion`. That flag is consumed by Unity's animation
+        /// UPDATE LOOP, and half of this system does not run one: the pre-execution check replays a
+        /// whole plan on a hidden duplicate through `PlayableGraph.Evaluate()`, as fast as the CPU
+        /// will go. Under manual evaluation the flag does nothing, so a sit-down that travelled 0.45 m
+        /// on the visible character travelled zero on the copy that was supposed to be checking it --
+        /// and the check then failed the plan for missing the seat by exactly the distance it had not
+        /// been allowed to move. `ProcessRootMotion` is called on both paths, so putting the read here
+        /// makes the duplicate and the character the same code rather than two implementations that
+        /// agree until they do not.
+        ///
+        /// WHAT IS ACCUMULATED. Deltas, in the animator's own space, summed across however many
+        /// evaluations happen between two reads: the realtime path evaluates once per frame and the
+        /// validator many times per frame, and the consumer should not have to know which. Index 0-2
+        /// is the translation, 3 the yaw in degrees, 4 a count of evaluations that carried anything --
+        /// which is how the first play-mode run told me the stream really was delivering it.
+        /// </summary>
+        public struct RootMotionTap : IAnimationJob
+        {
+            public NativeArray<float> accumulated;
+
+            public void ProcessRootMotion(AnimationStream stream)
+            {
+                if (!accumulated.IsCreated || accumulated.Length < 8) return;
+                accumulated[5] = accumulated[5] + 1f;               // called at all
+
+                // TWO READINGS, BECAUSE ONLY MEASUREMENT SETTLES WHICH ONE THIS GRAPH CARRIES.
+                // `velocity` is the root motion as a rate and is what the documentation points at;
+                // `rootMotionPosition` is the displacement for this evaluation directly. On a graph
+                // whose output is an AnimationScriptPlayable chain they are not both populated, and
+                // which one is depends on where in the chain the job sits. Both are accumulated and
+                // both are reported, so the choice below is made against numbers from this project
+                // rather than against an expectation.
+                float dt = stream.deltaTime;
+                Vector3 fromVelocity = dt > 0f ? stream.velocity * dt : Vector3.zero;
+                float yawFromVelocity = dt > 0f ? stream.angularVelocity.y * dt * Mathf.Rad2Deg : 0f;
+                Vector3 fromRootMotion = stream.rootMotionPosition;
+                float yawFromRootMotion = stream.rootMotionRotation.eulerAngles.y;
+                if (yawFromRootMotion > 180f) yawFromRootMotion -= 360f;
+
+                if (fromVelocity.sqrMagnitude > accumulated[6] * accumulated[6])
+                    accumulated[6] = fromVelocity.magnitude;
+                if (fromRootMotion.sqrMagnitude > accumulated[7] * accumulated[7])
+                    accumulated[7] = fromRootMotion.magnitude;
+
+                // Whichever of the two actually carries something is the one that moves her.
+                Vector3 move = fromVelocity.sqrMagnitude > 0f ? fromVelocity : fromRootMotion;
+                float yaw = fromVelocity.sqrMagnitude > 0f ? yawFromVelocity : yawFromRootMotion;
+                if (move.sqrMagnitude <= 0f && yaw == 0f) return;
+
+                accumulated[0] = accumulated[0] + move.x;
+                accumulated[1] = accumulated[1] + move.y;
+                accumulated[2] = accumulated[2] + move.z;
+                accumulated[3] = accumulated[3] + yaw;
+                accumulated[4] = accumulated[4] + 1f;
+            }
+
+            public void ProcessAnimation(AnimationStream stream) { }
+        }
+
         private PlayableGraph _graph;
         private AnimationLayerMixerPlayable _sequence;
         private AnimationScriptPlayable _correction;
+        private AnimationScriptPlayable _rootTap;
+        private NativeArray<float> _rootMotion;
         private readonly List<StepRuntime> _steps = new List<StepRuntime>();
         private readonly Dictionary<string, AvatarMask> _maskCache = new Dictionary<string, AvatarMask>();
         private bool _built;
@@ -270,7 +335,34 @@ namespace AgentRuntime
         private void Awake()
         {
             if (animator == null) animator = GetComponent<Animator>();
+            EnableRootMotionComputation();
         }
+
+        /// <summary>Ask Unity to COMPUTE root motion. It does not follow that anything is moved by it.
+        ///
+        /// MEASURED, BECAUSE THE FIRST IMPLEMENTATION OF THIS READ ZEROES. With `applyRootMotion`
+        /// false the animation system skips the root-motion pass entirely, so `stream.velocity` and
+        /// `stream.rootMotionPosition` are both exactly 0 -- and the job reading them was called 1386
+        /// times over a looping walk and saw nothing. The flag is not "apply it to the transform"; it
+        /// is "work it out at all", and without it there is nothing for any consumer to consume.
+        ///
+        /// WHAT STOPS UNITY APPLYING IT IS `OnAnimatorMove` BELOW. Its mere existence on this
+        /// GameObject is the documented signal that root motion is handled by script, so the engine
+        /// hands it over instead of moving the transform itself. That matters here beyond taste: the
+        /// realtime path would otherwise move her and `ConsumeRootMotion` would move her again, and
+        /// the hidden duplicate -- which never runs an animation update loop and so never fires
+        /// `OnAnimatorMove` -- would move her once. Two paths, two answers, which is the one thing a
+        /// pre-execution check may not have.
+        /// </summary>
+        private void EnableRootMotionComputation()
+        {
+            if (animator != null) animator.applyRootMotion = true;
+        }
+
+        /// <summary>Present so Unity leaves the transform alone. Deliberately empty: what to do with
+        /// the root motion is decided in <see cref="ConsumeRootMotion"/>, which both the realtime and
+        /// the validation path reach.</summary>
+        private void OnAnimatorMove() { }
 
         private void OnDisable()
         {
@@ -401,7 +493,20 @@ namespace AgentRuntime
             _graph.Connect(_sequence, 0, _correction, 0);
             _correction.SetInputWeight(0, 1f);
 
-            Playable root = _correction;
+            // The tap sits ABOVE the correction, so what it reads is the root motion of the pose that
+            // will actually be written -- and it writes nothing itself, so its position in the chain
+            // costs nothing either way. Always spliced in, for the same reason the correction is: one
+            // graph shape, one tested path.
+            if (!_rootMotion.IsCreated) _rootMotion = new NativeArray<float>(8, Allocator.Persistent);
+            ClearRootMotion();
+            _rootTap = AnimationScriptPlayable.Create(_graph, new RootMotionTap
+            {
+                accumulated = _rootMotion
+            }, 1);
+            _graph.Connect(_correction, 0, _rootTap, 0);
+            _rootTap.SetInputWeight(0, 1f);
+
+            Playable root = _rootTap;
             if (ExtendGraph != null) root = ExtendGraph(_graph, root);
 
             AnimationPlayableOutput output =
@@ -479,6 +584,10 @@ namespace AgentRuntime
             if (!_built || !_graph.IsValid()) return;
             Tick(dt);
             _graph.Evaluate(dt);
+            // Immediately, while the numbers belong to the evaluation that just ran. The validator
+            // calls this many times per frame, so leaving it to a LateUpdate would fold a whole plan
+            // into one transform move -- correct in total and wrong at every sample the gate takes.
+            ConsumeRootMotion();
         }
 
         private void Update()
@@ -487,6 +596,104 @@ namespace AgentRuntime
             // the same plan twice per frame.
             if (_manual) return;
             Tick(Time.deltaTime);
+        }
+
+        private void LateUpdate()
+        {
+            // The realtime half of the same read. Unity has evaluated the graph by now -- it is on
+            // GameTime, so the animation update owns it -- and this is the first point in the frame
+            // where what the tap collected is complete.
+            if (_manual) return;
+            ConsumeRootMotion();
+        }
+
+        /// <summary>Take whatever the tap collected and, if the step playing wants it, move the
+        /// character by it. Always drains, so a step that does NOT apply root motion discards it
+        /// rather than banking it for the next one that does.
+        ///
+        /// The yaw is taken about Y alone. A clip's root motion carries the whole rotation, and a
+        /// character that also pitched and rolled with it would lie down; what travels here is where
+        /// she is and which way she is facing.
+        /// </summary>
+        private void ConsumeRootMotion()
+        {
+            if (!_rootMotion.IsCreated) return;
+            Vector3 move = new Vector3(_rootMotion[0], _rootMotion[1], _rootMotion[2]);
+            float yaw = _rootMotion[3];
+            _rootMotionSamples += (int)_rootMotion[4];
+            _rootMotionCalls += (int)_rootMotion[5];
+            if (_rootMotion[6] > _peakVelocityM) _peakVelocityM = _rootMotion[6];
+            if (_rootMotion[7] > _peakRootMotionM) _peakRootMotionM = _rootMotion[7];
+            ClearRootMotion();
+            if (!RootMotionActive) return;
+            if (move.sqrMagnitude > 0f)
+            {
+                // The stream's translation is in the animator's own space, so it turns with her --
+                // which is what makes "step backwards" mean backwards from wherever she is facing.
+                transform.position += transform.rotation * move;
+                _rootMotionApplied += move.magnitude;
+            }
+            if (yaw != 0f) transform.rotation *= Quaternion.Euler(0f, yaw, 0f);
+        }
+
+        /// <summary>How much root motion has been applied to the transform, and over how many
+        /// evaluations the tap saw any. Reported rather than inferred: "the clip should have moved
+        /// her" and "the stream delivered it" are different claims, and the first play-mode run of
+        /// this needed to tell them apart.</summary>
+        public float RootMotionAppliedM { get { return _rootMotionApplied; } }
+        public int RootMotionSamples { get { return _rootMotionSamples; } }
+        public int RootMotionCalls { get { return _rootMotionCalls; } }
+        public float PeakVelocityM { get { return _peakVelocityM; } }
+        public float PeakRootMotionM { get { return _peakRootMotionM; } }
+
+        private float _rootMotionApplied;
+        private int _rootMotionSamples;
+        private int _rootMotionCalls;
+        private float _peakVelocityM;
+        private float _peakRootMotionM;
+
+        /// <summary>Whether the step playing right now drives the transform from its own root
+        /// motion. See <see cref="LayerSpec.ApplyRootMotion"/>.</summary>
+        public bool RootMotionActive { get; private set; }
+
+        /// <summary>Whether a step whose root motion is CONSUMED rather than discarded is the one
+        /// the stream is mostly showing.
+        ///
+        /// `Animator.applyRootMotion` is set once in `Awake` and never touched per step. It is what
+        /// makes Unity COMPUTE root motion at all -- measured, the tap reads exact zeroes without it
+        /// -- and the empty `OnAnimatorMove` is what stops Unity APPLYING it, leaving
+        /// <see cref="ConsumeRootMotion"/> the only thing that moves her on either path. Switching
+        /// the flag per step would have given the visible character one behaviour and the hidden
+        /// duplicate that checks her another, which is the one difference a validator may not have.
+        ///
+        /// THE NAVIGATION AGENT HAS TO BE OUT OF THE WAY while this is on, or the two fight over the
+        /// transform and the agent wins -- the same fight `Locomotion.Suspend` exists to end for a
+        /// generated descent. `AgentCharacter` does that around a plan that contains such a step.
+        /// </summary>
+        private void SyncRootMotion()
+        {
+            // ANY such step that is at least half established, rather than the single most present
+            // one.
+            //
+            // HALF, BECAUSE THAT IS WHEN THE STREAM IS MOSTLY THIS CLIP. Below it the pose the tap
+            // reads is still mainly the outgoing one, and consuming there would apply the WALK's
+            // root motion -- which is exactly what a locomotion step must never do. So the blend-in
+            // is discarded on purpose: measured on walk -> sit -> settle, 0.3765 m of the sit-down's
+            // own 0.4460 m reaches the transform, and the missing 0.07 m is its 0.2 s crossfade.
+            //
+            // THIS IS A NO-OP ON A LINEAR SEQUENCE, and was measured to be one: `applied_m` is
+            // byte-identical before and after the rule changed, because `Presence` already cascades
+            // (a step's presence is scaled by 1 - the next step's), so at most one step is above half
+            // at a time and "most present" and "over half" pick the same one. It is written this way
+            // for the case that is not linear -- two travelling steps overlapping -- where the old
+            // rule silently handed the transform to whichever happened to lead.
+            bool want = false;
+            for (int k = 0; k < _steps.Count; k++)
+            {
+                if (!_steps[k].Spec.ApplyRootMotion) continue;
+                if (Presence(k) > 0.5f) want = true;
+            }
+            RootMotionActive = want;
         }
 
         /// <summary>One step of the schedule: seam weights, then the per-layer window ends. Split out
@@ -531,6 +738,9 @@ namespace AgentRuntime
             }
             if (live > _maxConcurrent) _maxConcurrent = live;
             if (second > _peakOverlap) _peakOverlap = second;
+
+            // After the weights, because which step is dominant is what decides this.
+            SyncRootMotion();
 
             for (int k = 0; k < _steps.Count; k++)
             {
@@ -648,6 +858,20 @@ namespace AgentRuntime
             _steps.Clear();
             _built = false;
             _elapsed = 0;
+            ClearRootMotion();
+        }
+
+        private void OnDestroy()
+        {
+            // A persistent NativeArray outlives the component unless it is said so. The job holds a
+            // copy of the handle, not the memory, and the graph is already gone by here.
+            if (_rootMotion.IsCreated) _rootMotion.Dispose();
+        }
+
+        private void ClearRootMotion()
+        {
+            if (!_rootMotion.IsCreated) return;
+            for (int i = 0; i < _rootMotion.Length; i++) _rootMotion[i] = 0f;
         }
 
         // ---- wire shapes -----------------------------------------------------------------------
@@ -703,6 +927,25 @@ namespace AgentRuntime
             /// would mean guessing at a number the other side already has.
             /// </summary>
             public bool LoopInWindow;
+
+            /// <summary>Whether this layer's root motion is APPLIED to the transform instead of
+            /// discarded. Protocol v5.
+            ///
+            /// Discarding it is right for almost everything here and it is the only thing this
+            /// composer has ever done: every clip plays in place while the NavMeshAgent owns where
+            /// the character is, so a walk cycle that also moved her would cover the ground twice.
+            ///
+            /// A RETRIEVED POSTURE TRANSITION IS THE EXCEPTION, and it is not a small one. A sit-down
+            /// clip works by stepping backwards and lowering onto what is behind you -- measured on
+            /// `mx_Standing_To_Sitting_Transition`, the hips travel 0.446 m -- so discarding that
+            /// leaves the feet sliding through a step they are visibly taking and the hips finishing
+            /// where they started, in front of the chair rather than on it. The plan works out where
+            /// she has to stand for this clip's own travel to end on the seat (see
+            /// `scene.standing_point_for`); applying the travel is the other half of that bargain.
+            ///
+            /// Set agent-side, per layer, and only on a bridge the agent chose in `then[].via`.
+            /// </summary>
+            public bool ApplyRootMotion;
         }
 
         /// <summary>One group of channels that cross a seam together, and when. `OffsetSeconds` is
@@ -728,6 +971,10 @@ namespace AgentRuntime
             public double? DurationSeconds;      // null = plays to the end of its clips, or loops
             public bool Loop;
             public List<ChannelBlend> ChannelBlends;
+
+            /// <summary>Whether this step drives the transform from its own root motion. True when any
+            /// of its layers says so -- see <see cref="LayerSpec.ApplyRootMotion"/>.</summary>
+            public bool ApplyRootMotion;
         }
 
         /// <summary>Where one seam group sits in the sequence mixer, and the ramp it runs.</summary>

@@ -20,6 +20,7 @@ import os
 import pytest
 
 import paths
+from tests import corpus as C
 import validate_motionkb as V
 
 
@@ -31,8 +32,12 @@ def schema():
 
 @pytest.fixture(scope="module")
 def accepted():
-    """A real accepted record — measured, described, and known to pass the whole gate."""
-    return paths.read_json(os.path.join(paths.ACTIONS_DIR, "walking.json"))
+    """A real accepted record — measured, described, and known to pass the whole gate.
+
+    Named by a constant rather than spelled here: every record in the store is accepted now, so this
+    is "one of them" rather than "the one hand-finished action", and which one it is matters only in
+    that it has to be real."""
+    return paths.read_json(os.path.join(paths.ACTIONS_DIR, C.WALK + ".json"))
 
 
 def check(doc, schema):

@@ -2,7 +2,7 @@
 digest.py — one tool call, as the line a person reads.
 
 A turn used to show as a column of bare tool names. That says the agent is alive and nothing else:
-`scene_search` four times over looks identical whether it is narrowing on a chair or asking the same
+`unity_query` four times over looks identical whether it is narrowing on a chair or asking the same
 question with a different typo, and the run that spent an iteration re-searching a list it already had
 looked exactly like the run that did not. What a person watching needs is which call, against what, and
 what came back.
@@ -44,26 +44,35 @@ def describe(name, arguments):
     if not isinstance(arguments, dict):
         return _clip(arguments or "")
 
-    if name == "kb_search":
+    if name == "motion_search":
         query = arguments.get("query")
         return _clip('"%s"' % query if query else _names(sorted(arguments.values())))
-    if name in ("kb_get_action", "kb_pose"):
+    if name in ("motion_channels", "motion_timing"):
         return _clip(arguments.get("action_id") or "")
-    if name == "kb_transition":
-        return _clip("%s → %s" % (arguments.get("from_action"), arguments.get("to_action")))
+    if name == "motion_transition":
+        out = "%s → %s" % (arguments.get("from_action"), arguments.get("to_action"))
+        if arguments.get("via"):
+            out += " via %s" % _names(arguments["via"])
+        return _clip(out)
+    if name == "motion_compose":
+        out = str(arguments.get("base"))
+        if arguments.get("overlays"):
+            out += " + %s" % _names(arguments["overlays"])
+        return _clip(out)
 
-    if name == "scene_search":
+    if name == "unity_query":
+        if arguments.get("object_ids"):
+            return _clip(_names(arguments["object_ids"]))
         return _clip((arguments.get("query") or "").strip() or "the whole room")
-    if name == "scene_query":
-        return _clip(_names(arguments.get("object_ids") or []))
-    if name == "move_to":
+    if name == "unity_locomotion":
         out = str(arguments.get("destination") or "")
         if arguments.get("face"):
             out += " · face %s" % arguments["face"]
         return _clip(out)
-    if name == "plan_motion":
+    if name in ("unity_execute", "unity_validate"):
         out = " → ".join([str(arguments.get("base"))]
-                         + [str(e.get("base")) for e in (arguments.get("then") or [])])
+                         + [aid for e in (arguments.get("then") or [])
+                            for aid in list(e.get("via") or []) + [str(e.get("base"))]])
         for extra, label in (("sit_on", "sit on"), ("gaze_at", "look at")):
             if arguments.get(extra):
                 out += " · %s %s" % (label, arguments[extra])
@@ -90,31 +99,40 @@ def summarise(name, result):
     if result.get("success") is False or result.get("error"):
         return _clip(result.get("error") or "failed")
 
-    if name == "kb_search":
+    if name == "motion_search":
         hits = [r.get("action_id") for r in result.get("results") or []]
         return _names(hits) or "nothing matched"
-    if name == "kb_get_action":
+    if name == "motion_channels":
         return _clip(result.get("action_id") or "")
-    if name == "kb_pose":
-        planted = result.get("both_feet_planted")
-        return _clip("frame %s%s" % (result.get("frame"),
-                                     "" if planted is None else
-                                     ", feet planted" if planted else ", feet not planted"))
-    if name == "kb_transition":
-        joinable = result.get("joinable_by_blending")
-        return _clip("%s%s" % (result.get("class") or "",
-                               "" if joinable is not False else ", must be generated"))
+    if name == "motion_timing":
+        moves = [c for c, v in (result.get("channels") or {}).items() if v.get("moving")]
+        return _clip("%s, %d channel%s moving" % (result.get("dominant_posture") or "",
+                                                  len(moves), "" if len(moves) == 1 else "s"))
+    if name == "motion_compose":
+        conflicts = result.get("conflicts") or []
+        if conflicts:
+            return _clip("%d conflict%s" % (len(conflicts), "" if len(conflicts) == 1 else "s"))
+        return _clip("%d layer%s" % (len(result.get("partition") or []),
+                                     "" if len(result.get("partition") or []) == 1 else "s"))
+    if name == "motion_transition":
+        if result.get("routes") is not None:
+            best = (result["routes"] or [{}])[0]
+            return _clip("best via %s" % best.get("via") if best else "no route")
+        if result.get("required_transition"):
+            need = result["required_transition"]
+            return _clip("%s -> %s needed" % (need.get("from_posture"), need.get("to_posture")))
+        return _clip(result.get("class") or "")
 
-    if name == "scene_search":
+    if name == "unity_query":
+        if result.get("objects") is not None:
+            objects = result["objects"]
+            here = [o for o in objects if o.get("exists") and not o.get("needs_walking")]
+            if not objects:
+                return ""
+            return _clip("%d of %d within reach" % (len(here), len(objects)))
         found = result.get("results") or []
         return _names([r.get("label") or r.get("id") for r in found]) or "nothing matched"
-    if name == "scene_query":
-        objects = result.get("objects") or []
-        here = [o for o in objects if o.get("exists") and not o.get("needs_walking")]
-        if not objects:
-            return ""
-        return _clip("%d of %d within reach" % (len(here), len(objects)))
-    if name == "move_to":
+    if name == "unity_locomotion":
         if not result.get("arrived"):
             return _clip(result.get("note") or "not there yet")
         walked = result.get("path_length_m")
@@ -123,8 +141,8 @@ def summarise(name, result):
         if walked is None or walked < 0:
             return "arrived"
         return _clip("arrived, walked %.1f m" % walked)
-    if name == "plan_motion":
-        parts = ["dry run" if result.get("mode") == "dry_run" else "committed"]
+    if name in ("unity_execute", "unity_validate"):
+        parts = ["checked, not played" if result.get("committed") is False else "committed"]
         # The walk happens INSIDE this call now, and naming a seat is enough to ask for it, so it can
         # be entirely absent from what the model wrote. A line that does not mention it makes a plan
         # that crossed the room look identical to one committed where she already stood.
@@ -139,7 +157,7 @@ def summarise(name, result):
         if generated:
             parts.append("%d generated" % len(generated))
         return _clip(" · ".join(parts))
-    if name == "check_motion":
+    if name == "unity_measure":
         gates = result.get("gates")
         if isinstance(gates, dict):
             return _clip(gates.get("status") or "measured")

@@ -1,0 +1,297 @@
+{
+  "_meta": {
+    "kind": "audit-expectations",
+    "posture_algorithm_version": "1.1.0",
+    "read_by": "audit_posture.py",
+    "note": "Hand-authored expectations for the posture rule sanity audit (audit_posture.py). Read by that script only: nothing at runtime and nothing in the build reads this file. It is a SANITY CHECK on rules that were written from the literature, not a training set and not a labelled corpus -- every clip here was chosen because a human can say what the body is doing in it without measuring anything, and the expectations are written at that level (a set of acceptable answers, not one).",
+    "expectation_keys": {
+      "dominant": "dominant_posture must be one of these",
+      "start": "start_posture must be one of these",
+      "end": "end_posture must be one of these",
+      "contains": "each of these postures must appear in at least one segment",
+      "never": "none of these postures may appear in any segment",
+      "boundaries": "exactly `count` posture_transitions between the two states in `between`, counted in either direction"
+    },
+    "always_checked": "No posture segment may be shorter than min_frames = round(MIN_POSTURE_DURATION_S * frame_rate), unless it is the clip's only segment -- a two-frame Mixamo pose has no longer segment available.",
+    "case_count": 21,
+    "version_note": "1.0.0 -> 1.1.0 added `root_travel` to each entry and changed no posture rule: every threshold, every feature and their order are unchanged, and all twenty-one expectations below passed unaltered across the bump. Nothing here needed rewriting; the version is restated so a mismatch still means what it says."
+  },
+  "cases": [
+    {
+      "clip": "mx_Standing_Idle",
+      "category": "standing / walking",
+      "expect": {
+        "dominant": [
+          "standing"
+        ]
+      },
+      "why": "an idle stand: nothing but standing"
+    },
+    {
+      "clip": "mx_Standing_Idle_Looking_Around",
+      "category": "standing / walking",
+      "expect": {
+        "dominant": [
+          "standing"
+        ]
+      },
+      "why": "still an idle stand; the head turning must not move the posture"
+    },
+    {
+      "clip": "mx_Walking",
+      "category": "standing / walking",
+      "expect": {
+        "dominant": [
+          "standing"
+        ]
+      },
+      "why": "a two-frame Mixamo pose of a walk, upright throughout"
+    },
+    {
+      "clip": "mx_Walking_Forward",
+      "category": "standing / walking",
+      "expect": {
+        "dominant": [
+          "standing"
+        ]
+      },
+      "why": "a walk cycle: the swing leg must not read as anything but standing"
+    },
+    {
+      "clip": "mx_Aim_Pistol_While_Sitting",
+      "category": "sitting",
+      "expect": {
+        "dominant": [
+          "seated"
+        ]
+      },
+      "why": "seated for the whole clip"
+    },
+    {
+      "clip": "mx_Sitting_Down_Arms_Outside_Armrests",
+      "category": "sitting",
+      "expect": {
+        "end": [
+          "seated"
+        ]
+      },
+      "why": "starts on the feet and ends seated; only the END is asserted here"
+    },
+    {
+      "clip": "mx_Standing_To_Sitting_Transition",
+      "category": "sit-down / stand-up",
+      "expect": {
+        "start": [
+          "standing"
+        ],
+        "end": [
+          "seated"
+        ],
+        "boundaries": {
+          "between": [
+            "standing",
+            "seated"
+          ],
+          "count": 1
+        }
+      },
+      "why": "the canonical sit-down: standing to seated, once"
+    },
+    {
+      "clip": "mx_Sitting_To_Standing_2",
+      "category": "sit-down / stand-up",
+      "expect": {
+        "start": [
+          "seated"
+        ],
+        "end": [
+          "standing"
+        ],
+        "boundaries": {
+          "between": [
+            "standing",
+            "seated"
+          ],
+          "count": 1
+        }
+      },
+      "why": "the canonical stand-up, and unidirectional: seated to standing, once, nothing after"
+    },
+    {
+      "clip": "mx_Big_Standing_Fist_Pump_From_Sitting",
+      "category": "sit-down / stand-up",
+      "expect": {
+        "start": [
+          "seated"
+        ],
+        "end": [
+          "seated"
+        ],
+        "boundaries": {
+          "between": [
+            "standing",
+            "seated"
+          ],
+          "count": 2
+        }
+      },
+      "why": "rises out of a seat to celebrate AND SITS BACK DOWN -- measured: seated to frame 17, standing to frame 78, seated again to the end. Two crossings is the right answer here, and asserting one would be asserting that the clip is something it is not."
+    },
+    {
+      "clip": "mx_Standing_From_A_Lying_Prone",
+      "category": "lying / crawling",
+      "expect": {
+        "start": [
+          "floor"
+        ]
+      },
+      "why": "begins face down on the ground; only the START is asserted here"
+    },
+    {
+      "clip": "mx_Crawling_Forward_On_Hands_And_Knees",
+      "category": "lying / crawling",
+      "expect": {
+        "dominant": [
+          "floor"
+        ]
+      },
+      "why": "on hands and knees the whole way"
+    },
+    {
+      "clip": "mx_Crawling_Backwards_While_In_A_Prone_Position",
+      "category": "lying / crawling",
+      "expect": {
+        "dominant": [
+          "floor"
+        ]
+      },
+      "why": "prone the whole way"
+    },
+    {
+      "clip": "mx_Crouch_Cover_To_Cover",
+      "category": "crouching / kneeling",
+      "expect": {
+        "dominant": [
+          "other",
+          "floor"
+        ],
+        "never": [
+          "seated"
+        ]
+      },
+      "why": "crouched behind cover throughout; a crouch is not a sit"
+    },
+    {
+      "clip": "mx_Standing_From_A_Crouch",
+      "category": "crouching / kneeling",
+      "expect": {
+        "start": [
+          "other",
+          "floor"
+        ],
+        "end": [
+          "standing"
+        ],
+        "never": [
+          "seated"
+        ]
+      },
+      "why": "starts crouched and ends upright, so only the start is asserted"
+    },
+    {
+      "clip": "mx_Kneeling_Idle",
+      "category": "crouching / kneeling",
+      "expect": {
+        "dominant": [
+          "other",
+          "floor"
+        ],
+        "never": [
+          "seated"
+        ]
+      },
+      "why": "kneeling throughout; a kneel is not a sit"
+    },
+    {
+      "clip": "mx_Kneeling_Digging_And_Planting_Seeds",
+      "category": "crouching / kneeling",
+      "expect": {
+        "dominant": [
+          "other",
+          "floor"
+        ],
+        "never": [
+          "seated"
+        ]
+      },
+      "why": "kneeling and reaching down; still not a sit"
+    },
+    {
+      "clip": "mx_Bending_Forward_Arms_Crossed_Over_Knees",
+      "category": "bending",
+      "expect": {
+        "dominant": [
+          "standing",
+          "other"
+        ],
+        "never": [
+          "floor"
+        ]
+      },
+      "why": "bent forward over the knees but standing on them; bending is not lying down"
+    },
+    {
+      "clip": "mx_Cross_Jumps",
+      "category": "jumping / airborne",
+      "expect": {
+        "dominant": [
+          "standing",
+          "other"
+        ],
+        "never": [
+          "seated",
+          "floor"
+        ]
+      },
+      "why": "a low hop, peaking at h_body 1.133 against H_AIRBORNE 1.15: it stays an upright state, and must never read as seated or floor"
+    },
+    {
+      "clip": "mx_Backward_Running_Jump",
+      "category": "jumping / airborne",
+      "expect": {
+        "contains": [
+          "other"
+        ]
+      },
+      "why": "a running jump, peaking at h_body 1.475: the airborne frames must not read as standing"
+    },
+    {
+      "clip": "mx_Death_Falling_Backwards",
+      "category": "falling",
+      "expect": {
+        "start": [
+          "standing",
+          "other"
+        ],
+        "end": [
+          "floor"
+        ]
+      },
+      "why": "upright, then down: must end on the floor"
+    },
+    {
+      "clip": "mx_Death_Falling_Forwards",
+      "category": "falling",
+      "expect": {
+        "start": [
+          "standing",
+          "other"
+        ],
+        "end": [
+          "floor"
+        ]
+      },
+      "why": "upright, then down: must end on the floor"
+    }
+  ]
+}

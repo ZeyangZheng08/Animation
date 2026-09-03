@@ -9,7 +9,7 @@ value still travels, for the log and for a human, but the model is told what to 
 
 That is the same shape as a failed tool call, deliberately: a gate rejection comes back as an ordinary
 tool result with success=false, so the agent reacts inside the same turn rather than the turn dying. The
-retry is another plan_motion call, caused by real geometry rather than staged.
+retry is another unity_execute call, caused by real geometry rather than staged.
 
 MEASURED IS NOT FAILED. Metrics with no defensible threshold report status "measured" and never fail a
 plan. Inventing a cutoff so the gate has something to say would produce confident rejections with nothing
@@ -18,7 +18,7 @@ from taste.
 
 AND PENDING IS NOT PASSED. A check the engine has declared but cannot answer yet is a third state, and
 collapsing it into either of the other two is a lie in one direction or the other. This mattered: the
-landing of a generated sit only becomes measurable about three seconds in, every `check_motion` the agent
+landing of a generated sit only becomes measurable about three seconds in, every `unity_measure` the agent
 made arrived earlier, the metric was absent rather than pending, and counting failures found none. The
 gate reported a sit as good while the character was still walking towards the chair.
 """
@@ -48,6 +48,15 @@ REMEDIES = {
         "the sit finished somewhere other than on the thing named to sit on",
         "the descent was generated where she already stood. Get her to the seat first -- pass stand_at "
         "with an anchor beside it -- and change posture only once she is there",
+    ),
+    "seat_alignment": (
+        "the pelvis ended up off to one side of the thing named to sit on rather than in the middle "
+        "of it",
+        "the transition clip put her down somewhere other than where the plan aimed. That is a "
+        "geometry failure and not an argument one: check that nothing moved the seat between the "
+        "check and the commit, and if the clip genuinely does not fit this seat, "
+        "motion_search(transition={from_posture:'standing', to_posture:'seated'}) will find another "
+        "and motion_transition(via=[...]) will rank it",
     ),
     "sat_through_support": (
         "the sit finished underneath the thing named to sit on, not on top of it",
@@ -79,7 +88,7 @@ REMEDIES = {
     "contact_reached": (
         "the {effector} never reached the object its own animation is performed against",
         "the character is not placed where the motion expects the object to be. Move her closer with "
-        "move_to, or sit her on something that puts her at the right height for it. Do NOT add an "
+        "unity_locomotion, or sit her on something that puts her at the right height for it. Do NOT add an "
         "ik_binding: the clip already animates that hand and a binding replaces it with a single point",
     ),
 }
@@ -166,7 +175,7 @@ async def wait_until_judgeable(call, character, timeout=JUDGEMENT_TIMEOUT_S, sle
     """Poll the engine's gate until every declared check can be answered, then return the raw report.
 
     THIS IS WHY IT EXISTS. probe_sit.py computed the same wait by hand -- `start_at_s + blend_in_s + 1.0`
-    -- before it read the gate, and passed. The agent's own `check_motion` read immediately, got a report
+    -- before it read the gate, and passed. The agent's own `unity_measure` read immediately, got a report
     with the landing check absent, and reported success about a character who was still standing. A
     verified probe and the real path disagreeing like that is the failure; the wait belongs here, where
     both go through it.

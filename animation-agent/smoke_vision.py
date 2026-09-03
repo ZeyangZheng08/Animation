@@ -147,7 +147,7 @@ async def main(argv):
                 failures += 1
             print("   %-10s expect %-8s -> %-22s (%s)" % (label, expected, v, note))
     print("\n%s" % ("all models see the frames" if not failures
-                    else "%d check(s) failed -- those models must use kb_pose, not the frames" % failures))
+                    else "%d check(s) failed -- those models must use motion_timing, not the frames" % failures))
     return 0
 
 

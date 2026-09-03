@@ -7,14 +7,24 @@ The KINEMATIC block in the accepted store was produced by `metrics.channel_block
 per-frame pose dumps in `agent/animation_knowledge_base/raw/<id>.json`. This test RE-RUNS that exact
 computation from the same frozen `raw` dumps and asserts the result still reproduces the KINEMATIC
 fields (`state_label`, `motion_magnitude`, `raw_measurement`, `mean_pose`, and the root's
-`mean_body_height` / `mean_body_tilt_deg`) in each accepted `<id>.json`.
+`mean_body_height` / `mean_body_tilt_deg`) in each record it covers.
+
+A FIXED GOLDEN SUBSET, NAMED IN `motionkb_build/golden_set.json`. This used to run over the whole
+accepted store, which was eight records. The store is 2446 now, and re-measuring all of them would
+turn a gate that answers in seconds into one nobody runs before committing. The subset is fixed
+rather than sampled, because a regression has to fail the same way twice to be read as a regression;
+and it is chosen to span what the kinematic half has to get right -- standing, walking, sitting, the
+sit/stand transitions, crouching, kneeling, bending, floor-level crawling and lying, one airborne
+clip, and two two-frame single-pose clips, which are the shortest path through every formula. The
+file is committed beside the KB, so the subset is a fact about the corpus rather than a list in this
+script.
 
 It is the regression guard for `metrics.py` + `config.py` (divisors/threshold/bone-map): any drift in
 a formula or a constant that is not a deliberate `metric_formula_version` bump will flip this red. The
 SEMANTIC 5-tuple is human-owned (ADR 0002) and intentionally NOT checked here.
 
 Usage:  python test_golden_extraction.py
-Exit:   0 if every accepted file's KINEMATIC reproduces from raw/; non-zero otherwise (per-file isolated).
+Exit:   0 if every golden record's KINEMATIC reproduces from raw/; non-zero otherwise (per-file isolated).
 """
 import sys, os, glob, json
 
@@ -53,17 +63,37 @@ def _cmp(path, expected, got, errors):
         errors.append(f"{path}: accepted={expected!r} != recomputed={got!r}")
 
 
-def accepted_files():
-    return paths.accepted_files()
+GOLDEN_SET = os.path.join(paths.BUILD_DIR, "golden_set.json")
+
+
+def golden_files():
+    """The records named by golden_set.json, as paths into the store.
+
+    Raises if the file is missing or names a record the store does not hold: a golden set that has
+    silently shrunk is a gate reporting a pass over fewer clips than it claims, which is exactly the
+    failure `collect_files` in validate_motionkb.py was written to stop.
+    """
+    if not os.path.exists(GOLDEN_SET):
+        raise SystemExit("FATAL: no golden set at %s" % paths.rel(GOLDEN_SET))
+    wanted = [a["action_id"] for a in paths.read_json(GOLDEN_SET).get("actions", [])]
+    if not wanted:
+        raise SystemExit("FATAL: %s names no actions" % paths.rel(GOLDEN_SET))
+    files, missing = [], []
+    for action_id in wanted:
+        f = os.path.join(paths.ACTIONS_DIR, action_id + ".json")
+        (files if os.path.isfile(f) else missing).append(f if os.path.isfile(f) else action_id)
+    if missing:
+        raise SystemExit(
+            "FATAL: %s names %d record(s) the store does not hold: %s"
+            % (paths.rel(GOLDEN_SET), len(missing), ", ".join(missing)))
+    return files
 
 
 def main():
     paths.require_kb()
-    files = accepted_files()
-    if not files:
-        print("FATAL: no accepted MotionKB files found"); return 1
+    files = golden_files()
     passed = failed = 0
-    print(f"golden re-extraction regression — {len(files)} accepted file(s)\n")
+    print(f"golden re-extraction regression — {len(files)} record(s) from {paths.rel(GOLDEN_SET)}\n")
     for f in files:
         short = paths.rel(f)
         try:

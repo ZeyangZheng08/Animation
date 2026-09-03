@@ -393,7 +393,7 @@ def verdict(assembly, gaze_at=None):
     THE SAME DERIVATION ON BOTH PATHS. This used to live only inside run_eval, which meant the eval
     could report that the agent decomposes correctly while a live turn left no record of having
     decomposed at all — the branch that the whole retrieval-first claim rests on was visible only
-    under measurement. It is one function now, called by the eval arm and by plan_motion, so the score
+    under measurement. It is one function now, called by the eval arm and by unity_execute, so the score
     and the trace are statements about the same thing.
 
     Deliberately mechanical. Which branch a request took is read off the partition that was actually

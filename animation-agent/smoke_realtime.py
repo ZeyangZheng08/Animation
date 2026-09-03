@@ -28,7 +28,7 @@ from agent.tools import kb as kb_tools
 
 INSTRUCTIONS = (
     "You select character animations for a nurse in a hospital simulation. "
-    "Use kb_search to find candidate motions before answering. "
+    "Use motion_search to find candidate motions before answering. "
     "Answer in one short sentence naming the action_id you chose."
 )
 

@@ -23,6 +23,26 @@ import asyncio
 import itertools
 import sys
 
+
+def _wait_for_unity(coro_timeout, where):
+    """A readable failure when nothing connects, instead of a bare TimeoutError traceback.
+
+    These scripts are the SERVER on the runtime channel, so "no engine" is the ordinary outcome of
+    running one with Unity closed — and a traceback through asyncio.timeouts says nothing about what
+    to do. Two things go wrong here and they need different answers: nobody entered play mode, or
+    something else is already holding the port (a service `terminal.ps1` left running is the usual
+    one), in which case this process never got to listen at all.
+    """
+    raise SystemExit(
+        "no engine connected on %s within the wait.\n"
+        "  * Unity has to be in PLAY mode: this script is the server and the executor dials in.\n"
+        "  * Nothing else may hold the port. `ss -ltn | grep %s` finds a service left running by\n"
+        "    terminal.ps1; stop it, or turn off Tools > Animation Agent > Open Terminal On Play."
+        % (where, where.rsplit(":", 1)[-1]))
+
+import math
+import random
+
 from agent import kbindex as KI
 from agent import protocol as P
 from agent import transitions as T
@@ -31,12 +51,31 @@ from agent.kbindex import KBIndex
 
 
 def posture_of(kb, action_id):
-    """Standing or seated, binned from the clip's measured carriage.
+    """One of standing / seated / floor / other, from the posture sidecar's dominant reading.
 
-    It used to read `composability.posture`, a label a VLM proposed and a human accepted; v4 deletes
-    the whole block (ADR 0022). Delegated to `kbindex` rather than reimplemented, so this probe and
-    the tools cannot come to disagree about which action is the seated one."""
+    Delegated to `kbindex` rather than reimplemented, so this probe and the tools cannot come to
+    disagree about which action is the seated one."""
     return KI.posture_of(kb.record(action_id))
+
+
+def crosses_posture(kb, a, b):
+    """Whether joining these two is a posture CHANGE, judged the way the seam search judges it: where
+    A finishes against where B begins.
+
+    Not the two dominant readings. A clip that stands up out of a chair is dominantly seated and ends
+    standing, so a dominant comparison calls a clean join a change and a change a clean join."""
+    return T.classify(0, KI.posture_span_of(kb.record(a))[1],
+                      KI.posture_span_of(kb.record(b))[0]) == T.CLASS_POSTURE_CHANGE
+
+
+def sample_ids(kb, pairs, seed):
+    """Enough action_ids to draw `pairs` ordered pairs from, chosen deterministically.
+
+    Sorted before sampling so the pool depends on the seed and not on dictionary order, and sorted
+    again afterwards so the run reads the same way twice.
+    """
+    pool = max(2, math.ceil((1 + math.sqrt(1 + 4 * pairs)) / 2))
+    return sorted(random.Random(seed).sample(sorted(kb.actions), min(pool, len(kb.actions))))
 
 
 def schedule_pair(kb, clips, a, b):
@@ -73,21 +112,24 @@ async def commit_pairs(kb, pairs, host, port, wait, who, seat):
     results = {}
     async with EngineLink(host, port) as link:
         print("serving ws://%s:%d — enter play mode in Unity" % (host, port), flush=True)
-        await link.wait_ready(timeout=wait)
+        try:
+            await link.wait_ready(timeout=wait)
+        except (asyncio.TimeoutError, TimeoutError):
+            _wait_for_unity(None, "%s:%d" % (host, port))
         registry = kb_tools.register(ToolRegistry(), kb)
         scene_tools.register(registry, link, kb)
         for index, (a, b) in enumerate(pairs):
             request = {"base": a, "then": [{"base": b}], "character": who, "mode": "commit"}
-            if posture_of(kb, a) == "seated" or posture_of(kb, b) == "seated":
+            if "seated" in (posture_of(kb, a), posture_of(kb, b)):
                 request["sit_on"] = seat
-            out = await registry.dispatch("plan_motion", request)
+            out = await registry.dispatch("unity_execute", request)
             ok = out.get("success") is not False
             results[(a, b)] = (ok, out.get("error") or "committed")
             print("  %3d/%d  %-4s %-14s -> %-14s %s"
                   % (index + 1, len(pairs), "" if ok else "FAIL", a, b,
                      "" if ok else (out.get("error") or "")), flush=True)
             # Let a generated posture change finish before the next pair departs from it.
-            await asyncio.sleep(2.0 if posture_of(kb, b) != posture_of(kb, a) else 0.2)
+            await asyncio.sleep(2.0 if crosses_posture(kb, a, b) else 0.2)
     return results
 
 
@@ -101,15 +143,26 @@ def main(argv):
     ap.add_argument("--verbose", action="store_true", help="print every pair, not only the failures")
     ap.add_argument("--character", default="Jill", help="who to drive; there are three of them now")
     ap.add_argument("--seat", default="obj:Chair", help="what the seated pairs sit on")
+    ap.add_argument("--pairs", type=int, default=40,
+                    help="how many ordered pairs to schedule. The library is 2446 actions, so every "
+                         "pair is 5.98 million and is not a run anybody makes.")
+    ap.add_argument("--seed", type=int, default=0,
+                    help="which sample. Fixed by default, so a failure is reproducible.")
     args = ap.parse_args(argv)
 
     kb = KBIndex.load()
-    clips = T.load_clips(kb)
-    ids = sorted(clips)
-    pairs = [(a, b) for a, b in itertools.permutations(ids, 2)]
+    # A SAMPLE, BECAUSE THE LIBRARY IS 2446 CLIPS. Every ordered pair is 5,981,970 of them, about
+    # seven CPU-hours of seam search, and `load_clips` refuses the whole store outright — the parsed
+    # dumps do not fit in a process. So a pool is drawn deterministically, every ordered pair WITHIN
+    # the pool is scheduled, and `--seed` says which pool. The question this probe asks is "does the
+    # scheduler hold up across arbitrary pairings", and a sample answers it; an exhaustive sweep
+    # answers it about a library nobody can run it on.
+    ids = sample_ids(kb, args.pairs, args.seed)
+    clips = T.load_clips(KBIndex({a: kb.record(a) for a in ids}))
+    pairs = [(a, b) for a, b in itertools.permutations(ids, 2)][:args.pairs]
 
     scheduled = {pair: schedule_pair(kb, clips, *pair) for pair in pairs}
-    crossings = [pair for pair in pairs if posture_of(kb, pair[0]) != posture_of(kb, pair[1])]
+    crossings = [pair for pair in pairs if crosses_posture(kb, *pair)]
 
     print("== %d ordered pairs over %d actions ==\n" % (len(pairs), len(ids)))
     for pair in pairs:

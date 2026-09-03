@@ -23,14 +23,14 @@ def make(script, kb, hold=None, **kwargs):
 
 
 async def test_a_turn_runs_tools_then_answers(kb):
-    session = make([calls(("kb_search", {"query": "chest compressions"})),
+    session = make([calls(("motion_search", {"query": "chest compressions"})),
                     says("cpr")], kb)
     await session.start()
     report = await session.run_turn("press on the chest")
 
     assert report.ok
     assert report.text == "cpr"
-    assert report.tools_used() == ["kb_search"]
+    assert report.tools_used() == ["motion_search"]
     assert report.iterations == 2
     await session.close()
 
@@ -39,8 +39,8 @@ async def test_new_text_mid_turn_is_folded_in_at_the_next_iteration(kb):
     """The whole point of the submission/turn split: input arriving during a turn neither aborts it nor
     splices into the in-flight response — it is drained at the TOP of the next iteration."""
     hold = asyncio.Event()
-    session = make([calls(("kb_search", {"query": "walk"})),
-                    calls(("kb_search", {"query": "carry"})),
+    session = make([calls(("motion_search", {"query": "walk"})),
+                    calls(("motion_search", {"query": "carry"})),
                     says("walking + grab_bottle")], kb, hold=hold)
     await session.start()
 
@@ -72,7 +72,7 @@ async def test_submission_loop_routes_to_a_new_turn_when_idle(kb):
 
 async def test_submission_loop_steers_instead_of_starting_a_second_turn(kb):
     hold = asyncio.Event()
-    session = make([calls(("kb_search", {"query": "a"})), says("done")], kb, hold=hold)
+    session = make([calls(("motion_search", {"query": "a"})), says("done")], kb, hold=hold)
     await session.start()
 
     session.turn = asyncio.ensure_future(session.run_turn("first"))
@@ -89,8 +89,8 @@ async def test_submission_loop_steers_instead_of_starting_a_second_turn(kb):
 
 async def test_a_failed_tool_does_not_end_the_turn(kb):
     """This is the mechanism a rejected geometric gate will use, so it has to be the default path."""
-    session = make([calls(("kb_get_action", {"action_id": "moonwalk"})),
-                    calls(("kb_search", {"query": "walk"})),
+    session = make([calls(("motion_channels", {"action_id": "moonwalk"})),
+                    calls(("motion_search", {"query": "walk"})),
                     says("walking")], kb)
     await session.start()
     report = await session.run_turn("do a moonwalk")
@@ -107,7 +107,7 @@ async def test_a_failed_tool_does_not_end_the_turn(kb):
 async def test_iteration_budget_stops_a_tool_loop(kb):
     """A latency-tuned mini model ping-ponging between two tools is a real failure mode, and an
     unbounded loop against a paid API is a bug you find on the invoice."""
-    session = make([calls(("kb_search", {"query": "x"}))] * 20, kb, max_iterations=3)
+    session = make([calls(("motion_search", {"query": "x"}))] * 20, kb, max_iterations=3)
     await session.start()
     report = await session.run_turn("loop forever")
 
@@ -118,7 +118,7 @@ async def test_iteration_budget_stops_a_tool_loop(kb):
 
 
 async def test_tool_call_budget_stops_a_wide_fan_out(kb):
-    session = make([calls(*[("kb_search", {"query": "x"})] * 5)] * 10, kb, max_tool_calls=6)
+    session = make([calls(*[("motion_search", {"query": "x"})] * 5)] * 10, kb, max_tool_calls=6)
     await session.start()
     report = await session.run_turn("call everything")
 
@@ -143,7 +143,7 @@ async def test_interrupt_cancels_the_turn_and_the_response(kb):
 
 
 async def test_events_reach_the_ui_in_order(kb):
-    session = make([calls(("kb_search", {"query": "walk"})), says("walking")], kb)
+    session = make([calls(("motion_search", {"query": "walk"})), says("walking")], kb)
     await session.start()
     seen = []
     session.on_event(lambda kind, data: seen.append(kind))
@@ -283,23 +283,35 @@ async def test_a_check_that_cannot_run_is_reported_as_not_passed(kb):
     await session.close()
 
 
-async def test_the_decision_is_timed_by_what_the_tool_did_not_by_what_it_was_asked(kb):
-    """`plan_motion` commits by default, so the prompt asks for a call that never mentions committing.
-    Reading `mode` off the arguments therefore reported no motion for the exact shape the agent is
-    supposed to produce -- measured on a real turn that committed a walk-and-sit and came back
-    motion_at_s=None."""
+def _plan_registry():
+    """A stand-in for the pair of plan tools, answering the one field the trace reads.
+
+    `unity_execute` and `unity_validate` take IDENTICAL arguments, so nothing about a call says
+    whether anything moved. That is the whole reason the trace reads `committed` off the result: the
+    field this fake returns is the field the real tools return, and it is the only difference between
+    them that a reader can see.
+    """
     registry = ToolRegistry()
+    schema = {"type": "object", "properties": {"base": {"type": "string"}},
+              "required": ["base"], "additionalProperties": False}
 
-    async def plan_motion(base, mode="commit"):
-        return {"mode": mode, "base": base}
+    async def unity_execute(base):
+        return {"committed": True, "base": base}
 
-    registry.add("plan_motion", "plan", {"type": "object",
-                                         "properties": {"base": {"type": "string"},
-                                                        "mode": {"type": "string"}},
-                                         "required": ["base"], "additionalProperties": False},
-                 plan_motion)
-    session = Session(ScriptedBackend([calls(("plan_motion", {"base": "typing"})),
-                                       says("sitting down")]), registry, "test")
+    async def unity_validate(base):
+        return {"committed": False, "base": base}
+
+    registry.add("unity_execute", "play it", schema, unity_execute)
+    registry.add("unity_validate", "check it", dict(schema), unity_validate)
+    return registry
+
+
+async def test_the_decision_is_timed_by_what_the_tool_did_not_by_what_it_was_asked(kb):
+    """Two tools, identical arguments. Reading the ARGUMENTS cannot tell a committed motion from a
+    checked one, and when the plan tool had a defaulted `mode` that is exactly what went wrong --
+    measured on a real turn that committed a walk-and-sit and came back motion_at_s=None."""
+    session = Session(ScriptedBackend([calls(("unity_execute", {"base": "mx_Typing"})),
+                                       says("sitting down")]), _plan_registry(), "test")
     await session.start()
     report = await session.run_turn("sit down and type")
 
@@ -308,20 +320,9 @@ async def test_the_decision_is_timed_by_what_the_tool_did_not_by_what_it_was_ask
     await session.close()
 
 
-async def test_a_dry_run_is_not_a_moment_anything_moved(kb):
-    registry = ToolRegistry()
-
-    async def plan_motion(base, mode="commit"):
-        return {"mode": mode, "base": base}
-
-    registry.add("plan_motion", "plan", {"type": "object",
-                                         "properties": {"base": {"type": "string"},
-                                                        "mode": {"type": "string"}},
-                                         "required": ["base"], "additionalProperties": False},
-                 plan_motion)
-    session = Session(ScriptedBackend([calls(("plan_motion", {"base": "typing",
-                                                              "mode": "dry_run"})),
-                                       says("here is what it would do")]), registry, "test")
+async def test_a_validation_is_not_a_moment_anything_moved(kb):
+    session = Session(ScriptedBackend([calls(("unity_validate", {"base": "mx_Typing"})),
+                                       says("here is what it would do")]), _plan_registry(), "test")
     await session.start()
     report = await session.run_turn("what would sitting down look like")
 
@@ -330,11 +331,11 @@ async def test_a_dry_run_is_not_a_moment_anything_moved(kb):
 
 
 async def test_a_tool_event_carries_enough_to_read_the_turn(kb):
-    """A column of bare tool names says the agent is alive and nothing else. Four `scene_search` calls in
+    """A column of bare tool names says the agent is alive and nothing else. Four `unity_query` calls in
     a row look identical whether they are narrowing on a chair or re-asking a question already
     answered. Composed in the loop rather than in a renderer, so the stdin session and an attached
     terminal cannot describe the same turn differently."""
-    session = make([calls(("kb_search", {"query": "sit and type"})), says("typing it is")], kb)
+    session = make([calls(("motion_search", {"query": "sit and type"})), says("typing it is")], kb)
     await session.start()
     events = []
     session.on_event(lambda kind, data: events.append((kind, data)))
@@ -354,7 +355,7 @@ async def test_what_the_model_says_between_calls_is_shown(kb):
     """A turn that spends four iterations makes four decisions and only the last of them reaches the
     reply. Emitted whole rather than per fragment: a delta is a few characters and no console can show
     one usefully."""
-    session = make([calls(("kb_search", {"query": "walk"}), text="Looking for a walk cycle."),
+    session = make([calls(("motion_search", {"query": "walk"}), text="Looking for a walk cycle."),
                     says("walking")], kb)
     await session.start()
     said = []
@@ -396,7 +397,7 @@ async def test_waiting_on_the_engine_is_not_counted_as_deciding(kb):
 async def test_a_turn_that_moves_nothing_spends_it_all_deciding(kb):
     """The other half of the same claim. Nothing waited on the engine, so nothing is subtracted and
     the headline number is the whole turn."""
-    session = make([calls(("kb_search", {"query": "walk"})), says("walking")], kb)
+    session = make([calls(("motion_search", {"query": "walk"})), says("walking")], kb)
     await session.start()
     report = await session.run_turn("walk")
 
@@ -417,14 +418,14 @@ async def test_the_wait_is_recorded_per_call_not_only_in_the_total(kb):
 
     registry.add("fake_walk", "walk somewhere",
                  {"type": "object", "properties": {}, "additionalProperties": False}, slow_walk)
-    session = Session(ScriptedBackend([calls(("kb_search", {"query": "walk"})),
+    session = Session(ScriptedBackend([calls(("motion_search", {"query": "walk"})),
                                        calls(("fake_walk", {})), says("done")]),
                       registry, "test instructions")
     await session.start()
     report = await session.run_turn("go")
 
     waits = {step["tool"]: step.get("engine_wait_s") for step in report.trace}
-    assert waits["kb_search"] is None, "a call that waited on nothing must not claim it did"
+    assert waits["motion_search"] is None, "a call that waited on nothing must not claim it did"
     assert waits["fake_walk"] == pytest.approx(0.2, abs=0.01)
     await session.close()
 

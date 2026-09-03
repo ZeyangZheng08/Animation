@@ -103,8 +103,8 @@ def sample_one(clip_name, host, port, instance, scratch):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--corpus", default="/mnt/f/Research/AI_agent/Animation/Animation_agent/"
-                                        "Project/Animation/Assets/Animations/Mixamo30")
+    ap.add_argument("--corpus", default="/mnt/d/Research/AI_agent/Animation_agent/Animation"
+                                        "/Assets/Animations/Mixamo30")
     ap.add_argument("--prefix", default="mx_")
     ap.add_argument("--limit", type=int, default=150)
     ap.add_argument("--seed", type=int, default=0, help="fixed so the sample is reproducible")

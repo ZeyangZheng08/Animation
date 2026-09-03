@@ -80,7 +80,7 @@ class Progress:
     """What a running tool can say about itself, and what it spent its time on.
 
     TWO THINGS A RESULT CANNOT CARRY. A tool result arrives when the tool is finished, so a call that
-    takes three seconds is three seconds of nothing on screen — and the walk inside `plan_motion` is
+    takes three seconds is three seconds of nothing on screen — and the walk inside `unity_execute` is
     exactly that. And a result says what happened, not how long the parts of it took, so a turn that
     spent four seconds watching a character cross a room is indistinguishable from one that spent four
     seconds thinking. Shaped after opencode's `Tool.Context.metadata()`, which tools call DURING
@@ -160,7 +160,7 @@ class ToolRegistry:
         clock: a turn is iterations times a round trip, tools are sub-millisecond, so the only way to
         make a decision faster is to make fewer round trips — and an invented key used to cost a whole
         one for a call that would have worked. Measured on the walk-and-sit run, `then_wait` and an
-        `object_id` on `plan_motion` each burned an iteration on their own.
+        `object_id` on the plan tool each burned an iteration on their own.
 
         Nothing is hidden by this. The dropped keys are named in the result, a near miss gets its
         correction suggested, and what the tool actually did is in the same result for the model to read.
@@ -189,7 +189,7 @@ class ToolRegistry:
         # and a TypeError from INSIDE the tool is the tool's own, not something the model can fix.
         #
         # The two used to share one `except TypeError`. Measured, that turned a str/int comparison deep
-        # in the walk poll loop into "bad arguments for plan_motion", so the model rewrote arguments
+        # in the walk poll loop into "bad arguments for unity_execute", so the model rewrote arguments
         # that were correct and got the same error again -- twice, with byte-identical parameters. An
         # error message that blames the wrong side does not just fail to help, it actively misdirects.
         try:

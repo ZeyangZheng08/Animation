@@ -28,7 +28,7 @@ import json
 import os
 from concurrent.futures import ThreadPoolExecutor
 
-DEFAULT_KB_DIR = ("/mnt/f/Research/AI_agent/Animation/Animation_agent/Project/Animation"
+DEFAULT_KB_DIR = ("/mnt/d/Research/AI_agent/Animation_agent/Animation"
                   "/agent/animation_knowledge_base")
 
 KB_DIR      = os.path.abspath(os.environ.get("MOTIONKB_DIR", DEFAULT_KB_DIR))
@@ -45,7 +45,8 @@ KB_DIR      = os.path.abspath(os.environ.get("MOTIONKB_DIR", DEFAULT_KB_DIR))
 ACTIONS_DIR = os.path.join(KB_DIR, "actions")
 # Frozen evidence: `raw` is the per-frame pose dump every KINEMATIC number is computed from, `frames`
 # the rendered pictures every SEMANTIC label was read off. Both are inputs to the build AND data the
-# runtime reads — kb_pose indexes a dump, the seam and segment tables are derived from them — which is
+# runtime reads — the seam search opens a dump, the segment and posture tables are derived from
+# them — which is
 # why they are in the knowledge base and not among the build artifacts (ADR 0017).
 RAW_DIR     = os.path.join(KB_DIR, "raw")
 FRAMES_DIR  = os.path.join(KB_DIR, "frames")
@@ -62,10 +63,15 @@ BUILD_DIR   = os.path.abspath(os.environ.get(
     "MOTIONKB_BUILD_DIR", os.path.join(os.path.dirname(KB_DIR), "motionkb_build")))
 REPORTS_DIR = os.path.join(BUILD_DIR, "reports")
 ARCHIVE_DIR = os.path.join(BUILD_DIR, "archive")
-EVAL_SET    = os.path.join(BUILD_DIR, "retrieval_eval_set.json")
+
+# `EVAL_SET` lived here and is gone. It named `retrieval_eval_set.json`, twelve cases over the eight
+# nursing actions; those records left the knowledge base and the eval set went with them, to
+# `agent/legacy/eval_8_actions/` in the Unity repository. Nothing here reaches it, and the archived
+# `legacy/eval_8_actions/run_eval.py` builds the path itself -- a constant in the live path table
+# pointing at a retired artifact is how a retired artifact comes back.
 
 # The KB is reached over DrvFs from WSL, where opening a file costs about 28 ms whatever its size. The
-# store is 26 MB in 2454 files, so reading it one at a time takes 68 s; 32 threads bring that to 6 s and
+# store is 26 MB in 2446 files, so reading it one at a time takes 68 s; 32 threads bring that to 6 s and
 # more threads do not help. Anything that walks the whole store goes through read_records().
 READ_WORKERS = 32
 
@@ -100,7 +106,7 @@ def read_records(files=None, workers=READ_WORKERS):
     """[(path, record, error)] for every file, opened concurrently, in path order.
 
     `error` is None on success and a message otherwise, with `record` None -- one unreadable file in a
-    2454-file store should be reported against that file, not raised over the batch. Callers that
+    2446-file store should be reported against that file, not raised over the batch. Callers that
     cannot proceed past a bad record still have to say so; this only declines to decide for them.
 
     Concurrency is not an optimisation here, it is what makes walking the store usable at all: see
@@ -125,7 +131,7 @@ def accepted_files(actions_dir=None):
     """The accepted records of a store, from its manifest.json.
 
     One store and `status` as the membership test means selecting the accepted subset is a question
-    about 2454 records' contents. read_records() answers it in 6 s, which is fine for a gate and far
+    about 2446 records' contents. read_records() answers it in 6 s, which is fine for a gate and far
     too slow for something the agent does at every start. The manifest indexes exactly this subset
     already, and `gen_kb_manifest.py --check` is gate 3 of check_kb.sh, so it is read as the index it
     is rather than rebuilt on the spot.
@@ -139,20 +145,27 @@ def accepted_files(actions_dir=None):
     staleness nothing else catches -- the gate rebuilds the manifest and compares, so it sees a record
     that stopped being accepted, while a caller that quietly skipped a missing file would just
     retrieve less and never say so.
+
+    THAT EXISTENCE CHECK IS ONE LISTING, not one stat per entry. Over DrvFs a stat costs about 1.4 ms,
+    so asking 2446 times took 3.5 s -- most of the agent's start-up, spent proving something a single
+    os.listdir proves in 40 ms.
     """
     d = actions_dir or ACTIONS_DIR
     manifest_path = os.path.join(os.path.dirname(d), "manifest.json")
     if not os.path.exists(manifest_path):
         return sorted(p for p, doc, err in read_records(action_files(d))
                       if not err and doc.get("status") == "accepted")
+    try:
+        present = set(os.listdir(d))
+    except OSError as e:
+        raise SystemExit("cannot list the action store %s: %s" % (rel(d), e))
     out = []
     for entry in read_json(manifest_path).get("actions", []):
-        p = os.path.join(d, entry["file"])
-        if not os.path.isfile(p):
+        if entry["file"] not in present:
             raise SystemExit(
                 "manifest.json names %s, which is not in %s -- the manifest is stale.\n"
                 "Regenerate it:  python gen_kb_manifest.py" % (entry["file"], rel(d)))
-        out.append(p)
+        out.append(os.path.join(d, entry["file"]))
     return sorted(out)
 
 

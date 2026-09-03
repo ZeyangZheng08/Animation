@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """probe_walk.py — foot skate DURING the walk, which nothing on the normal path ever reads.
 
-The gate's accumulator is reset per plan and `check_motion` is asked about the plan that FOLLOWS the
+The gate's accumulator is reset per plan and `unity_measure` is asked about the plan that FOLLOWS the
 walk, so the number a turn reports describes a character standing still. Travel happens under the
 walk's own plan, and nobody ever asks that plan for its numbers. This does, while it is still going.
 
@@ -22,16 +22,39 @@ import argparse
 import asyncio
 import sys
 
+
+def _wait_for_unity(coro_timeout, where):
+    """A readable failure when nothing connects, instead of a bare TimeoutError traceback.
+
+    These scripts are the SERVER on the runtime channel, so "no engine" is the ordinary outcome of
+    running one with Unity closed — and a traceback through asyncio.timeouts says nothing about what
+    to do. Two things go wrong here and they need different answers: nobody entered play mode, or
+    something else is already holding the port (a service `terminal.ps1` left running is the usual
+    one), in which case this process never got to listen at all.
+    """
+    raise SystemExit(
+        "no engine connected on %s within the wait.\n"
+        "  * Unity has to be in PLAY mode: this script is the server and the executor dials in.\n"
+        "  * Nothing else may hold the port. `ss -ltn | grep %s` finds a service left running by\n"
+        "    terminal.ps1; stop it, or turn off Tools > Animation Agent > Open Terminal On Play."
+        % (where, where.rsplit(":", 1)[-1]))
+
+# Runtime primitives, named rather than spelled. The eight nursing actions these probes used to
+# name left the knowledge base (agent/nursing_assets/); these are real Mixamo records, and
+# `tests/corpus.py` holds the same constants for the test suite.
+WALK = "mx_Walking_Forward"
+IDLE = "mx_Standing_Idle"
+
 from agent import assemble as A
 from agent import protocol as P
 from agent.engine import DEFAULT_HOST, DEFAULT_PORT, EngineLink
 from agent.kbindex import KBIndex
 
-LOCOMOTION = "walking"
+LOCOMOTION = WALK
 
 
 def walk_step(kb):
-    """One looping walk, full body — the same payload move_to puts under a displacement."""
+    """One looping walk, full body — the same payload unity_locomotion puts under a displacement."""
     assembly = A.arbitrate(LOCOMOTION, [], kb)
     record = kb.record(LOCOMOTION)
     layers = [{"action_id": aid, "channels": chans, "source": "base",
@@ -56,7 +79,10 @@ async def main(argv):
     kb = KBIndex.load()
     async with EngineLink(args.host, args.port) as link:
         print("serving ws://%s:%d — enter play mode in Unity" % (args.host, args.port), flush=True)
-        hello = await link.wait_ready(timeout=args.wait)
+        try:
+            hello = await link.wait_ready(timeout=args.wait)
+        except (asyncio.TimeoutError, TimeoutError):
+            _wait_for_unity(None, "%s:%d" % (args.host, args.port))
         character = (hello.get("characters") or ["chr:CPRNurse"])[0]
 
         start = await link.call(P.T.MOTION_LOCOMOTE,

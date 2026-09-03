@@ -1,36 +1,39 @@
-# MotionKB — Body-Part-Level Nursing Motion Knowledge Base
+# MotionKB — Body-Part-Level Motion Knowledge Base
 
-MotionKB is a small, engine-agnostic library that describes each nursing animation **at the body-part
-level** — one JSON file per action. It's the canonical store the project's retrieval system reads from:
-instead of treating an animation as one indivisible block, a planner can ask "which clip has the legs
-walking and the right hand reaching?" and reason about individual parts.
+MotionKB is an engine-agnostic library that describes each animation clip **at the body-part level** —
+one JSON file per action. It's the canonical store the project's retrieval system reads from: instead
+of treating an animation as one indivisible block, a planner can ask "which clip has the legs walking
+and the right hand reaching?" and reason about individual parts.
 
 Everything here is plain JSON. Unity is used only to *sample* the clips (to find where the bones are);
 all the knowledge lives in these files, outside any engine.
 
-All 2454 records live in one directory. They are not all equally known, and the field that says how
-far each one has got is `status`, not where its file sits:
+**All 2446 records live in one directory and all of them are `accepted`** — general-purpose Mixamo
+clips, measured, rendered and described, and since 2026-09-02 the whole of the formal library
+([ADR 0023](../../docs/adr/0023-the-general-library-is-the-knowledge-base.md)). `status` is still the
+field that says how far a record has got, and the mechanism for a `candidate` is still here for the
+next clip that arrives measured and wordless; today nothing is one.
 
-- **`accepted` — eight fully described nursing actions.** Measured *and* described. These are what the
-  runtime plays today, and the only ones retrieval by meaning can see.
-- **`candidate` — 2446 Mixamo clips, measured and described, not accepted.** Every number and, since
-  2026-08-27, every sentence is there — `qwen3.8-27b` described the corpus on HPC. What they still lack
-  is a human's acceptance and the `action_id` that comes with it. See
-  [the corpus](#the-mixamo-corpus) below.
+A record is named by its key, and for every record in this store the key and the `action_id` are the
+same string: `mx_Sneaking.json` holds `action_id: "mx_Sneaking"`. An `mx_*` name is already unique,
+already what the raw dump and the frames directory are keyed by, and already what Unity's
+`ClipLibrary` resolves, so accepting the corpus invented no names for it.
 
-A record is named by its key: `<clip_name>.json` while it is undescribed, `<action_id>.json` once a
-proposal has decided what it is. So `check_pulse.json` is accepted and `mx_Sneaking.json` is not,
-and accepting a clip renames its file rather than moving it.
+**The eight hand-authored nursing actions are not here.** They are in `../nursing_assets/`, and nothing
+reads that directory — not the runtime, the BM25 index, the prompt, the agent's search workspace, the
+pipeline, the gates or the tests. They are held out for a nursing evaluation that does not exist yet,
+and an evaluation whose clips were ever visible to retrieval would not be held out.
 
 ```
 animation_knowledge_base/          everything a CONSUMER reads
-├── actions/                all 2454 records — 8 accepted, 2446 candidate
+├── actions/                all 2446 records, every one accepted
 ├── raw/                    frozen per-frame pose dumps — every KINEMATIC number comes from these,
-│                           and kb_pose and the seam tables still read them at runtime
-│                           (the corpus's own dumps, `mx_*.json`, are ~1.4 GB and deliberately untracked)
+│                           and the seam search and the posture sidecar still read them at runtime
+│                           (~1.4 GB, deliberately untracked)
 ├── frames/                 rendered evidence frames — every description was read off these
-│                           (the corpus's own rings, `mx_*/`, are ~3.5 GB and deliberately untracked)
-├── derived/                segment and transition tables, derived from raw/
+│                           (~3.5 GB, deliberately untracked)
+├── derived/                segments.json (per channel, the frames it moves in) and posture.json
+│                           (four coarse states per clip over time, plus each clip's travel), from raw/
 ├── manifest.json           index of the ACCEPTED records
 ├── engine_mask_map.json    9 channels -> Unity AvatarMask
 ├── schema/                 the JSON Schema contract every record is validated against
@@ -38,8 +41,10 @@ animation_knowledge_base/          everything a CONSUMER reads
 
 ../motionkb_build/                 everything that exists only because the KB was BUILT
 ├── reports/                run reports + the corpus enumeration `sample` resumes from
-├── archive/                superseded records and the retired v1 contract, kept for audit
-└── retrieval_eval_set.json what retrieval is expected to return — an expectation, not knowledge
+└── archive/                superseded records and the retired v1 contract, kept for audit
+
+../nursing_assets/                 FROZEN, READ BY NOTHING — the 8 nursing actions and their evidence
+../legacy/eval_8_actions/          the retired eval set that scored those eight; it does not run
 ```
 
 **The split is by who reads it, not by how it was made**
@@ -54,13 +59,15 @@ to keep in sync ([ADR 0012](../../docs/adr/0012-accepted-store-in-its-own-direct
 be a second store, `candidate/`, and it repeated in the path what `status` already said
 ([ADR 0016](../../docs/adr/0016-one-store-status-is-the-membership-test.md)).
 
-**Which are accepted is answered by `manifest.json`, not by counting files.** Opening 2454 records
+**Which are accepted is answered by `manifest.json`, not by counting files.** Opening 2446 records
 to ask costs 68 seconds across the mount this KB is reached through (6 with concurrency); the manifest
-indexes exactly that subset and `check_kb.sh` gate 3 is what keeps it honest.
+indexes exactly that subset, `KBIndex.load` reads it rather than walking the directory (4.13 s → 0.52 s),
+and `check_kb.sh` gate 3 is what keeps it honest.
 
-> **Status:** 8 accepted nursing actions, plus 2446 measured-and-described Mixamo clips awaiting
-> acceptance — the corpus descriptions landed 2026-08-27, written by `qwen3.8-27b` on HPC. This README
-> is the human overview; pointers to the deeper docs (and version/rollback details) are at the end.
+> **Status:** 2446 accepted Mixamo clips, measured, rendered, described and named by their own clip
+> names. The descriptions landed 2026-08-27, written by `qwen3.8-27b` on HPC; acceptance was
+> 2026-09-02. This README is the human overview; pointers to the deeper docs (and version/rollback
+> details) are at the end.
 
 > **What this library does NOT record, and why (`motionkb/v4`, 2026-08-26).** It says nothing about
 > how two actions combine, what a hand is holding, where an IK goal should pin, or which body part
@@ -80,7 +87,12 @@ the legs stop and plant, the torso steadies and leans toward the patient, the he
 hand shapes into a pinch, and only then does the arm perform the hand-off — five things, in different
 parts, at different moments.
 
-## The 8 actions
+## The 8 nursing actions — moved out, kept here for reference
+
+These are the eight hand-authored clips the pipeline was built on. They are **not in this store** any
+more: since [ADR 0023](../../docs/adr/0023-the-general-library-is-the-knowledge-base.md) they live in
+`../nursing_assets/`, read by nothing, held out for a nursing evaluation. The table stays because they
+are still the project's reference performances and the scenes still play them.
 
 | action           | what it is                        | carriage |
 | ---------------- | --------------------------------- | -------- |
@@ -95,8 +107,11 @@ parts, at different moments.
 
 All eight are Humanoid clips (Unity's retargetable, skeleton-independent animation format) remapped onto
 one shared character rig (`nurse_avatar.fbx`), and they play in place. The carriage column is not stored
-— it is read from the root channel's measured `mean_body_height`, which is 0.647 for the seated clip and
-0.859 or higher for every standing one. Whether an action is "a base" or "an overlay" is not recorded at
+— it is derived. It used to be a threshold on the root channel's measured `mean_body_height` (0.647 for
+the seated clip, 0.859 or higher for every standing one); since
+[ADR 0024](../../docs/adr/0024-kinematic-posture-states-and-seat-alignment.md) posture is a segmentation
+over time computed from the frozen dumps, because one number per clip cannot describe a clip that stands
+up. Whether an action is "a base" or "an overlay" is not recorded at
 all any more: `walking` is a base under a carry and an overlay under `cpr`, so it was never a property
 of the clip.
 
@@ -186,20 +201,11 @@ Three things a v3 record carried and a v4 record does not, with where each went:
 
 ## The Mixamo corpus
 
-Eight nursing actions are enough to build a pipeline on and far too few to retrieve from. So the whole
-of [Mixamo](https://www.mixamo.com)'s library — 2446 clips, re-downloaded at 30 fps to match the
-project's rig — was imported into Unity and run through the pipeline: measured first (2026-08-21), then
-photographed and described (2026-08-27). The result sits in the store as 2446 records with
-`status: candidate`, one JSON per clip, complete in everything except the `action_id` that acceptance
-decides:
-
-| | `accepted` (8) | `candidate` (2446) |
-| --- | --- | --- |
-| duration, frame rate, loop | yes | yes |
-| per-channel static/dynamic + magnitude, mean pose | yes | yes |
-| `action_description` | yes | yes *(since 2026-08-27)* |
-| per-channel `motion_description` (x8) | yes | yes *(since 2026-08-27)* |
-| `action_id` | yes | **null** — decided at acceptance |
+Eight hand-authored nursing actions were enough to build a pipeline on and far too few to retrieve
+from. So the whole of [Mixamo](https://www.mixamo.com)'s library — 2446 clips, re-downloaded at 30 fps
+to match the project's rig — was imported into Unity and run through the pipeline: measured first
+(2026-08-21), then photographed and described (2026-08-27), then accepted (2026-09-02) as the store
+itself. It is the library now, and the eight are elsewhere.
 
 What is in it: 2446 clips, 143 minutes of motion, median 2.2 s and longest 46.7 s. Between 85% and 91%
 of them move on any given body channel; the hands are the quietest at 62%. 128 are Mixamo *pose* assets
@@ -220,19 +226,21 @@ Filling that half was the pass v4 made smaller than it would have been: what had
 each of the 2446 was nine sentences, not nine sentences plus forty categorical labels that have to
 agree with each other. It stayed deliberately separate from measuring, for the reason the whole
 kinematic / semantic split exists: the numbers come from measuring, the sentences come from looking,
-and running them together is how the two get confused. The eight accepted actions were described by a
-VLM reading rendered frames (ADR 0008); doing the same for 2446 was a scale question.
+and running them together is how the two get confused. The eight nursing actions had been described by
+a VLM reading rendered frames (ADR 0008); doing the same for 2446 was a scale question.
 
 **Both halves are filled now.** Every corpus clip got its eight-view ring on **2026-08-27** — 57,680
 JPEGs, 3.5 GB, about four hours of engine time, not one failure — and the same day `qwen3.8-27b`, served
 locally on an HPC cluster rather than through 2446 hosted-API calls, read those rings and wrote the nine
 sentences into every record. Each one now carries an `extraction.vlm_proposal` block naming the model,
-the frame count and the eight views, at `status: awaiting_human_accept`. No kinematic number moved, and
-the records keep `status: candidate` under their `mx_` filenames: describing a clip is not accepting it.
+the frame count and the eight views. No kinematic number moved on that pass, and none moved on the
+acceptance that followed it either: describing a clip is not accepting it, and accepting one is not
+re-measuring it.
 
-Why the corpus is `status: candidate` rather than a store of its own, why a record with a null
-`action_id` is nevertheless valid, and why its pose dumps are not in git:
-[ADR 0014](../../docs/adr/0014-corpus-enters-measured-only.md).
+Why the corpus entered `status: candidate` rather than as a store of its own, and why its pose dumps
+are not in git: [ADR 0014](../../docs/adr/0014-corpus-enters-measured-only.md). Why it is now the whole
+of the accepted store, keyed by clip name, with the nursing eight moved out:
+[ADR 0023](../../docs/adr/0023-the-general-library-is-the-knowledge-base.md).
 
 ## How an entry is produced
 
@@ -276,13 +284,13 @@ numbers, then **describe** the motion. Every step is a plain Python command; the
    apart around the clip's own facing (`front, front_right, right, back_right, back, back_left, left,
    front_left`, turning toward the figure's own right), all at one slight look-down, so nothing is left to
    a guess about which axis an action reads along — whatever one view hides, the opposite view shows.
-   That is 8 × 3 = **24 JPEGs** a clip (16 where the clip is a single-frame pose asset). The eight accepted
-   actions' frames are **committed** (via git-lfs), not a
-   throwaway intermediate: besides feeding the proposal step below, the Phase-2 agent reads them at
+   That is 8 × 3 = **24 JPEGs** a clip (16 where the clip is a single-frame pose asset). They are not a
+   throwaway intermediate: besides feeding the proposal step below, the runtime agent reads them at
    retrieval time as open-ended visual evidence, to arbitrate between candidates the descriptions do not
-   separate. Regenerating them requires a running Unity editor, so tracking them is
-   what keeps the pure-Python agent side restorable without booting the engine. The corpus's rings are
-   gitignored instead — 3.5 GB, and no clip in it is accepted yet.
+   separate. This store's rings are gitignored — 57,680 files and 3.5 GB, regenerable from the FBX that
+   are versioned beside them. The nursing eight's are **committed** via git-lfs, in
+   `../nursing_assets/frames/`: eight rings is a size worth carrying, and it keeps that archive readable
+   without booting the engine.
 5. `python extract.py propose <clip>` — a vision-language model looks at those frames and writes nine
    sentences: the `action_description`, and one `motion_description` per anatomical channel. The reply
    comes back as nine labelled lines rather than JSON, because the corpus pass runs on a local ~27B
@@ -315,7 +323,7 @@ seeded null (`status` reports where the funnel stands). `index`, `sample` and `r
 `sample` on whether the dump exists, `render` on whether the ring is complete — so re-running after a
 failure picks up where it stopped. It never proposes, never promotes, and never touches an accepted record.
 
-Validate any time with `python validate_motionkb.py` (add `-q` to print failures only — at 2454 files a
+Validate any time with `python validate_motionkb.py` (add `-q` to print failures only — at 2446 files a
 PASS line each is not a report; see the next section). The measure half writes
 only numbers (never the words); the describe half writes only words (never the numbers). Full per-step
 detail + the one rig-specific gotcha are in the engineering notes, [HANDOFF.md](../../HANDOFF.md) §8.3.
@@ -326,16 +334,17 @@ Every entry is checked two ways: against a strict field spec (the "contract" tha
 field and value), and by an automated check that recomputes all the measured numbers from the original
 clips — so nothing can be hand-edited or silently drift without being caught.
 
-Run these from the **agent repository** (`~/Research/animation-agent` on WSL), with `MOTIONKB_DIR` pointing here:
+Run these from the **agent repository** (`~/Research/animation_agent` on WSL), with `MOTIONKB_DIR` pointing here:
 
 ```
 python validate_motionkb.py    # check every entry against the contract
-./check_kb.sh                  # the full gate: contract + recompute-and-compare + manifest + guid resolution
+./check_kb.sh                  # the five gates: contract + recompute-and-compare + manifest + posture + guid
 ```
 
-All 2454 records pass today — the 8 accepted against the full contract, the 2446 corpus records
-against the part of it a record that has not been accepted is answerable for (its `action_id` is
-decided at acceptance).
+All 2446 records pass today, every one of them against the full contract — description completeness
+included, since every record here is accepted. The fourth gate, `build_posture.py --check`, recomputes
+`derived/posture.json` from the frozen dumps and compares, so a hand-edited sidecar is caught as well as
+a stale one; the runtime refuses to start without a current one.
 
 ## Going deeper
 

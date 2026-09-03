@@ -14,6 +14,16 @@ the 1.4 GB of pose dumps stayed behind, deliberately — see §6.
 > `awaiting_human_accept`, and acceptance is a separate decision. What follows is the record of how
 > the pass was set up and what it must not do, kept for the next one.
 
+> **Status, 2026-09-02 — this file is now a record of a finished pass, not a set of instructions.**
+> The 2446 described records were **accepted** as the project's only formal MotionKB: `status: accepted`,
+> `action_id` equal to the clip name, schema `motionkb/v4`, validator 2446 / 2446 over five gates. The
+> eight hand-authored nursing actions this file counts alongside them were moved out of the store
+> entirely, to `agent/nursing_assets/` in the Unity repository, and nothing reads that directory — so the
+> **2454** and the "eight of them are finished" below are the state as it stood on 2026-08-27 and are
+> **historical**. Read them that way. Everything else here — the container, the resume behaviour, the
+> pull-it-home command, what must not be touched — still describes how to run another pass, and the next
+> one to need it will be over new clips rather than over these.
+
 ---
 
 ## 0. The job, in one paragraph
@@ -233,7 +243,7 @@ ssh -fN hpc
 
 rsync -az --partial --include='mx_*.json' --exclude='*' \
   hpc:/project/Driver_in_the_loop/AI_agent/Animation/animation_knowledge_base/actions/ \
-  /mnt/f/Research/AI_agent/Animation/Animation_agent/Project/Animation/agent/animation_knowledge_base/actions/
+  /mnt/d/Research/AI_agent/Animation_agent/Animation/agent/animation_knowledge_base/actions/
 ```
 
 The destination is the **Unity repository's** knowledge base, which is also where the eight accepted
@@ -244,7 +254,7 @@ impossible for the pull to overwrite or delete them.
 Frames and schema do not travel back; they never change.
 
 Verify the arrival before believing it, in this order, from the Unity repository (Windows git — never
-WSL git over `/mnt/f`):
+WSL git over `/mnt/d`):
 
 1. `git status` shows **exactly 2446 modified, 0 added, 0 deleted**. Anything else means the filter or
    the destination path was wrong.
@@ -253,7 +263,8 @@ WSL git over `/mnt/f`):
    `state_label`, `motion_magnitude`, `raw_measurement`, `mean_pose`, `mean_body_height` or
    `mean_body_tilt_deg` shows up on a changed line, the pass wrote where it must not — stop and read §5.
 3. `python validate_motionkb.py` — expects **2454/2454**.
-4. `./check_kb.sh` with `MOTIONKB_DIR` pointed at the Unity knowledge base — all four gates.
+4. `./check_kb.sh` with `MOTIONKB_DIR` pointed at the Unity knowledge base — all five gates (there
+   were four when this was written; `build_posture.py --check` joined them on 2026-09-02).
 
 Then the corpus is retrievable by meaning, and the descriptions get committed in the Unity repository
 alongside the assets they describe.
@@ -264,8 +275,8 @@ alongside the assets they describe.
 
 | what | where |
 |---|---|
-| Unity project + the canonical knowledge base | a Windows workstation, `F:\...\Project\Animation` |
-| the pipeline and the runtime service (`animation-agent`) | WSL, `~/Research/animation-agent` |
+| Unity project + the canonical knowledge base | a Windows workstation, `D:\Research\AI_agent\Animation_agent\Animation` |
+| the pipeline and the runtime service (`animation_agent`) | WSL, `~/Research/animation_agent` |
 | published source mirror, both halves, no assets | `github.com/ZeyangZheng08/Animation`, branch `code` |
 
 **This file is versioned in the agent repository, as `HPC_HANDOFF.md`.** The copy sitting next to you

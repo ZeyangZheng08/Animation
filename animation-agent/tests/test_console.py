@@ -18,9 +18,18 @@ from tests.scripted_llm import ScriptedBackend, calls, says
 pytestmark = pytest.mark.asyncio
 
 
-async def settled(predicate, timeout=2.0):
+async def settled(predicate, timeout=5.0):
     """Wait until `predicate()` is true. The server and the session are separately scheduled, so a
-    message crossing between them is never observable on the next line."""
+    message crossing between them is never observable on the next line.
+
+    FIVE SECONDS, NOT TWO, and only because of one measured flake. A turn whose terminal disconnects
+    mid-flight has to survive the close, and on a loaded machine the socket teardown lands between
+    the reply being produced and the session recording it: the assertion ran at 2.0 s and the turn
+    arrived just after. Observed once in a full-suite run and never in isolation, which is the
+    signature of scheduling rather than of a bug. The bound is a ceiling on waiting, not an
+    expectation -- every one of these settles in milliseconds -- so widening it costs nothing and
+    removes a failure that says nothing about the code.
+    """
     deadline = asyncio.get_running_loop().time() + timeout
     while asyncio.get_running_loop().time() < deadline:
         if predicate():

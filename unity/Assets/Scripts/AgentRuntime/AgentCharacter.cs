@@ -186,6 +186,7 @@ namespace AgentRuntime
 
             Descent pendingDescent = null;
             string pendingSupport = null;
+            float pendingSupportAt = 0.5f;
             // Each step says what posture its clip is in — derived agent-side from the knowledge base,
             // not guessed here. The first decides whether this plan can even start from where she is;
             // the last is what she will be in when it ends.
@@ -243,7 +244,10 @@ namespace AgentRuntime
                         ClipStartSeconds = layerFrame.HasValue ? layerFrame.Value / fps : (double?)null,
                         ClipEndSeconds = layerEndFrame.HasValue
                             ? layerEndFrame.Value / fps : (double?)null,
-                        LoopInWindow = spec.Value<bool?>("loop_in_window") ?? false
+                        LoopInWindow = spec.Value<bool?>("loop_in_window") ?? false,
+                        // Protocol v5. Absent means discard, which is every layer written before a
+                        // retrieved posture transition could travel.
+                        ApplyRootMotion = spec.Value<bool?>("apply_root_motion") ?? false
                     });
                     Dictionary<string, object> line = new Dictionary<string, object>
                     {
@@ -296,7 +300,8 @@ namespace AgentRuntime
                     ClipStartSeconds = startFrame / fps,
                     DurationSeconds = stepJson.Value<double?>("duration_s"),
                     Loop = stepJson.Value<bool?>("loop") ?? false,
-                    ChannelBlends = channelBlends
+                    ChannelBlends = channelBlends,
+                    ApplyRootMotion = stepJson.Value<bool?>("apply_root_motion") ?? false
                 });
 
                 string posture = stepJson.Value<string>("posture");
@@ -313,6 +318,11 @@ namespace AgentRuntime
                 if (expect != null)
                 {
                     pendingSupport = expect.Value<string>("object_id");
+                    // WHEN it is judgeable, on the plan's own clock. Absent means half a second in,
+                    // which is right for a plan whose only step is the seated one and wrong for one
+                    // that walks first: measured, the gate read the pose she was in mid-stride and
+                    // reported it as the sit.
+                    pendingSupportAt = expect.Value<float?>("judgeable_at_s") ?? 0.5f;
                 }
 
                 // A step may declare that reaching it needs frames no clip contains. The target hip
@@ -343,7 +353,8 @@ namespace AgentRuntime
                 FirstPosture = firstPosture,
                 LastPosture = lastPosture,
                 Pending = pendingDescent,
-                PendingSupport = pendingSupport
+                PendingSupport = pendingSupport,
+                PendingSupportAt = pendingSupportAt
             };
         }
 
@@ -442,6 +453,7 @@ namespace AgentRuntime
             string lastPosture = plan.LastPosture;
             Descent pendingDescent = plan.Pending;
             string pendingSupport = plan.PendingSupport;
+            float pendingSupportAt = plan.PendingSupportAt;
             float t0 = Time.realtimeSinceStartup;
 
             TakeOverFromLegacy();
@@ -451,6 +463,23 @@ namespace AgentRuntime
             // laptop, and the walk committed a few minutes later played with her arms still reaching
             // back at it. A binding is part of the plan that asked for it and does not outlive it.
             if (ik != null) ik.ReleaseAll();
+
+            // A PLAN THAT DRIVES THE TRANSFORM FROM ROOT MOTION NEEDS THE AGENT OUT OF THE WAY.
+            // Protocol v5: a retrieved posture transition travels -- a sit-down steps backwards onto
+            // the seat -- and the composer applies that clip's root motion for the duration. A
+            // NavMeshAgent that is still steering writes its own idea of the position back over it
+            // within a frame, which is the fight `Suspend` exists to end; measured on the generated
+            // descent, `isStopped` alone was not enough.
+            bool travels = false;
+            for (int i = 0; i < steps.Count; i++) if (steps[i].ApplyRootMotion) travels = true;
+            // Given back where every other suspension is: the branch below that runs once the plan
+            // has ended standing. A plan that ends SEATED keeps the agent off on purpose -- she is on
+            // a chair, and the executor already refuses to walk her off one.
+            if (travels && locomotion != null)
+            {
+                locomotion.Halt();
+                locomotion.Suspend();
+            }
             composer.Prepare(steps);
             // Prepare carries the previous correction across the rebuild, which is what keeps a
             // generated sit from being discarded. A plan that ends standing has no business inheriting
@@ -475,7 +504,8 @@ namespace AgentRuntime
                 }
                 StartCoroutine(RunPostureChange(pendingDescent, scene, endsPosture));
             }
-            else if (pendingSupport != null) StartCoroutine(JudgeSupport(pendingSupport, scene));
+            else if (pendingSupport != null)
+                StartCoroutine(JudgeSupport(pendingSupport, scene, pendingSupportAt));
 
             // Recorded at commit, not when the descent lands: from this moment she is committed to
             // ending up seated, and anything that would drag her off the seat has to be refused for the
@@ -810,7 +840,7 @@ namespace AgentRuntime
             {
                 throw new AgentRequestException(Protocol.Err.ExecFailed,
                     id + " is sitting on " + (_supportObjectId ?? "something") + " and cannot walk "
-                    + "from there. Stand her up first -- one plan_motion with a standing action, which "
+                    + "from there. Stand her up first -- one unity_execute with a standing action, which "
                     + "generates the frames for getting up -- and then walk.");
             }
             if (request.Bool("halt", false))
@@ -920,6 +950,7 @@ namespace AgentRuntime
             /// be judged against something. Without this a character seated in mid-air passes every
             /// check, which is what happened.</summary>
             public string PendingSupport;
+            public float PendingSupportAt;
         }
 
         /// <summary>A transition that has to be generated, and when to start generating it.</summary>
@@ -1039,14 +1070,18 @@ namespace AgentRuntime
         /// <summary>Judge a seated pose that was retrieved rather than generated. Same check, later
         /// arming: the clip needs a moment to establish the pose before there is anything to measure.
         /// </summary>
-        private System.Collections.IEnumerator JudgeSupport(string objectId, SceneQueryService scene)
+        private System.Collections.IEnumerator JudgeSupport(string objectId, SceneQueryService scene,
+                                                            float judgeableAt)
         {
             if (gates == null || scene == null || scene.Registry == null) yield break;
             SceneRegistry.Entry seat = scene.Registry.ById(objectId);
             if (seat == null || seat.target == null) yield break;
             gates.ExpectSupport(objectId, seat.target, seat.surfaceHeight,
-                                BoneOrNull(HumanBodyBones.Hips), 0.5f);
-            float until = Time.time + 0.5f;
+                                BoneOrNull(HumanBodyBones.Hips), judgeableAt);
+            // WAIT FOR THE SIT, not for half a second. The plan says when the step that puts her down
+            // has finished; before that the hips are wherever the walk left them, and reading them
+            // there reports a stride as a landing.
+            float until = Time.time + Mathf.Max(0.5f, judgeableAt);
             while (Time.time < until && composer.Playing) yield return null;
             gates.SupportLanded();
         }

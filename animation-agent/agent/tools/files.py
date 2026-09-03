@@ -18,7 +18,10 @@ So there is one workspace with named mounts, and the three tools address all of 
     kb/       the motion knowledge base: actions/ holds the records, one file per action, alongside
               raw/ per-frame pose dumps, frames/ renders, derived/ segment and seam tables, the
               manifest and the schema
-    source/   the Unity animation assets the knowledge base was extracted from
+    source/   the Mixamo FBX the 2446 records were sampled from — the same corpus, in its
+              original form. Only that corpus: the scene's own animation assets sit beside it in
+              Unity and are deliberately outside the workspace, so the two mounts describe one
+              library and a search over either answers the same question about what exists.
 
 What is NOT mounted is the other half of the split (ADR 0017): the build artifacts next door in
 `motionkb_build/` — run reports, the corpus enumeration, and the archive of superseded records and
@@ -26,7 +29,7 @@ retired contracts. A report about how the KB was built is not a fact about motio
 record is the one thing a search must never return.
 
 Paths are `<mount>/<rest>`; `read(".")` lists the mounts. There are no absolute paths, because the
-workspace is virtual — the model has no business knowing this repository is reached over /mnt/f.
+workspace is virtual — the model has no business knowing this repository is reached over a /mnt DrvFs mount.
 
 READ-ONLY BY CONSTRUCTION. No write, no edit, no shell. `Workspace.resolve` is the single containment
 boundary — syntactic checks first, then realpath, so a symlink pointing out of a mount fails too — and
@@ -64,7 +67,8 @@ FRAME_NOTE = ("Rendered frames are named <view>_t<ordinal>_f<percent>.jpg (older
               "angle hides another shows. The three times are chosen "
               "to COVER the clip's range of pose (ADR 0015), so they are spread over what the motion "
               "does -- but they are still three moments, and a held pose gets one of them because one "
-              "stands for all of it. kb_pose measures any frame, including the first and the last.")
+              "stands for all of it. motion_timing says which frames each part is moving in, "
+              "which is what the pictures cannot show.")
 
 # Directory names that are not part of the searchable workspace, however deep they sit.
 #
@@ -92,18 +96,32 @@ EXCLUDED_DIRS = ()
 UNSEARCHED_BY_GREP = ("raw",)
 
 
+# Where the corpus's own FBX live, relative to the Unity project. The mount is this directory and NOT
+# `Assets/Animations`, which also holds the nursing FBX, the nursing `.anim` clips, and the character
+# rigs. Those are scene assets and they stay where the scenes reference them; what changed is that the
+# agent can no longer see them. The knowledge base is 2446 Mixamo clips, so `source/` is the assets
+# those 2446 were built from — one mount, one corpus, and a `glob("source/**")` that cannot turn up a
+# clip the search has no record for.
+CORPUS_ASSETS = ("Assets", "Animations", "Mixamo30")
+
+
 def default_mounts():
     """The two places worth searching, with the source assets optional.
 
     `source` is derived from the KB path rather than configured separately: the KB lives at
-    <unity project>/agent/animation_knowledge_base, so the animation assets are two directories up and over. If that is not
-    where they are — a KB copied elsewhere for a test — the mount is simply absent and the tools work
-    with one. Overridable with MOTION_SOURCE_DIR.
+    <unity project>/agent/animation_knowledge_base, so the animation assets are two directories up and
+    over. If that is not where they are — a KB copied elsewhere for a test — the mount is simply absent
+    and the tools work with one. Overridable with MOTION_SOURCE_DIR.
+
+    TWO MOUNTS AND EXACTLY TWO. `kb/` is the 2446 records with their frozen evidence; `source/` is the
+    2446 FBX they were sampled from. That is the whole of what the agent can read, and both halves
+    describe the same corpus — so "does anything like this exist?" has one answer whichever way it is
+    asked, and a grep that finds nothing is evidence rather than a badly aimed search.
     """
     mounts = collections.OrderedDict()
     mounts["kb"] = paths.KB_DIR
     source = os.environ.get("MOTION_SOURCE_DIR") or os.path.join(
-        os.path.dirname(os.path.dirname(paths.KB_DIR)), "Assets", "Animations")
+        os.path.dirname(os.path.dirname(paths.KB_DIR)), *CORPUS_ASSETS)
     if os.path.isdir(source):
         mounts["source"] = source
     return mounts
@@ -429,12 +447,24 @@ def register(registry, mounts=None):
         if not files:
             # This used to read "the corpus is small, so absence here is real". The point was right --
             # a miss has to be usable as evidence, or the model rephrases its way to the iteration
-            # limit -- but it rested on a premise the Mixamo corpus removed. So it now rests on what
-            # the call actually did: a count the model can check, and the two things that would widen
-            # it. Never restore a claim about the corpus's size; it is 2454 records.
-            notes.append("no file matched in %s, out of %d file(s) searched. That is evidence of "
-                         "absence, not a search that fell short -- widen `path` or drop `include` "
-                         "before rephrasing the pattern." % (path or "any place", searched))
+            # limit -- but it rested on a premise the Mixamo corpus removed. So it rests on what the
+            # call actually did: a count the model can check, and the two things that would widen it.
+            # Never restore a claim about the corpus's size; it is 2446 records.
+            #
+            # AND A MISS OVER NOTHING IS NOT A MISS. `source/` is 2446 FBX and their .meta: binary,
+            # so grep skips every one and searches zero files. Reporting that as evidence of absence
+            # would be the worst answer this tool can give -- a confident no about a question nobody
+            # asked. What is searchable there is the FILE NAMES, which is glob's question.
+            if searched:
+                notes.append("no file matched in %s, out of %d file(s) searched. That is evidence of "
+                             "absence, not a search that fell short -- widen `path` or drop `include` "
+                             "before rephrasing the pattern." % (path or "any place", searched))
+            else:
+                notes.append("nothing in %s was searchable, so this says nothing about whether the "
+                             "pattern is there: every file was binary or a .meta. Animation assets "
+                             "carry their meaning in their NAMES, so glob that pattern instead, and "
+                             "grep `kb/actions` for what the records say."
+                             % (path or "any place"))
         if notes:
             result["note"] = "; ".join(notes)
         return result
@@ -444,7 +474,8 @@ def register(registry, mounts=None):
         if mount is None:
             return {"path": ".", "type": "workspace", "entries": ["%s/" % n for n in ws.names()],
                     "note": "kb/ is the motion knowledge base. " +
-                            ("source/ is the Unity animation assets it was extracted from."
+                            ("source/ is the animation assets its records were sampled from — the "
+                             "same corpus in its original form."
                              if "source" in ws.names() else "")}
 
         rel = "/".join(p for p in (mount, sub) if p)
@@ -511,15 +542,16 @@ def register(registry, mounts=None):
     # does and which carries the measured number.
     registry.add("glob",
                  "Find files by name pattern. Places: %s. Use it to settle what exists before "
-                 "assuming it does not, and prefer it to grep whenever the question is a name: an "
-                 "animation asset under source/ is curve data whose only readable name is its file "
-                 "name, and an undescribed record under kb/actions/ has exactly one word in it that "
-                 "the other records do not also have -- its clip name." % places,
+                 "assuming it does not, and use it rather than grep for anything under source/: "
+                 "those are binary animation assets, so grep opens none of them and their only "
+                 "readable content is the file name." % places,
                  GLOB_PARAMS, glob)
     registry.add("grep",
-                 "Search file contents with a regular expression. One call answers 'which actions "
-                 "mention X' outright, instead of rephrasing a search until something turns up. Use "
-                 "word boundaries for short words -- `sit` matches `position`.",
+                 "Search file contents with a regular expression, which over kb/actions/ is a search "
+                 "over what the records SAY: every one carries a sentence about the action and one "
+                 "per body part. So one call answers 'which actions mention X' outright, instead of "
+                 "rephrasing a search until something turns up. Use word boundaries for short words "
+                 "-- `sit` matches `position`.",
                  GREP_PARAMS, grep)
     registry.add("read",
                  "Read a file, or list a directory. Rendered frames come back as pictures to look at. "
