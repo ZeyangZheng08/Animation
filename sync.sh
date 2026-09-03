@@ -82,6 +82,10 @@ blob() {  # published path -> its current committed content on stdout; non-zero 
         *"$nl$rel$nl"*) cat "$UNITY_POSIX/$rel" 2>/dev/null ;;
         *)              git.exe -C "$UNITY_WIN" show "HEAD:$rel" 2>/dev/null </dev/null ;;
       esac ;;
+    animation-agent/_traces/*)
+      # The run traces are deliberately untracked upstream (.gitignore) and published here as
+      # evidence, so they come from the working tree: plain text, LF, no LFS, about 400 KB.
+      cat "$AGENT/${1#animation-agent/}" 2>/dev/null ;;
     animation-agent/*) git -C "$AGENT" show "HEAD:${1#animation-agent/}" 2>/dev/null </dev/null ;;
     *) return 1 ;;    # sync.sh, .pubignore, README.md, .gitattributes are authored here, not mirrored
   esac

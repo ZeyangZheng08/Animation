@@ -42,6 +42,7 @@ What that leaves is the part that is actually the work:
 | `unity/agent/motionkb_build/` | what only building the KB produced: the calibration and state reports, the retired v1 schema, the earlier authoring pass kept for comparison, the golden regression subset and the posture audit expectations |
 | `unity/docs/adr/` | the architecture decision records, including where each was amended |
 | `animation-agent/` | all of it — 1.1 MB of Python and tests |
+| `animation-agent/_traces/` | the run traces from the workstation: `turns.jsonl` has one line per agent turn (prompt, reply, every tool call with its arguments and outcome, counts and timings) and `service.log` the service's own log. Untracked in the working repository by design and copied here as evidence; plain text, no LFS |
 
 The knowledge base is the 2446 Mixamo clips and nothing else (`unity/docs/adr/0023`). Every record is
 here — 21 MB of measurements and descriptions under `actions/` — with the manifest, the schema and the
