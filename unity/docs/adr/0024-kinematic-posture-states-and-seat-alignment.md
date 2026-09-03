@@ -303,6 +303,35 @@ squats. A posture change is still a SEARCH, and the result says so by carrying n
 `generated_transitions`. Generation survives as the fallback for the standing↔seated pair when the
 search comes back empty, and the reply names it as the alternative it is.
 
+### 5. `root_travel` measures the pelvis, not the root
+
+The sidecar carries a `root_travel` per clip and `scene.standing_point_for` places a character by it:
+the point she must stand on is the seat minus that displacement, rotated into the heading she will
+sit in. The name says root; the number is the **pelvis**, and the difference is the whole tolerance.
+
+Sampled on the current `mx_Standing_To_Sitting_Transition` asset, first frame to last:
+
+| quantity | value | what it is |
+|---|---:|---|
+| root curve displacement | 0.3309 m | what the transform is actually moved by |
+| pelvis offset relative to the root | 0.1152 m | she folds backwards over her own root as she sits |
+| **their sum** | **0.4459 m** | total world displacement of the pelvis — and the sidecar reads 0.4461 m |
+
+The dumps were sampled with `lockRootPositionXZ = true`, so the root never moved and `bones.Hips`
+carried the whole of it; the field has therefore always been the sum, and the three numbers reconcile
+to within a millimetre. **The sum is the quantity a placement needs**, because what has to end up on
+the seat is the pelvis — that is what `seat_alignment` measures. Placing her by the root curve alone
+would leave the pelvis 0.115 m short, more than twice the 0.05 m bar. So the field is right, its name
+is not, and both `build_posture.root_travel` and `kbindex.root_travel_of` now say so. No version bump:
+the meaning has not changed, only its description has become accurate.
+
+One residual is stated rather than corrected. Strictly the standing point is the seat minus (root
+motion + the pelvis offset at the clip's *last* frame); the field is last minus *first*, so it is
+short by the pelvis offset at the first frame — (0.008, −0.011) m, or 0.013 m, because at the start
+of a sit-down she is standing upright with her pelvis almost over her root. That residual is visible
+in the landing: 0.0104 m off the seat centre from a walking base, 0.0023 m from a stance. A quarter
+of the tolerance, and not worth a second field.
+
 **Two claims are reported separately and never merged.** `seated` in the sidecar means a seated-like
 BODY CONFIGURATION, measured from a dump of a clip on an empty floor. Whether the character is
 sitting ON something is a fact about a scene, and only the Unity executor can decide it —

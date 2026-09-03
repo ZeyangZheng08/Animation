@@ -501,8 +501,12 @@ def standing_point_for(seat_xz, approach_xz, travel, facing_deg=None):
     The facing is decided first and it is not free: sitting down means putting your back to the seat,
     so she faces AWAY from it, along the line from the seat towards where she is coming from.
 
-    `travel` is (dx, dz) in the clip's own frame, read off the posture sidecar's `root_travel` -- the
-    displacement between the clip's first and last frame, measured from the frozen dump.
+    `travel` is (dx, dz) in the clip's own frame, read off the posture sidecar's `root_travel`. That
+    field measures the PELVIS, not the root, whatever its name says: on
+    `mx_Standing_To_Sitting_Transition` the clip's root curve moves the transform 0.331 m and the
+    pelvis folds a further 0.115 m back relative to it, and the field is their sum, 0.446 m. The
+    pelvis is the right quantity here because the pelvis is what has to end up on the seat -- placing
+    her by the root curve alone leaves her 0.115 m short, against a 0.05 m gate.
 
     THE HEADING IS AN ARGUMENT NOW, and the approach is what it falls back to. Her facing does not
     change over a sit-down -- she steps back and lowers onto what is behind her -- so the heading she
@@ -2619,7 +2623,21 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
         # asked, and the answer would be reassuring for the wrong reasons.
         if walk_payload is not None:
             await _validate(walk_payload)
-        validated = await _validate(payload, at=_standing_at(preview))
+        # WHERE THE HIDDEN COPY IS CHECKED. The projected arrival of a walk that has not happened --
+        # or, for a plan that stays seated and is about to turn her on the seat, the heading that turn
+        # will reach. Checking a seated plan at the heading she happens to be at now refuses plans
+        # that work: measured, both hands bound to the laptop came back `contact_hold` failed on
+        # hands that reach it perfectly well once she has turned to face it.
+        #
+        # THE POSITION IS NOT SENT, ONLY THE HEADING AND WHAT TO TURN ABOUT. The engine rotates the
+        # copy about its own pelvis, which is the one point a seated turn leaves where it is; sending
+        # a position would mean guessing at a pelvis offset this side does not know.
+        at = _standing_at(preview)
+        if at is None and stayed_seated and seated_facing and state.get("facing_deg") is not None \
+                and abs(heading_error_deg(state["facing_deg"],
+                                          seated_facing["deg"])) > SEATED_TURN_TOLERANCE_DEG:
+            at = {"facing_deg": seated_facing["deg"], "about": "pelvis"}
+        validated = await _validate(payload, at=at)
         # WHAT THIS FUNCTION DECIDED ABOUT WHERE SHE ENDS UP, said the same way on both paths. Both
         # are choices the model did not make and cannot see in a pose: which way a sit-down leaves her
         # looking, and that a seated plan did not move her.

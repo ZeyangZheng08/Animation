@@ -86,11 +86,18 @@ def posture_detail(rec):
 
 
 def root_travel_of(rec):
-    """(dx, dz, yaw_deg) for a clip: where it leaves the body relative to where it picked it up.
+    """(dx, dz, yaw_deg) for a clip: how far it carries the PELVIS, in world metres.
 
     THE NUMBER A SEAT IS PLACED FROM. A retrieved sit-down steps backwards into the chair, so the
     point she has to be standing on before it starts is the seat MINUS this displacement, rotated
-    into the direction she will be facing. See `scene._standing_point_for`.
+    into the direction she will be facing. See `scene.standing_point_for`.
+
+    AND IT IS THE PELVIS, NOT THE ROOT, whatever the field is called. Measured on
+    `mx_Standing_To_Sitting_Transition`: the clip's own root curve moves the transform 0.331 m, the
+    pelvis folds a further 0.115 m back relative to that root as she sits, and this field is their
+    sum, 0.446 m. The pelvis is the right one because the pelvis is what has to end up on the seat and
+    what `seat_alignment` measures; placing her by the root curve alone would leave her 0.115 m short.
+    `build_posture.root_travel` derives it and states the full reconciliation.
     """
     travel = _posture_entry(rec).get("root_travel") or {}
     return (float(travel.get("dx") or 0.0), float(travel.get("dz") or 0.0),

@@ -15,7 +15,9 @@ desk, and no clip in the library sits down in less than 0.234 m. She therefore s
 she came and turns on the seat, which is what a person does at a chair that is already pushed in --
 and asking for the impossible version is refused by name, which is case 3 below.
 
-    1. walk over and sit down through `mx_Standing_To_Sitting_Transition`, nothing bound.
+    1. walk over and sit down through `mx_Standing_To_Sitting_Transition` into a seated idle,
+       nothing bound. A seated idle rather than the typing clip, so that case 2 is a switch to a
+       DIFFERENT seated action rather than to the one already playing.
     2. in place, still on the same chair: type on the laptop with both hands bound to it. Expects no
        walk, no rise, a turn on the seat towards the laptop, and a pelvis that stays on it.
     3. the same sit-down WITH the laptop bound, which the room cannot do. Expects the refusal to name
@@ -42,6 +44,7 @@ from agent.tools import scene as scene_tools
 
 IDLE = "mx_Standing_Idle"
 SIT_DOWN = "mx_Standing_To_Sitting_Transition"
+SEATED = "mx_Sitting_Still_In_A_Chair"
 TYPING = "mx_Sitting_At_A_Computer_And_Typing"
 STAND_UP = "mx_Sitting_To_Standing_2"
 
@@ -122,7 +125,7 @@ async def main(host, port, wait):
         print("\n== unity_execute: walk over and sit down through %s" % SIT_DOWN)
         t0 = time.perf_counter()
         out = await registry.dispatch("unity_execute", dict(
-            who, base=IDLE, then=[{"via": [SIT_DOWN], "base": TYPING}], sit_on=seat))
+            who, base=IDLE, then=[{"via": [SIT_DOWN], "base": SEATED}], sit_on=seat))
         print("   %.2f s total" % (time.perf_counter() - t0))
         show("success", out.get("success"))
         if not out.get("success"):
@@ -194,7 +197,7 @@ async def main(host, port, wait):
         print("\n== unity_validate: sit down FACING %s, which needs ground the room does not have"
               % desk)
         out = await registry.dispatch("unity_validate", dict(
-            who, base=IDLE, then=[{"via": [SIT_DOWN], "base": TYPING}], sit_on=seat,
+            who, base=IDLE, then=[{"via": [SIT_DOWN], "base": SEATED}], sit_on=seat,
             ik_bindings=[{"effector": "right_hand", "object_id": desk}]))
         show("success", out.get("success"))
         show("error", out.get("error"))

@@ -288,14 +288,32 @@ def _angle_deg(u, v):
 
 
 def root_travel(raw):
-    """Where the clip leaves the body relative to where it picked it up: (dx, dz) in metres and the
-    yaw it turns through.
+    """How far the clip carries the PELVIS, in world metres: (dx, dz) and the yaw it turns through.
 
-    WHY THIS IS NEEDED AT ALL. A retrieved posture transition is a clip that TRAVELS.
-    `mx_Standing_To_Sitting_Transition` steps 0.45 m backwards into the chair; played from wherever
-    the walk happened to stop, it puts the hips 0.45 m in front of the seat. The planner has to know
-    that displacement to work backwards from the seat to the point she should stand on before the
-    clip starts, and this is where the number comes from.
+    THE NAME IS OLDER THAN THE MEANING, and the meaning is the one a seat needs. This is not the
+    clip's root motion. It is the total world displacement of the hips over the clip, which is the
+    root motion PLUS the change in where the pelvis sits relative to the root -- and the two are
+    added here for free, because these dumps were sampled with `lockRootPositionXZ = true`, so the
+    root never moved and `bones.Hips` carries the whole of it.
+
+    MEASURED, ON `mx_Standing_To_Sitting_Transition`, AND THE THREE NUMBERS RECONCILE EXACTLY:
+
+        root curve, first frame to last     0.3309 m   what the transform is moved by
+        pelvis root-local offset, ditto     0.1152 m   she folds backwards over the root as she sits
+        their sum                           0.4459 m   what this function returns (0.4461)
+
+    WHICH ONE A PLACEMENT NEEDS. `scene.standing_point_for` solves "where must she stand so that this
+    clip finishes with her ON the seat", and what has to land on the seat is the PELVIS -- that is
+    what `seat_alignment` measures. So the sum is the right quantity and the root curve is not:
+    placing her by the root curve alone leaves the pelvis 0.115 m short of the seat, which is more
+    than twice the gate's whole tolerance.
+
+    THE ONE RESIDUAL, STATED. Strictly the standing point should be the seat minus (root motion + the
+    pelvis offset at the clip's LAST frame); this returns the difference between the last and the
+    FIRST, so it is short by the pelvis offset at the first frame. At the start of a sit-down she is
+    standing upright, so that offset is (0.008, -0.011) m -- 0.013 m, a quarter of the tolerance, and
+    it is visible in the landing: the same plan measures 0.0104 m off the seat centre from a walking
+    base and 0.0023 m from a stance. Worth knowing about; not worth a second field.
 
     READ OFF THE ROOT-LOCAL HIPS, WHICH IS WHERE THE COMMITTED DUMPS KEEP IT. The corpus was sampled
     while every clip was imported with `lockRootPositionXZ = true`, so the travel sits in the pose:

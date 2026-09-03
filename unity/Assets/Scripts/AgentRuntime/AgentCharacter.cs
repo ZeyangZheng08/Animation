@@ -449,6 +449,14 @@ namespace AgentRuntime
         /// that has not happened yet. Absent, it is checked where she is. Checking a sit from across
         /// the room would fail a plan that works, and checking a walk-and-sit at the seat would pass
         /// one whose walk cannot happen — which is why the preview and this take the same route.
+        ///
+        /// `at.about = "pelvis"` IS THE SEATED VERSION OF THE SAME IDEA. A character already on a seat
+        /// who has to turn to face what she is about to work at turns about her PELVIS, because
+        /// turning a seated body about its root swings her off the chair. So the duplicate is turned
+        /// the same way — rotated about the live pelvis rather than dropped at a new point — or the
+        /// check is made at a heading the plan will never be at. Measured without it: a plan binding
+        /// both hands to the laptop was refused for `contact_hold` on hands that reach it perfectly
+        /// well once she has turned, because the copy was checked still facing the way she sat down.
         /// </summary>
         private object Validate(CompiledPlan plan, SceneQueryService scene)
         {
@@ -464,7 +472,21 @@ namespace AgentRuntime
                                      point[2].ToObject<float>());
                 }
                 float? yaw = where.Value<float?>("facing_deg");
-                if (yaw.HasValue) facing = Quaternion.Euler(0f, yaw.Value, 0f);
+                if (yaw.HasValue)
+                {
+                    Quaternion wanted = Quaternion.Euler(0f, yaw.Value, 0f);
+                    Transform hips = where.Value<string>("about") == "pelvis"
+                        ? BoneOrNull(HumanBodyBones.Hips) : null;
+                    if (hips != null)
+                    {
+                        // Rotate the ROOT about the vertical axis through the pelvis. The pelvis sits
+                        // on that axis, so it does not move -- which is the whole point: she stays on
+                        // the seat and only her heading changes.
+                        Vector3 pivot = new Vector3(hips.position.x, at.y, hips.position.z);
+                        at = pivot + (wanted * Quaternion.Inverse(facing)) * (at - pivot);
+                    }
+                    facing = wanted;
+                }
             }
 
             if (_validation == null) _validation = new ValidationCharacter(this);
