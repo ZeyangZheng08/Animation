@@ -337,9 +337,9 @@ class KBIndex:
         `transition` filters on the ENDS rather than the middle: `{from_posture, to_posture}` keeps
         clips that start in one and finish in the other. That is the query a posture change needs and
         `posture` cannot express, because a clip that stands up out of a chair is dominantly one or
-        the other and matches neither honestly. Mutually exclusive with `posture` — one asks what the
-        clip IS and the other what it CROSSES — and the caller is refused rather than silently
-        served the intersection.
+        the other and matches neither honestly. It combines with `posture` like every other clause
+        here — an intersection, which is what this loop has always computed — so "mostly seated, and
+        it gets there from standing" is one search rather than a refusal.
         """
         channels = rec.get("channels", {})
 

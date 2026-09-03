@@ -82,6 +82,16 @@ REMEDIES = {
         "nothing about the plan caused this and changing the plan will not fix it. Say the transition "
         "was played and ran past what the character could do",
     ),
+    # THIS ONE DOES HAVE A PLAN-LEVEL REMEDY, which is why it reads differently from the two above.
+    # A generated descent carries her onto the seat from wherever the walk stopped; past the cap it
+    # is being asked to cross more ground than sitting down covers, and the answer is to play a real
+    # sit-down clip, which is placed for the seat rather than generated at it.
+    "descent_offset": (
+        "the generated sit had to carry her too far sideways to reach the seat",
+        "she is starting too far from it for a generated descent. Name a real sit-down in "
+        "`then[].via` -- motion_search(transition={from_posture: 'standing', to_posture: 'seated'}) "
+        "finds them -- and the walk is placed for that clip's own travel instead",
+    ),
     # The clip does the reaching; whether it reaches the REAL object depends on where she is standing
     # or sitting. Nothing about this is fixed by binding a hand -- that overrides the animation with a
     # point and makes it worse.

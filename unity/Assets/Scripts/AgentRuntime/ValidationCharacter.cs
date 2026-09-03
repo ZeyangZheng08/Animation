@@ -212,7 +212,10 @@ namespace AgentRuntime
             // rebuild, which is right for the visible character and wrong here — what this run must
             // start from is what the VISIBLE character is carrying now.
             _composer.SetManualTime(true);
-            _composer.Prepare(plan.Steps);
+            // The same pelvis the visible character would anchor to, handed over rather than read
+            // off this duplicate's own bones: it is instantiated once and reused, so its skeleton
+            // holds whatever the last check left it in.
+            _composer.Prepare(plan.Steps, _source.SeatedPelvisLocal());
             _composer.SetCorrection(inherited);
             _composer.Play();
             if (_ik != null) _ik.ReleaseAll();
@@ -287,7 +290,9 @@ namespace AgentRuntime
                 {
                     gate.SupportLanded(_synth == null ? 0f : _synth.BiasM,
                                        _synth == null ? 0 : _synth.DroppedWrites,
-                                       _synth == null ? 0 : _synth.SaturatedFrames);
+                                       _synth == null ? 0 : _synth.SaturatedFrames,
+                                       _synth == null ? 0f : _synth.SeatOffsetM,
+                                       _synth == null ? 0f : _synth.SeatOffsetNeededM);
                     landed = true;
                 }
                 // A seated step that was retrieved rather than generated: the clip needs a moment to
@@ -348,6 +353,10 @@ namespace AgentRuntime
                 // and "the clip travels 0.45 m and she never moved" are the same number for two
                 // completely different reasons. These two tell them apart without a play-mode probe.
                 { "root_motion_applied_m", _composer == null ? 0f : _composer.RootMotionAppliedM },
+                // The pelvis-anchored handover, next to the root motion, for the same reason: a seam
+                // that needed a quarter of a metre of correction is a fact about the plan.
+                { "handover_offsets_m", _composer == null ? new List<object>()
+                                                          : _composer.HandoverOffsets },
                 { "root_motion_samples", _composer == null ? 0 : _composer.RootMotionSamples },
                 { "root_motion_calls", _composer == null ? 0 : _composer.RootMotionCalls },
                 { "first_pose", firstPose },
@@ -431,8 +440,11 @@ namespace AgentRuntime
                         : seat.target.position;
                 }
             }
+            // The same pelvis target the visible character uses, so the copy is checked against the
+            // landing the commit will actually attempt. See AgentCharacter.RunPostureChange.
+            Vector3? pelvisTarget = endsPosture == "seated" && landOn.HasValue ? landOn : null;
             _synth.Begin(plan.Pending.TargetHipY, plan.Pending.DurationSeconds, landOn,
-                         plan.Pending.LeftFootLocal, plan.Pending.RightFootLocal);
+                         plan.Pending.LeftFootLocal, plan.Pending.RightFootLocal, pelvisTarget);
         }
 
         // ---- how long, and how finely -----------------------------------------------------------

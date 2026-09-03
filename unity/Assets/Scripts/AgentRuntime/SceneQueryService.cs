@@ -319,7 +319,12 @@ namespace AgentRuntime
         /// Returns null with `why` filled in. A destination that cannot be resolved has to say which
         /// part failed — an unknown object and a direction with no floor in it are different problems.
         /// </summary>
-        public Vector3? ResolvePoint(string id, Transform mover, out string why)
+        /// <param name="onMesh">Whether a computed `point:` is snapped to the navigation mesh.
+        /// True for a destination, because a point she cannot stand on is a walk that never arrives.
+        /// False for a LOOK target: measured, a face point two metres beyond a chair fell under a
+        /// desk, was snapped to the nearest walkable ground behind her, and she turned to face
+        /// that instead -- a heading nobody asked for, arrived at silently.</param>
+        public Vector3? ResolvePoint(string id, Transform mover, out string why, bool onMesh = true)
         {
             why = null;
             if (string.IsNullOrEmpty(id)) { why = "no destination was given"; return null; }
@@ -332,7 +337,8 @@ namespace AgentRuntime
             // to name it by.
             //
             // Snapped to the navigation mesh like every other destination, because a point that is
-            // not walkable is a walk that never arrives.
+            // not walkable is a walk that never arrives -- unless the caller is asking which way to
+            // LOOK, where the snap is what turns a heading into somebody else's heading.
             if (id.StartsWith("point:"))
             {
                 string[] parts = id.Substring("point:".Length).Split(',');
@@ -347,7 +353,8 @@ namespace AgentRuntime
                     return null;
                 }
                 float py = mover != null ? mover.position.y : 0f;
-                return OnMesh(new Vector3(px, py, pz), out why);
+                Vector3 asked = new Vector3(px, py, pz);
+                return onMesh ? OnMesh(asked, out why) : (Vector3?)asked;
             }
 
             if (id.StartsWith("near:"))

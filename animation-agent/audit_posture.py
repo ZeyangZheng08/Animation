@@ -47,8 +47,28 @@ def _expectation_text(expect):
             parts.append("%s %s" % (key, "|".join(expect[key])))
     if "boundaries" in expect:
         b = expect["boundaries"]
-        parts.append("%d boundary %s<->%s" % (b["count"], b["between"][0], b["between"][1]))
+        through = (" via %s" % "|".join(b["through"])) if b.get("through") else ""
+        parts.append("%d crossing %s<->%s%s" % (b["count"], b["between"][0], b["between"][1], through))
     return ", ".join(parts)
+
+
+def crossings(entry, pair, through=()):
+    """How many times this clip crosses between the two postures in `pair`.
+
+    A CROSSING IS NOT ALWAYS A BOUNDARY EVENT. Since posture algorithm 2.0.0 a sit-down or a stand-up
+    may pass through `other` on the way — Schenkman et al. (1990) call it the momentum-transfer phase,
+    and it is exactly what `other` is for here: she has left her feet and the seat is not carrying her
+    yet. That is one crossing spent over two boundaries, and counting boundaries would call it zero.
+
+    So the segment sequence is read with the allowed intermediates removed, and adjacent pairs are
+    counted. `through=()` is the strict form and is what every other case uses.
+    """
+    drop = set(through)
+    postures = [s["posture"] for s in entry["posture_segments"] if s["posture"] not in drop]
+    reduced = [p for i, p in enumerate(postures) if i == 0 or p != postures[i - 1]]
+    a, b = pair
+    return sum(1 for i in range(1, len(reduced))
+               if {reduced[i - 1], reduced[i]} == {a, b})
 
 
 def check(entry, expect, min_frames):
@@ -74,14 +94,14 @@ def check(entry, expect, min_frames):
                          for s in entry["posture_segments"] if s["posture"] == forbidden)
             bad.append("%d frame(s) read as %s, which this clip must never be" % (frames, forbidden))
     if "boundaries" in expect:
-        pair = set(expect["boundaries"]["between"])
-        seen = [t for t in entry["posture_transitions"] if {t["from"], t["to"]} == pair]
-        if len(seen) != expect["boundaries"]["count"]:
-            bad.append("%d %s<->%s boundary(ies) at frame(s) %s, expected %d"
-                       % (len(seen), expect["boundaries"]["between"][0],
-                          expect["boundaries"]["between"][1],
-                          ", ".join(str(t["at_frame"]) for t in seen) or "-",
-                          expect["boundaries"]["count"]))
+        want = expect["boundaries"]
+        pair = tuple(want["between"])
+        seen = crossings(entry, pair, want.get("through") or ())
+        if seen != want["count"]:
+            bad.append("%d %s<->%s crossing(s)%s, expected %d"
+                       % (seen, pair[0], pair[1],
+                          (" counting %s as part of one" % "|".join(want["through"]))
+                          if want.get("through") else "", want["count"]))
 
     # ALWAYS CHECKED, for every case. The segmentation claims no run survives that is shorter than
     # the minimum posture duration; a clip whose only segment is shorter than that is a Mixamo pose

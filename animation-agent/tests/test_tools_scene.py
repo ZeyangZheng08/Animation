@@ -1716,3 +1716,160 @@ async def test_getting_up_goes_through_the_same_fence(seated):
     rise = [e for e in plans if [s["action_id"] for s in e["steps"]] == [C.SEATED, C.IDLE]]
     assert [e["mode"] for e in rise] == ["validate", "commit"], \
         "the rise nobody asked for is checked like everything else"
+
+
+# ---- seated interaction: where she sits, and which way she faces --------------------------------
+
+# A room with the laptop somewhere other than the chair, which the shared fixture cannot give: it
+# answers one position for every object, and a bearing between two points on top of each other is not
+# a direction. The seat is at the origin and the laptop 2 m along +X, so "facing the laptop" is 90.
+SEAT_AT = (0.0, 0.5, 0.0)
+LAPTOP_AT = (2.0, 1.16, 0.0)
+
+
+def laid_out_handlers(record, moves=None, seated_on=None, playing=None):
+    """The shared handlers with a real layout and, when asked, a character already on a seat."""
+    base = handlers(record, moves)
+    inner_position = base[P.T.SCENE_POSITION]
+    inner_locomote = base[P.T.MOTION_LOCOMOTE]
+    where = {"obj:Chair": SEAT_AT, "obj:Laptop": LAPTOP_AT, "chr:CPRNurse": (0.0, 0.0, -3.0)}
+
+    def position(params):
+        out = inner_position(params)
+        for item in out["objects"]:
+            if item.get("found") and item["object_id"] in where:
+                item["position"] = list(where[item["object_id"]])
+        return out
+
+    def locomote(params):
+        out = inner_locomote(params)
+        if params.get("query"):
+            out["posture"] = "seated" if seated_on else "standing"
+            out["sitting_on"] = seated_on
+            out["playing"] = playing
+            out["on_navmesh"] = seated_on is None
+        return out
+
+    base[P.T.SCENE_POSITION] = position
+    base[P.T.MOTION_LOCOMOTE] = locomote
+    return base
+
+
+async def _laid_out(port, kb, seated_on=None, playing=None):
+    record, moves = [], []
+    link = EngineLink("127.0.0.1", port, request_timeout=2.0)
+    await link.__aenter__()
+    engine = FakeEngine("ws://127.0.0.1:%d" % port,
+                        laid_out_handlers(record, moves, seated_on, playing),
+                        hello={"scene": "TestScene", "characters": ["chr:CPRNurse"]})
+    await engine.__aenter__()
+    await link.wait_ready(timeout=2)
+    registry = kb_tools.register(ToolRegistry(), kb)
+    scene_tools.register(registry, link, kb)
+    return registry, record, moves, link, engine
+
+
+@pytest.fixture
+async def laid_out(unused_tcp_port, kb):
+    registry, record, moves, link, engine = await _laid_out(unused_tcp_port, kb)
+    yield registry, record, moves
+    await engine.close()
+    await link.__aexit__(None, None, None)
+
+
+@pytest.fixture
+async def on_the_chair(unused_tcp_port, kb):
+    registry, record, moves, link, engine = await _laid_out(
+        unused_tcp_port, kb, seated_on="obj:Chair", playing=C.SEATED)
+    yield registry, record, moves
+    await engine.close()
+    await link.__aexit__(None, None, None)
+
+
+async def test_a_sit_down_faces_what_the_plan_binds_a_hand_to(laid_out):
+    """A person who sits down to type sits facing the desk. The clip does not turn her -- she steps
+    back and lowers onto what is behind her -- so the heading she stands in is the one she is seated
+    in, and taking it from the approach is how she came to sit with her back to the laptop."""
+    registry, _, moves = laid_out
+    out = await registry.dispatch("unity_execute", {
+        "base": C.WALK, "sit_on": "obj:Chair",
+        "then": [{"via": [C.SIT_DOWN], "base": C.SEATED}],
+        "ik_bindings": [{"effector": "right_hand", "object_id": "obj:Laptop"}]})
+    assert out["success"] is True, out.get("error")
+    assert out["seated_facing"]["toward"] == "obj:Laptop"
+    # The laptop is 2 m along +X of the seat, and +X is 90 in the engine's convention.
+    assert out["seated_facing"]["deg"] == pytest.approx(90.0, abs=0.5)
+
+    # And the walk goes to the point that heading's own travel ends AT the seat from, which is on the
+    # laptop's side of the chair rather than on the side she came from.
+    walked_to = next(m["to"] for m in moves if str(m.get("to") or "").startswith("point:"))
+    x, z = [float(v) for v in walked_to[len("point:"):].split(",")]
+    assert x > SEAT_AT[0], "she stands between the seat and the laptop, facing the laptop"
+
+
+async def test_without_a_hand_binding_the_heading_is_still_the_approach(laid_out):
+    """The bottom rung. Nothing says which way she should end up looking, so she puts her back to the
+    seat along the line she came in on -- which is what this did before there was a ladder."""
+    registry, _, _ = laid_out
+    out = await registry.dispatch("unity_execute", {
+        "base": C.WALK, "sit_on": "obj:Chair",
+        "then": [{"via": [C.SIT_DOWN], "base": C.SEATED}]})
+    assert out["success"] is True, out.get("error")
+    assert out["seated_facing"]["toward"] == "approach"
+
+
+async def test_already_seated_on_that_seat_stays_seated(on_the_chair):
+    """Measured: asked to type while she was on the chair, the plan set `walk_to` to the seat,
+    previewed a walk for a seated character, checked the hidden copy at a navmesh point in front of
+    the chair, and failed both contact holds, seated_on_support and seat_alignment. Nothing is wrong
+    with the plan; she is already there."""
+    registry, record, moves = on_the_chair
+    out = await registry.dispatch("unity_execute", {
+        "base": C.SEATED, "sit_on": "obj:Chair",
+        "ik_bindings": [{"effector": "right_hand", "object_id": "obj:Laptop"}]})
+    assert out["success"] is True, out.get("error")
+    assert out["stayed_seated_on"] == "obj:Chair"
+    assert "walked" not in out and "stood_up" not in out
+    assert not [m for m in moves if m.get("to")], "nothing was walked or previewed"
+    # And the hidden copy is checked where she is, not at a projected arrival.
+    assert all("at" not in p for p in checked(record))
+
+
+async def test_a_seated_plan_for_another_seat_is_refused_rather_than_guessed(on_the_chair):
+    """Getting from one seat to another is standing up, crossing and sitting down again. That is a
+    plan the model can write; it is not something to infer from a seated clip and a different id."""
+    registry, _, _ = on_the_chair
+    out = await registry.dispatch("unity_execute", {"base": C.SEATED, "sit_on": "obj:Laptop"})
+    assert out["success"] is False
+    assert "seated on obj:Chair" in out["error"]
+    assert "`via` that sits down" in out["hint"]
+
+
+async def test_a_seated_plan_naming_a_walk_still_walks(on_the_chair):
+    """The stay-seated branch is about a plan that names nowhere to go. One that does is asking for
+    something else, and the executor's own refusal is the right answer to it."""
+    registry, _, moves = on_the_chair
+    await registry.dispatch("unity_execute", {"base": C.SEATED, "sit_on": "obj:Chair",
+                                              "walk_to": "obj:Chair"})
+    assert [m for m in moves if m.get("preview")], "a named destination is still previewed"
+
+
+async def test_a_blank_via_is_left_out_rather_than_looked_up(wired):
+    """Models fill every optional field they are shown. `via: [""]` reached the schedule as an action
+    id and came back as an internal error carrying the whole library — 2446 ids, spent on a round
+    trip, about a bridge nobody asked for."""
+    registry, submitted = wired
+    out = await registry.dispatch("unity_execute", {
+        "base": C.WALK, "then": [{"base": C.IDLE, "via": [""], "overlays": [],
+                                  "base_channels": [], "hold_final_pose": []}]})
+    assert out["success"] is True, out.get("error")
+    assert [s["action_id"] for s in submitted[-1]["steps"]] == [C.WALK, C.IDLE]
+
+
+async def test_an_action_the_library_does_not_hold_is_named_rather_than_dumped(wired):
+    registry, _ = wired
+    out = await registry.dispatch("unity_execute", {
+        "base": C.WALK, "then": [{"base": C.IDLE, "via": ["mx_Not_A_Clip"]}]})
+    assert out["success"] is False
+    assert out["error"] == "unknown action_id: mx_Not_A_Clip"
+    assert "motion_search" in out["hint"]

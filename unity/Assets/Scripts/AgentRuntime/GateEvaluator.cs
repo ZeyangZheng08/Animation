@@ -91,6 +91,8 @@ namespace AgentRuntime
             public float CentreMiss = -1f;   // how far the pelvis ended from the middle of the seat
             public float VerticalGap;
             public float HipMiss;
+            public float SeatOffsetM;     // how far it pulled the pelvis sideways onto the seat
+            public float SeatNeededM;     // and how far it was asked to, before the cap
             public float BiasM;           // what the descent's closed loop had to accumulate
             public int DroppedWrites;     // how much of it the graph never received
             public int SaturatedFrames;   // and how much of it did not fit inside what a body can do
@@ -233,12 +235,15 @@ namespace AgentRuntime
         /// whether the correction was received, and whether it fitted inside what a body can do, are the
         /// two causes, and they need different fixes.
         /// </summary>
-        public void SupportLanded(float biasM = 0f, int droppedWrites = 0, int saturatedFrames = 0)
+        public void SupportLanded(float biasM = 0f, int droppedWrites = 0, int saturatedFrames = 0,
+                                  float seatOffsetM = 0f, float seatNeededM = 0f)
         {
             if (_support == null || _support.Hips == null) return;
             _support.BiasM = biasM;
             _support.DroppedWrites = droppedWrites;
             _support.SaturatedFrames = saturatedFrames;
+            _support.SeatOffsetM = seatOffsetM;
+            _support.SeatNeededM = seatNeededM;
             Vector3 hips = _support.Hips.position;
             Bounds f = _support.Footprint;
             // Horizontal miss: how far outside the seat's own footprint the pelvis ended up. Zero when
@@ -455,6 +460,17 @@ namespace AgentRuntime
                     // path it came out at -0.459 m against 0.500 m of travel, because the incoming
                     // seated clip drops the hips faster than the commanded curve and the loop spends
                     // the descent subtracting. Any threshold here would have failed a working sit.
+                    // HOW FAR THE DESCENT HAD TO CARRY HER SIDEWAYS, and whether that was further
+                    // than a sit-down step reaches. Judged on what was NEEDED rather than on what was
+                    // commanded: the command is capped, so reporting it would say 0.35 m for every
+                    // plan that asked for a metre and hide the ones that are wrong.
+                    metrics.Add(Metric("descent_offset", _support.SeatNeededM,
+                                       PoseSynth.MaxSeatOffsetM, _frames,
+                                       "metres the generated descent had to pull the pelvis sideways "
+                                       + "to reach " + _support.ObjectId + "; past the cap she is "
+                                       + "starting from somewhere a sit-down does not reach",
+                                       null, _support.ObjectId));
+
                     metrics.Add(Metric("descent_bias", _support.BiasM, -1f, _frames,
                                        "metres of closed-loop correction accumulated over the descent; "
                                        + "negative means the incoming clip was doing more of the work "
@@ -523,6 +539,7 @@ namespace AgentRuntime
                 case "hip_reached_target": return "hip_did_not_reach_target";
                 case "correction_reached_graph": return "correction_discarded";
                 case "descent_saturated": return "descent_saturated";
+                case "descent_offset": return "descent_started_too_far_from_the_seat";
                 default: return metricId;
             }
         }

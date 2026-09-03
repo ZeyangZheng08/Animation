@@ -1,7 +1,7 @@
 {
   "_meta": {
     "kind": "audit-expectations",
-    "posture_algorithm_version": "1.1.0",
+    "posture_algorithm_version": "2.0.0",
     "read_by": "audit_posture.py",
     "note": "Hand-authored expectations for the posture rule sanity audit (audit_posture.py). Read by that script only: nothing at runtime and nothing in the build reads this file. It is a SANITY CHECK on rules that were written from the literature, not a training set and not a labelled corpus -- every clip here was chosen because a human can say what the body is doing in it without measuring anything, and the expectations are written at that level (a set of acceptable answers, not one).",
     "expectation_keys": {
@@ -13,8 +13,8 @@
       "boundaries": "exactly `count` posture_transitions between the two states in `between`, counted in either direction"
     },
     "always_checked": "No posture segment may be shorter than min_frames = round(MIN_POSTURE_DURATION_S * frame_rate), unless it is the clip's only segment -- a two-frame Mixamo pose has no longer segment available.",
-    "case_count": 21,
-    "version_note": "1.0.0 -> 1.1.0 added `root_travel` to each entry and changed no posture rule: every threshold, every feature and their order are unchanged, and all twenty-one expectations below passed unaltered across the bump. Nothing here needed rewriting; the version is restated so a mismatch still means what it says."
+    "case_count": 31,
+    "version_note": "1.0.0 -> 1.1.0 added `root_travel` and changed no posture rule. 1.1.0 -> 2.0.0 replaced the seated rule with a mechanical one: Winter (1995) on the centre of mass over the base of support, Hof et al. (2005) for the extrapolated COM that makes it hold for a body in motion, de Leva (1996) for the COM itself. The ten cases added below are what motivated it -- nine deep stances that read `seated` at 1.1.0, and the straddled chair, which reads `other` and is recorded as an ACCEPTED answer rather than a miss. The three transition cases now allow their crossing to pass through `other`: that is Schenkman's momentum-transfer phase, and it is one crossing spent over two boundary events."
   },
   "cases": [
     {
@@ -92,10 +92,13 @@
             "standing",
             "seated"
           ],
-          "count": 1
+          "count": 1,
+          "through": [
+            "other"
+          ]
         }
       },
-      "why": "the canonical sit-down: standing to seated, once"
+      "why": "the canonical sit-down: standing to seated, once. The crossing may be direct or may pass through `other` -- Schenkman's momentum-transfer phase, where she has left her feet and the seat is not carrying her yet -- and either is one crossing"
     },
     {
       "clip": "mx_Sitting_To_Standing_2",
@@ -112,10 +115,13 @@
             "standing",
             "seated"
           ],
-          "count": 1
+          "count": 1,
+          "through": [
+            "other"
+          ]
         }
       },
-      "why": "the canonical stand-up, and unidirectional: seated to standing, once, nothing after"
+      "why": "the canonical stand-up, and unidirectional: seated to standing, once, nothing after. A second seated run after the rise would be a second crossing and would fail this count"
     },
     {
       "clip": "mx_Big_Standing_Fist_Pump_From_Sitting",
@@ -132,10 +138,13 @@
             "standing",
             "seated"
           ],
-          "count": 2
+          "count": 2,
+          "through": [
+            "other"
+          ]
         }
       },
-      "why": "rises out of a seat to celebrate AND SITS BACK DOWN -- measured: seated to frame 17, standing to frame 78, seated again to the end. Two crossings is the right answer here, and asserting one would be asserting that the clip is something it is not."
+      "why": "rises out of a seat to celebrate AND SITS BACK DOWN. Two crossings is the right answer here, and asserting one would be asserting that the clip is something it is not"
     },
     {
       "clip": "mx_Standing_From_A_Lying_Prone",
@@ -292,6 +301,138 @@
         ]
       },
       "why": "upright, then down: must end on the floor"
+    },
+    {
+      "category": "deep stance / squat: must not end seated",
+      "clip": "mx_Engaged_In_A_Fist_Fight_2",
+      "expect": {
+        "end": [
+          "other",
+          "standing"
+        ],
+        "never": [
+          "seated"
+        ]
+      },
+      "why": "a fighting stance: low, hip and knee folded, and the whole weight on the feet. It read standing -> seated through 1.1.0 and was offered to the agent as a way to sit down"
+    },
+    {
+      "category": "deep stance / squat: must not end seated",
+      "clip": "mx_Jumping_Over_Obstacle_Getting_Ready_To_Fight",
+      "expect": {
+        "end": [
+          "other",
+          "standing"
+        ],
+        "never": [
+          "seated"
+        ]
+      },
+      "why": "clears a hurdle and lands in a guard; the COM ends 0.50 m AHEAD of the heels"
+    },
+    {
+      "category": "deep stance / squat: must not end seated",
+      "clip": "mx_Spinning_Back_Kick_Advancing",
+      "expect": {
+        "end": [
+          "other",
+          "standing"
+        ],
+        "never": [
+          "seated"
+        ]
+      },
+      "why": "finishes on the balls of the feet in a wide stance: a kick is not a sit however low it ends"
+    },
+    {
+      "category": "deep stance / squat: must not end seated",
+      "clip": "mx_Ducking_For_Cover_From_Standing_Idle",
+      "expect": {
+        "end": [
+          "other",
+          "standing"
+        ],
+        "never": [
+          "seated"
+        ]
+      },
+      "why": "ducks behind cover, hip and knee inside the seated ranges and the mass still over the feet"
+    },
+    {
+      "category": "deep stance / squat: must not end seated",
+      "clip": "mx_Standing_Fall_Over_A_Soccer_Slide_Tackle",
+      "expect": {
+        "end": [
+          "other",
+          "standing"
+        ],
+        "never": [
+          "seated"
+        ]
+      },
+      "why": "slides in on one hip and gets up; nothing is carrying her but the ground"
+    },
+    {
+      "category": "deep stance / squat: must not end seated",
+      "clip": "mx_Start_Russian_Kettlebell_Swing_From_Fitness_Idle",
+      "expect": {
+        "end": [
+          "other",
+          "standing"
+        ],
+        "never": [
+          "seated"
+        ]
+      },
+      "why": "the bottom of a swing: hinged at the hips, loading a lift rather than sitting on anything"
+    },
+    {
+      "category": "deep stance / squat: must not end seated",
+      "clip": "mx_Start_To_Pull_A_Heavy_Object",
+      "expect": {
+        "end": [
+          "other",
+          "standing"
+        ],
+        "never": [
+          "seated"
+        ]
+      },
+      "why": "braced to pull, weight forward over the feet, which is the opposite of a seat"
+    },
+    {
+      "category": "deep stance / squat: must not end seated",
+      "clip": "mx_Start_Snatch_Workout_From_Fitness_Idle",
+      "expect": {
+        "end": [
+          "other",
+          "standing"
+        ],
+        "never": [
+          "seated"
+        ]
+      },
+      "why": "a deep squat under the bar, knees above the hips: folded past the seated hip range as well"
+    },
+    {
+      "category": "deep stance / squat: must not end seated",
+      "clip": "mx_Having_A_Seat_And_Drinking_A_Canned_Beverage",
+      "expect": {
+        "never": [
+          "seated"
+        ]
+      },
+      "why": "ends folded down with the feet under the body and the COM 0.15 m in front of the heels. It passed every angle the 1.1.0 rule asked for and is the clip that made the case for a mechanical test rather than a tighter one"
+    },
+    {
+      "category": "straddling a seat: the feet carry the body",
+      "clip": "mx_Sitting_Backwards_On_Chair_Hands_Relaxed",
+      "expect": {
+        "never": [
+          "seated"
+        ]
+      },
+      "why": "sitting BACKWARDS on a chair, astride it, feet planted either side. Reads other at 2.0.0 and that is the definition working: the COM is 0.023 m in FRONT of the heels, so the feet are carrying the body and nothing about the balance says seat. An accepted case, recorded here so the answer is a decision rather than a surprise"
     }
   ]
 }

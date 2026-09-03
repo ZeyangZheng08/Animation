@@ -58,9 +58,10 @@ namespace AgentRuntime
                                 Elapsed + Mathf.Max(0f, judgeableInSeconds), startHipY, targetHipY);
         }
 
-        public void SupportLanded(float biasM = 0f, int droppedWrites = 0, int saturatedFrames = 0)
+        public void SupportLanded(float biasM = 0f, int droppedWrites = 0, int saturatedFrames = 0,
+                                  float seatOffsetM = 0f, float seatNeededM = 0f)
         {
-            _gate.SupportLanded(biasM, droppedWrites, saturatedFrames);
+            _gate.SupportLanded(biasM, droppedWrites, saturatedFrames, seatOffsetM, seatNeededM);
         }
 
         public void Stop()

@@ -247,7 +247,7 @@ def test_a_clip_that_crosses_a_posture_is_judged_at_its_ends_not_its_middle(corp
 
 
 def test_other_is_not_a_posture_to_be_refused_over(corpus):
-    """`other` is the posture analysis's fallback for a configuration its rules cannot place, and 985
+    """`other` is the posture analysis's fallback for a configuration its rules cannot place, and 1077
     of 2446 clips carry it. Treating a difference involving it as a mismatch would refuse most of what
     the library can perform, over a claim nothing made."""
     kb, clips = corpus

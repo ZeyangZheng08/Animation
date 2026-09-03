@@ -98,10 +98,12 @@ async def test_search_returns_what_a_choice_is_made_on(registry):
 async def test_a_hit_carries_both_ends_not_just_the_dominant_posture(registry):
     """Whether two clips can follow one another is decided by where one finishes and the next begins.
     A result offering only the dominant reading makes that a second round trip per candidate — and
-    gets a clip that CHANGES posture exactly backwards: a stand-up is dominantly seated."""
+    describes a clip that CHANGES posture as something it never is: since posture algorithm 2.0.0 a
+    stand-up is dominantly `other`, because most of its frames are the rise itself, which is neither
+    end. The two ends are the fact a plan needs and the dominant reading cannot carry."""
     out = await call(registry, "motion_search", query="standing up from a seat", top_k=12)
     by_id = {r["action_id"]: r for r in out["results"]}
-    assert by_id[C.STAND_UP]["posture"] == "seated"
+    assert by_id[C.STAND_UP]["posture"] == "other"
     assert by_id[C.STAND_UP]["start_posture"] == "seated"
     assert by_id[C.STAND_UP]["end_posture"] == "standing"
 
@@ -127,9 +129,12 @@ async def test_coverage_says_how_much_of_the_request_the_library_has_words_for(r
 
 
 async def test_posture_keeps_only_what_the_clip_mostly_is(registry):
-    for posture, expected in (("seated", {C.SEATED, C.SIT_DOWN, C.STAND_UP}),
+    """`posture` filters on the dominant reading, which is what a clip mostly IS. A stand-up is
+    mostly the rise — neither seated nor standing — and lands under `other` with the kneel; where a
+    plan needs its two ENDS it asks `transition` instead, which the next case covers."""
+    for posture, expected in (("seated", {C.SEATED, C.SIT_DOWN}),
                               ("floor", {C.FLOOR, C.CHEST, C.FALL}),
-                              ("other", {C.OTHER})):
+                              ("other", {C.OTHER, C.STAND_UP})):
         out = await call(registry, "motion_search", query="", posture=posture, top_k=20)
         assert {r["action_id"] for r in out["results"]} == expected, posture
 
@@ -146,12 +151,27 @@ async def test_transition_keeps_only_what_the_clip_crosses(registry):
     assert {r["action_id"] for r in out["results"]} == {C.STAND_UP}
 
 
-async def test_posture_and_transition_are_refused_together_rather_than_intersected(registry):
-    """One asks what a clip IS and the other what it CROSSES. Serving the intersection would answer a
-    question nobody asked, and answer it plausibly."""
-    out = await fails(registry, "motion_search", query="sit", posture="seated",
-                      transition={"from_posture": "standing", "to_posture": "seated"})
-    assert "cannot be combined" in out["error"]
+async def test_posture_and_transition_intersect(registry):
+    """Both are filters over the same posture sidecar, and filters narrow together.
+
+    They used to be refused as a pair, which cost a measured turn: the model sent both fourteen times
+    running and the turn ended on the iteration budget. `mx_Standing_To_Sitting_Transition` is
+    dominantly seated AND crosses standing to seated, so it is what the intersection keeps.
+    """
+    out = await call(registry, "motion_search", query="", top_k=20, posture="seated",
+                     transition={"from_posture": "standing", "to_posture": "seated"})
+    assert {r["action_id"] for r in out["results"]} == {C.SIT_DOWN}
+
+
+async def test_a_posture_that_contradicts_the_transition_is_dropped_not_intersected(registry):
+    """A clip cannot be dominantly on the floor and also finish a sit-down, and the honest answer to
+    that pair is not an empty result: it is that `posture` was a guess about something unguessable.
+    The transition is what was asked for, so the transition is what is served — and the reply says
+    the other half was dropped."""
+    out = await call(registry, "motion_search", query="", top_k=20, posture="floor",
+                     transition={"from_posture": "standing", "to_posture": "seated"})
+    assert {r["action_id"] for r in out["results"]} == {C.SIT_DOWN}
+    assert out["posture_ignored"].startswith("transition given")
 
 
 async def test_exclude_is_how_a_second_search_says_not_these(registry):
@@ -163,6 +183,25 @@ async def test_exclude_is_how_a_second_search_says_not_these(registry):
                         exclude=rejected)
     assert not (set(r["action_id"] for r in second["results"]) & set(rejected))
     assert second["results"], "excluding two of twelve leaves ten to rank"
+
+
+async def test_an_exclude_the_library_does_not_hold_is_ignored_and_said(registry):
+    """"Not this" about something that is in no record excludes nothing, so it is not a question.
+    Measured: the model filled the parameter with `["placeholder"]` on every call of a turn."""
+    out = await call(registry, "motion_search", query="walking forward", top_k=3,
+                     exclude=["placeholder", C.WALK])
+    assert out["ignored_exclude"] == ["placeholder"]
+    assert C.WALK not in {r["action_id"] for r in out["results"]}, "the real id still excludes"
+
+
+async def test_an_empty_list_means_the_parameter_was_left_out(registry):
+    """Models fill every optional parameter they are shown. An empty list has to read as absence, or
+    a search narrows itself to nothing on arguments nobody meant."""
+    filtered = await call(registry, "motion_search", query="walking forward", top_k=5,
+                          exclude=[], moves_channels=[], transition={})
+    plain = await call(registry, "motion_search", query="walking forward", top_k=5)
+    assert [r["action_id"] for r in filtered["results"]] == [r["action_id"] for r in plain["results"]]
+    assert "ignored_exclude" not in filtered
 
 
 async def test_moves_channels_keeps_only_what_actually_animates_them(registry):
@@ -221,16 +260,25 @@ async def test_timing_says_when_each_part_moves_and_what_the_body_is_doing(regis
 
 async def test_timing_carries_the_posture_structure_from_the_sidecar(registry):
     """The five fields `build_posture.py` writes. A clip that changes posture partway is the case the
-    dominant reading cannot express, and this is where an agent finds out it does."""
+    dominant reading cannot express, and this is where an agent finds out it does.
+
+    THE CROSSING IS ASSERTED, NOT ITS SHAPE. This used to require a DIRECT standing->seated boundary,
+    which was asserting how coarse the old rule was: since 2.0.0 the middle of a descent is `other`,
+    because she is neither standing on her feet nor yet supported by the seat, and that is what
+    `other` is for. What the tool has to carry is the same either way — where the clip starts, where
+    it ends, and every boundary announced in order.
+    """
     out = await call(registry, "motion_timing", action_id=C.SIT_DOWN)
     assert out["start_posture"] == "standing" and out["end_posture"] == "seated"
     assert out["dominant_posture"] == "seated"
     postures = [seg["posture"] for seg in out["posture_segments"]]
     assert postures[0] == "standing" and postures[-1] == "seated"
-    boundary = [t for t in out["posture_transitions"]
-                if {t["from"], t["to"]} == {"standing", "seated"}]
-    assert len(boundary) == 1
-    assert boundary[0]["at_frame"] == out["posture_segments"][1]["start_frame"]
+    assert "seated" not in postures[:1] and "standing" not in postures[1:]
+    # One transition per seam, each naming the two states it joins and the frame the new one starts.
+    assert len(out["posture_transitions"]) == len(out["posture_segments"]) - 1
+    for index, change in enumerate(out["posture_transitions"]):
+        assert change["from"] == postures[index] and change["to"] == postures[index + 1]
+        assert change["at_frame"] == out["posture_segments"][index + 1]["start_frame"]
 
 
 async def test_the_posture_segments_cover_the_clip_with_no_gap(registry):
@@ -482,3 +530,23 @@ async def test_the_eight_action_ids_are_gone_from_the_library(full_registry):
                       "grab_bottle"):
         out = await fails(full_registry, "motion_channels", action_id=action_id)
         assert "unknown action_id" in out["error"]
+
+
+async def test_a_transition_search_drops_posture_and_says_so(registry):
+    """A transition clip's dominant posture is not predictable — of the two clips in the real library
+    that go standing to seated, one is dominantly standing and the other dominantly seated. Measured
+    on a live turn: the model asked for both, the intersection removed
+    `mx_Standing_To_Sitting_Transition`, and it concluded from the one clip left that nothing in the
+    library could sit somebody on a chair."""
+    out = await call(registry, "motion_search", query="", top_k=20, posture="standing",
+                     transition={"from_posture": "standing", "to_posture": "seated"})
+    assert out["posture_ignored"].startswith("transition given")
+    assert {r["action_id"] for r in out["results"]} == {C.SIT_DOWN}, \
+        "the sit-down is dominantly seated and a `posture: standing` filter would have dropped it"
+
+
+async def test_posture_alone_is_still_applied(registry):
+    """The drop is only when the two are given together; `posture` on its own is untouched."""
+    out = await call(registry, "motion_search", query="", top_k=20, posture="seated")
+    assert "posture_ignored" not in out
+    assert {r["action_id"] for r in out["results"]} == {C.SEATED, C.SIT_DOWN}

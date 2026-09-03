@@ -128,6 +128,124 @@ async def test_tool_call_budget_stops_a_wide_fan_out(kb):
     await session.close()
 
 
+# ---- the repeated-failure guard ----------------------------------------------------------------
+
+def _refusing_registry(message="posture and transition cannot be combined"):
+    """One tool that always fails the same way, and takes an argument so a test can vary the call."""
+    reg = ToolRegistry()
+
+    async def refuse(query="x"):
+        raise ToolFailure(message)
+
+    reg.add("motion_search", "searches", {"type": "object", "additionalProperties": False,
+                                          "properties": {"query": {"type": "string"}}}, refuse)
+    return reg
+
+
+async def test_two_identical_failures_steer_the_next_request():
+    """The nudge is deterministic and goes out as a user-role message, which is where the model reads
+    everything else. Nobody typed it, so it is not counted as steering."""
+    backend = ScriptedBackend([calls(("motion_search", {"query": "sit"})),
+                               calls(("motion_search", {"query": "sit"})),
+                               says("I will try something else")])
+    session = Session(backend, _refusing_registry(), "t")
+    await session.start()
+    report = await session.run_turn("sit on the chair")
+
+    assert report.text == "I will try something else"
+    assert len(backend.user_messages) == 2
+    nudge = backend.user_messages[1]
+    assert nudge.startswith("The last two calls were identical and failed the same way")
+    assert "posture and transition cannot be combined" in nudge
+    assert report.steered == []
+    await session.close()
+
+
+async def test_three_identical_failures_end_the_turn_with_the_reason():
+    """Left to the ceilings this ended on "(stopped: iteration budget exhausted)", which says the turn
+    was long and not what went wrong."""
+    said = []
+    backend = ScriptedBackend([calls(("motion_search", {"query": "sit"}))] * 10)
+    session = Session(backend, _refusing_registry(), "t")
+    session.on_event(lambda kind, data: said.append(data["text"]) if kind == Ev.TEXT else None)
+    await session.start()
+    report = await session.run_turn("sit on the chair")
+
+    assert report.exhausted
+    assert report.text == ("(stopped: motion_search failed the same way 3 times: "
+                           "posture and transition cannot be combined)")
+    assert report.tool_calls == 3, "it stops at the third, not at the iteration budget"
+    assert said == [report.text], "the terminal is told why the turn ended"
+    await session.close()
+
+
+async def test_five_failures_of_one_tool_stop_it_even_when_the_arguments_wander():
+    """The wider loop: the model edits the query each time and gets the same refusal. Identical-call
+    counting never fires, and the turn burns just as thoroughly."""
+    backend = ScriptedBackend([calls(("motion_search", {"query": "sit %d" % i}))
+                               for i in range(10)])
+    session = Session(backend, _refusing_registry(), "t")
+    await session.start()
+    report = await session.run_turn("sit on the chair")
+
+    assert report.exhausted
+    assert report.tool_calls == 5
+    assert "failed the same way 5 times" in report.text
+    await session.close()
+
+
+async def test_two_different_failures_are_a_model_trying_things():
+    """Two failures with different messages are progress, not a loop. Nothing is stopped and nothing
+    is steered."""
+    reg = ToolRegistry()
+    seen = []
+
+    async def refuse(query="x"):
+        seen.append(query)
+        raise ToolFailure("no clip called %r" % query)
+
+    reg.add("motion_search", "searches", {"type": "object", "additionalProperties": False,
+                                          "properties": {"query": {"type": "string"}}}, refuse)
+    backend = ScriptedBackend([calls(("motion_search", {"query": "a"})),
+                               calls(("motion_search", {"query": "b"})),
+                               says("found it another way")])
+    session = Session(backend, reg, "t")
+    await session.start()
+    report = await session.run_turn("find something")
+
+    assert not report.exhausted
+    assert report.text == "found it another way"
+    assert backend.user_messages == ["find something"], "no steer was sent"
+    await session.close()
+
+
+async def test_a_call_that_succeeds_after_failing_twice_is_not_stopped():
+    """The guard counts failures, not attempts. A tool that fails twice and then works has done what
+    a retry is for."""
+    reg = ToolRegistry()
+    attempts = []
+
+    async def flaky(query="x"):
+        attempts.append(query)
+        if len(attempts) <= 2:
+            raise ToolFailure("not ready")
+        return {"found": query}
+
+    reg.add("motion_search", "searches", {"type": "object", "additionalProperties": False,
+                                          "properties": {"query": {"type": "string"}}}, flaky)
+    backend = ScriptedBackend([calls(("motion_search", {"query": "sit"})),
+                               calls(("motion_search", {"query": "sit"})),
+                               calls(("motion_search", {"query": "sit"})),
+                               says("done")])
+    session = Session(backend, reg, "t")
+    await session.start()
+    report = await session.run_turn("sit")
+
+    assert not report.exhausted
+    assert report.text == "done"
+    await session.close()
+
+
 async def test_interrupt_cancels_the_turn_and_the_response(kb):
     session = make([says("too late")], kb, hold=asyncio.Event())   # never released
     await session.start()

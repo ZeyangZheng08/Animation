@@ -46,7 +46,11 @@ def _wait_for_unity(coro_timeout, where):
 # whole three-family split exists to make reachable.
 WALK = "mx_Walking_Forward"
 SIT_DOWN = "mx_Standing_To_Sitting_Transition"
-SEATED = "mx_Aim_Pistol_While_Sitting"
+# `mx_Aim_Pistol_While_Sitting` until posture algorithm 2.0.0, which decides a seat by where the mass
+# goes rather than by joint angles: that clip draws its feet back under the seat, so its centre of
+# mass sits only 0.024-0.061 m behind the heels against a 0.04 m margin and it now reads `other` for
+# most of its frames. A smoke needs a clip the rule is not marginal about.
+SEATED = "mx_Sitting_Still_In_A_Chair"
 STAND_UP = "mx_Sitting_To_Standing_2"
 # What the sit-down clip displaces the hips by, from the posture sidecar's `root_travel`. Restated
 # here rather than read, so the assertion below is against a number somebody wrote down.

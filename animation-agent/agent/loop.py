@@ -39,6 +39,19 @@ log = logging.getLogger("agent.loop")
 MAX_ITERATIONS = 14
 MAX_TOOL_CALLS = 40
 
+# WHEN A REPEATED FAILURE STOPS BEING A RETRY. A tool that failed is meant to be tried again inside the
+# turn -- that is why a failure comes back as a result rather than an exception -- but the same call
+# with the same arguments failing with the same message is not a retry, it is the loop. Measured: 14
+# consecutive `motion_search` calls, every one refused for the same reason, ending on the iteration
+# budget with nothing said to the user about why.
+#
+# Two counts, because there are two shapes. Identical calls are the tight loop; a tool that keeps
+# failing the same way while the arguments wander is the wider one, and it burns a turn just as
+# thoroughly.
+REPEAT_STEER_AFTER = 2
+REPEAT_STOP_AFTER = 3
+SAME_ERROR_STOP_AFTER = 5
+
 
 class Op:
     USER_TEXT = "user_text"
@@ -64,6 +77,65 @@ class Ev:
     TURN_COMPLETE = "turn.complete"
     VERDICT = "verify.done"           # a check that could only be answered after the reply
     ERROR = "error"
+
+
+class RepeatGuard:
+    """Counts failures that are the same failure, and says what to do about it.
+
+    DETERMINISTIC, AND OUTSIDE THE MODEL. The model is the thing that is looping; asking it to notice
+    is asking the broken part to diagnose itself. So the loop counts, and what it counts is the pair
+    that makes a repeat a repeat: the call (name plus arguments, canonically spelled) and the message
+    that came back. Different arguments or a different message start a new count, because either one
+    is the model actually trying something.
+
+    ONE TURN, ONE GUARD. Counts do not survive a turn: a call that failed twice an hour ago tells you
+    nothing about the request being made now.
+    """
+
+    def __init__(self, steer_after=REPEAT_STEER_AFTER, stop_after=REPEAT_STOP_AFTER,
+                 same_error_after=SAME_ERROR_STOP_AFTER):
+        self.steer_after = steer_after
+        self.stop_after = stop_after
+        self.same_error_after = same_error_after
+        self.identical = {}
+        self.by_error = {}
+        self.steered = set()
+
+    @staticmethod
+    def key(name, arguments, error):
+        """(tool, canonical arguments, error text). `sort_keys` because two calls that differ only in
+        the order the model happened to serialise them in are the same call."""
+        try:
+            spelled = json.dumps(arguments, sort_keys=True, default=str)
+        except (TypeError, ValueError):
+            spelled = repr(arguments)
+        return (name, spelled, error or "")
+
+    def record(self, name, arguments, error):
+        key = self.key(name, arguments, error)
+        self.identical[key] = self.identical.get(key, 0) + 1
+        loose = (name, error or "")
+        self.by_error[loose] = self.by_error.get(loose, 0) + 1
+        return key
+
+    def stop(self):
+        """The turn is over, and this is what to say. None while it is worth carrying on."""
+        for (name, _, error), count in self.identical.items():
+            if count >= self.stop_after:
+                return "(stopped: %s failed the same way %d times: %s)" % (name, count, error)
+        for (name, error), count in self.by_error.items():
+            if count >= self.same_error_after:
+                return "(stopped: %s failed the same way %d times: %s)" % (name, count, error)
+        return None
+
+    def steer(self):
+        """The nudge to send before the next request, once. None when there is nothing to say."""
+        for key, count in self.identical.items():
+            if count == self.steer_after and key not in self.steered:
+                self.steered.add(key)
+                return ("The last two calls were identical and failed the same way: %s. Change the "
+                        "arguments or take another route; do not repeat the call." % key[2])
+        return None
 
 
 class Session:
@@ -162,6 +234,7 @@ class Session:
     async def run_turn(self, text):
         started = time.monotonic()
         report = TurnReport(text)
+        guard = RepeatGuard()
         self._emit(Ev.TURN_STARTED, text=text)
 
         try:
@@ -172,6 +245,13 @@ class Session:
                     extra = self.pending_input.pop(0)
                     report.steered.append(extra)
                     await self.backend.send_user_text(extra)
+
+                # SAID BEFORE THE NEXT REQUEST, so the model sees it where it sees everything else.
+                # Not counted as steering: nobody typed it, and a turn report that listed it among
+                # the user's own words would misdescribe the turn.
+                nudge = guard.steer()
+                if nudge:
+                    await self.backend.send_user_text(nudge)
 
                 await self.backend.request_response()
                 done = await self._await_response(report)
@@ -196,7 +276,17 @@ class Session:
                     break
 
                 for call in done.tool_calls:
-                    await self._run_tool(call, report)
+                    await self._run_tool(call, report, guard)
+
+                # A LOOP ENDS WITH A REPLY, NOT WITH A BUDGET. Left to the ceilings, a turn spent
+                # repeating one refused call ended on "(stopped: iteration budget exhausted)", which
+                # says the turn was long and not what went wrong. This says what went wrong.
+                stopped = guard.stop()
+                if stopped:
+                    report.text = stopped
+                    report.exhausted = True
+                    self._emit(Ev.TEXT, text=stopped)
+                    break
             else:
                 report.text = "(stopped: iteration budget exhausted)"
                 report.exhausted = True
@@ -224,7 +314,7 @@ class Session:
                 return event
         raise LlmError("model stream ended without completing a response")
 
-    async def _run_tool(self, call, report):
+    async def _run_tool(self, call, report, guard=None):
         try:
             arguments = json.loads(call.arguments or "{}")
         except ValueError:
@@ -299,6 +389,9 @@ class Session:
                 await self.backend.send_user_images(images)
             except NotImplementedError:
                 pass                     # a backend that cannot see loses the picture, not the turn
+
+        if guard is not None and not result.get("success"):
+            guard.record(call.name, arguments, result.get("error"))
 
         verify = result.get("verify")
         if verify and verify.get("status") == "scheduled":

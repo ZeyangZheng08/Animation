@@ -24,7 +24,9 @@ come from `msvcrt` on Windows and `termios`/`tty` on Linux — both standard lib
 one way of drawing run on both sides rather than either degrading to `input()`.
 
 HOW THE SCREEN IS DIVIDED. Everything above scrolls and is append-only; the bottom three or four rows
-are erased and redrawn on every change:
+are erased and redrawn on every change, and they are the LAST rows of the window at all times — on a
+fresh attach the transcript is padded down to them, and a window that grows is padded again, so the
+input box never floats up into the middle of an empty screen:
 
     ...transcript...
       ⠹ motion_search   "sit on a chair"                        1.2s   <- only while a tool runs
@@ -284,6 +286,22 @@ def input_line(width, buffer, cursor, placeholder=""):
     return prompt + buffer[start:start + room], 3 + (cursor - start)
 
 
+def bottom_padding(rows, filled, height):
+    """Blank lines to print before the bottom area so that it lands on the LAST rows of the window.
+
+    The bottom area used to be drawn wherever the transcript had got to, which on a fresh attach is
+    the second or third row of an empty window: the input box sat near the top with the rest of the
+    screen blank under it, and drifted downwards as output arrived. pi and opencode keep the box on
+    the last rows at all times, and this is the arithmetic for it.
+
+    `filled` is how many rows the transcript has already put on screen since the last clear, `height`
+    how many the bottom area needs. Once the transcript has filled the window there is nothing to pad:
+    the terminal's own scrolling keeps the last written row on the last row of the window, which is
+    where the bottom area already is.
+    """
+    return max(0, rows - height - filled)
+
+
 class Status:
     """What the footer says. Held apart from the drawing so the tests can set it by hand."""
 
@@ -522,9 +540,16 @@ class Screen:
         self._lock = threading.RLock()
         self._drawn = 0                      # bottom-area rows currently on screen
         self._at = 0                         # which of them the cursor sits on
+        self._filled = 0                     # transcript rows on screen since the last clear
+        self._rows = 0                       # window height at the last draw, to notice it growing
+
+    def size(self):
+        """(columns, rows), re-read on every draw. Windows has no resize signal."""
+        columns, rows = shutil.get_terminal_size((100, 30))
+        return max(40, columns), max(6, rows)
 
     def width(self):
-        return max(40, shutil.get_terminal_size((100, 30)).columns)
+        return self.size()[0]
 
     def _erase(self):
         if not self._drawn:
@@ -540,7 +565,7 @@ class Screen:
     def _draw(self):
         if not self.interactive:
             return
-        width = self.width()
+        width, rows = self.size()
         lines = []
         if self.running:
             name, phrase, started = self.running
@@ -551,6 +576,17 @@ class Screen:
         at = len(lines)
         lines.append(text)
         lines.append(status_line(width, self.status))
+
+        # A WINDOW THAT GREW HAS ROOM UNDER THE BOX. The rows it gained are below everything already
+        # drawn, so without padding them the input floats up the screen by however many were added.
+        if self._rows and rows > self._rows:
+            self._filled = max(0, self._filled - (rows - self._rows))
+        self._rows = rows
+        pad = bottom_padding(rows, self._filled, len(lines))
+        if pad:
+            self.out.write("\r\n" * pad)
+            self._filled += pad
+
         self.out.write("\r" + "\r\n".join(line + CSI + "K" for line in lines))
         if len(lines) - 1 > at:
             self.out.write(CSI + "%dA" % (len(lines) - 1 - at))
@@ -572,12 +608,14 @@ class Screen:
             for line in ([lines] if isinstance(lines, str) else lines):
                 self.out.write("\r" + CSI + "2K" + line + "\r\n" if self.interactive
                                else line + "\n")
+                self._filled += 1
             self._draw()
             self.out.flush()
 
     def clear(self):
         with self._lock:
             self._drawn = 0
+            self._filled = 0
             self.out.write(CSI + "2J" + CSI + "H")
             self._draw()
             self.out.flush()

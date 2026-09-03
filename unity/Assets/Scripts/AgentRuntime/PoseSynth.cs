@@ -52,6 +52,18 @@ namespace AgentRuntime
         private int _dropped;                   // frames whose correction the composer could not accept
         private int _saturated;                 // frames on which the commanded drop hit its limit
         private bool _feetCaptured;
+        private Vector3 _seatOffset;
+        private float _seatNeeded;
+        private Vector3? _pelvisTarget;
+        private Vector3 _pelvisFrom;
+
+        /// <summary>How far a generated descent may pull the pelvis sideways, in metres.
+        ///
+        /// The navigation mesh stops about 0.15 m short of a seat and a real sit-down step covers
+        /// about 0.45 m, so 0.35 m is the stand-off a descent can honestly be asked to make up.
+        /// Past it the plan has put her somewhere a sit does not reach from, and the check below says
+        /// so with the distance rather than producing a slide.</summary>
+        public const float MaxSeatOffsetM = 0.35f;
 
         public bool Running { get { return _running; } }
 
@@ -70,6 +82,12 @@ namespace AgentRuntime
         /// at a few centimetres; that came from a spike with no incoming clip under it and is wrong here.
         /// </summary>
         public float BiasM { get { return _bias; } }
+
+        /// <summary>How far the descent had to pull the PELVIS sideways onto the seat, in metres, and
+        /// how far it was ASKED to. `Needed` is measured once at the start; `SeatOffsetM` is what was
+        /// actually commanded, which is the same number unless the cap bit.</summary>
+        public float SeatOffsetM { get { return _seatOffset.magnitude; } }
+        public float SeatOffsetNeededM { get { return _seatNeeded; } }
 
         /// <summary>Frames on which the composer refused the write. Anything above zero means the loop
         /// was steering something it was not connected to.</summary>
@@ -102,8 +120,15 @@ namespace AgentRuntime
         /// to a seat is about 0.15 m from it, and no amount of lowering the hips from there puts her on
         /// it. A real sit contains that backward step, so the generated one has to as well.
         /// </summary>
+        /// <param name="pelvisTarget">Where the PELVIS has to end up, in world XZ — the seat itself.
+        /// Given only for a descent that lands ON something. `landOn` slides the ROOT, which is under
+        /// her feet; on a seated pose the pelvis sits about 0.17 m behind the root, so a root that
+        /// arrives on the seat centre leaves the pelvis off the back of it. `seat_alignment` measures
+        /// the pelvis, and this is what closes that gap. Null on a rise: there is nothing to land on,
+        /// and pulling the pelvis onto a stand anchor would be inventing a target.</param>
         public void Begin(float targetHipY, float duration, Vector3? landOn = null,
-                          Vector3? leftFootLocal = null, Vector3? rightFootLocal = null)
+                          Vector3? leftFootLocal = null, Vector3? rightFootLocal = null,
+                          Vector3? pelvisTarget = null)
         {
             Transform hips = Hips();
             if (hips == null || composer == null) return;
@@ -126,6 +151,23 @@ namespace AgentRuntime
             _dropped = 0;
             _saturated = 0;
             _feetCaptured = false;
+            _seatOffset = Vector3.zero;
+            _seatNeeded = 0f;
+            _pelvisTarget = null;
+            _pelvisFrom = hips.position;
+            if (pelvisTarget.HasValue)
+            {
+                Vector3 want = new Vector3(pelvisTarget.Value.x, hips.position.y, pelvisTarget.Value.z);
+                // WHAT THE ROOT SLIDE WILL ALREADY DO. `landOn` carries the whole body across, so the
+                // pelvis only has to make up what is left after that -- which is the seated pose's own
+                // hip-behind-root offset, not the whole distance to the chair.
+                Vector3 rootShift = landOn.HasValue
+                    ? new Vector3(landOn.Value.x - transform.position.x, 0f,
+                                  landOn.Value.z - transform.position.z)
+                    : Vector3.zero;
+                _pelvisTarget = want;
+                _seatNeeded = (want - (hips.position + rootShift)).magnitude;
+            }
 
             // Said once, up front, where it is cheap to act on. Beginning a descent against a graph that
             // holds no correction job is not a marginal condition — every frame of it will be discarded
@@ -203,6 +245,23 @@ namespace AgentRuntime
                 // Moved BEFORE the feet are read below, so the pinned goals are captured at the start
                 // position and the legs then resolve the step for us.
                 transform.position = _curve.RootAt(t, transform.position.y);
+            }
+
+            // AND THE PELVIS ARRIVES ON THE SEAT, not merely at the seat's height. The root slide
+            // above puts her FEET where the chair is; on a seated pose the pelvis hangs about 0.17 m
+            // behind the root, so without this she lands with her hips off the back edge -- which is
+            // what `seat_alignment` measures and what a generated descent kept failing on. Same closed
+            // loop as the hip drop: command where it should be at this phase, read where it is, fold
+            // the error back in. Capped at `MaxSeatOffsetM`, because past that the descent is being
+            // asked to carry her further than a sit-down step covers and the plan is wrong.
+            if (_pelvisTarget.HasValue)
+            {
+                Vector3 want = Vector3.Lerp(_pelvisFrom, _pelvisTarget.Value,
+                                            PostureTransitionEvaluator.Ease(t));
+                Vector3 drift = new Vector3(want.x - hips.position.x, 0f, want.z - hips.position.z);
+                _seatOffset += drift * correctionGain;
+                _seatOffset = Vector3.ClampMagnitude(_seatOffset, MaxSeatOffsetM);
+                correction.seatOffset = transform.InverseTransformVector(_seatOffset);
             }
 
             // The feet move too, from where the walk left them to where the incoming clip puts them.

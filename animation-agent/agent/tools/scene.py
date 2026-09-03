@@ -68,7 +68,7 @@ from .. import transitions as T
 from ..engine import EngineError, EngineTimeout, EngineUnavailable
 from .. import kbindex as KI
 from ..kbindex import ANATOMICAL
-from .kb import TEMPORAL_INTENT as KB_TEMPORAL_INTENT, window_for_intent
+from .kb import TEMPORAL_INTENT as KB_TEMPORAL_INTENT, blank, window_for_intent
 from .registry import ToolFailure
 
 # TWO SHAPES, STRICTLY EXCLUSIVE. `oneOf` rather than four optional fields, because the two halves are
@@ -448,8 +448,45 @@ EXECUTE_PARAMS = {
 # and stopping half a metre short of it is the error this whole computation exists to remove.
 STANDING_POINT_TOLERANCE_M = 0.0
 
+# How far the projected arrival may sit from the computed standing point before the plan is refused.
+#
+# `reachable: true` IS NOT "SHE CAN STAND THERE". The engine samples a destination onto the navigation
+# mesh within two metres and walks to whatever it finds, which is the right behaviour for "go to the
+# chair" and the wrong answer for a point that was solved so a clip's own travel ends on the seat:
+# measured on the workstation chair, the point 0.45 m in front of it towards the laptop came back
+# reachable and the arrival was 0.53 m away, because there is no walkable ground between that chair
+# and the desk it is pushed under. Everything downstream then did exactly what it should with a
+# character standing somewhere else. 0.10 m because the same preview against a point that IS walkable
+# lands within 0.01 m.
+STANDING_POINT_SNAP_M = 0.10
 
-def standing_point_for(seat_xz, approach_xz, travel):
+
+def bearing_deg(from_xz, to_xz):
+    """The compass heading from one point towards another, about +Y: 0 is +Z, 90 is +X.
+
+    The engine's own convention, so the number goes straight onto the wire as `facing_deg`. Two
+    points on top of each other have no direction in them and answer 0 rather than a normalisation
+    of zero.
+    """
+    dx = float(to_xz[0]) - float(from_xz[0])
+    dz = float(to_xz[1]) - float(from_xz[1])
+    if math.hypot(dx, dz) < 1e-4:
+        return 0.0
+    return math.degrees(math.atan2(dx, dz))
+
+
+def heading_error_deg(heading_deg, wanted_deg):
+    """The shortest turn from one compass heading to another, signed, in (-180, 180]."""
+    return (float(wanted_deg) - float(heading_deg) + 180.0) % 360.0 - 180.0
+
+
+# How far a landed seated heading may be from the one the plan decided before it is worth turning
+# her. Below this the correction would be a twitch nobody asked for; above it she is visibly working
+# at something off to one side.
+SEATED_TURN_TOLERANCE_DEG = 15.0
+
+
+def standing_point_for(seat_xz, approach_xz, travel, facing_deg=None):
     """Where she has to be standing, and which way, for a transition clip to finish ON the seat.
 
     THE PROBLEM THIS SOLVES. A retrieved sit-down is a clip that travels: measured on
@@ -467,6 +504,13 @@ def standing_point_for(seat_xz, approach_xz, travel):
     `travel` is (dx, dz) in the clip's own frame, read off the posture sidecar's `root_travel` -- the
     displacement between the clip's first and last frame, measured from the frozen dump.
 
+    THE HEADING IS AN ARGUMENT NOW, and the approach is what it falls back to. Her facing does not
+    change over a sit-down -- she steps back and lowers onto what is behind her -- so the heading she
+    stands in IS the heading she ends up seated in, and taking it from the route means she sits facing
+    whichever way she happened to walk in from. Measured: she sat down at the desk facing away from it
+    with one arm reaching back to the laptop. What she is about to work at decides the heading; the
+    approach answers only when nothing does.
+
     Returns (stand_x, stand_z, facing_deg), where facing_deg is a compass heading about +Y in the
     same convention the engine reports: 0 is +Z, 90 is +X.
 
@@ -477,13 +521,15 @@ def standing_point_for(seat_xz, approach_xz, travel):
     from_x, from_z = float(approach_xz[0]), float(approach_xz[1])
     dx, dz = float(travel[0]), float(travel[1])
 
-    # WHICH WAY SHE FACES: away from the seat, towards where she is coming from. A degenerate
-    # approach -- she is already standing on the seat's own position -- has no direction in it, so
-    # the seat's own +Z is used rather than a normalisation of zero.
-    away_x, away_z = from_x - seat_x, from_z - seat_z
-    if math.hypot(away_x, away_z) < 1e-4:
-        away_x, away_z = 0.0, 1.0
-    facing_deg = math.degrees(math.atan2(away_x, away_z))
+    if facing_deg is None:
+        # THE FALLBACK: away from the seat, towards where she is coming from. A degenerate approach --
+        # she is already standing on the seat's own position -- has no direction in it, so the seat's
+        # own +Z is used rather than a normalisation of zero.
+        away_x, away_z = from_x - seat_x, from_z - seat_z
+        if math.hypot(away_x, away_z) < 1e-4:
+            away_x, away_z = 0.0, 1.0
+        facing_deg = math.degrees(math.atan2(away_x, away_z))
+    facing_deg = float(facing_deg)
 
     # R(yaw) * (dx, dz), with yaw measured from +Z towards +X -- Unity's convention, so the number
     # can go straight onto the wire as `facing_deg`.
@@ -1064,6 +1110,8 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
         would silently ignore the other — which is the failure shape a merged tool is most likely to
         acquire and hardest to notice.
         """
+        object_ids = blank(object_ids)
+        relative_to = blank(relative_to)
         asked_search = query is not None
         asked_relate = bool(object_ids)
         if asked_search and asked_relate:
@@ -1470,8 +1518,8 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
         For a walk that exists to get her somewhere so she can DO something there, prefer unity_execute's
         `walk_to`: it is this same walk without the stop in between.
         """
-        return await _walk_there(_who(character), destination, face=face, stop_within=stop_within,
-                                 then_wait=then_wait, settle=True)
+        return await _walk_there(_who(character), destination, face=blank(face),
+                                 stop_within=blank(stop_within), then_wait=then_wait, settle=True)
 
     def _face_for(bindings, gaze_at=None):
         """What the coming motion is aimed at. Returns (object_id, why) or (None, None).
@@ -1502,6 +1550,35 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
             return gaze_at, "she is looking at it"
         return None, None
 
+    async def _seated_heading(sit_on, seat_at, bindings, gaze_at):
+        """Which way somebody sitting on this seat should be looking, and what decided it.
+
+        THE SEAT SAYS WHERE SHE SITS AND NOT WHICH WAY SHE FACES. Three rungs, in this order: what the
+        plan is about to work at, then what the seat's own stand anchor faces, then nothing -- and
+        "nothing" is the caller's problem, because the two callers have different fallbacks. A
+        sit-down falls back to the direction she came from; a character already on the seat has
+        nowhere to fall back to and simply stays as she is.
+
+        Returns ("approach", None) when no rung answered.
+        """
+        if not seat_at:
+            return "approach", None
+        seat_xz = (seat_at[0], seat_at[2])
+        work_at, _ = _face_for(bindings, gaze_at)
+        work_xyz = await _where_is(work_at) if work_at else None
+        if work_xyz:
+            return work_at, bearing_deg(seat_xz, (work_xyz[0], work_xyz[2]))
+        face_xyz = await _seat_face_anchor(sit_on)
+        if face_xyz:
+            return "%s stand anchor" % sit_on, bearing_deg(seat_xz, (face_xyz[0], face_xyz[2]))
+        return "approach", None
+
+    def _facing_phrase(seated_facing):
+        """How a decided seated heading reads in a sentence. "approach" is the fallback rung and is a
+        direction rather than a thing, so it is spelled as one."""
+        toward = (seated_facing or {}).get("toward")
+        return "the way she came" if not toward or toward == "approach" else toward
+
     async def _turn_to_face(character, object_id):
         """Turn, and wait it out. Same reason unity_locomotion waits: the next thing to happen is a descent
         onto a seat, and starting it mid-turn puts her down facing part of the way round."""
@@ -1514,6 +1591,65 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
             await asyncio.sleep(0.05)
             registry.progress.waited(0.05)
         return False
+
+    async def _settle_seated_facing(character, ready_at_s, wanted_deg, aim, work_target):
+        """Wait for the sit to land, then say which way she ended up facing — and fix it if she has
+        to be turned.
+
+        THE HEADING IS DECIDED BEFORE SHE SITS AND MEASURED AFTER. `standing_point_for` solves where
+        she has to stand for the clip's own travel to land her on the seat facing the right way, and
+        everything downstream of that is physics: the walk stops a few centimetres out, the turn
+        finishes to half a degree, the clip's root motion is applied frame by frame. None of that is
+        exact, so what she actually landed on is a measurement.
+
+        THE TURN IS A FALLBACK AND IT IS EXPLICIT. Under the tolerance nothing happens. Over it she
+        turns about her pelvis, at the navigation agent's own angular speed, and the result says so:
+        a stool swivels and a chair with a back does not, and the registry cannot tell them apart, so
+        a turn that a real chair would not allow is reported rather than hidden.
+        """
+        # AN EXECUTOR THAT DOES NOT REPORT A HEADING HAS NOTHING TO SAY HERE, and waiting out the sit
+        # to find that out would put seconds into every commit for a number that is not coming.
+        state = await _current_state(character)
+        if state.get("facing_deg") is None:
+            return None
+
+        deadline = min(float(ready_at_s) + 2.0, 8.0)
+        waited = 0.0
+        while waited < deadline:
+            await asyncio.sleep(0.2)
+            registry.progress.waited(0.2)
+            waited += 0.2
+            state = await _current_state(character)
+            if waited >= ready_at_s and state.get("posture") == "seated" \
+                    and not state.get("turning"):
+                break
+        landed = state.get("facing_deg")
+        if landed is None:
+            return None
+
+        report = {"landed_deg": round(float(landed), 2), "wanted_deg": round(float(wanted_deg), 2)}
+        error = heading_error_deg(landed, wanted_deg)
+        if abs(error) > SEATED_TURN_TOLERANCE_DEG and aim:
+            registry.progress("turning on the seat to face %s" % (work_target or "the right way"))
+            await _turn_to_face(character, aim)
+            state = await _current_state(character)
+            if state.get("facing_deg") is not None:
+                landed = state["facing_deg"]
+            report["seated_turn_deg"] = round(error, 2)
+            report["landed_deg"] = round(float(landed), 2)
+
+        # REPORTED, NEVER JUDGED. Whether she is facing what she works at is the thing this whole
+        # path exists to get right, and it is exactly the thing no existing gate measures -- the seat
+        # checks pass just as well with her back to the desk. A number in the trace is what makes a
+        # regression visible; a gate here would be a threshold nobody has calibrated.
+        if work_target:
+            her = await _where_is(character)
+            it = await _where_is(work_target)
+            if her and it:
+                to_work = bearing_deg((her[0], her[2]), (it[0], it[2]))
+                report["work_target_bearing_deg"] = round(abs(heading_error_deg(landed, to_work)), 2)
+                report["work_target"] = work_target
+        return report
 
     async def _resolve_id(object_id):
         """The registry id for something the model named, accepting the ways it actually writes them.
@@ -1807,11 +1943,61 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
 
     async def _where_is(object_id):
         """An object's world position, or None. Engine-side arithmetic reads these; the model does
-        not see them (see the module docstring on what crosses)."""
+        not see them (see the module docstring on what crosses).
+
+        AND A CHARACTER IS NOT AN OBJECT. The registry holds the room; the executor answers for the
+        people out of its own list, so `chr:CPRNurse` came back not-found from a scene she is
+        standing in. Measured, and it was silent: the caller that wanted the direction she is
+        approaching from fell back to the seat's own position, which has no direction in it, so every
+        sit-down took the degenerate +Z. The raw scene search is the same last resort `scene.describe`
+        already uses for an id the registry does not hold.
+        """
         data = await _call(P.T.SCENE_POSITION, {"object_ids": [object_id]})
         found = (data.get("objects") or [{}])[0]
-        position = found.get("position")
-        return None if not found.get("found") or not position else position
+        if not found.get("found") or not found.get("position"):
+            if ":" not in object_id or object_id.startswith("scene:"):
+                return None
+            return await _where_is("scene:" + object_id.split(":", 1)[1].replace(" ", ""))
+        return found["position"]
+
+    async def _seat_face_anchor(object_id):
+        """The world point the seat's own stand anchor looks at, or None.
+
+        `scene.describe` reports a seat's `stand_at` and `scene.anchors` reports what each anchor
+        `faces`, so between them the room can say which way somebody sitting there is meant to look.
+        This is the middle rung of the facing ladder: below what the plan works at, above the
+        direction she walked in from. Nothing in the current scene is annotated with one -- the chair
+        carries a surface height and no stand anchor -- so it usually answers None and the fallback
+        below it is what runs.
+        """
+        described = await _call(P.T.SCENE_DESCRIBE, {"object_id": object_id})
+        stand_at = (described or {}).get("stand_at")
+        if not stand_at:
+            return None
+        wanted = stand_at.split(":", 1)[-1]
+        for entry in (await _call(P.T.SCENE_ANCHORS, {})).get("anchors") or []:
+            if not isinstance(entry, dict):
+                continue
+            if (entry.get("id") or "").split(":", 1)[-1] != wanted and entry.get("name") != wanted:
+                continue
+            faces = entry.get("faces")
+            # A face transform is a child of the anchor and is not registered in its own right, so it
+            # is reached by raw name rather than by id.
+            return await _where_is("scene:" + faces.replace(" ", "")) if faces else None
+        return None
+
+    async def _current_state(character):
+        """What the engine says she is doing: posture, what she is sitting on, what is playing.
+
+        ONE CALL PER PLAN, because two things need it and they must not disagree about a character
+        who moved in between: the rise that puts her on her feet, and the branch that notices she is
+        already on the seat this plan names. An engine that cannot answer is treated as "nothing
+        known", which is what the rise did on its own before this was hoisted.
+        """
+        try:
+            return await _call(P.T.MOTION_LOCOMOTE, {"character": character, "query": True})
+        except ToolFailure:
+            return {}
 
     async def _commit_sequence(character, order, sit_on=None):
         """Build and commit a plain ordered plan — no overlays, no bindings, no gaze.
@@ -1853,7 +2039,7 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
             "ik": [], "gaze_at": None, "stand_at": None, "carry": [], "mode": "commit"})
         return {"order": order, "generated": generated}
 
-    async def _get_up_first(character, opener):
+    async def _get_up_first(character, opener, state):
         """Put her on her feet before anything that needs her on them. Returns what it did, or None.
 
         THE ORDER IS THE WHOLE PROBLEM, and it is the mirror image of sitting down. Sitting walks first
@@ -1871,9 +2057,8 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
         before — `RunPostureChange` resumes it once she is standing — so that flag is the rise
         finishing, observed rather than estimated. A timer would have to guess the seam wait.
         """
-        try:
-            state = await _call(P.T.MOTION_LOCOMOTE, {"character": character, "query": True})
-        except ToolFailure:
+        # `state` is read once at the top of the plan and handed down; see `_current_state`.
+        if not state:
             return None
         # WHERE THE OPENER BEGINS, not what it mostly is. A rise is needed when she is sitting and
         # the next thing starts on its feet; an action that starts seated needs no rise however it
@@ -1886,7 +2071,7 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
         # for the case where it names something the library does not hold.
         #
         # NO SEARCH OF THE LIBRARY FOR A SUBSTITUTE. That fallback picked "the one seated action"
-        # and was correct over eight records; over 2446 there are 161 seated ones and no way to
+        # and was correct over eight records; over 2446 there are 99 seated ones and no way to
         # choose. So the engine is asked to say what it is playing, and a report this file cannot
         # place is an error naming what came back rather than a guess.
         from_action = state.get("playing")
@@ -1915,12 +2100,48 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
                           hold_final_pose=None, ik_bindings=None,
                           gaze_at=None, stand_at=None, carry=None, then=None, sit_on=None,
                           walk_to=None, stop_within=None, mode="commit"):
+        # AN EMPTY LIST IS NOT A REQUEST. The model fills every optional parameter it is shown --
+        # measured, one call carried `overlays: []`, `carry: []`, `then: []`, `gaze_at: ""` and
+        # `stand_at: ""` together -- and each of those has to mean "left out" rather than "an empty
+        # one of these". Same helper as motion_search, so the two surfaces cannot drift.
+        overlays = blank(overlays)
+        base_channels = blank(base_channels)
+        hold_final_pose = blank(hold_final_pose)
+        ik_bindings = blank(ik_bindings)
+        carry = blank(carry)
+        then = blank(then)
+        gaze_at = blank(gaze_at)
+        stand_at = blank(stand_at)
+        sit_on = blank(sit_on)
+        walk_to = blank(walk_to)
+        stop_within = blank(stop_within)
         overlays = overlays or []
         # `overlays` is [{action_id, channels}] since v4 -- the agent's own channel split (ADR 0022).
         overlay_ids = [o.get("action_id") if isinstance(o, dict) else o for o in overlays]
         if kb is None:
             raise ToolFailure("no motion library is loaded")
         character = _who(character)
+
+        # AND THE SAME RULE INSIDE A `then` ENTRY, which is where the model writes most of its empty
+        # fields. Measured: `via: [""]` reached the schedule as an action id and came back as an
+        # internal KeyError with the whole library in the message -- 2446 ids, spent on a round trip,
+        # about a bridge nobody asked for.
+        for entry in (then or []):
+            for key in ("via", "base_channels", "hold_final_pose", "overlays"):
+                kept = [item for item in (entry.get(key) or []) if blank(item) is not None]
+                if kept:
+                    entry[key] = kept
+                else:
+                    entry.pop(key, None)
+
+        # EVERY ACTION THIS PLAN NAMES, CHECKED BEFORE ANYTHING IS DERIVED FROM IT. An id the library
+        # does not hold used to surface from wherever it was first looked up, which for a `via` was an
+        # internal error rather than a sentence the model can act on.
+        unknown = [a for a in [base] + list(overlay_ids) + _then_order(then)
+                   if a not in kb.actions]
+        if unknown:
+            raise ToolFailure("unknown action_id: %s" % ", ".join(unknown),
+                              hint="use motion_search and pass an action_id it returns")
 
         # `sit_on` BELONGS TO THE PLAN, BUT IT MAY BE WRITTEN ON THE STEP THAT SITS. Measured: the model
         # put it inside the `then` entry for the seated action — which is where it reads most naturally,
@@ -1954,6 +2175,43 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
         # which is a true sentence about the wrong problem.
         seat = await _verify_seat(sit_on) if sit_on else None
 
+        # EVERY OBJECT THE MODEL NAMED, RESOLVED BEFORE ANYTHING MOVES. The walk below needs them --
+        # a bottle carried across the room has to be in her hand for the crossing -- and so does the
+        # partition, which refuses to blend a hand the plan has pinned to something. Ahead of the
+        # heading below as well, which asks where the thing she is about to work at actually is.
+        gaze_at = await _resolve_id(gaze_at)
+        for binding in (ik_bindings or []):
+            binding["object_id"] = await _resolve_id(binding.get("object_id"))
+        for held in (carry or []):
+            held["object_id"] = await _resolve_id(held.get("object_id"))
+
+        # WHERE SHE IS BEFORE ANY OF THIS IS DECIDED, asked once. Two branches need it -- the rise
+        # further down, and the one immediately below -- and both are about a character who has not
+        # moved yet, so they read the same answer.
+        state = await _current_state(character)
+        opens_seated = (base in kb.actions
+                        and KI.posture_span_of(kb.record(base))[0] == "seated")
+
+        # SHE IS ALREADY SITTING ON IT, so there is nothing to walk to and nothing to get up for.
+        # Measured: asked to type while seated on obj:Chair, the plan set `walk_to = sit_on`, previewed
+        # a walk for a seated character, checked the hidden copy at the projected arrival -- a navmesh
+        # point in front of the chair -- and failed contact_hold twice, seated_on_support and
+        # seat_alignment. The plan was right; the placement was not. A seated character switching to
+        # another seated clip stays where she is, and the check is made where she is.
+        stayed_seated = None
+        if sit_on and opens_seated and state.get("posture") == "seated":
+            on = state.get("sitting_on")
+            if on and on != sit_on:
+                # NO GUESSING BETWEEN TWO SEATS. Getting from one to the other is standing up,
+                # crossing, and sitting down again, which is a plan the model can write and this
+                # cannot infer from a seated clip and a different id.
+                raise ToolFailure(
+                    "%s is seated on %s; this plan starts seated on %s" % (character, on, sit_on),
+                    hint="to move her to %s, name a standing action as `base` and the seated one in "
+                         "`then` with a `via` that sits down. She gets up on her own." % sit_on)
+            if not walk_to:
+                stayed_seated = sit_on
+
         # WHERE SHE HAS TO BE STANDING FOR A RETRIEVED SIT-DOWN TO LAND ON THE SEAT.
         #
         # Naming a seat used to mean walking to the seat, and that was right while the frames between
@@ -1964,27 +2222,62 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
         # what the chair looked wrong by.
         #
         # So the walk's destination stops being the seat and becomes the point the clip's own travel
-        # ends AT the seat from, and her facing stops being "towards the chair" and becomes "away from
-        # it", which is how a person sits. Both come out of `standing_point_for`; everything it reads
-        # is measured -- the clip's `root_travel`, the seat's position, where she is now -- and none of
-        # it reaches the model, which named a `via` and a `sit_on` and nothing else.
+        # ends AT the seat from, and her facing stops being "towards the chair": she puts her back to
+        # it. Both come out of `standing_point_for`; everything it reads is measured -- the clip's
+        # `root_travel`, the seat's position, where she is now -- and none of it reaches the model,
+        # which named a `via` and a `sit_on` and nothing else.
+
+        #
+        # AND WHICH WAY SHE ENDS UP FACING IS DECIDED HERE TOO, because a sit-down does not turn her:
+        # she steps back and lowers onto what is behind her, so the heading she stands in is the
+        # heading she is seated in. Taking it from the route means she sits facing whichever way she
+        # walked in from -- measured, she sat at the desk with her back to it, reaching behind her for
+        # the laptop. Three rungs, in this order:
+        #   1. what the plan is about to work at: the object a hand is bound to, or `gaze_at`;
+        #   2. what the seat's own stand anchor faces, when the room says;
+        #   3. the direction she is coming from, which is where this started.
         seating_via = _seating_via(then)
         stand_facing = None
-        if sit_on and seating_via and _travels(seating_via):
+        seated_facing = None
+        stand_point = None
+        work_target = None
+        aimed = (ik_bindings or []) + [{"effector": h.get("hand"), "object_id": h.get("object_id")}
+                                       for h in (carry or [])]
+        if stayed_seated:
+            # SHE IS ON THE SEAT AND SHE MAY BE FACING THE WRONG WAY. Nothing to walk to, so the only
+            # thing left to decide is the heading -- and it is decided the same way, off what the plan
+            # is about to work at. Reaching it is the seated turn's job, after the commit; see
+            # `_settle_seated_facing`.
+            seat_at = await _where_is(sit_on)
+            toward, facing_deg = await _seated_heading(sit_on, seat_at, aimed, gaze_at)
+            if facing_deg is not None:
+                work_target = toward if toward != "approach" else None
+                seated_facing = {"toward": toward, "deg": round(facing_deg, 2)}
+                rad = math.radians(facing_deg)
+                stand_facing = "point:%.4f,%.4f" % (seat_at[0] + 2.0 * math.sin(rad),
+                                                    seat_at[2] + 2.0 * math.cos(rad))
+        elif sit_on and seating_via and _travels(seating_via):
             seat_at = await _where_is(sit_on)
             standing_from = await _where_is(character) or seat_at
             if seat_at:
+                seat_xz = (seat_at[0], seat_at[2])
+                toward, facing_deg = await _seated_heading(sit_on, seat_at, aimed, gaze_at)
+                if toward != "approach":
+                    work_target = toward
+
                 travel = KI.root_travel_of(kb.record(seating_via))[:2]
                 stand_x, stand_z, facing_deg = standing_point_for(
-                    (seat_at[0], seat_at[2]), (standing_from[0], standing_from[2]), travel)
+                    seat_xz, (standing_from[0], standing_from[2]), travel, facing_deg=facing_deg)
                 walk_to = "point:%.4f,%.4f" % (stand_x, stand_z)
                 stop_within = STANDING_POINT_TOLERANCE_M
                 # FACING BY POINT, because that is what the engine's `face` takes and there is no
-                # object standing behind the chair to name. Two metres along the way she came, which
-                # is the direction `standing_point_for` already decided she has to be looking.
+                # object standing behind the chair to name. Two metres along the heading decided
+                # above, which is both where the clip has to start from and where she ends up looking.
                 rad = math.radians(facing_deg)
                 stand_facing = "point:%.4f,%.4f" % (stand_x + 2.0 * math.sin(rad),
                                                     stand_z + 2.0 * math.cos(rad))
+                stand_point = (stand_x, stand_z)
+                seated_facing = {"toward": toward, "deg": round(facing_deg, 2)}
         elif sit_on and not walk_to and not _rising_via(then):
             # NAMING A SEAT MEANS WALKING TO IT, EXCEPT WHEN SHE IS ALREADY ON IT. A plan whose `via`
             # takes her OFF the seat still has to name it -- the step it opens on is seated, and a
@@ -1994,14 +2287,6 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
             # there", which is true and was about a walk nobody asked for.
             walk_to = sit_on
 
-        # EVERY OBJECT THE MODEL NAMED, RESOLVED BEFORE ANYTHING MOVES. The walk below needs them --
-        # a bottle carried across the room has to be in her hand for the crossing -- and so does the
-        # partition, which refuses to blend a hand the plan has pinned to something.
-        gaze_at = await _resolve_id(gaze_at)
-        for binding in (ik_bindings or []):
-            binding["object_id"] = await _resolve_id(binding.get("object_id"))
-        for held in (carry or []):
-            held["object_id"] = await _resolve_id(held.get("object_id"))
         # The channels this plan attaches to the scene. A hand holding something cannot be averaged
         # out of two motions, so arbitrate reports that as a conflict instead of a mix.
         pinned = ({b["effector"] for b in (ik_bindings or []) if b.get("effector")}
@@ -2024,7 +2309,7 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
         # own right -- `_commit_sequence` goes through the same fence. It has to come first because
         # everything after it is about a character who is standing up: the route preview would measure
         # from a chair, and the hidden copy would be checked in a posture she is about to leave.
-        stood_up = await _get_up_first(character, base) if mode == "commit" else None
+        stood_up = await _get_up_first(character, base, state) if mode == "commit" else None
         if stood_up and not stood_up.get("landed"):
             raise ToolFailure(stood_up.get("note") or "she did not finish standing up",
                               hint="nothing else was played. Read unity_measure for how far the rise "
@@ -2056,13 +2341,35 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
                                                               "object_id": h.get("object_id")}
                                                              for h in (carry or [])], gaze_at)
             if stand_facing is not None:
-                # A SIT-DOWN OVERRIDES WHAT THE PLAN TOUCHES. Facing is normally taken from the object
-                # a hand is bound to -- to sit at a desk she has to end up facing the desk -- but the
-                # clip that puts her on the seat only works from one heading, and arriving on any
-                # other one puts the hips somewhere else. She turns to the desk afterwards, seated,
-                # which is a head and torso the next step owns.
-                aim, aimed_for = stand_facing, "the heading the sit-down clip has to start from"
-            preview = await _preview_walk(character, walk_to, stop_within=stop_within, face=aim)
+                # THE SIT-DOWN'S HEADING, WHICH ALREADY IS WHAT THE PLAN TOUCHES. It was decided above
+                # from the object a hand is bound to, so aiming at that object and aiming along this
+                # heading mean the same thing -- but only the heading is exact, because it is the one
+                # the clip's own travel was solved against. A degree out here is metres of hip in the
+                # wrong place.
+                aim, aimed_for = stand_facing, "the heading that lands her on %s facing %s" % (
+                    sit_on, _facing_phrase(seated_facing))
+            try:
+                preview = await _preview_walk(character, walk_to, stop_within=stop_within, face=aim)
+                if stand_point is not None and preview.get("arrival"):
+                    landed = preview["arrival"]
+                    if math.hypot(landed[0] - stand_point[0],
+                                  landed[2] - stand_point[1]) > STANDING_POINT_SNAP_M:
+                        raise ToolFailure("the route ends somewhere else")
+            except ToolFailure:
+                if stand_facing is None:
+                    raise
+                # SAID WITH THE NUMBER, AND NOT QUIETLY SOLVED ANOTHER WAY. The point is where the
+                # clip has to start for the hips to land on the seat facing what she is working at;
+                # picking a different heading because this one is blocked would put her down facing
+                # somewhere nobody asked for. So the refusal names the distance and the direction.
+                seat_at = await _where_is(sit_on)
+                gap = (math.hypot(stand_point[0] - seat_at[0], stand_point[1] - seat_at[2])
+                       if seat_at and stand_point else 0.0)
+                raise ToolFailure(
+                    "the sit-down clip needs to start %.2f m in front of %s facing %s, and that "
+                    "point is not walkable" % (gap, sit_on, _facing_phrase(seated_facing)),
+                    hint="name a seat with room in front of it, or sit without binding to it and "
+                         "reach for it from the seat.")
 
         asked_base = base
         # THE WALK IS OVER, THE OVERLAY IS NOT. She has arrived, so keeping `walking` as the base of
@@ -2313,9 +2620,17 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
         if walk_payload is not None:
             await _validate(walk_payload)
         validated = await _validate(payload, at=_standing_at(preview))
+        # WHAT THIS FUNCTION DECIDED ABOUT WHERE SHE ENDS UP, said the same way on both paths. Both
+        # are choices the model did not make and cannot see in a pose: which way a sit-down leaves her
+        # looking, and that a seated plan did not move her.
+        placement = {}
+        if seated_facing:
+            placement["seated_facing"] = seated_facing
+        if stayed_seated:
+            placement["stayed_seated_on"] = stayed_seated
         if mode != "commit":
             return _validation_report(base, derived, assemblies, gates, steps, validated, preview,
-                                      gaze_at, synthesised)
+                                      gaze_at, synthesised, placement)
 
         # ---- and only now does anything visible happen -------------------------------------------
         walked = None
@@ -2343,6 +2658,22 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
 
         data = await _assemble(payload, checked=True)
 
+        # WHICH WAY SHE ACTUALLY ENDED UP, once the sit has landed. Only for a plan that decided a
+        # heading: everything else either has nothing to compare against or is not seated at the end.
+        # The wait is the sit playing out, and it is counted as engine time rather than deciding
+        # time -- the same bucket the walk goes into.
+        if seated_facing:
+            landing = await _settle_seated_facing(
+                character, steps[-1].get("start_at_s") or 0.0, seated_facing["deg"],
+                stand_facing, work_target)
+            if landing:
+                seated_facing = dict(seated_facing, **landing)
+                placement["seated_facing"] = seated_facing
+                result_extra = {k: landing[k] for k in ("seated_turn_deg",
+                                                        "work_target_bearing_deg")
+                                if k in landing}
+                placement.update(result_extra)
+
         generated = [s["generated"] for s in steps if s.get("generated")]
         # Said back, because `mode` defaults and a caller that omitted it has no other way to know
         # whether anything moved. It is also what the turn report reads to time the decision: reading
@@ -2361,6 +2692,7 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
         result = {"committed": True, "derived": derived if len(derived) > 1 else derived[0],
                   "retrieval": verdicts if len(verdicts) > 1 else verdicts[0],
                   "gates": gates, "engine": data}
+        result.update(placement)
         if validated:
             # THAT THE CHECK RAN IS PART OF WHAT HAPPENED. A committed plan with no verdict beside it
             # reads the same as one that skipped the check, and the difference is the whole point of
@@ -2436,7 +2768,7 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
         return result
 
     def _validation_report(base, derived, assemblies, gates, steps, validated, preview, gaze_at,
-                           synthesised):
+                           synthesised, placement=None):
         """What `unity_validate` answers with: the plan, resolved and checked, and nothing done.
 
         SAME FIELDS AS A COMMIT, MINUS WHAT A COMMIT PRODUCES. The derivation, the retrieval verdict,
@@ -2463,6 +2795,7 @@ def register(registry, engine, kb=None, locomotion=DEFAULT_LOCOMOTION_ACTION,
             report["would_walk_to"] = {k: v for k, v in preview.items() if k != "arrival"}
         if synthesised:
             report["posture_transition_synthesis"] = synthesised
+        report.update(placement or {})
         return report
 
     def _clip_of(kb, action_id):
@@ -2579,7 +2912,7 @@ def _posture_gate(base, overlays, kb):
     nothing at all.
 
     `other` IS NOT A MISMATCH. It is the posture analysis's fallback for a configuration its rules
-    cannot place -- crouching, kneeling, airborne -- and 985 of the corpus's 2446 clips carry it. A
+    cannot place -- crouching, kneeling, airborne -- and 1077 of the corpus's 2446 clips carry it. A
     difference involving it is an absence of information, so refusing on one would refuse most
     combinations the library can actually perform, in the name of a claim nothing made.
     """

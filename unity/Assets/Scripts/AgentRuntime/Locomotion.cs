@@ -31,6 +31,7 @@ namespace AgentRuntime
         private bool _going;
         private Quaternion _facing;
         private bool _turning;
+        private Transform _pivot;
 
         public bool Going { get { return _going; } }
 
@@ -261,15 +262,21 @@ namespace AgentRuntime
         /// The rate is the navigation agent's own `angularSpeed`, so a turn under this looks like a
         /// turn the agent would have made if it had walked round — nothing new to tune.
         /// </summary>
-        public void Face(Vector3 point)
+        /// <param name="pivot">What to turn ABOUT, when it is not the root. A seated character
+        /// turning about her root swings her hips off the seat -- the root is under her feet, out in
+        /// front of the chair -- so a seated turn is given her pelvis and the transform is carried
+        /// round it instead. Null is the ordinary standing turn, about the root, as before.</param>
+        public void Face(Vector3 point, Transform pivot = null)
         {
-            Vector3 flat = point - transform.position;
+            Vector3 from = pivot != null ? pivot.position : transform.position;
+            Vector3 flat = point - from;
             flat.y = 0f;
             if (flat.sqrMagnitude < 1e-6f) return;
             NavMeshAgent a = Agent;
             // updateRotation would fight this the moment the agent has any residual velocity.
-            if (a != null) a.updateRotation = false;
+            if (a != null && a.enabled) a.updateRotation = false;
             _facing = Quaternion.LookRotation(flat.normalized, Vector3.up);
+            _pivot = pivot;
             _turning = true;
         }
 
@@ -283,6 +290,7 @@ namespace AgentRuntime
             // A turn still running would keep writing the rotation while a generated descent owns the
             // transform, which is the same class of fight Suspend exists to end.
             _turning = false;
+            _pivot = null;
         }
 
         /// <summary>Hand the transform over to something else entirely.
@@ -320,12 +328,27 @@ namespace AgentRuntime
 
             NavMeshAgent a = Agent;
             float degreesPerSecond = a != null && a.angularSpeed > 0f ? a.angularSpeed : 180f;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, _facing,
-                                                          degreesPerSecond * Time.deltaTime);
+            Quaternion next = Quaternion.RotateTowards(transform.rotation, _facing,
+                                                       degreesPerSecond * Time.deltaTime);
+            if (_pivot == null)
+            {
+                transform.rotation = next;
+            }
+            else
+            {
+                // About the pelvis, at the same rate. RotateAround writes the rotation as well as the
+                // position, so this is the same turn with the centre moved -- and the vertical axis
+                // is taken through the pivot rather than through the root, which is what keeps the
+                // hips on the seat.
+                float step = Mathf.DeltaAngle(transform.eulerAngles.y, next.eulerAngles.y);
+                Vector3 axis = new Vector3(_pivot.position.x, transform.position.y, _pivot.position.z);
+                transform.RotateAround(axis, Vector3.up, step);
+            }
             if (Quaternion.Angle(transform.rotation, _facing) < 0.5f)
             {
-                transform.rotation = _facing;
+                if (_pivot == null) transform.rotation = _facing;
                 _turning = false;
+                _pivot = null;
             }
         }
 
@@ -340,6 +363,10 @@ namespace AgentRuntime
                 { "remaining_m", Remaining },
                 { "speed_m_per_s", a == null ? 0f : a.speed },
                 { "on_navmesh", a != null && a.isOnNavMesh },
+                // WHICH WAY SHE IS ACTUALLY POINTING. The plan decides a heading for a sit-down and
+                // has no way to find out whether she landed on it; this is that number, in the same
+                // convention `Preview` reports one in.
+                { "facing_deg", transform.eulerAngles.y },
                 { "destination", new float[] { _destination.x, _destination.y, _destination.z } }
             };
         }

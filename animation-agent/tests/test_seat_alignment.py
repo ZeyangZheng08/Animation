@@ -17,11 +17,12 @@ import re
 
 import pytest
 
+import build_posture
 import paths
 import terminal
 from agent import protocol as P
 from agent.kbindex import KBIndex, root_travel_of
-from agent.tools.scene import standing_point_for
+from agent.tools.scene import bearing_deg, heading_error_deg, standing_point_for
 from tests import corpus as C
 
 
@@ -88,6 +89,47 @@ def test_a_seat_she_is_already_standing_on_still_gets_an_answer():
 
 # ---- what the sidecar carries ------------------------------------------------------------------
 
+# ---- the heading, which is the half the approach cannot decide -------------------------------
+
+def test_a_given_heading_is_used_and_the_approach_is_ignored():
+    """A sit-down does not turn her: the heading she stands in is the heading she is seated in. So
+    what she is about to work at decides it, and the route she took to get there does not.
+
+    Same arithmetic either way -- the hips still land on the seat, from a different side of it."""
+    travel = (0.0364, -0.4446)
+    seat, approach = (0.0, 0.0), (0.0, 3.0)
+    x, z, facing = standing_point_for(seat, approach, travel, facing_deg=90.0)
+    assert facing == pytest.approx(90.0)
+    landed = apply_travel((x, z), facing, travel)
+    assert landed[0] == pytest.approx(seat[0], abs=1e-6)
+    assert landed[1] == pytest.approx(seat[1], abs=1e-6)
+    # +X of the seat, because that is where somebody facing +X has to start to end up on it.
+    assert x > seat[0] and abs(z - seat[1]) < 0.05
+
+
+def test_no_heading_falls_back_to_the_approach():
+    """The rung under it, unchanged: she puts her back to the seat, along the line she came in on."""
+    travel = (0.0364, -0.4446)
+    _, _, with_none = standing_point_for((0.0, 0.0), (0.0, 3.0), travel, facing_deg=None)
+    _, _, without = standing_point_for((0.0, 0.0), (0.0, 3.0), travel)
+    assert with_none == pytest.approx(without)
+    assert without == pytest.approx(0.0), "approached from +Z, she faces +Z"
+
+
+def test_a_bearing_is_the_engines_own_convention():
+    """0 is +Z and 90 is +X, so the number goes onto the wire as `facing_deg` without conversion."""
+    assert bearing_deg((0.0, 0.0), (0.0, 5.0)) == pytest.approx(0.0)
+    assert bearing_deg((0.0, 0.0), (5.0, 0.0)) == pytest.approx(90.0)
+    assert bearing_deg((0.0, 0.0), (0.0, -5.0)) == pytest.approx(180.0)
+    assert bearing_deg((2.0, 2.0), (2.0, 2.0)) == 0.0, "no direction in a point on top of itself"
+
+
+def test_a_heading_error_takes_the_short_way_round():
+    assert heading_error_deg(350.0, 10.0) == pytest.approx(20.0)
+    assert heading_error_deg(10.0, 350.0) == pytest.approx(-20.0)
+    assert abs(heading_error_deg(0.0, 180.0)) == pytest.approx(180.0)
+
+
 def test_the_sidecar_measures_how_far_each_clip_travels(kb):
     dx, dz, yaw = root_travel_of(kb.record(C.SIT_DOWN))
     assert dz < -0.3, "a sit-down steps backwards; measured 0.4446 m on this clip"
@@ -118,7 +160,10 @@ def test_every_record_has_a_travel_measurement():
     entries = doc["actions"]
     missing = [a for a, e in entries.items() if "root_travel" not in e]
     assert not missing, "%d entries carry no root_travel (first: %s)" % (len(missing), missing[:3])
-    assert doc["_meta"]["version"] == "1.1.0"
+    # AGAINST THE MODULE, NOT A LITERAL. Pinning the string here made every deliberate algorithm bump
+    # fail as a version mismatch and say nothing about the rule that moved. The invariant that
+    # matters is the one `KBIndex.load` enforces: the sidecar on disk was built by this checkout.
+    assert doc["_meta"]["version"] == build_posture.POSTURE_ALGORITHM_VERSION
 
 
 # ---- the protocol ------------------------------------------------------------------------------

@@ -24,7 +24,12 @@ POSE = "mx_Walking"                  # a TWO-FRAME pose asset. Named `mx_Walking
                                      # the trap the primitive check exists to catch.
 
 # ---- one clip per coarse posture ------------------------------------------------------------
-SEATED = "mx_Aim_Pistol_While_Sitting"                    # seated start to finish
+# SEATED was `mx_Aim_Pistol_While_Sitting` until posture algorithm 2.0.0, which decides a seat by
+# where the mass goes rather than by joint angles (Winter 1995). That clip sits with its feet drawn
+# back under it, so its centre of mass ends up only 0.024-0.061 m behind the heels against a 0.04 m
+# threshold, and it now reads `other` for 92 of its 163 frames. A fixture has to be a clip the rule
+# is not marginal about; this one is 0.16 m clear.
+SEATED = "mx_Sitting_Still_In_A_Chair"                    # seated start to finish
 FLOOR = "mx_Crawling_Forward_On_Hands_And_Knees"          # floor start to finish
 OTHER = "mx_Kneeling_Idle"                                # kneeling: the conservative fallback state
 

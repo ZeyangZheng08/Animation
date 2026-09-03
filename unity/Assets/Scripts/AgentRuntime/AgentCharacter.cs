@@ -291,8 +291,26 @@ namespace AgentRuntime
                     }
                 }
 
+                string stepPosture = stepJson.Value<string>("posture");
+                // WHICH WAY THE HANDOVER INTO THIS STEP IS ANCHORED. Root, as everything always was,
+                // except into a seated step: sitting on a seat is a fact about the pelvis, and two
+                // clips can agree about the root while putting the hips a quarter of a metre apart.
+                // Taken off the posture the step already carries; `anchor` is accepted as an override
+                // for a plan that wants to say it outright, and changes no version because absent
+                // means what it always meant.
+                // AND NEVER ON A STEP THAT CARRIES ITS OWN DISPLACEMENT. A travelling step has
+                // already been PLACED: `scene.standing_point_for` works out where she has to stand so
+                // that this clip's own root motion ends with her on the seat. Anchoring its pelvis to
+                // wherever the outgoing clip left one would move her off that solution by the seam
+                // delta -- measured, a sit-down entered from a mid-stride walk landed 0.066 m off the
+                // seat where the same plan from a stance landed 0.008 m, and the difference was the
+                // stride in the pelvis it was anchored to.
+                string anchor = stepJson.Value<string>("anchor");
+                bool travels = stepJson.Value<bool?>("apply_root_motion") ?? false;
                 steps.Add(new MotionComposer.StepSpec
                 {
+                    AnchorPelvis = !travels
+                                   && (anchor == null ? stepPosture == "seated" : anchor == "pelvis"),
                     ActionId = stepJson.Value<string>("action_id"),
                     Layers = layers,
                     StartAtSeconds = stepJson.Value<double?>("start_at_s") ?? 0.0,
@@ -301,14 +319,13 @@ namespace AgentRuntime
                     DurationSeconds = stepJson.Value<double?>("duration_s"),
                     Loop = stepJson.Value<bool?>("loop") ?? false,
                     ChannelBlends = channelBlends,
-                    ApplyRootMotion = stepJson.Value<bool?>("apply_root_motion") ?? false
+                    ApplyRootMotion = travels
                 });
 
-                string posture = stepJson.Value<string>("posture");
-                if (!string.IsNullOrEmpty(posture))
+                if (!string.IsNullOrEmpty(stepPosture))
                 {
-                    if (firstPosture == null) firstPosture = posture;
-                    lastPosture = posture;
+                    if (firstPosture == null) firstPosture = stepPosture;
+                    lastPosture = stepPosture;
                 }
 
                 // A seated step played on its own still names what it expects to be sitting on. Without
@@ -384,6 +401,21 @@ namespace AgentRuntime
                           + "this plan ends. Nothing was replayed; the motion you committed is the "
                           + "one running." }
             };
+        }
+
+        /// <summary>Where her pelvis is now, in her own root's space, or null when she is not seated.
+        ///
+        /// The one pose in this system that no clip describes: a character on a seat is a seated clip
+        /// plus whatever correction put her there. The composer anchors an opening seated step to it
+        /// so an in-place switch from one seated clip to another does not lift her off the seat, and
+        /// the hidden duplicate is handed the SAME number rather than reading its own bones — it is
+        /// instantiated once and reused, so its bones hold whatever the last check left them in.
+        /// </summary>
+        internal Vector3? SeatedPelvisLocal()
+        {
+            if (_posture != "seated") return null;
+            Transform hips = BoneOrNull(HumanBodyBones.Hips);
+            return hips == null ? (Vector3?)null : transform.InverseTransformPoint(hips.position);
         }
 
         private void RefuseCut(CompiledPlan plan)
@@ -480,7 +512,7 @@ namespace AgentRuntime
                 locomotion.Halt();
                 locomotion.Suspend();
             }
-            composer.Prepare(steps);
+            composer.Prepare(steps, SeatedPelvisLocal());
             // Prepare carries the previous correction across the rebuild, which is what keeps a
             // generated sit from being discarded. A plan that ends standing has no business inheriting
             // a hip drop, so that is the one case that clears it — explicitly, here, where the posture
@@ -507,6 +539,17 @@ namespace AgentRuntime
             else if (pendingSupport != null)
                 StartCoroutine(JudgeSupport(pendingSupport, scene, pendingSupportAt));
 
+            // A RETRIEVED RISE HAS TO HAND THE AGENT BACK TOO. The generated one does it at the end
+            // of its own coroutine; a plan that stands her up through a real clip had no such moment,
+            // so the NavMeshAgent stayed disabled after it. Measured: `on_navmesh` false with her
+            // standing, and the next walk refused with "no complete route" because Go had to enable,
+            // warp and route in one call. Same two lines, on the plan's own clock.
+            bool wasSeated = _posture == "seated";
+            if (wasSeated && (lastPosture ?? "standing") == "standing" && pendingDescent == null)
+            {
+                StartCoroutine(HandBackTheAgent(steps));
+            }
+
             // Recorded at commit, not when the descent lands: from this moment she is committed to
             // ending up seated, and anything that would drag her off the seat has to be refused for the
             // whole of the motion, not only after it finishes.
@@ -530,6 +573,10 @@ namespace AgentRuntime
                 { "bindings", bindings },
                 { "posture", _posture },
                 { "sitting_on", _supportObjectId },
+                // WHAT THE PELVIS-ANCHORED HANDOVER MOVED, next to the root motion it sits beside.
+                // A seam that needed 0.29 m of correction and one that needed none are different
+                // facts about a plan, and neither is visible in a pose that looks right.
+                { "handover_offsets_m", composer.HandoverOffsets },
                 { "prepare_ms", latencyMs },
                 { "frame", Time.frameCount }
             };
@@ -819,7 +866,7 @@ namespace AgentRuntime
                 if (!string.IsNullOrEmpty(faceId))
                 {
                     string cannotFace;
-                    faceAt = ResolveDestination(faceId, scene, out cannotFace);
+                    faceAt = ResolveLook(faceId, scene, out cannotFace);
                 }
                 Dictionary<string, object> preview = locomotion.Preview(
                     look.Value, request.Float("stop_within_m", 0.35f), faceAt);
@@ -836,6 +883,35 @@ namespace AgentRuntime
             // could not be generated; it can now, so this says what to do instead of what is
             // impossible. The order matters and cannot be fixed here: she has to be on her feet BEFORE
             // the agent is re-enabled, and only a plan can put her there.
+            // TURNING WITHOUT WALKING, and it is allowed while seated. Above the refusal below on
+            // purpose: that refusal is about the NavMeshAgent, which a turn does not touch. Standing,
+            // this is what fixes the heading after a walk, because arriving leaves her facing the way
+            // she came. Seated, it is the fallback for a sit-down that landed a few degrees off the
+            // thing she is working at -- and it turns about her PELVIS, because turning a seated
+            // character about her root swings her off the seat. A stool swivels and a chair with a
+            // back does not; the registry cannot tell them apart, so the turn is reported rather than
+            // hidden and the agent decides whether to ask for it.
+            string faceOnly = request.Str("face_only");
+            if (!string.IsNullOrEmpty(faceOnly))
+            {
+                string why;
+                Vector3? look = ResolveLook(faceOnly, scene, out why);
+                if (look == null)
+                {
+                    throw new AgentRequestException(Protocol.Err.NotFound,
+                        "nothing called " + faceOnly + " to face: " + why);
+                }
+                Transform pivot = _posture == "seated" ? BoneOrNull(HumanBodyBones.Hips) : null;
+                locomotion.Face(look.Value, pivot);
+                Dictionary<string, object> faced = locomotion.State();
+                faced["facing"] = faceOnly;
+                if (pivot != null) faced["turned_about"] = "pelvis";
+                // Turning takes time now rather than a frame, so this returns with it under way. The
+                // caller polls `turning` -- the same shape as waiting for a walk to arrive.
+                faced["turning"] = locomotion.Turning;
+                return faced;
+            }
+
             if (_posture == "seated" && !request.Bool("halt", false))
             {
                 throw new AgentRequestException(Protocol.Err.ExecFailed,
@@ -847,26 +923,6 @@ namespace AgentRuntime
             {
                 locomotion.Halt();
                 return locomotion.State();
-            }
-            // Turning without walking: used once she has arrived, because arriving leaves her facing
-            // the way she came and that is backwards for sitting down.
-            string faceOnly = request.Str("face_only");
-            if (!string.IsNullOrEmpty(faceOnly))
-            {
-                string why;
-                Vector3? look = ResolveDestination(faceOnly, scene, out why);
-                if (look == null)
-                {
-                    throw new AgentRequestException(Protocol.Err.NotFound,
-                        "nothing called " + faceOnly + " to face: " + why);
-                }
-                locomotion.Face(look.Value);
-                Dictionary<string, object> faced = locomotion.State();
-                faced["facing"] = faceOnly;
-                // Turning takes time now rather than a frame, so this returns with it under way. The
-                // caller polls `turning` -- the same shape as waiting for a walk to arrive.
-                faced["turning"] = locomotion.Turning;
-                return faced;
             }
 
             string targetId = request.Str("to");
@@ -926,6 +982,29 @@ namespace AgentRuntime
             // Anything that is not an annotated object: a raw scene name, or one of the relative
             // places. Both are the query service's to answer -- it owns the registry and the metres.
             return scene.ResolvePoint(targetId, transform, out why);
+        }
+
+        /// <summary>The same resolution for a LOOK target, and it differs in two places.
+        ///
+        /// WHERE TO LOOK IS NOT WHERE TO WALK. A destination is snapped onto the navigation mesh and
+        /// an object's stand anchor stands in for the object, and both are right for "go there" and
+        /// wrong for "face that": measured, a face point two metres beyond the workstation chair fell
+        /// under the desk, was snapped to the walkable ground behind her, and she turned to face that
+        /// -- eight degrees of turn instead of a hundred and six, and no error anywhere. So a look
+        /// target is the raw point, and an object is the object rather than the place to stand for it.
+        /// </summary>
+        private Vector3? ResolveLook(string targetId, SceneQueryService scene, out string why)
+        {
+            why = null;
+            if (string.IsNullOrEmpty(targetId) || scene == null || scene.Registry == null)
+            {
+                why = "no scene is wired";
+                return null;
+            }
+            SceneRegistry.Entry entry = scene.Registry.ById(targetId);
+            if (entry == null) entry = scene.Registry.ByAlias(targetId);
+            if (entry != null && entry.target != null) return entry.target.position;
+            return scene.ResolvePoint(targetId, transform, out why, false);
         }
 
         /// <summary>Everything a request compiles down to. Built once and used by whichever mode
@@ -1048,13 +1127,20 @@ namespace AgentRuntime
                         : seat.target.position;
                 }
             }
+            // WHERE THE PELVIS HAS TO END UP, which is the seat and only when she is landing on it.
+            // `landOn` slides the root, which is under her feet; a seated pose hangs its pelvis about
+            // 0.17 m behind that, and `seat_alignment` measures the pelvis. Null on a rise.
+            Vector3? pelvisTarget = null;
+            if (endsPosture == "seated" && landOn.HasValue) pelvisTarget = landOn;
+
             synth.Begin(descent.TargetHipY, descent.DurationSeconds, landOn,
-                        descent.LeftFootLocal, descent.RightFootLocal);
+                        descent.LeftFootLocal, descent.RightFootLocal, pelvisTarget);
 
             while (synth.Running) yield return null;
             if (gates != null)
             {
-                gates.SupportLanded(synth.BiasM, synth.DroppedWrites, synth.SaturatedFrames);
+                gates.SupportLanded(synth.BiasM, synth.DroppedWrites, synth.SaturatedFrames,
+                                    synth.SeatOffsetM, synth.SeatOffsetNeededM);
             }
 
             // She is on her feet again, so nothing should still be holding her hips down and the
@@ -1065,6 +1151,22 @@ namespace AgentRuntime
                 composer.SetCorrection(new MotionComposer.Correction());
                 if (locomotion != null) locomotion.Resume();
             }
+        }
+
+        /// <summary>Give the navigation agent the transform back once a retrieved rise has played
+        /// out, and drop whatever correction was holding her hips on the seat.
+        ///
+        /// The wait is the plan's own clock: the last step starts when the rise finishes, which is the
+        /// moment she is on her feet. Nothing here decides that number -- the seam search did, on the
+        /// agent side, and it is on the wire.
+        /// </summary>
+        private System.Collections.IEnumerator HandBackTheAgent(
+            List<MotionComposer.StepSpec> steps)
+        {
+            double when = steps.Count == 0 ? 0.0 : steps[steps.Count - 1].StartAtSeconds;
+            yield return new WaitForSeconds((float)System.Math.Max(0.0, when));
+            if (composer != null) composer.SetCorrection(new MotionComposer.Correction());
+            if (locomotion != null) locomotion.Resume();
         }
 
         /// <summary>Judge a seated pose that was retrieved rather than generated. Same check, later

@@ -63,8 +63,7 @@ SEARCH_PARAMS = {
         },
         "posture": {
             "type": "string", "enum": _POSTURE_ENUM,
-            "description": "Keep only actions the body is mostly in this state for. " + _POSTURE_HELP
-                           + " Use `transition` instead when you want a clip that CHANGES state.",
+            "description": "The state the clip mostly stays in. " + _POSTURE_HELP,
         },
         "transition": {
             "type": "object", "additionalProperties": False,
@@ -73,10 +72,10 @@ SEARCH_PARAMS = {
                 "to_posture": {"type": "string", "enum": _POSTURE_ENUM},
             },
             "required": ["from_posture", "to_posture"],
-            "description": "Keep only actions that START in one state and END in the other -- how you "
-                           "find a real clip for getting into a chair or up off the floor. Cannot be "
-                           "combined with `posture`: one asks what a clip IS, the other what it "
-                           "CROSSES.",
+            "description": "The states the clip starts and ends in -- how you find a real clip for "
+                           "getting into a chair or up off the floor. Given this, `posture` is not "
+                           "applied: what a transition clip is MOSTLY in is not predictable, and "
+                           "filtering on a guess removes the clip you are looking for.",
         },
         "moves_channels": {
             "type": "array", "minItems": 1, "maxItems": 8,
@@ -175,19 +174,24 @@ TRANSITION_PARAMS = {
 }
 
 
-def _blank(value):
-    """Empty and whitespace-only strings mean "I did not specify this", not "match the empty string".
+def blank(value):
+    """An empty value means "I did not specify this", not "match nothing".
 
-    Models fill optional string parameters with "" rather than omitting them. Passed through, that
-    became a filter no action could satisfy, so every search returned nothing and the model answered by
-    rephrasing — ten calls deep in one measured turn, none of which could ever have matched. A silent
-    empty result is the worst failure shape available: it looks like an answer.
+    Models fill optional parameters rather than omitting them: `""` for a string, `[]` for a list,
+    `{}` for an object. Passed through, an empty string became a filter no action could satisfy, so
+    every search returned nothing and the model answered by rephrasing — ten calls deep in one
+    measured turn, none of which could ever have matched. A silent empty result is the worst failure
+    shape available: it looks like an answer.
+
+    ONE HELPER FOR EVERY OPTIONAL PARAMETER, strings, lists and objects alike, used by both tool
+    files. An empty list is the same claim as an empty string and reading it as a filter is the same
+    mistake; keeping two rules for it is how one of them came to be applied in only half the places.
     """
     if value is None:
         return None
     if isinstance(value, str) and not value.strip():
         return None
-    if isinstance(value, dict) and not value:
+    if isinstance(value, (dict, list, tuple)) and not value:
         return None
     return value
 
@@ -273,13 +277,34 @@ def register(registry, kb, measuring=True):
 
     def motion_search(query, posture=None, transition=None, moves_channels=None, exclude=None,
                       top_k=5):
-        posture = _blank(posture)
-        transition = _blank(transition)
+        """Every parameter is a filter, and filters intersect.
+
+        `posture` and `transition` used to be refused together, on the reading that one asks what a
+        clip IS and the other what it CROSSES. They are both narrowings over the same posture
+        sidecar, `dominant_posture` against the pair `start_posture`/`end_posture`, and the index has
+        always applied them independently -- so the refusal was a rule about the tool surface with
+        nothing behind it. Measured: the model sent both on fourteen consecutive calls, was told
+        fourteen times that they cannot be combined, and the turn ended on the iteration budget.
+
+        BUT `posture` IS DROPPED WHEN `transition` IS GIVEN, AND SAID SO. A transition clip's dominant
+        posture is not something anybody can predict: of the two clips in this library that go
+        standing -> seated, one is dominantly standing and the other dominantly seated. Measured on a
+        live turn -- the model asked for `posture: "standing"` alongside
+        `transition: {standing, seated}`, which removed `mx_Standing_To_Sitting_Transition` from a
+        set of two, and it concluded from the one clip left that the library had no way to sit
+        somebody on a chair. An intersection that removes the right answer has to be visible, so this
+        is explicit rather than silent.
+        """
+        posture = blank(posture)
+        transition = blank(transition)
+        moves_channels = blank(moves_channels)
+        exclude = blank(exclude)
+
+        posture_ignored = None
         if posture and transition:
-            raise ToolFailure(
-                "posture and transition ask different questions and cannot be combined",
-                hint="`posture` finds clips that STAY in a state; `transition` finds clips that go "
-                     "from one to another. Pick the one you meant.")
+            posture_ignored = ("transition given; a transition clip's dominant posture is not "
+                               "predictable")
+            posture = None
 
         # `moves_channels` on the tool, `moves_channel` in the index. The plural reads correctly on a
         # list parameter; the index's key is the older singular and is not worth a migration for a
@@ -287,13 +312,24 @@ def register(registry, kb, measuring=True):
         filters = {"posture": posture, "transition": transition}
         if moves_channels:
             filters["moves_channel"] = list(moves_channels)
-        if exclude:
-            filters["exclude"] = list(exclude)
+        # AN ID THE LIBRARY DOES NOT HOLD IS NOT A QUESTION. `exclude` says "not these", and a name
+        # that is in no record excludes nothing whether or not anybody objects to it. Measured: the
+        # model filled the parameter with `["placeholder"]` on every call rather than leaving it out.
+        # Said back so a typo in a real id is still visible.
+        ignored = [a for a in (exclude or []) if a not in kb.actions] if exclude else []
+        kept = [a for a in (exclude or []) if a in kb.actions] if exclude else []
+        if kept:
+            filters["exclude"] = kept
 
         hits = kb.search(query, filters, limit=top_k)
         if not hits:
-            return {"results": [], "corpus_size": len(kb.actions),
-                    "note": "no action matches those filters; relax them or search without filters"}
+            empty = {"results": [], "corpus_size": len(kb.actions),
+                     "note": "no action matches those filters; relax them or search without filters"}
+            if ignored:
+                empty["ignored_exclude"] = ignored
+            if posture_ignored:
+                empty["posture_ignored"] = posture_ignored
+            return empty
 
         results = []
         for hit in hits:
@@ -321,8 +357,13 @@ def register(registry, kb, measuring=True):
 
         # Diagnostics instead of a tuned cutoff — see the module docstring.
         margin = round(hits[0].score - hits[1].score, 2) if len(hits) > 1 else None
-        return {"results": results, "corpus_size": len(kb.actions), "top_margin": margin,
-                "query_coverage": kb.coverage(query)}
+        out = {"results": results, "corpus_size": len(kb.actions), "top_margin": margin,
+               "query_coverage": kb.coverage(query)}
+        if ignored:
+            out["ignored_exclude"] = ignored
+        if posture_ignored:
+            out["posture_ignored"] = posture_ignored
+        return out
 
     # ---- analysis ------------------------------------------------------------------------------
 
@@ -569,7 +610,8 @@ def register(registry, kb, measuring=True):
         "Search the motion library by meaning. Returns the best matches with what each one animates, "
         "the posture it holds, and the postures it starts and ends in. `top_margin` and "
         "`query_coverage` say how confident the ranking is and how much of what you asked for the "
-        "library has words for at all -- read both before deciding something is absent.",
+        "library has words for at all -- read both before deciding something is absent. "
+        "Pass only the filters you need; every filter removes candidates.",
         SEARCH_PARAMS, motion_search)
 
     registry.add(

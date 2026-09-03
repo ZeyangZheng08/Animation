@@ -6,13 +6,22 @@ drawing is factored into functions over values — wrapping, markdown, the tool 
 the key decoder and the editor's transitions — and those are what is tested here. What is left
 untested on purpose is `Screen`'s escape sequences, which are checked by running it.
 
-Nothing here opens a socket or a tty, so it runs on Linux in the suite and on Windows by hand.
+Nothing here opens a socket, so it runs on Linux in the suite and on Windows by hand. One case
+does open a pty — the padding that keeps the input box on the last rows is arithmetic about a
+real window, and checking it against a StringIO would be checking the mock.
 """
 import io
+import os
 
 import pytest
 
 import terminal as T
+
+
+def a_window(columns, rows):
+    """`shutil.get_terminal_size` for a window of a fixed size. `os.terminal_size` because that is
+    what the real one returns and `Screen` unpacks it."""
+    return lambda fallback=None: os.terminal_size((columns, rows))
 
 
 def plain(text):
@@ -498,3 +507,64 @@ def test_markdown_takes_the_asterisks_off_bold_text():
     assert "*" not in line
     assert T.BOLD in line
     assert plain(line) == "  the walk was 1.1 m long"
+
+
+# ---- the bottom area, pinned to the last rows -----------------------------------------------------
+
+def test_padding_pushes_an_empty_transcript_down_to_the_last_rows():
+    """A fresh attach: nothing has been printed, so the whole window above the box is padding."""
+    assert T.bottom_padding(rows=30, filled=0, height=3) == 27
+
+
+def test_padding_stops_once_the_transcript_fills_the_window():
+    """Past that point the terminal's own scrolling keeps the last written row on the last row."""
+    assert T.bottom_padding(rows=30, filled=27, height=3) == 0
+    assert T.bottom_padding(rows=30, filled=400, height=3) == 0
+
+
+def test_a_taller_bottom_area_takes_its_extra_row_out_of_the_padding():
+    """A running tool adds a row to the box, and it comes off the top of the padding rather than
+    pushing the box below the last row."""
+    assert T.bottom_padding(rows=30, filled=0, height=4) == 26
+
+
+def test_padding_never_goes_negative_in_a_window_too_short_for_the_box():
+    assert T.bottom_padding(rows=3, filled=0, height=4) == 0
+
+
+@pytest.mark.skipif(not hasattr(os, "openpty"), reason="posix only")
+def test_the_bottom_area_lands_on_the_last_rows_of_a_real_pty(monkeypatch):
+    """The arithmetic against a real terminal: attach on an empty 24-row window and count the rows
+    the screen actually wrote. Linux only — the Windows side is checked by hand against
+    `tests/fake_console.py`."""
+    master, slave = os.openpty()
+    monkeypatch.setattr(T.shutil, "get_terminal_size", a_window(100, 24))
+    with os.fdopen(slave, "w", encoding="utf-8", newline="") as tty:
+        screen = T.Screen(out=tty)
+        assert screen.interactive, "a pty has to look like a terminal"
+        screen.refresh()
+        # 21 blank rows of padding, then the three rows of the box: the last row written is row 24.
+        assert screen._filled == 21
+        assert screen._drawn == 3
+
+        screen.log("one tool call")
+        assert screen._filled == 22, "the transcript grew by a row and the box did not move"
+        assert T.bottom_padding(24, screen._filled, 3) == 0
+    os.close(master)
+
+
+def test_the_window_growing_re_pads_so_the_box_does_not_float(monkeypatch):
+    """No resize signal on Windows, so the size is re-read on every draw. A window that gained rows
+    gained them BELOW the box, and they have to be padded or the input sits in the middle."""
+    out = io.StringIO()
+    out.isatty = lambda: True
+    size = [(100, 24)]
+    monkeypatch.setattr(T.shutil, "get_terminal_size",
+                        lambda fallback=None: os.terminal_size(size[0]))
+    screen = T.Screen(out=out)
+    screen.refresh()
+    assert screen._filled == 21
+
+    size[0] = (100, 40)
+    screen.refresh()
+    assert screen._filled == 37, "the sixteen new rows were padded, not left under the box"

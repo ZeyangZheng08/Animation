@@ -56,7 +56,9 @@ that sound simultaneous are this one: "walk over and type" is walking THEN typin
 at the seam and it answers with the seam. Different postures and it answers with the change that has \
 to happen, and then you go and find a clip for it. motion_search with `transition={from_posture, \
 to_posture}` searches the clips that START in one posture and END in the other. \
-mx_Standing_To_Sitting_Transition is one of many. Call motion_transition back with those ids in `via` \
+mx_Standing_To_Sitting_Transition is one of many. To find a clip that changes posture, pass \
+`transition` alone: a transition clip's dominant posture is not predictable, so adding `posture` \
+removes the clip you are looking for. Call motion_transition back with those ids in `via` \
 to have each one costed at both joins and ranked by geometry, then pick on meaning and put your pick \
 in `then[].via`. Leaving `via` out still works: the executor makes the frames against the seat, and \
 the result says so under `posture_transition_synthesis`.
@@ -131,7 +133,10 @@ reference. Naming the closest is not the same as playing it. Playing something e
 rather than approximate.
 - You answer in names: the analysis tools return numbers for you to reason with, and those stay out \
 of the reply. No coordinates, distances, angles, durations or frame numbers.
-- If a tool returns success=false, read the error and try a different approach in the same turn.
+- Leave out any parameter you have no reason to set. Every filter and every field narrows what comes \
+back, so one you filled in to be thorough is one that removed answers.
+- If a tool returns success=false, read the error and try a different approach in the same turn. A \
+call that failed with the same message twice will fail a third time; change something.
 - An overlay has no posture of its own, so playing one alone means naming it as an overlay over a base \
 such as a standing idle. That is how a single overlay is played.
 - Add nothing the request did not ask for. Set `gaze_at` only when the request says where to look, and \
@@ -150,6 +155,9 @@ and BOTH actions named in ONE unity_execute call: the standing one as `base`, th
 Getting her to the seat is not a third thing to arrange: naming `sit_on` walks her there, and which \
 way she ends up facing is taken from what the plan binds a hand to, or from `gaze_at` when nothing is \
 bound — so to sit at a desk, bind a hand to what is on it.
+- When she is already seated on the seat, name the seated action as `base` with the same `sit_on`; \
+she stays seated. Bind the hands to what she works at (`ik_bindings`): the seat only decides where she \
+sits, and the bound object decides which way she faces.
 - Standing back up needs nothing arranged at all. Name a standing action and she gets up first. The \
 seat she is on and the frames for leaving it are both worked out for you. She cannot walk while \
 seated, so anything that goes somewhere already includes getting up.

@@ -163,7 +163,9 @@ Windows side needs no `pip install`; that is also why the console channel is lin
 TCP rather than a WebSocket like the engine channel.
 
 **What the window looks like.** The transcript scrolls and only ever grows; the bottom three or four
-rows are erased and redrawn on every change.
+rows are erased and redrawn on every change, and they sit on the last rows of the window at all times —
+the transcript is padded down to them on attach and after `/clear`, so the input box never floats up
+into the middle of an empty screen.
 
 ```
  › sit her down on the free chair
@@ -402,26 +404,60 @@ run becomes the next.
 **Four states: `standing`, `seated`, `floor`, `other`.** `floor` is this project's term for a
 floor-level kinematic state — lying, crawling, and anything else with the whole body down near the
 ground; it is not a standard posture name. `other` catches crouching, kneeling, airborne and
-mid-transition configurations. Neither is an error state: 985 of the 2446 clips are dominantly `other`,
-and a clip described as `other` has been described correctly rather than skipped.
+mid-transition configurations. Neither is an error state: 1085 of the 2446 clips are dominantly
+`other`, and a clip described as `other` has been described correctly rather than skipped.
 
-**The measurements come from the literature; the thresholds do not.** Guerra et al. (2020) recognise
-standing, sitting and lying from geometric relations BETWEEN body segments — joint angles, trunk pitch,
-joint heights normalised by stature — rather than from absolute positions. Liu et al. (2017) separate
-the same states with deterministic rules over trunk and thigh orientation, and say plainly that their
-angle cut-offs are empirical. Schenkman et al. (1990) show that sit-to-stand is a staged dynamic
-process, which is why the output is a segmentation over time rather than one label per clip. So the
-literature decides WHAT IS MEASURED — normalised body height, trunk inclination, thigh and shank
-inclination, knee flexion — and the numbers in the rules are **fixed operational thresholds**: values
-chosen so the rules cut this corpus where a person would, versioned so a change is visible, and
-deliberately not called biomechanical thresholds, because they are not measurements of anybody.
+**What decides a seat is mechanics, not angles.** Sitting, squatting, crouching and a wide fighting
+stance share their joint angles — thighs near horizontal, a knee folded, the body low — so a rule
+written in angles cannot tell them apart, and one did not: through algorithm 1.x eleven clips read
+`standing → seated` and only two of them were sits. The others were a fist fight, a hurdle, a spinning
+back kick, a duck behind cover, a slide tackle, a kettlebell swing, a heavy pull and a deep squat, and
+the agent was offered a back kick as a way to sit a character on a chair.
 
-`audit_posture.py` checks the rules against twenty-one clips whose content is not in doubt —
+Algorithm **2.0.0** asks the mechanical question instead. Winter (1995) says an unsupported posture
+keeps the whole-body centre of mass over the base of support formed by the feet: a squat, a crouch and
+a stance are all unsupported, so the mass stays over the feet, and sitting is the supported case where
+the seat takes the load and the mass goes **behind** them. The COM comes from de Leva's (1996) segment
+mass fractions over the dump's own bones; the base of support is the ankles, toes and heels; and the
+seated clause asks for the mass to be behind the rearmost heel at all — `COM_BEHIND_BOS_M` is
+**zero**, because Winter's condition is "outside the base of support" and the back of that base is the
+heel; a margin would be a number with no source. The test is on the EXTRAPOLATED centre of mass,
+`XCOM = COM + v/ω₀` (Hof, Gazendam and Sinke 2005), so a body in motion is judged on where its
+momentum is taking it: a runner planting hard to reverse direction holds her mass behind the planted
+foot without sitting down, and `ω₀ = √(g/l)` over `pendulum_length_m` — the upright hip height — says
+how long that lasts. A still sit has `v = 0` and XCOM is the COM. The angle
+clauses that remain are the workstation standards' own: ANSI/HFES 100-2007 and ISO 11226:2000 put
+seated posture at a trunk-thigh included angle of about 90–130° and a knee included angle of about
+90–135°, widened here to `HIP_SEATED` 60–130° and `KNEE_SEATED` 50–140° by the offset measured on this
+avatar, and ISO 11226's 60° is `THETA_TRUNK_HORIZONTAL`. Heights stay Unity's own
+`HumanPose.bodyPosition.y` as a fraction of `upright_body_height`, what it reads on this avatar
+standing, measured once per build off `mx_Standing_Idle` (Guerra et al. 2020); and
+`MIN_POSTURE_DURATION_S` 0.3 s sits below one phase of the 1.5–2 s sit-to-stand Schenkman et al.
+(1990) describe. Every value has a source or a stated measurement;
+[ADR 0024](docs/adr/0024-kinematic-posture-states-and-seat-alignment.md) has the table.
+
+**Every raw quantity is still Unity's**; de Leva is only the weighting applied to Unity's own bone
+positions. The COM replaces `bodyPosition` horizontally and not vertically, because that is what the
+measurement said: the two heights track each other within 0.03 everywhere, while horizontally they
+disagree by up to 0.22 m in both directions — sitting still in a chair reads 8 mm behind the rear heel
+by `bodyPosition` and 160 mm by de Leva, and crouching behind cover reads 92 mm *behind* the feet by
+`bodyPosition`, which would make a crouch a sit. ADR 0024 has the table.
+
+Two of the numbers are metres — the 0.04 m COM margin and the 0.07 m heel offset — and they are
+root-local on the single calibration avatar the whole corpus was retargeted to. That is what makes
+2446 clips comparable through them and what makes them meaningless outside them; neither is a distance
+in any scene, and the sidecar's `param_units` says so.
+
+`audit_posture.py` checks the rules against thirty-one clips whose content is not in doubt —
 `motionkb_build/posture_audit.json` holds the expectations — and it is a sanity audit rather than an
-evaluation: twenty-one clips cannot measure an accuracy and it prints none. What it does check is
+evaluation: thirty-one clips cannot measure an accuracy and it prints none. What it does check is
 whether the rules make the mistakes their shape makes likely, a crouch or a kneel read as sitting and a
 deep bend read as lying, and whether the segmentation holds its own claim that no run is shorter than
-`MIN_POSTURE_DURATION_S`. It passes 21 of 21.
+`MIN_POSTURE_DURATION_S`. **It passes 31 of 31.** The three transition cases assert a CROSSING rather
+than a boundary event, because a sit-down may pass through `other` on the way — Schenkman's
+momentum-transfer phase, where she has left her feet and the seat is not carrying her yet — and one
+crossing spent over two boundaries is the same fact about the clip. Nothing at runtime reads boundary
+events; every decision reads the two ends or the dominant posture.
 
 **Where the boundary of this sits.** `seated` here means a seated-like body configuration. Whether the
 character is actually sitting ON something is a fact about a scene, and the Unity executor decides it —

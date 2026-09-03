@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -122,6 +122,18 @@ namespace AgentRuntime
             public Vector3 leftFoot, rightFoot; // world goals, captured before the descent
             public Quaternion leftRot, rightRot;
 
+            /// <summary>Where this pose's whole body sits, relative to where its clip puts it,
+            /// avatar-local. This is the pelvis-anchored handover: see
+            /// <see cref="MotionComposer.SolveHandoverOffsets"/>.</summary>
+            public Vector3 bodyOffset;
+
+            /// <summary>The other body offset, and it is separate because a different thing owns it.
+            /// `bodyOffset` closes a SEAM and the composer writes it every frame from the step
+            /// weights; this is a generated descent driving the pelvis onto the seat, and `PoseSynth`
+            /// owns it for the length of the descent. One field written by two closed loops would be
+            /// two loops fighting over the last write of each frame.</summary>
+            public Vector3 seatOffset;
+
             public void ProcessRootMotion(AnimationStream stream) { }
 
             public void ProcessAnimation(AnimationStream stream)
@@ -129,14 +141,16 @@ namespace AgentRuntime
                 // A zero correction has to be exactly a pass-through, because this job is always in the
                 // graph — splicing it in only when needed would mean the common path and the interesting
                 // path have different graph shapes, and only one of them gets tested.
-                if (bodyDrop == 0f && footWeight <= 0f) return;
+                if (bodyDrop == 0f && footWeight <= 0f
+                    && bodyOffset == Vector3.zero && seatOffset == Vector3.zero) return;
                 if (!stream.isHumanStream) return;
 
                 AnimationHumanStream human = stream.AsHuman();
-                if (bodyDrop != 0f)
+                if (bodyDrop != 0f || bodyOffset != Vector3.zero || seatOffset != Vector3.zero)
                 {
                     Vector3 body = human.bodyLocalPosition;
                     body.y -= bodyDrop;
+                    body += bodyOffset + seatOffset;
                     human.bodyLocalPosition = body;
                 }
                 if (footWeight <= 0f) return;
@@ -219,6 +233,8 @@ namespace AgentRuntime
         private AnimationScriptPlayable _correction;
         private AnimationScriptPlayable _rootTap;
         private NativeArray<float> _rootMotion;
+        private AnimationScriptPlayable _stepTap;
+        private NativeArray<float> _stepRootMotion;
         private readonly List<StepRuntime> _steps = new List<StepRuntime>();
         private readonly Dictionary<string, AvatarMask> _maskCache = new Dictionary<string, AvatarMask>();
         private bool _built;
@@ -386,7 +402,17 @@ namespace AgentRuntime
         /// warps her to the nearest walkable point, off the chair. If that refusal ever goes, this has
         /// to re-pin the feet rather than carry them.
         /// </summary>
-        public void Prepare(List<StepSpec> steps)
+        /// <summary>Build the graph for these steps.
+        ///
+        /// `seatedPelvisLocal` is where the character's pelvis is RIGHT NOW, in her own root's space,
+        /// and it is given only when she is currently seated. It is what the opening step is anchored
+        /// to when that step is seated as well -- an in-place switch from one seated clip to another,
+        /// where nothing travels and the pelvis must not move. Passed in rather than read off this
+        /// object's own bones because the hidden duplicate is instantiated once and reused, so its
+        /// bones hold whatever the last check left them in; the live character's pelvis is the one
+        /// this is about.
+        /// </summary>
+        public void Prepare(List<StepSpec> steps, Vector3? seatedPelvisLocal = null)
         {
             Correction carried = GetCorrection();
             Teardown();
@@ -394,6 +420,11 @@ namespace AgentRuntime
             {
                 throw new AgentRequestException(Protocol.Err.BadRequest, "an assembly needs at least one step");
             }
+
+            // BEFORE THE GRAPH EXISTS, because it samples clips straight onto the rig and a graph
+            // driving the same rig would fight it. What comes back is one avatar-local translation per
+            // step that asked for a pelvis-anchored handover.
+            List<Vector3?> offsets = SolveHandoverOffsets(steps, seatedPelvisLocal);
 
             // Resolved and checked before anything is built, because a layer mixer's width is fixed at
             // creation and a rejected schedule should not leave half a graph behind.
@@ -457,13 +488,20 @@ namespace AgentRuntime
                     }
                 }
 
+                // A TRAVELLING STEP IS TAPPED AT ITS OWN MIXER, NOT AT THE SEQUENCE. See
+                // SyncRootMotion: displacement does not blend, and the tap above the sequence reads
+                // the composed pose, in which this step's motion has been scaled down by the handover
+                // and a walk's own root motion has been mixed in. One port of this step's mixer,
+                // spliced through a tap that writes nothing, reads this clip and only this clip.
+                bool tapHere = spec.ApplyRootMotion && !_stepTap.IsValid();
+
                 List<ChannelBlend> seam = seams[s];
                 if (seam == null)
                 {
                     // The opening step, or one whose seam has no per-channel schedule: a single unmasked
                     // input. Step 0 is fully in from the first frame; a later one starts silent and is
                     // faded up whole, which is the old crossfade exactly.
-                    _graph.Connect(layers, 0, _sequence, input);
+                    _graph.Connect(tapHere ? StepTap(layers, 0) : (Playable)layers, 0, _sequence, input);
                     _sequence.SetInputWeight(input, s == 0 ? 1f : 0f);
                     runtime.Seam.Add(new SeamLayer(input, 0.0, spec.BlendInSeconds));
                     input++;
@@ -475,7 +513,11 @@ namespace AgentRuntime
                     layers.SetOutputCount(seam.Count);
                     for (int g = 0; g < seam.Count; g++)
                     {
-                        _graph.Connect(layers, g, _sequence, input);
+                        // Only ONE group carries the tap, or the same displacement is counted once per
+                        // channel group. Which one does not matter: every output of this mixer is the
+                        // same pose read through a different mask.
+                        _graph.Connect(tapHere && g == 0 ? StepTap(layers, 0) : (Playable)layers,
+                                       tapHere && g == 0 ? 0 : g, _sequence, input);
                         _sequence.SetLayerMaskFromAvatarMask((uint)input, MaskFor(seam[g].Channels));
                         _sequence.SetInputWeight(input, 0f);
                         runtime.Seam.Add(new SeamLayer(input, seam[g].OffsetSeconds,
@@ -484,11 +526,21 @@ namespace AgentRuntime
                     }
                 }
                 runtime.Layers = layers;
+                if (offsets[s].HasValue)
+                {
+                    runtime.HandoverOffset = offsets[s].Value;
+                    runtime.AnchoredOnPelvis = true;
+                }
                 _steps.Add(runtime);
             }
 
             // Always spliced in, never conditionally. A zero Correction is a pass-through, and one graph
             // shape means the plain path and the generated-transition path are the same tested path.
+            //
+            // The hip drop and the foot lock cross the rebuild -- a generated sit lives in them -- but
+            // the handover offset does not: this plan solved its own against a live pelvis that already
+            // included the previous one, so carrying it as well would apply it twice.
+            carried.bodyOffset = Vector3.zero;
             _correction = AnimationScriptPlayable.Create(_graph, carried, 1);
             _graph.Connect(_sequence, 0, _correction, 0);
             _correction.SetInputWeight(0, 1f);
@@ -518,6 +570,145 @@ namespace AgentRuntime
             _elapsed = 0;
             _maxConcurrent = 0;
             _peakOverlap = 0f;
+            // PER PLAN, NOT PER COMPONENT. These are read back as `root_motion_applied_m`, which is a
+            // claim about the plan that just ran; the hidden duplicate is instantiated once and reused,
+            // so leaving them to accumulate reported the sum of every check this play session -- 0.77 m
+            // for a clip that travels 0.45 m, on the second validation of a run.
+            _rootMotionApplied = 0f;
+            _rootMotionSamples = 0;
+            _rootMotionCalls = 0;
+            _peakVelocityM = 0f;
+            _peakRootMotionM = 0f;
+        }
+
+        /// <summary>One avatar-local translation per step that asked for a pelvis-anchored handover,
+        /// or null for the steps that did not.
+        ///
+        /// THE SEAM BETWEEN TWO CLIPS IS A SEAM BETWEEN TWO ROOTS, and that is the wrong thing to
+        /// join for somebody who is sitting down. Every clip in this library plays in place, so the
+        /// root is a fixed point under her feet and the pose hangs off it -- but where the PELVIS
+        /// hangs is the clip's own business. Measured across the seam this exists for: the last frame
+        /// of `mx_Standing_To_Sitting_Transition` has its hips 0.46 m behind the root, and the first
+        /// frame of a seated clip has them 0.17 m behind. Handed over root to root, the hips jump a
+        /// quarter of a metre, which for someone on a seat is the difference between sitting on it and
+        /// hovering in front of it.
+        ///
+        /// So the incoming step is translated by whatever puts its opening pelvis exactly where the
+        /// pelvis was at the moment of the handover. Both poses are read the same way -- sample the
+        /// clip onto this rig and measure the hips against the root -- so the answer is a measurement
+        /// and not an assumption about either clip.
+        ///
+        /// THE FIRST STEP IS THE ONE CASE WITH NO OUTGOING CLIP TO SAMPLE. When she is already seated
+        /// and the plan opens seated, what it hands over from is the pose she is in, which no clip
+        /// describes: it is a seated clip plus whatever correction put her on the seat. That is what
+        /// `seatedPelvisLocal` carries.
+        /// </summary>
+        private List<Vector3?> SolveHandoverOffsets(List<StepSpec> steps, Vector3? seatedPelvisLocal)
+        {
+            List<Vector3?> offsets = new List<Vector3?>();
+            for (int s = 0; s < steps.Count; s++) offsets.Add(null);
+
+            Animator rig = Animator;
+            Transform hips = rig != null && rig.isHuman
+                ? rig.GetBoneTransform(HumanBodyBones.Hips) : null;
+            bool wanted = false;
+            for (int s = 0; s < steps.Count; s++)
+            {
+                if (steps[s].AnchorPelvis && (s > 0 || seatedPelvisLocal.HasValue)) wanted = true;
+            }
+            if (hips == null || !wanted) return offsets;
+
+            // Sampling writes the pose onto the rig, and on a humanoid clip it can write the root as
+            // well. Both are put back before this returns: nothing about measuring a clip is allowed
+            // to move the character.
+            Vector3 wasPosition = transform.position;
+            Quaternion wasRotation = transform.rotation;
+            try
+            {
+                for (int s = 0; s < steps.Count; s++)
+                {
+                    if (!steps[s].AnchorPelvis) continue;
+                    Vector3? from;
+                    if (s == 0)
+                    {
+                        if (!seatedPelvisLocal.HasValue) continue;
+                        from = seatedPelvisLocal;
+                    }
+                    else
+                    {
+                        // Where the outgoing step's pelvis is at the instant the handover starts: its
+                        // own clip, at its own entry frame plus however long it has been playing.
+                        double played = steps[s].StartAtSeconds - steps[s - 1].StartAtSeconds;
+                        from = PelvisLocalAt(steps[s - 1], steps[s - 1].ClipStartSeconds + played);
+                    }
+                    Vector3? to = PelvisLocalAt(steps[s], steps[s].ClipStartSeconds);
+                    if (!from.HasValue || !to.HasValue) continue;
+                    offsets[s] = from.Value - to.Value;
+                }
+            }
+            finally
+            {
+                transform.SetPositionAndRotation(wasPosition, wasRotation);
+            }
+            return offsets;
+        }
+
+        /// <summary>Where a step's base clip puts the pelvis at one moment of it, measured against the
+        /// root. Null when there is nothing to sample.</summary>
+        private Vector3? PelvisLocalAt(StepSpec step, double seconds)
+        {
+            if (step.Layers == null || step.Layers.Count == 0) return null;
+            AnimationClip clip = step.Layers[0].Clip;
+            Animator rig = Animator;
+            if (clip == null || rig == null) return null;
+            Transform hips = rig.isHuman ? rig.GetBoneTransform(HumanBodyBones.Hips) : null;
+            if (hips == null) return null;
+            float at = Mathf.Clamp((float)seconds, 0f, clip.length);
+            clip.SampleAnimation(rig.gameObject, at);
+            return transform.InverseTransformPoint(hips.position);
+        }
+
+        /// <summary>The offsets that were applied, in metres, for the assemble response. A plan with
+        /// no seated handover reports an empty list rather than nothing, so "it was not needed" and
+        /// "this build does not do it" read differently.</summary>
+        public List<object> HandoverOffsets
+        {
+            get
+            {
+                List<object> out_ = new List<object>();
+                for (int k = 0; k < _steps.Count; k++)
+                {
+                    if (!_steps[k].AnchoredOnPelvis) continue;
+                    Vector3 o = _steps[k].HandoverOffset;
+                    out_.Add(new Dictionary<string, object>
+                    {
+                        { "step", k },
+                        { "action_id", _steps[k].Spec.ActionId },
+                        { "offset_m", new float[] { o.x, o.y, o.z } },
+                        { "distance_m", o.magnitude }
+                    });
+                }
+                return out_;
+            }
+        }
+
+        /// <summary>Splice the step tap between one output of a step's own layer mixer and the
+        /// sequence. It writes nothing to the pose — `RootMotionTap.ProcessAnimation` is empty — so
+        /// this is a read placed where the reading is true.</summary>
+        private Playable StepTap(AnimationLayerMixerPlayable layers, int port)
+        {
+            if (!_stepRootMotion.IsCreated)
+            {
+                _stepRootMotion = new NativeArray<float>(8, Allocator.Persistent);
+            }
+            for (int i = 0; i < _stepRootMotion.Length; i++) _stepRootMotion[i] = 0f;
+            _stepTap = AnimationScriptPlayable.Create(_graph, new RootMotionTap
+            {
+                accumulated = _stepRootMotion
+            }, 1);
+            _graph.Connect(layers, port, _stepTap, 0);
+            _stepTap.SetInputWeight(0, 1f);
+            return _stepTap;
         }
 
         public void Play()
@@ -618,12 +809,17 @@ namespace AgentRuntime
         private void ConsumeRootMotion()
         {
             if (!_rootMotion.IsCreated) return;
-            Vector3 move = new Vector3(_rootMotion[0], _rootMotion[1], _rootMotion[2]);
-            float yaw = _rootMotion[3];
-            _rootMotionSamples += (int)_rootMotion[4];
-            _rootMotionCalls += (int)_rootMotion[5];
-            if (_rootMotion[6] > _peakVelocityM) _peakVelocityM = _rootMotion[6];
-            if (_rootMotion[7] > _peakRootMotionM) _peakRootMotionM = _rootMotion[7];
+            // WHICH READING MOVES HER. The step tap when this plan has a travelling step, because it
+            // reads that clip alone at full weight; the sequence tap otherwise. Both are drained every
+            // frame either way, so nothing is banked for a step that is not entitled to it.
+            bool fromStep = _stepTap.IsValid() && _stepRootMotion.IsCreated;
+            NativeArray<float> read = fromStep ? _stepRootMotion : _rootMotion;
+            Vector3 move = new Vector3(read[0], read[1], read[2]);
+            float yaw = read[3];
+            _rootMotionSamples += (int)read[4];
+            _rootMotionCalls += (int)read[5];
+            if (read[6] > _peakVelocityM) _peakVelocityM = read[6];
+            if (read[7] > _peakRootMotionM) _peakRootMotionM = read[7];
             ClearRootMotion();
             if (!RootMotionActive) return;
             if (move.sqrMagnitude > 0f)
@@ -672,28 +868,36 @@ namespace AgentRuntime
         /// </summary>
         private void SyncRootMotion()
         {
-            // ANY such step that is at least half established, rather than the single most present
-            // one.
+            // DISPLACEMENT IS NOT A POSE AND DOES NOT BLEND. A travelling step drives the transform
+            // at FULL weight from its first frame; only its pose crossfades.
             //
-            // HALF, BECAUSE THAT IS WHEN THE STREAM IS MOSTLY THIS CLIP. Below it the pose the tap
-            // reads is still mainly the outgoing one, and consuming there would apply the WALK's
-            // root motion -- which is exactly what a locomotion step must never do. So the blend-in
-            // is discarded on purpose: measured on walk -> sit -> settle, 0.3765 m of the sit-down's
-            // own 0.4460 m reaches the transform, and the missing 0.07 m is its 0.2 s crossfade.
+            // WHAT THIS REPLACED, AND WHY. The old rule waited until the step was at least half
+            // established, on the reasoning that below that the stream is still mostly the outgoing
+            // clip. That reasoning is about the POSE. Measured on walk -> sit -> settle, it threw
+            // away 0.0695 m of `mx_Standing_To_Sitting_Transition`'s own 0.4460 m -- the part spent
+            // during its 0.2 s crossfade, which is the initial step-back and the largest part of the
+            // travel. `scene.standing_point_for` places her assuming the WHOLE displacement arrives,
+            // so the shortfall came straight off the landing: seat_alignment 0.066 m from a walking
+            // base, against a 0.05 m bar, and the same plan passing from an idle base only because
+            // its seam was shorter.
             //
-            // THIS IS A NO-OP ON A LINEAR SEQUENCE, and was measured to be one: `applied_m` is
-            // byte-identical before and after the rule changed, because `Presence` already cascades
-            // (a step's presence is scaled by 1 - the next step's), so at most one step is above half
-            // at a time and "most present" and "over half" pick the same one. It is written this way
-            // for the case that is not linear -- two travelling steps overlapping -- where the old
-            // rule silently handed the transform to whichever happened to lead.
-            bool want = false;
+            // SO THE READING IS TAKEN AT THE STEP, NOT AT THE SEQUENCE, and this only has to decide
+            // WHEN. From the travelling step's first frame -- `Ramp` is zero before it starts -- until
+            // its successor has fully taken over, which is what the cascade in `Presence` says.
+            //
+            // WHY RE-WEIGHTING THE SEQUENCE TAP DOES NOT WORK, measured, because it was tried: during
+            // the handover that tap carries (1-w) of the OUTGOING clip as well, and
+            // `mx_Walking_Forward` has an average speed of 0.968 m/s of its own root motion. Dividing
+            // the sum by w amplifies the walk exactly when it is loudest, and the sit landed no better
+            // than with the blend-in discarded outright -- 0.0668 m off the seat against 0.0659 m.
+            float weight = 0f;
             for (int k = 0; k < _steps.Count; k++)
             {
                 if (!_steps[k].Spec.ApplyRootMotion) continue;
-                if (Presence(k) > 0.5f) want = true;
+                float here = Presence(k);
+                if (here > weight) weight = here;
             }
-            RootMotionActive = want;
+            RootMotionActive = weight > 0f;
         }
 
         /// <summary>One step of the schedule: seam weights, then the per-layer window ends. Split out
@@ -741,6 +945,7 @@ namespace AgentRuntime
 
             // After the weights, because which step is dominant is what decides this.
             SyncRootMotion();
+            ApplyHandoverOffsets();
 
             for (int k = 0; k < _steps.Count; k++)
             {
@@ -777,6 +982,32 @@ namespace AgentRuntime
                     clip.SetSpeed(0);
                 }
             }
+        }
+
+        /// <summary>Put the solved pelvis offsets into the correction, each ramped by how present its
+        /// own step is.
+        ///
+        /// RAMPED RATHER THAN SWITCHED, because a handover is not an instant. At the start of the
+        /// blend the incoming step contributes nothing and the offset with it, so the outgoing pose is
+        /// untouched; by the end the incoming step is the whole pose and carries its offset in full.
+        /// In between the pelvis moves the way the rest of the body does, which is what makes this a
+        /// closed seam rather than a jump moved somewhere else.
+        /// </summary>
+        private void ApplyHandoverOffsets()
+        {
+            Vector3 offset = Vector3.zero;
+            bool any = false;
+            for (int k = 0; k < _steps.Count; k++)
+            {
+                if (!_steps[k].AnchoredOnPelvis) continue;
+                any = true;
+                offset += _steps[k].HandoverOffset * Mathf.Clamp01(Presence(k));
+            }
+            if (!any || !_correction.IsValid()) return;
+            Correction correction = GetCorrection();
+            if (correction.bodyOffset == offset) return;
+            correction.bodyOffset = offset;
+            SetCorrection(correction);
         }
 
         /// <summary>One seam group's ramp at the current time: 0 before it starts, rising to 1 across its
@@ -866,12 +1097,19 @@ namespace AgentRuntime
             // A persistent NativeArray outlives the component unless it is said so. The job holds a
             // copy of the handle, not the memory, and the graph is already gone by here.
             if (_rootMotion.IsCreated) _rootMotion.Dispose();
+            if (_stepRootMotion.IsCreated) _stepRootMotion.Dispose();
         }
 
         private void ClearRootMotion()
         {
-            if (!_rootMotion.IsCreated) return;
-            for (int i = 0; i < _rootMotion.Length; i++) _rootMotion[i] = 0f;
+            if (_rootMotion.IsCreated)
+            {
+                for (int i = 0; i < _rootMotion.Length; i++) _rootMotion[i] = 0f;
+            }
+            if (_stepRootMotion.IsCreated)
+            {
+                for (int i = 0; i < _stepRootMotion.Length; i++) _stepRootMotion[i] = 0f;
+            }
         }
 
         // ---- wire shapes -----------------------------------------------------------------------
@@ -975,6 +1213,17 @@ namespace AgentRuntime
             /// <summary>Whether this step drives the transform from its own root motion. True when any
             /// of its layers says so -- see <see cref="LayerSpec.ApplyRootMotion"/>.</summary>
             public bool ApplyRootMotion;
+
+            /// <summary>Whether the handover INTO this step is anchored on the pelvis rather than on
+            /// the root.
+            ///
+            /// Set for every seated step, agent-side, off the posture the step already carries. Two
+            /// clips that agree about where the root is can disagree about where the hips are by a
+            /// quarter of a metre -- measured, -0.46 m root-local hips on a sit-down's last frame
+            /// against -0.17 m on a seated clip's first -- and for somebody sitting on a seat the hips
+            /// are the part that has to stay put. See <see cref="MotionComposer.SolveHandoverOffsets"/>.
+            /// </summary>
+            public bool AnchorPelvis;
         }
 
         /// <summary>Where one seam group sits in the sequence mixer, and the ramp it runs.</summary>
@@ -1000,6 +1249,11 @@ namespace AgentRuntime
             public readonly List<bool> HoldFinal = new List<bool>();
             public readonly List<SeamLayer> Seam = new List<SeamLayer>();
             public float Presence;
+
+            /// <summary>Avatar-local translation that puts this step's opening pelvis where the pelvis
+            /// was at the handover, and whether one was solved at all.</summary>
+            public Vector3 HandoverOffset;
+            public bool AnchoredOnPelvis;
 
             public StepRuntime(StepSpec spec) { Spec = spec; }
         }
