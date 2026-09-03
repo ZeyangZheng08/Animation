@@ -162,6 +162,37 @@ reattach — or attach a second terminal — whenever. `terminal.py` is standard
 Windows side needs no `pip install`; that is also why the console channel is line-delimited JSON over
 TCP rather than a WebSocket like the engine channel.
 
+**What the window looks like.** The transcript scrolls and only ever grows; the bottom three or four
+rows are erased and redrawn on every change.
+
+```
+ › sit her down on the free chair
+   ⏺ I will look for a sitting clip first
+   ● motion_search    "sit down on chair"  → mx_Standing_To_Sitting_Transition +3    1.62s
+   ✗ unity_execute    sit on chair_1                                                   1.08s
+                      the seat anchor of chair_1 is occupied by patient_1, so the
+                      descent was refused before anything was committed
+   ⠹ unity_execute    sit on chair_2                                                    0.7s
+ ────────────────────────────────────────────────────────────────────────────────────────────
+ › what you are typing
+   ⠹ working 6.4s · 2 tools                              gpt-5.6-terra · engine connected
+```
+
+A tool appears in the bottom area when it starts and is replaced by its finished row in the transcript
+when it ends, so a call costs one line whether it took 20 ms or three seconds. A failure keeps its
+whole result, wrapped, in red. The footer says what the turn is doing and how long it has been doing
+it; the width is re-read on every draw, so resizing the window needs no signal — which is what Windows
+does not have.
+
+The line editor is hand-rolled on `msvcrt` (Windows) and `termios` (Linux), both standard library, so
+the same editor runs on both: arrows and Ctrl+A/E/Left/Right, Ctrl+W/U/K, insert and delete anywhere in
+the line, and Up/Down for history from the start or the end of the line. `/help`, `/tools`, `/clear` and
+`/quit` are answered in the terminal; everything else goes up the socket, including `/stop`, which the
+service handles. **Ctrl+C in three steps** — it clears the line, then interrupts a running turn, then
+(pressed twice) closes the window, so the key that stops a runaway turn is never one press from
+quitting. `tests/test_terminal.py` covers the wrapping, the markdown, the rows and the key table as
+pure functions, with no socket and no tty.
+
 The console channel is not a third engine channel. Nothing on it reaches the executor: text goes in,
 display events come out, and no code crosses it in either direction. It exists separately because the
 engine link holds exactly one connection on purpose — one executor, a pure reactor — while consoles

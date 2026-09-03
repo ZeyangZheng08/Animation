@@ -37,6 +37,17 @@ sentences into each record. Nothing else about a record may change.
 Until that lands, the corpus is searchable by measurement (*"legs dynamic, torso static"* returns
 every walk in the library) and not by meaning (*"which clips are walking"* returns nothing).
 
+**The terminal was rebuilt (2026-09-02), and it is not part of this pass.** Nothing here runs it — the
+cluster side has no Unity and no console channel — but anyone coming back to the workstation will meet
+it first. `terminal.py` now draws a transcript above a redrawn bottom area: a rule, the line you are
+typing, and a footer saying what the turn is doing and for how long. Tool calls are one row each,
+shown with a spinner while they run and replaced in place by the finished row; failures keep their
+whole result in red. The line editor is hand-rolled on `msvcrt` and `termios`, so the same keys work
+on Windows and Linux, and `/help` lists them. Still standard library only and still a single file, for
+the reason it always was: the Windows side has no pip packages. `tests/test_terminal.py` covers the
+rendering and the key table as pure functions, so it runs here too — see the README's *Driving it*
+section for what the window looks like.
+
 ---
 
 ## 1. What is here
